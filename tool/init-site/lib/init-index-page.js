@@ -15,7 +15,8 @@ function initPage(articleArr) {
     var indexOwnerHtml = ejs.render(
         indexOwnerTemplate,
         {
-            articleArr: articleArr
+            articleArr: articleArr,
+            siteData: config.siteData
         }
     );
     var indexOwnerPagePath = config.rootPath + config.indexOwnerPagePath;
@@ -27,7 +28,8 @@ function initPage(articleArr) {
     var indexHtml = ejs.render(
         indexTemplate,
         {
-            articleArr: articleArr
+            articleArr: articleArr,
+            siteData: config.siteData
         }
     );
     var indexPagePath = config.rootPath + config.indexPagePath;

@@ -5,10 +5,25 @@
  */
 
 var config = {
+    // 公开网站的路径（下面表示和 cellar 同级的 longze 文件夹）
+    publicSitePath: '/../../longze',
+
+    // 网站的配置
+    siteData: {
+        // 网页的 title
+        title: '龙则的个人站点',
+        // 网站的主标题
+        mainHead: '龙则的个人站点',
+        // 网站的副标题
+        subhead: '记录工作与生活的所得所感'
+    },
+
+    /**** 下面为开发配置 ****/
     encoding: 'utf-8',
     jsonDataRewrite: false,
 
     // 从init-site算起参考根路径向上的级别，1对应init-site
+    // (此模块需要读取文件和文件夹，为了更具移植性采取了此种配置方法)
     rootLevel: 3,
     // 监听的根目录（从此目录向下监听） 以tool的上级目录作为参考
     rootPath: '/web',
@@ -29,9 +44,7 @@ var config = {
     // md文件文件名
     mdFileFilename: 'main.md',
     // html文件文件名
-    htmlFileFilename: 'main.html',
-    // 公开网站的路径
-    publicSitePath: '/../../longze2'
+    htmlFileFilename: 'main.html'
 };
 
 module.exports = config;

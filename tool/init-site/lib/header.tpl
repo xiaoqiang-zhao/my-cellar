@@ -1,7 +1,7 @@
 <header class="page-header">
     <h1>
-        <span class="main-title">龙则的个人站点</span>
-        <span class="subtitle">记录工作与生活的所得所感</span>
+        <span class="main-title"><%=siteData.mainHead%></span>
+        <span class="subtitle"><%=siteData.subhead%></span>
     </h1>
     <nav class="nav">
         <button class="icon-menu-button"></button>

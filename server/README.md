@@ -7,4 +7,4 @@
     
 ## 配置文件说明
     
-一些常量在 config.js 中配置
+一些常量在 `server/lib/config.js` 中配置。
