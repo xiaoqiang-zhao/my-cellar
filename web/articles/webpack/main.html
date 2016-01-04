@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>webpack - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1>
+        龙则的个人站点
+    </h1>
+    <h2>
+        记录工作与生活的所得所感
+    </h2>
+</header>
+<div>
+    <h1 id="header-1">webpack</h1>
+<blockquote>
+</blockquote>
+<p>.</p>
+<p>集成到 node     -------- done</p>
+<p>按需加载 done   -------- done，可能出现一个模块被多次打包和被加载多次的情况。如果使用此种方式加载模块，需要划分</p>
+<p>别名  done     -------- done</p>
+<p>增量发布        -------- done，webpack 不支持</p>
+<p>解释一下增量发布：
+单页应用的 all in one 打包不存在增量发布问题，增量发布只能被用在按需加载、单页多入口、多页多资源的情况，也就是站点有多个打包后的资源需要按需或顺序加载，并且这些资源互不依赖可以相互独立发布，这样当只有一个资源改变时，客户端不需要更新其他资源从而节省流量和请求时间。</p>
+<h2 id="header-1-1">参考资料</h2>
+<p><a href="http://webpack.github.io/docs/code-splitting.html" target="_blank">code-splitting</a></p>
+
+</div>
+</body>
+</html>

@@ -7,7 +7,7 @@ module.exports = {
     output: {
         path: '../web/dist/',
         publicPath: '/js/',
-        filename: '[name].js'
+        filename: '[hash].js'
     },
 
     resolve: {
