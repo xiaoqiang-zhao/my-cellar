@@ -1,7 +1,7 @@
 [
   {
     "version": "v1.0",
-    "hash": "a5cb3cacb5016ad",
+    "hash": "5a8a7d840667b028eabb",
     "time": 1451811851174,
     "timeStr": "2016-1-3"
   },
@@ -10,5 +10,11 @@
     "hash": "a5cb3cacb501ef4816ad",
     "time": 1451871501075,
     "timeStr": "2016-1-4"
+  },
+  {
+    "version": "v1.2",
+    "hash": "b5ce8423b056f4f404ec",
+    "time": 1451979157013,
+    "timeStr": "2016-1-5"
   }
 ]
