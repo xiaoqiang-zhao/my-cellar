@@ -169,7 +169,7 @@ Require that the following characters do not match the pattern p.</p>
 </code></pre><p>下面是只有 <code>bad</code> 之后不是 <code>room</code> 才能形成匹配</p>
 <pre><code>&#39;bedding&#39;.match(/bed(?!room)/g);    // [&quot;bed&quot;]
 &#39;bedroom&#39;.match(/bed(?!room)/g);    // null
-</code></pre><p>再补充一点，js不支持向前约束的语法 <code>?&lt;=</code> 和 <code>?&lt;!</code> 。
+</code></pre><p>再补充一点，js不支持向前约束的语法 <code>?&lt;=</code> 和 <code>?&lt;!</code> ，在 ES6中也没发现对此语法的改进，所以在未来很长一段时间内 js 的正则不会有向前约束。
 先说一个只适合部分情况的解决方案吧（这种情况虽然局部但是比较常用）:</p>
 <p>这种方案只能提取一个匹配，并且不能加修饰符 <code>g</code>，如下面的例子是实现“提取提取字母后的数字”。
 如果提取到结果数组的 <code>length</code> 是2，取最后一个就是要提取的数字了。</p>
@@ -402,10 +402,13 @@ str.length + (matchArr === null ? 0 : matchArr.length);   // 7
 <li>捕获感兴趣的文字，减少后处理</li>
 </ul>
 <p>用 <code>cat|bat</code> 替换 <code>[cb]at</code>，用 <code>red|read</code> 替换 <code>rea?d</code>，用 <code>red|raw</code> 替换 <code>r(?:ed|aw)</code>。最后一个替换对于替换和提取有副作用。</p>
-<h2 id="header-1-6">参考</h2>
+<h2 id="header-1-6">跟进</h2>
+<p>js 还是一门处于发展中的语言，ES6还在发展中，截止到目前(2016.01)处于公示版是<a href="http://www.ecma-international.org/ecma-262/6.0/#sec-get-regexp.prototype.sticky" target="_blank">ECMA-262</a>，<a href="http://es6.ruanyifeng.com/#docs/regex" target="_blank">阮一峰的博客</a>对这个的描述很到位，如果想了解标准的走势或者想参与到标准的制定中来可以参见<a href="https://tc39.github.io/ecma262/#sec-get-regexp.prototype.sticky" target="_blank">草案</a>。</p>
+<h2 id="header-1-7">参考</h2>
 <p><a href="http://www.w3school.com.cn/jsref/jsref_obj_regexp.asp" target="_blank">w3school的regexp部分</a></p>
 <p><a href="http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf" target="_blank">ECMA-262号官方文档</a></p>
 <p><a href="http://regexper.com/" target="_blank">可视化正则</a></p>
+<p><a href="http://es6.ruanyifeng.com/#docs/regex" target="_blank">阮一峰正则 es6</a></p>
 
 </div>
 </body>
