@@ -14,11 +14,14 @@ var config = {
         // 网站的主标题
         mainHead: '龙则的个人站点',
         // 网站的副标题
-        subhead: '记录工作与生活的所得所感'
+        //subhead: '记录工作与生活的所'
+        subhead: '戒躁，沉心研究业务与技术'
     },
     templates: [
         {
+            // 相对于当前文件夹
             from: 'index-template.html',
+            // 相对于 cellar
             to: 'web/index-template.html'
         },
         {
@@ -30,9 +33,7 @@ var config = {
             to: 'web/article-detail-template.html'
         },
         {
-            // 相对于当前文件夹
             from: 'header.tpl',
-            // 相对于 cellar
             to: 'web/src/components/header/header.tpl'
         }
     ]

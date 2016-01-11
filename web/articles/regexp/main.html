@@ -18,7 +18,7 @@
         龙则的个人站点
     </h1>
     <h2>
-        记录工作与生活的所得所感
+        戒躁，沉心研究业务与技术
     </h2>
 </header>
 <div>
@@ -66,6 +66,8 @@ regexp.exec(&#39;&lt;div&gt;&lt;span&gt;aa&lt;/span&gt;&lt;span&gt;bb&lt;/span&g
 <p>我们以“检测合格”为例来探究匹配的技巧。</p>
 <p><code>\d</code> ：匹配数字，相当于 <code>[0-9]</code></p>
 <p><code>\w</code> ：匹配数字字母下划线，相当于 <code>[0-9a-zA-Z_]</code></p>
+<p><code>\s</code> ：任何 Unicode 空白符</p>
+<p><code>\S</code> ：任何非 Unicode 空白符的字符</p>
 <p><code>.</code> ：除换行外的其他字符</p>
 <p><code>[...]</code> ：方括号内的任意字符</p>
 <p><code>[^...]</code> ：不在方括号内的任意字符</p>
@@ -80,7 +82,17 @@ regexp.exec(&#39;&lt;div&gt;&lt;span&gt;aa&lt;/span&gt;&lt;span&gt;bb&lt;/span&g
 /^\d+$/.test(&#39;a1a&#39;);    // false
 /^\d+$/.test(&#39;123&#39;);    // true
 </code></pre><p>细心的你可能注意到了示例二中的正则多了一个加号，对于这个加号在下一节中有详解。</p>
-<h3 id="header-1-2-3">重复与修饰符</h3>
+<p>另外 <code>.</code> 与 <code>[\s\S]</code> 在正则中是非常有用，常被用来任意字符，区别主要在换行上，如下面例子：</p>
+<pre><code>var str = &#39;&#39; 
+        + &#39;&lt;p&gt;\np1你好\n&lt;/p&gt;&#39;
+        + &#39;&lt;p&gt;p2&lt;/p&gt;&#39;;
+var regexp1 = /&lt;p&gt;.*?&lt;\/p&gt;/gi;
+var regexp2 = /&lt;p&gt;[\s\S]*?&lt;\/p&gt;/gi;
+str.match(regexp1);
+// 结果：[&quot;&lt;p&gt;p2&lt;/p&gt;&quot;]
+str.match(regexp2);
+// 结果：[&quot;&lt;p&gt;\np1你好\n&lt;/p&gt;&quot;, &quot;&lt;p&gt;p2&lt;/p&gt;&quot;]
+</code></pre><h3 id="header-1-2-3">重复与修饰符</h3>
 <p><code>{n, m}</code> ：匹配前一项至少n次，但不能超过m次</p>
 <p><code>{n,}</code> ：匹配前一项n次或更多次</p>
 <p><code>{n}</code> ：匹配前一项n次</p>
@@ -371,7 +383,25 @@ str.length + (matchArr === null ? 0 : matchArr.length);   // 7
 另外可有可无的那部分是否可以重复出现也很关键，
 匹配浮点数时“.数字”不可以出现多次，但是匹配静态资源时“?任意字符串”是可以重复初出现的。</p>
 <h2 id="header-1-5">原理与性能</h2>
-<p>待续...</p>
+<blockquote>
+<p>对任何技术的原理有深入理解都会有助于应用，但是性能方面个人偏向于在需要的时候在优化，毕竟机器越来越便宜人越来越贵。</p>
+</blockquote>
+<h3 id="header-1-5-1">原理与原则</h3>
+<ul>
+<li>编译，语法检测</li>
+<li>设置起始位置，lastIndex</li>
+<li>匹配</li>
+<li>返回匹配结果，回到第二步，并改变 lastIndex，这一步成为“回溯”</li>
+</ul>
+<p>回溯是正则美好与强大的根源，但回溯计算代价较高，所以减少回溯是正则优化的关键。</p>
+<p>另外正则匹配所消耗的时间与资源与所要处理的字符串有很大关系，所以为了得到更好的结果你需要在各种字符串上进行测试，包括能匹配的，不能匹配的的和近似匹配的，在方案的取舍上我不喜欢在某种情况下很好却在另外一种情况下很糟糕的方案，而喜欢在任何情况下都表现稳定，可能这种方案不是最好的，但在其出现的所有场景中都不会糟糕到影响用户使用。</p>
+<h3 id="header-1-5-2">优化技巧</h3>
+<ul>
+<li>关注如何让匹配快速失败</li>
+<li>减少分支，缩小范围</li>
+<li>捕获感兴趣的文字，减少后处理</li>
+</ul>
+<p>用 <code>cat|bat</code> 替换 <code>[cb]at</code>，用 <code>red|read</code> 替换 <code>rea?d</code>，用 <code>red|raw</code> 替换 <code>r(?:ed|aw)</code>。最后一个替换对于替换和提取有副作用。</p>
 <h2 id="header-1-6">参考</h2>
 <p><a href="http://www.w3school.com.cn/jsref/jsref_obj_regexp.asp" target="_blank">w3school的regexp部分</a></p>
 <p><a href="http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf" target="_blank">ECMA-262号官方文档</a></p>
