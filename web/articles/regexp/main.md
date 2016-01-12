@@ -232,7 +232,7 @@ Require that the following characters do not match the pattern p.
     'bedding'.match(/bed(?!room)/g);    // ["bed"]
     'bedroom'.match(/bed(?!room)/g);    // null
 
-再补充一点，js不支持向前约束的语法 `?<=` 和 `?<!` 。
+再补充一点，js不支持向前约束的语法 `?<=` 和 `?<!` ，在 ES6中也没发现对此语法的改进，所以在未来很长一段时间内 js 的正则不会有向前约束。
 先说一个只适合部分情况的解决方案吧（这种情况虽然局部但是比较常用）:
 
 这种方案只能提取一个匹配，并且不能加修饰符 `g`，如下面的例子是实现“提取提取字母后的数字”。
@@ -568,10 +568,18 @@ QQ邮箱全部是数字，网易的要求是“6~18个字符，可使用字母�
 
 用 `cat|bat` 替换 `[cb]at`，用 `red|read` 替换 `rea?d`，用 `red|raw` 替换 `r(?:ed|aw)`。最后一个替换对于替换和提取有副作用。
 
+## 跟进
+
+js 还是一门处于发展中的语言，ES6还在发展中，截止到目前(2016.01)处于公示版是[ECMA-262](http://www.ecma-international.org/ecma-262/6.0/#sec-get-regexp.prototype.sticky)，[阮一峰的博客](http://es6.ruanyifeng.com/#docs/regex)对这个的描述很到位。如果想了解从草案到标准的过程可以参看相对应的[草案](https://tc39.github.io/ecma262/#sec-get-regexp.prototype.sticky)。
+
 ## 参考
 
 [w3school的regexp部分](http://www.w3school.com.cn/jsref/jsref_obj_regexp.asp)
 
 [ECMA-262号官方文档](http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf)
 
+[https://developer.mozilla.org/RegExp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp)
+
 [可视化正则](http://regexper.com/)
+
+[阮一峰正则 es6](http://es6.ruanyifeng.com/#docs/regex)
