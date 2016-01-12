@@ -570,13 +570,15 @@ QQ邮箱全部是数字，网易的要求是“6~18个字符，可使用字母�
 
 ## 跟进
 
-js 还是一门处于发展中的语言，ES6还在发展中，截止到目前(2016.01)处于公示版是[ECMA-262](http://www.ecma-international.org/ecma-262/6.0/#sec-get-regexp.prototype.sticky)，[阮一峰的博客](http://es6.ruanyifeng.com/#docs/regex)对这个的描述很到位，如果想了解标准的走势或者想参与到标准的制定中来可以参见[草案](https://tc39.github.io/ecma262/#sec-get-regexp.prototype.sticky)。
+js 还是一门处于发展中的语言，ES6还在发展中，截止到目前(2016.01)处于公示版是[ECMA-262](http://www.ecma-international.org/ecma-262/6.0/#sec-get-regexp.prototype.sticky)，[阮一峰的博客](http://es6.ruanyifeng.com/#docs/regex)对这个的描述很到位。如果想了解从草案到标准的过程可以参看相对应的[草案](https://tc39.github.io/ecma262/#sec-get-regexp.prototype.sticky)。
 
 ## 参考
 
 [w3school的regexp部分](http://www.w3school.com.cn/jsref/jsref_obj_regexp.asp)
 
 [ECMA-262号官方文档](http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf)
+
+[https://developer.mozilla.org/RegExp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp)
 
 [可视化正则](http://regexper.com/)
 
