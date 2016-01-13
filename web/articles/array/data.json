@@ -2,8 +2,10 @@
   "enName": "array",
   "title": "Array那些事",
   "introduction": "Array，我们经常使用，却未见得知晓她的全部，这篇文章基本上是对官方API(包括ES5中Array的全部方法)的整理再加一些代码示例，整理在此一方面是自我修养一方面是方便查阅。",
-  "tags": [],
-  "isPublished": false,
+  "tags": [
+    "技术点"
+  ],
+  "isPublished": true,
   "state": "立项",
   "type": "md",
   "createDate": 1451965136558,
