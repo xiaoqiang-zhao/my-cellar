@@ -138,7 +138,7 @@ array.concat([&#39;c&#39;]);       // [&#39;a&#39;, &#39;c&#39;]
 array.concat(&#39;b&#39;, [&#39;c&#39;]);  // [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]
 </code></pre><h3 id="header-1-2-9">sort</h3>
 <p>.sort(sortby)</p>
-<p>对数组元素进行排序，并返回排序后的数组。该方法<strong>会</strong>改变现有的数组。</p>
+<p>对数组元素进行排序，并返回排序后的数组。该方法<strong>会</strong>改变现有的数组。需要注意的一点 Safari 不识别返回的布尔值，只能识别整数，0，负数，<code>item1 &gt; item2</code> 相当于 <code>item1 - item2</code>，后者可以兼容 safari。</p>
 <p>参数可以省略，默认从小到大。</p>
 <pre><code>var array = [1, 3, 2];
 array.sort(); // [1, 2, 3]
@@ -160,6 +160,7 @@ array.sort(function (item1, item2) {
 array.sort(function (item1, item2) {
     // 刚好反向，最后的结果是item1.order &lt; item2.order
     return item1.order &gt; item2.order;
+    // 更兼容的写法：return item1.order - item2.order;
 }); // [{&quot;order&quot;:1},{&quot;order&quot;:2},{&quot;order&quot;:3},{&quot;order&quot;:5}] 
 </code></pre><h3 id="header-1-2-10">reverse</h3>
 <p>.reverse()</p>
@@ -215,7 +216,7 @@ array.toString(); // &#39;[object Object],{&quot;order&quot;:2}&#39;
 // IE7 可以输出相同的值，需要做兼容的只有JSON对象了。
 </code></pre><p>补充一下，另外还有 <code>.valueOf()</code> 和 <code>.toSource()</code> ，
 通常用于 JavaScript 在后台自动调用，这里不做过多解释。</p>
-<h2 id="header-1-3">ES5 下Array的方法</h2>
+<h2 id="header-1-3">ES6 下Array的方法</h2>
 <h3 id="header-1-3-1">isArray</h3>
 <p>Array.isArray(arg)</p>
 <p>判断传入的参数 <code>arg</code> 是否是数组。</p>
