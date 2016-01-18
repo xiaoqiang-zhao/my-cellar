@@ -11,10 +11,21 @@
 
 **typeof分类**
 
-- 可直接得到：string，number，boolean，undefined，function
-- object：null，Regexp，Object，Array，Date
+- 可直接得到：string，number，boolean，undefined
+- object：Object，Function，Array，Date，null，Regexp
 
-*其他数据*
+注：chrome 对 Function 返回 "function"，其他浏览器返回 "object"
+
+*其他特定数据*
+
+NaN 和 Infinity
+
+	'a' /1                     // NaN
+	1/0                        // Infinity
+	Number.POSITIVE_INFINITY   // Infinity
+	Number.NEGATIVE_INFINITY   // -Infinity
+    Number.POSITIVE_INFINITY + Number.NEGATIVE_INFINITY     // NaN
+    1/0 === Number.POSITIVE_INFINITY   // true
 
 ## 检测
 
@@ -33,3 +44,14 @@
 ES6 还提供了一些方法，跨 frame 有效：
 
 	Array.isArray([]);    // true
+
+还有一些特定数据的检验：NaN 和 Infinity
+
+	NaN == NaN           // false
+	window.isNaN(NaN);   // true
+	
+	1/0           // 得到 Infinity，用 isFinite 检测却返回 false
+	1/0 === Number.POSITIVE_INFINITY  // true
+	1 / Infinity  // 0，IE8 以上支持
+	
+	

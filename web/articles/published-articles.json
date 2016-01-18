@@ -16,6 +16,22 @@
     "todoList": []
   },
   {
+    "enName": "data-type",
+    "title": "js 数据类型",
+    "introduction": "js 是一种松散数据类型的语言，带来了很多便利也带来了许多麻烦，这篇谈谈分类与检测和一些需要注意的技巧。",
+    "tags": [
+      "技术点"
+    ],
+    "isPublished": true,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1453122881019,
+    "commentList": [
+      ""
+    ],
+    "todoList": []
+  },
+  {
     "enName": "new-year",
     "title": "新年清零",
     "introduction": "2016 年，新的一年清空所有从新开始。",
