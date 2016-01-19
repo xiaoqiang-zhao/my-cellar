@@ -35,17 +35,21 @@
 <p><strong>typeof分类</strong></p>
 <ul>
 <li>可直接得到：string，number，boolean，undefined</li>
-<li>object：Object，Function，Array，Date，null，Regexp</li>
+<li>object：Object，Function，Array，Date，Regexp，null</li>
 </ul>
 <p>注：chrome 对 Function 返回 &quot;function&quot;，其他浏览器返回 &quot;object&quot;</p>
 <p><em>其他特定数据</em></p>
-<p>NaN 和 Infinity</p>
-<pre><code>&#39;a&#39; /1                     // NaN
-1/0                        // Infinity
+<p>NaN 和 Infinity（非数字和无穷大）</p>
+<pre><code>&#39;a&#39; / 1                     // NaN
+typeof NaN                 // number
+
+1 / 0                        // Infinity
+typeof Infinity            // number
+typeof 1 / 0                 // NaN 注意运算符的优先级
+
 Number.POSITIVE_INFINITY   // Infinity
 Number.NEGATIVE_INFINITY   // -Infinity
 Number.POSITIVE_INFINITY + Number.NEGATIVE_INFINITY     // NaN
-1/0 === Number.POSITIVE_INFINITY   // true
 </code></pre><h2 id="header-1-2">检测</h2>
 <p><code>Object.prototype.toString.call</code> 系列：</p>
 <pre><code>Object.prototype.toString.call(null);       // &quot;[object Null]&quot;
@@ -58,12 +62,13 @@ Object.prototype.toString.call(new Date()); // &quot;[object Date]&quot;
 </code></pre><p>ES6 还提供了一些方法，跨 frame 有效：</p>
 <pre><code>Array.isArray([]);    // true
 </code></pre><p>还有一些特定数据的检验：NaN 和 Infinity</p>
-<pre><code>NaN == NaN           // false
-window.isNaN(NaN);   // true
+<pre><code>NaN == NaN             // false
+window.isNaN(NaN);     // true
 
-1/0           // 得到 Infinity，用 isFinite 检测却返回 false
-1/0 === Number.POSITIVE_INFINITY  // true
-1 / Infinity  // 0，IE8 以上支持
+1 / 0                  // 得到 Infinity，用 isFinite 检测却返回 false
+1 / 0 === Infinity     // true，可用此法检测 Infinity
+1 / 0 === Number.POSITIVE_INFINITY  // true
+1 / Infinity           // 0，IE8 以上支持
 </code></pre>
 </div>
 </body>
