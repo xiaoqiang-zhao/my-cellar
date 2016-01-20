@@ -54,10 +54,11 @@ ES6 还提供了一些方法，跨 frame 有效：
 	NaN == NaN             // false
 	window.isNaN(NaN);     // true
 	
-	1 / 0                  // 得到 Infinity，用 isFinite 检测却返回 false
+	1 / 0                  // Infinity
 	1 / 0 === Infinity     // true，可用此法检测 Infinity
 	1 / 0 === Number.POSITIVE_INFINITY  // true
 	1 / Infinity           // 0，IE8 以上支持
 
-	
-	
+## 参考	
+
+[https://developer.mozilla.org/Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)

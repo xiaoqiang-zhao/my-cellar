@@ -65,11 +65,13 @@ Object.prototype.toString.call(new Date()); // &quot;[object Date]&quot;
 <pre><code>NaN == NaN             // false
 window.isNaN(NaN);     // true
 
-1 / 0                  // 得到 Infinity，用 isFinite 检测却返回 false
+1 / 0                  // Infinity
 1 / 0 === Infinity     // true，可用此法检测 Infinity
 1 / 0 === Number.POSITIVE_INFINITY  // true
 1 / Infinity           // 0，IE8 以上支持
-</code></pre>
+</code></pre><h2 id="header-1-3">参考</h2>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" target="_blank">https://developer.mozilla.org/Number</a></p>
+
 </div>
 </body>
 </html>
