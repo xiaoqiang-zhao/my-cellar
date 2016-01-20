@@ -21,14 +21,14 @@
 NaN 和 Infinity（非数字和无穷大）
 
 	'a' / 1                     // NaN
-	typeof NaN                 // number
+	typeof NaN                  // number
 	
-	1 / 0                        // Infinity
-	typeof Infinity            // number
-	typeof 1 / 0                 // NaN 注意运算符的优先级
+	1 / 0                       // Infinity
+	typeof Infinity             // number
+	typeof 1 / 0                // NaN 注意运算符的优先级
 	
-	Number.POSITIVE_INFINITY   // Infinity
-	Number.NEGATIVE_INFINITY   // -Infinity
+	Number.POSITIVE_INFINITY    // Infinity
+	Number.NEGATIVE_INFINITY    // -Infinity
     Number.POSITIVE_INFINITY + Number.NEGATIVE_INFINITY     // NaN
 
 ## 检测
@@ -54,10 +54,27 @@ ES6 还提供了一些方法，跨 frame 有效：
 	NaN == NaN             // false
 	window.isNaN(NaN);     // true
 	
-	1 / 0                  // 得到 Infinity，用 isFinite 检测却返回 false
+	1 / 0                  // Infinity
 	1 / 0 === Infinity     // true，可用此法检测 Infinity
 	1 / 0 === Number.POSITIVE_INFINITY  // true
 	1 / Infinity           // 0，IE8 以上支持
 
-	
-	
+## ES6
+
+在 ES6 中， isNaN、isFinite、parseInt、parseFloat、isInteger 成为了 Number 的方法。
+
+isInteger，判断一个值是否为整数，需要注意的是，在JavaScript内部，整数和浮点数是同样的储存方法，所以1和1.0被视为同一个值。
+
+	Number.isInteger(1)    // true
+    Number.isInteger(1.0)  // true
+
+EPSILON，Number对象上面，新增一个极小的常量。引入一个这么小的量的目的，在于为浮点数计算，设置一个误差范围。我们知道浮点数计算是不精确的。
+
+	Number.EPSILON
+    // 2.220446049250313e-16
+    0.1+0.2 === 0.3             // false
+    Math.abs(0.3 - (0.1+0.2)) < Number.EPSILON   // true
+    
+## 参考	
+
+[https://developer.mozilla.org/Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)
