@@ -21,14 +21,14 @@
 NaN 和 Infinity（非数字和无穷大）
 
 	'a' / 1                     // NaN
-	typeof NaN                 // number
+	typeof NaN                  // number
 	
-	1 / 0                        // Infinity
-	typeof Infinity            // number
-	typeof 1 / 0                 // NaN 注意运算符的优先级
+	1 / 0                       // Infinity
+	typeof Infinity             // number
+	typeof 1 / 0                // NaN 注意运算符的优先级
 	
-	Number.POSITIVE_INFINITY   // Infinity
-	Number.NEGATIVE_INFINITY   // -Infinity
+	Number.POSITIVE_INFINITY    // Infinity
+	Number.NEGATIVE_INFINITY    // -Infinity
     Number.POSITIVE_INFINITY + Number.NEGATIVE_INFINITY     // NaN
 
 ## 检测

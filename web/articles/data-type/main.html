@@ -41,14 +41,14 @@
 <p><em>其他特定数据</em></p>
 <p>NaN 和 Infinity（非数字和无穷大）</p>
 <pre><code>&#39;a&#39; / 1                     // NaN
-typeof NaN                 // number
+typeof NaN                  // number
 
-1 / 0                        // Infinity
-typeof Infinity            // number
-typeof 1 / 0                 // NaN 注意运算符的优先级
+1 / 0                       // Infinity
+typeof Infinity             // number
+typeof 1 / 0                // NaN 注意运算符的优先级
 
-Number.POSITIVE_INFINITY   // Infinity
-Number.NEGATIVE_INFINITY   // -Infinity
+Number.POSITIVE_INFINITY    // Infinity
+Number.NEGATIVE_INFINITY    // -Infinity
 Number.POSITIVE_INFINITY + Number.NEGATIVE_INFINITY     // NaN
 </code></pre><h2 id="header-1-2">检测</h2>
 <p><code>Object.prototype.toString.call</code> 系列：</p>
