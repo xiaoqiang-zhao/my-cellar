@@ -42,14 +42,14 @@ var webpackConfig = {
     entry: {
         main: rootPath + 'web/src/components/main/main.js'
     },
-    optimize: {
-        // 是否压缩
-        minimize: true
-    },
     resolve: {
         alias: {
             vue: rootPath +  '/web/src/dep/vue.js'
         }
+    },
+    optimize: {
+        // 是否压缩
+        UglifyJsPlugin: true
     },
     output: {
         path: rootPath + '/web/dist/',
@@ -77,7 +77,7 @@ if (isDebug) {
     webpackConfig.devtool = 'sourcemap';
     webpackConfig.optimize = {
         // 是否压缩
-        minimize: false
+        UglifyJsPlugin: false
     };
     webpackConfig.output.filename = 'debug.js';
     webpackConfig.output.sourceMapFilename = 'debug.map';
@@ -128,5 +128,5 @@ webpack(webpackConfig, function (err, stats) {
     renderTemplateAndCopy(config.templates[0]);
     console.log('网站整体初始化完成，版本：' + lastVersion.version + '               ');
     // 自动发布
-    require('../../publish');
+    // require('../../publish');
 });

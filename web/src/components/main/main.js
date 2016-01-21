@@ -18,7 +18,7 @@ var header = require('../header/header.js');
 var footer = require('../footer/footer.js');
 
 var body = document.body;
-var app = new Vue({
+new Vue({
     el: body,
     replace: false,
     template: template,
