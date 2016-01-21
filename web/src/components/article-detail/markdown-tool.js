@@ -45,32 +45,31 @@ renderer.link = function (href, title, text) {
  * @returns {string} 渲染后的 img 标签
  */
 renderer.image = function (src, title, alt) {
-    var html = '';
-    //// 浏览器端，由于是单页应用所以需要做图片路径的重写
-    //if (typeof window !== 'undefined') {
-    //    var regexp = /^[\/|https?:\/\/]/;
-    //    // 不以 / , http:// , https:// 开头的路径视为相对路径，对单页应用需要做路径处理
-    //    if (!regexp.test(src)) {
-    //        var articlePath = options.renderOptions.articlePath;
-    //        src = articlePath + src;
-    //    }
-    //}
-    //if (title === null) {
-    //    title = '';
-    //}
-    //else {
-    //    title = ` title="${title}"`;
-    //}
-    //
-    //if (alt === null) {
-    //    alt = '';
-    //}
-    //else {
-    //    alt = ` alt="${alt}"`;
-    //}
-    //
-    //// ES6 拼接字符串
-    //html = `<img src="${src}"${alt}${title}>`;
+    // 浏览器端，由于是单页应用所以需要做图片路径的重写
+    if (typeof window !== 'undefined') {
+        var regexp = /^[\/|https?:\/\/]/;
+        // 不以 / , http:// , https:// 开头的路径视为相对路径，对单页应用需要做路径处理
+        if (!regexp.test(src)) {
+            var articlePath = options.renderOptions.articlePath;
+            src = articlePath + src;
+        }
+    }
+    if (title === null) {
+        title = '';
+    }
+    else {
+        title = ` title="${title}"`;
+    }
+
+    if (alt === null) {
+        alt = '';
+    }
+    else {
+        alt = ` alt="${alt}"`;
+    }
+
+    // ES6 拼接字符串
+    var html = `<img src="${src}"${alt}${title}>`;
     return html;
 };
 
