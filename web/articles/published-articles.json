@@ -32,6 +32,20 @@
     "todoList": []
   },
   {
+    "enName": "license",
+    "title": "江湖规矩",
+    "introduction": "License，软件使用许可证，开源界的江湖规矩。",
+    "tags": [],
+    "isPublished": true,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1453353892535,
+    "commentList": [
+      ""
+    ],
+    "todoList": []
+  },
+  {
     "enName": "new-year",
     "title": "新年清零",
     "introduction": "2016 年，新的一年清空所有从新开始。",

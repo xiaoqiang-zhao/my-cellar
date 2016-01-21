@@ -49,6 +49,34 @@
     "todoList": []
   },
   {
+    "enName": "js-part",
+    "title": "js 代码片段",
+    "introduction": "总有那么些代码片段很经典或很常用，独立写篇文章吧实在太单薄，不整理吧每次用的时候都要翻找或重复造轮子，所以这里收集一些我遇到过写过的一些代码片段。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1453361367225,
+    "commentList": [
+      ""
+    ],
+    "todoList": []
+  },
+  {
+    "enName": "license",
+    "title": "江湖规矩",
+    "introduction": "License，软件使用许可证，开源界的江湖规矩。",
+    "tags": [],
+    "isPublished": true,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1453353892535,
+    "commentList": [
+      ""
+    ],
+    "todoList": []
+  },
+  {
     "enName": "new-year",
     "title": "新年清零",
     "introduction": "2016 年，新的一年清空所有从新开始。",
