@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>江湖规矩 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1>
+        龙则的个人站点
+    </h1>
+    <h2>
+        戒躁，沉心研究业务与技术
+    </h2>
+</header>
+<div>
+    <h1 id="header-1">江湖规矩</h1>
+<blockquote>
+<p>License，软件使用许可证，开源界的江湖规矩。</p>
+</blockquote>
+<h2 id="header-1-1">规则</h2>
+<p>世界上的开源许可证，大概有上百种，很少有人搞得清楚它们的区别。引用一位大神的图说明一下最流行的六种许可：GPL、BSD、MIT、Mozilla、Apache和LGPL。</p>
+<p><img src="./img/licence.png" alt="licence 图片加载失败" title="licence 图片"></p>
+<p>其中 Mozilla 许可证又称作 MPL。</p>
+<p>MIT 许可证是史上最为简洁和慷慨（permissive）的开源协议。</p>
+<h2 id="header-1-2">现实</h2>
+<p>老板们一般偏向于从成本角度来看待和选择框架，但是技术人员需要把事情说清楚，引用某人的话“不被告就没啥事”。成本和收益是以公司为单位的，所以万一被告了应该公司来承担而不是个人（虽然被告的几率非常小）。</p>
+<h2 id="header-1-3">参考</h2>
+<p><a href="http://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html" target="_blank">如何选择开源许可证？</a></p>
+<p><a href="http://www.gnu.org/licenses/license-list.html" target="_blank">license-list</a></p>
+<p><a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank">MPL</a></p>
+<p><a href="http://choosealicense.com/licenses/mit/" target="_blank">MIT</a></p>
+
+</div>
+</body>
+</html>
