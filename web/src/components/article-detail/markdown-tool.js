@@ -12,6 +12,7 @@ var renderer = new marked.Renderer();
 var options = {
     renderer: renderer
 };
+// 在本文件的 mark 函数中会添加 renderOptions 属性
 
 /**
  * 重写链接的渲染方式
@@ -57,19 +58,33 @@ renderer.image = function (src, title, alt) {
     if (title === null) {
         title = '';
     }
+    // TODO 配置 babel-loader ，使用 ES6 新特性
+    //else {
+    //    title = ` title="${title}"`;
+    //}
+    //
+    //if (alt === null) {
+    //    alt = '';
+    //}
+    //else {
+    //    alt = ` alt="${alt}"`;
+    //}
+
+    // ES6 拼接字符串
+    // var html = `<img src="${src}"${alt}${title}>`;
+    // 没搞定 babel-loader 的配置 暂时还用字符串拼接
     else {
-        title = ` title="${title}"`;
+        title = ' title="' + title + '"';
     }
 
     if (alt === null) {
         alt = '';
     }
     else {
-        alt = ` alt="${alt}"`;
+        alt = ' alt=' + alt + '"';
     }
 
-    // ES6 拼接字符串
-    var html = `<img src="${src}"${alt}${title}>`;
+    var html = '<img src="' + src + '"' + alt + title + '>';
     return html;
 };
 
