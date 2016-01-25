@@ -37,8 +37,14 @@ function routRequest(request, response) {
             routList.pop().apply(null, arg);
         }
     };
-
-    rout.next();
+    // 错误日志，异常处理
+    try {
+        rout.next();
+    }
+    catch (e) {
+        console.log('静态文件路由错误:           ');
+        console.log(e);
+    }
 }
 
 /**
@@ -50,7 +56,6 @@ function routRequest(request, response) {
  * @private
  */
 function routStaticFile(request, response, rout) {
-    // TODO 错误日志，异常处理
     // 请求路径
     var path = url.parse(request.url).pathname;
 
