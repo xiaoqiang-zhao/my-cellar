@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="dep/joint.css"/>
+    <script src="dep/jquery.min.js"></script>
+    <script src="dep/lodash.min.js"></script>
+    <script src="dep/backbone-min.js"></script>
+    <script src="dep/joint.js"></script>
+
+</head>
+<body>
+<div id="paper"></div>
+<script>
+    var graph = new joint.dia.Graph();
+    var paper = new joint.dia.Paper({
+        el: $('#paper'),
+        width: 800,
+        height: 350,
+        gridSize: 10,
+        perpendicularLinks: true,
+        model: graph
+    });
+
+    var pn = joint.shapes.pn;
+
+    // 定义两个点
+    var firstPoint = new pn.Place({
+        position: { x: 140, y: 50 },
+        attrs: {
+            '.label': { text: '第一点', fill: '#7c68fc' },
+            '.root' : { stroke: '#9586fd', 'stroke-width': 3 },
+            '.tokens > circle': { fill : '#7a7e9b' }
+        },
+        tokens: 1
+    });
+    var secondPoint = new pn.Place({
+        position: { x: 340, y: 50 },
+        attrs: {
+            '.label': { text: '第二点', fill: '#7c68fc' },
+            '.root' : { stroke: '#9586fd', 'stroke-width': 3 },
+            '.tokens > circle': { fill : '#7a7e9b' }
+        },
+        tokens: 1
+    });
+
+    // 将点添加到页面上
+    graph.addCell([firstPoint, secondPoint]);
+
+    // 连点函数
+    function link(a, b) {
+
+        return new pn.Link({
+            source: { id: a.id, selector: '.root' },
+            target: { id: b.id, selector: '.root' },
+            attrs: {
+                '.connection': {
+                    'fill': 'none',
+                    'stroke-linejoin': 'round',
+                    'stroke-width': '2',
+                    'stroke': '#4b4a67'
+                }
+            }
+        });
+    }
+
+    // 将两个点连起来
+    graph.addCell(link(firstPoint, secondPoint));
+</script>
+</body>
+</html>
