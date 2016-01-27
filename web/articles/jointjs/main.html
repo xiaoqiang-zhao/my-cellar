@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>译 JointJS API - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1>
+        龙则的个人站点
+    </h1>
+    <h2>
+        戒躁，沉心研究业务与技术
+    </h2>
+</header>
+<div>
+    <h1 id="header-1">译 JointJS API</h1>
+<blockquote>
+<p>可视化是软件开发中的一种思路，我们渴望不写代码拖拖拽拽，点击配置就可以生成可运行的项目，这是一个非常好的愿景，但是到目前为止方案很多但效果却并没有得到预期。我觉得这样的现状和这类系统的定位有关，这种交互行形式只适合做组合型的系统，可被操作的元素较少，关系种类较少，配置项较少，元素的关系的组合较多，并且希望用图形的方式来展示这些关系或节点状态。jointJs提供了基本支持，是二次开发的一个很不错的选择，本文翻译一些官方资料，期间会夹杂一些我的理解和实现方案。</p>
+</blockquote>
+<h2 id="header-1-1">概述</h2>
+<p><strong>原文</strong></p>
+<p>This is the API reference to the open source JointJS core library. If you&#39;re looking for a documentation to the Rappid diagramming toolkit, the extension to JointJS, go <a href="http://www.jointjs.com/rappid/docs" target="_blank">here</a>.</p>
+<p>JointJS library exports three global variables: <strong>joint</strong>, <strong>V</strong> and <strong>g</strong>.</p>
+<p>The joint namespace contains all the objects that you use to build up your diagrams. Additionally, joint.version property tells you which version of JointJS you&#39;re using.</p>
+<p>The V variable is a global exported by a lightweight SVG library that we call a Vectorizer. This tiny library makes manipulation with SVG documents much easier. JointJS uses this library internally. Normally, you don&#39;t have to get in touch with this library at all but for advanced uses, it can be handy.</p>
+<p>The g namespace is another lighweight library used internally by JointJS that provides many useful geometry operations. Again, you might not get in touch with this library but when you do have the need to perform geometric operations in your applications, you&#39;ll certainly find it helpful.</p>
+<p><strong>译文</strong></p>
+<p>此文档针对开源框架 JointJS 的核心部分，如果你找的是 Rappid 的文档，请点击 <a href="http://www.jointjs.com/rappid/docs" target="_blank">这里</a>，Rappid 是在 JointJS 基础上进行扩展功能更为丰富的组合套件。</p>
+<p>JointJS 向外暴露三个全局变量：<strong>joint</strong>、<strong>V</strong> 和 <strong>g</strong>。</p>
+<p><code>joint</code> 下存放画示意图所需的全部对象，通过 <code>joint.version</code> 这个属性你可以知道当前使用的是哪一个版本 JointJS </p>
+<p><code>v</code> 这一全局变量来自于一个轻量级被我们称作“Vectorizer”的 svg 框架，这个框架使操作 svg 变得更简单。JointJS 在内部使用这个框架，你一般不需要接触这个库，但是为了更好的使用 JointJS 了解一下这个库也是有益处的。</p>
+<p><code>g</code> 这一全局变量也来自 JointJS 内部使用的一个轻量级库，此库提供了很多好用的集合运算函数。同样你可能接触不到此库，但是如果你的项目中有几何运算，你一定会发现它的好处。</p>
+<h2 id="header-1-2">安装</h2>
+<p><strong>原文</strong></p>
+<p>First you need to have the library core files (joint.js and joint.css - or their minified versions). Then you have to include the JointJS dependencies: jQuery, Backbone and Lodash libraries.</p>
+<p>Here&#39;s how you can install JointJS into your page:</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;joint.css&quot; /&gt;
+&lt;script src=&quot;jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;lodash.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;backbone-min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;joint.js&quot;&gt;&lt;/script&gt;
+</code></pre><p>Visit the <a href="http://www.jointjs.com/download" target="_blank">Download page</a> to download all the necessary files.</p>
+<p><strong>译文</strong></p>
+<p>首先你需要有库核心文件(joint.js 和 joint.css，或者对应的压缩版)。然后你还需要 JointJS 的依赖库：jQuery、Backbone、Lodash。</p>
+<p>你可以向下面这样将资源引入到你的页面中：</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;joint.css&quot; /&gt;
+&lt;script src=&quot;jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;lodash.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;backbone-min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;joint.js&quot;&gt;&lt;/script&gt;
+</code></pre><p>访问<a href="http://www.jointjs.com/download" target="_blank">下载页面</a>获取所需的文件。</p>
+<h2 id="header-1-3">JOINT.DIA.ELEMENT</h2>
+<h2 id="header-1-4">参考页面</h2>
+<p><a href="http://www.jointjs.com/" target="_blank">官网</a></p>
+<p><a href="http://www.jointjs.com/api" target="_blank">jointJs API</a></p>
+<p><a href="http://www.jointjs.com/api#v" target="_blank">Vectorizer API</a></p>
+<p><a href="http://www.jointjs.com/api#g" target="_blank">Geometry API</a></p>
+<p><a href="https://github.com/clientIO/joint" target="_blank">github</a></p>
+
+</div>
+</body>
+</html>
