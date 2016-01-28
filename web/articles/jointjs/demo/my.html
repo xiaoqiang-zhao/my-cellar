@@ -24,7 +24,7 @@
     });
 
     // 点击空白处的事件
-    paper.on('blank:pointerdown', function(evt, x, y) {
+    paper.on('blank:pointerdown', function (evt, x, y) {
         alert('pointerdown on a blank area in the paper.')
     });
 
@@ -35,55 +35,61 @@
 
     // 定义两个点
     var firstPoint = new pn.Place({
-        position: { x: 140, y: 50 },
+        position: {x: 140, y: 50},
         attrs: {
-            '.label': { text: '第一点', fill: '#7c68fc' },
-            '.root' : { stroke: '#9586fd', 'stroke-width': 3 },
-            '.tokens > circle': { fill : '#7a7e9b' }
+            '.label': {text: '第一点', fill: '#7c68fc'},
+            '.root': {stroke: '#9586fd', 'stroke-width': 3},
+            '.tokens > circle': {fill: '#7a7e9b'}
         },
         tokens: 1
     });
     var secondPoint = new pn.Place({
-        position: { x: 340, y: 50 },
+        position: {x: 340, y: 50},
         attrs: {
-            '.label': { text: '第二点', fill: '#7c68fc' },
-            '.root' : { stroke: '#9586fd', 'stroke-width': 3 },
-            '.tokens > circle': { fill : '#7a7e9b' }
+            '.label': {text: '第二点', fill: '#7c68fc'},
+            '.root': {stroke: '#9586fd', 'stroke-width': 3},
+            '.tokens > circle': {fill: '#7a7e9b'}
         },
         tokens: 1
     });
 
     // 拖动事件
-    secondPoint.on('change:position', function(event) {
+    secondPoint.on('change:position', function (event) {
         console.log('element moved,event:');
         console.log(event);
-        this.set({attrs: {
-            '.label': { text: '第二点2', fill: '#ffef28' },
-            '.root' : { stroke: '#ffef28', 'stroke-width': 4 },
-            '.tokens > circle': { fill : '#ffef28' }
-        }})
+        this.set({
+            attrs: {
+                '.label': {text: '第二点2', fill: '#ffef28'},
+                '.root': {stroke: '#ffef28', 'stroke-width': 4},
+                '.tokens > circle': {fill: '#ffef28'}
+            }
+        })
     });
 
-    secondPoint.on('cell:pointerdown', function(event) {
+    secondPoint.on('cell:pointerdown', function (event) {
         console.log('cell:pointerdown,event:');
         console.log(event);
-        this.set({attrs: {
-            '.label': { text: '拖拽', fill: '#ffef28' },
-            '.root' : { stroke: '#ffef28', 'stroke-width': 4 },
-            '.tokens > circle': { fill : '#ffef28' }
-        }})
+        this.set({
+            attrs: {
+                '.label': {text: '拖拽', fill: '#ffef28'},
+                '.root': {stroke: '#ffef28', 'stroke-width': 4},
+                '.tokens > circle': {fill: '#ffef28'}
+            }
+        })
     });
 
 
     // 点击事件，需要在 paper 上绑定
-    paper.on('cell:pointerclick', function(cellView, event, x, y) {
+    paper.on('cell:pointerclick', function (cellView, event, x, y) {
         console.log('paper cell:pointerclick，event:');
         console.log(arguments);
-        secondPoint.set({attrs: {
-            '.label': { text: '点击', fill: '#9ab7c6' },
-            '.root' : { stroke: '#9ab7c6', 'stroke-width': 4 },
-            '.tokens > circle': { fill : '#9ab7c6' }
-        }});
+        secondPoint.set({
+            attrs: {
+                '.label': {text: '点击', fill: '#9ab7c6'},
+                '.root': {stroke: '#9ab7c6', 'stroke-width': 4},
+                '.tokens > circle': {fill: '#9ab7c6'}
+            }
+        });
         var th = secondPoint.clone();
         graph.addCell(th);
     });
@@ -96,8 +102,8 @@
     function link(a, b) {
 
         return new pn.Link({
-            source: { id: a.id, selector: '.root' },
-            target: { id: b.id, selector: '.root' },
+            source: {id: a.id, selector: '.root'},
+            target: {id: b.id, selector: '.root'},
             attrs: {
                 '.connection': {
                     'fill': 'none',
@@ -111,6 +117,16 @@
 
     // 将两个点连起来
     graph.addCell(link(firstPoint, secondPoint));
+
+    new joint.dia.Element({
+        position: {x: 100, y: 100},
+        size: {width: 70, height: 30},
+        attrs: {
+            text: {
+                text: 'my rectangle'
+            }
+        }
+    });
 </script>
 </body>
 </html>
