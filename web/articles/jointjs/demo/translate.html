@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JOINT.DIA.ELEMENT</title>
+    <link rel="stylesheet" type="text/css" href="dep/joint.css"/>
+    <script src="dep/jquery.min.js"></script>
+    <script src="dep/lodash.min.js"></script>
+    <script src="dep/backbone-min.js"></script>
+    <script src="dep/joint.js"></script>
+</head>
+<body>
+<div id="paper"></div>
+<script>
+    var graph = new joint.dia.Graph();
+    var paper = new joint.dia.Paper({
+        el: $('#paper'),
+        width: 800,
+        height: 350,
+        gridSize: 10,
+        perpendicularLinks: true,
+        model: graph
+    });
+
+    var rect = new joint.shapes.basic.Rect({
+        position: {
+            x: 100,
+            y: 100
+        },
+        size: {
+            width: 70,
+            height: 30
+        },
+        angle: 0,
+        attrs: {
+            'text': {
+                text: 'JoinJS',
+                color: '',
+                fill: '#fff'
+            },
+            'rect': {
+                fill: '#5d8b52'
+            }
+        }
+    });
+
+    // 将点添加到页面上
+    graph.addCell([rect]);
+
+    window.setInterval(function () {
+        rect.translate(50, -50, {
+            transition: {
+                delay: 100,
+                duration: 500,
+                timingFunction: function(t) { return t*t; },
+                valueFunction: function(a, b) { return function(t) { return a + (b - a) * t }}
+            },
+            restrictedArea: {
+                x: 0,
+                y: 0,
+                width: 500,
+                height: 500
+            }
+        });
+    }, 3000);
+
+</script>
+</body>
+</html>

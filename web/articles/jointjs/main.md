@@ -128,6 +128,36 @@ Nesting(关系)
 
 ### translate
 
+**原文**
+
+`element.translate(tx, [ty], [opt])`
+
+Translate an element by tx pixels in x axis and ty pixels in y axis.  ty is optional in which case the translation in y axis will be considered zero. The optional options object opt can be used to pass additional parameters to the event handlers listening on 'change:position' events. opt.transition can be used to initiate an animated transition rather than a sudden move of the element. See joint.dia.Element:transition for more info on transitions. If opt.restrictedArea is set, the translation of the element will be restricted to that area only. The restrictedArea is an object of the form { x: Number, y: Number, width: Number, height: Number }. This is useful, e.g. if you want to restrict the translation of an embedded element within its parent. The only thing you have to do in this case is to pass the bounding box of the parent element to the restrictedArea option:
+
+	myElement.translate(50, 50, { restrictedArea: graph.getCell(myElement.get('parent')).getBBox() })
+
+The code above makes sure that the element myElement never crosses the bounding box of its parent element. note that this also works if the element myElement has other embedded elements. In other words, the bounding box of the myElement that is used to calculate the restriction is the total bounding box, including all its children (in case they are sticking out).
+
+**译文**
+
+`element.translate(tx, [ty], [opt])`
+
+将一个元素在 x 轴方向移动 `tx` 像素，在 y 轴方向移动 `ty` 像素。`ty` 是一个可选参数，默认值为零。配置项参数 `opt` 可用来传递一些额外参数供监听事件 `'change:position'` 的回调函数来接收，`opt.transition` 可被用来设置过渡效果，而不是生硬的突然改变位置，配置详情见 ` joint.dia.Element:transition`。可以用 `opt.restrictedArea` 配置将移动限制在一个区域内，像这样:
+
+	{
+		x: 0,
+		y: 0,
+		width: 500,
+		height: 500
+	}
+
+如果你想把它的移动方位限制在他的父元素中，只需要获取将父元素的 `BBox` 作为 `opt.restrictedArea` 的值，向下面这样：
+
+	myElement.translate(50, 50, {
+	    restrictedArea: graph.getCell(myElement.get('parent')).getBBox() 
+	});
+
+上面的代码保证在子元素不会移动到父元素外面，这种约束对其子元素同样生效。
 
 **译者注**
 
