@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>JOINT.DIA.ELEMENT</title>
+    <title>translate</title>
     <link rel="stylesheet" type="text/css" href="dep/joint.css"/>
     <script src="dep/jquery.min.js"></script>
     <script src="dep/lodash.min.js"></script>
@@ -52,8 +52,14 @@
             transition: {
                 delay: 100,
                 duration: 500,
-                timingFunction: function(t) { return t*t; },
-                valueFunction: function(a, b) { return function(t) { return a + (b - a) * t }}
+                timingFunction: function(t) {
+                    return t*t;
+                },
+                valueFunction: function(a, b) {
+                    return function(t) {
+                        return a + (b - a) * t ;
+                    };
+                }
             },
             restrictedArea: {
                 x: 0,

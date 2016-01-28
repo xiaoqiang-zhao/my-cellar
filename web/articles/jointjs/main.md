@@ -126,6 +126,14 @@ Nesting(关系)
 
 最后两个重要属性是 `embeds` 和 `parent`，这两个属性用来定义元素的包含于被包含关系，`embeds` 定义包含哪些元素，其值是一个数组，存放被包含实例的 id。`parent` 存放父元素的 id，当父元素翻转的时候子元素跟着一起翻转。
 
+**译者注**
+
+所有的图形都继承自 `joint.dia.Element`，但其并不能直接使用，需要将其包装成图形来使用。图形都被放在 `joint.shapes` 下，最基本的图形被放在 `joint.shapes.basic` 下。`joint.shapes.basic` 包含了矩形、圆、图片、文字等基本元素，可以像下面这样声明一个矩形：
+
+	var rect = new joint.shapes.basic.Rect(...);
+
+Demo [joint-dia-element.html](./demo/joint-dia-element.html) 下有完整示例。
+
 ### translate
 
 **原文**
@@ -159,13 +167,9 @@ The code above makes sure that the element myElement never crosses the bounding 
 
 上面的代码保证在子元素不会移动到父元素外面，这种约束对其子元素同样生效。
 
-**译者注**
+译者注：
 
-所有的图形都继承自 `joint.dia.Element`，但其并不能直接使用，需要将其包装成图形来使用。图形都被放在 `joint.shapes` 下，最基本的图形被放在 `joint.shapes.basic` 下。`joint.shapes.basic` 包含了矩形、圆、图片、文字等基本元素，可以像下面这样声明一个矩形：
-
-	var rect = new joint.shapes.basic.Rect(...);
-
-Demo [joint-dia-element.html](./demo/joint-dia-element.html) 下有完整示例。
+`translate` 是基于当前位置做位置改变，坐标左上角是原点，水平向右是 x 轴正方向，竖直向下是 y 轴正方向，`translate` 的位置变化值可正可负，分别对应于想坐标轴正向移动和负向移动。参见我写的 [示例](./demo/translate.html)
 
 ## joint.dia.Link
 
