@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>joint-dia-link</title>
+    <link rel="stylesheet" type="text/css" href="dep/joint.css"/>
+    <script src="dep/jquery.min.js"></script>
+    <script src="dep/lodash.min.js"></script>
+    <script src="dep/backbone-min.js"></script>
+    <script src="dep/joint.js"></script>
+
+</head>
+<body>
+<div id="paper"></div>
+<script>
+    var graph = new joint.dia.Graph();
+    var paper = new joint.dia.Paper({
+        el: $('#paper'),
+        width: 800,
+        height: 350,
+        gridSize: 10,
+        perpendicularLinks: true,
+        model: graph
+    });
+
+    var link1 = new joint.dia.Link({
+        source: {
+            x: 10, y: 20
+        },
+        target: {
+            x: 350, y: 20
+        },
+        vertices: [{ x: 100, y: 120 }, { x: 150, y: 60 }],
+        router: { name: 'manhattan' },
+        attrs: {
+
+        }
+    });
+    link1.attr({
+        '.connection': {
+            stroke: '#222138'
+        },
+        // 定义两边箭头样式
+        '.marker-source': {
+            fill: '#31d0c6', stroke: 'none', d: 'M 10 0 L 0 5 L 10 10 z'
+        },
+        '.marker-target': {
+            fill: '#fe854f', stroke: '#7c68fc', d: 'M 10 0 L 0 5 L 10 10 z'
+        }
+    });
+
+    var link2 = new joint.dia.Link({
+        source: {
+            x: 10, y: 200
+        },
+        target: {
+            x: 350, y: 200
+        },
+        vertices: [{ x: 100, y: 150 }, { x: 150, y: 160 }],
+        router: { name: 'metro' },
+        attrs: {
+
+        }
+    });
+
+    var link3 = new joint.dia.Link({
+        source: {
+            x: 10, y: 230
+        },
+        target: {
+            x: 350, y: 230
+        },
+        router: {
+            name: 'manhattan',
+            args: {
+                startDirections: ['top'],
+                endDirections: ['bottom'],
+                excludeTypes: ['myNamespace.MyCommentElement']
+            }
+        },
+        attrs: {
+
+        }
+    });
+
+
+
+    graph.addCell([link1, link2, link3]);
+
+</script>
+</body>
+</html>

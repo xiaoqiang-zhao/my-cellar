@@ -92,6 +92,10 @@ The z property specifies the stack order of the element in the SVG DOM. An eleme
 <p><code>z</code> 是一个特殊的属性，决定了子元素的层级遮盖关系，<code>z</code> 值大的元素在 <code>z</code> 值小的元素上面。</p>
 <p>Nesting(关系)</p>
 <p>最后两个重要属性是 <code>embeds</code> 和 <code>parent</code>，这两个属性用来定义元素的包含于被包含关系，<code>embeds</code> 定义包含哪些元素，其值是一个数组，存放被包含实例的 id。<code>parent</code> 存放父元素的 id，当父元素翻转的时候子元素跟着一起翻转。</p>
+<p><strong>译者注</strong></p>
+<p>所有的图形都继承自 <code>joint.dia.Element</code>，但其并不能直接使用，需要将其包装成图形来使用。图形都被放在 <code>joint.shapes</code> 下，最基本的图形被放在 <code>joint.shapes.basic</code> 下。<code>joint.shapes.basic</code> 包含了矩形、圆、图片、文字等基本元素，可以像下面这样声明一个矩形：</p>
+<pre><code>var rect = new joint.shapes.basic.Rect(...);
+</code></pre><p>Demo <a href="./demo/joint-dia-element.html" target="_blank">joint-dia-element.html</a> 下有完整示例。</p>
 <h3 id="header-1-3-2">translate</h3>
 <p><strong>原文</strong></p>
 <p><code>element.translate(tx, [ty], [opt])</code></p>
@@ -112,11 +116,12 @@ The z property specifies the stack order of the element in the SVG DOM. An eleme
     restrictedArea: graph.getCell(myElement.get(&#39;parent&#39;)).getBBox() 
 });
 </code></pre><p>上面的代码保证在子元素不会移动到父元素外面，这种约束对其子元素同样生效。</p>
-<p><strong>译者注</strong></p>
-<p>所有的图形都继承自 <code>joint.dia.Element</code>，但其并不能直接使用，需要将其包装成图形来使用。图形都被放在 <code>joint.shapes</code> 下，最基本的图形被放在 <code>joint.shapes.basic</code> 下。<code>joint.shapes.basic</code> 包含了矩形、圆、图片、文字等基本元素，可以像下面这样声明一个矩形：</p>
-<pre><code>var rect = new joint.shapes.basic.Rect(...);
-</code></pre><p>Demo <a href="./demo/joint-dia-element.html" target="_blank">joint-dia-element.html</a> 下有完整示例。</p>
+<p>译者注：</p>
+<p><code>translate</code> 是基于当前位置做位置改变，坐标左上角是原点，水平向右是 x 轴正方向，竖直向下是 y 轴正方向，<code>translate</code> 的位置变化值可正可负，分别对应于想坐标轴正向移动和负向移动。参见我写的 <a href="./demo/translate.html" target="_blank">示例</a></p>
 <h2 id="header-1-4">joint.dia.Link</h2>
+<h3 id="header-1-4-1">概述</h3>
+<p><strong>原文</strong></p>
+<p><strong>译文</strong></p>
 <h2 id="header-1-5">joint.dia.Graph</h2>
 <h2 id="header-1-6">joint.dia.Paper</h2>
 <h2 id="header-1-7">joint.dia.ElementView</h2>

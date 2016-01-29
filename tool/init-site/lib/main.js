@@ -67,11 +67,11 @@ var webpackConfig = {
     },
     module: {
         loaders: [
-            //{
-            //    test: /\.js$/,
-            //    loader: 'babel-loader' //?stage=1
-            //    // ,exclude: /dep|dist/
-            //},
+            {
+                test: /\.js$/,
+                loader: 'babel-loader' //?stage=1
+                ,exclude: /(dep)|(dist)/
+            },
             {
                 test: /\.tpl$/,
                 loader: 'html-loader'
