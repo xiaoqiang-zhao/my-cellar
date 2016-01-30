@@ -27,29 +27,12 @@
 <p>可视化是软件开发中的一种思路，我们渴望不写代码拖拖拽拽，点击配置就可以生成可运行的项目，这是一个非常好的愿景，但是到目前为止方案很多但效果却并没有得到预期。我觉得这样的现状和这类系统的定位有关，这种交互行形式只适合做组合型的系统，可被操作的元素较少，关系种类较少，配置项较少，元素的关系的组合较多，并且希望用图形的方式来展示这些关系或节点状态。jointJs提供了基本支持，是二次开发的一个很不错的选择，本文翻译一些官方资料，期间会夹杂一些我的理解和实现方案。</p>
 </blockquote>
 <h2 id="header-1-1">概述</h2>
-<p><strong>原文</strong></p>
-<p>This is the API reference to the open source JointJS core library. If you&#39;re looking for a documentation to the Rappid diagramming toolkit, the extension to JointJS, go <a href="http://www.jointjs.com/rappid/docs" target="_blank">here</a>.</p>
-<p>JointJS library exports three global variables: <strong>joint</strong>, <strong>V</strong> and <strong>g</strong>.</p>
-<p>The joint namespace contains all the objects that you use to build up your diagrams. Additionally, joint.version property tells you which version of JointJS you&#39;re using.</p>
-<p>The V variable is a global exported by a lightweight SVG library that we call a Vectorizer. This tiny library makes manipulation with SVG documents much easier. JointJS uses this library internally. Normally, you don&#39;t have to get in touch with this library at all but for advanced uses, it can be handy.</p>
-<p>The g namespace is another lighweight library used internally by JointJS that provides many useful geometry operations. Again, you might not get in touch with this library but when you do have the need to perform geometric operations in your applications, you&#39;ll certainly find it helpful.</p>
-<p><strong>译文</strong></p>
 <p>此文档针对开源框架 JointJS 的核心部分，如果你找的是 Rappid 的文档，请点击 <a href="http://www.jointjs.com/rappid/docs" target="_blank">这里</a>，Rappid 是在 JointJS 基础上进行扩展功能更为丰富的组合套件。</p>
 <p>JointJS 向外暴露三个全局变量：<strong>joint</strong>、<strong>V</strong> 和 <strong>g</strong>。</p>
 <p><code>joint</code> 下存放画示意图所需的全部对象，通过 <code>joint.version</code> 这个属性你可以知道当前使用的是哪一个版本 JointJS </p>
 <p><code>v</code> 这一全局变量来自于一个轻量级被我们称作“Vectorizer”的 svg 框架，这个框架使操作 svg 变得更简单。JointJS 在内部使用这个框架，你一般不需要接触这个库，但是为了更好的使用 JointJS 了解一下这个库也是有益处的。</p>
 <p><code>g</code> 这一全局变量也来自 JointJS 内部使用的一个轻量级库，此库提供了很多好用的集合运算函数。同样你可能接触不到此库，但是如果你的项目中有几何运算，你一定会发现它的好处。</p>
 <h2 id="header-1-2">安装</h2>
-<p><strong>原文</strong></p>
-<p>First you need to have the library core files (joint.js and joint.css - or their minified versions). Then you have to include the JointJS dependencies: jQuery, Backbone and Lodash libraries.</p>
-<p>Here&#39;s how you can install JointJS into your page:</p>
-<pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;joint.css&quot; /&gt;
-&lt;script src=&quot;jquery.min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;lodash.min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;backbone-min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;joint.js&quot;&gt;&lt;/script&gt;
-</code></pre><p>Visit the <a href="http://www.jointjs.com/download" target="_blank">Download page</a> to download all the necessary files.</p>
-<p><strong>译文</strong></p>
 <p>首先你需要有库核心文件(joint.js 和 joint.css，或者对应的压缩版)。然后你还需要 JointJS 的依赖库：jQuery、Backbone、Lodash。</p>
 <p>你可以向下面这样将资源引入到你的页面中：</p>
 <pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;joint.css&quot; /&gt;
@@ -60,24 +43,7 @@
 </code></pre><p>访问<a href="http://www.jointjs.com/download" target="_blank">下载页面</a>获取所需的文件。</p>
 <h2 id="header-1-3">JOINT.DIA.ELEMENT</h2>
 <h3 id="header-1-3-1">概述</h3>
-<p><strong>原文</strong></p>
-<p>joint.dia.Element is the basic model for diagram elements. It&#39;s a Backbone model with couple of additional important properties. The first one to mention is a unique identifier for the element. Each element has a unique ID that is stored in the id property. This id has a form of pseudo-generated UUID. Other properties can be put into three groups:</p>
-<p>Geometry</p>
-<p>Coordinates of an element are stored in the position property that is an object with x and y keys.  position can be accessed or set directly using the regular Backbone set()/get() methods or through the translate method.</p>
-<p>Rotation angle is stored in the angle property. This angle is in degrees and the rotation origin is always considered to be the center of the element. angle can be also accessed or set directly using the regular Backbone set()/get() methods or through the rotate method.</p>
-<p>Size of an element is stored in the size property that is an object with width and height keys. Again, size can be accessed or set directly using the regular Backbone set()/get() methods or through the resize method.</p>
-<p>Presentation</p>
-<p>Another important property is attrs which is an object with keys representing selectors that match subelements and values which are SVG attributes that will be set on the subelements. One can find a list of SVG attributes and their descriptions e.g. on MDN.</p>
-<p>It is important to note that each joint.dia.Element defines an SVG markup which is then used by joint.dia.ElementView to render the element to the paper. For instance, the joint.shapes.basic.Rect element (that inherits from joint.dia.Element) defines its markup as follows:</p>
-<pre><code>&lt;g class=&quot;rotatable&quot;&gt;&lt;g class=&quot;scalable&quot;&gt;&lt;rect/&gt;&lt;/g&gt;&lt;text/&gt;&lt;/g&gt;
-</code></pre><p>Therefore, in order to set a red fill color for the rectangle subelement, the attrs object should contain:</p>
-<pre><code>rect: { fill: &#39;red&#39; }
-</code></pre><p>Again, it is not recommended to change the attrs object directly. Instead, use the attr method.
-The z property specifies the stack order of the element in the SVG DOM. An element with a higher z level is in front of an element with a lower z level. (This also stands for links which have the exact same property.)</p>
-<p>Nesting</p>
-<p>The last two properties of elements are embeds and parent. These two are related to elements that contain or are contained withing other elements forming a hierarchical structure.  embeds is a list of cell id&#39;s that are embedded inside the element. parent is an id of the parent element of the embedded one. When a parent element is translated, all its children get translated too.</p>
-<p><strong>译文</strong></p>
-<p><code>joint.dia.Element</code> 是图形元素的集成模块。它是 <a href="http://backbonejs.org/#Model" target="_blank">Backbone model</a> 模块，并添加了一些额外属性，第一个重要的属性就是每个元素都要有一个不重复的标识，这个标识被存储在 <code>id</code> 属性中。其他的属性可以被存放在下面三个组中：</p>
+<p><code>joint.dia.Element</code> 是图形元素的基类。它是 <a href="http://backbonejs.org/#Model" target="_blank">Backbone model</a> 模块，并添加了一些额外属性，第一个重要的属性就是每个元素都要有一个不重复的标识，这个标识被存储在 <code>id</code> 属性中。其他的属性可以被存放在下面三个组中：</p>
 <p>Geometry(几何类属性)</p>
 <p>元素的坐标以对象的形式被存储在 <code>position</code> 属性中，此对象包括两个属性 <code>x</code> 和 <code>y</code>，<code>position</code> 属性可以被初始化设置，也可以直接通过 Backbone 的 <code>get</code>/<code>set</code> 方法来获取/修改，还可通过下面的 <code>translate</code> 方法来修改。</p>
 <p>旋转角度被存储在 <code>angle</code> 属性中，旋转的参照点始终是元素的中心，<code>angle</code> 属性同样可以被初始化设置，也可以直接通过 Backbone 的 <code>get</code>/<code>set</code> 方法来获取/修改，还可通过下面的 <code>rotate</code> 方法来修改。</p>
@@ -93,16 +59,10 @@ The z property specifies the stack order of the element in the SVG DOM. An eleme
 <p>Nesting(关系)</p>
 <p>最后两个重要属性是 <code>embeds</code> 和 <code>parent</code>，这两个属性用来定义元素的包含于被包含关系，<code>embeds</code> 定义包含哪些元素，其值是一个数组，存放被包含实例的 id。<code>parent</code> 存放父元素的 id，当父元素翻转的时候子元素跟着一起翻转。</p>
 <p><strong>译者注</strong></p>
-<p>所有的图形都继承自 <code>joint.dia.Element</code>，但其并不能直接使用，需要将其包装成图形来使用。图形都被放在 <code>joint.shapes</code> 下，最基本的图形被放在 <code>joint.shapes.basic</code> 下。<code>joint.shapes.basic</code> 包含了矩形、圆、图片、文字等基本元素，可以像下面这样声明一个矩形：</p>
+<p>所有的图形都继承自 <code>joint.dia.Element</code>，但 <code>joint.dia.Element</code> 并不能直接使用，需要将其包装成图形来使用。图形都被放在 <code>joint.shapes</code> 下，最基本的图形被放在 <code>joint.shapes.basic</code> 下。<code>joint.shapes.basic</code> 包含了矩形、圆、图片、文字等基本元素，可以像下面这样声明一个矩形：</p>
 <pre><code>var rect = new joint.shapes.basic.Rect(...);
 </code></pre><p>Demo <a href="./demo/joint-dia-element.html" target="_blank">joint-dia-element.html</a> 下有完整示例。</p>
 <h3 id="header-1-3-2">translate</h3>
-<p><strong>原文</strong></p>
-<p><code>element.translate(tx, [ty], [opt])</code></p>
-<p>Translate an element by tx pixels in x axis and ty pixels in y axis.  ty is optional in which case the translation in y axis will be considered zero. The optional options object opt can be used to pass additional parameters to the event handlers listening on &#39;change:position&#39; events. opt.transition can be used to initiate an animated transition rather than a sudden move of the element. See joint.dia.Element:transition for more info on transitions. If opt.restrictedArea is set, the translation of the element will be restricted to that area only. The restrictedArea is an object of the form { x: Number, y: Number, width: Number, height: Number }. This is useful, e.g. if you want to restrict the translation of an embedded element within its parent. The only thing you have to do in this case is to pass the bounding box of the parent element to the restrictedArea option:</p>
-<pre><code>myElement.translate(50, 50, { restrictedArea: graph.getCell(myElement.get(&#39;parent&#39;)).getBBox() })
-</code></pre><p>The code above makes sure that the element myElement never crosses the bounding box of its parent element. note that this also works if the element myElement has other embedded elements. In other words, the bounding box of the myElement that is used to calculate the restriction is the total bounding box, including all its children (in case they are sticking out).</p>
-<p><strong>译文</strong></p>
 <p><code>element.translate(tx, [ty], [opt])</code></p>
 <p>将一个元素在 x 轴方向移动 <code>tx</code> 像素，在 y 轴方向移动 <code>ty</code> 像素。<code>ty</code> 是一个可选参数，默认值为零。配置项参数 <code>opt</code> 可用来传递一些额外参数供监听事件 <code>&#39;change:position&#39;</code> 的回调函数来接收，<code>opt.transition</code> 可被用来设置过渡效果，而不是生硬的突然改变位置，配置详情见 <code>joint.dia.Element:transition</code>。可以用 <code>opt.restrictedArea</code> 配置将移动限制在一个区域内，像这样:</p>
 <pre><code>{
@@ -120,9 +80,41 @@ The z property specifies the stack order of the element in the SVG DOM. An eleme
 <p><code>translate</code> 是基于当前位置做位置改变，坐标左上角是原点，水平向右是 x 轴正方向，竖直向下是 y 轴正方向，<code>translate</code> 的位置变化值可正可负，分别对应于想坐标轴正向移动和负向移动。参见我写的 <a href="./demo/translate.html" target="_blank">示例</a></p>
 <h2 id="header-1-4">joint.dia.Link</h2>
 <h3 id="header-1-4-1">概述</h3>
-<p><strong>原文</strong></p>
-<p><strong>译文</strong></p>
-<h2 id="header-1-5">joint.dia.Graph</h2>
+<p><strong>joint.dia.Link</strong>是线的基类，在 <a href="http://backbonejs.org/#Model" target="_blank">Backbone model</a> 的基础上添加一些重要属性，其中第一个不得不提的重要属性还是 id，其他的属性可以分为下面三类：</p>
+<p><strong>Connections(连接信息)</strong></p>
+<p>用 <code>source</code> 和 <code>target</code> 属性来定义线连接的起始元素，每个配置项如下面这样：</p>
+<pre><code>{
+    id: &lt;id of an element&gt;,
+    selector: &lt;CSS selector&gt;,
+    port: &lt;id of a port&gt;
+}
+</code></pre><p><code>id</code> 是元素模块的 ID；<code>selector</code> 是可选参数，定义连接到元素的子元素，匹配规则和 CSS 选择器一样；<code>port</code> 也是可选参数，定义连接的起始元素的位置。</p>
+<p><strong>Presentation(外观类属性)</strong></p>
+<p>一条线的外观取决于 <code>vertices</code>、<code>connector</code> 和 <code>router</code> 三个属性的设置。</p>
+<p><code>vertices</code> 定义线所经过的点。</p>
+<pre><code>link.get(&#39;vertices&#39;)
+link.set(&#39;vertices&#39;, [{ x: 100, y: 120 }, { x: 150, y: 60 }])
+</code></pre><p><code>router</code> 同样是定义线所经过的点，与 <code>vertices</code> 不同的是：<code>vertices</code> 由用户定义，而 <code>router</code> 是计算而来。<code>router</code> 有三个系统预设的值分别是：<code>manhattan</code>、<code>metro</code> 和 <code>orthogonal</code>。前两个被称作智能路径，会自动避开元素使线不和元素重叠。<code>orthogonal</code> 和 <code>manhattan</code> 使线只能以水平和竖直线段链接，<code>metro</code> 这个容许以斜线的方式链接。</p>
+<pre><code>link.set(&#39;router&#39;, { name: &#39;manhattan&#39; });
+link.set(&#39;router&#39;, { name: &#39;metro&#39; });
+link.set(&#39;router&#39;, { name: &#39;orthogonal&#39; });
+</code></pre><p>如果为了兼容旧版，可以设置 <code>manhattan</code> 为 <code>true</code>。</p>
+<pre><code>// old approach
+link.set(&#39;manhattan&#39;, true)
+</code></pre><p><code>manhattan</code> 还有一些有用的配置项，用来配置路径的计算方式，这些配置放在 <code>args</code> 属性中，属性列表如下</p>
+<ul>
+<li><code>excludeTypes</code> </li>
+</ul>
+<p>示例：</p>
+<pre><code>link.set(&#39;router&#39;, {
+    name: &#39;manhattan&#39;,
+    args: {
+        startDirections: [&#39;top&#39;],
+        endDirections: [&#39;bottom&#39;],
+        excludeTypes: [&#39;myNamespace.MyCommentElement&#39;]
+    }
+});
+</code></pre><h2 id="header-1-5">joint.dia.Graph</h2>
 <h2 id="header-1-6">joint.dia.Paper</h2>
 <h2 id="header-1-7">joint.dia.ElementView</h2>
 <h2 id="header-1-8">joint.dia.LinkView</h2>
