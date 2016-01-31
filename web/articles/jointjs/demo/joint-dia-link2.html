@@ -26,25 +26,18 @@
 
     var link = new joint.dia.Link({
         source: {
-            x: 10, y: 230
+            x: 10, y: 80
         },
         target: {
-            x: 350, y: 250
+            x: 150, y: 80
         },
-        connector: { name: 'smooth' },
-        router: {
-            name: 'manhattan',
-            args: {
-                //startDirections: ['top'],
-                //endDirections: ['bottom'],
-                excludeTypes: ['joint.shapes.basic.Rect']
-            }
-        }
+        //connector: { name: 'smooth' },
+
     });
-    var rect = new joint.shapes.basic.Rect({
+    window.rect = new joint.shapes.basic.Rect({
         position: {
-            x: 115,
-            y: 0
+            x: 175,
+            y: 65
         },
         size: {
             width: 70,
@@ -63,8 +56,30 @@
         }
     });
 
+    var circle = new joint.shapes.basic.Circle({
+        position: {
+            x: 315,
+            y: 50
+        },
+        size: {
+            width: 70,
+            height: 70
+        },
+        angle: 0,
+        attrs: {
+            'text': {
+                text: 'JoinJS',
+                color: '',
+                fill: '#fff'
+            },
+            'rect': {
+                fill: '#5d8b52'
+            }
+        }
+    });
 
-    graph.addCell([link, rect]);
+
+    graph.addCell([link, rect, circle]);
 
 </script>
 </body>
