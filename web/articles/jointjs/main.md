@@ -136,6 +136,11 @@ Demo [joint-dia-element.html](./demo/joint-dia-element.html) 下有完整示例�
 `manhattan` 还有一些有用的配置项，用来配置路径的计算方式，这些配置放在 `args` 属性中，属性列表如下
 
 - `excludeTypes` 
+- `excludeEnds` 
+- `startDirections`
+- `endDirections`
+
+(译者注：抱歉这个翻译结果和运行结果冲突，所以先放在这里不翻译)
 
 示例：
 
@@ -148,7 +153,35 @@ Demo [joint-dia-element.html](./demo/joint-dia-element.html) 下有完整示例�
         }
     });
 
+你可以在命名空间 `joint.routers.[name of your router]` 下定义新的 `router`，或者直接将函数作为 `router` 配置项，这个函数的形式为 `function(vertices, args, linkView)` 必须返回一个点的集合，来定义线需要经过的点。
+
+`connector` 参数定义线的路线渲染风格：normal(普通，为默认值，横平竖直), smooth(平滑，曲线) 和 rounded(圆角)。
+
+	link.set('connector', { name: 'normal' });
+    link.set('connector', { name: 'smooth' });
+
+`rounded` 需要设置圆角。
+
+	link.set('connector', { name: 'rounded', args: { radius: 10 }});
+
+如果为了兼容旧版可以向下面这样设置：
+
+	// old approach
+    link.set('smooth', true)
+
+从上面代码可以看出 `router`和`connector` 的设置是非常简单的，而且很方便自定义。可以将自定义的 `connector` 放在 `joint.connectors.[name of your connector]` 下面也可以直接将函数作为`connector`配置的值，函数的形式是 `function(sourcePoint, targetPoint, vertices, args, linkView)`，返回值必须是 [SVG path data](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d)，此值会被用来渲染线的路径。
+
+在 `sttrs` 属性中可以设置线的样式，你可以在 `joint.dia.Element` 和 `joint.dia.Link` 中中找到更多信息。线和元素一样包含 `z` 属性来定义层级关系。
+
+### attr
+
+### removeAttr
+	
 ## joint.dia.Graph
+
+### 概述
+
+`joint.dia.Graph` 存储包括`Link` 和 `Element`所有的图形。它是一个 [Backbone model](http://backbonejs.org/#Model)，将所有的图像存储在 `cells` 属性中。它是所有图形背后强大的数据模块，不仅直接提供图形的数据存储，还提供图形绘制的算法支持。
 
 ## joint.dia.Paper
 
