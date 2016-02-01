@@ -185,17 +185,74 @@ Demo [joint-dia-element.html](./demo/joint-dia-element.html) 下有完整示例�
 
 ## joint.dia.Paper
 
+`joint.dia.Paper` 是 `joint.dia.Graph` 的视图模块，继承自 [Backbone View](http://backbonejs.org/#View)。当视图和数据关联起来时，向数据模块添加图形数据，视图模块会立刻将其渲染到界面上。
+		
+	var graph = new joint.dia.Graph
+	var paper = new joint.dia.Paper({
+		el: $('#paper'),
+		width: 600,
+		height: 400,
+		gridSize: 10,
+		model: graph
+	})
+	var rect = new joint.shapes.basic.Rect({
+		position: { x: 50, y: 70 },
+		size: { width: 100, height: 40 }
+	})
+	graph.addCell(rect)
+
 ## joint.dia.ElementView
+
+### 概述
+
+`joint.dia.ElementView` 是 `joint.dia.Element`本身或者其集成对象的视图，继承自 [Backbone View](http://backbonejs.org/#View)。`joint.dia.ElementView` 负责将元素的设置渲染到视图中，转换的方式也在它内部定义。`joint.dia.ElementView` 还维护事件。可以通过 `paper` 的 `findViewByModel` 方法查找数据对应的视图。
 
 ## joint.dia.LinkView
 
+### 概述
+
+`joint.dia.LinkView` 是 `joint.dia.Link`本身或者其集成对象的视图，继承自 [Backbone View](http://backbonejs.org/#View)。`joint.dia.LinkView` 负责将数据模块的设置渲染到视图中。
+
 ## Special Attributes
+
+### 概述
+
+`Special Attributes` 是 JointJS 定义的，帮助用户自定义时尚的图形元素。关于如何自定义元素请参看[Creating custom elements ](http://www.jointjs.com/tutorial#custom-elements)章节。
 
 ## Utility Functions
 
+> 在 `joint.util` 下的常用函数介绍。
+
+### uuid
+
+`joint.util.uuid()` 生成一个独一无二的 id。
+
+### guid
+
+`joint.util.guid()` 为 page 返回一个独一无二的 id
+
 ## Vectorizer
 
+### 概述
+
+JointJS提供了三个全局变量：`joint`、`v` 和 `g`(在Geometry中将详细介绍)。`v` 是一个辅助处理 svg 的函数，来自 我们称为 Vectorizer 的库。我们将它作为全局变量而没有放在 `joint` 命名空间下的理由是，它是一个独立的库，不依赖于 `joint`可以单独被使用。 它是一个非常有用的库，会使处理 svg 变得更简单容易，你甚至可以把它看成一个针对 svg 的轻量级 jQuery。如果你想单独使用 Vectorizer 这个库，可以到下载页面，那里有[开发版和压缩版](http://www.jointjs.com/download#vectorizer)可供下载。
+
+### V
+
+`V(svg)` 返回一个 Vectorizer 对象。 如果 `svg` 参数是字符串，那么会被解析成 SVG DOM 元素节点，然后包装成 Vectorizer 对象返回；如果 `svg` 参数已经是 SVG DOM 元素节点，那么直接包装返回。你可以把 V 看做是 jQuery 的对外变量 `$`，只是 `V` 不接受选择器参数。Vectorizer 对象提供了 `node` 属性来对外提供原生的 SVG DOM 元素节点。示例如下：
+
+	var myElement = V('<g><rect/><text/></g>');
+    console.log(myElement.node);  // SVGGroupElement
+    myElement = V(document.querySelector('#mySVGElement'));
+    
+    var myCircle = V('circle', { r: 5, fill: 'red' });
+    console.log(myCircle.node);  // SVGCircleElement
+
 ## Geometry
+
+### 概述
+
+和Vectorizer一样，Geometry是另外一个内嵌到 JointJS 中的轻量级库。此库提供了很多有用的关于几何学的计算方法，并且不依赖于任何其他库，可以被单独使用，可以到下载页面，那里有[开发版和压缩版](http://www.jointjs.com/download#geometry)可供下载。
 
 ## 参考页面
 
