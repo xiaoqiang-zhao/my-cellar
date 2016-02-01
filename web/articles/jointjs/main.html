@@ -30,8 +30,8 @@
 <p>此文档针对开源框架 JointJS 的核心部分，如果你找的是 Rappid 的文档，请点击 <a href="http://www.jointjs.com/rappid/docs" target="_blank">这里</a>，Rappid 是在 JointJS 基础上进行扩展功能更为丰富的组合套件。</p>
 <p>JointJS 向外暴露三个全局变量：<strong>joint</strong>、<strong>V</strong> 和 <strong>g</strong>。</p>
 <p><code>joint</code> 下存放画示意图所需的全部对象，通过 <code>joint.version</code> 这个属性你可以知道当前使用的是哪一个版本 JointJS </p>
-<p><code>v</code> 这一全局变量来自于一个轻量级被我们称作“Vectorizer”的 svg 框架，这个框架使操作 svg 变得更简单。JointJS 在内部使用这个框架，你一般不需要接触这个库，但是为了更好的使用 JointJS 了解一下这个库也是有益处的。</p>
-<p><code>g</code> 这一全局变量也来自 JointJS 内部使用的一个轻量级库，此库提供了很多好用的集合运算函数。同样你可能接触不到此库，但是如果你的项目中有几何运算，你一定会发现它的好处。</p>
+<p><code>V</code> 这一全局变量来自于一个轻量级被我们称作“Vectorizer”的 svg 框架，这个框架使操作 svg 变得更简单。JointJS 在内部使用这个框架，你一般不需要接触这个库，但是为了更好的使用 JointJS 了解一下这个库也是有益处的。</p>
+<p><code>g</code> 这一全局变量也来自 JointJS 内部使用的一个轻量级库，此库提供了很多好用的几何运算函数。同样你可能接触不到此库，但是如果你的项目中有几何运算，你一定会发现它的好处。</p>
 <h2 id="header-1-2">安装</h2>
 <p>首先你需要有库核心文件(joint.js 和 joint.css，或者对应的压缩版)。然后你还需要 JointJS 的依赖库：jQuery、Backbone、Lodash。</p>
 <p>你可以向下面这样将资源引入到你的页面中：</p>
@@ -52,14 +52,14 @@
 <p>另外一个重要的属性是 <code>attrs</code>， <code>attrs</code> 是一个对象，其属性名是子元素的选择器，对应的值设置 svg 元素的属性从而改变元素的内容和外观，<a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute" target="_blank">这里</a>有 svg 元素属性列表。</p>
 <p>需要重点注意，每一个通过 <code>joint.dia.Element</code> 定义的 svg 元素组合都要通过 <code>joint.dia.ElementView</code> 渲染到页面上。比如 <code>joint.shapes.basic.Rect</code> 元素组合(继承自<code>joint.dia.Element</code>) 在页面中表现如下：</p>
 <pre><code>&lt;g class=&quot;rotatable&quot;&gt;&lt;g class=&quot;scalable&quot;&gt;&lt;rect/&gt;&lt;/g&gt;&lt;text/&gt;&lt;/g&gt;
-</code></pre><p>然而为了为一个矩形子元素填充红色，我们还需要为 <code>attrs</code> 添加如下属性：</p>
+</code></pre><p>然而为一个矩形子元素填充红色，我们还需要为 <code>attrs</code> 添加如下属性：</p>
 <pre><code>rect: { fill: &#39;red&#39; }
-</code></pre><p>在提一句不建议直接修改 <code>attrs</code> 属性对象，建议通过 <code>attr</code> 方法来修改。</p>
+</code></pre><p>再提一句，不建议直接修改 <code>attrs</code> 属性对象，建议通过 <code>attr</code> 方法来修改。</p>
 <p><code>z</code> 是一个特殊的属性，决定了子元素的层级遮盖关系，<code>z</code> 值大的元素在 <code>z</code> 值小的元素上面。</p>
 <p>Nesting(关系)</p>
 <p>最后两个重要属性是 <code>embeds</code> 和 <code>parent</code>，这两个属性用来定义元素的包含于被包含关系，<code>embeds</code> 定义包含哪些元素，其值是一个数组，存放被包含实例的 id。<code>parent</code> 存放父元素的 id，当父元素翻转的时候子元素跟着一起翻转。</p>
 <p><strong>译者注</strong></p>
-<p>所有的图形都继承自 <code>joint.dia.Element</code>，但 <code>joint.dia.Element</code> 并不能直接使用，需要将其包装成图形来使用。图形都被放在 <code>joint.shapes</code> 下，最基本的图形被放在 <code>joint.shapes.basic</code> 下。<code>joint.shapes.basic</code> 包含了矩形、圆、图片、文字等基本元素，可以像下面这样声明一个矩形：</p>
+<p>所有的图形的数据对象都继承自 <code>joint.dia.Element</code>，但 <code>joint.dia.Element</code> 并不能直接使用，需要和视图关联才能在页面上渲染出图形。图形数据对象都被放在 <code>joint.shapes</code> 下，最基本的图形数据对象被放在 <code>joint.shapes.basic</code> 下。<code>joint.shapes.basic</code> 包含了矩形、圆、图片、文字等基本元素，可以像下面这样声明一个矩形：</p>
 <pre><code>var rect = new joint.shapes.basic.Rect(...);
 </code></pre><p>Demo <a href="./demo/joint-dia-element.html" target="_blank">joint-dia-element.html</a> 下有完整示例。</p>
 <h3 id="header-1-3-2">translate</h3>

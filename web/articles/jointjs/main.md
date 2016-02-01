@@ -10,9 +10,9 @@ JointJS 向外暴露三个全局变量：**joint**、**V** 和 **g**。
 
 `joint` 下存放画示意图所需的全部对象，通过 `joint.version` 这个属性你可以知道当前使用的是哪一个版本 JointJS 
 
-`v` 这一全局变量来自于一个轻量级被我们称作“Vectorizer”的 svg 框架，这个框架使操作 svg 变得更简单。JointJS 在内部使用这个框架，你一般不需要接触这个库，但是为了更好的使用 JointJS 了解一下这个库也是有益处的。
+`V` 这一全局变量来自于一个轻量级被我们称作“Vectorizer”的 svg 框架，这个框架使操作 svg 变得更简单。JointJS 在内部使用这个框架，你一般不需要接触这个库，但是为了更好的使用 JointJS 了解一下这个库也是有益处的。
 
-`g` 这一全局变量也来自 JointJS 内部使用的一个轻量级库，此库提供了很多好用的集合运算函数。同样你可能接触不到此库，但是如果你的项目中有几何运算，你一定会发现它的好处。
+`g` 这一全局变量也来自 JointJS 内部使用的一个轻量级库，此库提供了很多好用的几何运算函数。同样你可能接触不到此库，但是如果你的项目中有几何运算，你一定会发现它的好处。
 
 ## 安装
 
@@ -50,11 +50,11 @@ Presentation(外观类属性)
  
     <g class="rotatable"><g class="scalable"><rect/></g><text/></g>
 
-然而为了为一个矩形子元素填充红色，我们还需要为 `attrs` 添加如下属性：
+然而为一个矩形子元素填充红色，我们还需要为 `attrs` 添加如下属性：
 
 	rect: { fill: 'red' }
 
-在提一句不建议直接修改 `attrs` 属性对象，建议通过 `attr` 方法来修改。
+再提一句，不建议直接修改 `attrs` 属性对象，建议通过 `attr` 方法来修改。
 
 `z` 是一个特殊的属性，决定了子元素的层级遮盖关系，`z` 值大的元素在 `z` 值小的元素上面。
 
@@ -64,7 +64,7 @@ Nesting(关系)
 
 **译者注**
 
-所有的图形都继承自 `joint.dia.Element`，但 `joint.dia.Element` 并不能直接使用，需要将其包装成图形来使用。图形都被放在 `joint.shapes` 下，最基本的图形被放在 `joint.shapes.basic` 下。`joint.shapes.basic` 包含了矩形、圆、图片、文字等基本元素，可以像下面这样声明一个矩形：
+所有的图形的数据对象都继承自 `joint.dia.Element`，但 `joint.dia.Element` 并不能直接使用，需要和视图关联才能在页面上渲染出图形。图形数据对象都被放在 `joint.shapes` 下，最基本的图形数据对象被放在 `joint.shapes.basic` 下。`joint.shapes.basic` 包含了矩形、圆、图片、文字等基本元素，可以像下面这样声明一个矩形：
 
 	var rect = new joint.shapes.basic.Rect(...);
 
