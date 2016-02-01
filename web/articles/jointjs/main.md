@@ -4,20 +4,6 @@
 
 ## 概述
 
-**原文**
-
-This is the API reference to the open source JointJS core library. If you're looking for a documentation to the Rappid diagramming toolkit, the extension to JointJS, go [here](http://www.jointjs.com/rappid/docs).
-
-JointJS library exports three global variables: **joint**, **V** and **g**.
-
-The joint namespace contains all the objects that you use to build up your diagrams. Additionally, joint.version property tells you which version of JointJS you're using.
-
-The V variable is a global exported by a lightweight SVG library that we call a Vectorizer. This tiny library makes manipulation with SVG documents much easier. JointJS uses this library internally. Normally, you don't have to get in touch with this library at all but for advanced uses, it can be handy.
-
-The g namespace is another lighweight library used internally by JointJS that provides many useful geometry operations. Again, you might not get in touch with this library but when you do have the need to perform geometric operations in your applications, you'll certainly find it helpful.
-
-**译文**
-
 此文档针对开源框架 JointJS 的核心部分，如果你找的是 Rappid 的文档，请点击 [这里](http://www.jointjs.com/rappid/docs)，Rappid 是在 JointJS 基础上进行扩展功能更为丰富的组合套件。
 
 JointJS 向外暴露三个全局变量：**joint**、**V** 和 **g**。
@@ -29,22 +15,6 @@ JointJS 向外暴露三个全局变量：**joint**、**V** 和 **g**。
 `g` 这一全局变量也来自 JointJS 内部使用的一个轻量级库，此库提供了很多好用的集合运算函数。同样你可能接触不到此库，但是如果你的项目中有几何运算，你一定会发现它的好处。
 
 ## 安装
-
-**原文**
-
-First you need to have the library core files (joint.js and joint.css - or their minified versions). Then you have to include the JointJS dependencies: jQuery, Backbone and Lodash libraries.
-
-Here's how you can install JointJS into your page:
-
-	<link rel="stylesheet" type="text/css" href="joint.css" />
-    <script src="jquery.min.js"></script>
-    <script src="lodash.min.js"></script>
-    <script src="backbone-min.js"></script>
-    <script src="joint.js"></script>
-
-Visit the [Download page](http://www.jointjs.com/download) to download all the necessary files.
-
-**译文**
 
 首先你需要有库核心文件(joint.js 和 joint.css，或者对应的压缩版)。然后你还需要 JointJS 的依赖库：jQuery、Backbone、Lodash。
 
@@ -62,41 +32,7 @@ Visit the [Download page](http://www.jointjs.com/download) to download all the n
 
 ### 概述
 
-**原文**
-
-joint.dia.Element is the basic model for diagram elements. It's a Backbone model with couple of additional important properties. The first one to mention is a unique identifier for the element. Each element has a unique ID that is stored in the id property. This id has a form of pseudo-generated UUID. Other properties can be put into three groups:
-
-Geometry
-
-Coordinates of an element are stored in the position property that is an object with x and y keys.  position can be accessed or set directly using the regular Backbone set()/get() methods or through the translate method.
-
-Rotation angle is stored in the angle property. This angle is in degrees and the rotation origin is always considered to be the center of the element. angle can be also accessed or set directly using the regular Backbone set()/get() methods or through the rotate method.
-
-Size of an element is stored in the size property that is an object with width and height keys. Again, size can be accessed or set directly using the regular Backbone set()/get() methods or through the resize method.
-
-Presentation
-
-Another important property is attrs which is an object with keys representing selectors that match subelements and values which are SVG attributes that will be set on the subelements. One can find a list of SVG attributes and their descriptions e.g. on MDN.
-
-It is important to note that each joint.dia.Element defines an SVG markup which is then used by joint.dia.ElementView to render the element to the paper. For instance, the joint.shapes.basic.Rect element (that inherits from joint.dia.Element) defines its markup as follows:
-
-
-    <g class="rotatable"><g class="scalable"><rect/></g><text/></g>
-            
-Therefore, in order to set a red fill color for the rectangle subelement, the attrs object should contain:
-
-    rect: { fill: 'red' }
-            
-Again, it is not recommended to change the attrs object directly. Instead, use the attr method.
-The z property specifies the stack order of the element in the SVG DOM. An element with a higher z level is in front of an element with a lower z level. (This also stands for links which have the exact same property.)
-
-Nesting
-
-The last two properties of elements are embeds and parent. These two are related to elements that contain or are contained withing other elements forming a hierarchical structure.  embeds is a list of cell id's that are embedded inside the element. parent is an id of the parent element of the embedded one. When a parent element is translated, all its children get translated too.
-
-**译文**
-
-`joint.dia.Element` 是图形元素的集成模块。它是 [Backbone model](http://backbonejs.org/#Model) 模块，并添加了一些额外属性，第一个重要的属性就是每个元素都要有一个不重复的标识，这个标识被存储在 `id` 属性中。其他的属性可以被存放在下面三个组中：
+`joint.dia.Element` 是图形元素的基类。它是 [Backbone model](http://backbonejs.org/#Model) 模块，并添加了一些额外属性，第一个重要的属性就是每个元素都要有一个不重复的标识，这个标识被存储在 `id` 属性中。其他的属性可以被存放在下面三个组中：
 
 Geometry(几何类属性)
 
@@ -128,25 +64,13 @@ Nesting(关系)
 
 **译者注**
 
-所有的图形都继承自 `joint.dia.Element`，但其并不能直接使用，需要将其包装成图形来使用。图形都被放在 `joint.shapes` 下，最基本的图形被放在 `joint.shapes.basic` 下。`joint.shapes.basic` 包含了矩形、圆、图片、文字等基本元素，可以像下面这样声明一个矩形：
+所有的图形都继承自 `joint.dia.Element`，但 `joint.dia.Element` 并不能直接使用，需要将其包装成图形来使用。图形都被放在 `joint.shapes` 下，最基本的图形被放在 `joint.shapes.basic` 下。`joint.shapes.basic` 包含了矩形、圆、图片、文字等基本元素，可以像下面这样声明一个矩形：
 
 	var rect = new joint.shapes.basic.Rect(...);
 
 Demo [joint-dia-element.html](./demo/joint-dia-element.html) 下有完整示例。
 
 ### translate
-
-**原文**
-
-`element.translate(tx, [ty], [opt])`
-
-Translate an element by tx pixels in x axis and ty pixels in y axis.  ty is optional in which case the translation in y axis will be considered zero. The optional options object opt can be used to pass additional parameters to the event handlers listening on 'change:position' events. opt.transition can be used to initiate an animated transition rather than a sudden move of the element. See joint.dia.Element:transition for more info on transitions. If opt.restrictedArea is set, the translation of the element will be restricted to that area only. The restrictedArea is an object of the form { x: Number, y: Number, width: Number, height: Number }. This is useful, e.g. if you want to restrict the translation of an embedded element within its parent. The only thing you have to do in this case is to pass the bounding box of the parent element to the restrictedArea option:
-
-	myElement.translate(50, 50, { restrictedArea: graph.getCell(myElement.get('parent')).getBBox() })
-
-The code above makes sure that the element myElement never crosses the bounding box of its parent element. note that this also works if the element myElement has other embedded elements. In other words, the bounding box of the myElement that is used to calculate the restriction is the total bounding box, including all its children (in case they are sticking out).
-
-**译文**
 
 `element.translate(tx, [ty], [opt])`
 
@@ -173,21 +97,162 @@ The code above makes sure that the element myElement never crosses the bounding 
 
 ## joint.dia.Link
 
+### 概述
+
+**joint.dia.Link**是线的基类，在 [Backbone model](http://backbonejs.org/#Model) 的基础上添加一些重要属性，其中第一个不得不提的重要属性还是 id，其他的属性可以分为下面三类：
+
+**Connections(连接信息)**
+
+用 `source` 和 `target` 属性来定义线连接的起始元素，每个配置项如下面这样：
+
+	{
+        id: <id of an element>,
+        selector: <CSS selector>,
+        port: <id of a port>
+    }
+
+`id` 是元素模块的 ID；`selector` 是可选参数，定义连接到元素的子元素，匹配规则和 CSS 选择器一样；`port` 也是可选参数，定义连接的起始元素的位置。
+
+**Presentation(外观类属性)**
+
+一条线的外观取决于 `vertices`、`connector` 和 `router` 三个属性的设置。
+
+`vertices` 定义线所经过的点。
+
+	link.get('vertices')
+    link.set('vertices', [{ x: 100, y: 120 }, { x: 150, y: 60 }])
+
+`router` 同样是定义线所经过的点，与 `vertices` 不同的是：`vertices` 由用户定义，而 `router` 是计算而来。`router` 有三个系统预设的值分别是：`manhattan`、`metro` 和 `orthogonal`。前两个被称作智能路径，会自动避开元素使线不和元素重叠。`orthogonal` 和 `manhattan` 使线只能以水平和竖直线段链接，`metro` 这个容许以斜线的方式链接。
+
+	link.set('router', { name: 'manhattan' });
+    link.set('router', { name: 'metro' });
+    link.set('router', { name: 'orthogonal' });
+
+如果为了兼容旧版，可以设置 `manhattan` 为 `true`。
+
+	// old approach
+    link.set('manhattan', true)
+
+`manhattan` 还有一些有用的配置项，用来配置路径的计算方式，这些配置放在 `args` 属性中，属性列表如下
+
+- `excludeTypes` 
+- `excludeEnds` 
+- `startDirections`
+- `endDirections`
+
+(译者注：抱歉这个翻译结果和运行结果冲突，所以先放在这里不翻译)
+
+示例：
+
+	link.set('router', {
+        name: 'manhattan',
+        args: {
+            startDirections: ['top'],
+            endDirections: ['bottom'],
+            excludeTypes: ['myNamespace.MyCommentElement']
+        }
+    });
+
+你可以在命名空间 `joint.routers.[name of your router]` 下定义新的 `router`，或者直接将函数作为 `router` 配置项，这个函数的形式为 `function(vertices, args, linkView)` 必须返回一个点的集合，来定义线需要经过的点。
+
+`connector` 参数定义线的路线渲染风格：normal(普通，为默认值，横平竖直), smooth(平滑，曲线) 和 rounded(圆角)。
+
+	link.set('connector', { name: 'normal' });
+    link.set('connector', { name: 'smooth' });
+
+`rounded` 需要设置圆角。
+
+	link.set('connector', { name: 'rounded', args: { radius: 10 }});
+
+如果为了兼容旧版可以向下面这样设置：
+
+	// old approach
+    link.set('smooth', true)
+
+从上面代码可以看出 `router`和`connector` 的设置是非常简单的，而且很方便自定义。可以将自定义的 `connector` 放在 `joint.connectors.[name of your connector]` 下面也可以直接将函数作为`connector`配置的值，函数的形式是 `function(sourcePoint, targetPoint, vertices, args, linkView)`，返回值必须是 [SVG path data](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d)，此值会被用来渲染线的路径。
+
+在 `sttrs` 属性中可以设置线的样式，你可以在 `joint.dia.Element` 和 `joint.dia.Link` 中中找到更多信息。线和元素一样包含 `z` 属性来定义层级关系。
+
+### attr
+
+### removeAttr
+	
 ## joint.dia.Graph
+
+### 概述
+
+`joint.dia.Graph` 存储包括`Link` 和 `Element`所有的图形。它是一个 [Backbone model](http://backbonejs.org/#Model)，将所有的图像存储在 `cells` 属性中。它是所有图形背后强大的数据模块，不仅直接提供图形的数据存储，还提供图形绘制的算法支持。
 
 ## joint.dia.Paper
 
+`joint.dia.Paper` 是 `joint.dia.Graph` 的视图模块，继承自 [Backbone View](http://backbonejs.org/#View)。当视图和数据关联起来时，向数据模块添加图形数据，视图模块会立刻将其渲染到界面上。
+		
+	var graph = new joint.dia.Graph
+	var paper = new joint.dia.Paper({
+		el: $('#paper'),
+		width: 600,
+		height: 400,
+		gridSize: 10,
+		model: graph
+	})
+	var rect = new joint.shapes.basic.Rect({
+		position: { x: 50, y: 70 },
+		size: { width: 100, height: 40 }
+	})
+	graph.addCell(rect)
+
 ## joint.dia.ElementView
+
+### 概述
+
+`joint.dia.ElementView` 是 `joint.dia.Element`本身或者其集成对象的视图，继承自 [Backbone View](http://backbonejs.org/#View)。`joint.dia.ElementView` 负责将元素的设置渲染到视图中，转换的方式也在它内部定义。`joint.dia.ElementView` 还维护事件。可以通过 `paper` 的 `findViewByModel` 方法查找数据对应的视图。
 
 ## joint.dia.LinkView
 
+### 概述
+
+`joint.dia.LinkView` 是 `joint.dia.Link`本身或者其集成对象的视图，继承自 [Backbone View](http://backbonejs.org/#View)。`joint.dia.LinkView` 负责将数据模块的设置渲染到视图中。
+
 ## Special Attributes
+
+### 概述
+
+`Special Attributes` 是 JointJS 定义的，帮助用户自定义时尚的图形元素。关于如何自定义元素请参看[Creating custom elements ](http://www.jointjs.com/tutorial#custom-elements)章节。
 
 ## Utility Functions
 
+> 在 `joint.util` 下的常用函数介绍。
+
+### uuid
+
+`joint.util.uuid()` 生成一个独一无二的 id。
+
+### guid
+
+`joint.util.guid()` 为 page 返回一个独一无二的 id
+
 ## Vectorizer
 
+### 概述
+
+JointJS提供了三个全局变量：`joint`、`v` 和 `g`(在Geometry中将详细介绍)。`v` 是一个辅助处理 svg 的函数，来自 我们称为 Vectorizer 的库。我们将它作为全局变量而没有放在 `joint` 命名空间下的理由是，它是一个独立的库，不依赖于 `joint`可以单独被使用。 它是一个非常有用的库，会使处理 svg 变得更简单容易，你甚至可以把它看成一个针对 svg 的轻量级 jQuery。如果你想单独使用 Vectorizer 这个库，可以到下载页面，那里有[开发版和压缩版](http://www.jointjs.com/download#vectorizer)可供下载。
+
+### V
+
+`V(svg)` 返回一个 Vectorizer 对象。 如果 `svg` 参数是字符串，那么会被解析成 SVG DOM 元素节点，然后包装成 Vectorizer 对象返回；如果 `svg` 参数已经是 SVG DOM 元素节点，那么直接包装返回。你可以把 V 看做是 jQuery 的对外变量 `$`，只是 `V` 不接受选择器参数。Vectorizer 对象提供了 `node` 属性来对外提供原生的 SVG DOM 元素节点。示例如下：
+
+	var myElement = V('<g><rect/><text/></g>');
+    console.log(myElement.node);  // SVGGroupElement
+    myElement = V(document.querySelector('#mySVGElement'));
+    
+    var myCircle = V('circle', { r: 5, fill: 'red' });
+    console.log(myCircle.node);  // SVGCircleElement
+
 ## Geometry
+
+### 概述
+
+和Vectorizer一样，Geometry是另外一个内嵌到 JointJS 中的轻量级库。此库提供了很多有用的关于几何学的计算方法，并且不依赖于任何其他库，可以被单独使用，可以到下载页面，那里有[开发版和压缩版](http://www.jointjs.com/download#geometry)可供下载。
 
 ## 参考页面
 

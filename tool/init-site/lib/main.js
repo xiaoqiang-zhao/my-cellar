@@ -70,7 +70,7 @@ var webpackConfig = {
             //{
             //    test: /\.js$/,
             //    loader: 'babel-loader' //?stage=1
-            //    // ,exclude: /dep|dist/
+            //    ,exclude: /(dep)|(dist)/
             //},
             {
                 test: /\.tpl$/,
