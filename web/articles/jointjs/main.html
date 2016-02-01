@@ -104,7 +104,11 @@ link.set(&#39;manhattan&#39;, true)
 </code></pre><p><code>manhattan</code> 还有一些有用的配置项，用来配置路径的计算方式，这些配置放在 <code>args</code> 属性中，属性列表如下</p>
 <ul>
 <li><code>excludeTypes</code> </li>
+<li><code>excludeEnds</code> </li>
+<li><code>startDirections</code></li>
+<li><code>endDirections</code></li>
 </ul>
+<p>(译者注：抱歉这个翻译结果和运行结果冲突，所以先放在这里不翻译)</p>
 <p>示例：</p>
 <pre><code>link.set(&#39;router&#39;, {
     name: &#39;manhattan&#39;,
@@ -114,14 +118,68 @@ link.set(&#39;manhattan&#39;, true)
         excludeTypes: [&#39;myNamespace.MyCommentElement&#39;]
     }
 });
-</code></pre><h2 id="header-1-5">joint.dia.Graph</h2>
+</code></pre><p>你可以在命名空间 <code>joint.routers.[name of your router]</code> 下定义新的 <code>router</code>，或者直接将函数作为 <code>router</code> 配置项，这个函数的形式为 <code>function(vertices, args, linkView)</code> 必须返回一个点的集合，来定义线需要经过的点。</p>
+<p><code>connector</code> 参数定义线的路线渲染风格：normal(普通，为默认值，横平竖直), smooth(平滑，曲线) 和 rounded(圆角)。</p>
+<pre><code>link.set(&#39;connector&#39;, { name: &#39;normal&#39; });
+link.set(&#39;connector&#39;, { name: &#39;smooth&#39; });
+</code></pre><p><code>rounded</code> 需要设置圆角。</p>
+<pre><code>link.set(&#39;connector&#39;, { name: &#39;rounded&#39;, args: { radius: 10 }});
+</code></pre><p>如果为了兼容旧版可以向下面这样设置：</p>
+<pre><code>// old approach
+link.set(&#39;smooth&#39;, true)
+</code></pre><p>从上面代码可以看出 <code>router</code>和<code>connector</code> 的设置是非常简单的，而且很方便自定义。可以将自定义的 <code>connector</code> 放在 <code>joint.connectors.[name of your connector]</code> 下面也可以直接将函数作为<code>connector</code>配置的值，函数的形式是 <code>function(sourcePoint, targetPoint, vertices, args, linkView)</code>，返回值必须是 <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d" target="_blank">SVG path data</a>，此值会被用来渲染线的路径。</p>
+<p>在 <code>sttrs</code> 属性中可以设置线的样式，你可以在 <code>joint.dia.Element</code> 和 <code>joint.dia.Link</code> 中中找到更多信息。线和元素一样包含 <code>z</code> 属性来定义层级关系。</p>
+<h3 id="header-1-4-2">attr</h3>
+<h3 id="header-1-4-3">removeAttr</h3>
+<h2 id="header-1-5">joint.dia.Graph</h2>
+<h3 id="header-1-5-1">概述</h3>
+<p><code>joint.dia.Graph</code> 存储包括<code>Link</code> 和 <code>Element</code>所有的图形。它是一个 <a href="http://backbonejs.org/#Model" target="_blank">Backbone model</a>，将所有的图像存储在 <code>cells</code> 属性中。它是所有图形背后强大的数据模块，不仅直接提供图形的数据存储，还提供图形绘制的算法支持。</p>
 <h2 id="header-1-6">joint.dia.Paper</h2>
-<h2 id="header-1-7">joint.dia.ElementView</h2>
+<p><code>joint.dia.Paper</code> 是 <code>joint.dia.Graph</code> 的视图模块，继承自 <a href="http://backbonejs.org/#View" target="_blank">Backbone View</a>。当视图和数据关联起来时，向数据模块添加图形数据，视图模块会立刻将其渲染到界面上。</p>
+<pre><code>var graph = new joint.dia.Graph
+var paper = new joint.dia.Paper({
+    el: $(&#39;#paper&#39;),
+    width: 600,
+    height: 400,
+    gridSize: 10,
+    model: graph
+})
+var rect = new joint.shapes.basic.Rect({
+    position: { x: 50, y: 70 },
+    size: { width: 100, height: 40 }
+})
+graph.addCell(rect)
+</code></pre><h2 id="header-1-7">joint.dia.ElementView</h2>
+<h3 id="header-1-7-1">概述</h3>
+<p><code>joint.dia.ElementView</code> 是 <code>joint.dia.Element</code>本身或者其集成对象的视图，继承自 <a href="http://backbonejs.org/#View" target="_blank">Backbone View</a>。<code>joint.dia.ElementView</code> 负责将元素的设置渲染到视图中，转换的方式也在它内部定义。<code>joint.dia.ElementView</code> 还维护事件。可以通过 <code>paper</code> 的 <code>findViewByModel</code> 方法查找数据对应的视图。</p>
 <h2 id="header-1-8">joint.dia.LinkView</h2>
+<h3 id="header-1-8-1">概述</h3>
+<p><code>joint.dia.LinkView</code> 是 <code>joint.dia.Link</code>本身或者其集成对象的视图，继承自 <a href="http://backbonejs.org/#View" target="_blank">Backbone View</a>。<code>joint.dia.LinkView</code> 负责将数据模块的设置渲染到视图中。</p>
 <h2 id="header-1-9">Special Attributes</h2>
+<h3 id="header-1-9-1">概述</h3>
+<p><code>Special Attributes</code> 是 JointJS 定义的，帮助用户自定义时尚的图形元素。关于如何自定义元素请参看<a href="http://www.jointjs.com/tutorial#custom-elements" target="_blank">Creating custom elements </a>章节。</p>
 <h2 id="header-1-10">Utility Functions</h2>
+<blockquote>
+<p>在 <code>joint.util</code> 下的常用函数介绍。</p>
+</blockquote>
+<h3 id="header-1-10-1">uuid</h3>
+<p><code>joint.util.uuid()</code> 生成一个独一无二的 id。</p>
+<h3 id="header-1-10-2">guid</h3>
+<p><code>joint.util.guid()</code> 为 page 返回一个独一无二的 id</p>
 <h2 id="header-1-11">Vectorizer</h2>
-<h2 id="header-1-12">Geometry</h2>
+<h3 id="header-1-11-1">概述</h3>
+<p>JointJS提供了三个全局变量：<code>joint</code>、<code>v</code> 和 <code>g</code>(在Geometry中将详细介绍)。<code>v</code> 是一个辅助处理 svg 的函数，来自 我们称为 Vectorizer 的库。我们将它作为全局变量而没有放在 <code>joint</code> 命名空间下的理由是，它是一个独立的库，不依赖于 <code>joint</code>可以单独被使用。 它是一个非常有用的库，会使处理 svg 变得更简单容易，你甚至可以把它看成一个针对 svg 的轻量级 jQuery。如果你想单独使用 Vectorizer 这个库，可以到下载页面，那里有<a href="http://www.jointjs.com/download#vectorizer" target="_blank">开发版和压缩版</a>可供下载。</p>
+<h3 id="header-1-11-2">V</h3>
+<p><code>V(svg)</code> 返回一个 Vectorizer 对象。 如果 <code>svg</code> 参数是字符串，那么会被解析成 SVG DOM 元素节点，然后包装成 Vectorizer 对象返回；如果 <code>svg</code> 参数已经是 SVG DOM 元素节点，那么直接包装返回。你可以把 V 看做是 jQuery 的对外变量 <code>$</code>，只是 <code>V</code> 不接受选择器参数。Vectorizer 对象提供了 <code>node</code> 属性来对外提供原生的 SVG DOM 元素节点。示例如下：</p>
+<pre><code>var myElement = V(&#39;&lt;g&gt;&lt;rect/&gt;&lt;text/&gt;&lt;/g&gt;&#39;);
+console.log(myElement.node);  // SVGGroupElement
+myElement = V(document.querySelector(&#39;#mySVGElement&#39;));
+
+var myCircle = V(&#39;circle&#39;, { r: 5, fill: &#39;red&#39; });
+console.log(myCircle.node);  // SVGCircleElement
+</code></pre><h2 id="header-1-12">Geometry</h2>
+<h3 id="header-1-12-1">概述</h3>
+<p>和Vectorizer一样，Geometry是另外一个内嵌到 JointJS 中的轻量级库。此库提供了很多有用的关于几何学的计算方法，并且不依赖于任何其他库，可以被单独使用，可以到下载页面，那里有<a href="http://www.jointjs.com/download#geometry" target="_blank">开发版和压缩版</a>可供下载。</p>
 <h2 id="header-1-13">参考页面</h2>
 <p><a href="http://www.jointjs.com/" target="_blank">官网</a></p>
 <p><a href="http://www.jointjs.com/api" target="_blank">jointJs API</a></p>
