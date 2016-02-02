@@ -68,7 +68,7 @@ Nesting(关系)
 
 	var rect = new joint.shapes.basic.Rect(...);
 
-Demo [joint-dia-element.html](./demo/joint-dia-element.html) 下有完整示例。
+Demo [joint-dia-element.html](/articles/jointjs/demo/joint-dia-element.html) 下有完整示例。
 
 ### translate
 
@@ -93,7 +93,7 @@ Demo [joint-dia-element.html](./demo/joint-dia-element.html) 下有完整示例�
 
 译者注：
 
-`translate` 是基于当前位置做位置改变，坐标左上角是原点，水平向右是 x 轴正方向，竖直向下是 y 轴正方向，`translate` 的位置变化值可正可负，分别对应于想坐标轴正向移动和负向移动。参见我写的 [示例](./demo/translate.html)
+`translate` 是基于当前位置做位置改变，坐标左上角是原点，水平向右是 x 轴正方向，竖直向下是 y 轴正方向，`translate` 的位置变化值可正可负，分别对应于想坐标轴正向移动和负向移动。参见我写的 [示例](/articles/jointjs/demo/translate.html)
 
 ## joint.dia.Link
 
