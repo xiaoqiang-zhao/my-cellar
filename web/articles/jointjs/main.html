@@ -61,7 +61,7 @@
 <p><strong>译者注</strong></p>
 <p>所有的图形的数据对象都继承自 <code>joint.dia.Element</code>，但 <code>joint.dia.Element</code> 并不能直接使用，需要和视图关联才能在页面上渲染出图形。图形数据对象都被放在 <code>joint.shapes</code> 下，最基本的图形数据对象被放在 <code>joint.shapes.basic</code> 下。<code>joint.shapes.basic</code> 包含了矩形、圆、图片、文字等基本元素，可以像下面这样声明一个矩形：</p>
 <pre><code>var rect = new joint.shapes.basic.Rect(...);
-</code></pre><p>Demo <a href="./demo/joint-dia-element.html" target="_blank">joint-dia-element.html</a> 下有完整示例。</p>
+</code></pre><p>Demo <a href="/articles/jointjs/demo/joint-dia-element.html" target="_blank">joint-dia-element.html</a> 下有完整示例。</p>
 <h3 id="header-1-3-2">translate</h3>
 <p><code>element.translate(tx, [ty], [opt])</code></p>
 <p>将一个元素在 x 轴方向移动 <code>tx</code> 像素，在 y 轴方向移动 <code>ty</code> 像素。<code>ty</code> 是一个可选参数，默认值为零。配置项参数 <code>opt</code> 可用来传递一些额外参数供监听事件 <code>&#39;change:position&#39;</code> 的回调函数来接收，<code>opt.transition</code> 可被用来设置过渡效果，而不是生硬的突然改变位置，配置详情见 <code>joint.dia.Element:transition</code>。可以用 <code>opt.restrictedArea</code> 配置将移动限制在一个区域内，像这样:</p>
@@ -77,7 +77,7 @@
 });
 </code></pre><p>上面的代码保证在子元素不会移动到父元素外面，这种约束对其子元素同样生效。</p>
 <p>译者注：</p>
-<p><code>translate</code> 是基于当前位置做位置改变，坐标左上角是原点，水平向右是 x 轴正方向，竖直向下是 y 轴正方向，<code>translate</code> 的位置变化值可正可负，分别对应于想坐标轴正向移动和负向移动。参见我写的 <a href="./demo/translate.html" target="_blank">示例</a></p>
+<p><code>translate</code> 是基于当前位置做位置改变，坐标左上角是原点，水平向右是 x 轴正方向，竖直向下是 y 轴正方向，<code>translate</code> 的位置变化值可正可负，分别对应于想坐标轴正向移动和负向移动。参见我写的 <a href="/articles/jointjs/demo/translate.html" target="_blank">示例</a></p>
 <h2 id="header-1-4">joint.dia.Link</h2>
 <h3 id="header-1-4-1">概述</h3>
 <p><strong>joint.dia.Link</strong>是线的基类，在 <a href="http://backbonejs.org/#Model" target="_blank">Backbone model</a> 的基础上添加一些重要属性，其中第一个不得不提的重要属性还是 id，其他的属性可以分为下面三类：</p>
