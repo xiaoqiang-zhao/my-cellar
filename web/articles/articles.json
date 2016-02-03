@@ -16,6 +16,20 @@
     "todoList": []
   },
   {
+    "enName": "cellar",
+    "title": "cellar 技术文档",
+    "introduction": "我觉的一个博客系统最起码要具备三个功能：写文章，展示文章，管理文章；还有三个加分点：良好的SEO，结构清晰可二次开发，免费。cellar 恰好具备这六点，让我从技术角度为你娓娓道来。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1454417395978,
+    "commentList": [
+      ""
+    ],
+    "todoList": []
+  },
+  {
     "enName": "code-style",
     "title": "编码规范",
     "introduction": "未找到描述信息",
@@ -121,6 +135,20 @@
     "todoList": []
   },
   {
+    "enName": "npm",
+    "title": "npm 使用命令备忘",
+    "introduction": "未找到描述信息",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1454484876190,
+    "commentList": [
+      ""
+    ],
+    "todoList": []
+  },
+  {
     "enName": "regexp",
     "title": "RegExp 代码中的代码",
     "introduction": "正则一直是一块硬骨头，有很多写了几年代码的人依然搞不定这玩意，今天我来换个思路学正则。先给出“正则能做什么”，再传授“解析语法与技巧”，然后给出我收集整理的一些常用正则，最后从“原理与性能”出发对各种正则方案优中选优。",
@@ -162,6 +190,22 @@
     "type": "md",
     "createDate": "",
     "md5": "",
+    "commentList": [
+      ""
+    ],
+    "todoList": []
+  },
+  {
+    "enName": "webstorm",
+    "title": "WebStorm 使用文档",
+    "introduction": "号称最好用的前端IDE，Windows 和 Mac 上各用了一段时间，感觉确实不错分享出来。版本上从8一直用到11，在设置上9到10有一次比较大的调整，下面的设置大部分是从10的使用中记录整理而来，也有一小部分来自于11的使用经验，但是不用做任何区分，因为他们是兼容的。WebStorm在下面简写为WS。",
+    "tags": [
+      "辅助软件"
+    ],
+    "isPublished": true,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1454410800902,
     "commentList": [
       ""
     ],
