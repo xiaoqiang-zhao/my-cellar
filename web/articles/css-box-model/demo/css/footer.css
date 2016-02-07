@@ -1,0 +1,25 @@
+html {
+    position: relative;
+    box-sizing: border-box;
+    min-height: 100%;
+    padding-bottom: 30px; /* 与 footer 的高度要相同 */
+    background: #eee;
+}
+body {
+    margin: 0;
+    background: #ddd;
+}
+p {
+    line-height: 300px;
+    margin: 5px;
+    background: #333;
+    color: #fff;
+    text-align: center;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    line-height: 30px;
+    text-align: center;
+}
