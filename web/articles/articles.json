@@ -75,6 +75,20 @@
     "todoList": []
   },
   {
+    "enName": "css-w3c",
+    "title": "CSS 的标准解读",
+    "introduction": "",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1454761951091,
+    "commentList": [
+      ""
+    ],
+    "todoList": []
+  },
+  {
     "enName": "data-type",
     "title": "js 数据类型",
     "introduction": "js 是一种松散数据类型的语言，带来了很多便利也带来了许多麻烦，这篇谈谈分类与检测和一些需要注意的技巧。",
@@ -135,6 +149,20 @@
     "todoList": []
   },
   {
+    "enName": "monkey-year",
+    "title": "展望猴年",
+    "introduction": "过去的这一年，有一个很强烈的感觉就是自己的时间控制力变强了。这一年一共支持了公司的五个平台，持续更新开源项目 [cellar](https://github.com/longze/cellar)，本博客的建立和内容更新还有健身和户外。自我感觉做了非常多的事情，得益于 GTD 这个时间管理方法，其实就是把要做的事情写下来，然后拿出来一件做忘掉其他的，直到手上这件事完成再看下一件(可以休息一下)。在此做一个整年的 GTD 粗粒度列表。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1454984864503,
+    "commentList": [
+      ""
+    ],
+    "todoList": []
+  },
+  {
     "enName": "new-year",
     "title": "新年清零",
     "introduction": "2016 年，新的一年清空所有从新开始。",
@@ -189,6 +217,20 @@
     "state": "立项",
     "type": "md",
     "createDate": 1452679488698,
+    "commentList": [
+      ""
+    ],
+    "todoList": []
+  },
+  {
+    "enName": "vue",
+    "title": "Vue 简明学习笔记",
+    "introduction": "vue偏轻量适合移动端，AngularJS适合pc端，avalon适合兼容老浏览器的项目。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1454990905856,
     "commentList": [
       ""
     ],
