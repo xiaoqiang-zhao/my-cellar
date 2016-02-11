@@ -6,6 +6,7 @@ html {
     background: #eee;
 }
 body {
+    text-align: center;
     margin: 0;
     background: #ddd;
 }
@@ -14,12 +15,10 @@ p {
     margin: 5px;
     background: #333;
     color: #fff;
-    text-align: center;
 }
 .footer {
     position: absolute;
     bottom: 0;
     width: 100%;
     line-height: 30px;
-    text-align: center;
 }
