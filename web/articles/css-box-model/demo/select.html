@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>下拉选择框</title>
+    <style rel="stylesheet">
+        .big {
+            display: inline-block;
+            width: 100px;
+            height: 30px;
+            padding: 10px;
+        }
+        .submit {
+            display: inline-block;
+            width: 100px;
+            /*height: 30px;*/
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <select name="name">
+        <option value="1">一锅</option>
+        <option value="2">二锅</option>
+        <option value="3">三锅</option>
+    </select>
+    <select name="name" class="big">
+        <option value="1">一锅</option>
+        <option value="2">二锅</option>
+        <option value="3">三锅</option>
+    </select>
+    <input type="submit"/>
+    <input type="submit" class="submit">
+    <button class="submit">submit</button>
+    <input type="input" class="submit">
+</div>
+</body>
+</html>
