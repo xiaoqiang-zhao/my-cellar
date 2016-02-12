@@ -18,9 +18,91 @@
  
 ### 最外层的盒子
 
-最外层的盒子是 window，iframe 和 app 的网页容器，这个盒子在一些渲染行为上会不同于普通元素。
+最外层的盒子是 window，iframe 和 App 的网页容器(下文提到的 window 代表这三个小家伙)，这个盒子在一些渲染行为上会不同于普通元素。首先这是一个不可能被溢出的容器，其次非溢出的子元素的宽度不受溢出元素影响。先看一张图：
 
-[Demo Footer](/articles/css-box-model/demo/footer.html)
+![image](img/box-model.png) 	
+
+对应 [Demo链接](/articles/css-box-model/demo/x-scroll.html)，全部的 CSS 代码：
+
+	html {
+		background: #23CC41;
+	}
+	body {
+		margin: 0;
+		text-align: center;
+	}
+	header {
+		background: #cc9;
+		line-height: 4em;
+	}
+	.main {
+		line-height: 200px;
+		margin: 5px;
+		background: #333;
+		color: #fff;
+	}
+	.main div {
+		position: absolute;
+		display: inline-block;
+		padding: 5px;
+		line-height: 3em;
+		background: #6B6969;
+	}
+	.main .right {
+		right: -20px;
+	}
+	.main .left {
+		left: -20px;
+	}
+	.main .bottom {
+		bottom: -20px;
+	}	
+
+关键 DOM 部分代码
+
+	<body>
+        <header>
+            header
+        </header>
+        <div class="main">
+            main
+            <div class="left"> left </div>
+            <div class="right"> right </div>
+            <!--<div class="top"> top </div>-->
+            <div class="bottom"> bottom </div>
+        </div>
+        <div class="footer">
+            footer
+        </div>
+    </body>
+
+`html` 是一个很特别的元素，当它的内部元素由于不折行或者绝对定位发生溢出时，其宽度属性对背景和超出隐藏属性表现为溢出后的宽度，但对内部的 `body` 元素的宽度表现为 window 的宽度。补充一点固定定位不会产生溢出：
+
+	{
+		position: fixed;
+		right: -50px;
+	}
+
+这样定义的元素不会产生横向滚动条，上面 Demo 中的 Right 块采取绝对定位 `position: absolute;` 会使浏览器产生横向滚动条，这一点在做“回到顶部”这类页面组件动画时很有用。
+
+`html` 的高度默认情况下不会与 window 的高度相同，也就是在高度上 `html` 不会将 window 填充满，所以在处理“版权信息”这种模块时可以这样处理：
+
+	html {
+        position: relative;
+        box-sizing: border-box;
+        min-height: 100%;
+        padding-bottom: 30px; /* 与 footer 的高度要相同 */
+    }
+    .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        line-height: 30px;
+    }
+
+页面内容不满一屏时“版权信息”在最下面，页面内容超过一屏时滚动条滑到最底部显示“版权信息”，详细代码和展示参见 Demo：
+[内容小于一屏](/articles/css-box-model/demo/footer.html)，
+[内容大于一屏](/articles/css-box-model/demo/footer2.html)
 
 
 
