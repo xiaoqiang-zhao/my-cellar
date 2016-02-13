@@ -104,9 +104,16 @@
 [内容小于一屏](/articles/css-box-model/demo/footer.html)，
 [内容大于一屏](/articles/css-box-model/demo/footer2.html)
 
+## 伸缩盒模型
+
+> 弹性盒模型不是一个元素一个属性，而是父子元素配合多属性协同作用才可以达到目的。规范也有多个版本，不同浏览器对不同版本的规范支持情况又不同，部分浏览器对伸缩盒模型还存在 bug，经过一番研究终于找到一条兼容的通路。IE9 还无法支持伸缩盒模型，所以我的目标是兼容 IE10+,Chrome47+,Firefox43+,Safari9+ 这四大主流浏览器的当前版本。
 
 
-http://www.w3.org/Style/CSS/current-work.en.html上的截图。还可以到地址http://meiert.com/en/indices/cssproperties/（CSS各属性查询表）查看各个CSS属性属于哪个CSS版本，以及各个属性对应的默认值，以便更清楚地知道哪些属性是在CSS基础上添加的。
+
+
+
+http://www.w3.org/Style/CSS/current-work.en.html上的截图。
+还可以到地址http://meiert.com/en/indices/cssproperties/（CSS各属性查询表）查看各个CSS属性属于哪个CSS版本，以及各个属性对应的默认值，以便更清楚地知道哪些属性是在CSS基础上添加的。
 
 https://segmentfault.com/a/1190000000707526
 
