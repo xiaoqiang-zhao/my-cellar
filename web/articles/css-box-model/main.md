@@ -106,14 +106,30 @@
 
 ## 伸缩盒模型
 
-> 弹性盒模型不是一个元素一个属性，而是父子元素配合多属性协同作用才可以达到目的。规范也有多个版本，不同浏览器对不同版本的规范支持情况又不同，部分浏览器对伸缩盒模型还存在 bug，经过一番研究终于找到一条兼容的通路。IE9 还无法支持伸缩盒模型，所以我的目标是兼容 IE10+,Chrome47+,Firefox43+,Safari9+ 这四大主流浏览器的当前版本。
+### 概述
 
+弹性盒模型不是一个元素一个属性，而是父子元素配合多属性协同作用才可以达到目的。规范也有多个版本，不同浏览器对不同版本的规范支持情况又不同，部分浏览器对伸缩盒模型还存在 bug，经过一番研究终于找到一条兼容的通路。IE9 还无法支持伸缩盒模型，所以我的目标是兼容 IE10+,Chrome47+,Firefox43+,Safari9+ 这四大主流浏览器的当前版本。
 
+三个版本：
 
+- 旧版：2009年版，display: box | inline-box
+- 混合版：2011年版，display: flexbox | inline-flexbox
+- 最新版：2012年版，display: flex | inline-flex (候选推荐)
 
+我们已最新版为主线，需要兼容旧版浏览器时再配合旧版属性配制方法。
 
-http://www.w3.org/Style/CSS/current-work.en.html上的截图。
+### display: flex | inline-flex;
+
+指定为弹性布局容器。`flex` 对 `display: block` 子元素生效；`inline-flex` 对 `display: inline-block` 子元素生效；
+
+### flex: 
+
+参考：[https://drafts.csswg.org](https://drafts.csswg.org/css-flexbox-1/#flex)
+
+http://www.w3.org/Style/CSS/current-work.en.html 上的截图。(需要翻墙)
 还可以到地址http://meiert.com/en/indices/cssproperties/（CSS各属性查询表）查看各个CSS属性属于哪个CSS版本，以及各个属性对应的默认值，以便更清楚地知道哪些属性是在CSS基础上添加的。
+
+
 
 https://segmentfault.com/a/1190000000707526
 
