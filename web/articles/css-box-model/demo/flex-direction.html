@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>flex-direction</title>
+    <style rel="stylesheet">
+        .con {
+            display: -webkit-flex;
+            display: flex;
+            margin: 2px;
+        }
+        .con > .item {
+            background: #cc9;
+            padding: 1em 0;
+            line-height: 1.5em;
+            text-align: center;
+            color: white;
+        }
+        .con > .item:nth-child(1),
+        .con > .item:nth-child(3) {
+            -webkit-flex: 1;
+            flex: 1;
+            background: #40a070;
+        }
+        .con > .item:nth-child(2) {
+            -webkit-flex: 2;
+            flex: 2;
+        }
+        .con-row-reverse {
+            flex-direction: row-reverse;
+        }
+        .con-column,
+        .con-column-reverse {
+            display: -webkit-inline-flex;
+            display: inline-flex;
+            width: 300px;
+            height: 300px;
+        }
+        .con-column {
+            flex-direction: column;
+        }
+        .con-column-reverse {
+            flex-direction: column-reverse;
+        }
+    </style>
+</head>
+<body>
+<div class="con">
+    <div class="item">
+        item1
+    </div>
+    <div class="item">
+        item2
+    </div>
+    <div class="item">
+        item3
+    </div>
+</div>
+<div class="con con-row-reverse">
+    <div class="item">
+        item1
+    </div>
+    <div class="item">
+        item2
+    </div>
+    <div class="item">
+        item3
+    </div>
+</div>
+<div class="con con-column">
+    <div class="item">
+        item1
+    </div>
+    <div class="item">
+        item2
+    </div>
+    <div class="item">
+        item3
+    </div>
+</div>
+<div class="con con-column-reverse">
+    <div class="item">
+        item1
+    </div>
+    <div class="item">
+        item2
+    </div>
+    <div class="item">
+        item3
+    </div>
+</div>
+</body>
+</html>

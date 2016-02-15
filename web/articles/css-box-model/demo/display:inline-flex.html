@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>display:inline-flex</title>
+    <style rel="stylesheet">
+        .con {
+            display: -webkit-inline-flex;
+            display: inline-flex;
+            /*min-width: 100px;*/
+        }
+        .item {
+            -webkit-flex: 2;
+            flex: 2;
+            display: inline-block;
+            background: #cc9;
+            line-height: 50px;
+            text-align: center;
+            flex-shrink: 3;
+            /*color: white;*/
+        }
+        .con > .item:nth-child(1),
+        .con > .item:nth-child(3) {
+            -webkit-flex: 1;
+            flex: 1;
+            flex-shrink: 1;
+            background: #40a070;
+        }
+
+    </style>
+</head>
+<body>
+<div class="con">
+    <div class="item">
+        123
+    </div>
+    <div class="item">
+        4
+    </div>
+    <div class="item">
+        56789
+    </div>
+</div>
+<div></div>
+<div class="item">
+    123
+</div>
+<div class="item">
+    4
+</div>
+<div class="item">
+    56789
+</div>
+<h3>说明：</h3>
+
+<p>
+    三个元素的自然宽度分别为：26.5，8.8，44.3
+</p>
+
+<p>
+    加和为79.6，因为分配比例为1:2:1，所以除4得19.9，最后第一个元素和第三个元素的宽度为19.9，第二个元素的宽度为19.9*2=39.8
+</p>
+<p>
+    注：上面的数字精度只保留到小数点后一位，与真实渲染结果有一定误差。
+</p>
+</body>
+</html>

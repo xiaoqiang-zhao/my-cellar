@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>display:flex</title>
+    <style rel="stylesheet">
+        .con {
+            display: -webkit-flex;
+            display: flex;
+        }
+        .con > .item {
+            -webkit-flex: 2;
+            flex: 2;
+            background: #cc9;
+            line-height: 50px;
+            text-align: center;
+            color: white;
+        }
+        .con > .item:nth-child(1),
+        .con > .item:nth-child(3){
+            -webkit-flex: 1;
+            flex: 1;
+            background: #40a070;
+        }
+
+    </style>
+</head>
+<body>
+<div class="con">
+    <div class="item">
+        1
+    </div>
+    <div class="item">
+        2
+    </div>
+    <div class="item">
+        3
+    </div>
+</div>
+</body>
+</html>
