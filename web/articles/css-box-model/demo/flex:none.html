@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>flex:node</title>
+    <style rel="stylesheet">
+        .con {
+            display: -webkit-flex;
+            display: flex;
+        }
+        .con > .item {
+            -webkit-flex: none;
+            flex-grow: 2;
+            flex: none;
+            background: #cc9;
+            padding: 1em 0;
+            line-height: 1.5em;
+            text-align: center;
+            color: white;
+        }
+        .con > .item:nth-child(1),
+        .con > .item:nth-child(3) {
+            -webkit-flex: 1;
+            flex: 1;
+            background: #40a070;
+        }
+    </style>
+</head>
+<body>
+<div class="con">
+    <div class="item">
+        item1,文字多会表现的宽一点吗?很明显不会
+    </div>
+    <div class="item">
+        item2
+    </div>
+    <div class="item">
+        item3
+    </div>
+</div>
+</body>
+</html>

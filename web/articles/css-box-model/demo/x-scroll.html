@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>横向滚动条</title>
+    <style rel="stylesheet">
+        html {
+            background: #23CC41;
+            /*overflow: hidden;*/
+        }
+        body {
+            margin: 0;
+            text-align: center;
+        }
+        header {
+            background: #cc9;
+            line-height: 4em;
+        }
+        .main {
+            line-height: 200px;
+            margin: 5px;
+            background: #333;
+            color: #fff;
+        }
+        .main div {
+            position: absolute;
+            display: inline-block;
+            padding: 5px;
+            line-height: 3em;
+            background: #6B6969;
+        }
+        .main .right {
+            right: -20px;
+        }
+        .main .left {
+            left: -20px;
+        }
+        .main .bottom {
+            bottom: -20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        header
+    </header>
+    <div class="main">
+        main
+        <div class="left"> left </div>
+        <div class="right"> right </div>
+        <!--<div class="top"> top </div>-->
+        <div class="bottom"> bottom </div>
+    </div>
+    <div class="footer">
+        footer
+    </div>
+</body>
+</html>
