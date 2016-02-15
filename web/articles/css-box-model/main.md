@@ -104,11 +104,11 @@
 [内容小于一屏](/articles/css-box-model/demo/footer.html)，
 [内容大于一屏](/articles/css-box-model/demo/footer2.html)
 
-## 伸缩盒模型
+## 弹性盒模型
 
 ### 概述
 
-弹性盒模型不是一个元素一个属性，而是父子元素配合多属性协同作用才可以达到目的。规范也有多个版本，不同浏览器对不同版本的规范支持情况又不同，部分浏览器对伸缩盒模型还存在 bug，经过一番研究终于找到一条兼容的通路。IE9 还无法支持伸缩盒模型，所以我的目标是兼容 IE10+,Chrome47+,Firefox43+,Safari9+ 这四大主流浏览器的当前版本。
+弹性盒模型不是一个元素一个属性，而是父子元素配合多属性协同作用才可以达到目的。规范也有多个版本，不同浏览器对不同版本的规范支持情况又不同，部分浏览器对弹性盒模型还存在 bug，经过一番研究终于找到一条兼容的通路。IE9 还无法支持弹性盒模型，所以我的目标是兼容 IE10+,Chrome47+,Firefox43+,Safari9+ 这四大主流浏览器的当前版本。
 
 三个版本：
 
@@ -116,20 +116,117 @@
 - 混合版：2011年版，display: flexbox | inline-flexbox
 - 最新版：2012年版，display: flex | inline-flex (候选推荐)
 
-我们已最新版为主线，需要兼容旧版浏览器时再配合旧版属性配制方法。
+我们已最新版为主线，需要兼容旧版浏览器时再配合旧版属性配制方法。弹性盒模型涉及到的属性比较多，按照一贯的风格，先从最普遍实用的属性开始。
 
 ### display: flex | inline-flex;
 
-指定为弹性布局容器。`flex` 对 `display: block` 子元素生效；`inline-flex` 对 `display: inline-block` 子元素生效；
+指定为弹性布局容器。`flex` 设置为块弹性容器；`inline-flex` 设置为内敛弹性容器。块状弹性容器比较好预期效果，因为子元素的宽度或高度直接依赖父元素的高度或宽度(后面简称宽度)，但是内敛容器就不同了，父元素的宽度会受子元素的宽度影响，子元素的宽度同样受父元素宽度的影响，比如设置了最小宽度和最大宽度，更要命的是子元素之间会通过父元素相互影响宽度。我们可以通过下面两条规则来预期内敛弹性布局容器展示效果：
 
-### flex: 
+- 如果弹性布局容器的宽度已确定(包括宽度已给定，最小宽度，内容较多又有最大宽度或外部容器的限制)，按照 flex 的计算规则进行；
+- 如果弹性布局容器的宽度未确定，会先将内部元素的自然宽度加和，然后按比例分配，[如示例](/articles/css-box-model/demo/display:inline-flex.html)
 
-参考：[https://drafts.csswg.org](https://drafts.csswg.org/css-flexbox-1/#flex)
+### flex
 
-http://www.w3.org/Style/CSS/current-work.en.html 上的截图。(需要翻墙)
-还可以到地址http://meiert.com/en/indices/cssproperties/（CSS各属性查询表）查看各个CSS属性属于哪个CSS版本，以及各个属性对应的默认值，以便更清楚地知道哪些属性是在CSS基础上添加的。
+flex: none | [ &lt;flex-grow&gt; &lt;flex-shrink&gt; ?  || &lt;flex-basis&gt;]
 
+flex 定义在弹性布局子项的元素上，属性值有两组：
 
+第一组只有一个 `none`，不弹性布局，按内敛的方式处理空间，见[示例](/articles/css-box-model/demo/flex:none.html)，另外 `none` 与 `0 0 auto` 等价；
 
-https://segmentfault.com/a/1190000000707526
+第二组是 `flex-grow`, `flex-shrink` 和 `flex-basis`的简写，默认值为 `0 1 auto`，后两个属性可选。
+
+`flex-grow` 子项放大比例，默认为0，即如果存在剩余空间，也不放大。
+
+`flex-shrink` 子项缩小比例，默认为1，即如果空间不足，该项目将缩小。
+
+`flex-basis` 在分配多余空间之前，子项占据的主轴空间，浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为`auto`，即项目的本来大小。
+
+这三个分属性和 `flex: none;` 有覆盖作用，同组样式中定义在后面的覆盖前面的，不同组中按 CSS 优先级的规则处理覆盖。从性能上考虑，建议优先使用这个属性，而不是单独写三个分离的属性，因为浏览器会推算相关值。
+
+那个[示例](/articles/css-box-model/demo/flex.html)说明一下：
+
+在容器空间充足的时候有这样的例子：
+
+	.con {
+		display: -webkit-flex;
+		display: flex;
+	}
+	.con1 {
+		width: 1000px;
+		margin-bottom: 2px;
+	}
+	.con > .item {
+		background: #cc9;
+		padding: 1em 0;
+		line-height: 1.5em;
+		text-align: center;
+		color: white;
+	}
+	.con > .item:nth-child(1),
+	.con > .item:nth-child(3) {
+		background: #40a070;
+	}
+	.con > .item:nth-child(1) {
+		-webkit-flex: 1 1 300px;
+		flex: 1 1 300px;
+		/*等价于 flex: 1 300px; 但是 IE10 对这样的简写解析会有问题*/
+	}
+	.con > .item:nth-child(2) {
+		-webkit-flex: 2 1 300px;
+		flex: 2 1 300px;
+	}
+	.con > .item:nth-child(3) {
+		-webkit-flex: 1 2 300px;
+		flex: 1 2 300px;
+		background: #40a070;
+	}
+
+容器宽度 1000，先为三个子项各分配 300，剩余 100，按 flex 的第一个值给出的 1:2:1 分配，实际表现为25:50:25，所以最后三个元素的宽度分别为 (300+25)，(300+50)，(300+25) = 325，350，325.
+
+当空间不够时(其余代码和上面一样)：
+
+	.con2 {
+		width: 800px;
+	}
+
+容器宽度 800，每个子项 300 缺 100，按 flex 的第二个值给出的分配比例1:1:2，实际表现为25:25:50，所以最后三个元素的宽度分别为 (300-25)，(300-25)，(300-50) = 275，275，250.
+
+### order
+
+弹性盒模型最核心的东西已经介绍完了，剩下的就是花式变换了，我们先将子项的最后一个属性 `order` 介绍完。
+
+`order` 定义子项的排列顺序。数值越小，排列越靠前，默认为0，支持负数。[示例](/articles/css-box-model/demo/order.html)，关键代码：
+
+	.con2 > .item:nth-child(2){
+		order: -1;
+	}
+
+子项还有一个属性 `align-self` 它是容器属性的 `align-items` 的补充，放在一起介绍。
+
+### flex-direction
+
+决定主轴的方向，即子项的排列方向。
+
+	flex-direction: row | row-reverse | column | column-reverse;
+
+- row（默认值）：主轴为水平方向，起点在左端。
+- row-reverse：主轴为水平方向，起点在右端。
+- column：主轴为垂直方向，起点在上沿。
+- column-reverse：主轴为垂直方向，起点在下沿。
+
+[示例](/articles/css-box-model/demo/flex-direction.html)
+
+### flex-wrap
+
+待续...
+
+## 参考
+
+[https://drafts.csswg.org](https://drafts.csswg.org/css-flexbox-1/#flex)
+
+[http://www.w3.org/Style/CSS/current-work.en.html](http://www.w3.org/Style/CSS/current-work.en.html) 上的截图。
+
+[CSS各属性查询表](http://meiert.com/en/indices/cssproperties/)查看各个CSS属性属于哪个CSS版本，以及各个属性对应的默认值，以便更清楚地知道哪些属性是在CSS基础上添加的。(需要翻墙)
+
+[Flex 布局教程：语法篇,作者： 阮一峰](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
 
