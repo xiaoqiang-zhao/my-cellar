@@ -1,9 +1,11 @@
 {
   "enName": "css-w3c",
-  "title": "CSS 的标准解读",
+  "title": "W3C 标准成熟过程中的里程点",
   "introduction": "W3C推荐标准概述：W3C推荐标准（W3C Recommendation）是万维网联盟（W3C）标准工作组的标准批准过程的最终阶段。这一名称表示了该标准文档已经经历了W3C成员组织和公众的评审。W3C推荐标准的目的在于使万维网技术标准化。W3C推荐标准与其他许多行业的发布的标准相当。",
-  "tags": [],
-  "isPublished": false,
+  "tags": [
+    "个人笔记"
+  ],
+  "isPublished": true,
   "state": "立项",
   "type": "md",
   "createDate": 1454761951091,
