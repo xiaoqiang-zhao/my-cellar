@@ -2,8 +2,10 @@
   "enName": "css-box-model",
   "title": "CSS 盒模型",
   "introduction": "盒模型是 CSS 中最基础和最重要的概念之一，用了很久没有系统的总结过，本文将总结一下和模型的基本原理，组要注意的点，还有 CSS3 中的 box-sizing 和 弹性盒模型。",
-  "tags": [],
-  "isPublished": false,
+  "tags": [
+    "个人笔记"
+  ],
+  "isPublished": true,
   "state": "立项",
   "type": "md",
   "createDate": 1454643875842,
