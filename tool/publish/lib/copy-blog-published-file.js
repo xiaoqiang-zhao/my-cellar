@@ -65,7 +65,7 @@ function copyInitSiteFile (version) {
         .pipe(gulp.dest(publicSitePath + '/'));
     console.log('favicon.ico 图标复制完成         ');
 
-    // npm install --save-dev gulp-clean
+    // 清理压缩版 js
     gulp.src([publicSitePath + '/dist/*'], {read: false}) // read: false 可加快速度
         .pipe(clean({force: true})); // force: true 配置此项可删除非当前目录下的文件
 
