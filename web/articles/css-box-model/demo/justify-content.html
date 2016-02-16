@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>justify-content</title>
+    <style rel="stylesheet">
+        .con {
+            display: -webkit-flex;
+            display: flex;
+            margin: 2px;
+            width: 430px;
+            border: 2px solid #333;
+        }
+        .con-wrap {
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+        .con-end {
+            -web-kit-justify-content: flex-end;
+            justify-content: flex-end;
+        }
+        .con-center {
+            -web-kit-justify-content: center;
+            justify-content: center;
+        }
+        .con-end {
+            -web-kit-justify-content: flex-end;
+            justify-content: flex-end;
+        }
+        .con-space-between {
+            width: 800px;
+            -web-kit-justify-content: space-between;
+            justify-content: space-between;
+        }
+        .con-space-around {
+            width: 800px;
+            -web-kit-justify-content: space-around;
+            justify-content: space-around;
+        }
+        .con > .item {
+            margin: 1px;
+            padding: 1em 0;
+            line-height: 1.5em;
+            text-align: center;
+            color: white;
+            -webkit-flex: 0 0 150px;
+            flex: 0 0 200px;
+            background: #40a070;
+        }
+    </style>
+</head>
+<body>
+<div class="con">
+    <div class="item">
+        item1
+    </div>
+    <div class="item">
+        item2
+    </div>
+    <div class="item">
+        item3
+    </div>
+</div>
+<div class="con con-end">
+    <div class="item">
+        item1
+    </div>
+    <div class="item">
+        item2
+    </div>
+    <div class="item">
+        item3
+    </div>
+</div>
+<div class="con con-center">
+    <div class="item">
+        item1
+    </div>
+    <div class="item">
+        item2
+    </div>
+    <div class="item">
+        item3
+    </div>
+</div>
+<div class="con con-space-between">
+    <div class="item">
+        item1
+    </div>
+    <div class="item">
+        item2
+    </div>
+    <div class="item">
+        item3
+    </div>
+</div>
+<div class="con con-space-around">
+    <div class="item">
+        item1
+    </div>
+    <div class="item">
+        item2
+    </div>
+    <div class="item">
+        item3
+    </div>
+</div>
+<div class="con con-wrap  con-end">
+    <div class="item">
+        item1
+    </div>
+    <div class="item">
+        item2
+    </div>
+    <div class="item">
+        item3
+    </div>
+</div>
+</body>
+</html>

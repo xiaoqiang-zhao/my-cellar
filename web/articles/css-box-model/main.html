@@ -19,12 +19,219 @@
 </header>
 <div>
     <h1 id="header-1">CSS 盒模型</h1>
-<p>&gt;</p>
-<h2 id="header-1-1"> </h2>
-<p><a href="/articles/css-box-model/demo/footer.html" target="_blank">Demo Footer</a></p>
-<h2 id="header-1-2">form</h2>
-<p>input:submit,reset,button; select 依然是 box-sizing:border-box 模式</p>
-<p><a href="http://www.w3.org/Style/CSS/current-work.en.html上的截图。还可以到地址http://meiert.com/en/indices/cssproperties/（CSS各属性查询表）查看各个CSS属性属于哪个CSS版本，以及各个属性对应的默认值，以便更清楚地知道哪些属性是在CSS基础上添加的。" target="_blank">http://www.w3.org/Style/CSS/current-work.en.html上的截图。还可以到地址http://meiert.com/en/indices/cssproperties/（CSS各属性查询表）查看各个CSS属性属于哪个CSS版本，以及各个属性对应的默认值，以便更清楚地知道哪些属性是在CSS基础上添加的。</a></p>
+<blockquote>
+<p>盒模型是 CSS 中最基础和最重要的概念之一，用了很久没有系统的总结过，本文将总结一下和模型的基本原理，组要注意的点，还有 CSS3 中的 box-sizing 和 弹性盒模型。</p>
+</blockquote>
+<h2 id="header-1-1">基本概念</h2>
+<p>页面中的每一个元素在成像上都是一个长方形，而这个长方形的宽和高又受到位置相关属性的影响(如一个块元素被浮动那么可能其在宽度上不会填充满父元素)，所以我更倾向于将定位浮动等影响位置的相关属性也算在盒模型中。在 W3C 标准浏览器下：</p>
+<pre><code>元素的实际宽度 = width + padding + contentWidth + borderWidth 
+</code></pre><p>高度同理。</p>
+<h2 id="header-1-2">需要注意的两点</h2>
+<h3 id="header-1-2-1">部分 form 元素</h3>
+<p>元素的实际宽度计算方式大多数遵循标准，但是 <code>input:submit,reset,button</code> 和 <code>select</code> 的计算方式不遵循标准，对其设置 <code>border</code> 和 <code>padding</code> 时他们只会向内延伸。而且高度设置在 chrome 上无效，所以一般会通过对 <code>button</code> 来重新定义样式结合 js 实现 <code>input:submit,reset,button</code>；<code>select</code> 通过样式修饰很难做浏览器兼容，所以项目中如果需要自定义 <code>select</code> 的样式，一般自己写一个组件来替换。</p>
+<h3 id="header-1-2-2">最外层的盒子</h3>
+<p>最外层的盒子是 window，iframe 和 App 的网页容器(下文提到的 window 代表这三个小家伙)，这个盒子在一些渲染行为上会不同于普通元素。首先这是一个不可能被溢出的容器，其次非溢出的子元素的宽度不受溢出元素影响。先看一张图：</p>
+<p><img src="img/box-model.png" alt="image">     </p>
+<p>对应 <a href="/articles/css-box-model/demo/x-scroll.html" target="_blank">Demo链接</a>，全部的 CSS 代码：</p>
+<pre><code>html {
+    background: #23CC41;
+}
+body {
+    margin: 0;
+    text-align: center;
+}
+header {
+    background: #cc9;
+    line-height: 4em;
+}
+.main {
+    line-height: 200px;
+    margin: 5px;
+    background: #333;
+    color: #fff;
+}
+.main div {
+    position: absolute;
+    display: inline-block;
+    padding: 5px;
+    line-height: 3em;
+    background: #6B6969;
+}
+.main .right {
+    right: -20px;
+}
+.main .left {
+    left: -20px;
+}
+.main .bottom {
+    bottom: -20px;
+}    
+</code></pre><p>关键 DOM 部分代码</p>
+<pre><code>&lt;body&gt;
+    &lt;header&gt;
+        header
+    &lt;/header&gt;
+    &lt;div class=&quot;main&quot;&gt;
+        main
+        &lt;div class=&quot;left&quot;&gt; left &lt;/div&gt;
+        &lt;div class=&quot;right&quot;&gt; right &lt;/div&gt;
+        &lt;!--&lt;div class=&quot;top&quot;&gt; top &lt;/div&gt;--&gt;
+        &lt;div class=&quot;bottom&quot;&gt; bottom &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;footer&quot;&gt;
+        footer
+    &lt;/div&gt;
+&lt;/body&gt;
+</code></pre><p><code>html</code> 是一个很特别的元素，当它的内部元素由于不折行或者绝对定位发生溢出时，其宽度属性对背景和超出隐藏属性表现为溢出后的宽度，但对内部的 <code>body</code> 元素的宽度表现为 window 的宽度。补充一点固定定位不会产生溢出：</p>
+<pre><code>{
+    position: fixed;
+    right: -50px;
+}
+</code></pre><p>这样定义的元素不会产生横向滚动条，上面 Demo 中的 Right 块采取绝对定位 <code>position: absolute;</code> 会使浏览器产生横向滚动条，这一点在做“回到顶部”这类页面组件动画时很有用。</p>
+<p><code>html</code> 的高度默认情况下不会与 window 的高度相同，也就是在高度上 <code>html</code> 不会将 window 填充满，所以在处理“版权信息”这种模块时可以这样处理：</p>
+<pre><code>html {
+    position: relative;
+    box-sizing: border-box;
+    min-height: 100%;
+    padding-bottom: 30px; /* 与 footer 的高度要相同 */
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    line-height: 30px;
+}
+</code></pre><p>页面内容不满一屏时“版权信息”在最下面，页面内容超过一屏时滚动条滑到最底部显示“版权信息”，详细代码和展示参见 Demo：
+<a href="/articles/css-box-model/demo/footer.html" target="_blank">内容小于一屏</a>，
+<a href="/articles/css-box-model/demo/footer2.html" target="_blank">内容大于一屏</a></p>
+<h2 id="header-1-3">弹性盒模型</h2>
+<h3 id="header-1-3-1">概述</h3>
+<p>弹性盒模型不是一个元素一个属性，而是父子元素配合多属性协同作用才可以达到目的。规范也有多个版本，不同浏览器对不同版本的规范支持情况又不同，部分浏览器对弹性盒模型还存在 bug，经过一番研究终于找到一条兼容的通路。IE9 还无法支持弹性盒模型，所以我的目标是兼容 IE10+,Chrome47+,Firefox43+,Safari9+ 这四大主流浏览器的当前版本。</p>
+<p>三个版本：</p>
+<ul>
+<li>旧版：2009年版，display: box | inline-box</li>
+<li>混合版：2011年版，display: flexbox | inline-flexbox</li>
+<li>最新版：2012年版，display: flex | inline-flex (候选推荐)</li>
+</ul>
+<p>我们已最新版为主线，需要兼容旧版浏览器时再配合旧版属性配制方法。弹性盒模型涉及到的属性比较多，按照一贯的风格，先从最普遍实用的属性开始。</p>
+<h3 id="header-1-3-2">display: flex | inline-flex;</h3>
+<p>指定为弹性布局容器。<code>flex</code> 设置为块弹性容器；<code>inline-flex</code> 设置为内敛弹性容器。块状弹性容器比较好预期效果，因为子元素的宽度或高度直接依赖父元素的高度或宽度(后面简称宽度)，但是内敛容器就不同了，父元素的宽度会受子元素的宽度影响，子元素的宽度同样受父元素宽度的影响，比如设置了最小宽度和最大宽度，更要命的是子元素之间会通过父元素相互影响宽度。我们可以通过下面两条规则来预期内敛弹性布局容器展示效果：</p>
+<ul>
+<li>如果弹性布局容器的宽度已确定(包括宽度已给定，最小宽度，内容较多又有最大宽度或外部容器的限制)，按照 flex 的计算规则进行；</li>
+<li>如果弹性布局容器的宽度未确定，会先将内部元素的自然宽度加和，然后按比例分配，<a href="/articles/css-box-model/demo/display:inline-flex.html" target="_blank">如示例</a></li>
+</ul>
+<h3 id="header-1-3-3">flex</h3>
+<p>flex: none | [ &lt;flex-grow&gt; &lt;flex-shrink&gt; ?  || &lt;flex-basis&gt;]</p>
+<p>flex 定义在弹性布局子项的元素上，属性值有两组：</p>
+<p>第一组只有一个 <code>none</code>，不弹性布局，按内敛的方式处理空间，见<a href="/articles/css-box-model/demo/flex:none.html" target="_blank">示例</a>，另外 <code>none</code> 与 <code>0 0 auto</code> 等价；</p>
+<p>第二组是 <code>flex-grow</code>, <code>flex-shrink</code> 和 <code>flex-basis</code>的简写，默认值为 <code>0 1 auto</code>，后两个属性可选。</p>
+<p><code>flex-grow</code> 子项放大比例，默认为0，即如果存在剩余空间，也不放大。</p>
+<p><code>flex-shrink</code> 子项缩小比例，默认为1，即如果空间不足，该项目将缩小。</p>
+<p><code>flex-basis</code> 在分配多余空间之前，子项占据的主轴空间，浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为<code>auto</code>，即项目的本来大小。</p>
+<p>这三个分属性和 <code>flex: none;</code> 有覆盖作用，同组样式中定义在后面的覆盖前面的，不同组中按 CSS 优先级的规则处理覆盖。从性能上考虑，建议优先使用这个属性，而不是单独写三个分离的属性，因为浏览器会推算相关值。</p>
+<p>那个<a href="/articles/css-box-model/demo/flex.html" target="_blank">示例</a>说明一下：</p>
+<p>在容器空间充足的时候有这样的例子：</p>
+<pre><code>.con {
+    display: -webkit-flex;
+    display: flex;
+}
+.con1 {
+    width: 1000px;
+    margin-bottom: 2px;
+}
+.con &gt; .item {
+    background: #cc9;
+    padding: 1em 0;
+    line-height: 1.5em;
+    text-align: center;
+    color: white;
+}
+.con &gt; .item:nth-child(1),
+.con &gt; .item:nth-child(3) {
+    background: #40a070;
+}
+.con &gt; .item:nth-child(1) {
+    -webkit-flex: 1 1 300px;
+    flex: 1 1 300px;
+    /*等价于 flex: 1 300px; 但是 IE10 对这样的简写解析会有问题*/
+}
+.con &gt; .item:nth-child(2) {
+    -webkit-flex: 2 1 300px;
+    flex: 2 1 300px;
+}
+.con &gt; .item:nth-child(3) {
+    -webkit-flex: 1 2 300px;
+    flex: 1 2 300px;
+    background: #40a070;
+}
+</code></pre><p>容器宽度 1000，先为三个子项各分配 300，剩余 100，按 flex 的第一个值给出的 1:2:1 分配，实际表现为25:50:25，所以最后三个元素的宽度分别为 (300+25)，(300+50)，(300+25) = 325，350，325.</p>
+<p>当空间不够时(其余代码和上面一样)：</p>
+<pre><code>.con2 {
+    width: 800px;
+}
+</code></pre><p>容器宽度 800，每个子项 300 缺 100，按 flex 的第二个值给出的分配比例1:1:2，实际表现为25:25:50，所以最后三个元素的宽度分别为 (300-25)，(300-25)，(300-50) = 275，275，250.</p>
+<h3 id="header-1-3-4">order</h3>
+<p>弹性盒模型最核心的东西已经介绍完了，剩下的就是花式变换了，我们先将子项的最后一个属性 <code>order</code> 介绍完。</p>
+<p><code>order</code> 定义子项的排列顺序。数值越小，排列越靠前，默认为0，支持负数。<a href="/articles/css-box-model/demo/order.html" target="_blank">示例</a>，关键代码：</p>
+<pre><code>.con2 &gt; .item:nth-child(2){
+    order: -1;
+}
+</code></pre><p>子项还有一个属性 <code>align-self</code> 它是容器属性的 <code>align-items</code> 的补充，放在一起介绍。</p>
+<h3 id="header-1-3-5">flex-direction</h3>
+<p>适用于弹性容器，决定主轴的方向，即子项的排列方向。</p>
+<pre><code>flex-direction: row | row-reverse | column | column-reverse;
+</code></pre><ul>
+<li>row(默认值)：主轴为水平方向，起点在左端。</li>
+<li>row-reverse：主轴为水平方向，起点在右端。</li>
+<li>column：主轴为垂直方向，起点在上沿。</li>
+<li>column-reverse：主轴为垂直方向，起点在下沿。</li>
+</ul>
+<p><a href="/articles/css-box-model/demo/flex-direction.html" target="_blank">示例</a></p>
+<h3 id="header-1-3-6">flex-wrap</h3>
+<p>适用于弹性容器，用来定义单行还是多行显示。</p>
+<pre><code>flex-wrap: nowrap | wrap | wrap-reverse;
+</code></pre><ul>
+<li>nowrap(默认值)：单行显示。</li>
+<li>wrap：多行显示。</li>
+<li>wrap-reverse：多行显示，并且将行整体倒排。</li>
+</ul>
+<p><a href="/articles/css-box-model/demo/flex-wrap.html" target="_blank">示例</a></p>
+<h3 id="header-1-3-7">flex-flow</h3>
+<p>适用于弹性容器，是 <code>flex-direction</code> 和 <code>flex-wrap</code> 的缩写版。</p>
+<h3 id="header-1-3-8">justify-content</h3>
+<p>适用于弹性容器，定义子项在主轴上的对齐方式。当一行的所有子项都不能伸缩或可伸缩但已经达到最大长度时，这一属性才会对弹性容器额外空间进行分配；当子项溢出一行时，也会在子项上施加一些控制。</p>
+<pre><code>justify-content: flex-start | flex-end | center | space-between | space-around;
+</code></pre><ul>
+<li>flex-start(默认值)：左对齐；</li>
+<li>flex-end：右对齐；</li>
+<li>center：居中；</li>
+<li>space-between：两端对齐，项目之间的间隔都相等；</li>
+<li>space-around：每个项目两侧的间隔相等，所以，项目之间的间隔比项目与边框的间隔大一倍。</li>
+</ul>
+<p><a href="/articles/css-box-model/demo/justify-content.html" target="_blank">示例</a></p>
+<h3 id="header-1-3-9">align-items 和 align-self</h3>
+<p><code>align-items</code> 适用于弹性容器，定义子项在侧轴上的对齐方式。</p>
+<pre><code>align-items: flex-start | flex-end | center | baseline | stretch;
+</code></pre><ul>
+<li>flex-start：交叉轴的起点对齐；</li>
+<li>flex-end：交叉轴的终点对齐；</li>
+<li>center：交叉轴的中点对齐；</li>
+<li>baseline: 项目的第一行文字的基线对齐；</li>
+<li>stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度。</li>
+</ul>
+<p><a href="/articles/css-box-model/demo/align-items.html" target="_blank">示例</a></p>
+<p><code>align-self</code> 适用于弹性盒模型的子项，定义其元素自身在侧轴上的对齐方式。</p>
+<pre><code>align-self: auto | flex-start | flex-end | center | baseline | stretch;
+</code></pre><p>默认值为<code>auto</code>，表示继承父元素的<code>align-items</code>属性，如果没有父元素，则等同于<code>stretch</code>。</p>
+<h3 id="header-1-3-10">align-content</h3>
+<p>适用于弹性容器，定义多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。</p>
+<pre><code>align-content: flex-start | flex-end | center | space-between | space-around | stretch;
+</code></pre><p><a href="/articles/css-box-model/demo/align-content.html" target="_blank">示例</a></p>
+<h2 id="header-1-4">参考</h2>
+<p><a href="https://drafts.csswg.org/css-flexbox-1/#flex" target="_blank">https://drafts.csswg.org</a></p>
+<p><a href="http://www.w3.org/Style/CSS/current-work.en.html" target="_blank">http://www.w3.org/Style/CSS/current-work.en.html</a> 上的截图。</p>
+<p><a href="http://meiert.com/en/indices/cssproperties/" target="_blank">CSS各属性查询表</a>查看各个CSS属性属于哪个CSS版本，以及各个属性对应的默认值，以便更清楚地知道哪些属性是在CSS基础上添加的。(需要翻墙)</p>
+<p><a href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html" target="_blank">Flex 布局教程：语法篇,作者： 阮一峰</a></p>
 
 </div>
 </body>

@@ -2,12 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>flex-direction</title>
+    <title>flex-wrap</title>
     <style rel="stylesheet">
         .con {
             display: -webkit-flex;
             display: flex;
             margin: 2px;
+            width: 430px;
+            border: 2px solid #333;
+        }
+        .con-wrap {
+            flex-wrap: wrap;
+            -webkit-flex-wrap: wrap;
+        }
+        .con-wrap-reverse {
+            flex-wrap: wrap-reverse;
+            -webkit-flex-wrap: wrap-reverse;
         }
         .con > .item {
             background: #cc9;
@@ -18,29 +28,13 @@
         }
         .con > .item:nth-child(1),
         .con > .item:nth-child(3) {
-            -webkit-flex: 1;
-            flex: 1;
+            -webkit-flex: 1 0 200px;
+            flex: 1 0 200px;
             background: #40a070;
         }
         .con > .item:nth-child(2) {
-            -webkit-flex: 2;
-            flex: 2;
-        }
-        .con-row-reverse {
-            flex-direction: row-reverse;
-        }
-        .con-column,
-        .con-column-reverse {
-            display: -webkit-inline-flex;
-            display: inline-flex;
-            width: 300px;
-            height: 300px;
-        }
-        .con-column {
-            flex-direction: column;
-        }
-        .con-column-reverse {
-            flex-direction: column-reverse;
+            -webkit-flex: 2 0 200px;
+            flex: 2 0 200px;
         }
     </style>
 </head>
@@ -56,7 +50,7 @@
         item3
     </div>
 </div>
-<div class="con con-row-reverse">
+<div class="con con-wrap">
     <div class="item">
         item1
     </div>
@@ -67,30 +61,7 @@
         item3
     </div>
 </div>
-
-<div class="con con-column-reverse">
-    <div class="item">
-        item1
-    </div>
-    <div class="item">
-        item2
-    </div>
-    <div class="item">
-        item3
-    </div>
-</div>
-<div class="con con-column">
-    <div class="item">
-        item1
-    </div>
-    <div class="item">
-        item2
-    </div>
-    <div class="item">
-        item3
-    </div>
-</div>
-<div class="con con-column">
+<div class="con con-wrap-reverse">
     <div class="item">
         item1
     </div>

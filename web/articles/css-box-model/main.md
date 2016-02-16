@@ -205,11 +205,11 @@ flex 定义在弹性布局子项的元素上，属性值有两组：
 
 ### flex-direction
 
-决定主轴的方向，即子项的排列方向。
+适用于弹性容器，决定主轴的方向，即子项的排列方向。
 
 	flex-direction: row | row-reverse | column | column-reverse;
 
-- row（默认值）：主轴为水平方向，起点在左端。
+- row(默认值)：主轴为水平方向，起点在左端。
 - row-reverse：主轴为水平方向，起点在右端。
 - column：主轴为垂直方向，起点在上沿。
 - column-reverse：主轴为垂直方向，起点在下沿。
@@ -218,7 +218,61 @@ flex 定义在弹性布局子项的元素上，属性值有两组：
 
 ### flex-wrap
 
-待续...
+适用于弹性容器，用来定义单行还是多行显示。
+
+	flex-wrap: nowrap | wrap | wrap-reverse;
+
+- nowrap(默认值)：单行显示。
+- wrap：多行显示。
+- wrap-reverse：多行显示，并且将行整体倒排。
+
+[示例](/articles/css-box-model/demo/flex-wrap.html)
+
+### flex-flow
+
+适用于弹性容器，是 `flex-direction` 和 `flex-wrap` 的缩写版。
+
+### justify-content
+
+适用于弹性容器，定义子项在主轴上的对齐方式。当一行的所有子项都不能伸缩或可伸缩但已经达到最大长度时，这一属性才会对弹性容器额外空间进行分配；当子项溢出一行时，也会在子项上施加一些控制。
+
+	justify-content: flex-start | flex-end | center | space-between | space-around;
+
+- flex-start(默认值)：左对齐；
+- flex-end：右对齐；
+- center：居中；
+- space-between：两端对齐，项目之间的间隔都相等；
+- space-around：每个项目两侧的间隔相等，所以，项目之间的间隔比项目与边框的间隔大一倍。
+
+[示例](/articles/css-box-model/demo/justify-content.html)
+
+### align-items 和 align-self
+
+`align-items` 适用于弹性容器，定义子项在侧轴上的对齐方式。
+
+	align-items: flex-start | flex-end | center | baseline | stretch;
+	
+- flex-start：交叉轴的起点对齐；
+- flex-end：交叉轴的终点对齐；
+- center：交叉轴的中点对齐；
+- baseline: 项目的第一行文字的基线对齐；
+- stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度。
+
+[示例](/articles/css-box-model/demo/align-items.html)
+	
+`align-self` 适用于弹性盒模型的子项，定义其元素自身在侧轴上的对齐方式。
+	
+	align-self: auto | flex-start | flex-end | center | baseline | stretch;
+
+默认值为`auto`，表示继承父元素的`align-items`属性，如果没有父元素，则等同于`stretch`。
+
+### align-content
+
+适用于弹性容器，定义多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。
+
+	align-content: flex-start | flex-end | center | space-between | space-around | stretch;
+
+[示例](/articles/css-box-model/demo/align-content.html)
 
 ## 参考
 
