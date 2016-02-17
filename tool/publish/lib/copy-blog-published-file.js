@@ -50,7 +50,6 @@ function publishCopy (articleArr) {
         .pipe(rename('articles.json'))
         .pipe(gulp.dest(publicSitePath + '/articles/'));
 
-
     console.log('公开文章复制完成        ');
 }
 
