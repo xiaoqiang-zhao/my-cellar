@@ -8,9 +8,24 @@
     <script src="dep/lodash.min.js"></script>
     <script src="dep/backbone-min.js"></script>
     <script src="dep/joint.js"></script>
+    <style rel="stylesheet">
+        #paper {
+            box-sizing: content-box;
+            width: 800px;
+            height: 500px;
+            border: 1px solid #ccc;
+            float: left;
+        }
+        #attr {
+            width: 300px;
+            height: 500px;
+            float: left;
+        }
+    </style>
 </head>
 <body>
 <div id="paper"></div>
+<div id="attr"></div>
 <script>
     var graph = new joint.dia.Graph();
     var paper = new joint.dia.Paper({
@@ -46,154 +61,212 @@
         }
     });
 
-    var rect = new joint.shapes.basic.Rect({
-        position: {
-            x: 30,
-            y: 73
-        },
-        size: {
-            width: 26, height: 26
-        },
-        attrs: {
-            rect: {
-                rotate: 50,
-                stroke: '#000',
-                'stroke-width': 3
-            }
-//            ,'text': {
-//                text: 'JoinJS',
-//                color: '',
-//                fill: '#fff'
-//            }
-        }
-    });
-    rect.rotate(45);
-
-    rect.event = {
-        pointermove: function (evt) {
-            var r2 = new joint.shapes.basic.Rect({
-                position: {
-                    x: 30,
-                    y: 73
-                },
-                size: {
-                    width: 26, height: 26
-                },
-                attrs: {
-                    rect: {
-                        rotate: 45,
-                        stroke: '#000',
-                        'stroke-width': 3
-                    }
-                }
-            });
-            r2.rotate(45);
-            // 删除复制出来的图形的事件
-            // delete r2.event.pointermove;
-            graph.addCell(r2);
-
-            var targetPoint = evt.model.get('position');
-            targetPoint.x = targetPoint.x + 150;
-            targetPoint.y = targetPoint.y + 13;
-            var link = new joint.dia.Link({
-                source: {
-                    id: evt.model.id
-                },
-                target: targetPoint,
-                labels: [
-                    { position: 0.5, attrs: { text: { text: 'label' } } }
-                ],
-                attrs: {
-                    '.marker-target': {
-                        fill: '#4b4a67',
-                        stroke: '#4b4a67',
-                        d: 'M 10 0 L 0 5 L 10 10 z'
-                    }
-                }
-                //,connector: { name: 'smooth' },
-            });
-
-            // 删除复制出来的图形的事件
-            delete evt.model.event.pointermove;
-            graph.addCell(link);
-        }
-    };
-
-    var pn = joint.shapes.pn;
-    var firstPoint = new pn.Place({
-        size: {
-            width: 30,
-            height: 30
-        },
-        position: {
-            x: 28,
-            y: 30
-        },
-        attrs: {
-            '.root': {
-                stroke: '#9586fd',
-                'stroke-width': 3,
-                stroke: '#000'
+    function addLink(evt) {
+        var targetPoint = evt.model.get('position');
+        var link = new joint.dia.Link({
+            source: {
+                id: evt.model.id
             },
-            '.tokens > circle': {
-                fill: '#7a7e9b'
-            }
-        },
-        tokens: 1
-    });
-
-    firstPoint.event = {
-        pointermove: function (evt, x, y) {
-            var r2 = new pn.Place({
-                size: {
-                    width: 30,
-                    height: 30
-                },
-                position: {
-                    x: 28,
-                    y: 30
-                },
-                attrs: {
-                    '.root': {
-                        stroke: '#9586fd',
-                        'stroke-width': 3,
-                        stroke: '#000'
-                    },
-                    '.tokens > circle': {
-                        fill: '#7a7e9b'
-                    }
-                },
-                tokens: 1
-            });
-            graph.addCell(r2);
-            var link = new joint.dia.Link({
-                source: {
-                    x: 56, y: 120
-                },
-                target: {
-                    x: 56, y: 120
+            target: {
+                x: targetPoint.x + 150 > 800 ? 700 : targetPoint.x + 150,
+                y: targetPoint.y + 13 > 500 ? 400 : targetPoint.y + 13
+            },
+            labels: [
+                {position: 0.5, attrs: {text: {text: 'label'}}}
+            ],
+            attrs: {
+                '.marker-target': {
+                    fill: '#4b4a67',
+                    stroke: '#4b4a67',
+                    d: 'M 10 0 L 0 5 L 10 10 z'
                 }
-                //,connector: { name: 'smooth' },
-            });
+            }
+            //,connector: { name: 'smooth' },
+        });
+        graph.addCell(link);
+    }
 
-            // 删除复制出来的图形的事件
-            // delete r2.event.pointermove;
-            graph.addCell(link);
-        }
-    };
+    function createRect() {
+        var options = {
+            position: {
+                x: 32,
+                y: 75
+            },
+            size: {
+                width: 22,
+                height: 22
+            },
+            attrs: {
+                rect: {
+                    rotate: 45,
+                    stroke: '#000',
+                    'stroke-width': 3
+                }
+            }
+        };
+        var rect = new joint.shapes.basic.Rect(options);
+        rect.rotate(45);
 
+        rect.event = {
+            pointerup: function (evt) {
+                var r2 = createRect();
+                graph.addCell(r2);
+
+                // 删除图形的释放事件
+                delete evt.model.event.pointerup;
+                // 添加线
+                addLink(evt);
+
+                // 添加点击事件
+                evt.model.event.pointerclick = function (evt) {
+                    var attr = $('#attr');
+                    var html = ''
+                            + '<div>自定义，编写与后台交互的东西</div>'
+                            + '<div><button hook-add-link>添加线</button></div>'
+                            + '<div><button hook-del-node>删除节点</button></div>';
+                    attr.html(html);
+                    attr.find('[hook-add-link]').click(function () {
+                        addLink(evt);
+                    });
+
+                    attr.find('[hook-del-node]').click(function () {
+                        graph.removeLinks(evt.model);
+                        evt.remove();
+                    });
+                }
+            }
+        };
+
+        return rect;
+    }
+    function createStartPoint() {
+        var options = {
+            size: {
+                width: 30,
+                height: 30
+            },
+            position: {
+                x: 28,
+                y: 30
+            },
+            attrs: {
+                '.root': {
+                    stroke: '#9586fd',
+                    'stroke-width': 3,
+                    stroke: '#000'
+                },
+                '.tokens > circle': {
+                    fill: '#7a7e9b'
+                }
+            },
+            tokens: 1
+        };
+        var point = new joint.shapes.fsa.StartState(options);
+
+        point.event = {
+            pointerup: function (evt, x, y) {
+                var r2 = createStartPoint();
+                graph.addCell(r2);
+
+                // 删除图形的释放事件
+                delete evt.model.event.pointerup;
+                // 添加线
+                addLink(evt);
+            }
+        };
+        return point;
+    }
+    function createEndPoint() {
+        var fsa = joint.shapes.fsa;
+        var options = {
+            size: {
+                width: 30,
+                height: 30
+            },
+            position: {
+                x: 28,
+                y: 115
+            },
+            attrs: {
+                '.root': {
+                    stroke: '#9586fd',
+                    'stroke-width': 3,
+                    stroke: '#000'
+                },
+                '.tokens > circle': {
+                    fill: '#7a7e9b'
+                }
+            },
+            tokens: 1
+        };
+        var point = new fsa.EndState(options);
+
+        point.event = {
+            pointerup: function (evt, x, y) {
+                var r2 = createEndPoint();
+                graph.addCell(r2);
+
+                // 删除图形的释放事件
+                delete evt.model.event.pointerup;
+
+
+            }
+        };
+        return point;
+    }
+
+    var rect = createRect();
+    var rect2 = createRect();
+
+    var startPoint = createStartPoint();
+    var startPoint2 = createStartPoint();
+
+    var endPoint = createEndPoint();
+    var endPoint2 = createEndPoint();
 
     // 将点添加到页面上
-    graph.addCell([container, firstPoint, rect]);
+    graph.addCell([
+        container,
+        startPoint, startPoint2,
+        rect, rect2,
+        endPoint, endPoint2
+    ]);
 
     // 添加事件 http://jointjs.com/api#joint.dia.Graph:events
     paper.on('cell:pointermove', function (evt, x, y) {
         //var event = evt.model.event;
+        var position;
+        if (evt._action === undefined || evt._action === null) {
+            return;
+        }
+        if (evt._action === 'arrowhead-move' || evt._action === 'vertex-move') {
+            position = evt.model.get('target');
+        }
+        else {
+            position = evt.model.get('position');
+        }
+        if (position.x < 5) {
+            position.x = 5
+        }
+        if (position.x > 800) {
+            position.x = 800;
+        }
+
+        if (position.y < 5) {
+            position.y = 5;
+        }
+        if (position.y > 500) {
+            position.y = 500;
+        }
         //event && event.pointermove && event.pointermove(evt, x, y);
     });
     paper.on('cell:pointerup', function (evt, x, y) {
         var event = evt.model.event;
-        event && event.pointermove && event.pointermove(evt, x, y);
+        event && event.pointerup && event.pointerup(evt, x, y);
+    });
+    paper.on('cell:pointerclick', function (evt, x, y) {
+        var event = evt.model.event;
+        event && event.pointerclick && event.pointerclick(evt, x, y);
     });
     // 数据输出
     graph.toJSON();
