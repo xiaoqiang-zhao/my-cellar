@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义图形</title>
+    <link rel="stylesheet" type="text/css" href="dep/joint.css"/>
+    <script src="dep/jquery.min.js"></script>
+    <script src="dep/lodash.min.js"></script>
+    <script src="dep/backbone-min.js"></script>
+    <script src="dep/joint.js"></script>
+</head>
+<body>
+<div id="paper"></div>
+<script>
+    var graph = new joint.dia.Graph();
+    var paper = new joint.dia.Paper({
+        el: $('#paper'),
+        width: 800,
+        height: 500,
+        gridSize: 10,
+        perpendicularLinks: true,
+        model: graph
+    });
+
+    var container = new joint.shapes.basic.Rect({
+        position: {
+            x: 20,
+            y: 20
+        },
+        size: {
+            width: 45,
+            height: 400
+        },
+        angle: 0,
+        style: {
+            border: '1px solid #cccccc',
+            borderColor: '#cccccc',
+            stroke: 'blue'
+        },
+        attrs: {
+            'rect': {
+                fill: '#fafafa',
+                stroke: '#ccc'
+                // https://developer.mozilla.org/zh-CN/docs/Web/SVG/Tutorial/Fills_and_Strokes
+            }
+        }
+    });
+
+    var rect = new joint.shapes.basic.Rect({
+        position: {
+            x: 30,
+            y: 73
+        },
+        size: {
+            width: 26, height: 26
+        },
+        attrs: {
+            rect: {
+                rotate: 50,
+                stroke: '#000',
+                'stroke-width': 3
+            }
+//            ,'text': {
+//                text: 'JoinJS',
+//                color: '',
+//                fill: '#fff'
+//            }
+        }
+    });
+    rect.rotate(45);
+
+    rect.event = {
+        pointermove: function (evt) {
+            var r2 = new joint.shapes.basic.Rect({
+                position: {
+                    x: 30,
+                    y: 73
+                },
+                size: {
+                    width: 26, height: 26
+                },
+                attrs: {
+                    rect: {
+                        rotate: 45,
+                        stroke: '#000',
+                        'stroke-width': 3
+                    }
+                }
+            });
+            r2.rotate(45);
+            // 删除复制出来的图形的事件
+            // delete r2.event.pointermove;
+            graph.addCell(r2);
+
+            var targetPoint = evt.model.get('position');
+            targetPoint.x = targetPoint.x + 150;
+            targetPoint.y = targetPoint.y + 13;
+            var link = new joint.dia.Link({
+                source: {
+                    id: evt.model.id
+                },
+                target: targetPoint,
+                labels: [
+                    { position: 0.5, attrs: { text: { text: 'label' } } }
+                ],
+                attrs: {
+                    '.marker-target': {
+                        fill: '#4b4a67',
+                        stroke: '#4b4a67',
+                        d: 'M 10 0 L 0 5 L 10 10 z'
+                    }
+                }
+                //,connector: { name: 'smooth' },
+            });
+
+            // 删除复制出来的图形的事件
+            delete evt.model.event.pointermove;
+            graph.addCell(link);
+        }
+    };
+
+    var pn = joint.shapes.pn;
+    var firstPoint = new pn.Place({
+        size: {
+            width: 30,
+            height: 30
+        },
+        position: {
+            x: 28,
+            y: 30
+        },
+        attrs: {
+            '.root': {
+                stroke: '#9586fd',
+                'stroke-width': 3,
+                stroke: '#000'
+            },
+            '.tokens > circle': {
+                fill: '#7a7e9b'
+            }
+        },
+        tokens: 1
+    });
+
+    firstPoint.event = {
+        pointermove: function (evt, x, y) {
+            var r2 = new pn.Place({
+                size: {
+                    width: 30,
+                    height: 30
+                },
+                position: {
+                    x: 28,
+                    y: 30
+                },
+                attrs: {
+                    '.root': {
+                        stroke: '#9586fd',
+                        'stroke-width': 3,
+                        stroke: '#000'
+                    },
+                    '.tokens > circle': {
+                        fill: '#7a7e9b'
+                    }
+                },
+                tokens: 1
+            });
+            graph.addCell(r2);
+            var link = new joint.dia.Link({
+                source: {
+                    x: 56, y: 120
+                },
+                target: {
+                    x: 56, y: 120
+                }
+                //,connector: { name: 'smooth' },
+            });
+
+            // 删除复制出来的图形的事件
+            // delete r2.event.pointermove;
+            graph.addCell(link);
+        }
+    };
+
+
+    // 将点添加到页面上
+    graph.addCell([container, firstPoint, rect]);
+
+    // 添加事件 http://jointjs.com/api#joint.dia.Graph:events
+    paper.on('cell:pointermove', function (evt, x, y) {
+        //var event = evt.model.event;
+        //event && event.pointermove && event.pointermove(evt, x, y);
+    });
+    paper.on('cell:pointerup', function (evt, x, y) {
+        var event = evt.model.event;
+        event && event.pointermove && event.pointermove(evt, x, y);
+    });
+    // 数据输出
+    graph.toJSON();
+</script>
+</body>
+</html>
