@@ -6,7 +6,7 @@
 
 页面中的每一个元素在成像上都是一个长方形，而这个长方形的宽和高又受到位置相关属性的影响(如一个块元素被浮动那么可能其在宽度上不会填充满父元素)，所以我更倾向于将定位浮动等影响位置的相关属性也算在盒模型中。在 W3C 标准浏览器下：
 
-	元素的实际宽度 = width + padding + contentWidth + borderWidth 
+	元素的实际宽度 = width + padding + borderWidth 
 
 高度同理。
 
@@ -123,7 +123,7 @@
 指定为弹性布局容器。`flex` 设置为块弹性容器；`inline-flex` 设置为内敛弹性容器。块状弹性容器比较好预期效果，因为子元素的宽度或高度直接依赖父元素的高度或宽度(后面简称宽度)，但是内敛容器就不同了，父元素的宽度会受子元素的宽度影响，子元素的宽度同样受父元素宽度的影响，比如设置了最小宽度和最大宽度，更要命的是子元素之间会通过父元素相互影响宽度。我们可以通过下面两条规则来预期内敛弹性布局容器展示效果：
 
 - 如果弹性布局容器的宽度已确定(包括宽度已给定，最小宽度，内容较多又有最大宽度或外部容器的限制)，按照 flex 的计算规则进行；
-- 如果弹性布局容器的宽度未确定，会先将内部元素的自然宽度加和，然后按比例分配，[如示例](/articles/css-box-model/demo/display:inline-flex.html)
+- 如果弹性布局容器的宽度未确定，会先将内部元素的自然宽度加和，然后按比例分配，如[示例](/articles/css-box-model/demo/display:inline-flex.html)。
 
 ### flex
 
@@ -278,9 +278,7 @@ flex 定义在弹性布局子项的元素上，属性值有两组：
 
 [https://drafts.csswg.org](https://drafts.csswg.org/css-flexbox-1/#flex)
 
-[http://www.w3.org/Style/CSS/current-work.en.html](http://www.w3.org/Style/CSS/current-work.en.html) 上的截图。
-
-[CSS各属性查询表](http://meiert.com/en/indices/cssproperties/)查看各个CSS属性属于哪个CSS版本，以及各个属性对应的默认值，以便更清楚地知道哪些属性是在CSS基础上添加的。(需要翻墙)
+[http://www.w3.org/Style/CSS/current-work.en.html](http://www.w3.org/Style/CSS/current-work.en.html) 
 
 [Flex 布局教程：语法篇,作者： 阮一峰](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
 
