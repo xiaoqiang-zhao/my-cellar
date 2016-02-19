@@ -119,6 +119,7 @@
 
                 // 添加点击事件
                 evt.model.event.pointerclick = function (evt) {
+                    evt.highlight();
                     var attr = $('#attr');
                     var html = ''
                             + '<div>自定义，编写与后台交互的东西</div>'
