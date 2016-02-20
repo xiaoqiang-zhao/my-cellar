@@ -282,3 +282,6 @@ flex 定义在弹性布局子项的元素上，属性值有两组：
 
 [Flex 布局教程：语法篇,作者： 阮一峰](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
 
+[两个viewport的故事（第一部分）](http://weizhifeng.net/viewports.html)
+
+[两个viewport的故事（第二部分）](http://weizhifeng.net/viewports2.html)
