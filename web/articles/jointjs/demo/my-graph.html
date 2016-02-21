@@ -32,9 +32,10 @@
         el: $('#paper'),
         width: 800,
         height: 500,
-        gridSize: 10,
+        gridSize: 1,
         perpendicularLinks: true,
         model: graph
+        // ,interactive: false // 所有元素不可拖动
     });
 
     var container = new joint.shapes.basic.Rect({
@@ -58,7 +59,8 @@
                 stroke: '#ccc'
                 // https://developer.mozilla.org/zh-CN/docs/Web/SVG/Tutorial/Fills_and_Strokes
             }
-        }
+        },
+        interactive: false
     });
 
     function addLink(evt) {
