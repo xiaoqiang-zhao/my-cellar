@@ -28,7 +28,7 @@ JointJS 向外暴露三个全局变量：**joint**、**V** 和 **g**。
 
 访问[下载页面](http://www.jointjs.com/download)获取所需的文件。
 
-## JOINT.DIA.ELEMENT
+## joint.dia.Element
 
 ### 概述
 
