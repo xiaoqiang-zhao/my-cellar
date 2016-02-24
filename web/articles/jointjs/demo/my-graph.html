@@ -15,6 +15,17 @@
             height: 500px;
             border: 1px solid #ccc;
             float: left;
+            position: relative;
+        }
+        #container {
+            position: absolute;
+            z-index: -1;
+            top: 20px;
+            left: 20px;
+            width: 45px;
+            height: 400px;
+            border: 1px solid #cccccc;
+            background: #fafafa;
         }
         #attr {
             width: 300px;
@@ -24,7 +35,9 @@
     </style>
 </head>
 <body>
-<div id="paper"></div>
+<div id="paper">
+    <div id="container"></div>
+</div>
 <div id="attr"></div>
 <script>
     var graph = new joint.dia.Graph();
@@ -71,7 +84,7 @@
             },
             target: {
                 x: targetPoint.x + 150 > 800 ? 700 : targetPoint.x + 150,
-                y: targetPoint.y + 13 > 500 ? 400 : targetPoint.y + 13
+                y: targetPoint.y + 13 > 500 ? 400 : targetPoint.y + 11
             },
             labels: [
                 {position: 0.5, attrs: {text: {text: 'label'}}}
@@ -86,62 +99,9 @@
             //,connector: { name: 'smooth' },
         });
         graph.addCell(link);
+        return link;
     }
 
-    function createRect() {
-        var options = {
-            position: {
-                x: 32,
-                y: 75
-            },
-            size: {
-                width: 22,
-                height: 22
-            },
-            attrs: {
-                rect: {
-                    rotate: 45,
-                    stroke: '#000',
-                    'stroke-width': 3
-                }
-            }
-        };
-        var rect = new joint.shapes.basic.Rect(options);
-        rect.rotate(45);
-
-        rect.event = {
-            pointerup: function (evt) {
-                var r2 = createRect();
-                graph.addCell(r2);
-
-                // 删除图形的释放事件
-                delete evt.model.event.pointerup;
-                // 添加线
-                addLink(evt);
-
-                // 添加点击事件
-                evt.model.event.pointerclick = function (evt) {
-                    evt.highlight();
-                    var attr = $('#attr');
-                    var html = ''
-                            + '<div>自定义，编写与后台交互的东西</div>'
-                            + '<div><button hook-add-link>添加线</button></div>'
-                            + '<div><button hook-del-node>删除节点</button></div>';
-                    attr.html(html);
-                    attr.find('[hook-add-link]').click(function () {
-                        addLink(evt);
-                    });
-
-                    attr.find('[hook-del-node]').click(function () {
-                        graph.removeLinks(evt.model);
-                        evt.remove();
-                    });
-                }
-            }
-        };
-
-        return rect;
-    }
     function createStartPoint() {
         var options = {
             size: {
@@ -188,7 +148,7 @@
             },
             position: {
                 x: 28,
-                y: 115
+                y: 155
             },
             attrs: {
                 '.root': {
@@ -217,21 +177,141 @@
         };
         return point;
     }
+    function createRect() {
+        var options = {
+            position: {
+                x: 32,
+                y: 75
+            },
+            size: {
+                width: 22,
+                height: 22
+            },
+            attrs: {
+                rect: {
+                    stroke: '#000',
+                    'stroke-width': 3
+                }
+            }
+        };
+        var rect = new joint.shapes.basic.Rect(options);
+
+        rect.event = {
+            pointerup: function (evt) {
+                var r2 = createRect();
+                graph.addCell(r2);
+
+                // 删除图形的释放事件
+                delete evt.model.event.pointerup;
+                // 添加线
+                addLink(evt);
+
+                // 添加点击事件
+                evt.model.event.pointerclick = function (evt) {
+                    // evt.highlight();
+                    var attr = $('#attr');
+                    var html = ''
+                            + '<div>自定义，编写与后台交互的东西</div>'
+                            + '<div><button hook-add-link>添加线</button></div>'
+                            + '<div><button hook-del-node>删除节点</button></div>';
+                    attr.html(html);
+                    attr.find('[hook-add-link]').click(function () {
+                        addLink(evt);
+                    });
+
+                    attr.find('[hook-del-node]').click(function () {
+                        graph.removeLinks(evt.model);
+                        evt.remove();
+                    });
+                }
+            }
+        };
+
+        return rect;
+    }
+    function createRhombus() {
+        var options = {
+            position: {
+                x: 32,
+                y: 115
+            },
+            size: {
+                width: 22,
+                height: 22
+            },
+            attrs: {
+                rect: {
+                    stroke: '#000',
+                    'stroke-width': 3
+                }
+            }
+        };
+        // joint.shapes.basic.Rhombus // 并不好使
+        var rect = new joint.shapes.basic.Rect(options);
+        rect.rotate(45);
+
+        rect.event = {
+            pointerup: function (evt) {
+                var r2 = createRect();
+                graph.addCell(r2);
+
+                // 删除图形的释放事件
+                delete evt.model.event.pointerup;
+                // 添加线
+                addLink(evt);
+
+                // 判断需要两条线，这是第二条，对第二条线做一些处理
+                var link = addLink(evt);
+                var targetPoint = evt.model.get('position');
+                link.set('target', {
+                    x: targetPoint.x + 150 > 800 ? 700 : targetPoint.x + 11,
+                    y: targetPoint.y + 13 > 500 ? 400 : targetPoint.y + 150
+                });
+
+
+
+                // 添加点击事件
+                evt.model.event.pointerclick = function (evt) {
+                    // evt.highlight();  // 高亮
+                    var attr = $('#attr');
+                    var html = ''
+                            + '<div>自定义，编写与后台交互的东西</div>'
+                            + '<div><button hook-add-link>添加线</button></div>'
+                            + '<div><button hook-del-node>删除节点</button></div>';
+                    attr.html(html);
+                    attr.find('[hook-add-link]').click(function () {
+                        addLink(evt);
+                    });
+
+                    attr.find('[hook-del-node]').click(function () {
+                        graph.removeLinks(evt.model);
+                        evt.remove();
+                    });
+                }
+            }
+        };
+
+        return rect;
+    }
+
+    var startPoint = createStartPoint();
+    var startPoint2 = createStartPoint();
 
     var rect = createRect();
     var rect2 = createRect();
 
-    var startPoint = createStartPoint();
-    var startPoint2 = createStartPoint();
+    var rhombus = createRhombus();
+    var rhombus2 = createRhombus();
 
     var endPoint = createEndPoint();
     var endPoint2 = createEndPoint();
 
     // 将点添加到页面上
     graph.addCell([
-        container,
+        // container,
         startPoint, startPoint2,
         rect, rect2,
+        rhombus, rhombus2,
         endPoint, endPoint2
     ]);
 
@@ -271,6 +351,11 @@
         var event = evt.model.event;
         event && event.pointerclick && event.pointerclick(evt, x, y);
     });
+    paper.on('blank:pointerclick', function (evt, x, y) {
+        var attr = $('#attr');
+        attr.empty();
+    });
+
     // 数据输出
     graph.toJSON();
 </script>

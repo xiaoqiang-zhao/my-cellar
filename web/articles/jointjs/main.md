@@ -254,6 +254,10 @@ JointJS提供了三个全局变量：`joint`、`v` 和 `g`(在Geometry中将详�
 
 和Vectorizer一样，Geometry是另外一个内嵌到 JointJS 中的轻量级库。此库提供了很多有用的关于几何学的计算方法，并且不依赖于任何其他库，可以被单独使用，可以到下载页面，那里有[开发版和压缩版](http://www.jointjs.com/download#geometry)可供下载。
 
+## 译者语
+
+这是一个整体的 [Demo](/articles/jointjs/demo/my-graph.html).
+
 ## 参考页面
 
 [官网](http://www.jointjs.com/)
