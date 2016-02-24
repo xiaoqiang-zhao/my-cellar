@@ -351,6 +351,11 @@
         var event = evt.model.event;
         event && event.pointerclick && event.pointerclick(evt, x, y);
     });
+    paper.on('blank:pointerclick', function (evt, x, y) {
+        var attr = $('#attr');
+        attr.empty();
+    });
+
     // 数据输出
     graph.toJSON();
 </script>
