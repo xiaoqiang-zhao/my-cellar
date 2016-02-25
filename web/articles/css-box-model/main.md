@@ -108,7 +108,7 @@
 
 	document.documentElement.scrollHeight
 	
-可以正确处理三种溢出。其实 `documentElement` 就是 `html` 元素，还可以通过 `document.getElementsByTagName('html')[0]` 获取。
+可以正确处理三种溢出。其实 `documentElement` 就是 `html` 元素，还可以通过 `document.getElementsByTagName('html')[0]` 获取。 这个方案对于 Firefox 还有一个问题，在 iframe 高度比 html 的高度大时，这个方法取出来的高度是 iframe 的高度，要梳理清楚这个问题需要做的工作很多，要搞明白 clientHeight、offsetHeight 和 scrollHeight 在不同浏览器的实际表现，文档类型不同还会对实际表现产生影响，所以最好不要产生溢出。
 
 三种溢出示例：
 [定位溢出](/articles/css-box-model/demo/document-height.html)，
