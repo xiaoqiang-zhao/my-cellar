@@ -89,7 +89,7 @@ header {
 }
 </code></pre><p>这样定义的元素不会产生横向滚动条，上面 Demo 中的 Right 块采取绝对定位 <code>position: absolute;</code> 会使浏览器产生横向滚动条，这一点在做“回到顶部”这类页面组件动画时很有用。</p>
 <h3 id="header-1-2-3">页面高度</h3>
-<p>提到页面上的高度，不管是一个元素的高度，还是整个页面的高度，就不得不提到三种溢出方式：定位溢出，负外边距溢出，外边距底部溢出。这里的溢出指子元素在呈现上没有被父元素完全包围，如“定位溢出”的关键代码如下：</p>
+<p>在页面中提高度，不管是一个元素的高度，还是整个页面的高度，就不得不提到三种溢出方式：定位溢出，负外边距溢出，外边距底部溢出。这里的溢出指子元素在呈现上没有被父元素完全包围，如“定位溢出”的关键代码如下：</p>
 <pre><code>position: absolute;
 bottom: -50px;
 </code></pre><p>由于绝对定位的关系，子元素的一部分必然会父元素从下部伸出，由于绝对定位已经脱离了文档流所以直接计算比较困难。</p>
@@ -102,9 +102,9 @@ bottom: -50px;
 <pre><code>document.documentElement.scrollHeight
 </code></pre><p>可以正确处理三种溢出。</p>
 <p>三种溢出示例：
-<a href="/articles/css-box-model/demo/document-height.html" target="_blank">定位溢出</a>
-<a href="/articles/css-box-model/demo/document-height2.html" target="_blank">负边距溢出</a>
-<a href="/articles/css-box-model/demo/document-height3.html" target="_blank">外边距底部溢出</a></p>
+<a href="/articles/css-box-model/demo/document-height.html" target="_blank">定位溢出</a>，
+<a href="/articles/css-box-model/demo/document-height2.html" target="_blank">负边距溢出</a>，
+<a href="/articles/css-box-model/demo/document-height3.html" target="_blank">外边距底部溢出</a>。</p>
 <h2 id="header-1-3">实例</h2>
 <h3 id="header-1-3-1">footer</h3>
 <p><code>html</code> 的高度默认情况下不会与 window 的高度相同，也就是在高度上 <code>html</code> 不会将 window 填充满，所以在处理“版权信息”这种模块时可以这样处理：</p>
