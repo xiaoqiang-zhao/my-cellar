@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style rel="stylesheet">
+        body {
+            margin: 0;
+        }
+        .a {
+            height: 1500px;
+            position: relative;
+            background: #93a1a1;
+        }
+        .b {
+            position: absolute;
+            padding: 50px;
+            bottom: -50px;
+            background: #40a070;
+        }
+    </style>
+</head>
+<body>
+    <div class="a">
+        A
+        <div class="b">
+            B
+        </div>
+    </div>
+</body>
+<script>
+    console.log('document.documentElement.scrollHeight:' + document.documentElement.scrollHeight);
+    console.log('document.body.scrollHeight:' + document.body.scrollHeight);
+</script>
+</html>

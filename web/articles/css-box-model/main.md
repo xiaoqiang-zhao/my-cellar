@@ -10,7 +10,7 @@
 
 高度同理。
 
-## 需要注意的两点
+## 需要注意的三点
 
 ### 部分 form 元素
 
@@ -84,6 +84,40 @@
 	}
 
 这样定义的元素不会产生横向滚动条，上面 Demo 中的 Right 块采取绝对定位 `position: absolute;` 会使浏览器产生横向滚动条，这一点在做“回到顶部”这类页面组件动画时很有用。
+
+### 页面高度
+
+提到页面上的高度，不管是一个元素的高度，还是整个页面的高度，就不得不提到三种溢出方式：定位溢出，负外边距溢出，外边距底部溢出。这里的溢出指子元素在呈现上没有被父元素完全包围，如“定位溢出”的关键代码如下：
+
+	position: absolute;
+	bottom: -50px;
+
+由于绝对定位的关系，子元素的一部分必然会父元素从下部伸出，由于绝对定位已经脱离了文档流所以直接计算比较困难。
+
+“负边距溢出”的关键代码如下：
+
+	margin-bottom: -50px;
+
+“外边距底部溢出”的关键代码如下：
+
+	margin-bottom: 50px;
+
+在容器没有设置 `overflow: hidden;` 或者边框时边距会溢出。
+
+好了交代完溢出的三种类型，来说说这三种溢出对页面高度的影响。从非技术角度看页面的高度就是我们看到的页面全部内容的高度，页面上的所有可见元素都放在 `body` 中，那 body 的高度就是页面高度吗？未必，别忘了还有溢出。经过实际测试`document.body.scrollHeight` 这一属性在IE8+，chrome，firefox 浏览器中对无溢出和“负边距溢出”有效，可以获取到准确的页面高度，但是对其他两种溢出高度的度量结果比实际高度会少溢出的那一部分高度。还有一个获取高度的方法：
+
+	document.documentElement.scrollHeight
+	
+可以正确处理三种溢出。
+
+三种溢出示例：
+[定位溢出](/articles/css-box-model/demo/document-height.html)
+[负边距溢出](/articles/css-box-model/demo/document-height2.html)
+[外边距底部溢出](/articles/css-box-model/demo/document-height3.html)
+
+## 实例
+
+### footer
 
 `html` 的高度默认情况下不会与 window 的高度相同，也就是在高度上 `html` 不会将 window 填充满，所以在处理“版权信息”这种模块时可以这样处理：
 
