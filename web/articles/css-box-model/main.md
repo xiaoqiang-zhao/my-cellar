@@ -108,7 +108,7 @@
 
 	document.documentElement.scrollHeight
 	
-可以正确处理三种溢出。
+可以正确处理三种溢出。其实 `documentElement` 就是 `html` 元素，还可以通过 `document.getElementsByTagName('html')[0]` 获取。
 
 三种溢出示例：
 [定位溢出](/articles/css-box-model/demo/document-height.html)，
