@@ -87,7 +87,7 @@
 
 ### 页面高度
 
-提到页面上的高度，不管是一个元素的高度，还是整个页面的高度，就不得不提到三种溢出方式：定位溢出，负外边距溢出，外边距底部溢出。这里的溢出指子元素在呈现上没有被父元素完全包围，如“定位溢出”的关键代码如下：
+在页面中提高度，不管是一个元素的高度，还是整个页面的高度，就不得不提到三种溢出方式：定位溢出，负外边距溢出，外边距底部溢出。这里的溢出指子元素在呈现上没有被父元素完全包围，如“定位溢出”的关键代码如下：
 
 	position: absolute;
 	bottom: -50px;
@@ -111,9 +111,9 @@
 可以正确处理三种溢出。
 
 三种溢出示例：
-[定位溢出](/articles/css-box-model/demo/document-height.html)
-[负边距溢出](/articles/css-box-model/demo/document-height2.html)
-[外边距底部溢出](/articles/css-box-model/demo/document-height3.html)
+[定位溢出](/articles/css-box-model/demo/document-height.html)，
+[负边距溢出](/articles/css-box-model/demo/document-height2.html)，
+[外边距底部溢出](/articles/css-box-model/demo/document-height3.html)。
 
 ## 实例
 
