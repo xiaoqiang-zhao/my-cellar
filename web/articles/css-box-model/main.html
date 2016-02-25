@@ -100,7 +100,7 @@ bottom: -50px;
 </code></pre><p>在容器没有设置 <code>overflow: hidden;</code> 或者边框时边距会溢出。</p>
 <p>好了交代完溢出的三种类型，来说说这三种溢出对页面高度的影响。从非技术角度看页面的高度就是我们看到的页面全部内容的高度，页面上的所有可见元素都放在 <code>body</code> 中，那 body 的高度就是页面高度吗？未必，别忘了还有溢出。经过实际测试<code>document.body.scrollHeight</code> 这一属性在IE8+，chrome，firefox 浏览器中对无溢出和“负边距溢出”有效，可以获取到准确的页面高度，但是对其他两种溢出高度的度量结果比实际高度会少溢出的那一部分高度。还有一个获取高度的方法：</p>
 <pre><code>document.documentElement.scrollHeight
-</code></pre><p>可以正确处理三种溢出。</p>
+</code></pre><p>可以正确处理三种溢出。其实 <code>documentElement</code> 就是 <code>html</code> 元素，还可以通过 <code>document.getElementsByTagName(&#39;html&#39;)[0]</code> 获取。</p>
 <p>三种溢出示例：
 <a href="/articles/css-box-model/demo/document-height.html" target="_blank">定位溢出</a>，
 <a href="/articles/css-box-model/demo/document-height2.html" target="_blank">负边距溢出</a>，
