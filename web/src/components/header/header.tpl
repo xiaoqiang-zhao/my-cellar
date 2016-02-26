@@ -1,7 +1,7 @@
 <header class="page-header">
     <h1>
         <span class="main-title">龙则的个人站点</span>
-        <span class="subtitle">戒躁，沉心研究业务与技术</span>
+        <span class="subtitle">精进自己，服务他人</span>
     </h1>
     <nav class="nav">
         <button class="icon-menu-button"></button>
