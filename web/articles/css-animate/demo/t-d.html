@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>transition-duration</title>
+    <style rel="stylesheet">
+        body {
+            text-align: center;
+        }
+        span {
+            display: inline-block;
+            padding: 10px;
+            margin: 10px;
+            background: #40a070;
+            color: #fff;
+            /*transition: 5s;*/
+        }
+        .span1 {
+            transition: 0.5s;
+        }
+        .span2 {
+            transition: .5s;
+        }
+        .span3 {
+            transition: 500ms;
+        }
+        .span4 {
+            /* 必须有单位，无单位不识别 */
+            transition: 500;
+        }
+        span:hover {
+            padding: 20px;
+            /*margin: 0;*/
+            /*background: #10a025;*/
+        }
+    </style>
+</head>
+<body>
+<span> A </span>
+<span class="span1"> A1 </span>
+<span class="span2"> A2 </span>
+<span class="span3"> A3 </span>
+<span class="span4"> A4 </span>
+
+</body>
+</html>

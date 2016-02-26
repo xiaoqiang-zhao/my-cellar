@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>transition-property:none</title>
+    <style rel="stylesheet">
+        body {
+            text-align: center;
+        }
+        span {
+            display: inline-block;
+            padding: 10px;
+            margin: 10px;
+            background: #40a070;
+            color: #fff;
+            transition: 5s;
+        }
+        .none {
+            transition: none;
+        }
+        .span2 {
+            -webkit-transform: translate(0);
+        }
+        span:hover,
+        .hover {
+            padding: 20px;
+            /*margin: 0;*/
+            /*background: #10a025;*/
+        }
+    </style>
+</head>
+<body>
+<span> A </span>
+<span class="span2"> A </span>
+<script>
+    setTimeout(function () {
+        var spanDom1 = document.getElementsByTagName('span')[0];
+        var spanDom2 = document.getElementsByTagName('span')[1];
+        // document.getElementsByTagName('span')[0].className = 'hover';
+        spanDom1.style.padding = '50px';
+        spanDom2.style.padding = '50px';
+    }, 1000);
+    setTimeout(function () {
+        var spanDom1 = document.getElementsByTagName('span')[0];
+        // document.getElementsByTagName('span')[0].className = 'hover';
+        spanDom1.className = 'none';
+    }, 3000);
+</script>
+</body>
+</html>
