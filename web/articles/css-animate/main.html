@@ -15,7 +15,7 @@
 <body>
 <header>
     <h1> 龙则的个人站点 </h1>
-    <h2> 戒躁，沉心研究业务与技术 </h2>
+    <h2> 精进自己，服务他人 </h2>
 </header>
 <div>
     <h1 id="header-1">CSS 动画(一)</h1>
@@ -23,6 +23,18 @@
 <p>目前我对于 CSS 动画还是一个菜鸟，从不会到熟练总需要一个过程，本篇从语法开始，记录我的学习，算是一份技术点备忘录吧。</p>
 </blockquote>
 <h2 id="header-1-1">过渡</h2>
+<blockquote>
+<p>CSS 动画有两种实现方式，其中较为简单的就是过渡 -- <code>transition</code>，在一定的时间区间内平滑地过渡。当通过 <code>hover</code> 等伪类、直接改 class 或样式值引起样式变化，<code>transition</code>可使样式平滑地过渡。</p>
+</blockquote>
+<h3 id="header-1-1-1">语法</h3>
+<p>语法：</p>
+<pre><code>transition: [transition-property] transition-duration [transition-timing-function] [transition-delay]
+// 多组设置用逗号间隔
+</code></pre><p><strong>transition-property</strong> 定义过渡样式</p>
+<ul>
+<li>all 默认值，全部样式都过渡</li>
+</ul>
+<p>浏览器支持情况：IE0+，Firefox，Chrome，Safari。</p>
 <p><a href="/articles/css-animate/demo/start.html" target="_blank">示例</a></p>
 <h2 id="header-1-2">关键帧</h2>
 <h2 id="header-1-3">参考网站</h2>
