@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> transition-timing-function </title>
+    <style rel="stylesheet">
+        div {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100px;
+            background: #40a070;
+            color: #fff;
+            transition-duration: 5s;
+            /*transition: 5s;*/
+        }
+        .div1 {
+            transition-timing-function: ease;
+        }
+        .div2 {
+            transition-timing-function: linear;
+        }
+        .div3 {
+            transition-timing-function: ease-in;
+        }
+        .div4 {
+            transition-timing-function: ease-out;
+        }
+        .div5 {
+            transition-timing-function: ease-in-out;
+        }
+        .div6 {
+            transition-timing-function: cubic-bezier(1,0,0,1);
+        }
+        .div7 {
+            transition-timing-function: steps(5, start);
+        }
+        .div8 {
+            transition-timing-function: steps(5, end);
+        }
+        div:hover,
+        .hover {
+            width: 90%;
+            /*margin: 0;*/
+            /*background: #10a025;*/
+        }
+    </style>
+</head>
+<body>
+慢快慢
+<div class="div1"> ease </div>
+匀速
+<div class="div2"> linear </div>
+慢快
+<div class="div3"> ease-in </div>
+快慢
+<div class="div4"> ease-out </div>
+慢快慢，比 ease 加速快减速也快，下面是对比
+<div class="div5"> ease-in-out </div>
+<div class="div1"> ease </div>
+<script>
+    setTimeout(function () {
+        var divDoms = document.getElementsByTagName('div');
+        divDoms[4].className = 'div1 hover';
+        divDoms[5].className = 'div5 hover';
+        divDoms[7].className = 'div7 hover';
+        divDoms[8].className = 'div8 hover';
+    }, 2000);
+</script>
+
+自定义加减速
+<div class="div6"> cubic-bezier </div>
+<div class="div7"> steps(5, start) </div>
+<div class="div8"> steps(5, end) </div>
+
+
+</body>
+</html>
