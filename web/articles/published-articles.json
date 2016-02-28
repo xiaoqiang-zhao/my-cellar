@@ -30,6 +30,23 @@
     "todoList": []
   },
   {
+    "enName": "css-animate",
+    "title": "CSS 动画(一)",
+    "introduction": "目前我对于 CSS 动画还是一个菜鸟，从不会到熟练总需要一个过程，本篇从语法开始，记录我的学习，算是一份技术点备忘录吧。",
+    "tags": [
+      "个人笔记",
+      "技术点"
+    ],
+    "isPublished": true,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1455876338883,
+    "commentList": [
+      ""
+    ],
+    "todoList": []
+  },
+  {
     "enName": "css-box-model",
     "title": "CSS 盒模型",
     "introduction": "盒模型是 CSS 中最基础和最重要的概念之一，用了很久没有系统的总结过，本文将总结一下和模型的基本原理，组要注意的点，还有 CSS3 中的 box-sizing 和 弹性盒模型。",
