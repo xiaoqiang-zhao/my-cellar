@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> animation-play-state </title>
+    <style rel="stylesheet">
+        body {
+            text-align: center;
+        }
+        .container {
+            position: relative;
+            overflow: hidden;
+            height: 30px;
+            border: 1px solid #B2EFB2;
+        }
+        .bar {
+            position: absolute;
+            right: 100%;
+            height: 100%;
+            width: 100%;
+            background: #B2EFB2;
+        }
+        .animation .bar {
+            animation: animation-name 6s forwards;
+        }
+        .running .bar {
+            animation-play-state: running;
+        }
+        .paused .bar {
+            animation-play-state: paused;
+        }
+        @keyframes animation-name {
+            to {
+                right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="process-bar" class="container">
+    <div class="bar"></div>
+</div>
+<button id="run">播放</button>
+<button id="pause">暂停</button>
+<button id="reset">重置</button>
+<script>
+    var g = function (id) {
+        return document.getElementById(id);
+    };
+    var processBar = g('process-bar');
+    var runBtn = g('run');
+    var pauseBtn = g('pause');
+    var resetBtn = g('reset');
+
+    var animationClassName = 'container animation';
+    runBtn.onclick = function () {
+        if (processBar.className.indexOf('animation') === -1) {
+            processBar.className = animationClassName;
+        }
+        else {
+            processBar.className = animationClassName + ' running';
+        }
+    };
+    pauseBtn.onclick = function () {
+        processBar.className = animationClassName + ' paused';
+    };
+    resetBtn.onclick = function () {
+        processBar.className = 'container';
+    };
+</script>
+</body>
+</html>
