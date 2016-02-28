@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> animation-direction </title>
+    <style rel="stylesheet">
+        body {
+            text-align: center;
+        }
+        div {
+            display: inline-block;
+            margin: 100px;
+            padding: 20px;
+            border-radius: 20px;
+            background: #B2EFB2;
+        }
+        div:hover {
+            animation: animation-name 10s 1.8 alternate;
+            /* animation-iteration-count: 1.8; 的设置可以让动画最后有一个小的跳动*/
+        }
+        @keyframes animation-name {
+            100% {
+                margin: 0;
+                padding: 100px;
+                border-radius: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div></div>
+</body>
+</html>
