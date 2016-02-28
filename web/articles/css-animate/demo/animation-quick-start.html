@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> animation-quick-start </title>
+    <style rel="stylesheet">
+        body {
+            text-align: center;
+        }
+        div {
+            display: inline-block;
+            margin: 100px;
+            padding: 20px;
+            border-radius: 20px;
+            background: #B2EFB2;
+        }
+        div:hover {
+            animation: animation-name 1s 4 alternate;
+        }
+        @keyframes animation-name {
+            100% {
+                margin: 0;
+                padding: 100px;
+                border-radius: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div></div>
+</body>
+</html>
