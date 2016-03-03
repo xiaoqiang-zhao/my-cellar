@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>层叠拖拽方案探索</title>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script src="jquery-ui.min.js"></script>
+    <style rel="stylesheet">
+        .items-container {
+            width: 100px;
+            float: left;
+            border: 1px solid #6b6969;
+            padding: 10px;
+            margin-bottom: 50px;
+        }
+        .items-container .item {
+            cursor: move;
+            margin: 0 0 30px;
+        }
+        .item {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #006a00;
+            color: #fff;
+        }
+        .drop-container {
+            border: 1px solid #6b6969;
+            transition: all 0.30s ease-in-out;
+        }
+        .drop-container.active {
+            border: 1px solid rgba(81, 203, 238, 1);
+            box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+        }
+        .drop-container-1 {
+            margin-left: 150px;
+            width: 50%;
+        }
+        .drop-container-1,
+        .drop-container-2 {
+            padding: 50px;
+            border: 1px solid #6b6969;
+        }
+        .drop-container-3 {
+            margin-left: 150px;
+            margin-top: 35px;
+            width: 50%;
+        }
+        .drop-container-4 {
+            padding: 5px;
+        }
+        .drop-container-5 {
+            padding: 50px;
+            margin-top: 50px;
+            margin-bottom: -35px;
+            background: #333;
+            opacity: .8;
+        }
+    </style>
+</head>
+<body>
+<div class="items-container">
+    <span class="item">item</span>
+    <span class="item">item</span>
+    <span class="item">item</span>
+    <span class="item">item</span>
+    <span class="item">item</span>
+    <span class="item">item</span>
+    <span class="item">item</span>
+    <span class="item">item</span>
+    <span class="item">item</span>
+    <span class="item">item</span>
+</div>
+
+<div id="drop-container-1" class="drop-container drop-container-1">
+    <div id="drop-container-2" class="drop-container drop-container-2">
+        <div id="drop-container-3" class="drop-container drop-container-2">
+            三层嵌套
+        </div>
+    </div>
+</div>
+<div class="drop-container drop-container-3">
+    <div class="drop-container drop-container-4">
+        两层嵌套无空隙
+    </div>
+</div>
+<div class="drop-container drop-container-3">
+    <div class="drop-container drop-container-5">
+        内层元素溢出
+    </div>
+</div>
+<script>
+
+    var dragDropFramework = {
+        activeClass: 'active',
+        activeElement: null,
+        clean: function () {
+            this._overElements = [];
+            this._outElements = [];
+            // 先移除当前激活态元素的激活样式
+            if (this.activeElement !== null) {
+                $(this.activeElement).removeClass(this.activeClass);
+            }
+            this.activeElement = null;
+        },
+        pushOverElements: function (element) {
+            // 如果新 hover 的元素包含已存在的元素，那么放在已存在元素的前面
+            var overElements = this._overElements;
+            for (var i = 0; i < overElements.length; i++) {
+                var overItem = overElements[i];
+                console.log($(overItem).parents(element).length);
+                // 判断 overItem 是否在 element中
+                if (this._isIn(overItem, element)) {
+                    overElements.splice(i, 0, element);
+                    break;
+                }
+            }
+            if (i === overElements.length) {
+                this._overElements.push(element);
+            }
+            this._resetActiveElement();
+        },
+        pushOutElements: function (element) {
+            this._outElements.push(element);
+            this._resetActiveElement();
+        },
+        _activeElementChange: function (oldElement, newElement) {
+            var activeClass = this.activeClass;
+            // 先移除当前激活态元素的激活样式
+            if (oldElement !== null) {
+                $(oldElement).removeClass(activeClass);
+            }
+
+            // 添加当前激活态元素的激活样式
+            if (newElement !== null) {
+                $(newElement).addClass(activeClass);
+            }
+        },
+        _isIn: function (son, father) {
+            var result = false;
+            var parent;
+            do {
+                parent = son.parentNode;
+                if (parent === father) {
+                    result = true;
+                    break;
+                }
+                son = parent;
+            } while (parent.tagName !== 'BODY');
+
+            return result;
+        },
+        _overElements: [],
+        _outElements: [],
+        _resetActiveElement: function () {
+            // 将 out 队列中有的元素从 over 和 out 队列中移除
+            var outElements = this._outElements;
+            var overElements = this._overElements;
+            for (var i = 0; i < outElements.length; i++) {
+                var outItem = outElements[i];
+                for (var j = 0; j < overElements.length; j++) {
+                    var overItem = overElements[j];
+                    if (outItem === overItem) {
+                        outElements.splice(i, 1);
+                        overElements.splice(j, 1);
+                        break;
+                    }
+                }
+            }
+            // 取最后 hover 的元素
+            var result;
+            if (overElements.length !== 0) {
+                result = overElements[overElements.length - 1];
+            }
+            else {
+                result = null;
+            }
+            var oldActiveElement = this.activeElement;
+            this.activeElement = result;
+            this._activeElementChange(oldActiveElement, result);
+        }
+    };
+
+    // 定义拖拽
+    $('.items-container .item').draggable({
+        // revert: "invalid",
+        helper: "clone",
+        appendTo: "body",
+        opacity: 0.9, // 被拖拽元素的透明度
+        zIndex: 15,
+        start: function (event, ui) {
+            dragDropFramework.clean();
+        },
+        stop: function (event, ui) {
+        }
+    });
+
+    // 定义接收拖拽元素
+    $('.drop-container').droppable({
+        accept: '.item',
+        helper: 'clone',
+        tolerance: 'pointer',
+        drop: function (event, ui) {
+            if (dragDropFramework.activeElement !== null) {
+                console.log('drop:');
+                console.log(dragDropFramework.activeElement);
+            }
+        },
+        out: function (event, ui) {
+            console.log('out:');
+            console.log($(this));
+            dragDropFramework.pushOutElements(this);
+            // ui.helper.removeClass('hover');
+        },
+        over: function (event, ui) {
+            console.log('over:');
+            console.log($(this));
+            dragDropFramework.pushOverElements(this);
+            // ui.helper.addClass('hover');
+        }
+    });
+</script>
+</body>
+</html>
