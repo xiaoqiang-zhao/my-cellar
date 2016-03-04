@@ -1,0 +1,17 @@
+{
+  "enName": "jq-drag-drop",
+  "title": "jQuery UI 的 Drop 嵌套解决方案",
+  "introduction": "拖和放是连个复合事件，由多个事件组成，所以不能用普通的事件处理来处理拖放遇到的问题，其中一个问题就是接收拖拽的元素是一组层叠嵌套的元素时，会出现多次响应 `drop` 事件的问题，这里提供一个解决此问题的方案。",
+  "tags": [
+    "个人笔记",
+    "代码片段"
+  ],
+  "isPublished": true,
+  "state": "立项",
+  "type": "md",
+  "createDate": 1456893183622,
+  "commentList": [
+    ""
+  ],
+  "todoList": []
+}
