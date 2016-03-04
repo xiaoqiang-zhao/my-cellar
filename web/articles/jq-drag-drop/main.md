@@ -156,10 +156,10 @@
 
 ## 示例
 
-[示例](/articles/jq-drag-drop/demo/index.html)模拟了三种情况：
+示例模拟了三种情况：
 
 - 三层嵌套
 - 两层嵌套无空隙
 - 内层元素溢出
 
-这三种情况基本可以覆盖实际应用的全部场景，查看演示[Demo](/articles/jq-drag-drop/demo/index.html)。
+这三种情况基本可以覆盖实际应用的全部场景，查看[示例](/articles/jq-drag-drop/demo/index.html)，打开控制台可以到更多关于事件的信息。
