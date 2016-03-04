@@ -91,8 +91,13 @@
 <script>
 
     var dragDropFramework = {
+        // 当处于激活态时需要添加的Class
         activeClass: 'active',
+        // 处于激活状态的 DOM 元素，默认为 null，没有激活元素时也为 null
         activeElement: null,
+        /**
+         * 清理本次或上次拖拽产生的数据
+         */
         clean: function () {
             this._overElements = [];
             this._outElements = [];
@@ -102,12 +107,18 @@
             }
             this.activeElement = null;
         },
+        /**
+         * 将 hover 的元素推送到队列中，并且计算当前的激活元素
+         * 注：为了解决“内层元素溢出时拖动时可能先进入内层元素后进入外层元素”的问题，
+         *    添加 over 元素时会做内外排序处理
+         *
+         * @param {Object} element over过的元素
+         */
         pushOverElements: function (element) {
             // 如果新 hover 的元素包含已存在的元素，那么放在已存在元素的前面
             var overElements = this._overElements;
             for (var i = 0; i < overElements.length; i++) {
                 var overItem = overElements[i];
-                console.log($(overItem).parents(element).length);
                 // 判断 overItem 是否在 element中
                 if (this._isIn(overItem, element)) {
                     overElements.splice(i, 0, element);
@@ -119,10 +130,22 @@
             }
             this._resetActiveElement();
         },
+        /**
+         * 将 out 的元素推送到队列中，并且计算当前的激活元素
+         *
+         * @param {Object} element out的元素
+         */
         pushOutElements: function (element) {
             this._outElements.push(element);
             this._resetActiveElement();
         },
+        /**
+         * 激活元素改变时触发的默认事件
+         *
+         * @param {Object} oldElement 改变前的激活元素
+         * @param {Object} newElement 改变后的激活元素
+         * @private
+         */
         _activeElementChange: function (oldElement, newElement) {
             var activeClass = this.activeClass;
             // 先移除当前激活态元素的激活样式
@@ -135,6 +158,24 @@
                 $(newElement).addClass(activeClass);
             }
         },
+        /**
+         * 判断参数是否为函数
+         *
+         * @param {Function} fn 待判断的函数
+         * @returns {boolean} 是否是函数
+         * @private
+         */
+        _isFuntion: function (fn) {
+            return Object.prototype.toString.call(fn) === 'object Function';
+        },
+        /**
+         * 判断第一个元素是否在第二个元素中
+         *
+         * @param {Object} son 子元素
+         * @param {Object} father 父元素
+         * @returns {boolean} 判断结果
+         * @private
+         */
         _isIn: function (son, father) {
             var result = false;
             var parent;
@@ -149,8 +190,15 @@
 
             return result;
         },
+        // hover 过的元素队列，当 out 队列中有 hover 种的元素时或将两边的元素都移除
         _overElements: [],
+        // out  的元素队列
         _outElements: [],
+        /**
+         * 根据 over 和 out 队列数据，重设激活态元素
+         * 注：当激活元素有改变时，会调用 activeElementChange 自定义回调函数
+         * @private
+         */
         _resetActiveElement: function () {
             // 将 out 队列中有的元素从 over 和 out 队列中移除
             var outElements = this._outElements;
@@ -176,7 +224,13 @@
             }
             var oldActiveElement = this.activeElement;
             this.activeElement = result;
-            this._activeElementChange(oldActiveElement, result);
+            if (oldActiveElement !== result) {
+                // 自定义回调函数
+                if (this._isFuntion(this.activeElementChange)) {
+                    this.activeElementChange(oldActiveElement, result);
+                }
+                this._activeElementChange(oldActiveElement, result);
+            }
         }
     };
 
