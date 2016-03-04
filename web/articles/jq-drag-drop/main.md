@@ -6,65 +6,153 @@
 
 通过一个静态辅助对象来解决此问题。`droppable` 事件有 `over` 和 `out` 事件，事件触发时记录进入了哪些元素又从哪些元素中出来，这些记录分别保存在两个数组中，每次触发事件后调用一个函数处理这些数据，得到最后 `hover` 的元素，这个元素就可以被视为需要接收拖拽的元素。
 
-## API
-
 ## 代码
 
 静态类的代码如下：
 
     var dragDropFramework = {
-        activeClass: 'active',
-        clean: function () {
-            this.overElements = [];
-            this.outElements = [];
-            // 先移除当前激活态元素的激活样式
-            if (this.activeElement !== null) {
-                $(this.activeElement).removeClass(this.activeClass);
-            }
-            this.activeElement = null;
-        },
-        activeElement: null,
-        overElements: [],
-        outElements: [],
-        resetActiveElement: function () {
-            // 将 out 队列中有的元素从 over 和 out 队列中移除
-            var outElements = this.outElements;
-            var overElements = this.overElements;
-            for (var i = 0; i < outElements.length; i++) {
-                var outItem = outElements[i];
-                for (var j = 0; j < overElements.length; j++) {
-                    var overItem = overElements[j];
-                    if (outItem === overItem) {
-                        outElements.splice(i, 1);
-                        overElements.splice(j, 1);
-                        break;
-                    }
-                }
-            }
-            // 取最后 hover 的元素
-            var result;
-            if (overElements.length !== 0) {
-                result = overElements[overElements.length - 1];
-            }
-            else {
-                result = null;
-            }
-            this.activeElement = result;
-        },
-        resetActiveElementClass: function () {
-            var activeClass = this.activeClass;
-            // 先移除当前激活态元素的激活样式
-            if (this.activeElement !== null) {
-                $(this.activeElement).removeClass(activeClass);
-            }
-            // 重新计算激活态元素
-            this.resetActiveElement();
-            // 添加当前激活态元素的激活样式
-            if (this.activeElement !== null) {
-                $(this.activeElement).addClass(activeClass);
-            }
-        }
-    };
+		// 当处于激活态时需要添加的Class
+		activeClass: 'active',
+		// 处于激活状态的 DOM 元素，默认为 null，没有激活元素时也为 null
+		activeElement: null,
+		/**
+		 * 清理本次或上次拖拽产生的数据
+		 */
+		clean: function () {
+			this._overElements = [];
+			this._outElements = [];
+			// 先移除当前激活态元素的激活样式
+			if (this.activeElement !== null) {
+				$(this.activeElement).removeClass(this.activeClass);
+			}
+			this.activeElement = null;
+		},
+		/**
+		 * 将 hover 的元素推送到队列中，并且计算当前的激活元素
+		 * 注：为了解决“内层元素溢出时拖动时可能先进入内层元素后进入外层元素”的问题，
+		 *    添加 over 元素时会做内外排序处理
+		 *
+		 * @param {Object} element over过的元素
+		 */
+		pushOverElements: function (element) {
+			// 如果新 hover 的元素包含已存在的元素，那么放在已存在元素的前面
+			var overElements = this._overElements;
+			for (var i = 0; i < overElements.length; i++) {
+				var overItem = overElements[i];
+				// 判断 overItem 是否在 element中
+				if (this._isIn(overItem, element)) {
+					overElements.splice(i, 0, element);
+					break;
+				}
+			}
+			if (i === overElements.length) {
+				this._overElements.push(element);
+			}
+			this._resetActiveElement();
+		},
+		/**
+		 * 将 out 的元素推送到队列中，并且计算当前的激活元素
+		 *
+		 * @param {Object} element out的元素
+		 */
+		pushOutElements: function (element) {
+			this._outElements.push(element);
+			this._resetActiveElement();
+		},
+		/**
+		 * 激活元素改变时触发的默认事件
+		 *
+		 * @param {Object} oldElement 改变前的激活元素
+		 * @param {Object} newElement 改变后的激活元素
+		 * @private
+		 */
+		_activeElementChange: function (oldElement, newElement) {
+			var activeClass = this.activeClass;
+			// 先移除当前激活态元素的激活样式
+			if (oldElement !== null) {
+				$(oldElement).removeClass(activeClass);
+			}
+
+			// 添加当前激活态元素的激活样式
+			if (newElement !== null) {
+				$(newElement).addClass(activeClass);
+			}
+		},
+		/**
+		 * 判断参数是否为函数
+		 *
+		 * @param {Function} fn 待判断的函数
+		 * @returns {boolean} 是否是函数
+		 * @private
+		 */
+		_isFuntion: function (fn) {
+			return Object.prototype.toString.call(fn) === 'object Function';
+		},
+		/**
+		 * 判断第一个元素是否在第二个元素中
+		 *
+		 * @param {Object} son 子元素
+		 * @param {Object} father 父元素
+		 * @returns {boolean} 判断结果
+		 * @private
+		 */
+		_isIn: function (son, father) {
+			var result = false;
+			var parent;
+			do {
+				parent = son.parentNode;
+				if (parent === father) {
+					result = true;
+					break;
+				}
+				son = parent;
+			} while (parent.tagName !== 'BODY');
+
+			return result;
+		},
+		// hover 过的元素队列，当 out 队列中有 hover 种的元素时或将两边的元素都移除
+		_overElements: [],
+		// out  的元素队列
+		_outElements: [],
+		/**
+		 * 根据 over 和 out 队列数据，重设激活态元素
+		 * 注：当激活元素有改变时，会调用 activeElementChange 自定义回调函数
+		 * @private
+		 */
+		_resetActiveElement: function () {
+			// 将 out 队列中有的元素从 over 和 out 队列中移除
+			var outElements = this._outElements;
+			var overElements = this._overElements;
+			for (var i = 0; i < outElements.length; i++) {
+				var outItem = outElements[i];
+				for (var j = 0; j < overElements.length; j++) {
+					var overItem = overElements[j];
+					if (outItem === overItem) {
+						outElements.splice(i, 1);
+						overElements.splice(j, 1);
+						break;
+					}
+				}
+			}
+			// 取最后 hover 的元素
+			var result;
+			if (overElements.length !== 0) {
+				result = overElements[overElements.length - 1];
+			}
+			else {
+				result = null;
+			}
+			var oldActiveElement = this.activeElement;
+			this.activeElement = result;
+			if (oldActiveElement !== result) {
+				// 自定义回调函数
+				if (this._isFuntion(this.activeElementChange)) {
+					this.activeElementChange(oldActiveElement, result);
+				}
+				this._activeElementChange(oldActiveElement, result);
+			}
+		}
+	};
 
 ## 示例
 
@@ -74,10 +162,4 @@
 - 两层嵌套无空隙
 - 内层元素溢出
 
-这三种情况基本可以覆盖实际应用的全部场景，最后一个场景会有问题，
-
-[Demo](/articles/jq-drag-drop/demo/index.html)，打开控制台可以看到各事件的 log 输出。
-
-## 问题规避
-
-在最后一个 Demo 中演示了内层元素溢出的情况，在这种情况下有可能先进入内层元素后进入外层元素(也可能不进入外层元素，这和用户的操作有关)，这会导致
+这三种情况基本可以覆盖实际应用的全部场景，查看演示[Demo](/articles/jq-drag-drop/demo/index.html)。
