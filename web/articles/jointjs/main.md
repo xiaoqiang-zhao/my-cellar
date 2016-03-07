@@ -1,6 +1,6 @@
 # 译 JointJS API
 
-> 可视化是软件开发中的一种思路，我们渴望不写代码拖拖拽拽，点击配置就可以生成可运行的项目，这是一个非常好的愿景，但是到目前为止方案很多但效果却并没有得到预期。我觉得这样的现状和这类系统的定位有关，这种交互行形式只适合做组合型的系统，可被操作的元素较少，关系种类较少，配置项较少，元素的关系的组合较多，并且希望用图形的方式来展示这些关系或节点状态。jointJs提供了基本支持，是二次开发的一个很不错的选择，本篇是[JointJS API](http://www.jointjs.com/api)的译文，期间会夹杂一些我的理解和实现方案。
+> 本篇是[JointJS API](http://www.jointjs.com/api)的译文，期间会夹杂一些我的理解和辅助理解的Demo。
 
 ## 概述
 
@@ -94,6 +94,12 @@ Demo [joint-dia-element.html](/articles/jointjs/demo/joint-dia-element.html) 下
 译者注：
 
 `translate` 是基于当前位置做位置改变，坐标左上角是原点，水平向右是 x 轴正方向，竖直向下是 y 轴正方向，`translate` 的位置变化值可正可负，分别对应于想坐标轴正向移动和负向移动。参见我写的 [示例](/articles/jointjs/demo/translate.html)
+
+### position
+
+`element.position(x, y, [opt])`
+
+此方法用于设置元素的 x,y 坐标，近似等于 `element.set('position', { x: x, y: y }, opt)`。
 
 ## joint.dia.Link
 
