@@ -99,7 +99,19 @@ Demo [joint-dia-element.html](/articles/jointjs/demo/joint-dia-element.html) 下
 
 `element.position(x, y, [opt])`
 
-此方法用于设置元素的 x,y 坐标，近似等于 `element.set('position', { x: x, y: y }, opt)`。
+此方法用于设置元素的 x,y 坐标，近似等于 `element.set('position', { x: x, y: y }, opt)`，不同的是`position`这个方法提供了更为丰富的配置。如果将 `opt.parentRelative` 设为 `true`，那么所设置坐标值的原点是当前元素父元素的坐标。如果访问此方法不带参数，那么返回当前元素的坐标。如果 `position({ parentRealtive: true })` 这样访问，返回的是当前元素相对于其父元素的坐标。
+
+[译者 Demo](/articles/jointjs/demo/element-position.html)
+
+### resize
+
+`element.resize(width, height [, opt])`
+
+对于有高和宽属性的[伸缩元素组](http://www.jointjs.com/tutorial#custom-elements) ，改变很方便的改变其大小，元素改变大小后左上角位置是不变的，当然这可以通过`opt.direction`参数来设置元素大小的扩展方向，可选值有：`left`,`right`,`top`,`bottom`,`top-left`,`top-right`,`bottom-left`,`bottom-right`(默认值)。
+
+这个方法和传统的元素缩放有一些不同，`resize`不会缩放全部子元素，他只会缩放 `<g class="scalable"/>` 这样的svg元素节点，这样可以灵活的定义子节点缩放还是不缩放。想象一下，如果有一个简单的长方形里面还包含一个文本节点，通常我们缩放长方形的时候并不希望改变字体大小，而且希望文字节点字号不变并居中显示，要实现这个是很容易的，通过向`<rect/>`元素中添加`<text ref-x=".5" ref-y=".5" ref="rect" />`元素，其中的 `ref-x`、`ref-y`和`ref`是 SVG的标准属性，这些特殊属性可以被 JointJs 识别，关于这类属性的更多资料可以在[特殊属性](http://www.jointjs.com/api#SpecialAttributes)中找到。
+
+[译者 Demo](/articles/jointjs/demo/element-resize.html)
 
 ## joint.dia.Link
 
