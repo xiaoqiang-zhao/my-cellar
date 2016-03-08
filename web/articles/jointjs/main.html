@@ -74,6 +74,15 @@
 </code></pre><p>上面的代码保证在子元素不会移动到父元素外面，这种约束对其子元素同样生效。</p>
 <p>译者注：</p>
 <p><code>translate</code> 是基于当前位置做位置改变，坐标左上角是原点，水平向右是 x 轴正方向，竖直向下是 y 轴正方向，<code>translate</code> 的位置变化值可正可负，分别对应于想坐标轴正向移动和负向移动。参见我写的 <a href="/articles/jointjs/demo/translate.html" target="_blank">示例</a></p>
+<h3 id="header-1-3-3">position</h3>
+<p><code>element.position(x, y, [opt])</code></p>
+<p>此方法用于设置元素的 x,y 坐标，近似等于 <code>element.set(&#39;position&#39;, { x: x, y: y }, opt)</code>，不同的是<code>position</code>这个方法提供了更为丰富的配置。如果将 <code>opt.parentRelative</code> 设为 <code>true</code>，那么所设置坐标值的原点是当前元素父元素的坐标。如果访问此方法不带参数，那么返回当前元素的坐标。如果 <code>position({ parentRealtive: true })</code> 这样访问，返回的是当前元素相对于其父元素的坐标。</p>
+<p><a href="/articles/jointjs/demo/element-position.html" target="_blank">译者 Demo</a></p>
+<h3 id="header-1-3-4">resize</h3>
+<p><code>element.resize(width, height [, opt])</code></p>
+<p>对于有高和宽属性的<a href="http://www.jointjs.com/tutorial#custom-elements" target="_blank">伸缩元素组</a> ，改变很方便的改变其大小，元素改变大小后左上角位置是不变的，当然这可以通过<code>opt.direction</code>参数来设置元素大小的扩展方向，可选值有：<code>left</code>,<code>right</code>,<code>top</code>,<code>bottom</code>,<code>top-left</code>,<code>top-right</code>,<code>bottom-left</code>,<code>bottom-right</code>(默认值)。</p>
+<p>这个方法和传统的元素缩放有一些不同，<code>resize</code>不会缩放全部子元素，他只会缩放 <code>&lt;g class=&quot;scalable&quot;/&gt;</code> 这样的svg元素节点，这样可以灵活的定义子节点缩放还是不缩放。想象一下，如果有一个简单的长方形里面还包含一个文本节点，通常我们缩放长方形的时候并不希望改变字体大小，而且希望文字节点字号不变并居中显示，要实现这个是很容易的，通过向<code>&lt;rect/&gt;</code>元素中添加<code>&lt;text ref-x=&quot;.5&quot; ref-y=&quot;.5&quot; ref=&quot;rect&quot; /&gt;</code>元素，其中的 <code>ref-x</code>、<code>ref-y</code>和<code>ref</code>是 SVG的标准属性，这些特殊属性可以被 JointJs 识别，关于这类属性的更多资料可以在<a href="http://www.jointjs.com/api#SpecialAttributes" target="_blank">特殊属性</a>中找到。</p>
+<p><a href="/articles/jointjs/demo/element-resize.html" target="_blank">译者 Demo</a></p>
 <h2 id="header-1-4">joint.dia.Link</h2>
 <h3 id="header-1-4-1">概述</h3>
 <p><strong>joint.dia.Link</strong>是线的基类，在 <a href="http://backbonejs.org/#Model" target="_blank">Backbone model</a> 的基础上添加一些重要属性，其中第一个不得不提的重要属性还是 id，其他的属性可以分为下面三类：</p>
