@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>N-S 图 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">N-S 图</h1>
+<blockquote>
+<p>使用 div + css 画改进版的 N-S 图。 </p>
+</blockquote>
+<h2 id="header-1-1">说明</h2>
+<p>基于“大前端”的概念，国内有一些团队是后端负责维护好数据库和基本的原子性接口，然后前端使用 PHP 或者 NodeJs 按业务逻辑吧数据攒在一起，将服务接口提供给客户端调用。其中中间的这一阶段是一个灰色地带，也是没有多少技术含量的一环，那能不能编写一个引擎配合网页来做这件事情？</p>
+<p>技术上肯定不是问题，在工程上能想到的有这么几个优点：</p>
+<ul>
+<li>不需要搭建后台环境；</li>
+<li>不需要代码级别的改动，所以不用上线等操作；</li>
+<li>流程清晰，每一个接口的实现就是一份 N-S 图；</li>
+<li>接口容易测试，容易排错</li>
+</ul>
+<p>这篇先探索一下 N-S 图的前端实现 与 这种方式的用户体验可行性。</p>
+<h2 id="header-1-2">示例</h2>
+<p><a href="/articles/n-s-graph/demo/index.html" target="_blank">示例1</a></p>
+<p><a href="/articles/n-s-graph/demo/index2.html" target="_blank">示例2</a></p>
+<p><a href="/articles/n-s-graph/demo/index3.html" target="_blank">示例3</a></p>
+
+</div>
+</body>
+</html>
