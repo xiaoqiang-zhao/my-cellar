@@ -79,12 +79,12 @@ webpack(webpackConfig, function (err, stats) {
             var date = new Date();
             var arr = lastVersion.version.split('.');
             var arrLastItemStr = arr[arr.length - 1];
-            // 不能被转为数字
-            if (isNaN(parseInt(arrLastItemStr))) {
-                arr[arr.length - 1] = arrLastItemStr + (arrLastItemStr === '' ? '' : '.') + '0.0.1';
+            // 能被转为数字
+            if (/^\d+$/.test(arrLastItemStr)) {
+                arr[arr.length - 1] = parseInt(arrLastItemStr) + 1;
             }
             else {
-                arr[arr.length - 1] = parseInt(arrLastItemStr) + 1;
+                arr[arr.length - 1] = arrLastItemStr + (arrLastItemStr === '' ? '' : '.') + '0.0.1';
             }
 
             var version = arr.join('.');
@@ -106,13 +106,14 @@ webpack(webpackConfig, function (err, stats) {
         // 资源文件无改动
         else {
             // 如果手动添加版本别名
-            if (lastVersion.hash === hash) {
-
+            var versionCount = versionMap.length;
+            if (versionCount > 1 && (lastVersion.version !== versionMap[versionCount - 2].version)) {
+                fs.renameSync(distPath + hash + '.js', distPath + lastVersion.version + '.js');
             }
-
-            // 删除压缩后的资源文件(用 hash 命名的那一个)
-            fs.unlinkSync(distPath + hash + '.js');
-
+            else {
+                // 删除压缩后的资源文件(用 hash 命名的那一个)
+                fs.unlinkSync(distPath + hash + '.js');
+            }
         }
         // 暂不提供大版本更新，可手动修改 version-map.json 和 dist 下对应的 js 压缩包
         console.log('资源压缩完成             ');
