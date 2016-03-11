@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>层叠拖拽方案探索</title>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script src="jquery-ui.min.js"></script>
+    <style rel="stylesheet">
+        .n-s {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .n-s .container {
+            display: inline-flex;
+            flex-wrap: wrap;
+            min-width: 100px;
+            margin-bottom: 10px;
+        }
+        .n-s .container .title {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 9px 10px;
+            background: #1b9af7;
+            color: #fff;
+            font-size: 14px;
+        }
+        .n-s .container .content {
+            display: flex;
+            box-sizing: border-box;
+            flex-direction: column;
+            min-height: 35px;
+            align-items: center;
+            width: 100%;
+            padding: 5px 8px;
+            border: 1px solid #f1ebeb;
+            border-top: none;
+        }
+        .n-s .container .if-content {
+            display: flex;
+            flex-direction: row;
+            padding: 0;
+        }
+        .n-s .if-container > .title {
+            border-bottom: 1px solid #f1ebeb;
+            /*background: #e66ba3;*/
+        }
+        .n-s .container .if-true,
+        .n-s .container .if-false {
+            flex: 1;
+            align-self: flex-start;
+        }
+        .n-s .container .if-true > .title,
+        .n-s .container .if-false > .title {
+            text-align: center;
+        }
+        .n-s .container .if-true > .title {
+            border-right: 1px solid #f1ebeb;
+        }
+        .n-s .container .if-true > .content,
+        .n-s .container .if-false > .content {
+            border: none;
+        }
+        .n-s .container .if-true > .content {
+            border-right: 1px solid #f1ebeb;
+        }
+        .n-s .margin {
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="n-s">
+
+    <div class="container">
+        <div class="title">function: Start，功能代码块 </div>
+        <div class="content">
+            <div>入参描述</div>
+            <div>
+                出参描述
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="title">for: 业务描述语句</div>
+        <div class="content">
+
+            <div class="container if-container margin">
+                <div class="title">if: 业务描述语句</div>
+                <div class="content if-content">
+                    <div class="if-true">
+                        <div class="title">真</div>
+                        <div class="content">
+                            <div class="container">
+                                <div class="title">function: 功能接口 1 </div>
+                                <div class="content">
+                                    <div>入参描述</div>
+                                    <div>
+                                        出参描述
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="if-false">
+                        <div class="title">假</div>
+                        <div class="content">
+                            <div class="container">
+                                <div class="title">function: 功能接口 2 </div>
+                                <div class="content">
+                                    <div>入参描述</div>
+                                    <div>
+                                        出参描述
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container if-container margin">
+        <div class="title">if: 业务描述语句</div>
+        <div class="content if-content">
+            <div class="if-true">
+                <div class="title">真</div>
+                <div class="content">
+                    <div class="container">
+                        <div class="title">for: 业务描述语句</div>
+                        <div class="content">
+
+                            <div class="container">
+                                <div class="title">function: 功能接口 3</div>
+                                <div class="content">
+                                    <div>入参描述</div>
+                                    <div>
+                                        出参描述
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="if-false">
+                <div class="title">假</div>
+                <div class="content">
+                    <div class="container">
+                        <div class="title">function: 功能接口 4</div>
+                        <div class="content">
+                            <div>入参描述</div>
+                            <div>
+                                出参描述
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="title">function: 结束</div>
+        <div class="content">
+            <div>入参描述</div>
+            <div>
+                出参描述
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

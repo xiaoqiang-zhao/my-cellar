@@ -158,6 +158,10 @@ array.sort(function (item1, item2) {
     return item1.order &gt; item2.order;
     // 更兼容的写法：return item1.order - item2.order;
 }); // [{&quot;order&quot;:1},{&quot;order&quot;:2},{&quot;order&quot;:3},{&quot;order&quot;:5}] 
+</code></pre><p>在插播一条字符串的方法 <code>localeCompare</code>，在国内环境可能用得到，比如团队中按照国际惯例顺序来做分享，可以现场展示这个比较冷僻的方法。</p>
+<pre><code>var strArr = [&#39;小明&#39;, &#39;阿廖&#39;];
+strArr.sort(function(a,b){return a.localeCompare(b)});
+// [&quot;阿廖&quot;, &quot;小明&quot;]
 </code></pre><h3 id="header-1-2-10">reverse</h3>
 <p>.reverse()</p>
 <p>用于颠倒数组中元素的顺序。该方法<strong>会</strong>改变原来的数组，而不会创建新的数组。
