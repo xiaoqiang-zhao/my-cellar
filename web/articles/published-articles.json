@@ -219,5 +219,19 @@
       ""
     ],
     "todoList": []
+  },
+  {
+    "enName": "xmind",
+    "title": "脑图工具 XMind",
+    "introduction": "今天要画一张脑图，换了 Mac 之后的地一张脑图，找了几个画脑图的软件发现这个最好用(有收费版的可能更好用，但是我不愿意做破解的事情)，简单记录一下使用，也当做工具链的一环。",
+    "tags": [
+      "辅助软件"
+    ],
+    "isPublished": true,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1457866879148,
+    "commentList": [],
+    "todoList": []
   }
 ]
