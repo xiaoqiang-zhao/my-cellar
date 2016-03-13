@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>脑图工具 XMind - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">脑图工具 XMind</h1>
+<blockquote>
+<p>今天要画一张脑图，换了 Mac 之后的地一张脑图，找了几个画脑图的软件发现这个最好用(有收费版的可能更好用，但是我不愿意做破解的事情)，简单记录一下使用，也当做工具链的一环。</p>
+</blockquote>
+<h2 id="header-1-1">常用快捷方式总结</h2>
+<p>Enter  插入同级节点</p>
+<p>Tab    插入子节点</p>
+<h2 id="header-1-2">常用操作</h2>
+<p>文件/导出/图片    保存为图片</p>
+<h2 id="header-1-3">脑图内容</h2>
+<p>为了填充自己的知识体系，把能想到的关于前端的东西画了一张脑图出来。还在整理和填充中，如果觉得哪里有遗漏欢迎提供意见。这个工具支持添加重要性标识和完成度，我打算用 2-3 年的时间通关这张图，寻找同行的队友。</p>
+<p><img src="img/fe-skill-tree.png" alt="image"> </p>
+<p><a href="/articles/xmind/img/fe-skill-tree.xmind" target="_blank">xmind 源文件</a></p>
+
+</div>
+</body>
+</html>
