@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page name="回访（W部）">
+
+	<service ref="queryAttrOptionByTypeId" alias="contactResult">
+		<param key="typeId" value="74" />
+	</service>
+
+	<service ref="queryAttrOptionByTypeId" alias="contactContentCustomer">
+		<param key="typeId" value="75" />
+	</service>
+
+	<service ref="queryAttrOptionByTypeId" alias="contactContentDaily">
+		<param key="typeId" value="76" />
+	</service>
+	
+	   <service ref="queryAttrOptionByTypeId" alias="contactContentProduct">
+        <param key="typeId" value="77" />
+    </service>
+
+	<service ref="queryEditTicketAttrById" alias="extend">
+		<param key="ticketId" value="${request.ticketId}" />
+	</service>
+
+	<set key="ticketExtend"
+		value="${service.extend.data.attrList.listToMap('attrNameEn','content')}" />
+
+	<set key="requestData" value="${request}" if="#equals[${request.loadType}, create]" />
+	<set key="requestData" value="${ticketExtend}" if="#equals[${request.loadType}, edit]" />
+
+	<set key="handleSignValueIsNull" value="#isNull[${requestData.hfwb_handle_sign}]" />
+	<set key="handleSignValue"
+		value="#switch[${handleSignValueIsNull} :: true:%{handleSignDefaultValue}; false:${requestData.hfwb_handle_sign}]" />
+
+	<body>
+		<div class="panel" name="回访（W部）" id="hfwbTicket">
+			<div class="grid">
+				<property key="gridCount" value="1" />
+				<property key="labelWidth" value="120px" />
+				<item id="hfwb_contact_result" label="沟通结果：" type="radio"
+					value="${requestData.hfwb_contact_result}">
+					<check   type="notNull"   />
+					<json>${service.contactResult.optionList.toJson()}</json>
+				</item>
+				
+				<div id="customerRelated" name="账户优化相关" class="grid">	
+							 <property key="gridCount" value="2" />   
+					<item id="hfwb_contact_content_customer" label="沟通内容：" type="checkbox"
+						value="${requestData.hfwb_contact_content_customer}">
+						<check type="notNull"   />
+						<json>${service.contactContentCustomer.optionList.toJson()}</json>						
+					</item>			
+					<item label="其它：" type="input" id="hfwb_contact_content_customer_others"
+                            value="${requestData.hfwb_contact_content_customer_others}">
+                            <property key="width" value="260px" />
+                            <check type="string">
+                                <property key="min" value="%{input_min_length}" />
+                                <property key="max" value="%{input_max_length}" />
+                            </check>
+                    </item>
+				</div>
+				
+				<div id="dailyAffairs" name="日常事务"  class="grid">	
+				    <property key="gridCount" value="2" />			   
+                    <item id="hfwb_contact_content_daily" label="沟通内容：" type="checkbox"
+                        value="${requestData.hfwb_contact_content_daily}">
+                        <check   type="notNull"   />
+                        <json>${service.contactContentDaily.optionList.toJson()}</json>                       
+                    </item>  
+                    
+                    <item label="" type="input" id="hfwb_contact_content_daily_others"
+                            value="${requestData.hfwb_contact_content_daily_others}">
+                            <property key="width" value="260px" />
+                            <check type="string">
+                                <property key="min" value="%{input_min_length}" />
+                                <property key="max" value="%{input_max_length}" />
+                            </check>
+                     </item>                
+                </div>          
+              
+                
+                
+                  <div id="productRecommend" name="产品推荐/售卖" class="grid">  
+                  <property key="gridCount" value="2" />                 
+                    <item id="hfwb_contact_content_product" label="沟通内容：" type="checkbox"
+                        value="${requestData.hfwb_contact_content_product}">
+                        <check   type="notNull"   />
+                        <json>${service.contactContentProduct.optionList.toJson()}</json>                        
+                    </item>
+                    <item label="" type="input" id="hfwb_contact_content_product_others"
+                            value="${requestData.hfwb_contact_content_product_others}">
+                            <property key="width" value="260px" />
+                            <check type="string">
+                                <property key="min" value="%{input_min_length}" />
+                                <property key="max" value="%{input_max_length}" />
+                            </check>
+                    </item>
+                </div>
+                
+                <div id="others" name="其它" class="grid">
+                    <item id="hfwb_contact_result_others" label="" type="input"
+                        value="${requestData.hfwb_contact_result_others}">
+                         <property key="width" value="260px" />
+                            <check type="string">
+                                <property key="min" value="%{input_min_length}" />
+                                <property key="max" value="%{input_max_length}" />
+                            </check>                  
+                     </item>
+                </div>
+                
+                <div id = "problemAlreadyExplain" name="问题说明" class="grid">
+                    <item type="textarea" id="hfwb_already_explain" width="260px"
+                    value="${requestData.hfwb_already_explain}">
+                    <check type="string">
+                        <property key="min" value="%{textarea_min_length}" />
+                        <property key="max" value="%{textarea_max_length}" />
+                    </check>
+                    </item>          
+                </div>
+				
+				<div id="problemInvalidExplain" name="问题说明" class="grid">
+                    <item type="textarea" id="hfwb_invalid_explain" width="260px"
+                    value="${requestData.hfwb_invalid_explain}">
+                    <check type="string">
+                        <property key="min" value="%{textarea_min_length}" />
+                        <property key="max" value="%{textarea_max_length}" />
+                    </check>
+                    </item>          
+                </div>
+				
+				
+				<item label="" type="radio" id="hfwb_handle_sign" width="260px"
+					value="${handleSignValue}">
+					<json>%{const_handleSignJson}</json>
+				</item>
+			</div>
+		</div>
+	</body>
+
+	<event source="hfwb_contact_result">
+		<command type="show">
+			<property key="ignore" value="true" />
+			<json>
+				[
+				{"key": "customerRelated","value":["已完成"]},
+				{"key": "dailyAffairs","value":["已完成"]},
+			    {"key": "productRecommend","value":["已完成"]},
+			    {"key": "others","value":["已完成"]},
+			    {"key": "problemAlreadyExplain","value":["已完成"]},			
+			    {"key": "problemInvalidExplain","value":["无效沟通"]}
+				]
+			</json>
+		</command>
+	</event>
+	
+	<event source="hfwb_contact_content_customer">
+        <command type="show">
+            <property key="ignore" value="true" />
+            <json>
+                [
+                {"key": "hfwb_contact_content_customer_others","value":["0"]}        
+                ]
+            </json>
+        </command>
+    </event>
+    
+    <event source="hfwb_contact_content_daily">
+        <command type="show">
+            <property key="ignore" value="true" />
+            <json>
+                [
+                {"key": "hfwb_contact_content_daily_others","value":["0"]}        
+                ]
+            </json>
+        </command>
+    </event>
+    
+      <event source="hfwb_contact_content_product">
+        <command type="show">
+            <property key="ignore" value="true" />
+            <json>
+                [
+                {"key": "hfwb_contact_content_product_others","value":["0"]}        
+                ]
+            </json>
+        </command>
+    </event>
+</page>

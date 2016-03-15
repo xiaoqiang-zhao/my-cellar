@@ -12,6 +12,8 @@
             align-items: center;
         }
         .n-s .container {
+            position: relative;
+            padding-top: 32px;
             display: inline-flex;
             flex-wrap: wrap;
             min-width: 100px;
@@ -25,6 +27,11 @@
             color: #fff;
             font-size: 14px;
         }
+        .n-s .container > .title {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
         .n-s .container .content {
             display: flex;
             box-sizing: border-box;
@@ -37,8 +44,8 @@
             border-top: none;
         }
         .n-s .container .if-content {
-            display: flex;
             flex-direction: row;
+            align-items: flex-start;
             border: none;
             padding: 0;
         }
@@ -51,6 +58,9 @@
         .n-s .container .if-true,
         .n-s .container .if-false {
             flex: 1;
+        }
+        .n-s .container .if-false {
+            height: 100%;
         }
         .n-s .container .if-true > .title,
         .n-s .container .if-false > .title {
@@ -75,15 +85,6 @@
 <div class="n-s">
 
     <div class="container">
-        <div class="title">function: 语句</div>
-        <div class="content">
-            <div>入参描述</div>
-            <div>
-                出参描述
-            </div>
-        </div>
-    </div>
-    <div class="container">
         <div class="title">for: 业务描述语句</div>
         <div class="content">
 
@@ -95,8 +96,7 @@
                         <div class="content">
                             为真时进入，里面可以嵌套任何语句
                         </div>
-                    </div>
-                    <div class="if-false">
+                    </div><div class="if-false">
                         <div class="title">假</div>
                         <div class="content">
                             为假时进入，里面可以嵌套任何语句
@@ -107,6 +107,18 @@
 
         </div>
     </div>
+
+    <div class="container">
+        <div class="title">for: 业务描述语句</div>
+        <div class="content">
+
+            <div class="container if-container margin" style="background: #333">
+                123eurtiueytqyeruqoeriytiquyri 我如同一热天儿童椅埾
+            </div>
+
+        </div>
+    </div>
+
 </div>
 </body>
 </html>
