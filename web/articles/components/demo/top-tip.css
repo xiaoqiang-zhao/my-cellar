@@ -1,0 +1,21 @@
+body {
+    margin: 0;
+    font: 12px/1.5 tahoma, "microsoft yahei", "\5FAE\8F6F\96C5\9ED1";
+}
+.top-tip {
+    box-sizing: content-box;
+    padding: 15px;
+    background: #ffba00;
+    text-align: center;
+    transition: height 1s;
+}
+.top-tip.hide {
+    height: 0;
+    overflow: hidden;
+}
+.top-tip .text {
+    color: #8E0707;
+    font-size: 18px;
+    line-height: 20px;
+
+}
