@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>顶部提示 - CSS动画</title>
+    <link rel="stylesheet" href="top-tip.css">
+</head>
+<body>
+
+<script>
+    var html = ''
+            + '<div class="top-tip hide">'
+            + '    <span class="text">'
+            + '        提示内容：为了提升性能，将于今晚9点-10点进行一个小时的数据迁移工作，给大家带来的不便敬请谅解'
+            + '    </span>'
+            + '</div>';
+
+    var body = document.getElementsByTagName('body')[0];
+    body.innerHTML = html;
+    var div = document.getElementsByTagName('div')[0];
+    // 延时操作才会有 CSS 动画
+    div.className = 'top-tip';
+//    window.setTimeout(function () {
+//        div.className = 'top-tip';
+//    });
+</script>
+</body>
+</html>

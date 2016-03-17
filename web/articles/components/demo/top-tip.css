@@ -1,16 +1,32 @@
+/* 依赖的全局样式 */
 body {
     margin: 0;
     font: 12px/1.5 tahoma, "microsoft yahei", "\5FAE\8F6F\96C5\9ED1";
 }
+/*
+ * 示例 HTML
+    <div class="top-tip hide">
+        <span class="text">
+            提示内容：为了提升性能，将于今晚9点-10点进行一个小时的数据迁移工作，给大家带来的不便敬请谅解
+        </span>
+    </div>
+
+    注1:如果不需要动画请将 hide 从 class 中去除
+    注2:很多现代浏览器(包括 Chrome, Firefox, Safari)做了优化，会将 DOM 操作合并后再渲染到页面上，
+        所以移除 hide 的操作需要放在 setTimeout 中
+ */
 .top-tip {
     box-sizing: content-box;
     padding: 15px;
     background: #ffba00;
     text-align: center;
-    transition: height 1s;
+    transition: height 1s,
+                padding 1s;
 }
+/* 为 CSS 动画准备的样式 */
 .top-tip.hide {
     height: 0;
+    padding: 0;
     overflow: hidden;
 }
 .top-tip .text {
