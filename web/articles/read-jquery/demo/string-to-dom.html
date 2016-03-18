@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>String to Dom</title>
+    <script src="jquery-2.1.4.js"></script>
+</head>
+<body>
+<script>
+    $(function () {
+        var dom = $('<div>AAA</div><div>BBB</div>');
+        // 5085 buildFragment
+        $('body').append(dom);
+    });
+</script>
+</body>
+</html>
