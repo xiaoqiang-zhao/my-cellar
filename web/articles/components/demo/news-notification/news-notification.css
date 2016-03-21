@@ -1,0 +1,102 @@
+html,
+body {
+    height: 100%;
+}
+body {
+    background-position: right bottom;
+}
+.news-notification {
+    font-family: "微软雅黑", "Arial";
+}
+/* 上面的是辅助样式，下面的是需要拷贝的样式 */
+.news-notification {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 405px;
+    border-top: 1px solid #c5c5c5;
+    border-left: 1px solid #c5c5c5;
+    border-top-left-radius: 8px;
+    overflow: hidden; /* 否则圆角会被里面元素覆盖 */
+    box-shadow: -1px -1px 2px #d9d9d9;
+    background: #fff;
+}
+.news-notification .title {
+    padding-left: 45px;
+    line-height: 40px;
+    font-weight: 700;
+    font-size: 16px;
+    background: #f8f8f8 url(news-noti.png) no-repeat 25px center;
+}
+.news-notification .title .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    padding: 16px;
+}
+.news-notification .title .icon span {
+    display: inline-block;
+    float: right;
+    border-width: 8px;
+    border-style: solid;
+    border-left-color: #f8f8f8;
+    border-right-color: #f8f8f8;
+}
+.news-notification .title .icon.unfold span {
+    border-top-color: #959595;
+    border-bottom-width: 0;
+}
+.news-notification .title .icon.fold span {
+    border-bottom-color: #959595;
+    border-top-width: 0;
+}
+/* CSS3 增强体验 */
+.news-notification .title .icon.fold:hover span {
+    border-bottom-color: #4d4d4d;
+}
+.news-notification .title .icon.unfold:hover span {
+    border-top-color: #4d4d4d;
+}
+.news-notification ul {
+    margin: 0 25px -1px; /* -1px 为了处理最后一条的横线边界问题 */
+    padding: 0;
+    font-size: 14px;
+}
+.news-notification li {
+    list-style: none;
+    line-height: 1.5em;
+    padding: 10px 0;
+    margin: 0;
+    border-bottom: 1px solid #e8e8e8;
+}
+.news-notification li span {
+    display: inline-block;
+    color: #c61b14;
+}
+.news-notification li a {
+    display: inline-block;
+    color: #036fd2;
+}
+.news-notification .i-know {
+    display: block;
+    width: 67px;
+    text-align: center;
+    padding: 3px;
+    border: 1px solid #c5c5c5;
+    border-radius: 5px;
+    margin: 11px auto 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.news-notification .i-know:visited {
+    background-color: #000;
+}
+.news-notification .i-know:hover {
+    color: #fff;
+    background-color: #333;
+}
+.news-notification .empty {
+    text-align: center;
+    color: #949292;
+}
