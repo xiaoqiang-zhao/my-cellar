@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>news notification demo</title>
+    <link rel="stylesheet" href="news-notification.css">
+
+</head>
+<body>
+
+<script src="jquery-2.1.4.js"></script>
+<script src="news-notification.js"></script>
+<script>
+    NewsNotification.init({
+        queryURL: '/news-notification/query',
+        noticeReadedUrl: '/news-notification/notice-readed',
+        spaceTime: 2000
+    });
+</script>
+</body>
+</html>
