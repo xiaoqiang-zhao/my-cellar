@@ -18,11 +18,19 @@
 
 也就是说 div 是一个超级备胎，当你找不到合适的元素时用它就好了。
 
+[更多解释](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/div)
+
+### article
+
+<article>元素表示文档、页面、应用或网站中的独立结构，其意在成为可独立分配的或可复用的结构，如在发布中，它可能是论坛帖子、杂志或新闻文章、博客、用户提交的评论、交互式组件，或者其他独立的内容项目。
+
+[更多解释](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/article)
+
 ### aside
 
 <aside> 元素中连接到页面中其他部分的内容，被认为是独立于该内容的一部分并且可以被单独的拆分出来而不会使整体受影响。其通常表现为侧边栏或者被插入在该内容里。他们通常包含在工具条，例如来自词汇表的定义。也可能有其他类型的信息，例如相关的广告、笔者的传记、web 应用程序、个人资料信息，或在博客上的相关链接。
 
-[https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/aside](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/aside)
+[更多解释](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/aside)
 
 ## 与table相关的标签
 
@@ -34,5 +42,7 @@
 
 ## 参考网站
 
-[http://www.w3chtml.com/html5/ref/tag-list.html](http://www.w3chtml.com/html5/ref/tag-list.html)
+[标签列表 - 中文版](http://www.w3chtml.com/html5/ref/tag-list.html)
+
+[标签列表 - 英文版](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element)
 
