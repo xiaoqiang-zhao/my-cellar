@@ -40,9 +40,19 @@
 
 ## body 之外
 
+## 过时的和未来的
+
+有些标签已经不被推荐使用，这里罗列一下：
+
+有些标签被推荐但是还没有被浏览器广泛支持，如下：
+
+- summary，一个实验中的标签，目前只有部分Chrome支持
+
 ## 参考网站
 
 [标签列表 - 中文版](http://www.w3chtml.com/html5/ref/tag-list.html)
 
 [标签列表 - 英文版](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element)
+
+[标签分类](https://developer.mozilla.org/zh-CN/docs/Web/Guide/HTML/Content_categories)
 
