@@ -2,7 +2,10 @@
   "enName": "license",
   "title": "江湖规矩",
   "introduction": "License，软件使用许可证，开源界的江湖规矩。",
-  "tags": [],
+  "tags": [
+    "规范",
+    "推荐"
+  ],
   "isPublished": true,
   "state": "立项",
   "type": "md",
