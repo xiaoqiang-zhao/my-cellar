@@ -106,6 +106,20 @@
     "todoList": []
   },
   {
+    "enName": "css-layout",
+    "title": "CSS 布局",
+    "introduction": "收集常用布局。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1458396536931,
+    "commentList": [
+      ""
+    ],
+    "todoList": []
+  },
+  {
     "enName": "css-media",
     "title": "媒体查询和响应式布局",
     "introduction": "太重要了",
@@ -178,6 +192,34 @@
     "todoList": []
   },
   {
+    "enName": "html",
+    "title": "整理HTML元素",
+    "introduction": "HTML5 添加了一些新的元素，这有助于 HTML 语义化，语义化是 HTML 十分重要的一部分，本篇就来收集整理 HTML 元素，同时给出一些典型的场景实现。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1459092586506,
+    "commentList": [
+      ""
+    ],
+    "todoList": []
+  },
+  {
+    "enName": "html-elements-categories",
+    "title": "为什么 div 不能放在 p 中",
+    "introduction": "这个结论很多人都知道，但是这个问题所涉及到的知识知道的人就不多了，本篇来谈谈内容模型(content model)。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1459092586508,
+    "commentList": [
+      ""
+    ],
+    "todoList": []
+  },
+  {
     "enName": "jointjs",
     "title": "译 JointJS API",
     "introduction": "本篇是[JointJS API](http://www.jointjs.com/api)的译文，期间会夹杂一些我的理解和辅助理解的Demo。",
@@ -212,7 +254,8 @@
     "introduction": "拖和放是连个复合事件，由多个事件组成，所以不能用普通的事件处理来处理拖放遇到的问题，其中一个问题就是接收拖拽的元素是一组层叠嵌套的元素时，会出现多次响应 `drop` 事件的问题，这里提供一个解决此问题的方案。",
     "tags": [
       "个人笔记",
-      "代码片段"
+      "代码片段",
+      "推荐"
     ],
     "isPublished": true,
     "state": "立项",
@@ -238,6 +281,20 @@
     "todoList": []
   },
   {
+    "enName": "js-module",
+    "title": "js 模块化",
+    "introduction": "未找到描述信息",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1459148989038,
+    "commentList": [
+      ""
+    ],
+    "todoList": []
+  },
+  {
     "enName": "js-part",
     "title": "js 代码片段",
     "introduction": "总有那么些代码片段很经典或很常用，独立写篇文章吧实在太单薄，不整理吧每次用的时候都要翻找或重复造轮子，所以这里收集一些我遇到过写过的一些代码片段。",
@@ -255,7 +312,10 @@
     "enName": "license",
     "title": "江湖规矩",
     "introduction": "License，软件使用许可证，开源界的江湖规矩。",
-    "tags": [],
+    "tags": [
+      "规范",
+      "推荐"
+    ],
     "isPublished": true,
     "state": "立项",
     "type": "md",
@@ -359,12 +419,31 @@
     "title": "RegExp 代码中的代码",
     "introduction": "正则一直是一块硬骨头，有很多写了几年代码的人依然搞不定这玩意，今天我来换个思路学正则。先给出“正则能做什么”，再传授“解析语法与技巧”，然后给出我收集整理的一些常用正则，最后从“原理与性能”出发对各种正则方案优中选优。",
     "tags": [
-      "技术点"
+      "技术点",
+      "推荐"
     ],
     "isPublished": true,
     "state": "立项",
     "type": "md",
     "createDate": 1451965136562,
+    "commentList": [
+      ""
+    ],
+    "todoList": []
+  },
+  {
+    "enName": "require-text",
+    "title": "轻量级模块化解决方案",
+    "introduction": "很多老系统都没有模块化的概念，彻底重构又成本太大，这是一个很轻量级的解决方案，开发不依赖 NodeJs 工具，后端开发人员很容易上手，几个工具都很好学，十分钟轻松上手开发...",
+    "tags": [
+      "个人笔记",
+      "代码片段",
+      "解决方案"
+    ],
+    "isPublished": true,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1459148989047,
     "commentList": [
       ""
     ],
@@ -381,6 +460,20 @@
     "state": "立项",
     "type": "md",
     "createDate": 1452679488698,
+    "commentList": [
+      ""
+    ],
+    "todoList": []
+  },
+  {
+    "enName": "vue-note",
+    "title": "Vue 备忘笔记",
+    "introduction": "记录常用命令的实践经验。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1458394932307,
     "commentList": [
       ""
     ],
@@ -422,7 +515,8 @@
     "title": "WebStorm 使用文档",
     "introduction": "号称最好用的前端IDE，Windows 和 Mac 上各用了一段时间，感觉确实不错分享出来。版本上从8一直用到11，在设置上9到10有一次比较大的调整，下面的设置大部分是从10的使用中记录整理而来，也有一小部分来自于11的使用经验，但是不用做任何区分，因为他们是兼容的。WebStorm在下面简写为WS。",
     "tags": [
-      "辅助软件"
+      "辅助软件",
+      "推荐"
     ],
     "isPublished": true,
     "state": "立项",

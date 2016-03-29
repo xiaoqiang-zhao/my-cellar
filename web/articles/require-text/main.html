@@ -3,7 +3,7 @@
 <head lang="zh-cn">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>方案 - 龙则的个人站点</title>
+    <title>轻量级模块化解决方案 - 龙则的个人站点</title>
     <script>
         // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
         var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
@@ -18,9 +18,62 @@
     <h2> 精进自己，服务他人 </h2>
 </header>
 <div>
-    <h1 id="header-1">方案</h1>
-<h2 id="header-1-1">Demo</h2>
-<p><a href="/articles/demo/index.html" target="_blank">Demo</a></p>
+    <h1 id="header-1">轻量级模块化解决方案</h1>
+<blockquote>
+<p>很多老系统都没有模块化的概念，彻底重构又成本太大，这是一个很轻量级的解决方案，开发不依赖 NodeJs 工具，后端开发人员很容易上手，几个工具都很好学，十分钟轻松上手开发...</p>
+</blockquote>
+<h2 id="header-1-1">场景描述</h2>
+<p>总有那么一些项目，写的很随心所欲，这里面的历史背景真是花红柳绿的，有的是个人为了工作方便写的一个辅助工具，后来发现挺好用但不够强大所以一直往上加东西最后成了一坨 **，有的为了使业务流程闭合仓促上马的项目，也有一些不那么靠谱的人的遗作，总之有个共同的特点 -- 像从十年前穿越过来的，没有多少架构思想在里面，代码结构混乱，改起来痛不欲生。你可能没有时间整体重构，也可能没有兴趣看那些一坨一坨的老代码，但是项目还得继续，让代码继续烂下去是每个人最无奈的选择，但是除了无奈我们还可以做一些积极的事情，最起码不要让代码变得更糟。所以有了这个方案，这个方案可以达到的效果是：</p>
+<ul>
+<li>前后端分离，可以使用代理把站点的前端资源导到本地进进行开发，不需要搭建后端环境；</li>
+<li>模块化代码，让项目的前端代码不再混乱无章；</li>
+<li>不依赖 NodeJs 等工具，后端人员可以直接修改上线；</li>
+<li>可以搭配多种方案，传统的 jQuery 直接操作式开发， MVVM动态数据绑定等可以轻松集成；</li>
+<li>适合渐进式的重构，老功能继续跑，新功能用新框架，可以将老的代码一点一点的替换掉。</li>
+</ul>
+<p>下面介绍一下这个解决方案。</p>
+<h2 id="header-1-2">方案描述</h2>
+<p>先来看目录和文件：</p>
+<pre><code>${root}
+    └── dep   依赖的第三方库
+        ├── require-2.1.11.min.js 模块管理库
+        └── template-3.0.0.min.js HTML模板引擎
+    ├── src   业务代码
+        ├── main.js 入口文件，在这里做全局配置，前端路由等
+        └── ... 其他业务文件
+    ├── index.html    页面文件
+    └── ...           其他页面(也可以没有，成为单页应用)
+</code></pre><p>其实这里只有两个核心的东西 -- 模块化和模板化，在这个基础上就能做到代码模块化。如果之前使用的是 jQuery 而且之后还想继续使用，可以直接在页面中引入 jQuery 的压缩文件，这样新老代码都可以运行。如果下一代想要使用 MVVM 框架， Vue 是一个不错的选择。</p>
+<p>这里有一个<a href="/articles/require-text/demo/index.html" target="_blank">Demo</a>供参考。</p>
+<h2 id="header-1-3">模板引擎语法速查</h2>
+<p>编译一个模板，将一个字符串转换成一个函数，转换成的函数可以多次使用：</p>
+<pre><code>var fn = template.compile(&#39;&lt;div&gt;{{name}}&lt;/div&gt;&#39;);
+</code></pre><p>渲染数据，将数据组装到模板中：</p>
+<pre><code>var html = fn({name: &#39;cellar&#39;});
+</code></pre><p>输出语法</p>
+<pre><code>{{content}}
+// 不编码输出
+{{#content}}
+</code></pre><p>条件表达式</p>
+<pre><code>{{if admin}}
+    &lt;p&gt;admin&lt;/p&gt;
+{{else if code &gt; 0}}
+    &lt;p&gt;master&lt;/p&gt;
+{{else}}
+    &lt;p&gt;error!&lt;/p&gt;
+{{/if}}
+</code></pre><p>遍历表达式</p>
+<p>无论数组或者对象都可以用 each 进行遍历。</p>
+<pre><code>{{each list as value index}}
+    &lt;li&gt;{{index}} - {{value.user}}&lt;/li&gt;
+{{/each}}
+</code></pre><p>可被简写：</p>
+<pre><code>{{each list}}
+    &lt;li&gt;{{$index}} - {{$value.user}}&lt;/li&gt;
+{{/each}}    
+</code></pre><h2 id="header-1-4">扩展资料</h2>
+<p><a href="http://www.requirejs.org/" target="_blank">requirejs官方网站</a></p>
+<p><a href="http://aui.github.io/artTemplate/" target="_blank">模板引擎语法</a></p>
 
 </div>
 </body>
