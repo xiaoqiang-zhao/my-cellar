@@ -24,13 +24,35 @@
 </blockquote>
 <h2 id="header-1-1">元素分类</h2>
 <h3 id="header-1-1-1">Metadata content</h3>
-<p>将这个分类直接翻译成“元数据”似乎很不合适，我倾向于信译为“进出口”，此类标签用于定义外观或行为，也可以是定义其他文件的引入，或者向外输出信息。</p>
-<p>包括的标签有： <base>, <command>, <link>, <meta>, <noscript>, <script>, <style>, <title>.</p>
-<p>其中 <title> 就是向浏览器出处信息。</p>
+<p>将这个分类直接翻译成“元数据分类”似乎很不合适，我倾向于信译为“外交官”，此类标签用于定义外观或行为，也可以是定义其他文件的引入，或者向外输出信息。</p>
+<p>包括的标签有： &lt;base&gt;, &lt;command&gt;, &lt;link&gt;, &lt;meta&gt;, &lt;noscript&gt;, &lt;script&gt;, &lt;style&gt;, &lt;title&gt;.</p>
+<p>其中 &lt;title&gt; 就是向浏览器出处信息。</p>
 <h3 id="header-1-1-2">Flow content</h3>
-<h3 id="header-1-1-3"> </h3>
-<h2 id="header-1-2">参考和扩展</h2>
+<p>直译为“流动标签分类”，普通的文本容器、内嵌标签和文本属于该分类，此分类的标签相当丰富，下面标签全部属于该分类：
+ &lt;a&gt;, &lt;abbr&gt;, &lt;address&gt;, &lt;article&gt;, &lt;aside&gt;, &lt;audio&gt;, &lt;b&gt;,&lt;bdo&gt;, &lt;bdi&gt;, &lt;blockquote&gt;, &lt;br&gt;, &lt;button&gt;, &lt;canvas&gt;, &lt;cite&gt;, &lt;code&gt;, &lt;command&gt;, &lt;data&gt;, &lt;datalist&gt;, &lt;del&gt;, &lt;details&gt;, &lt;dfn&gt;, &lt;div&gt;, &lt;dl&gt;, &lt;em&gt;, &lt;embed&gt;, &lt;fieldset&gt;, &lt;figure&gt;, &lt;footer&gt;, &lt;form&gt;, &lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;h4&gt;, &lt;h5&gt;, &lt;h6&gt;, &lt;header&gt;, &lt;hgroup&gt;, &lt;hr&gt;, &lt;i&gt;, &lt;iframe&gt;, &lt;img&gt;, &lt;input&gt;, &lt;ins&gt;, &lt;kbd&gt;, &lt;keygen&gt;, &lt;label&gt;, &lt;main&gt;, &lt;map&gt;, &lt;mark&gt;, &lt;math&gt;, &lt;menu&gt;, &lt;meter&gt;, &lt;nav&gt;, &lt;noscript&gt;, &lt;object&gt;, &lt;ol&gt;, &lt;output&gt;, &lt;p&gt;, &lt;pre&gt;, &lt;progress&gt;, &lt;q&gt;, &lt;ruby&gt;, &lt;s&gt;, &lt;samp&gt;, &lt;script&gt;, &lt;section&gt;, &lt;select&gt;, &lt;small&gt;, &lt;span&gt;, &lt;strong&gt;, &lt;sub&gt;, &lt;sup&gt;, &lt;svg&gt;, &lt;table&gt;, &lt;template&gt;, &lt;textarea&gt;, &lt;time&gt;, &lt;ul&gt;, &lt;var&gt;, &lt;video&gt;, &lt;wbr&gt;, 文本.</p>
+<p>另外还有一些特殊的标签，如果符合特定情况也也属于该分类，具体如下：</p>
+<ul>
+<li>&lt;area&gt;， 在 &lt;map&gt; 中</li>
+<li>&lt;link&gt;， 有属性 itemprop</li>
+<li>&lt;meta&gt;， 有属性 itemprop</li>
+<li>&lt;style&gt;， 有属性 itemprop</li>
+</ul>
+<h3 id="header-1-1-3">Sectioning content</h3>
+<p>直译为“章节标签分类”，但他的实际作用是对 &lt;header&gt;、&lt;footer&gt; 和 <code>heading content</code> 的内部结构做区域划分。下面标签属于该分类：
+&lt;article&gt;, &lt;aside&gt;, &lt;nav&gt;, &lt;section&gt;. </p>
+<p>注：不要和 <code>sectioning root</code> 混淆了， <code>sectioning root</code> 从常规分类中脱离了出来。</p>
+<h3 id="header-1-1-4">Heading content</h3>
+<h3 id="header-1-1-5">Phrasing content</h3>
+<h3 id="header-1-1-6">Embedded content</h3>
+<h3 id="header-1-1-7">Interactive content</h3>
+<h3 id="header-1-1-8">Palpable content</h3>
+<h3 id="header-1-1-9">Form-associated content</h3>
+<h2 id="header-1-2">Transparent content model</h2>
+<h2 id="header-1-3">其他分类</h2>
+<p>这里有一个异类 <code>Sectioning root</code>，作为单独的一个分类，目前还没有标签按此分类解析，是一个备用分类。</p>
+<h2 id="header-1-4">参考和扩展</h2>
 <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/HTML/Content_categories" target="_blank">标签分类</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element" target="_blank">标签大全</a></p>
 
 </div>
 </body>
