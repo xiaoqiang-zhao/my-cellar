@@ -22,14 +22,18 @@
 <blockquote>
 <p>这个结论很多人都知道，但是这个问题所涉及到的知识知道的人就不多了，本篇来谈谈内容模型(content model)。</p>
 </blockquote>
-<h2 id="header-1-1">元素分类</h2>
-<h3 id="header-1-1-1">Metadata content</h3>
+<h2 id="header-1-1">答题</h2>
+<p>每一个元素再被渲染的时候都会被识别为一个内容模型，但是一个元素可以属于零到多个内容模型，根据渲染时的实际情况来决定使用何种渲染模型。打个比方，元素是一个“男人”，当男人的爸爸叫一声“儿子”，这时男人就会应答一声 -- “儿子在这”，这相当与渲染，在这种情况下“男人”这个元素就被当做儿子模型来渲染；如果男人的老婆叫一声“老公”，这时男人应答为 “老公在这”，在这种情况下“男人”这个元素就被当做老公模型来渲染；那男人的爸爸和老婆同时叫“儿子”和“老公”可以吗？或许实际生活中是可以的，但在元素渲染这个机制下是不可以的，应为这样的话男人就不知道如何应答了，也就是说元素在实际渲染中只能按一个渲染模型来渲染。另外如果有人叫“女儿”，那男人无论如何都不会应答，将 div 放在 p 下就犯了这种错误。</p>
+<p>每个元素可以按哪几种渲染模型渲染，可以被哪几种模型的元素当做子元素，子元素又可以包含哪几种模型的元素，在 规范中都可以找到，例如在<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/p" target="_blank"> p 元素的文档</a>中就定义了其子元素只能是 <code>Phrasing content</code> 这种模型的元素，但是我们去查<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div" target="_blank"> div 元素的文档</a>，发现 div 同学只能被解析成<code>Flow content</code> 和 <code>palpable content</code>两种模型，这就造成了对着一个“男人”喊“女儿”不被搭理的现象。</p>
+<p>关于渲染模型分类的知识请接看下面的章节。</p>
+<h2 id="header-1-2">元素渲染模型分类</h2>
+<h3 id="header-1-2-1">Metadata content</h3>
 <p>将这个分类直接翻译成“元数据分类”似乎很不合适，我倾向于信译为“外交官”，此类标签用于定义外观或行为，也可以是定义其他文件的引入，或者向外输出信息。</p>
 <p>包括的标签有： &lt;base&gt;, &lt;command&gt;, &lt;link&gt;, &lt;meta&gt;, &lt;noscript&gt;, &lt;script&gt;, &lt;style&gt;, &lt;title&gt;.</p>
 <p>其中 &lt;title&gt; 就是向浏览器出处信息。</p>
-<h3 id="header-1-1-2">Flow content</h3>
-<p>直译为“流动标签分类”，普通的文本容器、内嵌标签和文本属于该分类，此分类的标签相当丰富，下面标签全部属于该分类：
- &lt;a&gt;, &lt;abbr&gt;, &lt;address&gt;, &lt;article&gt;, &lt;aside&gt;, &lt;audio&gt;, &lt;b&gt;,&lt;bdo&gt;, &lt;bdi&gt;, &lt;blockquote&gt;, &lt;br&gt;, &lt;button&gt;, &lt;canvas&gt;, &lt;cite&gt;, &lt;code&gt;, &lt;command&gt;, &lt;data&gt;, &lt;datalist&gt;, &lt;del&gt;, &lt;details&gt;, &lt;dfn&gt;, &lt;div&gt;, &lt;dl&gt;, &lt;em&gt;, &lt;embed&gt;, &lt;fieldset&gt;, &lt;figure&gt;, &lt;footer&gt;, &lt;form&gt;, &lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;h4&gt;, &lt;h5&gt;, &lt;h6&gt;, &lt;header&gt;, &lt;hgroup&gt;, &lt;hr&gt;, &lt;i&gt;, &lt;iframe&gt;, &lt;img&gt;, &lt;input&gt;, &lt;ins&gt;, &lt;kbd&gt;, &lt;keygen&gt;, &lt;label&gt;, &lt;main&gt;, &lt;map&gt;, &lt;mark&gt;, &lt;math&gt;, &lt;menu&gt;, &lt;meter&gt;, &lt;nav&gt;, &lt;noscript&gt;, &lt;object&gt;, &lt;ol&gt;, &lt;output&gt;, &lt;p&gt;, &lt;pre&gt;, &lt;progress&gt;, &lt;q&gt;, &lt;ruby&gt;, &lt;s&gt;, &lt;samp&gt;, &lt;script&gt;, &lt;section&gt;, &lt;select&gt;, &lt;small&gt;, &lt;span&gt;, &lt;strong&gt;, &lt;sub&gt;, &lt;sup&gt;, &lt;svg&gt;, &lt;table&gt;, &lt;template&gt;, &lt;textarea&gt;, &lt;time&gt;, &lt;ul&gt;, &lt;var&gt;, &lt;video&gt;, &lt;wbr&gt;, 文本.</p>
+<h3 id="header-1-2-2">Flow content</h3>
+<p>直译为“流元素分类”，普通的文本容器、内嵌标签和文本属于该分类，此分类的标签相当丰富，下面标签全部属于该分类：</p>
+<p> &lt;a&gt;, &lt;abbr&gt;, &lt;address&gt;, &lt;article&gt;, &lt;aside&gt;, &lt;audio&gt;, &lt;b&gt;,&lt;bdo&gt;, &lt;bdi&gt;, &lt;blockquote&gt;, &lt;br&gt;, &lt;button&gt;, &lt;canvas&gt;, &lt;cite&gt;, &lt;code&gt;, &lt;command&gt;, &lt;data&gt;, &lt;datalist&gt;, &lt;del&gt;, &lt;details&gt;, &lt;dfn&gt;, &lt;div&gt;, &lt;dl&gt;, &lt;em&gt;, &lt;embed&gt;, &lt;fieldset&gt;, &lt;figure&gt;, &lt;footer&gt;, &lt;form&gt;, &lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;h4&gt;, &lt;h5&gt;, &lt;h6&gt;, &lt;header&gt;, &lt;hgroup&gt;, &lt;hr&gt;, &lt;i&gt;, &lt;iframe&gt;, &lt;img&gt;, &lt;input&gt;, &lt;ins&gt;, &lt;kbd&gt;, &lt;keygen&gt;, &lt;label&gt;, &lt;main&gt;, &lt;map&gt;, &lt;mark&gt;, &lt;math&gt;, &lt;menu&gt;, &lt;meter&gt;, &lt;nav&gt;, &lt;noscript&gt;, &lt;object&gt;, &lt;ol&gt;, &lt;output&gt;, &lt;p&gt;, &lt;pre&gt;, &lt;progress&gt;, &lt;q&gt;, &lt;ruby&gt;, &lt;s&gt;, &lt;samp&gt;, &lt;script&gt;, &lt;section&gt;, &lt;select&gt;, &lt;small&gt;, &lt;span&gt;, &lt;strong&gt;, &lt;sub&gt;, &lt;sup&gt;, &lt;svg&gt;, &lt;table&gt;, &lt;template&gt;, &lt;textarea&gt;, &lt;time&gt;, &lt;ul&gt;, &lt;var&gt;, &lt;video&gt;, &lt;wbr&gt;, 文本.</p>
 <p>另外还有一些特殊的标签，如果符合特定情况也也属于该分类，具体如下：</p>
 <ul>
 <li>&lt;area&gt;， 在 &lt;map&gt; 中</li>
@@ -37,20 +41,55 @@
 <li>&lt;meta&gt;， 有属性 itemprop</li>
 <li>&lt;style&gt;， 有属性 itemprop</li>
 </ul>
-<h3 id="header-1-1-3">Sectioning content</h3>
-<p>直译为“章节标签分类”，但他的实际作用是对 &lt;header&gt;、&lt;footer&gt; 和 <code>heading content</code> 的内部结构做区域划分。下面标签属于该分类：
+<h3 id="header-1-2-3">Sectioning content</h3>
+<p>直译为“章节元素分类”，但他的实际作用是对 &lt;header&gt;、&lt;footer&gt; 和 <code>heading content</code> 的内部结构做区域划分。该分类包含的标签有：
 &lt;article&gt;, &lt;aside&gt;, &lt;nav&gt;, &lt;section&gt;. </p>
 <p>注：不要和 <code>sectioning root</code> 混淆了， <code>sectioning root</code> 从常规分类中脱离了出来。</p>
-<h3 id="header-1-1-4">Heading content</h3>
-<h3 id="header-1-1-5">Phrasing content</h3>
-<h3 id="header-1-1-6">Embedded content</h3>
-<h3 id="header-1-1-7">Interactive content</h3>
-<h3 id="header-1-1-8">Palpable content</h3>
-<h3 id="header-1-1-9">Form-associated content</h3>
-<h2 id="header-1-2">Transparent content model</h2>
-<h2 id="header-1-3">其他分类</h2>
+<h3 id="header-1-2-4">Heading content</h3>
+<p>标题元素分类，用来定义章节(section)的标题，也被称为是章节标签分类的一个特例，或者被用来定义标题内容。该分类包含的标签有： &lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;h4&gt;, &lt;h5&gt;, &lt;h6&gt; and &lt;hgroup&gt;.</p>
+<h3 id="header-1-2-5">Phrasing content</h3>
+<p>词组元素分类，用来定义文本或者在文本内容上做标记，也用来引入其他页面、音频、视频等内容。该分类包含的标签有：
+&lt;abbr&gt;, &lt;audio&gt;, &lt;b&gt;, &lt;bdo&gt;, &lt;br&gt;, &lt;button&gt;, &lt;canvas&gt;, &lt;cite&gt;, &lt;code&gt;, &lt;command&gt;, &lt;datalist&gt;, &lt;dfn&gt;, &lt;em&gt;, &lt;embed&gt;, &lt;i&gt;, &lt;iframe&gt;, &lt;img&gt;, &lt;input&gt;, &lt;kbd&gt;, &lt;keygen&gt;, &lt;label&gt;, &lt;mark&gt;, &lt;math&gt;, &lt;meter&gt;, &lt;noscript&gt;, &lt;object&gt;, &lt;output&gt;, &lt;progress&gt;, &lt;q&gt;, &lt;ruby&gt;, &lt;samp&gt;, &lt;script&gt;, &lt;select&gt;, &lt;small&gt;, &lt;span&gt;, &lt;strong&gt;, &lt;sub&gt;, &lt;sup&gt;, &lt;svg&gt;, &lt;textarea&gt;, &lt;time&gt;, &lt;var&gt;, &lt;video&gt;, &lt;wbr&gt; 和 文本。</p>
+<p>还有一些其他的标签，在满足特定条件的时候也属于该分类：</p>
+<ul>
+<li>&lt;a&gt; 如果只包含段落内容；</li>
+<li>&lt;area&gt; 如果是 &lt;map&gt; 标签的后代标签；</li>
+<li>&lt;del&gt; 如果只包含段落内容；</li>
+<li>&lt;ins&gt; 如果只包含段落内容；</li>
+<li>&lt;link&gt; 如果存在属性 itemprop</li>
+<li>&lt;map&gt; 如果只包含段落内容；</li>
+<li>&lt;meta&gt; 如果存在属性 itemprop</li>
+</ul>
+<h3 id="header-1-2-6">Embedded content</h3>
+<p>嵌入元素分类，属于这个分类的标签将其他资源嵌入到页面中，这些资源可以是用非超文本语言编码的资源，或者来自其他域名，属于这个分类的标签有： &lt;audio&gt;, &lt;canvas&gt;, &lt;embed&gt;, &lt;iframe&gt;, &lt;img&gt;, &lt;math&gt;, &lt;object&gt;, &lt;svg&gt;, &lt;video&gt;</p>
+<h3 id="header-1-2-7">Interactive content</h3>
+<p>交互元素分类，这个分类专门为和用户交互设计的，属于这个分类的元素有：: &lt;a&gt;, &lt;button&gt;, &lt;details&gt;, &lt;embed&gt;, &lt;iframe&gt;, &lt;keygen&gt;, &lt;label&gt;, &lt;select&gt;, 和 &lt;textarea&gt;。</p>
+<p>还有一些其他的标签，在满足特定条件的时候也属于该分类：</p>
+<ul>
+<li>&lt;audio&gt; 如果有 controls 属性存在</li>
+<li>&lt;img&gt; 如果有 usemap 属性存在</li>
+<li>&lt;input&gt; 如果 type 属性值不是 hidden</li>
+<li>&lt;menu&gt; 如果 type 属性值是 toolbar</li>
+<li>&lt;object&gt; 如果有 usemap 属性存在</li>
+<li>&lt;video&gt; 如果有 controls 属性存在</li>
+</ul>
+<h3 id="header-1-2-8">Form-associated content</h3>
+<p>可提交的表单相关元素分类，此分类要求元素归属于一个表单，归属的方式有两种：在表单元素里面；元素的 form 属性值是表单的 id(form属性在HTML5中才被支持)。属于这个分类的元素有：&lt;button&gt;, &lt;fieldset&gt;, &lt;input&gt;, &lt;keygen&gt;, &lt;label&gt;, &lt;meter&gt;, &lt;object&gt;, &lt;output&gt;, &lt;progress&gt;, &lt;select&gt;, &lt;textarea&gt;。</p>
+<p>另外这个分类还有四个子分类：listed、labelable、submittable、resettable，这里不再详述，需要了解更多信息请参考 <a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/HTML/Content_categories#Form-associated_content" target="_blank">开发者中心相关文档</a>。</p>
+<h2 id="header-1-3">透明内容模型</h2>
+<p><code>Transparent content model</code>，这里的透明并不是视觉上的透明，透明内容模型的元素必须满足两个条件：</p>
+<ul>
+<li>必须是 HTML5 规范的有效元素；</li>
+<li>如果把此标签移除掉，剩下的元素也依然符合 HTML5 规范。</li>
+</ul>
+<p>例如  &lt;del&gt; 和 &lt;ins&gt; 就是透明内容模型，如果有这样一段 HTML：</p>
+<pre><code>&lt;p&gt;We hold these truths to be &lt;del&gt;&lt;em&gt;sacred &amp;amp; undeniable&lt;/em&gt;&lt;/del&gt; &lt;ins&gt;self-evident&lt;/ins&gt;.&lt;/p&gt;
+</code></pre><p>那么我把这两个元素移除后，这段 HTML 依然符合 HTML5 规范。</p>
+<pre><code>&lt;p&gt;We hold these truths to be &lt;em&gt;sacred &amp;amp; undeniable&lt;/em&gt; self-evident.&lt;/p&gt;
+</code></pre><h2 id="header-1-4">其他内容模型</h2>
 <p>这里有一个异类 <code>Sectioning root</code>，作为单独的一个分类，目前还没有标签按此分类解析，是一个备用分类。</p>
-<h2 id="header-1-4">参考和扩展</h2>
+<h2 id="header-1-5">参考和扩展</h2>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories" target="_blank">英文原版</a></p>
 <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/HTML/Content_categories" target="_blank">标签分类</a></p>
 <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element" target="_blank">标签大全</a></p>
 
