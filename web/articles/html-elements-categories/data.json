@@ -2,8 +2,12 @@
   "enName": "html-elements-categories",
   "title": "为什么 div 不能放在 p 中",
   "introduction": "这个结论很多人都知道，但是这个问题所涉及到的知识知道的人就不多了，本篇来谈谈内容模型(content model)。",
-  "tags": [],
-  "isPublished": false,
+  "tags": [
+    "技术点",
+    "规范",
+    "推荐"
+  ],
+  "isPublished": true,
   "state": "立项",
   "type": "md",
   "createDate": 1459092586508,
