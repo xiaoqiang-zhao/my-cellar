@@ -74,11 +74,21 @@
 
 另外这个分类还有四个子分类：listed、labelable、submittable、resettable，这里不再详述，需要了解更多信息请参考 [开发者中心相关文档](https://developer.mozilla.org/zh-CN/docs/Web/Guide/HTML/Content_categories#Form-associated_content)。
 
-## Transparent content model
+## 透明内容模型
 
+`Transparent content model`，这里的透明并不是视觉上的透明，透明内容模型的元素必须满足两个条件：
+- 必须是 HTML5 规范的有效元素；
+- 如果把此标签移除掉，剩下的元素也依然符合 HTML5 规范。
 
+例如  &lt;del> 和 &lt;ins> 就是透明内容模型，如果有这样一段 HTML：
 
-## 其他分类
+	<p>We hold these truths to be <del><em>sacred &amp; undeniable</em></del> <ins>self-evident</ins>.</p>
+
+那么我把这两个元素移除后，这段 HTML 依然符合 HTML5 规范。
+
+	<p>We hold these truths to be <em>sacred &amp; undeniable</em> self-evident.</p>
+
+## 其他内容模型
 
 这里有一个异类 `Sectioning root`，作为单独的一个分类，目前还没有标签按此分类解析，是一个备用分类。
 
