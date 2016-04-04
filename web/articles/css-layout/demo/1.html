@@ -9,7 +9,7 @@
             padding: 5px;
             background: #eee;
         }
-        .flex {
+        .aside {
             flex: 0;
             background: #ddd;
             padding: 5px;
@@ -18,59 +18,40 @@
             white-space: nowrap;
             order: 2;
         }
-        .last {
+        .main {
             padding: 5px;
             flex: 1;
             background: #ccc;
+        }
+        .padding {
+            padding: 30px 10px;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="flex">
-        flex
+    <div class="aside">
+        侧栏
     </div>
-    <div class="last">
-        last
+    <div class="main">
+        主内容区
     </div>
 </div>
 
 <div class="container">
-    <div class="flex">
-        flexsdsd
+    <div class="aside">
+        aside-aside(展示连字符)
     </div>
-    <div class="last">
-        last
-    </div>
-</div>
-<div class="container">
-    <div class="flex">
-        flex word
-    </div>
-    <div class="last">
-        last
+    <div class="main">
+        主内容区
     </div>
 </div>
 <div class="container">
-    <div class="flex nowrap">
-        flex word
+    <div class="aside">
+        flex word(展示单词)
     </div>
-    <div class="last">
-        last
-    </div>
-</div>
-<div class="container">
-    <div class="flex nowrap">
-        <ul>
-            <li>
-                <a href="">
-                    伤筋动骨发生过的粉红色个刷怪都黑色的广泛
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="last">
-        last
+    <div class="main">
+        主内容区
     </div>
 </div>
 </body>
