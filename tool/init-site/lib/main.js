@@ -139,7 +139,7 @@ function doWebpack() {
         // 自动发布
         var publishModule = require('../../publish');
 
-        if (isDebug === true) {
+        if (isDebug !== true) {
             publishModule.copyInitSiteFile(lastVersion.version);
         }
     });
