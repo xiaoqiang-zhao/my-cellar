@@ -1,6 +1,7 @@
+<!-- 博客头部，如果需要修改此文件，请修改对应的模板文件 tool/init-site/lib/header.tpl  -->
 <header class="page-header">
     <h1>
-        <span class="main-title">龙则的个人站点</span>
+        <a class="main-title" v-link="{name: 'index'}">龙则的个人站点</a>
         <span class="subtitle">精进自己，服务他人</span>
     </h1>
     <nav class="nav">
