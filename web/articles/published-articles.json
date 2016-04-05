@@ -168,7 +168,9 @@
     "enName": "new-year",
     "title": "新年清零",
     "introduction": "2016 年，新的一年清空所有从新开始。",
-    "tags": [],
+    "tags": [
+      "个人笔记"
+    ],
     "isPublished": true,
     "state": "立项",
     "type": "md",
