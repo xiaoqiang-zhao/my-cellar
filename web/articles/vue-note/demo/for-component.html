@@ -2,12 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Event</title>
+    <title>组件循环</title>
     <script src="vue.js"></script>
 </head>
 <body>
-<!-- 子组件模板 -->
-<template id="child-template">
+<!-- 子组件1模板 -->
+<template id="child-1-template">
+    子组件 1
+    <input v-model="msg">
+    <button v-on:click="notify">Dispatch Event</button>
+</template>
+
+<!-- 子组件2模板 -->
+<template id="child-2-template">
+    子组件 2
     <input v-model="msg">
     <button v-on:click="notify">Dispatch Event</button>
 </template>
@@ -15,21 +23,24 @@
 <!-- 父组件模板 -->
 <div id="events-example">
     <p>Messages: {{ messages | json }}</p>
-    <component-child></component-child>
+    <my-component></my-component>
 </div>
 <script>
     // 注册子组件
     // 将当前消息派发出去
-    var child = Vue.component('component-child', {
+    Vue.component('child', {
         template: '#child-template',
         data: function () {
             return {msg: 'hello'}
         },
+        components: {
+
+        },
         methods: {
             notify: function () {
                 if (this.msg.trim()) {
-                    this.$dispatch('child-msg', this.msg);
-                    this.msg = '';
+                    this.$dispatch('child-msg', this.msg)
+                    this.msg = ''
                 }
             }
         }
@@ -40,10 +51,6 @@
         el: '#events-example',
         data: {
             messages: []
-        },
-        //components
-        components: {
-            'component-child': child
         },
         // 在创建实例时 `events` 选项简单地调用 `$on`
         events: {
