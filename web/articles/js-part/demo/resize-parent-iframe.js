@@ -5,9 +5,10 @@
 /**
  * 子页面重新修改父页面iframe高度
  *
+ * param {string} iframeId 承载当前页面的 iframe 的 id(注：必须是 id)
  * @param {Number} delayTime [可选]延迟时间
  */
-function resizeParentIframe(delayTime) {
+function resizeParentIframe(iframeId, delayTime) {
 
     if (delayTime >= 0) {
         setTimeout(_, delayTime);
@@ -41,12 +42,12 @@ function resizeParentIframe(delayTime) {
         if (realHeight < 400) {
             realHeight = 400;
         }
+        // 查看是否有跨域的情况，如果有需要事先解决否则无法操作父窗口中的任何东西
         if (window.parent.document !== document) {
             var iframe = window.parent.document.getElementById('iframe');
             if (iframe !== null) {
-
+                iframe.height = realHeight;
             }
-            $("#iframe", window.parent.document).height(realHeight);
         }
     }
 }
