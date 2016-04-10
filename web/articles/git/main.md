@@ -113,6 +113,29 @@ GitHub是开源的圣地，但开源是靠不开源作为经济支撑的，因�
 ### 用WebStorm管理Git目录
 有些情况下你可能用其他方式下载了Git项目的目录,用WebStorm打开发现没有Git选项,不能Commit.面对这种情况只需在VCS菜单下点击"Enable Version Control Integration..."在弹出框中选"Git",最后确定就可以了.
 
+## 命令备忘
+
+	// 克隆一个项目到本地
+	git clone 项目地址
+	
+	// 查看哪些文件被改变了，需要在被 git 托管的文件夹下使用
+	git status
+	
+	// 添加托管文件，因为新建文件不会自动被 git 托管，搜易需要手动添加
+	git add
+	
+	// 提交到本地的一个版本 ---- 怎么选提交的文件？
+	git commit -m "提交的描述信息"
+	
+	// 查看 commit日志
+	git log
+	
+	// 插销 commit  --- 待研究，貌似不好使？
+	git reset --hard commit_id
+	
+	// 提交
+	git push origin/dev
+
 ## 移除被误提交的 IDE 配置文件
 
 IDE 的配置文件通常是隐藏文件，不易在 IDE 中操作，这是需要命令行来辅助一下，下面是相关操作：
