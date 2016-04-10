@@ -21925,7 +21925,7 @@
 	        return {
 	            htmlContent: '',
 	            headerTree: [],
-	            isOpenHeaders: false,
+	            isOpenHeaders: true,
 	            closeHeadersStyle: 'height: 40px;'
 	        };
 	    },
@@ -21934,8 +21934,7 @@
 	        scrollToHeaderContent: function (event) {
 	            var headerId = event.target.getAttribute('data-value');
 	            var headerDom = document.getElementById(headerId);
-	            // 可做动画 TODO
-	            document.body.scrollTop = headerDom.offsetTop - 20;
+	            document.body.scrollTop = headerDom.offsetTop - 10;
 	        },
 	        // 展开目录
 	        openHeaders: function () {
@@ -21961,20 +21960,29 @@
 	    function respondScrollChange(scrollTop) {
 	        var aside = $(selector);
 	        var top = 0;
+	        // 文章目录悬浮
 	        if (scrollTop > criticalValue) {
 	            // 加 4 是为了使顶部有 4px 间隔
 	            top = (scrollTop - criticalValue + 4) + 'px';
 	            var headerList = aside.find(' > div');
 	            var windowHeight = window$.height();
-	            var headerListHeight = headerList.height() - 2;
-	            if (headerListHeight > windowHeight) {
+	            var headerListHeight = headerList.outerHeight(true) - 2;
+	
+	            var styleClass = 'scroll';
+	            // 文章目录高度超过可视高度
+	            if (headerListHeight + 15 > windowHeight) {
 	                // 减 10 是为了底部有 4px 间隔，
 	                // 10 = 4(顶部间距) + 4(底部间距) + 2(上下边框)
 	                headerList.css({
 	                    height: (windowHeight - 10) + 'px'
 	                });
+	                headerList.addClass(styleClass);
+	            }
+	            else {
+	                headerList.removeClass(styleClass);
 	            }
 	        }
+	        // 重置定位，悬浮和不悬浮的定位逻辑一样
 	        aside.css({
 	            top: top
 	        });
@@ -23609,7 +23617,7 @@
 	
 	
 	// module
-	exports.push([module.id, "/*\n * src/components/article-detail/article-detail.css\n *\n * 文章详情页样式\n */\n.article-detail-page-container {\n    display: flex;\n}\n/* 内容部分 */\n.article-detail-container {\n    flex: 1;\n    margin: 1em 0 0;\n    padding: 1em 1em .5em 1em;\n    background-color: #f2f2f2;\n}\n/* 文章目录 */\n.article-detail-page-container > aside {\n    position: relative;\n    order: 2;\n    opacity: .95;\n    margin: 1em 0 0 1em;\n    transition: top .2s ease-out;\n}\n.article-detail-headers-container,\n.article-detail-headers-container.open {\n    position: relative;\n    max-width: 260px;\n    min-width: 120px;\n    box-sizing: border-box;\n    border: 1px solid #e2e2e2;\n    padding: 6px;\n    overflow: scroll;\n    font-size: 14px;\n    line-height: 1em;\n    transition: border-radius .5s,\n                top .2s ease-out;\n}\n.open > ul {\n    max-width: 260px;\n    min-width: 120px;\n}\n.article-detail-headers-container > header {\n    top: 6px;\n    display: block;\n    box-sizing: border-box;\n    padding-bottom: 3px;\n    padding-top: 100px; /* 为了驱赶文字的乱入 */\n    border-bottom: 1px solid #e2e2e2;\n    font-weight: 700;\n    background: #fff;\n    line-height: 1.5em;\n}\n.article-detail-headers-container.open > header {\n    padding-top: 0;\n}\n.article-detail-headers-container ul {\n    margin: .5em 1em 0 1em;\n}\n.article-detail-headers-container ul li {\n    padding: 5px 0;\n    list-style: none;\n    position: relative;\n}\n.article-detail-headers-container ul li:before {\n    content: \"\\200B\";\n    display: inline-block;\n    box-sizing: border-box;\n    height: 4px;\n    width: 4px;\n    overflow: hidden;\n    position: absolute;\n    left: -9px;\n    top: 11px;\n    border: 2px solid #5a5a5a;\n    border-radius: 2px;\n    vertical-align: middle;\n}\n.article-detail-headers-container ul ul li:before {\n    border: 1px solid #ccc;\n}\n.article-detail-headers-container a {\n    display: inline-block;\n    width: 100%;\n    overflow: hidden;\n    /* 不折行 */\n    text-overflow: ellipsis;\n    white-space: nowrap; /* 强制不换行 */\n    color: #2479cc;\n    text-decoration: none;\n    cursor: pointer;\n}\n.article-detail-headers-container ul ul {\n    margin-top: 0;\n    margin-bottom: 0;\n}\n.article-detail-headers-container .icon-catalogue {\n    position: absolute;\n    top: 0;\n    left: 0;\n    display: none; /* 宽屏隐藏 */\n    box-sizing: border-box;\n    width: 38px;\n    height: 38px;\n    border: none;\n    padding: 5px 6px;\n    border-radius: 20px;\n    cursor: pointer;\n}\n.article-detail-headers-container .icon-close {\n    position: absolute;\n    top: 6px;\n    right: 12px;\n    display: none;\n    border: none;\n    background: none;\n}\n/* 文章列表图标 */\n.icon-catalogue {\n    display: inline-block;\n}\n.icon-catalogue i,\n.icon-catalogue i:before,\n.icon-catalogue i:after {\n    position: relative;\n    box-sizing: border-box;\n    display: block;\n    height: 2px;\n    width: 20px;\n    border-left: 2px solid #006a00;\n    border-right: 15px solid #006a00;\n    margin: 13px 2px;\n}\n.icon-catalogue i:before,\n.icon-catalogue i:after {\n    position: absolute;\n    margin: 0;\n    content: \"\\200B\";\n    left: -2px;\n}\n.icon-catalogue i:before {\n    top: -6px;\n}\n.icon-catalogue i:after {\n    bottom: -6px;\n}\n/* 关闭按钮图标，当前只有这里用到，\n   如果有第二处使用，需要提到公共文件中( icon 文件夹下是个不错的选择)\n */\n.icon-close {\n    position: relative;\n    box-sizing: border-box;\n    display: inline-block;\n    height: 18px;\n    width: 18px;\n    cursor: pointer;\n}\n.icon-close:before,\n.icon-close:after {\n    position: absolute;\n    width: 100%;\n    height: 2px;\n    top: 50%;\n    left: 0;\n    background: #006a00;\n    content: \"\\200B\";\n}\n.icon-close:before {\n    transform: rotate(45deg);\n}\n.icon-close:after {\n    transform: rotate(-45deg);\n}\n/* 小于800时文章目录显示为图标 */\n@media screen and (max-width: 800px) {\n    .article-detail-page-container > aside {\n        position: absolute;\n        right: 0;\n    }\n    .article-detail-headers-container {\n        width: 40px;\n        height: 40px;\n        min-width: 40px; /* 不加会出现侧 U 型边框 */\n        border-radius: 20px;\n        overflow: hidden;\n    }\n    .article-detail-headers-container.open {\n        height: auto;\n        width: auto;\n        min-width: auto;\n        overflow: scroll;\n        background: #fff;\n        border-radius: 0;\n    }\n    .article-detail-headers-container .icon-catalogue {\n        display: inline-block;\n        background: #fff;\n    }\n    .article-detail-headers-container.open .icon-catalogue {\n        display: none;\n    }\n    .article-detail-headers-container.open .icon-close {\n        display: inline-block;\n    }\n}\n/* 留言 */\n.article-message-container { }", ""]);
+	exports.push([module.id, "/*\n * src/components/article-detail/article-detail.css\n *\n * 文章详情页样式\n */\n.article-detail-page-container {\n    display: flex;\n}\n/* 内容部分 */\n.article-detail-container {\n    flex: 1;\n    margin: 1em 0 0;\n    padding: 1em 1em .5em 1em;\n    background-color: #f2f2f2;\n}\n/* 文章目录 */\n.article-detail-page-container > aside {\n    position: relative;\n    order: 2;\n    opacity: .95;\n    margin: 1em 0 0 1em;\n    transition: top .2s ease-out;\n}\n.article-detail-headers-container,\n.article-detail-headers-container.open {\n    position: relative;\n    max-width: 260px;\n    min-width: 120px;\n    box-sizing: border-box;\n    border: 1px solid #e2e2e2;\n    padding: 6px;\n    font-size: 14px;\n    line-height: 1em;\n    transition: border-radius .5s,\n                top .2s ease-out;\n}\n.article-detail-headers-container.open.scroll {\n    overflow-y: scroll;\n}\n.open > ul {\n    max-width: 260px;\n    min-width: 120px;\n}\n.article-detail-headers-container > header {\n    top: 6px;\n    display: block;\n    box-sizing: border-box;\n    padding-top: 100px; /* 为了驱赶文字的乱入 */\n    padding-bottom: 3px;\n    border-bottom: 1px solid #e2e2e2;\n    font-weight: 700;\n    background: #fff;\n    line-height: 1.5em;\n}\n.article-detail-headers-container.open > header {\n    padding-top: 0;\n}\n.article-detail-headers-container ul {\n    margin: .5em 1em 0 1em;\n}\n.article-detail-headers-container ul li {\n    padding: 5px 0;\n    list-style: none;\n    position: relative;\n}\n.article-detail-headers-container ul li:before {\n    content: \"\\200B\";\n    display: inline-block;\n    box-sizing: border-box;\n    height: 4px;\n    width: 4px;\n    overflow: hidden;\n    position: absolute;\n    left: -9px;\n    top: 11px;\n    border: 2px solid #5a5a5a;\n    border-radius: 2px;\n    vertical-align: middle;\n}\n.article-detail-headers-container ul ul li:before {\n    border: 1px solid #ccc;\n}\n.article-detail-headers-container a {\n    display: inline-block;\n    width: 100%;\n    overflow: hidden;\n    /* 不折行 */\n    text-overflow: ellipsis;\n    white-space: nowrap; /* 强制不换行 */\n    color: #2479cc;\n    text-decoration: none;\n    cursor: pointer;\n}\n.article-detail-headers-container ul ul {\n    margin-top: 0;\n    margin-bottom: 0;\n}\n.article-detail-headers-container .icon-catalogue {\n    position: absolute;\n    top: 0;\n    left: 0;\n    display: none; /* 宽屏隐藏 */\n    box-sizing: border-box;\n    width: 38px;\n    height: 38px;\n    border: none;\n    padding: 5px 6px;\n    border-radius: 20px;\n    cursor: pointer;\n}\n.article-detail-headers-container .icon-close {\n    position: absolute;\n    top: 6px;\n    right: 12px;\n    display: none;\n    border: none;\n    background: none;\n}\n/* 文章列表图标 */\n.icon-catalogue {\n    display: inline-block;\n}\n.icon-catalogue i,\n.icon-catalogue i:before,\n.icon-catalogue i:after {\n    position: relative;\n    box-sizing: border-box;\n    display: block;\n    height: 2px;\n    width: 20px;\n    border-left: 2px solid #006a00;\n    border-right: 15px solid #006a00;\n    margin: 13px 2px;\n}\n.icon-catalogue i:before,\n.icon-catalogue i:after {\n    position: absolute;\n    margin: 0;\n    content: \"\\200B\";\n    left: -2px;\n}\n.icon-catalogue i:before {\n    top: -6px;\n}\n.icon-catalogue i:after {\n    bottom: -6px;\n}\n/* 关闭按钮图标，当前只有这里用到，\n   如果有第二处使用，需要提到公共文件中( icon 文件夹下是个不错的选择)\n */\n.icon-close {\n    position: relative;\n    box-sizing: border-box;\n    display: inline-block;\n    height: 18px;\n    width: 18px;\n    cursor: pointer;\n}\n.icon-close:before,\n.icon-close:after {\n    position: absolute;\n    width: 100%;\n    height: 2px;\n    top: 50%;\n    left: 0;\n    background: #006a00;\n    content: \"\\200B\";\n}\n.icon-close:before {\n    transform: rotate(45deg);\n}\n.icon-close:after {\n    transform: rotate(-45deg);\n}\n/* 小于800时文章目录显示为图标 */\n@media screen and (max-width: 800px) {\n    .article-detail-page-container > aside {\n        position: absolute;\n        right: 0;\n    }\n    .article-detail-headers-container {\n        width: 40px;\n        height: 40px;\n        min-width: 40px; /* 不加会出现侧 U 型边框 */\n        border-radius: 20px;\n        overflow: hidden;\n    }\n    .article-detail-headers-container.open {\n        height: auto;\n        width: auto;\n        min-width: auto;\n        background: #fff;\n        border-radius: 0;\n    }\n    .article-detail-headers-container .icon-catalogue {\n        display: inline-block;\n        background: #fff;\n    }\n    .article-detail-headers-container.open .icon-catalogue {\n        display: none;\n    }\n    .article-detail-headers-container.open .icon-close {\n        display: inline-block;\n    }\n}\n/* 留言 */\n.article-message-container { }", ""]);
 	
 	// exports
 
