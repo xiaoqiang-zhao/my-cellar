@@ -20,11 +20,11 @@
 <div>
     <h1 id="header-1">为什么 div 不能放在 p 中</h1>
 <blockquote>
-<p>这个结论很多人都知道，但是这个问题所涉及到的知识知道的人就不多了，本篇来谈谈内容模型(content model)。</p>
+<p>这个结论很多人都知道，但是这个问题所涉及到的知识知道的人就不多了，本篇来谈谈HTML元素的渲染模型。</p>
 </blockquote>
 <h2 id="header-1-1">答题</h2>
-<p>每一个元素再被渲染的时候都会被识别为一个内容模型，但是一个元素可以属于零到多个内容模型，根据渲染时的实际情况来决定使用何种渲染模型。打个比方，元素是一个“男人”，当男人的爸爸叫一声“儿子”，这时男人就会应答一声 -- “儿子在这”，这相当与渲染，在这种情况下“男人”这个元素就被当做儿子模型来渲染；如果男人的老婆叫一声“老公”，这时男人应答为 “老公在这”，在这种情况下“男人”这个元素就被当做老公模型来渲染；那男人的爸爸和老婆同时叫“儿子”和“老公”可以吗？或许实际生活中是可以的，但在元素渲染这个机制下是不可以的，应为这样的话男人就不知道如何应答了，也就是说元素在实际渲染中只能按一个渲染模型来渲染。另外如果有人叫“女儿”，那男人无论如何都不会应答，将 div 放在 p 下就犯了这种错误。</p>
-<p>每个元素可以按哪几种渲染模型渲染，可以被哪几种模型的元素当做子元素，子元素又可以包含哪几种模型的元素，在 规范中都可以找到，例如在<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/p" target="_blank"> p 元素的文档</a>中就定义了其子元素只能是 <code>Phrasing content</code> 这种模型的元素，但是我们去查<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div" target="_blank"> div 元素的文档</a>，发现 div 同学只能被解析成<code>Flow content</code> 和 <code>palpable content</code>两种模型，这就造成了对着一个“男人”喊“女儿”不被搭理的现象。</p>
+<p>每一个元素再被渲染的时候都会被识别为一个内容模型，但是一个元素可以属于零到多个内容模型，根据渲染时的实际情况来决定使用何种渲染模型。打个比方，元素是一个“男人”，当男人的爸爸叫一声“儿子”，这时男人就会应答一声 -- “儿子在这”，这相当与渲染，在这种情况下“男人”这个元素就被当做儿子模型来渲染；如果男人的老婆叫一声“老公”，这时男人应答为 “老公在这”，在这种情况下“男人”这个元素就被当做老公模型来渲染；那男人的爸爸和老婆同时叫“儿子”和“老公”可以吗？或许实际生活中是可以的，但在元素渲染这个机制下是不可以的，应为这样的话男人就不知道如何应答了，也就是说元素在实际渲染中只能按一个渲染模型来渲染。另外如果有人叫“闺女”，那男人无论如何都不会应答，将 div 放在 p 下就犯了这种错误。</p>
+<p>每个元素可以按哪几种渲染模型渲染，可以被哪几种模型的元素当做子元素，子元素又可以包含哪几种模型的元素，在 规范中都可以找到，例如在<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/p" target="_blank"> p 元素的文档</a>中就定义了其子元素只能是 <code>Phrasing content</code> 这种模型的元素，但是我们去查<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div" target="_blank"> div 元素的文档</a>，发现 div 同学只能被解析成<code>Flow content</code> 和 <code>palpable content</code>两种模型，这就造成了对着一个“男人”喊“闺女”不被搭理的现象。</p>
 <p>关于渲染模型分类的知识请接看下面的章节。</p>
 <h2 id="header-1-2">元素渲染模型分类</h2>
 <h3 id="header-1-2-1">Metadata content</h3>
@@ -88,7 +88,9 @@
 <pre><code>&lt;p&gt;We hold these truths to be &lt;em&gt;sacred &amp;amp; undeniable&lt;/em&gt; self-evident.&lt;/p&gt;
 </code></pre><h2 id="header-1-4">其他内容模型</h2>
 <p>这里有一个异类 <code>Sectioning root</code>，作为单独的一个分类，目前还没有标签按此分类解析，是一个备用分类。</p>
-<h2 id="header-1-5">参考和扩展</h2>
+<h2 id="header-1-5">一点点感悟</h2>
+<p>刚入行的时候面试经常被问到元素分类的问题，那时以为“行内元素和块状元素”就是标准答案，再后来的很长一段时间里依然这么认为，期间也面过很多人，还没有人给过这个层次的回答。直到最近系统研究 HTML5 元素，发现每个元素都有内容分类、许可内容、父元素这么几个特性，那么问题来了，除了 div 不能放在 p 中，还有其他类似的禁忌吗？</p>
+<h2 id="header-1-6">参考和扩展</h2>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories" target="_blank">英文原版</a></p>
 <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/HTML/Content_categories" target="_blank">标签分类</a></p>
 <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element" target="_blank">标签大全</a></p>
