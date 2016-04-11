@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>子组件索引 - 一</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+
+<script>
+    var Parent = Vue.extend({
+        // data 可以不设置，如果设置了就必须为函数并返回对象
+        data: function () {
+
+            this.$data  // 是 props 定义的参数，根据绑定的类型(单项，双向，单次)决定联动关系
+
+            // 最终回合上面的 merge
+            return {
+                aaa: 'aaa'
+            };
+        },
+        ready: function () {
+            // 这里可以拿到 merge 的结果
+            // debugger;
+        },
+        // 一定要在这了定义，否则拿不到myMessage
+        props: ['myMessage', 'obj'],
+        // replace: false, // 设为 false 会保留自定义标签
+        template: ''
+        + '<div>'
+        + '    父组件：:'
+        + '    <input type="text" v-model="myMessage"/>'
+        + '    <div>{{myMessage}}</div>'
+        + '    <div>{{obj.a}}</div>'
+        + '</div>'
+    });
+    // 容器
+    var container = new Vue({
+        el: document.body,
+        replace: false,
+        data: {
+            parentMsg: '容器文本信息',
+            obj: {
+                a: 'XXXX'
+            },
+            ooo: ''
+        },
+        template: ''
+        + '<div class="container">'
+        + '    <div v-text="parentMsg"></div>'
+        + '    <input v-model="parentMsg">'
+        + '    <c-parent :my-message.sync="parentMsg" :obj.sync="obj"></c-parent>'
+        + '</div>',
+        // 组件局部声明
+        components: {
+            'c-parent': Parent
+        },
+        // 在创建实例时 `events` 选项简单地调用 `$on`
+        events: {}
+    });
+
+    <!-- 默认为单向绑定 -->
+    //    <child :msg="parentMsg"></child>
+    <!-- 双向绑定 -->
+    //    <child :msg.sync="parentMsg"></child>
+    <!-- 单次绑定 -->
+    //    <child :msg.once="parentMsg"></child>
+</script>
+</body>
+</html>
