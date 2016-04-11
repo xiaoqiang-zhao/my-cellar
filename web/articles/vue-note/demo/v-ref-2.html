@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>子组件索引 - 二</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+
+<script>
+    // 验证失败，组件是不可放在数组中传递的，因为传递过去没办法使用
+
+    var Child1 = Vue.extend({
+        template: ''
+        + '<div>'
+        + '    A'
+        + '</div>'
+    });
+    var Child2 = Vue.extend({
+        template: ''
+        + '<div>'
+        + '    B'
+        + '</div>'
+    });
+
+    var Parent = Vue.extend({
+        data: function () {
+            return {};
+        },
+        props: ['cList'],
+        // replace: false, // 设为 false 会保留自定义标签
+        template: ''
+        + '<div>'
+        + '    <my-component v-for="item in cList" :item="item" :index="$index"></my-component>'
+        + '</div>',
+        components:{
+            'my-component': Child1
+        }
+    });
+
+    // 容器
+    var container = new Vue({
+        el: document.body,
+        replace: false,
+        data: {
+            cList: [Child1, Child2],
+        },
+        template: ''
+        + '<div class="container">'
+        + '    <c-parent :c-list.sync="cList"></c-parent>'
+        + '</div>',
+        // 组件局部声明
+        components: {
+            'c-parent': Parent
+        },
+        // 在创建实例时 `events` 选项简单地调用 `$on`
+        events: {}
+    });
+</script>
+</body>
+</html>
