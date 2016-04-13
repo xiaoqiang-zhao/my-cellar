@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ul-scroll</title>
+    <style rel="stylesheet">
+        ul,
+        .ul1 {
+            height: 80px;
+            overflow-y: scroll;
+            background: #eee;
+            width: 100px;
+            margin: 0 auto;
+        }
+        .position {
+            position: relative;
+            top: 800px;
+        }
+        .ul2 {
+            height: 80px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+<ul class="ul1">
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>456</li>
+    <li>456</li>
+    <li>456</li>
+    <li>789</li>
+</ul>
+<div class="position">
+    <ul class="ul2">
+        <li>123</li>
+        <li>123</li>
+        <li>123</li>
+        <li>123</li>
+        <li>123</li>
+        <li>456</li>
+        <li>456</li>
+        <li>456</li>
+        <li>789</li>
+    </ul>
+</div>
+</body>
+</html>
