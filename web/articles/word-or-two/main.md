@@ -39,3 +39,9 @@ module: 模块，一个项目的拆分单元
 呆伯特法则（Dilbert's Law）意指 1990 年代一个讽刺意味的观察，认为公司都倾向有系统地把工作能力最差的员工提升到管理层，以把他们能对公司造成的损害减至最低。
 
 [出处](http://mp.weixin.qq.com/s?__biz=MzA5NDY0ODkxNA==&mid=402473027&idx=1&sn=0887668e2dba101d4a2c100f077b27c9&scene=2&srcid=0403mA7a8yzttAkI0X0C242z&from=timeline&isappinstalled=0#wechat_redirect)
+
+## 参数定义
+
+- 以 `is` 开头，表示布尔设置
+- 以 `on` 开头，表示事件的回调函数
+- 以 `before` 和 `after` 表示事件执行前后，这时你有可能需要覆写默认事件，注意提供默认事件本身和参数

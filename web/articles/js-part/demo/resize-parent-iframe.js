@@ -46,7 +46,12 @@ function resizeParentIframe(iframeId, delayTime) {
         if (window.parent.document !== document) {
             var iframe = window.parent.document.getElementById('iframe');
             if (iframe !== null) {
-                iframe.height = realHeight;
+                // 横向滚动条出现时会多出15像素
+                var scrollHeight = 0;
+                if (document.documentElement.clientHeight < document.documentElement.offsetHeight) {
+                    scrollHeight = 15;
+                }
+                iframe.height = realHeight + scrollHeight;
             }
         }
     }
