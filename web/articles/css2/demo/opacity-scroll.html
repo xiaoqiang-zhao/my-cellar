@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ul-scroll</title>
+    <title>半透明对滚动条的影响</title>
     <style rel="stylesheet">
         ul,
         .ul1 {
@@ -13,6 +13,13 @@
             margin: 0 auto;
         }
         .position {
+            position: relative;
+            top: 800px;
+        }
+        .position2 {
+            left: 300px;
+            /* 半透明对滚动条的影响 */
+            opacity: .5;
             position: relative;
             top: 800px;
         }
@@ -35,6 +42,19 @@
     <li>789</li>
 </ul>
 <div class="position">
+    <ul class="ul2">
+        <li>123</li>
+        <li>123</li>
+        <li>123</li>
+        <li>123</li>
+        <li>123</li>
+        <li>456</li>
+        <li>456</li>
+        <li>456</li>
+        <li>789</li>
+    </ul>
+</div>
+<div class="position2">
     <ul class="ul2">
         <li>123</li>
         <li>123</li>
