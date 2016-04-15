@@ -19,7 +19,7 @@
         .position2 {
             left: 300px;
             /* 半透明对滚动条的影响 */
-            opacity: .5;
+            opacity: .2;
             position: relative;
             top: 800px;
         }
@@ -27,9 +27,25 @@
             height: 80px;
             overflow: auto;
         }
+        .position3 {
+            left: 300px;
+            /* 半透明对滚动条的影响 */
+            opacity: .2;
+            position: relative;
+            top: 800px;
+        }
+        /*.position3 > div {*/
+
+        /*}*/
+        .ul2 {
+            opacity: .5;
+            height: 80px;
+            overflow: auto;
+        }
     </style>
 </head>
 <body>
+需要将透明和定位分开，否则滚动条会失去作用
 <ul class="ul1">
     <li>123</li>
     <li>123</li>
@@ -55,6 +71,33 @@
     </ul>
 </div>
 <div class="position2">
+    <ul class="ul2">
+        <li>123</li>
+        <li>123</li>
+        <li>123</li>
+        <li>123</li>
+        <li>123</li>
+        <li>456</li>
+        <li>456</li>
+        <li>456</li>
+        <li>789</li>
+    </ul>
+</div>
+</div>
+<div class="position2">
+    <ul class="ul2">
+        <li>123</li>
+        <li>123</li>
+        <li>123</li>
+        <li>123</li>
+        <li>123</li>
+        <li>456</li>
+        <li>456</li>
+        <li>456</li>
+        <li>789</li>
+    </ul>
+</div>
+<div class="position3">
     <ul class="ul2">
         <li>123</li>
         <li>123</li>
