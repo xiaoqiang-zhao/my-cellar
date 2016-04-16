@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>fis3 备忘笔记 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">fis3 备忘笔记</h1>
+<blockquote>
+<p>项目中紧急使用，记录一些坑和命令。</p>
+</blockquote>
+<h2 id="header-1-1">fis3 release</h2>
+<p><code>release</code>会将资源加工后推送到某一个临时文件夹</p>
+<pre><code>fis3 release
+</code></pre><p>指定临时文件的输出目录</p>
+<pre><code>// 编译产出到一个特定的目录
+fis3 release -d ./output
+// 发布到当前命令执行目录下的 output 目录下。
+fis3 release -d ../output
+</code></pre><p>生成非压缩调试版资源</p>
+<pre><code>fis3 release rd
+</code></pre><p>监听文件改变，自动刷新页面</p>
+<pre><code>fis3 release rd -wL
+</code></pre><p>启用文件格式检测,--lint,-l</p>
+<pre><code>fis3 release -l
+</code></pre><p>清除编译缓存</p>
+<pre><code>fis3 release -c
+</code></pre><p>启用独立缓存</p>
+<pre><code>fis3 release -u
+</code></pre><h2 id="header-1-2">fis3 server</h2>
+<p>启动服务，加载上面临时文件夹中的资源，所以两个项目同时启动时可能会出现互串的问题</p>
+<pre><code>fis3 server start
+</code></pre><p>获取临时文件夹的信息</p>
+<pre><code>fis3 server info
+</code></pre><p>这是需要一个清理临时文件夹，重新生成的命令</p>
+<pre><code>fis3 server clean
+</code></pre><p>查看临时文件夹确定是否清理成功，可以用下面命令</p>
+<pre><code>fis3 server open
+</code></pre><p>关闭服务</p>
+<pre><code>fis server stop
+</code></pre><p>重启服务</p>
+<pre><code>fis server restart
+</code></pre>
+</div>
+</body>
+</html>
