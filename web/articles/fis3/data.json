@@ -2,8 +2,11 @@
   "enName": "fis3",
   "title": "fis3 备忘笔记",
   "introduction": "项目中紧急使用，记录一些坑和命令。",
-  "tags": [],
-  "isPublished": false,
+  "tags": [
+    "工程",
+    "笔记"
+  ],
+  "isPublished": true,
   "state": "立项",
   "type": "md",
   "createDate": 1460775472043,
