@@ -98,3 +98,43 @@
 .input-text:focus {
     border-color: #1b9af7;
 }
+/* checkbox */
+.icon-checkbox {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: #b8b8b8;
+}
+.icon-checkbox.checked {
+    background: #e74f4f;
+}
+.icon-checkbox:before,
+.icon-checkbox:after {
+    position: absolute;
+    display: block;
+    background: #fff;
+    content: "\200B";
+    height: 3px;
+    width: 14px;
+    border-radius: 2px;
+    overflow: hidden;
+    top: 23px;
+    left: 5px;
+    transform:rotate(45deg);
+    -ms-transform:rotate(45deg);
+    -moz-transform:rotate(45deg);
+    -webkit-transform:rotate(45deg);
+    -o-transform:rotate(45deg);
+}
+.icon-checkbox:after {
+    width: 25px;
+    top: 19px;
+    left: 12px;
+    transform:rotate(-45deg);
+    -ms-transform:rotate(-45deg);
+    -moz-transform:rotate(-45deg);
+    -webkit-transform:rotate(-45deg);
+    -o-transform:rotate(-45deg);
+}
