@@ -122,7 +122,7 @@
   {
     "enName": "css-less",
     "title": "我的 Less 学习笔记",
-    "introduction": "前端必备技能，一定要学会。",
+    "introduction": "前端必备技能，一定要学会。关于 Less，官方给出的定位：是一种动态样式语言，属于CSS预处理语言的一种，它使用类似CSS的语法，为CSS的赋予了动态语言的特性，如变量、继承、运算、函数等，更方便CSS的编写和维护。",
     "tags": [],
     "isPublished": false,
     "state": "立项",
@@ -375,6 +375,20 @@
     "todoList": []
   },
   {
+    "enName": "livereload",
+    "title": "livereload",
+    "introduction": "实时自动刷新页面来开发",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1461240224817,
+    "commentList": [
+      ""
+    ],
+    "todoList": []
+  },
+  {
     "enName": "mac-skill",
     "title": "Mac 的使用技巧",
     "introduction": "从 Windows 切换到 Mac 在操作上总有一些不一样，这里记录一下使用过程中的一些技巧。",
@@ -436,6 +450,23 @@
       ""
     ],
     "todoList": []
+  },
+  {
+    "title": "node开发的坑坑洼洼",
+    "introduction": "未找到描述信息",
+    "tags": [
+      "基础"
+    ],
+    "state": "立项",
+    "type": "md",
+    "createDate": "",
+    "md5": "",
+    "commentList": [
+      ""
+    ],
+    "todoList": [],
+    "isPublished": false,
+    "enName": "node"
   },
   {
     "enName": "npm",

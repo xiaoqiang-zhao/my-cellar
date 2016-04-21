@@ -18,7 +18,9 @@ livereload的基本原理是试用node开启一个websocket服务，并且检测
 	// Mac 记得加 sudo
 	sudo npm install -g browser-sync
 
- 3.启动，
+ 3.静态站点启动
+ 
+ 3.动态站点启动
 
 ## 原理
 
