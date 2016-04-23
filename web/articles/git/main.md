@@ -115,16 +115,38 @@ GitHub是开源的圣地，但开源是靠不开源作为经济支撑的，因�
 
 ## 命令备忘
 
-	// 克隆一个项目到本地
-	git clone 项目地址
+全部命令在[官方文档](https://git-scm.com/docs/)查到，这里翻译和记录一些常用命令。
+
+### git clone
+
+`git clone 项目地址`，克隆一个项目到本地。
+
+### git status
+
+`git status`，查看哪些文件被改变了，需要在被 git 托管的文件夹下使用。下面是几个一级标题对应的含义：
+- Untracked files: 没有被托管的文件；
+- Changes not staged for commit: 被托管了但是没有被添加到推送队列；
+- Changes to be committed: 可被提交的文件，从上一个状态到这个状态需要下面的 `git add` 命令；
+下面是 "Changes to be committed" 状态下文件的一些状态：
+- modified: 修改的文件；
+- new file: 新添加的文件;
+- deleted: 删除文件
 	
-	// 查看哪些文件被改变了，需要在被 git 托管的文件夹下使用
-	git status
+### git add
 	
-	// 添加托管文件，因为新建文件不会自动被 git 托管，所以需要手动添加
-	git add dir/files
+`git add dir/files`，添加托管文件，因为新建文件不会自动被 git 托管，所以需要手动添加
+
+	// 添加全部文件
+	git add .
+
+### git rm
 	
-	// 提交到本地的一个版本 ---- 怎么选提交的文件？
+	// 移除托管文件
+	git rm --cached 文件名
+
+### git commit
+	
+	// 提交到本地的一个版本 ---- https://git-scm.com/docs/git-commit
 	git commit -m "提交的描述信息"
 	
 	// 查看 commit日志
@@ -135,6 +157,13 @@ GitHub是开源的圣地，但开源是靠不开源作为经济支撑的，因�
 	
 	// 提交
 	git push origin/dev
+
+### git branch 
+
+`git branch -a` 列出全部分支，包括远程的本地的；
+
+`git branch --track 本地分支名 origin/远程分支名`，分支追踪，[分支追踪](http://blog.csdn.net/hudashi/article/details/7664474)
+
 
 ## 移除被误提交的 IDE 配置文件
 
@@ -165,7 +194,27 @@ IDE 的配置文件通常是隐藏文件，不易在 IDE 中操作，这是需�
 
 git 提供了基本的功能，开发流程还需要根据人员和业务做定制，这里介绍一个常用的多人协作方式，以及用到的工具。
 
-首先在本地组织代码，依赖的第三方包配置在 `package.json`，安装到本地当前项目根目录下的 `node_modules` 这个目录不需要提交，还有一些其他不希望提交的文件，新建 `.gitignore` 文件将不需要提交的文件配置进去，示例如下：
+### 立项
+
+新建项目分2种情况：
+
+1.代码从零开始。
+2.本地已经存在项目代码，只是想放到github上开源或者存放。
+
+然而，无论是哪种情况，都得先在`github`新建一个项目的仓库。登录`github`后，找到`Repositories`这个Tab，然后点击`new`来新建一个项目仓库(更详细的介绍查看[这里](http://www.jianshu.com/p/df7ce9f3a5cb))。你本地还需要安装 git，这里也不详述，不了解的进[此传送门](http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137396287703354d8c6c01c904c7d9ff056ae23da865a000/)。准备好这些就可以把代码克隆到本地了：
+
+	// 在项目页面可以找到 git 的链接，如本博客的git链接如下
+	// 一些企业的内部 git，或者国内的一些 git 站点也都有该功能，大同小异而已 
+	https://github.com/longze/my-cellar.git
+	// 然后克隆到本地
+	git clone https://github.com/longze/my-cellar.git
+	// 初始化此目录
+	git init
+
+这样你就可以开始写代码了，如果你是第二种情况直接将原来的代码拷贝到当前项目是最简单的方式。
+
+这里给一条前端代码组织的参考意见：依赖的第三方包配置在 `package.json`，安装到本地当前项目根目录下的 `node_modules` 这个目录不建议提交；
+再说一下`.gitignore`，一些不希望提交的文件可以写在此配置文件中，示例如下：
 
 	# IDE的配置文件
     /.idea/
@@ -177,18 +226,123 @@ git 提供了基本的功能，开发流程还需要根据人员和业务做定�
     # node 依赖包
     node_modules/
 
+首批文件准备好后就可以用下面的命令看看劳动成果了
 
+	// 查看 git 的文件变动状态
+	git status
+
+如果没有多余的文件就可以提交了。这里有一个需要注意的地方，编辑器可能会生成一些隐藏文件不能在文件夹或 IDE 中直接被看到可能会被误提交，一般情况下 IDE 的配置文件是不需要提交的(因为我们的项目和 IDE 无关，参与者可以选择自己熟悉的工具来开发，多一个与项目无关的文件会使有洁癖的一些人很不爽)，如果有这类文件请在 `.gitignore` 文件中配置。
+
+	// 将全部新文件添加到 git 托管中
+	git add .
+	// 如果有文件误添加到了 git 托管可以用下面命令撤销
+	git rm --cached 文件名
+	// 也可以单独添加一个文件或文件夹到 git 托管中
+	git add 文件名
+	
+	// 提交
+	git commit -m "提交的描述信息"
+	git remote add origin https://github.com/longze/my-cellar.git
+    git push -u origin master
+	
+### 创建开发分支(其实这里可以理解为开发时的主干)
+
+首先，代码库应该有一个、且仅有一个主分支。所有提供给用户使用的正式版本，都在这个主分支上发布。
+
+其次，需要一个开发分支，一般会命名为 `develop` 或简写为 `dev`这时需要创建一个远程分支：
+
+	// 创建远程开发分支
+	// 分支的内容来源是 master
+	git checkout -b dev origin/master
+	// 将分支推送到服务器
+	git push origin dev
+
+### 创建开发分支
+
+git 起源于开源，所以有很重的极客Style，项目开发以一种松散的组织方式来进行，当有人提了Issue或者你自己觉得可以为项目添加某个新特性或者有兴趣修复 bug，那就从开发主干`dev(或develop)`迁出开发分支，然后在开发分支上编写代码。开发分支一般有三种类型：特性，修复 bug，预发布。新建开发分支的方法如下：
+
+	// 创建远程特性分支
+	git checkout -b origin/feature-x origin/dev
+	// 创建远程修补 bug 分支
+	git checkout -b origin/bug-x origin/dev
+	// 创建远程预发布分支
+	git checkout -b origin/release-x origin/dev
+	
+这里有两点需要说明：
+1.怎么确定我要建的开发分支是远程还是本地？如果你想让别人知道你的开发进度或者当前的特性或bug修复需要多人协作完成，这时你需要的就是远程分支；否则新建本地就是你的选择，毕竟远程分支需要`push`到服务器(必须在有网的环境中，这又是一个限制)才能被其他开发者看到，另外开发完成还需要删除本地和远程的分支。
+2.一个容易被忽略的地方，新建完远程分支后`push`到服务器才能被其他开发这看到。
+
+	git push -u origin master
+	// 将当前分支推送到远程分支 feature-test
+	git push origin origin/feature-test
+
+### 提交和推送代码
+
+如果修改的文件全部都需要提交，可以使用下面命令：
+
+	git commit -a -m " 测试特性分支提交"
+
+如果只想提交部分文件用下面的组合命令：
+
+	git add 文件名/文件夹名
+	git commit -m "提交描述"
+
+最后将代码推送到服务器：
+	
+	git push -u origin dev
+
+### 同步远程代码
+
+	git pull = git fetch + git merg
+
+### 合并代码
+
+	git checkout dev
+    git merge feature-a
+    
+	// 取回origin主机的dev分支，与本地的feature-test分支合并
+	git pull origin dev:feature-test
+	
+### 删除分支
+
+当新特性或bug修复分支已经合并到开发分支，这个分支的生命就走到了尽头。删除分支这里提供几种方法：
+
+- github官网: 如果你用的是 github，在网站上合并之后有一个操作项可以一键删除，但是错过了这个入口就回不来了。但是在项目的 `/branches` 目录下可以看到全部的分支，这里可以随便删除。但是不推荐这种方法，这种方法会引起“被删除的远程分支本地依然存在”，下面有原理介绍和解决方案。
+
+- WebStorm: 可以在右下角的版本管理中直接删除。
+
+- 用命令行: `git branch -d origin/分支名`
+
+分支删除后本地状态需要重新检出，因为当前的本地分支和远程分支已经失去了对应关系。需要继续添加新功能或者修复回到上面。
+
+### 一些诡异问题的解决方案
+
+问题一：被删除的远程分支本地依然存在
+
+如果远程分支被删除，在本地使用`git branch -a`依然存在，尝试了各种同步和删除命令都无法删除本地的这个分支，而这个分支原本就不应该存在，多方查找资料后得到两个方案：
+
+编辑文件`.git/packed-refs`，如果看到有你关心的分支的名称，删除那一行；
+在文件夹`.git/refs/heads`下查找你文件名与关心的分支名称有关的文件，如果找到了删除。
+
+如果你有使用`SourceTree`这个辅助工具，直接删除远端的分支，虽然提示远程分支不存在(事实上确实也不存在)，但确定之后就成功了。
+
+这个问题是因为 git 缺少对分支缓存文件的更新机制引起的，所以在本地使用命令行删除远程分支可以避免该问题。
+
+### 其他
+
+[分支追踪](http://blog.csdn.net/hudashi/article/details/7664474)
+git branch --track experimental origin/experimental
 
 ## 其他
 
-### 忽略文件
-
-有一些中间文件，或者IDE生成的本地配置文件不需要Git托管，可以配置 `.gitignore` 文件进行忽略。 如果文件已经被托管，需要先删除索引: `git rm --cached （文件路径/）文件名`。
-可以用 `git status` 对比操作前后文件的状态（是否有更改且需要提交）。
-如果已经不小心提交到了Git上，直接在GitHub网站上找到文件进行删除。
-
-## 更多资料
+## 参考资料
 
 [GitHub详细教程](http://blog.csdn.net/showhilllee/article/details/27706679)
 
 [Sublime 下配置 GitHub](http://www.cnblogs.com/terrylin/archive/2013/04/04/2999465.html)
+
+[Git分支管理策略](http://www.ruanyifeng.com/blog/2012/07/git.html)
+
+[github-flow](http://scottchacon.com/2011/08/31/github-flow.html)
+
+[创建 git 项目](http://www.jianshu.com/p/df7ce9f3a5cb)
