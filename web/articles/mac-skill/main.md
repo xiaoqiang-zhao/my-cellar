@@ -70,6 +70,8 @@
 
 为了避免错误，最好是再清除一次浏览器的cache。
 
+FireFox 的 HostAdmin 插件很好用，可以方便的切换 host 配置。
+
 ## 显示隐藏文件
 
 - 按快捷键Command + F 调出搜索窗口
