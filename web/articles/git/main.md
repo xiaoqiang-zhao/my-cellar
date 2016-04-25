@@ -5,7 +5,7 @@
 ## Git 与 GitHub
 
 Git有广义和狭义另种概念。
-广义的Git指一款由Linus Torvalds开发的，诞生于2005年4月的，免费、开源的分布式版本控制系统，相当于svn。
+广义的Git指一款由Linus Torvalds开发，诞生于2005年4月，免费开源的分布式版本控制系统，以及其后的各种衍生和山寨，如果你想听一个历史故事请进[这道传送门](http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137402760310626208b4f695940a49e5348b689d095fc000)。
 狭义的Git是用“Git这套分布式版本控制系统”部署的一个平台，平台有一个网站，网址是`https://github.com/`，
 是全球最大的Git系统（国内的开源中国也有自己的Git系统，但我们不将其简称为Git），Git也可以被企业或个人单独来部署管理私有代码。
 
@@ -108,7 +108,7 @@ GitHub是开源的圣地，但开源是靠不开源作为经济支撑的，因�
 - 1 在点击 Git/Repository/Pull 弹出的对话框中选中所有分支(包括主干)进行更新操作
 - 2 在分支上点击右下角的分支控制按钮，找到主干点击后在二级弹窗中点击 Merge
 - 3 最后再 Git/Repository/Push 一次，将Merge结果同步到线上分支，这样主干和分支就回到了正常的状态
-- 4 如果不进行前三步操作，分支合并到主干时很可能因为冲突不能提交，另外在分支上开发建议先和主干Merge一下在开始开发
+- 4 如果不进行前三步操作，分支合并到主干时很可能因为冲突不能提交，另外在分支上开发建议先和主干Merge一下再开始开发
 
 ### 用WebStorm管理Git目录
 有些情况下你可能用其他方式下载了Git项目的目录,用WebStorm打开发现没有Git选项,不能Commit.面对这种情况只需在VCS菜单下点击"Enable Version Control Integration..."在弹出框中选"Git",最后确定就可以了.
@@ -148,47 +148,29 @@ GitHub是开源的圣地，但开源是靠不开源作为经济支撑的，因�
 	
 	// 提交到本地的一个版本 ---- https://git-scm.com/docs/git-commit
 	git commit -m "提交的描述信息"
-	
+	// 提交全部更改和删除的文件
+	git commit -a -m "提交的描述信息" 
+
+### git log	
+
 	// 查看 commit日志
 	git log
+
+### git reset
 	
 	// 插销 commit  --- 待研究，貌似不好使？
 	git reset --hard commit_id
+
+### git push
 	
-	// 提交
+	// 将当前分支的修改推送到远程分支 dev
 	git push origin/dev
 
 ### git branch 
 
 `git branch -a` 列出全部分支，包括远程的本地的；
 
-`git branch --track 本地分支名 origin/远程分支名`，分支追踪，[分支追踪](http://blog.csdn.net/hudashi/article/details/7664474)
-
-
-## 移除被误提交的 IDE 配置文件
-
-IDE 的配置文件通常是隐藏文件，不易在 IDE 中操作，这是需要命令行来辅助一下，下面是相关操作：
-
-1、到达项目文件夹下，进入 IDE 的隐藏文件夹，这里以 WebStorm 为例，命令如下：
-
-	cd .idea
-
-2、删除文件：
-
-	rm longze.iml modules.xml encodings.xml workspace.xml codeStyleSettings.xml
-
-3、返回上层文件夹，并删除隐藏文件夹(如果文件夹中还有其他文件再从第一部开始将其删除)：
-
-	cd ..
-	rmdir .idea
-
-4、Commit 全部文件的修改，(记得填写提交信息)：
-
-	git commit -a -m "删除 IDE 的配置文件"
-
-5、push 修改到服务器
-
-	git push origin master
+`git branch --track 本地分支名 origin/远程分支名`，手动建立追踪，[资料传送门](http://blog.csdn.net/hudashi/article/details/7664474)。在 `push` 的时候可以指定 `-u` 参数来快速建立追踪，一般在分支第一次提交的时候加此参数，以后就可以直接 `git push` 了，不需要添加远程分支名。
 
 ## 一个多人协作方式
 
@@ -261,22 +243,26 @@ git 提供了基本的功能，开发流程还需要根据人员和业务做定�
 
 git 起源于开源，所以有很重的极客Style，项目开发以一种松散的组织方式来进行，当有人提了Issue或者你自己觉得可以为项目添加某个新特性或者有兴趣修复 bug，那就从开发主干`dev(或develop)`迁出开发分支，然后在开发分支上编写代码。开发分支一般有三种类型：特性，修复 bug，预发布。新建开发分支的方法如下：
 
-	// 创建远程特性分支
-	git checkout -b origin/feature-x origin/dev
-	// 创建远程修补 bug 分支
-	git checkout -b origin/bug-x origin/dev
-	// 创建远程预发布分支
-	git checkout -b origin/release-x origin/dev
+	// 创建特性分支   【分知名】 【衍生分支原】
+	 git checkout -b feature/x origin/dev
+	// 创建修补 bug 分支
+	git checkout -b bug/x origin/dev
+	// 创建预发布分支
+	git checkout -b release/x origin/dev
+	// 注：有 release/x 和 release-x 两种形式，
+	//    前一种多一些可视化工具支持比较好，后一种命名更清楚
 	
 这里有两点需要说明：
 1.怎么确定我要建的开发分支是远程还是本地？如果你想让别人知道你的开发进度或者当前的特性或bug修复需要多人协作完成，这时你需要的就是远程分支；否则新建本地就是你的选择，毕竟远程分支需要`push`到服务器(必须在有网的环境中，这又是一个限制)才能被其他开发者看到，另外开发完成还需要删除本地和远程的分支。
 2.一个容易被忽略的地方，新建完远程分支后`push`到服务器才能被其他开发这看到。
 
-	git push -u origin master
-	// 将当前分支推送到远程分支 feature-test
-	git push origin origin/feature-test
+	// 将当前分支推送到远程分支 feature/x
+    git push -u origin feature/x
+    // 第一次推送，指定追踪(解释参见 git branch --track)，方便以后使用 git push
 
 ### 提交和推送代码
+
+到这一步终于可以写代码了，
 
 如果修改的文件全部都需要提交，可以使用下面命令：
 
@@ -287,9 +273,13 @@ git 起源于开源，所以有很重的极客Style，项目开发以一种松�
 	git add 文件名/文件夹名
 	git commit -m "提交描述"
 
+另外需要注意的一点是新添加的文件默认不会被添加到托管中，需要使用 `git add 文件名/文件夹名` 命令手动添加，如果文件较多可以使用 `git add .` 命令，如果有些文件不想此次提交可用 `git rm --cached 文件名` 命令来移除。
+
 最后将代码推送到服务器：
 	
-	git push -u origin dev
+	git push -u origin feature/x
+	// 如果指定了追踪可以向下面这样简写，不用指定远程分支名
+	git push
 
 ### 同步远程代码
 
@@ -308,10 +298,9 @@ git 起源于开源，所以有很重的极客Style，项目开发以一种松�
 当新特性或bug修复分支已经合并到开发分支，这个分支的生命就走到了尽头。删除分支这里提供几种方法：
 
 - github官网: 如果你用的是 github，在网站上合并之后有一个操作项可以一键删除，但是错过了这个入口就回不来了。但是在项目的 `/branches` 目录下可以看到全部的分支，这里可以随便删除。但是不推荐这种方法，这种方法会引起“被删除的远程分支本地依然存在”，下面有原理介绍和解决方案。
-
 - WebStorm: 可以在右下角的版本管理中直接删除。
-
-- 用命令行: `git branch -d origin/分支名`
+- 用命令行: ` git push origin :分支名`
+- SourceTree 中可视化删除
 
 分支删除后本地状态需要重新检出，因为当前的本地分支和远程分支已经失去了对应关系。需要继续添加新功能或者修复回到上面。
 
@@ -328,12 +317,30 @@ git 起源于开源，所以有很重的极客Style，项目开发以一种松�
 
 这个问题是因为 git 缺少对分支缓存文件的更新机制引起的，所以在本地使用命令行删除远程分支可以避免该问题。
 
-### 其他
+## 移除被误提交的 IDE 配置文件
 
-[分支追踪](http://blog.csdn.net/hudashi/article/details/7664474)
-git branch --track experimental origin/experimental
+IDE 的配置文件通常是隐藏文件，不易在 IDE 中操作，这是需要命令行来辅助一下，下面是相关操作：
 
-## 其他
+1、到达项目文件夹下，进入 IDE 的隐藏文件夹，这里以 WebStorm 为例，命令如下：
+
+	cd .idea
+
+2、删除文件：
+
+	rm longze.iml modules.xml encodings.xml workspace.xml codeStyleSettings.xml
+
+3、返回上层文件夹，并删除隐藏文件夹(如果文件夹中还有其他文件再从第一部开始将其删除)：
+
+	cd ..
+	rmdir .idea
+
+4、Commit 全部文件的修改，(记得填写提交信息)：
+
+	git commit -a -m "删除 IDE 的配置文件"
+
+5、push 修改到服务器
+
+	git push origin master
 
 ## 参考资料
 

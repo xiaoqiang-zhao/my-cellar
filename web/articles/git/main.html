@@ -108,16 +108,29 @@
 <h3 id="header-1-4-7">用WebStorm管理Git目录</h3>
 <p>有些情况下你可能用其他方式下载了Git项目的目录,用WebStorm打开发现没有Git选项,不能Commit.面对这种情况只需在VCS菜单下点击&quot;Enable Version Control Integration...&quot;在弹出框中选&quot;Git&quot;,最后确定就可以了.</p>
 <h2 id="header-1-5">命令备忘</h2>
-<pre><code>// 克隆一个项目到本地
-git clone 项目地址
-
-// 查看哪些文件被改变了，需要在被 git 托管的文件夹下使用
-git status
-
-// 添加托管文件，因为新建文件不会自动被 git 托管，搜易需要手动添加
-git add
-
-// 提交到本地的一个版本 ---- 怎么选提交的文件？
+<p>全部命令在<a href="https://git-scm.com/docs/" target="_blank">官方文档</a>查到，这里翻译和记录一些常用命令。</p>
+<h3 id="header-1-5-1">git clone</h3>
+<p><code>git clone 项目地址</code>，克隆一个项目到本地。</p>
+<h3 id="header-1-5-2">git status</h3>
+<p><code>git status</code>，查看哪些文件被改变了，需要在被 git 托管的文件夹下使用。下面是几个一级标题对应的含义：</p>
+<ul>
+<li>Untracked files: 没有被托管的文件；</li>
+<li>Changes not staged for commit: 被托管了但是没有被添加到推送队列；</li>
+<li>Changes to be committed: 可被提交的文件，从上一个状态到这个状态需要下面的 <code>git add</code> 命令；
+下面是 &quot;Changes to be committed&quot; 状态下文件的一些状态：</li>
+<li>modified: 修改的文件；</li>
+<li>new file: 新添加的文件;</li>
+<li>deleted: 删除文件</li>
+</ul>
+<h3 id="header-1-5-3">git add</h3>
+<p><code>git add dir/files</code>，添加托管文件，因为新建文件不会自动被 git 托管，所以需要手动添加</p>
+<pre><code>// 添加全部文件
+git add .
+</code></pre><h3 id="header-1-5-4">git rm</h3>
+<pre><code>// 移除托管文件
+git rm --cached 文件名
+</code></pre><h3 id="header-1-5-5">git commit</h3>
+<pre><code>// 提交到本地的一个版本 ---- https://git-scm.com/docs/git-commit
 git commit -m &quot;提交的描述信息&quot;
 
 // 查看 commit日志
@@ -128,7 +141,10 @@ git reset --hard commit_id
 
 // 提交
 git push origin/dev
-</code></pre><h2 id="header-1-6">移除被误提交的 IDE 配置文件</h2>
+</code></pre><h3 id="header-1-5-6">git branch</h3>
+<p><code>git branch -a</code> 列出全部分支，包括远程的本地的；</p>
+<p><code>git branch --track 本地分支名 origin/远程分支名</code>，分支追踪，<a href="http://blog.csdn.net/hudashi/article/details/7664474" target="_blank">分支追踪</a></p>
+<h2 id="header-1-6">移除被误提交的 IDE 配置文件</h2>
 <p>IDE 的配置文件通常是隐藏文件，不易在 IDE 中操作，这是需要命令行来辅助一下，下面是相关操作：</p>
 <p>1、到达项目文件夹下，进入 IDE 的隐藏文件夹，这里以 WebStorm 为例，命令如下：</p>
 <pre><code>cd .idea
@@ -141,14 +157,113 @@ rmdir .idea
 <pre><code>git commit -a -m &quot;删除 IDE 的配置文件&quot;
 </code></pre><p>5、push 修改到服务器</p>
 <pre><code>git push origin master
-</code></pre><h2 id="header-1-7">其他</h2>
-<h3 id="header-1-7-1">忽略文件</h3>
-<p>有一些中间文件，或者IDE生成的本地配置文件不需要Git托管，可以配置 <code>.gitignore</code> 文件进行忽略。 如果文件已经被托管，需要先删除索引: <code>git rm --cached （文件路径/）文件名</code>。
-可以用 <code>git status</code> 对比操作前后文件的状态（是否有更改且需要提交）。
-如果已经不小心提交到了Git上，直接在GitHub网站上找到文件进行删除。</p>
-<h2 id="header-1-8">更多资料</h2>
+</code></pre><h2 id="header-1-7">一个多人协作方式</h2>
+<p>git 提供了基本的功能，开发流程还需要根据人员和业务做定制，这里介绍一个常用的多人协作方式，以及用到的工具。</p>
+<h3 id="header-1-7-1">立项</h3>
+<p>新建项目分2种情况：</p>
+<p>1.代码从零开始。
+2.本地已经存在项目代码，只是想放到github上开源或者存放。</p>
+<p>然而，无论是哪种情况，都得先在<code>github</code>新建一个项目的仓库。登录<code>github</code>后，找到<code>Repositories</code>这个Tab，然后点击<code>new</code>来新建一个项目仓库(更详细的介绍查看<a href="http://www.jianshu.com/p/df7ce9f3a5cb" target="_blank">这里</a>)。你本地还需要安装 git，这里也不详述，不了解的进<a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137396287703354d8c6c01c904c7d9ff056ae23da865a000/" target="_blank">此传送门</a>。准备好这些就可以把代码克隆到本地了：</p>
+<pre><code>// 在项目页面可以找到 git 的链接，如本博客的git链接如下
+// 一些企业的内部 git，或者国内的一些 git 站点也都有该功能，大同小异而已 
+https://github.com/longze/my-cellar.git
+// 然后克隆到本地
+git clone https://github.com/longze/my-cellar.git
+// 初始化此目录
+git init
+</code></pre><p>这样你就可以开始写代码了，如果你是第二种情况直接将原来的代码拷贝到当前项目是最简单的方式。</p>
+<p>这里给一条前端代码组织的参考意见：依赖的第三方包配置在 <code>package.json</code>，安装到本地当前项目根目录下的 <code>node_modules</code> 这个目录不建议提交；
+再说一下<code>.gitignore</code>，一些不希望提交的文件可以写在此配置文件中，示例如下：</p>
+<pre><code># IDE的配置文件
+/.idea/
+.idea/codeStyleSettings.xml
+
+# npm日志
+npm-debug.log
+
+# node 依赖包
+node_modules/
+</code></pre><p>首批文件准备好后就可以用下面的命令看看劳动成果了</p>
+<pre><code>// 查看 git 的文件变动状态
+git status
+</code></pre><p>如果没有多余的文件就可以提交了。这里有一个需要注意的地方，编辑器可能会生成一些隐藏文件不能在文件夹或 IDE 中直接被看到可能会被误提交，一般情况下 IDE 的配置文件是不需要提交的(因为我们的项目和 IDE 无关，参与者可以选择自己熟悉的工具来开发，多一个与项目无关的文件会使有洁癖的一些人很不爽)，如果有这类文件请在 <code>.gitignore</code> 文件中配置。</p>
+<pre><code>// 将全部新文件添加到 git 托管中
+git add .
+// 如果有文件误添加到了 git 托管可以用下面命令撤销
+git rm --cached 文件名
+// 也可以单独添加一个文件或文件夹到 git 托管中
+git add 文件名
+
+// 提交
+git commit -m &quot;提交的描述信息&quot;
+git remote add origin https://github.com/longze/my-cellar.git
+git push -u origin master
+</code></pre><h3 id="header-1-7-2">创建开发分支(其实这里可以理解为开发时的主干)</h3>
+<p>首先，代码库应该有一个、且仅有一个主分支。所有提供给用户使用的正式版本，都在这个主分支上发布。</p>
+<p>其次，需要一个开发分支，一般会命名为 <code>develop</code> 或简写为 <code>dev</code>这时需要创建一个远程分支：</p>
+<pre><code>// 创建远程开发分支
+// 分支的内容来源是 master
+git checkout -b dev origin/master
+// 将分支推送到服务器
+git push origin dev
+</code></pre><h3 id="header-1-7-3">创建开发分支</h3>
+<p>git 起源于开源，所以有很重的极客Style，项目开发以一种松散的组织方式来进行，当有人提了Issue或者你自己觉得可以为项目添加某个新特性或者有兴趣修复 bug，那就从开发主干<code>dev(或develop)</code>迁出开发分支，然后在开发分支上编写代码。开发分支一般有三种类型：特性，修复 bug，预发布。新建开发分支的方法如下：</p>
+<pre><code>// 创建远程特性分支
+git checkout -b origin/feature-x origin/dev
+// 创建远程修补 bug 分支
+git checkout -b origin/bug-x origin/dev
+// 创建远程预发布分支
+git checkout -b origin/release-x origin/dev
+</code></pre><p>这里有两点需要说明：
+1.怎么确定我要建的开发分支是远程还是本地？如果你想让别人知道你的开发进度或者当前的特性或bug修复需要多人协作完成，这时你需要的就是远程分支；否则新建本地就是你的选择，毕竟远程分支需要<code>push</code>到服务器(必须在有网的环境中，这又是一个限制)才能被其他开发者看到，另外开发完成还需要删除本地和远程的分支。
+2.一个容易被忽略的地方，新建完远程分支后<code>push</code>到服务器才能被其他开发这看到。</p>
+<pre><code>git push -u origin master
+// 将当前分支推送到远程分支 feature-test
+git push origin origin/feature-test
+</code></pre><h3 id="header-1-7-4">提交和推送代码</h3>
+<p>如果修改的文件全部都需要提交，可以使用下面命令：</p>
+<pre><code>git commit -a -m &quot; 测试特性分支提交&quot;
+</code></pre><p>如果只想提交部分文件用下面的组合命令：</p>
+<pre><code>git add 文件名/文件夹名
+git commit -m &quot;提交描述&quot;
+</code></pre><p>最后将代码推送到服务器：</p>
+<pre><code>git push -u origin dev
+</code></pre><h3 id="header-1-7-5">同步远程代码</h3>
+<pre><code>git pull = git fetch + git merg
+</code></pre><h3 id="header-1-7-6">合并代码</h3>
+<pre><code>git checkout dev
+git merge feature-a
+
+// 取回origin主机的dev分支，与本地的feature-test分支合并
+git pull origin dev:feature-test
+</code></pre><h3 id="header-1-7-7">删除分支</h3>
+<p>当新特性或bug修复分支已经合并到开发分支，这个分支的生命就走到了尽头。删除分支这里提供几种方法：</p>
+<ul>
+<li><p>github官网: 如果你用的是 github，在网站上合并之后有一个操作项可以一键删除，但是错过了这个入口就回不来了。但是在项目的 <code>/branches</code> 目录下可以看到全部的分支，这里可以随便删除。但是不推荐这种方法，这种方法会引起“被删除的远程分支本地依然存在”，下面有原理介绍和解决方案。</p>
+</li>
+<li><p>WebStorm: 可以在右下角的版本管理中直接删除。</p>
+</li>
+<li><p>用命令行: <code>git branch -d origin/分支名</code></p>
+</li>
+</ul>
+<p>分支删除后本地状态需要重新检出，因为当前的本地分支和远程分支已经失去了对应关系。需要继续添加新功能或者修复回到上面。</p>
+<h3 id="header-1-7-8">一些诡异问题的解决方案</h3>
+<p>问题一：被删除的远程分支本地依然存在</p>
+<p>如果远程分支被删除，在本地使用<code>git branch -a</code>依然存在，尝试了各种同步和删除命令都无法删除本地的这个分支，而这个分支原本就不应该存在，多方查找资料后得到两个方案：</p>
+<p>编辑文件<code>.git/packed-refs</code>，如果看到有你关心的分支的名称，删除那一行；
+在文件夹<code>.git/refs/heads</code>下查找你文件名与关心的分支名称有关的文件，如果找到了删除。</p>
+<p>如果你有使用<code>SourceTree</code>这个辅助工具，直接删除远端的分支，虽然提示远程分支不存在(事实上确实也不存在)，但确定之后就成功了。</p>
+<p>这个问题是因为 git 缺少对分支缓存文件的更新机制引起的，所以在本地使用命令行删除远程分支可以避免该问题。</p>
+<h3 id="header-1-7-9">其他</h3>
+<p><a href="http://blog.csdn.net/hudashi/article/details/7664474" target="_blank">分支追踪</a>
+git branch --track experimental origin/experimental</p>
+<h2 id="header-1-8">其他</h2>
+<h2 id="header-1-9">参考资料</h2>
 <p><a href="http://blog.csdn.net/showhilllee/article/details/27706679" target="_blank">GitHub详细教程</a></p>
 <p><a href="http://www.cnblogs.com/terrylin/archive/2013/04/04/2999465.html" target="_blank">Sublime 下配置 GitHub</a></p>
+<p><a href="http://www.ruanyifeng.com/blog/2012/07/git.html" target="_blank">Git分支管理策略</a></p>
+<p><a href="http://scottchacon.com/2011/08/31/github-flow.html" target="_blank">github-flow</a></p>
+<p><a href="http://www.jianshu.com/p/df7ce9f3a5cb" target="_blank">创建 git 项目</a></p>
 
 </div>
 </body>
