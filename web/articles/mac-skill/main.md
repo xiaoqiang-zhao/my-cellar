@@ -46,9 +46,11 @@
 
 - 回到上一级目录 cd .. (注意 cd 后面要跟一个空格，和windows的不同；另外有一个插件Go2Shell可以让你从Finder中直接进入当前目录命令行，在appStore中就可以找到)
 - 查看当前目录下的文件 ls (加 “空格-a” 可现实隐藏文件)
+- Tab 键自动补齐
 - 删除文件 rm filename
 - 删除文件夹 rmdir dirname
 - 清屏 Com + K
+- sudo chmod og+w /etc/hosts 配置 hosts 编辑权限
 
 ## host 的配置
 
@@ -67,6 +69,8 @@
 输入完毕，如果要保存退出，按 esc，再输入 `:wq!`，再按回车，hosts就保存生效了
 
 为了避免错误，最好是再清除一次浏览器的cache。
+
+FireFox 的 HostAdmin 插件很好用，可以方便的切换 host 配置。
 
 ## 显示隐藏文件
 
