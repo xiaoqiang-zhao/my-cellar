@@ -12,7 +12,7 @@ Git有广义和狭义另种概念。
 GitHub，是一个网站，是一个社群，是一个代码托管平台（不一定是开源的）。
 没有GitHub就Git（狭义的）就不会有如此规模，GitHub的主要作用就是展示开源项目，吸引越来越多的人进入到开源中，提供人与人人与项目之间的沟通桥梁。
 
-GitHub是开源的圣地，但开源是靠不开源作为经济支撑的，因为不开源就要交代码托管费，这也是GitHub的运作模式。
+GitHub是开源的圣地，但开源是靠不开源作为经济支撑的，因为不开源就要交代码托管费，这也是GitHub的运作模式。那有人问了我的代码不想给别人看，还想托管，还不想花银子有解吗，请出门右转[bitbucket](https://bitbucket.org)。
 
 ## Git基础理念与概念
 
@@ -224,7 +224,9 @@ git 提供了基本的功能，开发流程还需要根据人员和业务做定�
 	
 	// 提交
 	git commit -m "提交的描述信息"
-	git remote add origin https://github.com/longze/my-cellar.git
+	// 添加远程仓库，忘了不添加会有什么问题，下次用的时候记录一下
+	git remote add origin https://github.com/longze/git-test.git
+	// 推送
     git push -u origin master
 	
 ### 创建开发分支(其实这里可以理解为开发时的主干)
@@ -281,17 +283,25 @@ git 起源于开源，所以有很重的极客Style，项目开发以一种松�
 	// 如果指定了追踪可以向下面这样简写，不用指定远程分支名
 	git push
 
+如果多人共同完成一个 `feature` 那推送到远程服务器就有必要了，如果是一个人一天的工作直接将代码合并到 `dev` 分支进行推送。个人建议先推送一次，这样合并代码的时候就可以放心的瞎搞了，尤其是使用 git 还不是很熟练的时候。还有一种场景需要推送，就是需要代码审核，你开发完成后将代码推送到服务器，然后发起 `pull request`。
+
+关于 `pull request` 的接受和拒绝待验证待续([参考资料](http://blog.jobbole.com/76854/))...
+
 ### 同步远程代码
 
-	git pull = git fetch + git merg
+	// 如果本地还没有 dev 分支需要先检出
+	git checkout -b dev origin/dev
+	// 如果已近存在需要拉去一下最新代码，git pull = git fetch + git merge
+	git pull
 
 ### 合并代码
 
-	git checkout dev
-    git merge feature-a
-    
-	// 取回origin主机的dev分支，与本地的feature-test分支合并
-	git pull origin dev:feature-test
+	// 将特性分支合并到 dev 分支
+    git merge feature/x
+    // 如果以前建立过追踪可用下面简写
+	git push
+	// 如果没有建立过追踪可用下面命令，push 并建立追踪
+	git push -u origin dev
 	
 ### 删除分支
 
