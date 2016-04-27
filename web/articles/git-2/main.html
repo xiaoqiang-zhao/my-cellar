@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Git(二) GitHub网站和WebStorm上的一些操作 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">Git(二) GitHub网站和WebStorm上的一些操作</h1>
+<blockquote>
+<p>如果你不想敲命令，使用 IDE 和 GitHub 网站也能完成大部分操作。</p>
+</blockquote>
+<h2 id="header-1-1">GitHub网站上的一些操作</h2>
+<h3 id="header-1-1-1">个人主页</h3>
+<p>登录GitHub后点右上角用户头像下拉框中的 “Your profile” 到个人主页。</p>
+<h3 id="header-1-1-2">Repository</h3>
+<p>仓库在个人主页下，有一个名为 <code>repositories</code> 的tab页，此tab页下是当前账户下所有仓库的列表。
+当前账户自建的仓库和从别人那里fork出的仓库都可以在这里找到。</p>
+<h3 id="header-1-1-3">branch</h3>
+<p>从上面 <code>repositories</code> 的列表可进入任一仓库，从当前仓库下的 <code>branches</code> 链接可进入分支管理页，
+可以在此处删除分支，或者将分支合并回主干。</p>
+<h3 id="header-1-1-4">releases</h3>
+<p>公开发行的版本列表，
+删除某一发行版本可点击标题，在进入的页面中有删除按钮。</p>
+<h3 id="header-1-1-5">分支向主干推送内容</h3>
+<p>切换到分支，右边有一个&quot;弯曲箭头和竖线&quot;的图标(文字标示为&quot;Pull requests&quot;)，点击此图标可将分之内容合并到主干。一般的开发流程都不建议直接在主干上修改。在分支开发、测试、review，所有的都没问题了再合并回主干，主干代码永远保持稳定版。</p>
+<h3 id="header-1-1-6">主干向分支推送更改内容</h3>
+<p>主干向分支推送更改内容很容易造成内容冲突，所以如果想这样逆向而行最好先和开发成员打个招呼。方式是在项目页面左边有一个&quot;绿色两个歪箭头按钮&quot;，点击之后到 &quot;Comparing changes&quot; 页面进行推送,多个分支需要推送多次.</p>
+<h2 id="header-1-2">WebStorm 技巧备忘</h2>
+<h3 id="header-1-2-1">从git上拿项目</h3>
+<p>工具栏VCS/Checkout/Git，
+填写git的地址仓库地址、本地路径、本地项目名称就可以将git上的仓库克隆到本地了。</p>
+<h3 id="header-1-2-2">更新分支</h3>
+<p>右击项目文件，git/repository/pull 从git上获取新的分支信息。</p>
+<h3 id="header-1-2-3">切换分支</h3>
+<p>右下角有编码和Git的版本信息，点击右下角的版本信息上下箭头会出现Git Branches列表，
+其中Remote Branches就是Git上的分支列表，
+在展开下一级菜单中有Checkout，Compare，Merge，Delete。</p>
+<h3 id="header-1-2-4">提交</h3>
+<p>右击要提交的文件夹，Git/Commit Directory/，填写Commit Message进行提交，也可以提交并推送。
+单个文件提交同理。WebStorm 快捷方式 Com + K。</p>
+<h3 id="header-1-2-5">推送</h3>
+<p>右击要提交的文件夹，Git/Repository/Push，选择之前提交过的进行推送。WebStorm快捷方式 Com + Shift + K。</p>
+<h3 id="header-1-2-6">主干修改后怎么同步到分支</h3>
+<p>如果有紧急修复的bug，需要直接在主干修改(新拉一个分支再合并回主干也是一样的)，那么怎么同步到分支呢？</p>
+<ul>
+<li>1 在点击 Git/Repository/Pull 弹出的对话框中选中所有分支(包括主干)进行更新操作</li>
+<li>2 在分支上点击右下角的分支控制按钮，找到主干点击后在二级弹窗中点击 Merge</li>
+<li>3 最后再 Git/Repository/Push 一次，将Merge结果同步到线上分支，这样主干和分支就回到了正常的状态</li>
+<li>4 如果不进行前三步操作，分支合并到主干时很可能因为冲突不能提交，另外在分支上开发建议先和主干Merge一下再开始开发</li>
+</ul>
+<h3 id="header-1-2-7">用WebStorm管理Git目录</h3>
+<p>有些情况下你可能用其他方式下载了Git项目的目录,用WebStorm打开发现没有Git选项,不能Commit.面对这种情况只需在VCS菜单下点击&quot;Enable Version Control Integration...&quot;在弹出框中选&quot;Git&quot;,最后确定就可以了.</p>
+<h2 id="header-1-3">参考资料</h2>
+<p><a href="http://blog.csdn.net/showhilllee/article/details/27706679" target="_blank">GitHub详细教程</a></p>
+<p><a href="http://www.cnblogs.com/terrylin/archive/2013/04/04/2999465.html" target="_blank">Sublime 下配置 GitHub</a></p>
+<p><a href="http://www.ruanyifeng.com/blog/2012/07/git.html" target="_blank">Git分支管理策略</a></p>
+<p><a href="http://scottchacon.com/2011/08/31/github-flow.html" target="_blank">github-flow</a></p>
+<p><a href="http://www.jianshu.com/p/df7ce9f3a5cb" target="_blank">创建 git 项目</a></p>
+
+</div>
+</body>
+</html>
