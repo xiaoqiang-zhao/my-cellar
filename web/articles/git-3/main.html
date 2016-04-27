@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Git(三) 命令备忘 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">Git(三) 命令备忘</h1>
+<blockquote>
+<p>可视化工具只是命令行的一个子集，可视化能做的命令行都能做，但是到目前为止还没有一个可视化工具实现了全部命令行，这里收集常用的命令，同时添加一些我的使用经验。</p>
+</blockquote>
+<h2 id="header-1-1">命令备忘</h2>
+<p>全部命令在<a href="https://git-scm.com/docs/" target="_blank">官方文档</a>查到，这里翻译和记录一些常用命令。</p>
+<h3 id="header-1-1-1">git clone</h3>
+<p><code>git clone 项目地址</code>，克隆一个项目到本地。</p>
+<h3 id="header-1-1-2">git status</h3>
+<p><code>git status</code>，查看哪些文件被改变了，需要在被 git 托管的文件夹下使用。下面是几个一级标题对应的含义：</p>
+<ul>
+<li>Untracked files: 没有被托管的文件；</li>
+<li>Changes not staged for commit: 被托管了但是没有被添加到推送队列；</li>
+<li>Changes to be committed: 可被提交的文件，从上一个状态到这个状态需要下面的 <code>git add</code> 命令；
+下面是 &quot;Changes to be committed&quot; 状态下文件的一些状态：</li>
+<li>modified: 修改的文件；</li>
+<li>new file: 新添加的文件;</li>
+<li>deleted: 删除文件</li>
+</ul>
+<h3 id="header-1-1-3">git add</h3>
+<p><code>git add dir/files</code>，添加托管文件，因为新建文件不会自动被 git 托管，所以需要手动添加</p>
+<pre><code>// 添加全部文件
+git add .
+</code></pre><h3 id="header-1-1-4">git rm</h3>
+<pre><code>// 移除托管文件
+git rm --cached 文件名
+</code></pre><h3 id="header-1-1-5">git commit</h3>
+<pre><code>// 提交到本地的一个版本 ---- https://git-scm.com/docs/git-commit
+git commit -m &quot;提交的描述信息&quot;
+// 提交全部更改和删除的文件
+git commit -a -m &quot;提交的描述信息&quot; 
+</code></pre><h3 id="header-1-1-6">git log</h3>
+<pre><code>// 查看 commit日志
+git log
+</code></pre><h3 id="header-1-1-7">git reset</h3>
+<pre><code>// 插销 commit  --- 待研究，貌似不好使？
+git reset --hard commit_id
+</code></pre><h3 id="header-1-1-8">git push</h3>
+<pre><code>// 将当前分支的修改推送到远程分支 dev
+git push origin dev
+</code></pre><h3 id="header-1-1-9">git branch</h3>
+<p><code>git branch -a</code> 列出全部分支，包括远程的本地的；</p>
+<p><code>git branch --track 本地分支名 origin/远程分支名</code>，手动建立追踪，<a href="http://blog.csdn.net/hudashi/article/details/7664474" target="_blank">资料传送门</a>。在 <code>push</code> 的时候可以指定 <code>-u</code> 参数来快速建立追踪，一般在分支第一次提交的时候加此参数，以后就可以直接 <code>git push</code> 了，不需要添加远程分支名。</p>
+<h3 id="header-1-1-10">git config</h3>
+<pre><code>// 获取配置信息
+git config --list
+// 设置用户名
+git config --global user.name &quot;用户名&quot;
+// 设置用户邮箱
+git config --global user.email &quot;your.email@gmail.com&quot;
+</code></pre><h2 id="header-1-2">参考资料</h2>
+<p><a href="https://git-scm.com/docs/" target="_blank">官方文档</a></p>
+<p><a href="http://blog.csdn.net/showhilllee/article/details/27706679" target="_blank">GitHub详细教程</a></p>
+<p><a href="http://www.cnblogs.com/terrylin/archive/2013/04/04/2999465.html" target="_blank">Sublime 下配置 GitHub</a></p>
+<p><a href="http://www.ruanyifeng.com/blog/2012/07/git.html" target="_blank">Git分支管理策略</a></p>
+<p><a href="http://scottchacon.com/2011/08/31/github-flow.html" target="_blank">github-flow</a></p>
+<p><a href="http://www.jianshu.com/p/df7ce9f3a5cb" target="_blank">创建 git 项目</a></p>
+
+</div>
+</body>
+</html>
