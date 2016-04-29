@@ -53,13 +53,21 @@
 ### git push
 	
 	// 将当前分支的修改推送到远程分支 dev
-	git push origin dev
+	git push -u origin dev
+	// -u 分支是建立分支，以后就可以直接用下面命令了
+	git push
 
 ### git branch 
 
-`git branch -a` 列出全部分支，包括远程的本地的；
+`git branch` 列出本地分支；
+
+`git branch -a` 列出全部分支，包括远程和本地分支；
 
 `git branch --track 本地分支名 origin/远程分支名`，手动建立追踪，[资料传送门](http://blog.csdn.net/hudashi/article/details/7664474)。在 `push` 的时候可以指定 `-u` 参数来快速建立追踪，一般在分支第一次提交的时候加此参数，以后就可以直接 `git push` 了，不需要添加远程分支名。
+
+`git branch -d 分知名` 删除本地分支；
+
+`git branch -d origin/分知名` 删除远程分支；
 
 ### git config
 
@@ -69,6 +77,43 @@
 	git config --global user.name "用户名"
 	// 设置用户邮箱
 	git config --global user.email "your.email@gmail.com"
+
+### git checkout
+
+`git checkout -b 本地分支名 origin/远程分知名`，将远程分支检出到本地；
+	
+`git checkout 分知名` 切换本地分支；
+
+### git fetch
+
+`git fetch`，将远程分支列表映射到本地，主要的应用场景是别人新建了远程分支但是我们本地无法看到，执行该命令可以将远程的分支映射到本地方便检出。如果只想映射某一个分支(这个分支的名称当然需要其他人告诉你)，可以使用下面命令：
+	
+    git fetch origin 远程分知名:本地分支名
+    // 如果只想获取远程分支映射而不想检出到本地，可用下面简写
+    git fetch origin 远程分知名
+
+此命令不仅将远程映射到本地，还会检出一份代码作为本地分支，本地分知名在冒号后面指定。
+
+### git merge
+
+将其他分支的代码合并到当前所在分支，
+
+	// 合并远程分支代码
+	git merge origin/feature/z
+	// 合并本地分支代码
+	git merge feature/z
+
+这里需要注意一点，被合并的远程分支需要先将改动映射到本地 `git fetch origin 远程分知名`，否则不能拿到最新修改。这个`fetch`命令的优势是可以不检出本地分支，更不需要切换到被合并分支的本地分支。另外 `fetch` 不改变本地代码，但是已经将修改同步到了本地仓库，这个便捷来自于 git 的差异更新机制。
+
+### git pull
+
+拉取远程分支并合并到当前分支
+
+	git pull origin dev
+
+如果已经建立了跟踪可以如下简写：
+
+	git pull
 
 ## 参考资料
 
