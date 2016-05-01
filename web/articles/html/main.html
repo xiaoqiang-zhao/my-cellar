@@ -28,15 +28,23 @@
 <h2 id="header-1-2">用来布局的那些标签</h2>
 <h3 id="header-1-2-1">div</h3>
 <p>让这个哥们儿打头阵绝对够分量，他一度成为HTML全体元素的代名词，你一定听说过“div + css”这种说法，在曾经的一段时间里面很多页面中满屏的 div，有人给这种现象起了个名字叫 “div 滥用”。那么怎样避免滥用，正确的用法是什么呢？下面一段是官方给出的建议：</p>
-<p><div> 元素 (或 HTML 文档分区元素) 是一个通用型的流内容容器，它在语义上不代表任何特定类型的内容，它可以被用来对其它元素进行分组，一般用于样式化相关的需求（使用 class 或 id 特性) 或者对具有相同特性的一组元素进行分组 (比如 lang)，它应该在没有任何其它语义元素可用是才使用 (比如 <article> 或 <nav>) 。</p>
+<p><code>div</code> 元素 (或 HTML 文档分区元素) 是一个通用型的流内容容器，它在语义上不代表任何特定类型的内容，它可以被用来对其它元素进行分组，一般用于样式化相关的需求（使用 class 或 id 特性) 或者对具有相同特性的一组元素进行分组 (比如 lang)，它应该在没有任何其它语义元素可用是才使用 (比如 <article> 或 <nav>) 。</p>
 <p>也就是说 div 是一个超级备胎，当你找不到合适的元素时用它就好了。</p>
 <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/div" target="_blank">更多解释</a></p>
 <h3 id="header-1-2-2">article</h3>
-<p><article>元素表示文档、页面、应用或网站中的独立结构，其意在成为可独立分配的或可复用的结构，如在发布中，它可能是论坛帖子、杂志或新闻文章、博客、用户提交的评论、交互式组件，或者其他独立的内容项目。</p>
+<p><code>article</code>元素表示文档、页面、应用或网站中的独立结构，其意在成为可独立分配的或可复用的结构，如在发布中，它可能是论坛帖子、杂志或新闻文章、博客、用户提交的评论、交互式组件，或者其他独立的内容项目。</p>
 <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/article" target="_blank">更多解释</a></p>
 <h3 id="header-1-2-3">aside</h3>
-<p><aside> 元素中连接到页面中其他部分的内容，被认为是独立于该内容的一部分并且可以被单独的拆分出来而不会使整体受影响。其通常表现为侧边栏或者被插入在该内容里。他们通常包含在工具条，例如来自词汇表的定义。也可能有其他类型的信息，例如相关的广告、笔者的传记、web 应用程序、个人资料信息，或在博客上的相关链接。</p>
+<p><code>aside</code> 元素中连接到页面中其他部分的内容，被认为是独立于该内容的一部分并且可以被单独的拆分出来而不会使整体受影响。其通常表现为侧边栏或者被插入在该内容里。他们通常包含在工具条，例如来自词汇表的定义。也可能有其他类型的信息，例如相关的广告、笔者的传记、web 应用程序、个人资料信息，或在博客上的相关链接。</p>
 <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/aside" target="_blank">更多解释</a></p>
+<h3 id="header-1-2-4">section</h3>
+<p><code>section</code> 表示文档中的一个区域（或节），比如，内容中的一个专题组，一般来说会有包含一个 heading。</p>
+<p>注意：</p>
+<ul>
+<li>如果元素内容可以分为几个部分的话，应该使用 <code>article</code> 而不是 <code>section</code>;</li>
+<li>不要把 <code>section</code> 元素作为一个普通的容器来使用；这种情况是 <code>div</code> 的适用范围，特别是当它的目标只是美化样式的情况。 通常来说一个 <code>section</code> 应该出现在文档的框架中。</li>
+</ul>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/section" target="_blank">更多解释</a></p>
 <h2 id="header-1-3">与table相关的标签</h2>
 <h2 id="header-1-4">与表单相关的标签</h2>
 <h2 id="header-1-5">修饰文字的标签</h2>

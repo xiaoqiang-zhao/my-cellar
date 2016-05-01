@@ -57,10 +57,15 @@ git log
 git reset --hard commit_id
 </code></pre><h3 id="header-1-1-8">git push</h3>
 <pre><code>// 将当前分支的修改推送到远程分支 dev
-git push origin dev
+git push -u origin dev
+// -u 分支是建立分支，以后就可以直接用下面命令了
+git push
 </code></pre><h3 id="header-1-1-9">git branch</h3>
-<p><code>git branch -a</code> 列出全部分支，包括远程的本地的；</p>
+<p><code>git branch</code> 列出本地分支；</p>
+<p><code>git branch -a</code> 列出全部分支，包括远程和本地分支；</p>
 <p><code>git branch --track 本地分支名 origin/远程分支名</code>，手动建立追踪，<a href="http://blog.csdn.net/hudashi/article/details/7664474" target="_blank">资料传送门</a>。在 <code>push</code> 的时候可以指定 <code>-u</code> 参数来快速建立追踪，一般在分支第一次提交的时候加此参数，以后就可以直接 <code>git push</code> 了，不需要添加远程分支名。</p>
+<p><code>git branch -d 分知名</code> 删除本地分支；</p>
+<p><code>git branch -d origin/分知名</code> 删除远程分支；</p>
 <h3 id="header-1-1-10">git config</h3>
 <pre><code>// 获取配置信息
 git config --list
@@ -68,6 +73,27 @@ git config --list
 git config --global user.name &quot;用户名&quot;
 // 设置用户邮箱
 git config --global user.email &quot;your.email@gmail.com&quot;
+</code></pre><h3 id="header-1-1-11">git checkout</h3>
+<p><code>git checkout -b 本地分支名 origin/远程分知名</code>，将远程分支检出到本地；</p>
+<p><code>git checkout 分知名</code> 切换本地分支；</p>
+<h3 id="header-1-1-12">git fetch</h3>
+<p><code>git fetch</code>，将远程分支列表映射到本地，主要的应用场景是别人新建了远程分支但是我们本地无法看到，执行该命令可以将远程的分支映射到本地方便检出。如果只想映射某一个分支(这个分支的名称当然需要其他人告诉你)，可以使用下面命令：</p>
+<pre><code>git fetch origin 远程分知名:本地分支名
+// 如果只想获取远程分支映射而不想检出到本地，可用下面简写
+git fetch origin 远程分知名
+</code></pre><p>此命令不仅将远程映射到本地，还会检出一份代码作为本地分支，本地分知名在冒号后面指定。</p>
+<h3 id="header-1-1-13">git merge</h3>
+<p>将其他分支的代码合并到当前所在分支，</p>
+<pre><code>// 合并远程分支代码
+git merge origin/feature/z
+// 合并本地分支代码
+git merge feature/z
+</code></pre><p>这里需要注意一点，被合并的远程分支需要先将改动映射到本地 <code>git fetch origin 远程分知名</code>，否则不能拿到最新修改。这个<code>fetch</code>命令的优势是可以不检出本地分支，更不需要切换到被合并分支的本地分支。另外 <code>fetch</code> 不改变本地代码，但是已经将修改同步到了本地仓库，这个便捷来自于 git 的差异更新机制。</p>
+<h3 id="header-1-1-14">git pull</h3>
+<p>拉取远程分支并合并到当前分支</p>
+<pre><code>git pull origin dev
+</code></pre><p>如果已经建立了跟踪可以如下简写：</p>
+<pre><code>git pull
 </code></pre><h2 id="header-1-2">参考资料</h2>
 <p><a href="https://git-scm.com/docs/" target="_blank">官方文档</a></p>
 <p><a href="http://blog.csdn.net/showhilllee/article/details/27706679" target="_blank">GitHub详细教程</a></p>
