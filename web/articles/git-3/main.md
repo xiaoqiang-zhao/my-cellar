@@ -78,6 +78,13 @@
 	// 设置用户邮箱
 	git config --global user.email "your.email@gmail.com"
 
+除了配置和获取用户信息外，此命令可以配置命令的别名：
+
+	// 如果配置了下面的别称
+	git config --global alias.ci commit
+	// 那么以后 commit 就可以向下面这样简写了
+	git ci -m "提交描述"
+
 ### git checkout
 
 `git checkout -b 本地分支名 origin/远程分知名`，将远程分支检出到本地；
