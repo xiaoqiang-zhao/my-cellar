@@ -1,0 +1,12 @@
+{
+  "name": "css-less-demo",
+  "description": "研究 LESS 的环境",
+  "keywords": [],
+  "author": {
+    "name": "赵晓强",
+    "email": "longze_xq@163.com"
+  },
+  "dependencies": {
+    "webpack": "^1.13.0"
+  }
+}
