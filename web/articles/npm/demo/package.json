@@ -1,0 +1,17 @@
+{
+  "name": "npm-demo",
+  "version": "1.0.0",
+  "description": "研究 npm 的示例",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "acorn": "^3.0.0"
+  },
+  "devDependencies": {
+    "benchmark": "^1.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
