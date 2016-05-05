@@ -2,25 +2,36 @@
 
 > 实时自动刷新页面来开发
 
-livereload的基本原理是试用node开启一个websocket服务，并且检测文件变化，浏览器打开一个页面时候，引入固定的livereload.js（chrome插件会帮忙加上）会建立ws请求，当node检测到文件变化，则自动推送消息给浏览器，实现刷新。
+livereload的基本原理是使用node开启一个websocket服务，并且检测文件变化，浏览器打开一个页面时候，引入固定的livereload.js（chrome插件会帮忙加上）会建立ws请求，当node检测到文件变化，则自动推送消息给浏览器，实现刷新。
 
 ## 功能
 
 
 
-## 步骤
+## 材料收集
+
+browser-sync 多屏互动 -- 刘斌
 
  1.首先安装 node 环境，经验证node `v5.4.1` 可以运行。
  
  2.`browser-sync`全局安装。
  
+ 	
 	npm install -g browser-sync  
-	// Mac 记得加 sudo
-	sudo npm install -g browser-sync
 
  3.静态站点启动
  
  3.动态站点启动
+ 
+ browser-sync start --proxy "myproject.dev" --files "css/*.css"
+ browser-sync start --proxy "http://localhost:63342/" --files "css/*.css"
+ http://localhost:63342/
+
+适合自定义集成的库：
+[https://www.npmjs.com/package/livereload](https://www.npmjs.com/package/livereload)
+
+gulp 的插件：
+[https://www.npmjs.com/package/gulp-livereload](https://www.npmjs.com/package/gulp-livereload)
 
 ## 原理
 
