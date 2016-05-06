@@ -1,0 +1,25 @@
+{
+  "name": "demo",
+  "description": "研究 webpack 的 demo，这里将所有示例用到的包都设置成了依赖，这样就不用每个示例都执行 npm install 了。",
+  "keywords": [
+    "cellar",
+    "longze",
+    "node",
+    "javascript"
+  ],
+  "author": {
+    "name": "赵晓强",
+    "email": "longze_xq@163.com"
+  },
+  "dependencies": {
+    "css-loader": "^0.23.0",
+    "file-loader": "^0.8.5",
+    "html-loader": "^0.4.0",
+    "less": "^2.6.1",
+    "less-loader": "^2.2.3",
+    "style-loader": "^0.13.0",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.12.9",
+    "webpack-livereload-plugin": "^0.8.1"
+  }
+}
