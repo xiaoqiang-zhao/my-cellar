@@ -45,11 +45,11 @@ NodeJs 的安装就不多说了，webpack 的全局安装命令如下：
 
 	webpack
 
-就生成了 main.js，可被页面直接使用。
+就生成的 main.js 可被页面直接使用，具体代码可以到当前文章的 `./demo/quick-start/` 中查看。
 
 ## 简单解释几句
 
-webpack 兼容 AMD 和 CMD 以及 CommonJs 规范，官方建议使用 CommonJS 的规范来组织模块关系。如果对前面的三个规范还不了解可以看我的另一篇文章[js 模块化](./../js-module/main.html)。webpack 也可算是预编译类的模块管理工具，所有的资源都被打包放在一起统一加载，虽然有一些技巧可以打出多个包或提取多个包之间的公用模块，但这种 all in one 的思想需要注意，用空间换时间带来不可避免的问题是加载用户可能用不到的资源(即非按需加载)，从而造成初始化时间变长移动端流量浪费等问题。在 http/2 场景下使用此方案做做整站打包的话劣势就会更加明显，所以面对当前国内的网络环境和大多数应用场景一个较为推荐的方案是使用 webpack 做与业务无关的组件打包，用 AMD 或 CMD 做业务的拆分打包(为了按需加载)，前端资源库单独引用或打包后整体引用。好了扯远了，我们继续 webpack。
+webpack 兼容 AMD 和 CMD 以及 CommonJs 规范，官方建议使用 CommonJS 的规范来组织模块关系。如果对前面的三个规范还不了解可以看我的另一篇文章[js 模块化](/index.html#!/articles/js-module)。webpack 也可算是预编译类的模块管理工具，所有的资源都被打包放在一起统一加载，虽然有一些技巧可以打出多个包或提取多个包之间的公用模块，但这种 all in one 的思想需要注意，用空间换时间带来不可避免的问题是加载用户可能用不到的资源(即非按需加载)，从而造成初始化时间变长移动端流量浪费等问题。在 http/2 场景下使用此方案做做整站打包的话劣势就会更加明显，所以面对当前国内的网络环境和大多数应用场景一个较为推荐的方案是使用 webpack 做与业务无关的组件打包，用 AMD 或 CMD 做业务的拆分打包(为了按需加载)，前端资源库单独引用或打包后整体引用。好了扯远了，我们继续 webpack。
 
 ## 调试
 
@@ -64,12 +64,11 @@ webpack 兼容 AMD 和 CMD 以及 CommonJs 规范，官方建议使用 CommonJS 
 	webpack --watch   // 监听变动并自动打包
 	webpack -d        // 生成和并文件和map拆解文件
 
-[完整示例](./demo/js/index.html)
+可以用上面 `./demo/quick-start/` 中的代码做实验。
 
 [chrome source Maps官方资料](https://developer.chrome.com/devtools/docs/javascript-debugging#source-maps)
 
 ## webpack 插件
-
 
 [加载器使用文档](http://webpack.github.io/docs/using-loaders.html)	
 	
@@ -77,7 +76,7 @@ webpack 兼容 AMD 和 CMD 以及 CommonJs 规范，官方建议使用 CommonJS 
 
 使用 html-loader 插件可以使 html 片段转化成字符串模块，模块安装命令如下：
 
-	npm install html-loader
+	npm install html-loader --save
 
 html 模块示例如下：
 	
@@ -89,18 +88,12 @@ html 模块示例如下：
 使用示例：
 	
 	// a.js
-	var b = require('./b.html');
+	var b = require('./b.tpl');
     document.getElementById('container').innerHTML = b;
 
-配置示例代码较长请自行到 html/webpack.config.js 中查看，[完整运行示例](./demo/html/index.html)。
+配置示例代码较长请自行到 `./demo/html/webpack.config.js` 中查看。
 
-任何前端模板引擎的本质都是将 html 片段转换为函数，然后再以数据为参数调用该函数再返回 html 片段。在实际项目中不结合数据的 html 片段是很少的，所以将 html 模块转换成模板模块有两点好处：
-
-- 不再需要前端加载模板引擎库
-
-- 不再需要将 html 解析成函数
-
-webpack 的插件中提供了多种模板引擎解析器供选择，可选择适合自己项目的模板引擎集成到 webpack 打包工具中。
+在实际项目中不结合数据的 html 片段是很少的，所以项目中一般会将 html 片段作为模板并以扩展名为 `.tpl` 作为结尾来标识，webpack 的作用是将模板加载进来，但是加载进来的格式是字符数串，和数据的融合需要借助模板引擎，如jQuery的插件 `tmpl` 或者独立模板引擎 `mustache`，来自腾讯的 `artTemplate` 也是不错的选择，如果使用 MVVM 的框架(如 vue)则自带此功能。需要注意的是模板引擎的不同语法也可能不同。
 
 ## CSS也玩起来
 
@@ -123,8 +116,21 @@ IE8 及以下有一个 Style 个数超过32后面的不识别的 bug，在生成
 在 js 模块中直接 require 就可以在当前页面创建 style 标签并将 css 文件的内容添加到其中。
 	
 	require('./css-1.css');
+
+对于预处理器也是相同的处理办法，下面是LESS的支持方法：
+
+安装插件
 	
-[完整示例](./demo/css/index.html)
+	npm install less-loader less --save
+
+配置
+
+	{
+		test: /\.less$/,
+		loader: "style!css!less"
+	}
+	
+完整代码参见`./demo/css/`
 
 ## 有了CSS怎么能没有装饰图
 
@@ -134,19 +140,22 @@ IE8 及以下有一个 Style 个数超过32后面的不识别的 bug，在生成
 
 CSS 的写法和普通的一样，部分配置代码如下：
 
-	module: {
-		loaders: [
-			{
-				test: /\.css$/,
-				loader: "style-loader!css-loader"
-			},
-			{
-				test: /\.png$/,
-				loader: "url-loader?limit=100000"
-			}
-		]
-	}
+	
+	loaders: [
+		{
+			test: /\.png$/,
+			loader: "url-loader?limit=100000"
+		}
+	]
 
+## 自动刷新
+
+安装加载器 
+
+	npm install --save-dev webpack-livereload-plugin
+	
+配制方法，待续...
+	
 ## 参考资料
 
 [webpack 官网](https://webpack.github.io/)
@@ -160,5 +169,7 @@ CSS 的写法和普通的一样，部分配置代码如下：
 [webpack 加载器](https://webpack.github.io/docs/list-of-loaders.html)
 
 [chrome source Maps官方资料](https://developer.chrome.com/devtools/docs/javascript-debugging#source-maps)
+
+[less-loader](https://github.com/webpack/less-loader)
 
 
