@@ -3,7 +3,7 @@
 <head lang="zh-cn">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>npm 使用命令备忘 - 龙则的个人站点</title>
+    <title>NPM - 龙则的个人站点</title>
     <script>
         // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
         var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
@@ -18,12 +18,61 @@
     <h2> 精进自己，服务他人 </h2>
 </header>
 <div>
-    <h1 id="header-1">npm 使用命令备忘</h1>
+    <h1 id="header-1">NPM</h1>
+<blockquote>
+<p>NPM的全称是Node Package Manager，是一个NodeJS包管理和分发工具，但是在实际的操作中此管理器已经不止是 NodeJs 的包管理了，浏览器端的资源管理也可以借助此工具完成，这里介绍一些基础知识和典型场景下的技巧。</p>
+</blockquote>
+<h2 id="header-1-1">一个包的基本组成</h2>
+<p><code>package.json</code> 包的配置文件(一些重要的说明也在里面)；</p>
+<p><code>README.md</code> 包的说明书；</p>
+<p><code>LICENSE</code> 这个文件存放<a href="/index.html#!/articles/license" target="_blank">许可协议</a>；</p>
+<p><code>bin</code> 这个文件夹中存放功能代码；</p>
+<p><code>test</code> 自动化测试文件。</p>
+<h2 id="header-1-2">安装一个包</h2>
 <p>自动把模块和版本号添加到dependencies部分。</p>
 <pre><code>npm install module-name -save 
-</code></pre><p>自动把模块和版本号添加到devdependencies部分。</p>
+</code></pre><p>自动把模块和版本号添加到devDependencies部分。</p>
 <pre><code>npm install module-name -save-dve
-</code></pre>
+</code></pre><p><code>npm install</code>默认会安转两种依赖相当于<code>npm install --production</code> + <code>npm install --dev</code>，如果你只是单纯的使用这个包而不需要进行一些改动测试之类的可以使用前一个，如果随着深入了解需要想进一步了解再将后一条命令执行以下就可以了。</p>
+<p>另外参数 <code>npm install -g</code> 为全局安装。</p>
+<h2 id="header-1-3">安装依赖</h2>
+<p>一个项目的依赖包一般是不被提交的，这就需要在将项目克隆到本地后手动安转依赖</p>
+<pre><code>npm install
+</code></pre><h2 id="header-1-4">常用命令</h2>
+<p><code>npm init</code>: 初始化 package.json 文件，根据提示输入一些关键信息就可以将文件初始化完成；</p>
+<p><code>npm ls -g</code>: 查看所有全局安装的模块；</p>
+<h2 id="header-1-5">多版本 node 管理</h2>
+<p>在维护一些老项目的时候，一些工具依赖于某一版本的 node 才能运行起来，这就需要在不同的版本之间来回切换，这时你需要一个多版本管理工具 <code>n</code>，没错这个工具的名字就这么简短，只有一个字母，下面是使用方法：</p>
+<pre><code>// 安装多版本管理工具
+sudo npm install -g n
+// 安装6.0.0版本的 node
+n 6.0.0
+// 查看和切换 node 版本，上下键选版本，回车确定
+n
+// 移除某一版本
+n rm 6.0.0
+</code></pre><p>另外你可以直接打开文件夹查看 node 的版本，也可以直接删除某一版本的 node(因为经常会出现安装失败的情况所以需要删除后重装)</p>
+<pre><code>/usr/local/n/versions/node
+</code></pre><p>node 版本的偶数版是稳定版，使用 <code>n ls</code> 可以查看全部发布过的 node 版本，下面是一些关键的版本：</p>
+<pre><code>0.0.1    // 里程碑的起点
+0.1.104  // 0.1 版本的最后一个版本
+0.12.12  // 这一版本的工具很多，很多没有持续维护的工具都对此版本有强依赖
+4.0.0    // node 和 io 合并直接跳到 io 的下一个非兼容版本
+4.4.4
+5.11.0
+6.0.0
+6.1.0
+</code></pre><p>关于版本管理，可以查看我的另一篇博客 <a href="/index.html/#!/articles/semantic-versioning" target="_blank">语义化版本 2.0.0</a>。</p>
+<h2 id="header-1-6">常见问题</h2>
+<h3 id="header-1-6-1">缺 package.json 文件</h3>
+<p><code>npm ERR! registry error parsing json</code> 填写了 <code>-save</code> 或者 <code>-save-dev</code> 参数但是当前位置没有 package.json 文件，需要先执行 <code>npm init</code>；</p>
+<h3 id="header-1-6-2">依赖安装失败</h3>
+<h3 id="header-1-6-3">依赖变更</h3>
+<p>锁定依赖版本防止被人上房抽梯。</p>
+<h3 id="header-1-6-4">依赖的依赖放在哪里？</h3>
+<h2 id="header-1-7">参考资料</h2>
+<p><a href="http://www.w2bc.com/Article/86039" target="_blank">记npm包开发全过程</a>    </p>
+
 </div>
 </body>
 </html>
