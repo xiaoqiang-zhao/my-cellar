@@ -476,7 +476,7 @@
   {
     "enName": "npm",
     "title": "NPM",
-    "introduction": "NPM的全称是Node Package Manager，是一个NodeJS包管理和分发工具，但是在实际的操作中此管理器已经不止是 NodeJs 的包管理了，浏览器端的资源管理也可以借助此工具完成，这里介绍一些基础知识和典型场景下的技巧。",
+    "introduction": "NPM的全称是Node Package Manager，是一个NodeJS包管理和分发工具，但是在实际的操作中此管理器已经不止是 NodeJs 的包管理了，浏览器端的资源管理也可以借助此工具完成，前端的各种辅助工具也对此有依赖，所以 NPM 基本可以算作前端的必备技能，这里介绍一些基础知识和典型场景下的技巧。",
     "tags": [
       "辅助软件",
       "工程",
