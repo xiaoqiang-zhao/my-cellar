@@ -13,14 +13,14 @@ var defaultJson = {
     "tags": [],            // 文章标签
 
 
-    "isPublished": false,   // 是否处于发布状态
+    "isPublished": false,  // 是否处于发布状态
     "state": "立项",        // 文章状态
                            // 立项,[腹稿中],[资料收集中],[自我持续集成中],[公示持续集成中],[完结],
                            // [修正添加中]
     "type": "md",          // md / html / none
     "createDate": 0,       // 创建时间(毫秒数)
     "commentList": [       // 评论
-        ""
+
     ],
     "todoList": [          // 未来要做的
                            // 已收集了什么还要收集什么，还要集成什么等

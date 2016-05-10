@@ -22,16 +22,22 @@
 <blockquote>
 <p>实时自动刷新页面来开发</p>
 </blockquote>
-<p>livereload的基本原理是试用node开启一个websocket服务，并且检测文件变化，浏览器打开一个页面时候，引入固定的livereload.js（chrome插件会帮忙加上）会建立ws请求，当node检测到文件变化，则自动推送消息给浏览器，实现刷新。</p>
+<p>livereload的基本原理是使用node开启一个websocket服务，并且检测文件变化，浏览器打开一个页面时候，引入固定的livereload.js（chrome插件会帮忙加上）会建立ws请求，当node检测到文件变化，则自动推送消息给浏览器，实现刷新。</p>
 <h2 id="header-1-1">功能</h2>
-<h2 id="header-1-2">步骤</h2>
+<h2 id="header-1-2">材料收集</h2>
+<p>browser-sync 多屏互动 -- 刘斌</p>
 <p> 1.首先安装 node 环境，经验证node <code>v5.4.1</code> 可以运行。</p>
 <p> 2.<code>browser-sync</code>全局安装。</p>
 <pre><code>npm install -g browser-sync  
-// Mac 记得加 sudo
-sudo npm install -g browser-sync
 </code></pre><p> 3.静态站点启动</p>
 <p> 3.动态站点启动</p>
+<p> browser-sync start --proxy &quot;myproject.dev&quot; --files &quot;css/<em>.css&quot;
+ browser-sync start --proxy &quot;<a href="http://localhost:63342/" target="_blank">http://localhost:63342/</a>&quot; --files &quot;css/</em>.css&quot;
+ <a href="http://localhost:63342/" target="_blank">http://localhost:63342/</a></p>
+<p>适合自定义集成的库：
+<a href="https://www.npmjs.com/package/livereload" target="_blank">https://www.npmjs.com/package/livereload</a></p>
+<p>gulp 的插件：
+<a href="https://www.npmjs.com/package/gulp-livereload" target="_blank">https://www.npmjs.com/package/gulp-livereload</a></p>
 <h2 id="header-1-3">原理</h2>
 <h2 id="header-1-4">作者语</h2>
 <h2 id="header-1-5">参考网站</h2>
