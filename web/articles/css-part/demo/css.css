@@ -58,3 +58,14 @@ body .hide {
 .word-wrap-break-word {
     word-wrap: break-word;
 }
+/* 圆圈 */
+.circle-text {
+    position: absolute;
+    padding: 20px;
+    border: 10px solid green;
+    border-radius: 100%;
+    margin: 90px;
+    font-size: 2em;
+    line-height: 1;
+    font-family: aria;
+}
