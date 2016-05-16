@@ -3,7 +3,7 @@
 <head lang="zh-cn">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>我的 Less 学习笔记 - 龙则的个人站点</title>
+    <title>CSS 预处理器 - 龙则的个人站点</title>
     <script>
         // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
         var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
@@ -18,14 +18,63 @@
     <h2> 精进自己，服务他人 </h2>
 </header>
 <div>
-    <h1 id="header-1">我的 Less 学习笔记</h1>
+    <h1 id="header-1">CSS 预处理器</h1>
 <blockquote>
-<p>前端必备技能，一定要学会。关于 Less，官方给出的定位：是一种动态样式语言，属于CSS预处理语言的一种，它使用类似CSS的语法，为CSS的赋予了动态语言的特性，如变量、继承、运算、函数等，更方便CSS的编写和维护。</p>
+<p>随着前端工程越来越大，CSS 本身的限制严重影响了开发的速度的工程化管理能力，所以在大型应中使用 CSS 预处理器带来的好处相当明显，这篇文章旨在快速的学完 CSS 预处理器。</p>
 </blockquote>
-<h2 id="header-1-1">环境</h2>
-<p>最简单的非工程化环境，是使用 js 在浏览器中编译；最佳学习环境是监听文件变化动态编译工具；工程化工具需要根据自己项目的工程化选型来决定，webpack，gulp，fis 等工程化工具对 less 的集成和扩展就不展开了。这里是 Less 的学习，所以我选择了官网提供的一个小工具 --- Koala。</p>
-<h2 id="header-1-2">参考网站</h2>
+<h2 id="header-1-1">Less</h2>
+<h3 id="header-1-1-1">环境</h3>
+<p>对于代码，一个东西理解的正不正确没有比把代码跑一下验证一下来的更直接了。这里的学习期提供一个简单的命令行工具，可以一键编译 less(更多的工具可以在<a href="http://lesscss.cn/usage/" target="_blank">这里</a>找到)：</p>
+<pre><code>// 全局安装 Less 解析工具
+npm install less -g
+// 解析less文件 less.less 输出为css文件less.css
+lessc less.less less.css
+</code></pre><p>工程化工具需要根据自己项目的工程化选型来决定，webpack，gulp，fis 等工程化工具对 less 的集成和扩展就不展开了。这里只提供 webpack 的示例：</p>
+<pre><code>// 加载器安装
+npm install less-loader less
+// 加载器配置
+loaders: [
+    {
+        test: /\.less$/,
+        loader: &quot;style!css!less&quot;
+    }
+]
+</code></pre><h3 id="header-1-1-2">语法</h3>
+<p>所有的语法参见<a href="http://www.css88.com/doc/less/features/" target="_blank">中文语法文档</a>。</p>
+<p><a href="" target="_blank">英文原版文档</a></p>
+<h3 id="header-1-1-3">辅助工具</h3>
+<p><a href="https://github.com/ecomfe/spec/blob/master/less-code-style.md#user-content-混入mixin-1" target="_blank">百度 Less 编码规范</a>，按照这份规范来可以绕过一些坑，代码的风格也更统一。</p>
+<p><a href="http://ecomfe.github.io/est/" target="_blank">工具库 est</a>，提供了一系列方便快捷的 mixin，帮助您更轻松地书写 Less 代码。</p>
 <p><a href="http://www.1024i.com/demo/less/" target="_blank">中文官网</a>;</p>
+<h2 id="header-1-2">Stylus</h2>
+<h3 id="header-1-2-1">环境</h3>
+<p>命令行工具：</p>
+<pre><code>// 全局安装 stylus 解析工具
+npm install stylus -g
+// 解析为 css，-w 可以监听文件改变自动解析
+stylus -w style.styl -o style.css
+</code></pre><p>工程化工具 webpack：</p>
+<pre><code>// 在当前位置安装解析器
+sudo npm install stylus --save
+// 加载器安装
+npm install stylus-loader --save
+// 加载器配置
+module: {
+    loaders: [
+        { 
+            test: /\.styl$/, 
+            loader: &#39;style-loader!css-loader!stylus-loader&#39; 
+        }
+    ]
+}
+</code></pre><h3 id="header-1-2-2">语法</h3>
+<p><a href="http://stylus-lang.com/docs/selectors.html" target="_blank">原版英文文档</a></p>
+<p><a href="http://www.zhangxinxu.com/jq/stylus/css-style.php" target="_blank">张鑫旭翻译的中文文档</a></p>
+<h3 id="header-1-2-3">辅助工具</h3>
+<p><a href="http://tj.github.io/nib/" target="_blank">官方工具库 nib</a>，小而美的 mixin 库。</p>
+<p><a href="https://github.com/ecomfe/rider/" target="_blank">百度工具库 rider</a>，提供更丰富的 mixin。</p>
+<h2 id="header-1-3">扩展资料</h2>
+<p><a href="http://efe.baidu.com/blog/revisiting-css-preprocessors/" target="_blank">再谈 CSS 预处理器</a></p>
 
 </div>
 </body>
