@@ -1,19 +1,81 @@
-# 我的 Less 学习笔记
+# CSS 预处理器
 
-> 前端必备技能，一定要学会。关于 Less，官方给出的定位：是一种动态样式语言，属于CSS预处理语言的一种，它使用类似CSS的语法，为CSS的赋予了动态语言的特性，如变量、继承、运算、函数等，更方便CSS的编写和维护。
+> 随着前端工程越来越大，CSS 本身的限制严重影响了开发的速度的工程化管理能力，所以在大型应中使用 CSS 预处理器带来的好处相当明显，这篇文章旨在快速的学完 CSS 预处理器。
 
-## 环境
+## Less
 
-最简单的非工程化环境，是使用 js 在浏览器中编译；最佳学习环境是监听文件变化动态编译工具；工程化工具需要根据自己项目的工程化选型来决定，webpack，gulp，fis 等工程化工具对 less 的集成和扩展就不展开了。这里是 Less 的学习，所以我选择了官网提供的一个小工具 --- Koala。
+### 环境
 
-## 
+对于代码，一个东西理解的正不正确没有比把代码跑一下验证一下来的更直接了。这里的学习期提供一个简单的命令行工具，可以一键编译 less(更多的工具可以在[这里](http://lesscss.cn/usage/)找到)：
 
-## 参考网站
+	// 全局安装 Less 解析工具
+	npm install less -g
+	// 解析less文件 less.less 输出为css文件less.css
+	lessc less.less less.css
+	
+工程化工具需要根据自己项目的工程化选型来决定，webpack，gulp，fis 等工程化工具对 less 的集成和扩展就不展开了。这里只提供 webpack 的示例：
+
+	// 加载器安装
+	npm install less-loader less
+	// 加载器配置
+	loaders: [
+		{
+			test: /\.less$/,
+			loader: "style!css!less"
+		}
+	]
+
+### 语法
+ 
+所有的语法参见[中文语法文档](http://www.css88.com/doc/less/features/)。
+
+### 辅助工具
+
+[百度 Less 编码规范](https://github.com/ecomfe/spec/blob/master/less-code-style.md#user-content-混入mixin-1)，按照这份规范来可以绕过一些坑，代码的风格也更统一。
+
+[工具库 est](http://ecomfe.github.io/est/)，提供了一系列方便快捷的 mixin，帮助您更轻松地书写 Less 代码。
 
 [中文官网](http://www.1024i.com/demo/less/);
 
-[中文语法文档](http://www.css88.com/doc/less/features/)
+## Stylus
 
-[百度 Less 编码规范](https://github.com/ecomfe/spec/blob/master/less-code-style.md#user-content-混入mixin-1)
+### 环境
+
+命令行工具：
+
+	// 全局安装 stylus 解析工具
+	npm install stylus -g
+	// 解析为 css，-w 可以监听文件改变自动解析
+	stylus -w style.styl -o style.css
+
+工程化工具 webpack：
+	
+	// 在当前位置安装解析器
+	sudo npm install stylus --save
+	// 加载器安装
+	npm install stylus-loader --save
+	// 加载器配置
+	module: {
+        loaders: [
+            { 
+                test: /\.styl$/, 
+                loader: 'style-loader!css-loader!stylus-loader' 
+            }
+        ]
+    }
+	
+### 语法
+
+[原版英文文档](http://stylus-lang.com/docs/selectors.html)
+
+[张鑫旭翻译的中文文档](http://www.zhangxinxu.com/jq/stylus/css-style.php)
+
+### 辅助工具
+
+[官方工具库 nib](http://tj.github.io/nib/)，小而美的 mixin 库。
+
+[百度工具库 rider](https://github.com/ecomfe/rider/)，提供更丰富的 mixin。
+
+## 扩展资料
 
 [再谈 CSS 预处理器](http://efe.baidu.com/blog/revisiting-css-preprocessors/)
