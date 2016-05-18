@@ -27,9 +27,9 @@
 
 ### 语法
  
-所有的语法参见[中文语法文档](http://www.css88.com/doc/less/features/)。
+[中文语法文档](http://www.css88.com/doc/less/features/)。
 
-[英文原版文档]()
+[英文原版文档](http://lesscss.org/features/)
 
 
 ### 辅助工具
@@ -69,9 +69,9 @@
 	
 ### 语法
 
-[原版英文文档](http://stylus-lang.com/docs/selectors.html)
-
 [张鑫旭翻译的中文文档](http://www.zhangxinxu.com/jq/stylus/css-style.php)
+
+[原版英文文档](http://stylus-lang.com/docs/selectors.html)
 
 ### 辅助工具
 
