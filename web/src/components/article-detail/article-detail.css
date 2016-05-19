@@ -55,12 +55,14 @@
     padding-top: 0;
 }
 .article-detail-headers-container ul {
-    padding: 0 6px 3px 20px;
+    padding: 0 6px 0 20px;
 }
 .article-detail-headers-container ul li {
-    padding: 5px 0;
     list-style: none;
     position: relative;
+}
+.article-detail-headers-container ul li a {
+    padding: 5px 0;
 }
 .article-detail-headers-container ul li:before {
     content: "\200B";
