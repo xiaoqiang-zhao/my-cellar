@@ -62,8 +62,8 @@ regexp.exec(&#39;&lt;div&gt;&lt;span&gt;aa&lt;/span&gt;&lt;span&gt;bb&lt;/span&g
 <p>我们以“检测合格”为例来探究匹配的技巧。</p>
 <p><code>\d</code> ：匹配数字，相当于 <code>[0-9]</code></p>
 <p><code>\w</code> ：匹配数字字母下划线，相当于 <code>[0-9a-zA-Z_]</code></p>
-<p><code>\s</code> ：任何 Unicode 空白符</p>
-<p><code>\S</code> ：任何非 Unicode 空白符的字符</p>
+<p><code>\s</code> ：任何 Unicode 空白符，可用来匹配空格，Tab，回车</p>
+<p>大写的对应其补集</p>
 <p><code>.</code> ：除换行外的其他字符</p>
 <p><code>[...]</code> ：方括号内的任意字符</p>
 <p><code>[^...]</code> ：不在方括号内的任意字符</p>
@@ -93,8 +93,8 @@ str.match(regexp2);
 <p><code>{n,}</code> ：匹配前一项n次或更多次</p>
 <p><code>{n}</code> ：匹配前一项n次</p>
 <p><code>?</code> ：等价于{0, 1}</p>
-<p><code>+</code> ：等价于{1, }</p>
 <p><code>*</code> ：等价于{0, }</p>
+<p><code>+</code> ：等价于{1, }</p>
 <p>再来一个：“判断字符串中是否有3个连续数字”。</p>
 <pre><code>/\d{3}/.test(&#39;-123a-&#39;);    // true
 /\d{3}/.test(&#39;-12a3-&#39;);    // false
@@ -393,7 +393,7 @@ str.length + (matchArr === null ? 0 : matchArr.length);   // 7
 <h3 id="header-1-4-9">正则分割千分位</h3>
 <pre><code>&#39;-12345678.90&#39;.replace(/\d(?=(\d{3})+(?:$|\.))/g,&quot;$&amp;,”);     // 作者：张云龙
 // 如果确定没有小数点，那么下面的正则会更简单
-&quot;1234567&quot;.replace(/\B(?=(?:\d{3})+$)/g, &#39;,&#39;)                 // 作者：李永剑
+&quot;1234567&quot;.replace(/\B(?=(?:\d{3})+$)/g, &#39;,&#39;);                // 作者：李永剑
 </code></pre><p>这里需要解释一下 <code>?:</code>，不想被捕获的时候使用 可以提高程序执行速度，比如 </p>
 <pre><code>([a-z][0-9])+ 
 </code></pre><p>这个正则表达式里 ( ) 里面的内容被捕获了，反向引用的时候可以用上。但是如果写成</p>
