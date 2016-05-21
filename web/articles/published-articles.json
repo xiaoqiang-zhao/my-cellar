@@ -1,5 +1,33 @@
 [
   {
+    "enName": "2016-new-year",
+    "title": "新年清零",
+    "introduction": "2016 年，新的一年清空所有从新开始。",
+    "tags": [
+      "个人笔记"
+    ],
+    "isPublished": true,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1451963461598,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "2016-year",
+    "title": "展望猴年",
+    "introduction": "过去的这一年，有一个很强烈的感觉就是自己的时间控制力变强了。这一年一共支持了公司的五个平台，持续更新开源项目 [cellar](https://github.com/longze/cellar)，本博客的建立和内容更新还有健身和户外。自我感觉做了非常多的事情，得益于 GTD 这个时间管理方法，其实就是把要做的事情写下来，然后拿出来一件做忘掉其他的，直到手上这件事完成再看下一件(可以休息一下)。在此做一个整年的 GTD 粗粒度列表。",
+    "tags": [
+      "个人笔记"
+    ],
+    "isPublished": true,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1451964864503,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "array",
     "title": "Array那些事",
     "introduction": "Array，我们经常使用，却未见得知晓她的全部，这篇文章基本上是对官方API(包括ES5中Array的全部方法)的整理再加一些代码示例，整理在此一方面是自我修养一方面是方便查阅。",
@@ -66,7 +94,7 @@
     "isPublished": true,
     "state": "立项",
     "type": "md",
-    "createDate": 1460775472039,
+    "createDate": 1463476652677,
     "commentList": [],
     "todoList": []
   },
@@ -238,20 +266,6 @@
     "state": "立项",
     "type": "md",
     "createDate": 1457665137355,
-    "commentList": [],
-    "todoList": []
-  },
-  {
-    "enName": "new-year",
-    "title": "新年清零",
-    "introduction": "2016 年，新的一年清空所有从新开始。",
-    "tags": [
-      "个人笔记"
-    ],
-    "isPublished": true,
-    "state": "立项",
-    "type": "md",
-    "createDate": 1451963461598,
     "commentList": [],
     "todoList": []
   },
