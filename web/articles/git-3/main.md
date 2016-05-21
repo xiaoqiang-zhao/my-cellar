@@ -87,7 +87,7 @@
 
 ### git checkout
 
-`git checkout -b 本地分支名 origin/远程分知名`，将远程分支检出到本地；
+`git checkout -b 本地分支名 origin/远程分知名`，将远程分支检出到本地作为新的本地分支，并且切换到新分支(-b 参数就是指定此操作的)；
 	
 `git checkout 分知名` 切换本地分支；
 
@@ -135,3 +135,5 @@
 [github-flow](http://scottchacon.com/2011/08/31/github-flow.html)
 
 [创建 git 项目](http://www.jianshu.com/p/df7ce9f3a5cb)
+
+[git checkout 命令详解](http://www.tuicool.com/articles/A3Mn6f)
