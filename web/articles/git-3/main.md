@@ -87,7 +87,7 @@
 
 ### git checkout
 
-`git checkout -b 本地分支名 origin/远程分知名`，将远程分支检出到本地作为新的本地分支，并且切换到新分支(-b 参数就是指定此操作的)；
+`git checkout -b 本地分支名 origin/远程分知名`，将远程分支检出到本地作为新的本地分支，并且切换到新分支，参数 `-b` 指定是新建分支 `new branch` 而不是分只切换；
 	
 `git checkout 分知名` 切换本地分支；
 
