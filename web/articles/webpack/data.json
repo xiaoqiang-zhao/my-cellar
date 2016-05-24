@@ -1,12 +1,15 @@
 {
   "enName": "webpack",
-  "title": "一步一步学习 webpack",
-  "introduction": "我们从简单到复杂通过一个一个的例子来学习 webpack，所有实例都可以在我的 git 上下载到源码。",
-  "tags": [],
-  "isPublished": false,
-  "state": "立项",
+  "title": "webpack",
+  "introduction": "我们从简单到复杂通过一个一个的例子来学习 webpack，所有实例都可以在我的 github 上下载到源码。",
+  "tags": [
+    "工程",
+    "推荐"
+  ],
+  "isPublished": true,
+  "state": "公示持续集成中",
   "type": "md",
-  "createDate": 1462684808418,
+  "createDate": 1464050830386,
   "commentList": [],
   "todoList": []
 }

@@ -27,7 +27,7 @@
 
 ### 语法
  
-[中文语法文档](http://www.css88.com/doc/less/features/)。
+[中文语法文档](http://www.css88.com/doc/less/features/)
 
 [英文原版文档](http://lesscss.org/features/)
 
@@ -38,7 +38,7 @@
 
 [工具库 est](http://ecomfe.github.io/est/)，提供了一系列方便快捷的 mixin，帮助您更轻松地书写 Less 代码。
 
-[中文官网](http://www.1024i.com/demo/less/);
+[中文官网](http://www.1024i.com/demo/less/)。
 
 ## Stylus
 

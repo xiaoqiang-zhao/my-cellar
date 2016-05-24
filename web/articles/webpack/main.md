@@ -1,10 +1,12 @@
-# 一步一步学习 webpack
+# webpack
 
-> 我们从简单到复杂通过一个一个的例子来学习 webpack，所有实例都可以在我的 git 上下载到源码。
+> 我们从简单到复杂通过一个一个的例子来学习 webpack，所有实例都可以在我的 github 上下载到源码。
 
 ## webpack 是什么？
 
 是一款模块加载器兼打包工具，它能把各种资源，例如JS(含JSX和coffee)、样式（含less/sass）、图片、HTML 片段都作为模块来使用和处理。
+
+那么能处理什么问题？主要是资源合并和依赖管理。
 
 ## 2分钟跑起来
 
@@ -41,15 +43,16 @@ NodeJs 的安装就不多说了，webpack 的全局安装命令如下：
         text: 'world.'
     };
 
-上面所有文件放在同一目录下面，在此目录下命令运行
+上面所有文件放在同一目录下面，在此目录下运行下面任一命令
 
-	webpack
+	webpack           // 合并文件  
+	webpack --watch   // 监听变动并自动打包
 
 就生成的 main.js 可被页面直接使用，具体代码可以到当前文章的 `./demo/quick-start/` 中查看。
 
 ## 简单解释几句
 
-webpack 兼容 AMD 和 CMD 以及 CommonJs 规范，官方建议使用 CommonJS 的规范来组织模块关系。如果对前面的三个规范还不了解可以看我的另一篇文章[js 模块化](/index.html#!/articles/js-module)。webpack 也可算是预编译类的模块管理工具，所有的资源都被打包放在一起统一加载，虽然有一些技巧可以打出多个包或提取多个包之间的公用模块，但这种 all in one 的思想需要注意，用空间换时间带来不可避免的问题是加载用户可能用不到的资源(即非按需加载)，从而造成初始化时间变长移动端流量浪费等问题。在 http/2 场景下使用此方案做做整站打包的话劣势就会更加明显，所以面对当前国内的网络环境和大多数应用场景一个较为推荐的方案是使用 webpack 做与业务无关的组件打包，用 AMD 或 CMD 做业务的拆分打包(为了按需加载)，前端资源库单独引用或打包后整体引用。好了扯远了，我们继续 webpack。
+webpack 兼容 AMD 和 CMD 以及 CommonJs 规范，官方建议使用 CommonJS 的规范来组织模块关系。如果对前面的三个规范还不了解可以看我的另一篇文章[js 模块化](/#!/articles/js-module)。webpack 也可算是预编译类的模块管理工具，所有的资源都被打包放在一起统一加载，虽然有一些技巧可以打出多个包或提取多个包之间的公用模块，但这种 all in one 的思想需要注意，用空间换时间带来不可避免的问题是加载用户可能用不到的资源(即非按需加载)，从而造成初始化时间变长移动端流量浪费等问题。在 http/2 场景下使用此方案做做整站打包的话劣势就会更加明显，所以面对当前国内的网络环境和大多数应用场景一个较为推荐的方案是使用 webpack 做与业务无关的组件打包，用 AMD 或 CMD 做业务的拆分打包(为了按需加载)，前端资源库单独引用或打包后整体引用。好了扯远了，我们继续 webpack。
 
 ## 调试
 
@@ -64,7 +67,7 @@ webpack 兼容 AMD 和 CMD 以及 CommonJs 规范，官方建议使用 CommonJS 
 	webpack --watch   // 监听变动并自动打包
 	webpack -d        // 生成和并文件和map拆解文件
 
-可以用上面 `./demo/quick-start/` 中的代码做实验。
+可以用上面 `./demo/quick-start/` 中的代码做实验。补充说明一下，这篇文章提到的所有示例的依赖都已经在 `package.json` 定义好了，开始之前需要在 demo 文件夹下执行 `sudo npm install` 来安装这些依赖，否则示例可能跑不起来。
 
 [chrome source Maps官方资料](https://developer.chrome.com/devtools/docs/javascript-debugging#source-maps)
 
@@ -99,7 +102,7 @@ html 模块示例如下：
 
 需要两个插件:css-loader将 css 作为模块加载进来，style-loader 将样式写进页面。
 
-	 npm install style-loader css-loader
+	 npm install style-loader css-loader --save
 
 IE8 及以下有一个 Style 个数超过32后面的不识别的 bug，在生成的 js 文件中可以看到对低版本的 IE 做了判断。下面是配置文件部分代码：
 
@@ -117,20 +120,7 @@ IE8 及以下有一个 Style 个数超过32后面的不识别的 bug，在生成
 	
 	require('./css-1.css');
 
-对于预处理器也是相同的处理办法，下面是LESS的支持方法：
-
-安装插件
-	
-	npm install less-loader less --save
-
-配置
-
-	{
-		test: /\.less$/,
-		loader: "style!css!less"
-	}
-	
-完整代码参见`./demo/css/`
+对于CSS 预处理器，可以查看我的[另一篇博文](/#!/articles/css-pre-processor)。
 
 ## 有了CSS怎么能没有装饰图
 
@@ -148,13 +138,15 @@ CSS 的写法和普通的一样，部分配置代码如下：
 		}
 	]
 
+## 分模块加载
+
+草稿：单页应用的 all in one 打包不存在增量发布问题，增量发布只能被用在按需加载、单页多入口、多页多资源的情况，也就是站点有多个打包后的资源需要按需或顺序加载，并且这些资源互不依赖可以相互独立发布，这样当只有一个资源改变时，客户端不需要更新其他资源从而节省流量和请求时间。
+
+待续...
+
 ## 自动刷新
 
-安装加载器 
-
-	npm install --save-dev webpack-livereload-plugin
-	
-配制方法，待续...
+待续...
 	
 ## 参考资料
 
@@ -171,5 +163,7 @@ CSS 的写法和普通的一样，部分配置代码如下：
 [chrome source Maps官方资料](https://developer.chrome.com/devtools/docs/javascript-debugging#source-maps)
 
 [less-loader](https://github.com/webpack/less-loader)
+
+[code-splitting](http://webpack.github.io/docs/code-splitting.html)
 
 
