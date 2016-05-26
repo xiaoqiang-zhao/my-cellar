@@ -73,7 +73,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + ".main.js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + "677a3b144a720f8054fb" + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -113,9 +113,10 @@
 	        //    console.log('3' + b.text);
 	        //});
 
-	        __webpack_require__.e/* require */(1, function(__webpack_require__) { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(1)]; (function (b) {
-	            console.log('3' + b.text);
-	        }.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));});
+	        //require(['./b'], function (b) {
+	        //    console.log('3' + b.text);
+	        //});
+	        __webpack_require__.e/* require */(1, function() {[__webpack_require__(1)];});
 	    }, 2000);
 	}
 	console.log('1');

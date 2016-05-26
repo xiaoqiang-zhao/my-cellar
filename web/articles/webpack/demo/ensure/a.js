@@ -16,9 +16,10 @@ if (a === '') {
         //    console.log('3' + b.text);
         //});
 
-        require(['./b'], function (b) {
-            console.log('3' + b.text);
-        });
+        //require(['./b'], function (b) {
+        //    console.log('3' + b.text);
+        //});
+        require(['./b']);
     }, 2000);
 }
 console.log('1');
