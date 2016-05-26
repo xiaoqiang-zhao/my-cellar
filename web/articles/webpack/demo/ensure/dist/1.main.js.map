@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./b.js"],"names":[],"mappings":";;;;;;;;AAAA;AACA;AACA;AACA;AACA,G","file":"1.main.js","sourcesContent":["// ------------ b ------------\nconsole.log('2');\nmodule.exports = {\n    text: ' world.'\n};\n\n\n/*****************\n ** WEBPACK FOOTER\n ** ./b.js\n ** module id = 1\n ** module chunks = 1\n **/"],"sourceRoot":""}
