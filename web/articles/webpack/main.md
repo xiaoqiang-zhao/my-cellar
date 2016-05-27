@@ -140,13 +140,44 @@ CSS 的写法和普通的一样，部分配置代码如下：
 
 ## 分模块加载
 
-草稿：单页应用的 all in one 打包不存在增量发布问题，增量发布只能被用在按需加载、单页多入口、多页多资源的情况，也就是站点有多个打包后的资源需要按需或顺序加载，并且这些资源互不依赖可以相互独立发布，这样当只有一个资源改变时，客户端不需要更新其他资源从而节省流量和请求时间。
+如果模块较多，将所有的代码都打包到一起体积会很大，为了解决这个问题就需要将各模块单独打包方便按需加载模块。这种按需加载的写法如下：
 
-待续...
+	// CommonJs
+	require.ensure(['./b'], function (require) {
+		var m = require('./b');
+		console.log('3' + m.text);
+	});
+	
+	// AMD
+	require.ensure(['./b'], function (b) {
+		console.log('3' + b.text);
+	});
 
-## 自动刷新
+推荐明确使用 `ensure` 来表示异步加载模块，但是在逻辑中的 `require` 也会被视为异步加载模块，会被单独打包：
+	
+	var a = document.getElementById('app').innerHTML;
+    if (a === '') {
+        require(['./b'], function (b) {
+        
+        });
+    }
 
-待续...
+但是如果变形为：
+	
+	var a = document.getElementById('app').innerHTML;
+	if (a === '') {
+		var b = require('./b');
+	}
+
+就不会单独打包了。另外在存在分模块打包的时候，配置的时候需要注意 `publicPath` 配置项：
+
+	output: {
+		path: './dist/',        // 将生成的文件放到此路径下
+		publicPath: './dist/',  // 异步加载的模块的请求路径，默认是 webpack.config.js 所在的路径
+		filename: '[hash].js'
+	}
+
+那么为什么生成路径和请求路径一定要分两个参数呢，他们不应该是统一的吗？
 	
 ## 参考资料
 
