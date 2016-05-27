@@ -181,7 +181,29 @@ CSS 的写法和普通的一样，部分配置代码如下：
 
 ## 被集成
 
+一个好的工具最好能集成其他工具或插件，也最好能被其他程序集成。webpack 就是这样一个工具，可以方便的集成加载器插件，也提供了被 node 作为独立模块使用的接口：
 	
+	var webpack = require('webpack');
+	var webpackConfig = require('./webpack-config');
+	webpack(webpackConfig, function (err, stats) { 
+		// webpack 打包完成后会进入此回调函数
+		
+		// 文件哈希
+		stats.hash;
+	});
+
+下面是调试时用到的参数，可以通过自定义参数来判断是开发环境还是生成环境
+	
+	webpackConfig.devtool = 'sourcemap';
+	webpackConfig.optimize = {
+		// 是否压缩
+		minimize: false
+	};
+	webpackConfig.output.filename = 'debug.js';
+	webpackConfig.output.sourceMapFilename = 'debug.map';
+	webpackConfig.watch = true; // 是否监听改变
+
+利用 watch 可以结合web容器和 websocket 做一些 livereload 的事情。
 	
 ## 参考资料
 

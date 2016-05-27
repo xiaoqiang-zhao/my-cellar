@@ -465,9 +465,12 @@
     "enName": "node",
     "title": "node开发纪要",
     "introduction": "开发 node 程序有一些必须掌握的技巧，这里收集一些我遇到的问题和解决方案。",
-    "tags": [],
-    "isPublished": false,
-    "state": "立项",
+    "tags": [
+      "基础",
+      "个人笔记"
+    ],
+    "isPublished": true,
+    "state": "公示集成",
     "type": "md",
     "createDate": 1464314346073,
     "commentList": [],

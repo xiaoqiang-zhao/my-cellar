@@ -270,6 +270,21 @@
     "todoList": []
   },
   {
+    "enName": "node",
+    "title": "node开发纪要",
+    "introduction": "开发 node 程序有一些必须掌握的技巧，这里收集一些我遇到的问题和解决方案。",
+    "tags": [
+      "基础",
+      "个人笔记"
+    ],
+    "isPublished": true,
+    "state": "公示集成",
+    "type": "md",
+    "createDate": 1464314346073,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "npm",
     "title": "NPM",
     "introduction": "NPM的全称是Node Package Manager，是一个NodeJS包管理和分发工具，但是在实际的操作中此管理器已经不止是 NodeJs 的包管理了，浏览器端的资源管理也可以借助此工具完成，前端的各种辅助工具也对此有依赖，所以 NPM 基本可以算作前端的必备技能，这里介绍一些基础知识和典型场景下的技巧。",

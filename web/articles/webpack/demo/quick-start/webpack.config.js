@@ -6,5 +6,7 @@ module.exports = {
     output: {
         path: './dist/',
         filename: 'main.js'
-    }
+    },
+
+    watch: true
 };

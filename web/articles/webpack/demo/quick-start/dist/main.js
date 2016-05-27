@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/js/";
+/******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -47,7 +47,7 @@
 	var b = __webpack_require__(1);
 	var text = 'hello ' + b.text + '~_~';
 
-	document.getElementsByTagName('body')[0].innerHTML = text;
+	document.getElementsByTagName('body')[0].innerHTML = text + '123';
 
 	module.exports = {
 	    text: text
