@@ -28,6 +28,10 @@
 
 另外参数 `npm install -g` 为全局安装。
 
+还可以从指定路径安装需要的包：
+
+	npm --registry=https://registry.npm.taobao.org install cnpm -g
+
 ## 安装依赖
 
 一个项目的依赖包一般是不被提交的，这就需要在将项目克隆到本地后手动安转依赖
