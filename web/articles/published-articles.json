@@ -407,6 +407,20 @@
     "todoList": []
   },
   {
+    "enName": "word-or-two",
+    "title": "记录自己的和别人的只言片语",
+    "introduction": "记录一些简短的东西，这些东西作为单独的一篇内容太单薄，但是放弃又太可惜，这里收录在这里。",
+    "tags": [
+      "个人笔记"
+    ],
+    "isPublished": true,
+    "state": "自我持续集成中",
+    "type": "md",
+    "createDate": 1459731839766,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "xmind",
     "title": "脑图工具 XMind",
     "introduction": "今天要画一张脑图，换了 Mac 之后的第一张脑图，找了几个画脑图的软件发现这个最好用(有收费版的可能更好用，但是我不愿意做破解的事情)，简单记录一下使用，也当做工具链的一环。",
