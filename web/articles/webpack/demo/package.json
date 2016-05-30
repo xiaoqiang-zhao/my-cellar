@@ -18,8 +18,8 @@
     "less": "^2.6.1",
     "less-loader": "^2.2.3",
     "style-loader": "^0.13.0",
+    "uninstall": "0.0.0-reserved",
     "url-loader": "^0.5.7",
-    "webpack": "^1.12.9",
-    "webpack-livereload-plugin": "^0.8.1"
+    "webpack": "^1.12.9"
   }
 }
