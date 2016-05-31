@@ -7,8 +7,11 @@
     "email": "longze_xq@163.com"
   },
   "dependencies": {
+    "autoprefixer": "^6.3.6",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
+    "postcss-loader": "^0.9.1",
+    "precss": "^1.4.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^2.0.0",
     "webpack": "^1.13.0"
