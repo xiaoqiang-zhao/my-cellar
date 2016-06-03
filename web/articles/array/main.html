@@ -94,7 +94,7 @@ array.unshift(&#39;a&#39;, &#39;b&#39;); // 2
 </code></pre><h3 id="header-1-2-6">slice</h3>
 <p>.slice(start,end)</p>
 <p>从已有的数组中选择并返回选定的元素（以数组的形式）。
-返回的数组是原数组的部分拷贝（值类型，字符串或数字）或指向（对象类型）,
+返回数组的元素是原数组元素的拷贝（值类型，字符串或数字）或指向（对象类型）,
 该方法<strong>不会</strong>改变数组。</p>
 <p>start:可选。规定从何处开始选取（默认从0开始）。
 如果是负数，那么它规定从数组尾部开始算起的位置。
@@ -305,6 +305,12 @@ var result = array.forEach(function (item, index, currentArray) {
 }, window); // undefined
 array[0].order; // 1
 array[2].order; // 3
+</code></pre><p>组要注意每次执行回调后数组会被跟新，但是数组元素的角标却不会变，即使改变 index 的值也不会引起任何变化，如下面示例：</p>
+<pre><code>var a = [1, 2, 3, 4, 5];
+a.forEach(function (item, index) {
+    a.splice(index, 1);
+});
+a; // [2, 4]
 </code></pre><h3 id="header-1-3-5">map</h3>
 <p>.map(callback[, thisObject])</p>
 <p>参数的使用与 <code>every</code> 完全相同，同样<strong>不会</strong>直接改变原数组，同样遍历数组中的所有元素。</p>
