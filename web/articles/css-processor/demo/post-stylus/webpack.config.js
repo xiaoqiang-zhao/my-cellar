@@ -1,6 +1,14 @@
 var autoprefixer = require('autoprefixer');
 var poststylus = require('poststylus');
-// var poststylus = require('poststylus');
+var stylus = require('stylus');
+
+// 怎么用，文档里没写...
+//stylus(css).use([
+//    poststylus([
+//        autoprefixer({ browsers: ['ie 9'] })
+//    ])
+//]);
+
 module.exports = {
     entry: {
         main: './enter.js'
@@ -14,7 +22,6 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.styl$/, loader: 'style-loader!css-loader!stylus-loader' }
-            //{ test: /\.styl$/, loader: 'style-loader!css-loader!stylus-loader' }
         ]
     },
     stylus: {

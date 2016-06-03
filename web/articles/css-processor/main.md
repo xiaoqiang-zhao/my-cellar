@@ -85,6 +85,11 @@
 
 [postcss-loader](https://github.com/postcss/postcss-loader)
 
+## PostStylus
+
+[poststylus github](https://github.com/seaneking/poststylus)
+
+[using postcss together with sass stylus or less](http://webdesign.tutsplus.com/tutorials/using-postcss-together-with-sass-stylus-or-less--cms-24591)
 ## 扩展资料
 
 [再谈 CSS 预处理器](http://efe.baidu.com/blog/revisiting-css-preprocessors/)

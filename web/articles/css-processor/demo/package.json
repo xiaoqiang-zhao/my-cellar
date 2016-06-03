@@ -11,7 +11,9 @@
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "postcss-loader": "^0.9.1",
+    "poststylus": "^0.2.3",
     "precss": "^1.4.0",
+    "rucksack-css": "^0.8.5",
     "stylus": "^0.54.5",
     "stylus-loader": "^2.0.0",
     "webpack": "^1.13.0"
