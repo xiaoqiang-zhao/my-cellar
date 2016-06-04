@@ -20,7 +20,7 @@
 
 `transition-property` 
 
-- all 默认值，全部可过渡的样式，在下面会给出那些样式可过渡
+- all 默认值，全部可过渡的样式，在下面会给出哪些样式可过渡
 - none 不对任何样式进行过渡，当过渡还没完成时突然将过渡属性设为 `none`，过渡会直接跳到结尾，
 [示例](/articles/css-animate/demo/transition-property.html)
 - 单独属性，并不是所有属性都可以过渡，只有属性具有中间点值才能具备过度效果，这里就不一一列举了，
@@ -28,7 +28,7 @@
 
 这里需要提醒一点是，并不是什么属性改变都为触发transition动作效果，比如页面的自适应宽度，当浏览器改变宽度时，并不会触发transition的效果。
 
-浏览器支持情况：IE0+，Firefox，Chrome，Safari。
+浏览器支持情况：IE10+，Firefox，Chrome，Safari。
 
 ### 过渡持续时间
 

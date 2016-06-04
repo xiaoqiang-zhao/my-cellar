@@ -90,7 +90,7 @@
     "todoList": []
   },
   {
-    "enName": "css-animate",
+    "enName": "css-animation",
     "title": "CSS 动画(一)",
     "introduction": "目前我对于 CSS 动画还是一个菜鸟，从不会到熟练总需要一个过程，本篇从语法开始，记录我的学习，算是一份技术点备忘录吧。",
     "tags": [
@@ -329,6 +329,18 @@
     "todoList": []
   },
   {
+    "enName": "introduction-to-algorithms",
+    "title": "算法导论(一)基础知识",
+    "introduction": "下决心啃完《算法导论》这个大块头巨烧脑著作，此系列文章是我的读书笔记，主要摘录记录感悟。此篇对应第一部分，之后的以此类推。如果我能将这么厚的一本书简化成几篇博文，那自己理解的也差不多了，共勉！",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1465023504478,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "jointjs",
     "title": "译 JointJS API",
     "introduction": "本篇是[JointJS API](http://www.jointjs.com/api)的译文，期间会夹杂一些我的理解和辅助理解的Demo。",
@@ -386,10 +398,12 @@
   {
     "enName": "js-module",
     "title": "js 模块化",
-    "introduction": "未找到描述信息",
-    "tags": [],
-    "isPublished": false,
-    "state": "立项",
+    "introduction": "来说说 CommonJS,AMD,CMD.",
+    "tags": [
+      "技术点"
+    ],
+    "isPublished": true,
+    "state": "修正添加中",
     "type": "md",
     "createDate": 1459148989038,
     "commentList": [],
@@ -419,18 +433,6 @@
     "state": "立项",
     "type": "md",
     "createDate": 1453353892535,
-    "commentList": [],
-    "todoList": []
-  },
-  {
-    "enName": "livereload",
-    "title": "livereload",
-    "introduction": "实时自动刷新页面来开发",
-    "tags": [],
-    "isPublished": false,
-    "state": "立项",
-    "type": "md",
-    "createDate": 1461240224817,
     "commentList": [],
     "todoList": []
   },

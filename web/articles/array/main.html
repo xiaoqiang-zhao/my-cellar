@@ -71,7 +71,12 @@ a.length = null; // a.length 为 0
 <pre><code>var array = [];
 array.push(&#39;a&#39;); // 1
 array[0];        // &#39;a&#39;
-</code></pre><h3 id="header-1-2-3">pop</h3>
+</code></pre><h3 id="header-1-2-3">unshift</h3>
+<p>.unshift(new1,new2,...,newX)</p>
+<p>向数组的开头添加一个或更多元素，并返回新的长度（IE会返回undefined），该方法<strong>会</strong>改变数组。</p>
+<pre><code>var array = [];
+array.unshift(&#39;a&#39;, &#39;b&#39;); // 2
+</code></pre><h3 id="header-1-2-4">pop</h3>
 <p>.pop()</p>
 <p>移除并返回数组的最后一项，该方法<strong>会</strong>改变数组。</p>
 <p>当数组长度已经是零时，继续使用<code>pop</code>方法不会报错，返回 <code>undefined</code>。</p>
@@ -79,18 +84,13 @@ array[0];        // &#39;a&#39;
 <pre><code>var array = [&#39;a&#39;];
 array.pop(); // &#39;a&#39;
 array[0];    // undefined
-</code></pre><h3 id="header-1-2-4">shift</h3>
+</code></pre><h3 id="header-1-2-5">shift</h3>
 <p>.shift()</p>
 <p>删除并返回数组的第一个元素，该方法<strong>会</strong>改变数组。</p>
 <p>当数组长度已经是零时，继续使用<code>shift</code>方法不会报错，返回 <code>undefined</code>。</p>
 <pre><code>var array = [&#39;a&#39;];
 array.shift(); // a
 array[0];      // undefined
-</code></pre><h3 id="header-1-2-5">unshift</h3>
-<p>.unshift(new1,new2,...,newX)</p>
-<p>向数组的开头添加一个或更多元素，并返回新的长度（IE会返回undefined），该方法<strong>会</strong>改变数组。</p>
-<pre><code>var array = [];
-array.unshift(&#39;a&#39;, &#39;b&#39;); // 2
 </code></pre><h3 id="header-1-2-6">slice</h3>
 <p>.slice(start,end)</p>
 <p>从已有的数组中选择并返回选定的元素（以数组的形式）。
@@ -245,33 +245,6 @@ var result = array.every(function (item, index, currentArray) {
     return null; // 因为 null 的布尔运算是 false，所以最后返回 false
 }, window); // false
 array[0].order; // 1
-</code></pre><p>注意：
-对于添加元素，只有在 <code>every</code> 执行前添加的数组元素才有效，在回调函数中添加的元素将被忽略，</p>
-<pre><code>var array = [
-    { order: 0 },
-    { order: 1 },
-    { order: 2 }
-];
-var result = array.every(function (item, index, currentArray) {
-    if (array.length &lt; 4) {
-        array.push({ order: 3 });
-    }
-    console.log(item.order);
-    return true;
-}, window);
-// 控制台只能看到 0 ， 1 ，2
-</code></pre><p>而在 <code>every</code> 开始执行到最后一个元素这一期间，数组元素被删除或者被更改的，将以回调函数访问到该元素的时间为准，被删除的元素将被忽略。</p>
-<pre><code>var array = [
-    { order: 0 },
-    { order: 1 },
-    { order: 2 }
-];
-var result = array.every(function (item, index, currentArray) {
-    array.pop();
-    console.log(item.order);
-    return true;
-}, window);
-// 控制台可以看到 0 ， 1
 </code></pre><h3 id="header-1-3-3">some</h3>
 <p>.some(callback[, thisObject])</p>
 <p>参数的使用与 <code>every</code> 相同。</p>
@@ -305,12 +278,6 @@ var result = array.forEach(function (item, index, currentArray) {
 }, window); // undefined
 array[0].order; // 1
 array[2].order; // 3
-</code></pre><p>组要注意每次执行回调后数组会被跟新，但是数组元素的角标却不会变，即使改变 index 的值也不会引起任何变化，如下面示例：</p>
-<pre><code>var a = [1, 2, 3, 4, 5];
-a.forEach(function (item, index) {
-    a.splice(index, 1);
-});
-a; // [2, 4]
 </code></pre><h3 id="header-1-3-5">map</h3>
 <p>.map(callback[, thisObject])</p>
 <p>参数的使用与 <code>every</code> 完全相同，同样<strong>不会</strong>直接改变原数组，同样遍历数组中的所有元素。</p>
@@ -340,6 +307,14 @@ var result = array.filter(function (item, index, currentArray) {
     item.order++;
     return item.order &gt; 1;
 }, window); // [{&quot;order&quot;:2},{&quot;order&quot;:3}]
+</code></pre><p>注意：在上面 <code>every</code>,<code>some</code>,<code>forEach</code>,<code>map</code>,<code>filter</code> 以及下面的 <code>reduce</code>,<code>reduceRight</code>这些方法中，遍历的脚标递增，如果在回调函数中改变数组(添加删除修改)，脚标会对其视而不见，即使改变 index 的值也不会引起任何变化，如果是删除这些方法会容错，如果添加 n 个元素元素那么最后的 n 个元素就不会被遍历到，如下面示例：</p>
+<pre><code>var a = [1, 2, 3];
+a.forEach(function (item, index) {
+    if (index &lt; 10) {
+        a.push(item + 10);
+    }
+});
+a;  // [1, 2, 3, 11, 12, 13]
 </code></pre><h3 id="header-1-3-7">indexOf</h3>
 <p>.indexOf(searchElement[,fromIndex])</p>
 <p>查找第一个与搜索元素相同的元素的索引值。如果未找到返回-1。</p>

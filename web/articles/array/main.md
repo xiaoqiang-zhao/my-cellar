@@ -73,6 +73,15 @@ Array容量：2的32次方 - 2 = 4 294 967 294，约42.9亿。
     array.push('a'); // 1
     array[0];        // 'a'
 
+### unshift
+
+.unshift(new1,new2,...,newX)
+
+向数组的开头添加一个或更多元素，并返回新的长度（IE会返回undefined），该方法**会**改变数组。
+
+    var array = [];
+    array.unshift('a', 'b'); // 2
+
 ### pop
 
 .pop()
@@ -98,15 +107,6 @@ Array容量：2的32次方 - 2 = 4 294 967 294，约42.9亿。
     var array = ['a'];
     array.shift(); // a
     array[0];      // undefined
-
-### unshift
-
-.unshift(new1,new2,...,newX)
-
-向数组的开头添加一个或更多元素，并返回新的长度（IE会返回undefined），该方法**会**改变数组。
-
-    var array = [];
-    array.unshift('a', 'b'); // 2
 
 ### slice
 
@@ -317,37 +317,6 @@ every **不会**改变原有数组。
     }, window); // false
     array[0].order; // 1
 
-注意：
-对于添加元素，只有在 `every` 执行前添加的数组元素才有效，在回调函数中添加的元素将被忽略，
-
-    var array = [
-        { order: 0 },
-        { order: 1 },
-        { order: 2 }
-    ];
-    var result = array.every(function (item, index, currentArray) {
-        if (array.length < 4) {
-            array.push({ order: 3 });
-        }
-        console.log(item.order);
-        return true;
-    }, window);
-    // 控制台只能看到 0 ， 1 ，2
-
-而在 `every` 开始执行到最后一个元素这一期间，数组元素被删除或者被更改的，将以回调函数访问到该元素的时间为准，被删除的元素将被忽略。
-
-    var array = [
-        { order: 0 },
-        { order: 1 },
-        { order: 2 }
-    ];
-    var result = array.every(function (item, index, currentArray) {
-        array.pop();
-        console.log(item.order);
-        return true;
-    }, window);
-    // 控制台可以看到 0 ， 1
-
 ### some
 
 .some(callback[, thisObject])
@@ -391,14 +360,6 @@ every **不会**改变原有数组。
     }, window); // undefined
     array[0].order; // 1
     array[2].order; // 3
-
-组要注意每次执行回调后数组会被跟新，但是数组元素的角标却不会变，即使改变 index 的值也不会引起任何变化，如下面示例：
-	
-	var a = [1, 2, 3, 4, 5];
-	a.forEach(function (item, index) {
-	    a.splice(index, 1);
-	});
-	a; // [2, 4]
 	
 ### map
 
@@ -437,6 +398,16 @@ every **不会**改变原有数组。
         item.order++;
         return item.order > 1;
     }, window); // [{"order":2},{"order":3}]
+
+注意：在上面 `every`,`some`,`forEach`,`map`,`filter` 以及下面的 `reduce`,`reduceRight`这些方法中，遍历的脚标递增，如果在回调函数中改变数组(添加删除修改)，脚标会对其视而不见，即使改变 index 的值也不会引起任何变化，如果是删除这些方法会容错，如果添加 n 个元素元素那么最后的 n 个元素就不会被遍历到，如下面示例：
+	
+	var a = [1, 2, 3];
+	a.forEach(function (item, index) {
+		if (index < 10) {
+		    a.push(item + 10);
+		}
+	});
+	a;  // [1, 2, 3, 11, 12, 13]
 
 ### indexOf
 
