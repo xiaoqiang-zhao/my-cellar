@@ -113,3 +113,5 @@
     word-break: keep-all; 只能在半角空格或连字符处换行，无法对某些链接地址进行换行。
 
 这里补充 `white-space: normal;` 是因为其继承的特性，为了使程序更健壮，这一行在某些情况下的冗余是值得的。
+
+[word-wrap/word-break/white-space](http://www.cnblogs.com/charling/p/3615111.html)

@@ -40,6 +40,15 @@
         .con2 {
             width: 800px;
         }
+        .con3  > .item:nth-child(1) {
+            flex: 1 1;
+        }
+        .con3  > .item:nth-child(2) {
+            flex: 2 1;
+        }
+        .con3  > .item:nth-child(3) {
+            flex: 1 1;
+        }
     </style>
 </head>
 <body>
@@ -55,6 +64,18 @@
     </div>
 </div>
 <div class="con con2">
+    <div class="item">
+        item1
+    </div>
+    <div class="item">
+        item2
+    </div>
+    <div class="item">
+        item3
+    </div>
+</div>
+当不指定宽度时，按比例分配
+<div class="con con3">
     <div class="item">
         item1
     </div>

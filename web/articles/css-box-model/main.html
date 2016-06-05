@@ -89,7 +89,7 @@ header {
 }
 </code></pre><p>这样定义的元素不会产生横向滚动条，上面 Demo 中的 Right 块采取绝对定位 <code>position: absolute;</code> 会使浏览器产生横向滚动条，这一点在做“回到顶部”这类页面组件动画时很有用。</p>
 <h3 id="header-1-2-3">页面高度</h3>
-<p>在页面中提高度，不管是一个元素的高度，还是整个页面的高度，就不得不提到三种溢出方式：定位溢出，负外边距溢出，外边距底部溢出。这里的溢出指子元素在呈现上没有被父元素完全包围，如“定位溢出”的关键代码如下：</p>
+<p>在页面中提高度，不管是一个元素的高度，还是整个页面的高度，就不得不提到三种溢出方式：定位溢出，负外边距溢出，外边距底部溢出(由于字符串的不折行溢出不会影响其他元素的布局，所以这里暂时将其忽略)。这里的溢出指子元素在呈现上没有被父元素完全包围，如“定位溢出”的关键代码如下：</p>
 <pre><code>position: absolute;
 bottom: -50px;
 </code></pre><p>由于绝对定位的关系，子元素的一部分必然会父元素从下部伸出，由于绝对定位已经脱离了文档流所以直接计算比较困难。</p>
@@ -97,7 +97,7 @@ bottom: -50px;
 <pre><code>margin-bottom: -50px;
 </code></pre><p>“外边距底部溢出”的关键代码如下：</p>
 <pre><code>margin-bottom: 50px;
-</code></pre><p>在容器没有设置 <code>overflow: hidden;</code> 或者边框时边距会溢出。</p>
+</code></pre><p>在容器没有设置 <code>overflow: hidden;</code> 或者边框时外边距才会底部溢出(其他方向不溢出)。</p>
 <p>好了交代完溢出的三种类型，来说说这三种溢出对页面高度的影响。从非技术角度看页面的高度就是我们看到的页面全部内容的高度，页面上的所有可见元素都放在 <code>body</code> 中，那 body 的高度就是页面高度吗？未必，别忘了还有溢出。经过实际测试<code>document.body.scrollHeight</code> 这一属性在IE8+，chrome，firefox 浏览器中对无溢出和“负边距溢出”有效，可以获取到准确的页面高度，但是对其他两种溢出高度的度量结果比实际高度会少溢出的那一部分高度。还有一个获取高度的方法：</p>
 <pre><code>document.documentElement.scrollHeight
 </code></pre><p>可以正确处理三种溢出。其实 <code>documentElement</code> 就是 <code>html</code> 元素，还可以通过 <code>document.getElementsByTagName(&#39;html&#39;)[0]</code> 获取。 这个方案对于 Firefox 还有一个问题，在 iframe 高度比 html 的高度大时，这个方法取出来的高度是 iframe 的高度，要梳理清楚这个问题需要做的工作很多，要搞明白 clientHeight、offsetHeight 和 scrollHeight 在不同浏览器的实际表现，文档类型不同还会对实际表现产生影响，所以最好不要产生溢出。</p>
@@ -132,7 +132,7 @@ bottom: -50px;
 <li>混合版：2011年版，display: flexbox | inline-flexbox</li>
 <li>最新版：2012年版，display: flex | inline-flex (候选推荐)</li>
 </ul>
-<p>我们已最新版为主线，需要兼容旧版浏览器时再配合旧版属性配制方法。弹性盒模型涉及到的属性比较多，按照一贯的风格，先从最普遍实用的属性开始。</p>
+<p>我们以最新版为主线，需要兼容旧版浏览器时再配合旧版属性配制方法。弹性盒模型涉及到的属性比较多，按照一贯的风格，先从最普遍实用的属性开始。</p>
 <h3 id="header-1-4-2">display: flex | inline-flex;</h3>
 <p>指定为弹性布局容器。<code>flex</code> 设置为块弹性容器；<code>inline-flex</code> 设置为内敛弹性容器。块状弹性容器比较好预期效果，因为子元素的宽度或高度直接依赖父元素的高度或宽度(后面简称宽度)，但是内敛容器就不同了，父元素的宽度会受子元素的宽度影响，子元素的宽度同样受父元素宽度的影响，比如设置了最小宽度和最大宽度，更要命的是子元素之间会通过父元素相互影响宽度。我们可以通过下面两条规则来预期内敛弹性布局容器展示效果：</p>
 <ul>
@@ -144,7 +144,7 @@ bottom: -50px;
 <p>flex 定义在弹性布局子项的元素上，属性值有两组：</p>
 <p>第一组只有一个 <code>none</code>，不弹性布局，按内敛的方式处理空间，见<a href="/articles/css-box-model/demo/flex:none.html" target="_blank">示例</a>，另外 <code>none</code> 与 <code>0 0 auto</code> 等价；</p>
 <p>第二组是 <code>flex-grow</code>, <code>flex-shrink</code> 和 <code>flex-basis</code>的简写，默认值为 <code>0 1 auto</code>，后两个属性可选。</p>
-<p><code>flex-grow</code> 子项放大比例，默认为0，即如果存在剩余空间，也不放大。</p>
+<p><code>flex-grow</code> 子项放大比例，默认为0，即如果存在剩余空间，也不放大；如果有<code>flex-basis</code>配置，分配的空间是剩余空间，如果没有配置，分配的是全部空间。</p>
 <p><code>flex-shrink</code> 子项缩小比例，默认为1，即如果空间不足，该项目将缩小。</p>
 <p><code>flex-basis</code> 在分配多余空间之前，子项占据的主轴空间，浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为<code>auto</code>，即项目的本来大小。</p>
 <p>这三个分属性和 <code>flex: none;</code> 有覆盖作用，同组样式中定义在后面的覆盖前面的，不同组中按 CSS 优先级的规则处理覆盖。从性能上考虑，建议优先使用这个属性，而不是单独写三个分离的属性，因为浏览器会推算相关值。</p>

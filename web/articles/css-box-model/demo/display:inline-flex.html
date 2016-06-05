@@ -10,6 +10,7 @@
             /*min-width: 100px;*/
         }
         .item {
+
             -webkit-flex: 2;
             flex: 2;
             display: inline-block;
@@ -18,6 +19,15 @@
             text-align: center;
             flex-shrink: 3;
             /*color: white;*/
+        }
+        .green {
+            background: #40a070;
+        }
+        .con .item {
+            overflow: hidden;
+        }
+        .overflow-visible .item {
+            overflow: visible;
         }
         .con > .item:nth-child(1),
         .con > .item:nth-child(3) {
@@ -41,14 +51,12 @@
         56789
     </div>
 </div>
-<div></div>
-<div class="item">
+<div>参考元素</div>
+<div class="item green">
     123
-</div>
-<div class="item">
+</div><div class="item">
     4
-</div>
-<div class="item">
+</div><div class="item green">
     56789
 </div>
 <h3>说明：</h3>
@@ -60,6 +68,20 @@
 <p>
     加和为79.6，因为分配比例为1:2:1，所以除4得19.9，最后第一个元素和第三个元素的宽度为19.9，第二个元素的宽度为19.9*2=39.8
 </p>
+<p>
+    只有加了 overflow: hidden; 这样的属性才可以按比例分配宽度，否则内部的内容会直接将容器撑开，像下面这样：
+</p>
+<div class="con overflow-visible">
+    <div class="item">
+        123
+    </div>
+    <div class="item">
+        4
+    </div>
+    <div class="item">
+        56789
+    </div>
+</div>
 <p>
     注：上面的数字精度只保留到小数点后一位，与真实渲染结果有一定误差。
 </p>
