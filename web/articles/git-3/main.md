@@ -45,11 +45,6 @@
 	// 查看 commit日志
 	git log
 
-### git reset
-	
-	// 插销 commit  --- 待研究，貌似不好使？
-	git reset --hard commit_id
-
 ### git push
 	
 	// 将当前分支的修改推送到远程分支 dev

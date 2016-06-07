@@ -50,7 +50,7 @@
 	
 	// 提交
 	git commit -m "提交的描述信息"
-	// 添加远程仓库，忘了不添加会有什么问题，下次用的时候记录一下
+	// 添加远程仓库(忘了不添加会有什么问题，下次用的时候记录一下)
 	git remote add origin https://github.com/longze/git-test.git
 	// 推送
     git push -u origin master
