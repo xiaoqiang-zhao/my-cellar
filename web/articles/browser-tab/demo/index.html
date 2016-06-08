@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-1.11.1.min.js"></script>
+</head>
+<body>
+<a >AAA</a>
+<a >BBB</a>
+<a >CCC</a>
+<script>
+    window.childrenWindow;
+    window.closeWindowCb = function () {
+        window.childrenWindow = undefined;
+    };
+    $('a').click(function () {
+        var dom = $(this);
+        var text = dom.html();
+        if (window.childrenWindow === undefined) {
+            window.childrenWindow = window.open('./c.html');
+        }
+
+        setTimeout(function () {
+            window.childrenWindow.childrenPageFunction(text, function (body) {
+                var a = '';
+            });
+        }, 1000);
+    });
+</script>
+</body>
+</html>
