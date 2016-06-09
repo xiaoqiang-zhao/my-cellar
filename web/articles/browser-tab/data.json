@@ -1,0 +1,15 @@
+{
+  "enName": "browser-tab",
+  "title": "浏览器 Tab 之间的交互",
+  "introduction": "为满足一个奇葩的需求。",
+  "tags": [
+    "技术点",
+    "代码片段"
+  ],
+  "isPublished": true,
+  "state": "完结",
+  "type": "md",
+  "createDate": 1465441943068,
+  "commentList": [],
+  "todoList": []
+}

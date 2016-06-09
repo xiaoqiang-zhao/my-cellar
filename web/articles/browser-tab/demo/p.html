@@ -10,7 +10,6 @@
 <a >BBB</a>
 <a >CCC</a>
 <script>
-    window.childrenWindow;
     window.closeWindowCb = function () {
         window.childrenWindow = undefined;
     };
@@ -19,13 +18,18 @@
         var text = dom.html();
         if (window.childrenWindow === undefined) {
             window.childrenWindow = window.open('./c.html');
+            // 子页面加载完成后执行回调
+            window.childrenWindow.onload = function () {
+                window.childrenWindow.initChildrenPage(text, function (body) {
+                    var a = '';
+                });
+            }
         }
-
-        setTimeout(function () {
-            window.childrenWindow.childrenPageFunction(text, function (body) {
+        else {
+            window.childrenWindow.changeChildrenPage(text, function (body) {
                 var a = '';
             });
-        }, 1000);
+        }
     });
 </script>
 </body>
