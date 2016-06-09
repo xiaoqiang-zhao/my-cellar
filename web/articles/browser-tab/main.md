@@ -96,3 +96,7 @@
     
 - 全局变量满天飞，注意覆盖；
 - 如果子页面想提示用户是否关闭，js 无法拿到用户的最后决定。
+
+## Demo
+
+[demo](/articles/browser-tab/demo/p.html)
