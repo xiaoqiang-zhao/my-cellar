@@ -56,5 +56,5 @@ function resizeParentIframe(iframeId, delayTime) {
         }
     }
 }
-
+var module = module || {};
 module.exports = resizeParentIframe;

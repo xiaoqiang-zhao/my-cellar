@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>obj-dev</title>
+    <style rel="stylesheet">
+        .obj-table {
+            display: flex;
+        }
+        .padding {
+            padding: 5px;
+        }
+        .obj-table .row,
+        .obj-table .column {
+            /*padding: 5px;*/
+            display: flex;
+            flex: 1;
+            border: 1px solid #333;
+            margin: -1px;
+        }
+        /* 横排 */
+        .obj-table .row {
+            flex-direction: row;
+        }
+        /* 竖排 */
+        .obj-table .column {
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+<div class="obj-table" id="obj-table">
+
+</div>
+<script src="js.js">
+
+</script>
+</body>
+</html>

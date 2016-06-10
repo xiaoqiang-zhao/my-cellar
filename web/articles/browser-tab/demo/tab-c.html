@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>child</title>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script src="jquery.cookie.js"></script>
+    <script src="vue.js"></script>
+    <link href="css.css" rel="stylesheet">
+</head>
+<body>
+    <div class="tab-con" id="tab">
+        <div class="titles">
+            <div class="item" v-for="item in tabs" :class="{active:item.id === activeId}" @click="openTab(item)">
+                <span v-text="item.title"></span>
+                <em class="icon-close" @click="closeTab(item, $event)"></em>
+            </div>
+        </div>
+        <div class="containers">
+            <iframe v-for="item in tabs" :src="item.url"  :class="{active:item.id === activeId}" frameborder="0"></iframe>
+        </div>
+    </div>
+    <script src="js.js"></script>
+</body>
+</html>

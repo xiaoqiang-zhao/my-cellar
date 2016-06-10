@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>child</title>
+    <script src="jquery-1.11.1.min.js"></script>
+</head>
+<body>
+    <a data-id="a">AAA</a>
+    <a data-id="b">BBB</a>
+    <a data-id="c">CCC</a>
+    <script>
+        $('a').click(function () {
+            var name = 'open2_zhitc_shop';
+            var dom = $(this);
+            var key = dom.attr('data-id');
+            var mockData = {
+                a: {
+                    title: 'AAA',
+                    url: '1.html',
+                    uid: '111'
+                },
+                b: {
+                    title: 'BBB',
+                    url: '2.html',
+                    uid: '222'
+                },
+                c: {
+                    title: 'CCC',
+                    url: '3.html',
+                    uid: '333'
+                }
+            };
+            var options = mockData[key];
+            if (window[name] === undefined) {
+                window[name] = window.open('./tab-c.html');
+                // 子页面加载完成后执行回调
+                window[name].onload = function () {
+                    window[name].openTab(options, function (body) {
+                        var a = '';
+                    });
+                }
+            }
+            else {
+                window[name].openTab(options, function (body) {
+                    var a = '';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
