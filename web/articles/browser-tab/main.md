@@ -99,4 +99,6 @@
 
 ## Demo
 
-[demo](/articles/browser-tab/demo/p.html)
+[简单demo](/articles/browser-tab/demo/p.html)
+
+[稍微复杂一点的demo - 结合了Tab](/articles/browser-tab/demo/tab-p.html)
