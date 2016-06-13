@@ -12,16 +12,23 @@ var tab = new Vue({
     },
     methods: {
         openTab: function (options) {
-            // 新添加的项
+            // 添加和切换 Tab
             if (options.id === undefined) {
-                options.id = this.$data.count++;
-                // this.$data.activeId = options.id;
-                this.$data.tabs.push(options);
+                // 判断是否存在
+                var isExist = this.$data.tabs.some(function (item) {
+                    if (item.uid === options.uid) {
+                        options = item;
+                        return true;
+                    }
+                });
+                // 新添加Tab项
+                if (!isExist) {
+                    options.id = this.$data.count++;
+                    // this.$data.activeId = options.id;
+                    this.$data.tabs.push(options);
+                }
             }
-            // 切换项
-            else {
 
-            }
             this.$data.activeId = options.id;
             // 自适应 iframe
 
