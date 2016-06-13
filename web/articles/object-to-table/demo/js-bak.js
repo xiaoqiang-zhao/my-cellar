@@ -2,9 +2,27 @@
  * Created by zhaoxiaoqiang on 16/6/9.
  */
 
+var head = [
+    {
+        key: 'b',
+        title: 'b-标题名',
+        children: [
+            {
+                key: 'b1',
+                text: 'b1-展示名',
+                width: 100,
+                isWrap: true
+            }
+        ]
+    },
+    {
+        key: 'c',
+        title: 'c-标题名'
+    }
+];
 var simpleData = [
     {
-        //a: 'AAA',
+        // a: 'AAA',
         b: [
             {
                 b1: 'B1',
@@ -18,7 +36,7 @@ var simpleData = [
         c: 'CCC'
     },
     {
-        a: 'AAA',
+        // a: 'AAA',
         b: [
             {
                 b1: 'B1',
@@ -528,6 +546,116 @@ var complexData = {
     };
 var dom = document.getElementById('obj-table');
 
+/**
+ * 讲一个对象装换成表格
+ *
+ * @param {Array|Object} data 数据
+ * @param {Array} tableHeadConfig 表头设置
+ * @param {object} options 配置项
+ *
+ * @return {string} html 最后拼装完成 html
+ */
+function objectToTable(data, tableHeadConfig, options) {
+    var html = '';
+    tableHeadConfig = {
+        key: 'root',
+        children: tableHeadConfig
+    };
+
+    // 参数检验和加工
+    if (typeof data === 'object') {
+        data = [data];
+    }
+    else if (Array.isArray(data)) {
+
+    }
+
+    function getBodyHTML(data, head, key) {
+        var result = {
+            html: '',
+            widthSum: 0
+        };
+
+        var _html = '';
+        var _result;
+        var _head;
+        /** 拆分 **/
+        // 将数组一行行展示
+        if (Array.isArray(data)) {
+            data.forEach(function (item) {
+                var _result = arguments.callee(item, head, key);
+                _html += _result.html;
+                result.widthSum += _result.widthSum;
+            });
+            head.width = result.widthSum;
+
+            result.html += '<div class="column" style="width:' + result.widthSum + 'px;">';
+            result.html += _html;
+            result.html += '</div>';
+        }
+        // 将对象一列列展示
+        else if (typeof data === 'object') {
+            for (var key in data) {
+                if (data.hasOwnProperty(key)) {
+                    var item = data[key];
+                    // 找到对应字段
+                    _head = getHead(key, head);
+                    // 配置了表头，否则丢弃
+                    if (_head) {
+                        _result = arguments.callee(item, _head.children, key);
+                        _html += _result.html;
+                        result.widthSum += _result.widthSum;
+                        _head.width = _result.widthSum;
+                    }
+                }
+            }
+
+            result.html += '<div class="column" style="width:' + result.widthSum + 'px;">';
+            result.html += _html;
+            result.html += '</div>';
+        }
+        // 数据叶子节点直接展示
+        else {
+            _head = getHead(key, head);
+            result.html += '<div class="row padding" style="width:' + head.width + 'px;">';
+            result.html += data.toString();
+            result.html += '</div>';
+            result.widthSum = head.width || 130; // 默认值宽度 130
+        }
+
+        return result;
+    }
+
+    /**
+     *
+     * @param key
+     * @param head
+     *
+     * @return {*}
+     */
+    function getHead(key, head) {
+        var result = null;
+        var children = head.children;
+        if (head && Array.isArray(children)) {
+            children.some(function (item) {
+                if (key === item.key) {
+                    result = item;
+                    return true;
+                }
+            });
+        }
+        return result;
+    }
+
+    function getHeadHTML(tableHeadConfig) {
+        var html = '';
+
+        return html;
+    }
+
+    html = getBodyHTML(data, tableHeadConfig) + getHeadHTML(tableHeadConfig);
+    return html;
+}
 var width = 50;
 var unit = 'px';
 function getHtml(data, count) {

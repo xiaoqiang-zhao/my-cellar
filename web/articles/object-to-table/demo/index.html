@@ -4,32 +4,33 @@
     <meta charset="UTF-8">
     <title>obj-dev</title>
     <style rel="stylesheet">
-        .obj-table {
-            display: flex;
+        .object-table {
+            display: inline-flex;
         }
         .padding {
+            box-sizing: border-box;
             padding: 5px;
         }
-        .obj-table .row,
-        .obj-table .column {
-            /*padding: 5px;*/
-            display: flex;
+        .object-table .row,
+        .object-table .column {
+            display: inline-flex;
             flex: 1;
             border: 1px solid #333;
             margin: -1px;
         }
-        /* 横排 */
-        .obj-table .row {
+        /* 其子项是行 */
+        .object-table .row
+        .object-table .tbody {
             flex-direction: row;
         }
-        /* 竖排 */
-        .obj-table .column {
+        /* 其子项是列 */
+        .object-table .column {
             flex-direction: column;
         }
     </style>
 </head>
 <body>
-<div class="obj-table" id="obj-table">
+<div id="container">
 
 </div>
 <script src="js.js">
