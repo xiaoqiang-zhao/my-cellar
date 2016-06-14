@@ -23,6 +23,18 @@ function objectToTable(data, tableHeadConfig, options) {
         return '参数格式错误';
     }
 
+    /**
+     * 生成表格主体部分的 html 字符串
+     *
+     * @param {Array} data 数据
+     * @param {Object} head 表头设置
+     *
+     * @return {Object} result
+     *                  {
+     *                      html: string,  html字符串
+     *                      widthSum: number 内层元素的宽度累加值
+     *                   }
+     */
     function getBodyHTML(data, head) {
         var result = {
             html: '',
@@ -89,11 +101,13 @@ function objectToTable(data, tableHeadConfig, options) {
     }
 
     /**
+     * 获取字段对应的表头设置
      *
-     * @param key
-     * @param head
+     * @param {string} key 字段键值
+     * @param {Object} head 当前字段上一级的表头设置，
+     *                      可以从此参数的的children属性中找到表头设置
      *
-     * @return {*}
+     * @return {Object} result 表头设置对象(未找到设置返回 null)
      */
     function getHead(key, head) {
         var result = null;
