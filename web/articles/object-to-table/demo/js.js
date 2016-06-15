@@ -54,13 +54,20 @@ function objectToTable(data, tableHeadConfig, options) {
             });
             result.widthSum = _result.widthSum;
             head.width = result.widthSum;
-            var styleClass = 'column';
+            var styleClass = '';
             if (head.key === 'root') {
-                styleClass = 'tbody column';
+                styleClass = 'tbody';
             }
-            result.html += '<div class="' + styleClass +'" style="width:' + result.widthSum + 'px;">';
-            result.html += _html;
-            result.html += '</div>';
+            result.html +=joinHTML(
+                styleClass,
+                {
+                    'width': result.widthSum + 'px'
+                },
+                _html
+            );
+            //result.html += '<div class="' + styleClass +'" style="width:' + result.widthSum + 'px;">';
+            //result.html += _html;
+            //result.html += '</div>';
         }
         // 将对象一列列展示
         else if (typeof data === 'object') {
@@ -78,25 +85,35 @@ function objectToTable(data, tableHeadConfig, options) {
                     }
                 }
             }
-
-            result.html += '<div class="row" style="width:' + result.widthSum + 'px;">';
-            result.html += _html;
-            result.html += '</div>';
+            result.html +=joinHTML(
+                'row',
+                {
+                    'min-width': result.widthSum + 'px'
+                },
+                _html
+            );
+            //result.html += '<div class="row" style="width:' + result.widthSum + 'px;">';
+            //result.html += _html;
+            //result.html += '</div>';
         }
         // 数据叶子节点直接展示
         else {
             // 默认值宽度
             var defaultWidth = 130;
 
-            _head = getHead(key, head);
-            head.width = head.width || defaultWidth;
-            result.html += '<div class="row padding" style="width:' + head.width + 'px;">';
-            result.html += data.toString();
-            result.html += '</div>';
-            result.isLeaf = true; // 是否是叶子节点
-            result.widthSum = head.width;
+            //if (_head) {
+                head.width = head.width || defaultWidth;
+                result.html +=joinHTML(
+                    'row padding leaf',
+                    {
+                        'min-width': head.width + 'px'
+                    },
+                    data.toString()
+                );
+                result.isLeaf = true; // 是否是叶子节点
+                result.widthSum = head.width;
+            //}
         }
-        //result.widthSum += 2;
         return result;
     }
 
@@ -121,6 +138,20 @@ function objectToTable(data, tableHeadConfig, options) {
             });
         }
         return result;
+    }
+
+    function joinHTML(styleClass, style, innerHTML) {
+        var html = '';
+        var styleStr = '';
+        for(var key in style) {
+            if(style.hasOwnProperty(key)) {
+                styleStr += key + ':' + style[key] + '; ';
+            }
+        }
+        html += '<div class="' + styleClass + '" style="' + styleStr + '">';
+        html += innerHTML;
+        html += '</div>';
+        return html;
     }
 
     function getHeadHTML(tableHeadConfig) {
@@ -169,11 +200,11 @@ var simpleData = [
         // a: 'AAA',
         b: [
             {
-                b1: 'B1',
+                b1: 'B1-1顶顶顶顶顶顶顶顶顶顶',
                 b1Name: 'name'
             },
             {
-                b1: 'B1',
+                b1: 'B1-2',
                 b1Name: 'name'
             }
         ],
@@ -183,11 +214,27 @@ var simpleData = [
         // a: 'AAA',
         b: [
             {
-                b1: 'B1',
+                b1: 'B1-1',
                 b1Name: 'name'
             },
             {
-                b1: 'B1',
+                b1: 'B1-2',
+                b1Name: 'name'
+            },
+            {
+                b1: 'B1-3',
+                b1Name: 'name'
+            },
+            {
+                b1: 'B1-3',
+                b1Name: 'name'
+            },
+            {
+                b1: 'B1-3',
+                b1Name: 'name'
+            },
+            {
+                b1: 'B1-3',
                 b1Name: 'name'
             }
         ],
