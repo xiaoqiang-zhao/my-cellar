@@ -200,11 +200,21 @@ var simpleData = [
         // a: 'AAA',
         b: [
             {
-                b1: 'B1-1顶顶顶顶顶顶顶顶顶顶',
+                b1: 'B1-1',
                 b1Name: 'name'
             },
             {
                 b1: 'B1-2',
+                b1Name: 'name'
+            }
+        ],
+        c: 'CCC'
+    },
+    {
+        // a: 'AAA',
+        b: [
+            {
+                b1: '多文字折行测试',
                 b1Name: 'name'
             }
         ],
@@ -219,22 +229,6 @@ var simpleData = [
             },
             {
                 b1: 'B1-2',
-                b1Name: 'name'
-            },
-            {
-                b1: 'B1-3',
-                b1Name: 'name'
-            },
-            {
-                b1: 'B1-3',
-                b1Name: 'name'
-            },
-            {
-                b1: 'B1-3',
-                b1Name: 'name'
-            },
-            {
-                b1: 'B1-3',
                 b1Name: 'name'
             }
         ],
