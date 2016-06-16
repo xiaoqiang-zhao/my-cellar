@@ -90,6 +90,7 @@
 </div>
 <script>
 
+    //drag-drop-framework
     var dragDropFramework = {
         // 当处于激活态时需要添加的Class
         activeClass: 'active',
@@ -255,8 +256,12 @@
         tolerance: 'pointer',
         drop: function (event, ui) {
             if (dragDropFramework.activeElement !== null) {
-                console.log('drop:');
-                console.log(dragDropFramework.activeElement);
+                // 一定要加此判断否则会出现重复相应的 bug
+                if ($(this).hasClass(dragDropFramework.activeClass)) {
+                    // ...执行释放之后的操作
+                    dragDropFramework.activeElement = null;
+                }
+
             }
         },
         out: function (event, ui) {
