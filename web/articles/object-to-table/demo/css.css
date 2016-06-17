@@ -1,24 +1,25 @@
+/* 嵌套表格样式(用于展示json的层级化数据) */
 .object-table {
-    display: inline-block;
-    border-top: 1px solid #d1d1d1;
-    border-left: 1px solid #d1d1d1;
-    color: #615c59;
+  display: inline-block;
+  border-top: 1px solid #d1d1d1;
+  border-left: 1px solid #d1d1d1;
+  color: #615c59;
 }
 .object-table .tbody > .row:nth-child(even) {
-    background: #f6f6f6;
+  background: #f6f6f6;
 }
-.padding {
-    box-sizing: border-box;
-    padding: 5px;
+.object-table .padding {
+  box-sizing: border-box;
+  padding: 5px;
 }
 .object-table .row {
-    display: flex;
-    flex: 1;
+  display: flex;
+  flex: 1;
 }
 .object-table .leaf {
-    border-right: 1px solid #d1d1d1;
-    border-bottom: 1px solid #d1d1d1;
-    word-wrap: break-word;
-    white-space: normal;
-    word-break: break-all;
+  border-right: 1px solid #d1d1d1;
+  border-bottom: 1px solid #d1d1d1;
+  word-wrap: break-word;
+  white-space: normal;
+  word-break: break-all;
 }

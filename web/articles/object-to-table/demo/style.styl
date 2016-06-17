@@ -1,0 +1,27 @@
+/* 嵌套表格样式(用于展示json的层级化数据) */
+.object-table
+    // 局部变量声明
+    $border = 1px solid #d1d1d1;
+
+    display: inline-block;
+    border-top: $border;
+    border-left: $border;
+    color: #615c59;
+
+    .tbody > .row:nth-child(even)
+        background: #f6f6f6;
+
+    .padding
+        box-sizing: border-box;
+        padding: 5px;
+
+    .row
+        display: flex;
+        flex: 1;
+
+    .leaf
+        border-right: $border;
+        border-bottom: $border;
+        word-wrap: break-word;
+        white-space: normal;
+        word-break: break-all;
