@@ -2,4 +2,4 @@
 
 ## Demo
 
-[demo](/articles/obj-table/demo/index.html)
+[demo](/articles/object-to-table/demo/index.html)

@@ -228,11 +228,11 @@ var simpleData = [
                 b1Name: 'name'
             },
             {
-                b1: 'B1-2',
+                b1: 'show me your code',
                 b1Name: 'name'
             }
         ],
-        c: 'CCC'
+        c: 'show me your code'
     }
 ];
 var simpleData2 = [
