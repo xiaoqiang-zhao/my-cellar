@@ -88,12 +88,13 @@ function isCircular(points) {
                 }
                 // 有循环现象
                 else {
+                    pathIds.push(point.resourceId);
                     result = {
                         isCircular: true,
                         circularIds: pathIds.slice(index)
                     };
-                    return true;
                 }
+                return result.isCircular;
             });
         }
 
