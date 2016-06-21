@@ -28,6 +28,18 @@
     "todoList": []
   },
   {
+    "enName": "algorithms-1",
+    "title": "算法导论(一)基础知识",
+    "introduction": "下决心啃完《算法导论》这个大块头巨烧脑著作，此系列文章是我的读书笔记，主要摘录记录感悟。此篇对应第一部分，之后的以此类推。如果我能将这么厚的一本书简化成几篇博文，那自己理解的也差不多了，共勉！",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1465023504478,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "angular2",
     "title": "Angular 2",
     "introduction": "虽然暂时不打算在项目中使用，但也应该了解一下这个名气很大的框架。",
@@ -340,18 +352,6 @@
     "state": "立项",
     "type": "md",
     "createDate": 1459092586508,
-    "commentList": [],
-    "todoList": []
-  },
-  {
-    "enName": "introduction-to-algorithms",
-    "title": "算法导论(一)基础知识",
-    "introduction": "下决心啃完《算法导论》这个大块头巨烧脑著作，此系列文章是我的读书笔记，主要摘录记录感悟。此篇对应第一部分，之后的以此类推。如果我能将这么厚的一本书简化成几篇博文，那自己理解的也差不多了，共勉！",
-    "tags": [],
-    "isPublished": false,
-    "state": "立项",
-    "type": "md",
-    "createDate": 1465023504478,
     "commentList": [],
     "todoList": []
   },
