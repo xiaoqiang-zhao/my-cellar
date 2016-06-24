@@ -15,6 +15,12 @@
 
 ### 循环
 
+插入排序算法描述：
+
+起始：从第二个开始
+保持：和前面元素作比较，如果比前面元素小就换互位置，一直到遇到不必自己晓得元素终止，然后下一个
+终止：最后一个元素
+
 	// 插入排序核心代码
 	for (var i = 1; i < array.length; i++) {
 		var key = array[i];
@@ -25,6 +31,8 @@
 		}
 		array[j + 1] = key;
 	}
+
+[Demo](/articles/algorithms-1/demo/insertion-sort.html)
 
 ### 递归(分值)
 	
