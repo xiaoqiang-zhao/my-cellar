@@ -1,0 +1,209 @@
+body
+    margin 0;// 全局常量定义
+// 色系
+$color = #1b9af7
+/* 基础样式 */
+.f-l
+    float left
+.f-r
+    float right
+.hide
+    display none
+.p5
+    padding 5px
+.ta-c
+    text-align center
+/* 公用组件 */
+/* 动画 */
+.button,
+.input-text
+    transition-property all
+    -webkit-transition-property all
+    transition-duration .3s
+    -webkit-transition-duration .3s
+/* 简单按钮 */
+.button
+    display inline-block
+    font-size 14px
+    height 36px
+    line-height 30px
+    padding 3px 30px 3px
+    border none
+    outline none
+    color white
+    background-color $color
+    font-weight 300
+    cursor pointer
+    -webkit-box-sizing border-box
+    -moz-box-sizing border-box
+    box-sizing border-box
+    :focus
+        background-color #4cb0f9
+    :visited
+        background-color $color
+
+    :hover
+        background-color #4cb0f9
+    :active
+        background-color #2798eb
+        color #0880d7
+        border-color #2798eb
+        text-shadow 0 1px 0 rgba(255, 255, 255, 0.3)
+        text-decoration none
+        -webkit-transition-duration 0s
+        transition-duration 0s
+        -webkit-box-shadow inset 0 1px 3px rgba(0, 0, 0, 0.2)
+        box-shadow inset 0 1px 3px rgba(0, 0, 0, 0.2)
+/* 输入框 */
+.input-text
+    display inline-block
+    outline none
+    border 1px solid #dce4ec
+    padding 3px 8px
+    font-size 14px
+    height 28px
+    line-height 28px
+    &:focus
+        border-color $color
+/* 表格 */
+.table
+    border: 1px solid #d4d4d4
+    border-spacing 0
+    width: 100%
+    line-height: 18px
+    th, td
+        min-height: 20px
+        padding: 5px
+        vertical-align: middle
+    th
+        text-align: center
+        background-color: #eaeaea
+.tag
+    display inline-block
+    background #cbedfe
+    padding 3px 5px
+    border-radius 7px
+    margin 3px
+/* loading动画 */
+.spinner
+    width 60px
+    height 60px
+    margin 100px auto
+    background-color $color
+    animation rotateplane 1.2s infinite ease-in-out
+    -webkit-animation rotateplane 1.2s infinite ease-in-out
+@-webkit-keyframes rotateplane
+    0% -webkit-transform perspective(120px)
+    50% -webkit-transform perspective(120px) rotateY(180deg)
+    100% -webkit-transform perspective(120px) rotateY(180deg) rotateX(180deg)
+
+@keyframes rotateplane
+    0%
+                transform perspective(120px) rotateX(0deg) rotateY(0deg);
+        -webkit-transform perspective(120px) rotateX(0deg) rotateY(0deg)
+    50%
+            transform perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+    100%
+            transform perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    -webkit-transform perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+/* 播放按钮样式 */
+.play-stop
+    position relative
+    display inline-block
+    width 20px
+    height 20px
+    border 2px solid $color
+    border-radius 15px
+    margin-top -2px
+    cursor pointer
+    background-color #fff
+    &:before
+        content "\200B"
+        position absolute
+        top 4.5px
+        left 6px
+        display block
+        overflow hidden
+        width 0
+        height 1px
+        border-top solid 5px #fff
+        border-bottom solid 5px #fff
+        border-left solid 10px $color
+        background-color $color
+    &.stop:before
+        top 5px
+        left 5px
+        height 10px
+        border solid 0 $color
+        border-left solid 10px $color
+/* 页面样式 */
+#app
+    width 1000px
+    margin 10px auto
+.search-con
+    margin-bottom 10px
+.temp-page
+    // 局部变量声明
+    $border = 1px solid #d1d1d1
+
+    display flex
+    box-sizing border-box
+    border $border
+    color #615c59
+    > article
+        flex 1
+        box-sizing border-box
+        padding 5px
+        border-left $border
+        margin-left -1px
+        .title
+            font-size 18px
+            line-height 35px
+            border-bottom $border
+            margin: 0 7px 7px;
+        .message-line
+            display flex
+            line-height 1.3em
+            padding 3px 0
+            align-items center
+            .label
+                flex 0 0 145px
+                text-align right
+            .message
+                flex 1
+        .double-message-line-con
+            display flex
+            flex-wrap wrap
+            .message-line
+                flex 1
+                min-width 50%
+    .table-con
+        position relative
+        max-height 500px
+        overflow auto
+    .table
+        margin 5px 0
+        .autio
+            background #cbedfe
+            padding 9px 5px
+            border-radius 7px
+            .play-stop
+            .btn-text
+                color #6e99b2
+                cursor pointer
+            .start-time
+                display inline-block
+                min-width 160px
+            .time-length
+                display inline-block
+                min-width 50px
+        .autio-text
+            text-align left
+            padding 5px
+            line-height 1.3em
+            min-height 150px
+        .table-checkbox
+            width 60px
+            text-align left
+

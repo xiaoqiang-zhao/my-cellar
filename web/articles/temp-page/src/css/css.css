@@ -1,0 +1,292 @@
+body {
+  margin: 0;
+}
+/* 基础样式 */
+.f-l {
+  float: left;
+}
+.f-r {
+  float: right;
+}
+.hide {
+  display: none;
+}
+.p5 {
+  padding: 5px;
+}
+.ta-c {
+  text-align: center;
+}
+/* 公用组件 */
+/* 动画 */
+.button,
+.input-text {
+  transition-property: all;
+  -webkit-transition-property: all;
+  transition-duration: 0.3s;
+  -webkit-transition-duration: 0.3s;
+}
+/* 简单按钮 */
+.button {
+  display: inline-block;
+  font-size: 14px;
+  height: 36px;
+  line-height: 30px;
+  padding: 3px 30px 3px;
+  border: none;
+  outline: none;
+  color: #fff;
+  background-color: #1b9af7;
+  font-weight: 300;
+  cursor: pointer;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.button :focus {
+  background-color: #4cb0f9;
+}
+.button :visited {
+  background-color: #1b9af7;
+}
+.button :hover {
+  background-color: #4cb0f9;
+}
+.button :active {
+  background-color: #2798eb;
+  color: #0880d7;
+  border-color: #2798eb;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+  text-decoration: none;
+  -webkit-transition-duration: 0s;
+  transition-duration: 0s;
+  -webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+}
+/* 输入框 */
+.input-text {
+  display: inline-block;
+  outline: none;
+  border: 1px solid #dce4ec;
+  padding: 3px 8px;
+  font-size: 14px;
+  height: 28px;
+  line-height: 28px;
+}
+.input-text:focus {
+  border-color: #1b9af7;
+}
+/* 表格 */
+.table {
+  border: 1px solid #d4d4d4;
+  border-spacing: 0;
+  width: 100%;
+  line-height: 18px;
+}
+.table th,
+.table td {
+  min-height: 20px;
+  padding: 5px;
+  vertical-align: middle;
+}
+.table th {
+  text-align: center;
+  background-color: #eaeaea;
+}
+.tag {
+  display: inline-block;
+  background: #cbedfe;
+  padding: 3px 5px;
+  border-radius: 7px;
+  margin: 3px;
+}
+/* loading动画 */
+.spinner {
+  width: 60px;
+  height: 60px;
+  margin: 100px auto;
+  background-color: #1b9af7;
+  animation: rotateplane 1.2s infinite ease-in-out;
+  -webkit-animation: rotateplane 1.2s infinite ease-in-out;
+}
+/* 播放按钮样式 */
+.play-stop {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #1b9af7;
+  border-radius: 15px;
+  margin-top: -2px;
+  cursor: pointer;
+  background-color: #fff;
+}
+.play-stop:before {
+  content: "\200B";
+  position: absolute;
+  top: 4.5px;
+  left: 6px;
+  display: block;
+  overflow: hidden;
+  width: 0;
+  height: 1px;
+  border-top: solid 5px #fff;
+  border-bottom: solid 5px #fff;
+  border-left: solid 10px #1b9af7;
+  background-color: #1b9af7;
+}
+.play-stop.stop:before {
+  top: 5px;
+  left: 5px;
+  height: 10px;
+  border: solid 0 #1b9af7;
+  border-left: solid 10px #1b9af7;
+}
+/* 页面样式 */
+#app {
+  width: 1000px;
+  margin: 10px auto;
+}
+.search-con {
+  margin-bottom: 10px;
+}
+.temp-page {
+  display: flex;
+  box-sizing: border-box;
+  border: 1px solid #d1d1d1;
+  color: #615c59;
+}
+.temp-page > article {
+  flex: 1;
+  box-sizing: border-box;
+  padding: 5px;
+  border-left: 1px solid #d1d1d1;
+  margin-left: -1px;
+}
+.temp-page > article .title {
+  font-size: 18px;
+  line-height: 35px;
+  border-bottom: 1px solid #d1d1d1;
+  margin: 0 7px 7px;
+}
+.temp-page > article .message-line {
+  display: flex;
+  line-height: 1.3em;
+  padding: 3px 0;
+  align-items: center;
+}
+.temp-page > article .message-line .label {
+  flex: 0 0 145px;
+  text-align: right;
+}
+.temp-page > article .message-line .message {
+  flex: 1;
+}
+.temp-page > article .double-message-line-con {
+  display: flex;
+  flex-wrap: wrap;
+}
+.temp-page > article .double-message-line-con .message-line {
+  flex: 1;
+  min-width: 50%;
+}
+.temp-page .table-con {
+  position: relative;
+  max-height: 500px;
+  overflow: auto;
+}
+.temp-page .table {
+  margin: 5px 0;
+}
+.temp-page .table .autio {
+  background: #cbedfe;
+  padding: 9px 5px;
+  border-radius: 7px;
+}
+.temp-page .table .autio .play-stop,
+.temp-page .table .autio .btn-text {
+  color: #6e99b2;
+  cursor: pointer;
+}
+.temp-page .table .autio .start-time {
+  display: inline-block;
+  min-width: 160px;
+}
+.temp-page .table .autio .time-length {
+  display: inline-block;
+  min-width: 50px;
+}
+.temp-page .table .autio-text {
+  text-align: left;
+  padding: 5px;
+  line-height: 1.3em;
+  min-height: 150px;
+}
+.temp-page .table .table-checkbox {
+  width: 60px;
+  text-align: left;
+}
+@-moz-keyframes rotateplane {
+ {
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+}
+@-webkit-keyframes rotateplane {
+ {
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+}
+@-o-keyframes rotateplane {
+ {
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+}
+@keyframes rotateplane {
+ {
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+}

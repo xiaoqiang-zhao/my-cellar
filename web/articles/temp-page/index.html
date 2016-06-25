@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>客户画像</title>
+    <link href="src/css/normalize.css">
+    <link href="src/css/css.css">
+    <!-- stylus -w style.styl -o css.css -->
+    <link href="src/css/css.css" rel="stylesheet"/>
+    <script src="src/js/vue.js"></script>
+    <script src="src/js/jquery-1.11.1.min.js"></script>
+
+</head>
+<body>
+<div id="app">
+    <div class="search-con">
+        <input type="text" placeholder="请输入电话号码" class="input-text" v-model="phone" @keyup.enter="search"><button class="button" v-on:click="search">查询通话记录</button>
+    </div>
+    <div class="loading spinner" style="display: none;" v-show="isLoading"></div>
+    <div class="temp-page" style="display: none;" v-show="hasData">
+        <!-- 基本信息 + 客户画像 -->
+        <article>
+            <!-- 基本信息 -->
+            <section>
+                <header class="title">基本信息</header>
+                <div class="message-line">
+                    <div class="label">公司名称：</div>
+                    <div class="message" v-text="basicInfo.companyName"></div>
+                </div>
+                <div class="message-line">
+                    <div class="label">公司地址：</div>
+                    <div class="message" v-text="basicInfo.companyAddress"></div>
+                </div>
+                <div class="message-line">
+                    <div class="label">网址：</div>
+                    <div class="message" v-text="basicInfo.webSite"></div>
+                </div>
+                <div class="message-line">
+                    <div class="label">网站类型：</div>
+                    <div class="message" v-text="basicInfo.siteType"></div>
+                </div>
+                <div class="message-line">
+                    <div class="label">联系人：</div>
+                    <div class="message" v-text="basicInfo.contact"></div>
+                </div>
+                <div class="message-line">
+                    <div class="label">联系电话：</div>
+                    <div class="message" v-text="basicInfo.phone"></div>
+                </div>
+                <!-- 两个样式备用
+                <div class="double-message-line-con">
+                    <div class="message-line">
+                        <div class="label">电话1：</div>
+                        <div class="message">哈哈哈</div>
+                    </div>
+                    <div class="message-line">
+                        <div class="label">电话2：</div>
+                        <div class="message">15901522400</div>
+                    </div>
+                    <div class="message-line">
+                        <div class="label">电话3：</div>
+                        <div class="message">15901522400</div>
+                    </div>
+                </div>
+                -->
+            </section>
+            <!-- 客户画像 -->
+            <div class="loading spinner" style="display: none;" v-show="isDraw"></div>
+            <section style="display: none;" v-show="drawData">
+                <header class="title">客户画像</header>
+                <div class="message-line" v-for="item in drawData">
+                    <div class="label">{{item.name}}：</div>
+                    <div class="message">
+                        <span class="tag" v-for="tag in item.value">{{tag}}</span>
+                    </div>
+                </div>
+                <div class="ta-c" v-show="drawData.length === 0">信息太少，未能生成客户画像</div>
+            </section>
+        </article>
+        <!-- 通话记录 -->
+        <article>
+            <div class="table-con">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="table-checkbox">
+                            <label>
+                                <input type="checkbox" v-model="isSelectedAllCall" v-on:click="selectAllCall" lazy>全选
+                            </label>
+                        </th>
+                        <th>通话信息</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="item in callList">
+                        <td class="table-checkbox">
+                            <input type="checkbox" value="{{item.id}}" v-model="selectedCall">
+                        </td>
+                        <td class="ta-c">
+                            <div class="autio">
+                                <a class="play-stop f-l" v-on:click="play(item)"></a>
+                                <span class="start-time" v-text="item.startTime"></span>
+                                <span class="time-length" v-text="item.timeLength"></span>
+                                <a class="btn-text f-r" v-on:click="foldUnfoldSwitch(item)">[{{item.foldText}}]</a>
+                            </div>
+                            <div class="autio-text" v-show="item.foldStatus" v-html="item.text"></div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="ta-c p5">
+                <button class="button" v-on:click="generateDraw">生成客户画像</button>
+            </div>
+        </article>
+    </div>
+</div>
+<script src="src/js/js.js"></script>
+</body>
+</html>
