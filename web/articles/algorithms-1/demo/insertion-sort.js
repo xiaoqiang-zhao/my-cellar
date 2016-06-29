@@ -6,7 +6,7 @@
 var data = [5, 2, 4, 6, 1, 3];
 
 function insertionSort(array) {
-    if (Array.isArray(array) && array.length > 1) {
+    if (Array.isArray(array)) {
         // 插入排序核心代码
         for (var i = 1; i < array.length; i++) {
             var key = array[i];

@@ -10,6 +10,7 @@
  * @param {Array} array 待排序的数组
  * @param {number} from [可选]起始位置，在递归的时候才会用到此参数
  * @param {number} to [可选]终止位置，，在递归的时候才会用到此参数
+ *
  * @returns {Array} array 排序后的数组(是传入数组的址引用)
  */
 function quickSort(array, from, to) {
@@ -24,6 +25,7 @@ function quickSort(array, from, to) {
         var markIndex = from - 1;  // 标记位
         var spaceItem = array[to]; // 默认最后一个
 
+        // 找出分水岭的位置，并把大小数分列两侧
         for (var i = from; i <= to; i++) {
             if (array[i] <= spaceItem) {
                 markIndex++;
