@@ -55,13 +55,48 @@
 
 ### 递归(分治)
 
-递归同样以一个`快速排序`示例最为开始：
+递归是将原问题分解为几个更小但类似于原问题的子问题，然后递归解决这些子问题，最后合并这些子问题的解产生原问题的解。我们同样以一个示例最为开始 --- `快速排序`：
+
+快速排序算法描述：
+
+分解：将数组的最后一个元素作为分割元素，移动数组中的元素，使左边小于此元素右边大于此元素，将此元素的左右两部分视为新的数组；
+
+解决：最后被分割而成的数组长度为0和1时直接返回，为2时排序；(为3时继续分解)
+
+合并：无(由于数组是址引用，每次都是原址排序，搜易不需要单独的合并操作)。
 	
 	// 快速排序核心代码
-	
-	
-抽象描述...
-	
+	function quickSort(array, from, to) {
+        // 参数容错，可使初始化不用做特殊处理
+        from = from || 0;
+        to = to === undefined ? (array.length - 1) : to;
+        // to || (array.length - 1); 此种写法对 to=0 的情况会出问题
+    
+        if (from < to) {
+    
+            var markIndex = from - 1;  // 标记位
+            var spaceItem = array[to]; // 默认最后一个
+    
+            // 找出分水岭的位置，并把大小数分列两侧
+            for (var i = from; i <= to; i++) {
+                if (array[i] <= spaceItem) {
+                    markIndex++;
+                    var temp = array[markIndex];
+                    array[markIndex] = array[i];
+                    array[i] = temp;
+                }
+            }
+    
+            arguments.callee(array, from, markIndex - 1);
+            arguments.callee(array, markIndex + 1, to);
+        }
+        return array;
+    }
+
+在具体实现上我们采用一种`驱赶贪吃蛇`的策略来分解问题，`markIndex`作为贪吃蛇左起点的标记位，初始化时贪吃蛇没有长度，所以将标记位标记为`from - 1`(最开始时是-1，子问题也满足逻辑)；把数组(或数组的片段)最后一个元素当做分割元素`spaceItem`；然后从左到右遍历数组(或数组的片段)，如果当前数小于或等于`spaceItem`，那么将当前数和贪吃蛇的左边第一个数互换位置，使贪吃蛇向右移动一位，相应的`markIndex`也加1，如果当前数大于`spaceItem`，那么贪吃蛇向右涨一位。补充一下如果数组(或数组的片段)第一个元素小于`spaceItem`，会原位交换(`markIndex==i==0`)，这本身是没有意义的，但是如果加判断来消除这个逻辑分支，会带来两个问题，1、代码变复杂了，2、多数情况是非原位交换，每次都判断反而计算量更大。
+
+[Demo](/articles/algorithms-1/demo/insertion-sort.html)
+
 ## 前端算法示例
 
 ### 将对象以表格的形式展现

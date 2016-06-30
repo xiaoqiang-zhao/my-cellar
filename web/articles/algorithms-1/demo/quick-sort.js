@@ -19,8 +19,7 @@ function quickSort(array, from, to) {
     to = to === undefined ? (array.length - 1) : to;
     // to || (array.length - 1); 此种写法对 to=0 的情况会出问题
 
-    // 快速排序核心代码
-    if (from < to) { // 实际上结束低递归的条件是 from === to
+    if (from < to) {
 
         var markIndex = from - 1;  // 标记位
         var spaceItem = array[to]; // 默认最后一个
@@ -42,5 +41,5 @@ function quickSort(array, from, to) {
 }
 
 console.log(quickSort([5, 2, 4, 6, 1, 3]));
-console.log(quickSort([6, 1, 3, 5, 2, 4]));
 console.log(quickSort([5, 2, 4, 6, 1, 1]));
+console.log(quickSort([6, 1, 3, 5, 2, 4, 7]));
