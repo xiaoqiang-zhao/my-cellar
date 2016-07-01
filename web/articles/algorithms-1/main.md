@@ -105,8 +105,12 @@
 
 ### 循环依赖的判断
 	
-待续...
-	
+	A --> B --> C --> D
+	      ∧     |
+	      |     ∨
+	      F <-- E
+	      
+[Demo](/articles/algorithms-1/demo/is-circular.html)	
 ### 一个问题要和大家讨论
 	
 合还是分

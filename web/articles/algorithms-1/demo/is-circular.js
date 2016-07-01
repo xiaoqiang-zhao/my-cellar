@@ -7,7 +7,7 @@
 function isCircular(points) {
     var startPoint = getStartPoint(points);
     var result = recursion(startPoint, []);
-
+    console.log(result);
     return result.isCircular;
 
     /**
