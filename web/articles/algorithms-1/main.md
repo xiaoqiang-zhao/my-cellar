@@ -110,10 +110,11 @@
 	      |     ∨
 	      F <-- E
 	      
-[Demo](/articles/algorithms-1/demo/is-circular.html)	
+[Demo](/articles/algorithms-1/demo/is-circular.html)
+
 ### 一个问题要和大家讨论
 	
-合还是分
+合还是分，算两遍还是算一遍
 	
 技巧
 
