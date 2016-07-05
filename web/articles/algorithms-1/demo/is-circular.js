@@ -7,8 +7,7 @@
 function isCircular(points) {
     var startPoint = getStartPoint(points);
     var result = recursion(startPoint, []);
-    // console.log(result);
-    return result.isCircular;
+    return result;
 
     /**
      * 获取开始点
@@ -69,13 +68,9 @@ function isCircular(points) {
      *                  }
      */
     function recursion(point, pathIds) {
-        var result = {
-            isCircular: false,
-            circularIds: []
-        };
+        var result = false;
         var selfFunction = arguments.callee;
 
-        //
         if (!isEndPoint(point)) {
             point.outgoing.some(function (item) {
                 var index = pathIds.indexOf(item.resourceId);
@@ -88,13 +83,9 @@ function isCircular(points) {
                 }
                 // 有循环现象
                 else {
-                    pathIds.push(point.resourceId);
-                    result = {
-                        isCircular: true,
-                        circularIds: pathIds.slice(index)
-                    };
+                    result = true;
                 }
-                return result.isCircular;
+                return result;
             });
         }
 
