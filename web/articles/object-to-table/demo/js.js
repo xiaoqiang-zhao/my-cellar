@@ -160,23 +160,15 @@ function objectToTable(data, tableHeadConfig, options) {
         return html;
     }
 
+    var thead = getHeadHTML(tableHeadConfig);
     var tbody = getBodyHTML(data, tableHeadConfig);
     html = ''
         + '<div class="object-table">'
         + '    <div class="thead">'
+        + thead
         + '    </div>'
         + tbody.html
         + '</div>';
 
     return html;
 }
-
-
-
-var simpleData2 = [
-    {
-        a: 'AAA',
-        c: 'CCC'
-    }
-];
-
