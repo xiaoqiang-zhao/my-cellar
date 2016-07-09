@@ -41,28 +41,21 @@ function objectToTable(data, tableHeadConfig, options) {
      *                   }
      */
     function getBodyHTML(data, head) {
-        var result = '';
+        var result;
 
         var functionSelf = arguments.callee;
+        var styleClass;
         var _head;
-        var _html = '';
+        var html = '';
         /** 拆分 **/
         // 将数组一行行展示
         if (Array.isArray(data)) {
             data.forEach(function (item) {
-                _html += functionSelf(item, head);
+                html += functionSelf(item, head);
             });
-            var styleClass = '';
             if (head.key === 'root') {
                 styleClass = 'tbody';
             }
-            result = joinHTML(
-                styleClass,
-                {
-                    'width': head.width + 'px'
-                },
-                _html
-            );
         }
         // 将对象一列列展示
         else if (typeof data === 'object') {
@@ -73,28 +66,24 @@ function objectToTable(data, tableHeadConfig, options) {
                     _head = getHead(key, head);
                     // 配置了表头，否则丢弃
                     if (_head) {
-                        _html += functionSelf(item, _head);
+                        html += functionSelf(item, _head);
                     }
                 }
             }
-            result = joinHTML(
-                'row',
-                {
-                    'min-width': head.width + 'px'
-                },
-                _html
-            );
+            styleClass = 'row';
         }
         // 数据叶子节点直接展示
         else {
-            result = joinHTML(
-                'row padding leaf',
-                {
-                    'min-width': head.width + 'px'
-                },
-                data.toString()
-            );
+            styleClass = 'row padding leaf';
+            html = data.toString();
         }
+        result = joinHTML(
+            styleClass,
+            {
+                'flex': '0 0 ' + head.width + 'px'
+            },
+            html
+        );
         return result;
     }
 
@@ -159,6 +148,7 @@ function objectToTable(data, tableHeadConfig, options) {
             html: '',
             widthSum: 0
         };
+        var styleClass;
         var widthSum = 0;
 
         var functionSelf = arguments.callee;
@@ -172,41 +162,42 @@ function objectToTable(data, tableHeadConfig, options) {
                 widthSum += _result.widthSum;
                 item.width = _result.widthSum;
             });
-            result.widthSum = widthSum;
-
-            result.html += joinHTML(
-                'row',
-                {
-                    'min-width': result.widthSum + 'px'
-                },
-                _html
-            );
-            tableHeadConfig.width = result.widthSum;
+            if (tableHeadConfig.key === 'root') {
+                styleClass = 'thead row';
+            }
+            else {
+                styleClass = 'row';
+            }
         }
         // 叶子节点直接展示
         else {
+            styleClass = 'row padding leaf';
             widthSum = tableHeadConfig.width || options.defaultWidth;
-            result.html += joinHTML(
-                'row padding leaf',
-                {
-                    'min-width': widthSum + 'px'
-                },
-                tableHeadConfig.title
-            );
-            result.widthSum = widthSum;
-            tableHeadConfig.width = widthSum;
+            _html = tableHeadConfig.title;
         }
+
+        tableHeadConfig.width = result.widthSum;
+        result.widthSum = widthSum;
+        result.html = joinHTML(
+            styleClass,
+            {
+                'flex': '0 0 ' + widthSum + 'px'
+            },
+            _html
+        );
 
         return result;
     }
 
     var thead = getHeadHTML(tableHeadConfig);
     var tbody = getBodyHTML(data, tableHeadConfig);
-    var html = ''
-        + '<div class="object-table">'
-        + thead.html
-        + tbody
-        + '</div>';
+    var html = joinHTML(
+        'object-table',
+        {
+            width: thead.widthSum + 'px',
+        },
+        thead.html + tbody
+    );
 
     return html;
 }
