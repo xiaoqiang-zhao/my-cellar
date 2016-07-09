@@ -12,7 +12,12 @@
  * @return {string} html 最后拼装完成 html
  */
 function objectToTable(data, tableHeadConfig, options) {
-    var html = '';
+
+    // 配置项初始化
+    options = options || {};
+    options.defaultWidth = options.defaultWidth || 130; // 默认值宽度
+
+    // 包装表头配置数据
     tableHeadConfig = {
         key: 'root',
         children: tableHeadConfig
@@ -36,38 +41,28 @@ function objectToTable(data, tableHeadConfig, options) {
      *                   }
      */
     function getBodyHTML(data, head) {
-        var result = {
-            html: '',
-            widthSum: 0
-        };
+        var result = '';
 
         var functionSelf = arguments.callee;
-        var _html = '';
-        var _result;
         var _head;
+        var _html = '';
         /** 拆分 **/
         // 将数组一行行展示
         if (Array.isArray(data)) {
             data.forEach(function (item) {
-                _result = functionSelf(item, head);
-                _html += _result.html;
+                _html += functionSelf(item, head);
             });
-            result.widthSum = _result.widthSum;
-            head.width = result.widthSum;
             var styleClass = '';
             if (head.key === 'root') {
                 styleClass = 'tbody';
             }
-            result.html +=joinHTML(
+            result = joinHTML(
                 styleClass,
                 {
-                    'width': result.widthSum + 'px'
+                    'width': head.width + 'px'
                 },
                 _html
             );
-            //result.html += '<div class="' + styleClass +'" style="width:' + result.widthSum + 'px;">';
-            //result.html += _html;
-            //result.html += '</div>';
         }
         // 将对象一列列展示
         else if (typeof data === 'object') {
@@ -78,41 +73,27 @@ function objectToTable(data, tableHeadConfig, options) {
                     _head = getHead(key, head);
                     // 配置了表头，否则丢弃
                     if (_head) {
-                        _result = functionSelf(item, _head);
-                        _html += _result.html;
-                        result.widthSum += _result.widthSum;
-                        _head.width = _result.widthSum;
+                        _html += functionSelf(item, _head);
                     }
                 }
             }
-            result.html +=joinHTML(
+            result = joinHTML(
                 'row',
                 {
-                    'min-width': result.widthSum + 'px'
+                    'min-width': head.width + 'px'
                 },
                 _html
             );
-            //result.html += '<div class="row" style="width:' + result.widthSum + 'px;">';
-            //result.html += _html;
-            //result.html += '</div>';
         }
         // 数据叶子节点直接展示
         else {
-            // 默认值宽度
-            var defaultWidth = 130;
-
-            //if (_head) {
-                head.width = head.width || defaultWidth;
-                result.html +=joinHTML(
-                    'row padding leaf',
-                    {
-                        'min-width': head.width + 'px'
-                    },
-                    data.toString()
-                );
-                result.isLeaf = true; // 是否是叶子节点
-                result.widthSum = head.width;
-            //}
+            result = joinHTML(
+                'row padding leaf',
+                {
+                    'min-width': head.width + 'px'
+                },
+                data.toString()
+            );
         }
         return result;
     }
@@ -140,11 +121,20 @@ function objectToTable(data, tableHeadConfig, options) {
         return result;
     }
 
+    /**
+     * 拼接 html，生成一个独立内容的 div
+     *
+     * @param {string} styleClass 样式的 class 字符串
+     * @param {Object} style 内敛样式键值对
+     * @param {string} innerHTML 标签内的 html 字符串
+     *
+     * @return {string} html 生成的 html
+     */
     function joinHTML(styleClass, style, innerHTML) {
         var html = '';
         var styleStr = '';
-        for(var key in style) {
-            if(style.hasOwnProperty(key)) {
+        for (var key in style) {
+            if (style.hasOwnProperty(key)) {
                 styleStr += key + ':' + style[key] + '; ';
             }
         }
@@ -154,20 +144,68 @@ function objectToTable(data, tableHeadConfig, options) {
         return html;
     }
 
+    /**
+     * 生成表格表头部分的 html 字符串 和 宽度
+     *
+     * @param {Array} tableHeadConfig 表头设置
+     * @return {Object} result
+     *                  {
+     *                      html: string,  html字符串
+     *                      widthSum: number 内层元素的宽度累加值
+     *                   }
+     */
     function getHeadHTML(tableHeadConfig) {
-        var html = '';
+        var result = {
+            html: '',
+            widthSum: 0
+        };
+        var widthSum = 0;
 
-        return html;
+        var functionSelf = arguments.callee;
+
+        // 有子项
+        if (Array.isArray(tableHeadConfig.children)) {
+            var _html = '';
+            tableHeadConfig.children.forEach(function (item) {
+                var _result = functionSelf(item);
+                _html += _result.html;
+                widthSum += _result.widthSum;
+                item.width = _result.widthSum;
+            });
+            result.widthSum = widthSum;
+
+            result.html += joinHTML(
+                'row',
+                {
+                    'min-width': result.widthSum + 'px'
+                },
+                _html
+            );
+            tableHeadConfig.width = result.widthSum;
+        }
+        // 叶子节点直接展示
+        else {
+            widthSum = tableHeadConfig.width || options.defaultWidth;
+            result.html += joinHTML(
+                'row padding leaf',
+                {
+                    'min-width': widthSum + 'px'
+                },
+                tableHeadConfig.title
+            );
+            result.widthSum = widthSum;
+            tableHeadConfig.width = widthSum;
+        }
+
+        return result;
     }
 
     var thead = getHeadHTML(tableHeadConfig);
     var tbody = getBodyHTML(data, tableHeadConfig);
-    html = ''
+    var html = ''
         + '<div class="object-table">'
-        + '    <div class="thead">'
-        + thead
-        + '    </div>'
-        + tbody.html
+        + thead.html
+        + tbody
         + '</div>';
 
     return html;

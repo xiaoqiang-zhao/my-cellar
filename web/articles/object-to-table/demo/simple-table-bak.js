@@ -23,23 +23,38 @@ var simpleData = [
     {
         a: 'AAA1',
         b: [
-            'B1-1',
-            'B1-2'
+            {
+                b1: 'B1-1',
+                b1Name: 'name'
+            },
+            {
+                b1: 'B1-2',
+                b1Name: 'name'
+            }
         ],
         c: 'CCC'
     },
     {
         a: 'AAA2',
         b: [
-            '多文字折行测试'
+            {
+                b1: '多文字折行测试',
+                b1Name: 'name'
+            }
         ],
         c: 'CCC'
     },
     {
         a: 'AAA3',
         b: [
-            'B1-1',
-            'Talk is cheap. Show me the code'
+            {
+                b1: 'B1-1',
+                b1Name: 'name'
+            },
+            {
+                b1: 'show me your code',
+                b1Name: 'name'
+            }
         ],
         c: 'show me your code'
     }
