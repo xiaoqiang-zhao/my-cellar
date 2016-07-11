@@ -56,6 +56,9 @@ function objectToTable(data, tableHeadConfig, options) {
             if (head.key === 'root') {
                 styleClass = 'tbody';
             }
+            else {
+                styleClass = 'row89';
+            }
         }
         // 将对象一列列展示
         else if (typeof data === 'object') {
@@ -122,14 +125,22 @@ function objectToTable(data, tableHeadConfig, options) {
     function joinHTML(styleClass, style, innerHTML) {
         var html = '';
         var styleStr = '';
+
+        if (!styleClass) {
+            styleClass = '';
+        }
+
         for (var key in style) {
             if (style.hasOwnProperty(key)) {
                 styleStr += key + ':' + style[key] + '; ';
             }
         }
-        html += '<div class="' + styleClass + '" style="' + styleStr + '">';
-        html += innerHTML;
-        html += '</div>';
+
+        html += ''
+            + '<div class="' + styleClass + '" style="' + styleStr + '">'
+            + innerHTML
+            + '</div>';
+
         return html;
     }
 

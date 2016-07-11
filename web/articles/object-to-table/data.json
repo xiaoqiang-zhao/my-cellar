@@ -1,12 +1,54 @@
-{
-  "enName": "obj-table",
-  "title": "obj-div",
-  "introduction": "未找到描述信息",
-  "tags": [],
-  "isPublished": false,
-  "state": "立项",
-  "type": "md",
-  "createDate": 1465461028976,
-  "commentList": [],
-  "todoList": []
-}
+[
+  {
+    "key": "dacDimeNodeView",
+    "value": "input.userIdList",
+    "childrenParam": [
+      {
+        "key": "dacDimeNodeId"
+      },
+      {
+        "key": "dacDimeTag"
+      },
+      {
+        "key": "dacDimeName"
+      },
+      {
+        "key": "parentNodeId"
+      },
+      {
+        "key": "nodeTypeId"
+      },
+      {
+        "key": "prodId"
+      },
+      {
+        "key": "orgId"
+      },
+      {
+        "key": "nodeStatus"
+      },
+      {
+        "key": "cnName"
+      },
+      {
+        "key": "enName"
+      },
+      {
+        "key": "descn"
+      },
+      {
+        "key": "nodeTypeTag"
+      },
+      {
+        "key": "orgEnName"
+      },
+      {
+        "key": "orgCnName"
+      }
+    ]
+  },
+  {
+    "key": "total",
+    "value": "acsTotalSize"
+  }
+]

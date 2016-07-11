@@ -1,7 +1,7 @@
 /**
  * Created by zhaoxiaoqiang on 16/7/6.
  */
-var simpleDataHead = [
+var juniorDataHead = [
     {
         key: 'a',
         title: 'a-标题名'
@@ -19,7 +19,7 @@ var simpleDataHead = [
         //]
     }
 ];
-var simpleData = [
+var juniorData = [
     {
         a: 'AAA1',
         b: [
@@ -44,6 +44,6 @@ var simpleData = [
         c: 'show me your code'
     }
 ];
-var simpleTableContainer = document.getElementById('simple-table');
-var html = objectToTable(simpleData, simpleDataHead);
-simpleTableContainer.innerHTML = html;
+var juniorTableContainer = document.getElementById('junior-table');
+var html = objectToTable(juniorData, juniorDataHead);
+juniorTableContainer.innerHTML = html;

@@ -28,6 +28,6 @@
     border-bottom: 1px solid #d1d1d1;
     word-wrap: break-word;
     white-space: normal;
-    word-break: break-word;
+    word-break: normal;
     align-items: center;
 }
