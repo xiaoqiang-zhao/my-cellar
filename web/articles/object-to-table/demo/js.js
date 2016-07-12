@@ -29,6 +29,62 @@ function objectToTable(data, tableHeadConfig, options) {
     }
 
     /**
+     * 生成表格表头部分的 html 字符串 和 宽度
+     *
+     * @param {Array} tableHeadConfig 表头设置
+     * @return {Object} result
+     *                  {
+     *                      html: string,  html字符串
+     *                      widthSum: number 内层元素的宽度累加值
+     *                   }
+     */
+    function getHeadHTML(tableHeadConfig) {
+        var result = {
+            html: '',
+            widthSum: 0
+        };
+        var styleClass;
+        var widthSum = 0;
+
+        var functionSelf = arguments.callee;
+
+        // 有子项
+        if (Array.isArray(tableHeadConfig.children)) {
+            var _html = '';
+            tableHeadConfig.children.forEach(function (item) {
+                var _result = functionSelf(item);
+                _html += _result.html;
+                widthSum += _result.widthSum;
+                item.width = _result.widthSum;
+            });
+            if (tableHeadConfig.key === 'root') {
+                styleClass = 'thead row';
+            }
+            else {
+                styleClass = 'row';
+            }
+        }
+        // 叶子节点直接展示
+        else {
+            styleClass = 'row padding leaf';
+            widthSum = tableHeadConfig.width || options.defaultWidth;
+            _html = tableHeadConfig.title;
+        }
+
+        tableHeadConfig.width = result.widthSum;
+        result.widthSum = widthSum;
+        result.html = joinHTML(
+            styleClass,
+            {
+                'flex': '0 0 ' + widthSum + 'px'
+            },
+            _html
+        );
+
+        return result;
+    }
+
+    /**
      * 生成表格主体部分的 html 字符串
      *
      * @param {Array} data 数据
@@ -51,7 +107,6 @@ function objectToTable(data, tableHeadConfig, options) {
             };
         var html = '';
         var _head;
-        /** 拆分 **/
         // 将数组一行行展示
         if (Array.isArray(data)) {
 
@@ -169,70 +224,14 @@ function objectToTable(data, tableHeadConfig, options) {
         return html;
     }
 
-    /**
-     * 生成表格表头部分的 html 字符串 和 宽度
-     *
-     * @param {Array} tableHeadConfig 表头设置
-     * @return {Object} result
-     *                  {
-     *                      html: string,  html字符串
-     *                      widthSum: number 内层元素的宽度累加值
-     *                   }
-     */
-    function getHeadHTML(tableHeadConfig) {
-        var result = {
-            html: '',
-            widthSum: 0
-        };
-        var styleClass;
-        var widthSum = 0;
-
-        var functionSelf = arguments.callee;
-
-        // 有子项
-        if (Array.isArray(tableHeadConfig.children)) {
-            var _html = '';
-            tableHeadConfig.children.forEach(function (item) {
-                var _result = functionSelf(item);
-                _html += _result.html;
-                widthSum += _result.widthSum;
-                item.width = _result.widthSum;
-            });
-            if (tableHeadConfig.key === 'root') {
-                styleClass = 'thead row';
-            }
-            else {
-                styleClass = 'row';
-            }
-        }
-        // 叶子节点直接展示
-        else {
-            styleClass = 'row padding leaf';
-            widthSum = tableHeadConfig.width || options.defaultWidth;
-            _html = tableHeadConfig.title;
-        }
-
-        tableHeadConfig.width = result.widthSum;
-        result.widthSum = widthSum;
-        result.html = joinHTML(
-            styleClass,
-            {
-                'flex': '0 0 ' + widthSum + 'px'
-            },
-            _html
-        );
-
-        return result;
-    }
-
-    var thead = getHeadHTML(tableHeadConfig);
-    var tbody = getBodyHTML(data, tableHeadConfig);
+    var tableHead = getHeadHTML(tableHeadConfig);
+    var tableBody = getBodyHTML(data, tableHeadConfig);
     var html = joinHTML(
         'object-table',
         {
-            width: thead.widthSum + 'px',
+            width: tableHead.widthSum + 'px',
         },
-        thead.html + tbody
+        tableHead.html + tableBody
     );
 
     return html;
