@@ -33,6 +33,7 @@ function objectToTable(data, tableHeadConfig, options) {
      *
      * @param {Array} data 数据
      * @param {Object} head 表头设置
+     * @param {Object} options 上一级传给下一级的配置信息
      *
      * @return {Object} result
      *                  {
@@ -40,24 +41,29 @@ function objectToTable(data, tableHeadConfig, options) {
      *                      widthSum: number 内层元素的宽度累加值
      *                   }
      */
-    function getBodyHTML(data, head) {
+    function getBodyHTML(data, head, options) {
         var result;
 
         var functionSelf = arguments.callee;
         var styleClass;
-        var _head;
+        var style = {
+                'flex': '0 0 ' + head.width + 'px'
+            };
         var html = '';
+        var _head;
         /** 拆分 **/
         // 将数组一行行展示
         if (Array.isArray(data)) {
             data.forEach(function (item) {
-                html += functionSelf(item, head);
+                html += functionSelf(item, head, {
+                    isArrayChild: true
+                });
             });
             if (head.key === 'root') {
                 styleClass = 'tbody';
             }
             else {
-                styleClass = 'row89';
+                styleClass = 'column';
             }
         }
         // 将对象一列列展示
@@ -79,12 +85,16 @@ function objectToTable(data, tableHeadConfig, options) {
         else {
             styleClass = 'row padding leaf';
             html = data.toString();
+            if (options && options.isArrayChild) {
+                style = {
+                    'flex': '1 0 auto',
+                    'width': head.width + 'px'
+                };
+            }
         }
         result = joinHTML(
             styleClass,
-            {
-                'flex': '0 0 ' + head.width + 'px'
-            },
+            style,
             html
         );
         return result;
