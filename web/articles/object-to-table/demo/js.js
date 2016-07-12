@@ -54,11 +54,26 @@ function objectToTable(data, tableHeadConfig, options) {
         /** 拆分 **/
         // 将数组一行行展示
         if (Array.isArray(data)) {
+
+            // 如果当前数组没有元素，为了在 dom 上占位还需要生成一个空标签
+            if (data.length === 0) {
+                data = [''];
+            }
             data.forEach(function (item) {
                 html += functionSelf(item, head, {
                     isArrayChild: true
                 });
             });
+            // 如果当前数组没有元素，为了在 dom 上占位还需要生成一个空标签
+            // 这种写法更具扩展性，但是代码不如上面简介，本着欧姆剃刀原则这里使用上面一种
+            // 如果有需要扩展，可以切换到下面这种写法
+            //if (html === '') {
+            //    html += functionSelf('', head, {
+            //        isArrayChild: true,
+            //        isEmpty: true
+            //    });
+            //}
+
             if (head.key === 'root') {
                 styleClass = 'tbody';
             }

@@ -18,13 +18,13 @@ var seniorDataHead = [
         children: [
             {
                 key: 'exquisitePlan',
-                title: '精装',
+                title: '精装方案',
                 width: 230,
                 isWrap: true
             },
             {
                 key: 'commonPlan',
-                title: '平装',
+                title: '平装方案',
                 width: 230,
                 isWrap: true
             }
@@ -61,7 +61,7 @@ var seniorData = [
                 '智能家居前沿科技装'
             ],
             commonPlan: [
-                '日式小清新，改价格打开和寿光大火胫腓骨'
+                // '日式小清新，改价格打开和寿光大火胫腓骨'
             ]
         },
         phone: '12345678901'
@@ -77,6 +77,22 @@ var seniorData = [
             commonPlan: [
                 '日式小清新',
                 '浅色系简约现代',
+                '简欧田园风'
+            ]
+        },
+        phone: '12345678901'
+    },
+    {
+        id: 4,
+        shopName: '咔咔咔装修公司',
+        plan: {
+            exquisitePlan: [
+                '欧洲红木奢华装',
+                '智能家居前沿科技装'
+            ],
+            commonPlan: [
+                '日式小清新',
+                '浅色系简约现代，文字较多的展示方式',
                 '简欧田园风'
             ]
         },
