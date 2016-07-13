@@ -45,5 +45,5 @@ var juniorData = [
     }
 ];
 var juniorTableContainer = document.getElementById('junior-table');
-var html = objectToTable(juniorData, juniorDataHead);
-juniorTableContainer.innerHTML = html;
+//var html = objectToTable(juniorData, juniorDataHead);
+//juniorTableContainer.innerHTML = html;

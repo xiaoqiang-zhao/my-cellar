@@ -47,6 +47,7 @@ function objectToTable(data, tableHeadConfig, options) {
         var widthSum = 0;
 
         var functionSelf = arguments.callee;
+        var style;
 
         // 有子项
         if (Array.isArray(tableHeadConfig.children)) {
@@ -59,9 +60,31 @@ function objectToTable(data, tableHeadConfig, options) {
             });
             if (tableHeadConfig.key === 'root') {
                 styleClass = 'thead row';
+                style = {
+                    'flex': '0 0 ' + widthSum + 'px'
+                };
             }
             else {
-                styleClass = 'row';
+                styleClass = 'column';
+                var columnItemStyle = {
+                    'flex': '1',
+                    'width': widthSum + 'px'
+                };
+                var summaryTitleHtml = joinHTML(
+                    'row leaf',
+                    columnItemStyle,
+                    tableHeadConfig.title
+                );
+                var containerHtml = joinHTML(
+                    'row',
+                    columnItemStyle,
+                    _html
+                );
+                style = {
+                    'flex': '1 0 auto',
+                    'width': widthSum + 'px'
+                };
+                _html = summaryTitleHtml + containerHtml;
             }
         }
         // 叶子节点直接展示
@@ -69,17 +92,14 @@ function objectToTable(data, tableHeadConfig, options) {
             styleClass = 'row padding leaf';
             widthSum = tableHeadConfig.width || options.defaultWidth;
             _html = tableHeadConfig.title;
+            style = {
+                'flex': '0 0 ' + widthSum + 'px'
+            };
         }
 
         tableHeadConfig.width = result.widthSum;
         result.widthSum = widthSum;
-        result.html = joinHTML(
-            styleClass,
-            {
-                'flex': '0 0 ' + widthSum + 'px'
-            },
-            _html
-        );
+        result.html = joinHTML(styleClass, style, _html);
 
         return result;
     }

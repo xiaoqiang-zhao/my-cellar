@@ -14,7 +14,7 @@ var seniorDataHead = [
     },
     {
         key: 'plan',
-        title: '装修套餐',
+        title: '装修方案',
         children: [
             {
                 key: 'exquisitePlan',
