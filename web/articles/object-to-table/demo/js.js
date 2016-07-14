@@ -13,6 +13,11 @@
  */
 function objectToTable(data, tableHeadConfig, options) {
 
+    // 参数检验
+    if (!Array.isArray(data)) {
+        return '参数格式错误';
+    }
+
     // 配置项初始化
     options = options || {};
     options.defaultWidth = options.defaultWidth || 130; // 默认值宽度
@@ -22,11 +27,9 @@ function objectToTable(data, tableHeadConfig, options) {
         key: '$root',
         children: tableHeadConfig
     };
-
-    // 参数检验
-    if (!Array.isArray(data)) {
-        return '参数格式错误';
-    }
+    data = {
+        '$root': data
+    };
 
     /**
      * 生成表格表头部分的 html 字符串 和 宽度
@@ -71,7 +74,7 @@ function objectToTable(data, tableHeadConfig, options) {
                     'width': widthSum + 'px'
                 };
                 var summaryTitleHtml = joinHTML(
-                    'row leaf',
+                    'leaf',
                     columnItemStyle,
                     tableHeadConfig.title
                 );
@@ -107,110 +110,92 @@ function objectToTable(data, tableHeadConfig, options) {
     /**
      * 生成表格主体部分的 html 字符串
      *
-     * @param {Array} data 数据
      * @param {Object} head 表头设置
-     * @param {Object} options 上一级传给下一级的配置信息
+     * @param {Array} data 数据
      *
-     * @return {Object} result
-     *                  {
-     *                      html: string,  html字符串
-     *                      widthSum: number 内层元素的宽度累加值
-     *                   }
+     * @return {string} html  html字符串
      */
-    function getBodyHTML(data, head, options) {
-        var result;
-
-        var functionSelf = arguments.callee;
-        var styleClass;
-        var style = {
-                'flex': '0 0 ' + head.width + 'px'
-            };
+    function getBodyHTML(head, data) {
         var html = '';
-        var _head;
-        // 将数组一行行展示
-        if (Array.isArray(data)) {
+        var styleClass;
+        var style;
+        var functionSelf = arguments.callee;
+        // 表头优先
+        var dataValue = data === undefined ? '' : data[head.key];
 
-            // 如果当前数组没有元素，为了在 dom 上占位还需要生成一个空标签
-            if (data.length === 0) {
-                data = [''];
-            }
-            data.forEach(function (item) {
-                html += functionSelf(item, head, {
-                    isArrayChild: true
-                });
+        // 数组型数据竖着排
+        if (Array.isArray(dataValue)) {
+
+            dataValue.forEach(function (item) {
+                if (Array.isArray(head.children)) {
+                    var _html = '';
+                    head.children.forEach(function (headItem) {
+                        // 递归 ...
+                        _html += functionSelf(headItem, item);
+                    });
+                    // 为一行数据加容器
+                    html += joinHTML(
+                        'row',
+                        {
+                            flex: '1 0 auto',
+                            width: head.width + 'px'
+                        },
+                        _html
+                    );
+                }
+                // 叶子节点
+                else {
+                    html += joinHTML(
+                        'leaf',
+                        {
+                            flex: '1 0 auto',
+                            width: head.width + 'px'
+                        },
+                        item
+                    );
+                }
             });
-            // 如果当前数组没有元素，为了在 dom 上占位还需要生成一个空标签
-            // 这种写法更具扩展性，但是代码不如上面简介，本着欧姆剃刀原则这里使用上面一种
-            // 如果有需要扩展，可以切换到下面这种写法
-            //if (html === '') {
-            //    html += functionSelf('', head, {
-            //        isArrayChild: true,
-            //        isEmpty: true
-            //    });
-            //}
 
+            // 为表格主体加特殊样式识别，在逻辑上无用
             if (head.key === '$root') {
-                styleClass = 'tbody';
+                styleClass = 'tbody column';
             }
             else {
                 styleClass = 'column';
             }
-        }
-        // 将对象一列列展示
-        else if (typeof data === 'object') {
-            for (var key in data) {
-                if (data.hasOwnProperty(key)) {
-                    var item = data[key];
-                    // 找到对应字段
-                    _head = getHead(key, head);
-                    // 配置了表头，否则丢弃
-                    if (_head) {
-                        html += functionSelf(item, _head);
-                    }
-                }
+            // 为空字段填充占位数据
+            if (dataValue.length === 0) {
+                styleClass += ' leaf';
             }
-            styleClass = 'row';
+            style = {
+                'flex': '1',
+                'width': head.width + 'px'
+            };
         }
-        // 数据叶子节点直接展示
         else {
-            styleClass = 'row leaf';
-            html = data.toString();
-            if (options && options.isArrayChild) {
-                style = {
-                    'flex': '1 0 auto',
-                    'width': head.width + 'px'
-                };
+            if (Array.isArray(head.children)) {
+                styleClass = 'row';
+                head.children.forEach(function (headItem) {
+                    // 递归 ...
+                    html += functionSelf(headItem, dataValue);
+                });
             }
+            // 叶子节点
+            else {
+                styleClass = 'leaf';
+                html = dataValue;
+            }
+            style = {
+                flex: '1 0 ' + head.width + 'px'
+            };
         }
-        result = joinHTML(
+
+        html = joinHTML(
             styleClass,
             style,
             html
         );
-        return result;
-    }
-
-    /**
-     * 获取字段对应的表头设置
-     *
-     * @param {string} key 字段键值
-     * @param {Object} head 当前字段上一级的表头设置，
-     *                      可以从此参数的的children属性中找到表头设置
-     *
-     * @return {Object} result 表头设置对象(未找到设置返回 null)
-     */
-    function getHead(key, head) {
-        var result = null;
-        var children = head.children;
-        if (head && Array.isArray(children)) {
-            children.some(function (item) {
-                if (key === item.key) {
-                    result = item;
-                    return true;
-                }
-            });
-        }
-        return result;
+        return html;
     }
 
     /**
@@ -245,7 +230,8 @@ function objectToTable(data, tableHeadConfig, options) {
     }
 
     var tableHead = getHeadHTML(tableHeadConfig);
-    var tableBody = getBodyHTML(data, tableHeadConfig);
+    tableHeadConfig.width = tableHead.widthSum;
+    var tableBody = getBodyHTML(tableHeadConfig, data);
     var html = joinHTML(
         'object-table',
         {

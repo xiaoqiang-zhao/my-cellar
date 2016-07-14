@@ -17,14 +17,14 @@ var seniorDataHead = [
         title: '装修方案',
         children: [
             {
-                key: 'exquisitePlan',
-                title: '精装方案',
+                key: 'commonPlan',
+                title: '平装方案',
                 width: 230,
                 isWrap: true
             },
             {
-                key: 'commonPlan',
-                title: '平装方案',
+                key: 'exquisitePlan',
+                title: '精装方案',
                 width: 230,
                 isWrap: true
             }
@@ -38,8 +38,8 @@ var seniorDataHead = [
 ];
 var seniorData = [
     {
-        id: 1,
         shopName: '咔咔咔装修公司',
+        id: 1,
         plan: {
             exquisitePlan: [
                 '欧洲红木奢华装',
@@ -55,15 +55,7 @@ var seniorData = [
     {
         id: 2,
         shopName: '六六六装修公司',
-        plan: {
-            exquisitePlan: [
-                '欧洲红木奢华装',
-                '智能家居前沿科技装'
-            ],
-            commonPlan: [
-                // '日式小清新，改价格打开和寿光大火胫腓骨'
-            ]
-        },
+
         phone: '12345678901'
     },
     {
