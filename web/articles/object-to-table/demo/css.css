@@ -9,15 +9,8 @@
     background: #ddd;
     font-weight: 700;
 }
-.object-table .thead .row {
-    justify-content: center;
-}
 .object-table .tbody > .row:nth-child(even) {
     background: #f6f6f6;
-}
-.object-table .padding {
-    box-sizing: border-box;
-    padding: 5px;
 }
 .object-table .row {
     display: flex;
@@ -29,11 +22,16 @@
     flex-direction: column;
 }
 .object-table .leaf {
+    display: flex;
     box-sizing: border-box;
     border-right: 1px solid #d1d1d1;
     border-bottom: 1px solid #d1d1d1;
+    padding: 5px;
     word-wrap: break-word;
     white-space: normal;
     word-break: normal;
     align-items: center;
+}
+.object-table .thead .leaf {
+    justify-content: center;
 }

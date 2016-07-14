@@ -67,7 +67,7 @@ function objectToTable(data, tableHeadConfig, options) {
             else {
                 styleClass = 'column';
                 var columnItemStyle = {
-                    'flex': '1',
+                    'flex': '1 0 auto',
                     'width': widthSum + 'px'
                 };
                 var summaryTitleHtml = joinHTML(
@@ -89,7 +89,7 @@ function objectToTable(data, tableHeadConfig, options) {
         }
         // 叶子节点直接展示
         else {
-            styleClass = 'row padding leaf';
+            styleClass = 'leaf';
             widthSum = tableHeadConfig.width || options.defaultWidth;
             _html = tableHeadConfig.title;
             style = {
@@ -173,7 +173,7 @@ function objectToTable(data, tableHeadConfig, options) {
         }
         // 数据叶子节点直接展示
         else {
-            styleClass = 'row padding leaf';
+            styleClass = 'row leaf';
             html = data.toString();
             if (options && options.isArrayChild) {
                 style = {
