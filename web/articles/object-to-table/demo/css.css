@@ -4,10 +4,14 @@
     border-top: 1px solid #d1d1d1;
     border-left: 1px solid #d1d1d1;
     color: #615c59;
+    line-height: 1.3em;
 }
 .object-table .thead {
     background: #ddd;
     font-weight: 700;
+}
+.object-table .thead .leaf {
+    justify-content: center;
 }
 .object-table .tbody > .row:nth-child(even) {
     background: #f6f6f6;
@@ -31,7 +35,4 @@
     white-space: normal;
     word-break: normal;
     align-items: center;
-}
-.object-table .thead .leaf {
-    justify-content: center;
 }

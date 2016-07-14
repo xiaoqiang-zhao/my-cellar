@@ -17,9 +17,9 @@ function objectToTable(data, tableHeadConfig, options) {
     options = options || {};
     options.defaultWidth = options.defaultWidth || 130; // 默认值宽度
 
-    // 包装表头配置数据
+    // 包装表头配置数据，为了统一的处理逻辑和对根节点的特殊处理
     tableHeadConfig = {
-        key: 'root',
+        key: '$root',
         children: tableHeadConfig
     };
 
@@ -58,7 +58,7 @@ function objectToTable(data, tableHeadConfig, options) {
                 widthSum += _result.widthSum;
                 item.width = _result.widthSum;
             });
-            if (tableHeadConfig.key === 'root') {
+            if (tableHeadConfig.key === '$root') {
                 styleClass = 'thead row';
                 style = {
                     'flex': '0 0 ' + widthSum + 'px'
@@ -149,7 +149,7 @@ function objectToTable(data, tableHeadConfig, options) {
             //    });
             //}
 
-            if (head.key === 'root') {
+            if (head.key === '$root') {
                 styleClass = 'tbody';
             }
             else {
