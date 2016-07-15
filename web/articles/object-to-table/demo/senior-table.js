@@ -53,10 +53,7 @@ var seniorData = [
         phone: '12345678901'
     },
     {
-        id: 2,
-        shopName: '六六六装修公司',
 
-        phone: '12345678901'
     },
     {
         id: 3,

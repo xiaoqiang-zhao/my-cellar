@@ -35,4 +35,5 @@
     white-space: normal;
     word-break: normal;
     align-items: center;
+    overflow: hidden;
 }

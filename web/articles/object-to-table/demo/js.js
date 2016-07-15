@@ -20,7 +20,10 @@ function objectToTable(data, tableHeadConfig, options) {
 
     // 配置项初始化
     options = options || {};
-    options.defaultWidth = options.defaultWidth || 130; // 默认值宽度
+    // 默认值宽度
+    options.defaultWidth = options.defaultWidth || 130;
+    // 占位空值
+    options.emptyPlaceholder = options.emptyPlaceholder || '-';
 
     // 包装表头配置数据，为了统一的处理逻辑和对根节点的特殊处理
     tableHeadConfig = {
@@ -100,7 +103,7 @@ function objectToTable(data, tableHeadConfig, options) {
             };
         }
 
-        tableHeadConfig.width = result.widthSum;
+        tableHeadConfig.width = widthSum;
         result.widthSum = widthSum;
         result.html = joinHTML(styleClass, style, _html);
 
@@ -121,7 +124,7 @@ function objectToTable(data, tableHeadConfig, options) {
         var style;
         var functionSelf = arguments.callee;
         // 表头优先
-        var dataValue = data === undefined ? '' : data[head.key];
+        var dataValue = data === undefined ? options.emptyPlaceholder : data[head.key];
 
         // 数组型数据竖着排
         if (Array.isArray(dataValue)) {
@@ -183,7 +186,7 @@ function objectToTable(data, tableHeadConfig, options) {
             // 叶子节点
             else {
                 styleClass = 'leaf';
-                html = dataValue;
+                html = dataValue === undefined ? options.emptyPlaceholder : dataValue;
             }
             style = {
                 flex: '1 0 ' + head.width + 'px'
@@ -230,7 +233,6 @@ function objectToTable(data, tableHeadConfig, options) {
     }
 
     var tableHead = getHeadHTML(tableHeadConfig);
-    tableHeadConfig.width = tableHead.widthSum;
     var tableBody = getBodyHTML(tableHeadConfig, data);
     var html = joinHTML(
         'object-table',
