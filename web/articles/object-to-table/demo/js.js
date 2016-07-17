@@ -148,6 +148,7 @@ function objectToTable(data, tableHeadConfig, options) {
                 }
                 // 叶子节点
                 else {
+                    debugger;
                     html += joinHTML(
                         'leaf',
                         {
@@ -175,6 +176,7 @@ function objectToTable(data, tableHeadConfig, options) {
                 'width': head.width + 'px'
             };
         }
+        // 非数组类型横着排
         else {
             if (Array.isArray(head.children)) {
                 styleClass = 'row';
