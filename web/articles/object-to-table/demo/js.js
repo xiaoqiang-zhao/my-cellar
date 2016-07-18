@@ -148,7 +148,6 @@ function objectToTable(data, tableHeadConfig, options) {
                 }
                 // 叶子节点
                 else {
-                    debugger;
                     html += joinHTML(
                         'leaf',
                         {

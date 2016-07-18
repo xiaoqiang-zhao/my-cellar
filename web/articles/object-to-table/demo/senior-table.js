@@ -85,7 +85,10 @@ var seniorData = [
                 '简欧田园风'
             ]
         },
-        phone: '12345678901'
+        phone: [
+            '15999999999',
+            '400-400-400'
+        ]
     }
 ];
 var seniorTableContainer = document.getElementById('senior-table');
