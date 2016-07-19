@@ -7,18 +7,21 @@
     border-top: $border;
     border-left: $border;
     color: #615c59;
-
+    line-height: 1.3em;
+    .thead
+        background: #ddd;
+        font-weight: 700;
+        .leaf
+            justify-content: center;
     .tbody > .row:nth-child(even)
         background: #f6f6f6;
-
-    .padding
-        box-sizing: border-box;
-        padding: 5px;
-
     .row
         display: flex;
         flex: 1;
-
+    .column
+        display: flex;
+        flex: 1;
+        flex-direction: column;
     .leaf
         border-right: $border;
         border-bottom: $border;
