@@ -2,16 +2,16 @@
  * Created by zhaoxiaoqiang on 16/7/6.
  */
 var seniorDataHead = [
-    {
-        key: 'id',
-        title: 'ID',
-        width: 50
-    },
-    {
-        key: 'shopName',
-        title: '公司名称',
-        width: 200
-    },
+    //{
+    //    key: 'id',
+    //    title: 'ID',
+    //    width: 50
+    //},
+    //{
+    //    key: 'shopName',
+    //    title: '公司名称',
+    //    width: 200
+    //},
     {
         key: 'plan',
         title: '装修方案',

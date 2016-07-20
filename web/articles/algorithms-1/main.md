@@ -141,9 +141,19 @@
 
 [Demo，可在控制台查看代码](/articles/algorithms-1/demo/is-circular.html)。
 
-### 将对象以表格的形式展现
+### 非对齐表格
+
+先看结果：
+
+![非对齐表格示例图](/articles/algorithms-1/img/object-to-table.png)
+
+特点：一行中的列不是对齐的，有子列的存在，子列间横向不对齐数目不固定
+
+使用场景：将对象以表格的形式展现。
 	
 使用上面的抽象方法，来描述两个示例...
+
+[Demo，可在控制台查看代码](/articles/algorithms-1/demo/object-to-table/index.html)。
 
 ### 递归的技巧
 
