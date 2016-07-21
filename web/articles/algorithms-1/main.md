@@ -147,13 +147,41 @@
 
 ![非对齐表格示例图](/articles/algorithms-1/img/object-to-table.png)
 
-特点：一行中的列不是对齐的，有子列的存在，子列间横向不对齐数目不固定
+特点：如上图，一行中的列不是对齐的，有子列的存在，子列间横向不对齐数目不固定。
 
 使用场景：将对象以表格的形式展现。
-	
-使用上面的抽象方法，来描述两个示例...
 
-[Demo，可在控制台查看代码](/articles/algorithms-1/demo/object-to-table/index.html)。
+功能说明和实现描述：如上图这个示例的功能就是将数据已表格形式来展现，数据展示上表头配置优先，如果表头中未配置数据列那么数据不展示未配置列，不支持自适应宽度，每个子列(最末端的才生效)设置固定宽度，最后返回表格的 html 字符串，表头配置代码和调用方法如下：
+
+	// 表头配置方法
+	[
+        {
+            key: 'shopName',
+            title: '公司名称',
+            width: 200
+        },
+        {
+            key: 'plan',
+            title: '装修方案',
+            children: [
+                {
+                    key: 'commonPlan',
+                    title: '平装方案',
+                    width: 230,
+                    isWrap: true
+                },
+                {
+                    key: 'exquisitePlan',
+                    title: '精装方案',
+                    width: 230,
+                    isWrap: true
+                }
+            ]
+        }
+    ]
+	var html = objectToTable(seniorData, seniorDataHead);
+
+[Demo](/articles/algorithms-1/demo/object-to-table/index.html)。
 
 ### 递归的技巧
 
