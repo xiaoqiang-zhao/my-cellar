@@ -41,16 +41,16 @@ function objectToTable(data, tableHeadConfig, options) {
      * @return {Object} result
      *                  {
      *                      html: string,  html字符串
-     *                      widthSum: number 内层元素的宽度累加值
+     *                      width: number 内层元素的宽度
      *                   }
      */
     function getHeadHTML(tableHeadConfig) {
         var result = {
             html: '',
-            widthSum: 0
+            width: 0
         };
         var styleClass;
-        var widthSum = 0;
+        var width = 0;
 
         var functionSelf = arguments.callee;
         var style;
@@ -61,20 +61,20 @@ function objectToTable(data, tableHeadConfig, options) {
             tableHeadConfig.children.forEach(function (item) {
                 var _result = functionSelf(item);
                 _html += _result.html;
-                widthSum += _result.widthSum;
-                item.width = _result.widthSum;
+                width += _result.width;
+                item.width = _result.width;
             });
             if (tableHeadConfig.key === '$root') {
                 styleClass = 'thead row';
                 style = {
-                    'flex': '0 0 ' + widthSum + 'px'
+                    'flex': '0 0 ' + width + 'px'
                 };
             }
             else {
                 styleClass = 'column';
                 var columnItemStyle = {
                     'flex': '1 0 auto',
-                    'width': widthSum + 'px'
+                    'width': width + 'px'
                 };
                 var summaryTitleHtml = joinHTML(
                     'leaf',
@@ -88,7 +88,7 @@ function objectToTable(data, tableHeadConfig, options) {
                 );
                 style = {
                     'flex': '1 0 auto',
-                    'width': widthSum + 'px'
+                    'width': width + 'px'
                 };
                 _html = summaryTitleHtml + containerHtml;
             }
@@ -96,15 +96,15 @@ function objectToTable(data, tableHeadConfig, options) {
         // 叶子节点直接展示
         else {
             styleClass = 'leaf';
-            widthSum = tableHeadConfig.width || options.defaultWidth;
+            width = tableHeadConfig.width || options.defaultWidth;
             _html = tableHeadConfig.title;
             style = {
-                'flex': '0 0 ' + widthSum + 'px'
+                'flex': '0 0 ' + width + 'px'
             };
         }
 
-        tableHeadConfig.width = widthSum;
-        result.widthSum = widthSum;
+        tableHeadConfig.width = width;
+        result.width = width;
         result.html = joinHTML(styleClass, style, _html);
 
         return result;
