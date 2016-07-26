@@ -21,25 +21,43 @@ function quickSort(array, from, to) {
 
     if (from < to) {
 
-        var markIndex = from - 1;  // 标记位
+        // Plan one
+        //var markIndex = from - 1;  // 标记位
+        //var spaceItem = array[to]; // 默认最后一个
+        //
+        //// 找出分水岭的位置，并把大小数分列两侧
+        //for (var i = from; i <= to; i++) {
+        //    if (array[i] <= spaceItem) {
+        //        markIndex++;
+        //        var temp = array[markIndex];
+        //        array[markIndex] = array[i];
+        //        array[i] = temp;
+        //    }
+        //}
+        //arguments.callee(array, from, markIndex - 1);
+        //arguments.callee(array, markIndex + 1, to);
+
+        // Plan two(少运算二次)
+        var markIndex = from;  // 标记位
         var spaceItem = array[to]; // 默认最后一个
 
         // 找出分水岭的位置，并把大小数分列两侧
         for (var i = from; i <= to; i++) {
             if (array[i] <= spaceItem) {
-                markIndex++;
                 var temp = array[markIndex];
                 array[markIndex] = array[i];
                 array[i] = temp;
+                markIndex++;
             }
         }
 
-        arguments.callee(array, from, markIndex - 1);
-        arguments.callee(array, markIndex + 1, to);
+        arguments.callee(array, from, markIndex - 2);
+        arguments.callee(array, markIndex, to);
     }
     return array;
 }
 
 console.log(quickSort([5, 2, 4, 6, 1, 3]));
 console.log(quickSort([5, 2, 4, 6, 1, 1]));
+console.log(quickSort([5, 2, 4, 6, 4, 1]));
 console.log(quickSort([6, 1, 3, 5, 2, 4, 7]));
