@@ -74,6 +74,8 @@
 
 FireFox 的 HostAdmin 插件很好用，可以方便的切换 host 配置。
 
+还有一个工具也很好用：switchHost。
+
 ## 显示隐藏文件
 
 - 按快捷键Command + F 调出搜索窗口
