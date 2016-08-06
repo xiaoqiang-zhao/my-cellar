@@ -91,6 +91,10 @@ FireFox 的 HostAdmin 插件很好用，可以方便的切换 host 配置。
 
 - 前端神器 WebStorm，参见另一篇文章 [WebStorm 使用文档](/index.html#!/articles/webstorm)
 
+## 外接显示器
+
+外接显示器分辨率没有最佳分辨率选项,需要按住 option 键再点击缩放按钮,这样会列出所有的分辨率选项。
+
 ## 资料
 
 [16个OS X快捷键小技巧，至少应该了解一半](http://www.macx.cn/thread-2050934-1-1.html)
