@@ -11,7 +11,10 @@ function insertionSort(array) {
         for (var i = 1; i < array.length; i++) {
             var key = array[i];
             var j = i - 1;
-            while (j >= 0 && array[j] > key) {
+            while (j >= 0 && array[j] > key) {      // 平均概率下,在中部找到自己的位置
+                                                    // 1/2 + 2/2 + ... + j/2 + (n-1)/2
+                                                    // = (1 + 2 + 3 + ... + n - 1) / 2
+                                                    // 最坏情况只要把最后的除2去掉就可以
                 array[j + 1] = array[j];
                 j--;
             }
