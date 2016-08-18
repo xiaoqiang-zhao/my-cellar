@@ -28,6 +28,18 @@
     "todoList": []
   },
   {
+    "enName": "algorithms-1",
+    "title": "当算法与前端相遇",
+    "introduction": "前端需要了解算法吗？读了几章《算法导论》，结合一下项目实践试着以前端的视角来窥视一下算法的世界。",
+    "tags": [],
+    "isPublished": true,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1471403445970,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "array",
     "title": "Array那些事",
     "introduction": "Array，我们经常使用，却未见得知晓她的全部，这篇文章基本上是对官方API(包括ES5中Array的全部方法)的整理再加一些代码示例，整理在此一方面是自我修养一方面是方便查阅。",

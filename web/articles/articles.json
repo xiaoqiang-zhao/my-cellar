@@ -32,7 +32,7 @@
     "title": "当算法与前端相遇",
     "introduction": "前端需要了解算法吗？读了几章《算法导论》，结合一下项目实践试着以前端的视角来窥视一下算法的世界。",
     "tags": [],
-    "isPublished": false,
+    "isPublished": true,
     "state": "立项",
     "type": "md",
     "createDate": 1471403445970,
