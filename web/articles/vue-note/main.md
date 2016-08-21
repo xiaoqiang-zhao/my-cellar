@@ -1,10 +1,15 @@
-# Vue 备忘笔记
+# Vue2.0 使用技巧 
 
-> 记录常用命令的实践经验。
+> 这篇文章不会把文档中的示例换个方式展示给你,这里展示的是官方文档中没有的使用技巧,或者在官方文档中只是简单地提到一句但使用时有坑也有惊喜。
+
+## 组件中数组的 watch
+
+
 
 ## 的
 
 [Event](articles/vue-note/demo/event.html)
 
 [子组件索引，组件循环](articles/vue-note/demo/v-ref.html)
+
 [参考](http://vuejs.org.cn/guide/components.html#子组件索引)

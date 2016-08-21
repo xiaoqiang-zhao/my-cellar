@@ -31,7 +31,9 @@
     "enName": "algorithms-1",
     "title": "当算法与前端相遇",
     "introduction": "前端需要了解算法吗？读了几章《算法导论》，结合一下项目实践试着以前端的视角来窥视一下算法的世界。",
-    "tags": [],
+    "tags": [
+      "技术点"
+    ],
     "isPublished": true,
     "state": "立项",
     "type": "md",
@@ -621,13 +623,13 @@
   },
   {
     "enName": "vue-note",
-    "title": "Vue 备忘笔记",
-    "introduction": "记录常用命令的实践经验。",
+    "title": "Vue2.0 使用技巧",
+    "introduction": "这篇文章不会把文档中的示例换个方式展示给你,这里展示的是官方文档中没有的使用技巧,或者在官方文档中只是简单地提到一句但使用时有坑也有惊喜。",
     "tags": [],
     "isPublished": false,
     "state": "立项",
     "type": "md",
-    "createDate": 1458394932307,
+    "createDate": 1471666593127,
     "commentList": [],
     "todoList": []
   },
