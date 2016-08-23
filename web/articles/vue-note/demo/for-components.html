@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>循环不同类型的组件</title>
+    <script src="vue.2.0.0-rc.3.js"></script>
+</head>
+<body>
+<div id="app">
+    <component v-for="(item,index) in items" :is="item.type" :index="index"></component>
+</div>
+<script>
+    var ComponentA = Vue.extend({
+        props: ["index"],
+        data: function () {
+            var index = this.index;
+            if (index !== undefined) {
+                index = index + '- ';
+            }
+
+            return {
+                index2: index
+            };
+        },
+        template: '<div>{{index2}}ComponentA的实例</div>'
+    });
+    var ComponentB = Vue.extend({
+        template: '<div>ComponentB的实例</div>'
+    });
+    var app = new Vue({
+        el: '#app',
+        components: {
+            'component-a': ComponentA,
+            'component-b': ComponentB
+        },
+        data: {
+            items: [
+                {
+                    type: 'component-a'
+                },
+                {
+                    type: 'component-b'
+                },
+                {
+                    type: 'component-a'
+                }
+            ]
+        }
+    });
+</script>
+</body>
+</html>
