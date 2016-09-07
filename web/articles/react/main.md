@@ -15,3 +15,8 @@ http://www.tuicool.com/articles/3AFJNbj
 [http://reactjs.cn/](http://reactjs.cn/)
 
 http://www.open-open.com/lib/view/open1449463962379.html
+
+http://mp.weixin.qq.com/s?__biz=MzI0ODA2ODU2NQ==&mid=2651130035&idx=1&sn=627be0dce8d53b0b3b4bb72a18099761#rd
+
+http://mp.weixin.qq.com/s?__biz=MzI0ODA2ODU2NQ==&mid=2651129590&idx=1&sn=59cddf60674781b357dab7f0995b7fc3&scene=19#wechat_redirect
+
