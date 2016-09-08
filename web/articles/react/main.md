@@ -10,6 +10,10 @@ React: 视图框架, Jsx 语法, 需要通过工具编译, 光放指定工具 Br
 Flux 与 Redux:
 http://www.tuicool.com/articles/3AFJNbj
 
+## 看了这么多开始写代码吧
+
+
+
 ## 参考资料
 
 [http://reactjs.cn/](http://reactjs.cn/)
