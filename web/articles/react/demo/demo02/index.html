@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../lib/react.js"></script>
+    <script src="../lib/react-dom.js"></script>
+    <script src="../lib/browser.min.js"></script>
+    <title>JSX</title>
+</head>
+<body>
+<div id="example"></div>
+<script type="text/babel">
+    var names = ['Alice', 'Emily', 'Kate'];
+
+    ReactDOM.render(
+            <div>
+                {
+                    names.map(function (name) {
+                        return <div>Hello, {name}!</div>
+                    })
+                }
+            </div>,
+            document.getElementById('example')
+    );
+
+    var arr = [
+        <h1>Hello world!</h1>,
+        <h2>React is awesome</h2>,
+    ];
+    ReactDOM.render(
+            <div>{arr}</div>,
+            document.getElementById('example')
+    );
+</script>
+</body>
+</html>
