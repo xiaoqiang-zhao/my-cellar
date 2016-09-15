@@ -16,6 +16,8 @@ http://www.tuicool.com/articles/3AFJNbj
 
 ## 参考资料
 
+[官方文档](https://facebook.github.io/react/docs/getting-started.html)
+
 [http://reactjs.cn/](http://reactjs.cn/)
 
 http://www.open-open.com/lib/view/open1449463962379.html
