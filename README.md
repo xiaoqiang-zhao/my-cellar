@@ -10,6 +10,12 @@
 	npm install
 	// 启动网站
 	node server
+	// 初始化网站
+	node tool/init-site
+	// 开启初始化网站调试模式
+	node tool/init-site -d
+	// 发布网站
+	node tool/publish
 
 当然前提是你已经安装了 NodeJs 环境，当然不过没有安装这个环境也是非常简单的，像安装 QQ 一样简单，到NodeJs中文网下载安装包，然后下一步，下一步... 就安装完成了。
 

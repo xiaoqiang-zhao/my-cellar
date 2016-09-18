@@ -95,6 +95,18 @@
     "todoList": []
   },
   {
+    "enName": "chrome-inspect",
+    "title": "chrome inspect 调试",
+    "introduction": "未找到描述信息",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1474196030345,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "code-style",
     "title": "编码规范",
     "introduction": "未找到描述信息",
@@ -115,6 +127,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1458133200522,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "config-transfer",
+    "title": "组件配置迁移",
+    "introduction": "未找到描述信息",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1474196030348,
     "commentList": [],
     "todoList": []
   },
@@ -413,6 +437,18 @@
     "todoList": []
   },
   {
+    "enName": "js-design-pattern",
+    "title": "Js 中的16种设计模式",
+    "introduction": "GoF 四人组总结出23种设计模式,后人对设计模式的评价总体来说赞誉多一点,也有负面意见,认为设计模式就是语言这件衣服的补丁。JavaScript 这件衣服不算太破,前辈们总结出了16种模式来弥补语言设计的\"缺陷\",在很多事情上选择是对立的,所以这里的缺陷只是一种选择。其实设计模式另一个来源就是实践中总结出来的套路,比如适配器模式在平滑迁移老代码这种场景下特别好用。这篇文章会梳理常用的14种设计模式,力求每个模式给一个项目中的场景(而不是举那些不接地气的例子),从知名框架和库中剥离出其设计模式(这也是一个深入了解知名框架和库的角度)。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1474196030372,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "js-dom",
     "title": "js 原生操作 DOM",
     "introduction": "拜 jQuery 所赐，js 原生操作 DOM 的技能被很多人忽略了，其中包括我在内，最后导致的结果就是不管什么项目什么场景，想要操作 DOM 直接将 jQuery 引入到项目中，不是说这样一定不好，而是丧失了主动选择的权利。随着浏览器的发展，很多 jQuery 的方法浏览器都可以原生支持了，这篇文章整理一下常用的 js 原生操作 DOM 的方法，共勉。",
@@ -524,6 +560,30 @@
     "todoList": []
   },
   {
+    "enName": "react",
+    "title": "React",
+    "introduction": "",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1474196030377,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "react-docs-getting-started",
+    "title": "React 官方文档 - 入门教程",
+    "introduction": "注意:\n\n如果你正在使用 ES2015, 你将要使用 `babel-preset-es2015` 包.",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1474197131441,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "read-jquery",
     "title": "jQuery 源码解读笔记",
     "introduction": "如题。",
@@ -623,8 +683,8 @@
   },
   {
     "enName": "vue-note",
-    "title": "Vue2.0 使用技巧",
-    "introduction": "这篇文章不会把文档中的示例换个方式展示给你,这里展示的是官方文档中没有的使用技巧,或者在官方文档中只是简单地提到一句但使用时有坑也有惊喜。",
+    "title": "vue2.0 使用技巧",
+    "introduction": "使用 vue 已经有一段时间了,vue2.0已经进入 rc 版,这里终结并验证一些从 vue1.x 中延续而来的一些经验,同时备忘一些新特性和老版迁移方案。",
     "tags": [],
     "isPublished": false,
     "state": "立项",
