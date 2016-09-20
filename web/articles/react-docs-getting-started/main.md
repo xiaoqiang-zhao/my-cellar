@@ -163,6 +163,9 @@ ReactDOM.render(
 
 ## 文档导航
 
-入门教程
+入门教程(当前文档)
+
 [实例指导](#!/articles/react-docs-tutorial)
+
+[React 编程思想](#!/articles/react-docs-tutorial)
 
