@@ -72,6 +72,8 @@ Js 写法:
 
 需呀注意的是父子组件数据传递时需要通过`props`特性,在子组件中建议直接使用父组件传过来的数据,同名覆盖是不推荐的,最后给个 [Demo 链接](/articles/vue-note/demo/for-components.html),方便查看源码。
 
+## dialog 组件
+
 ## 组件中数组的 watch
 
 [Event](articles/vue-note/demo/event.html)
