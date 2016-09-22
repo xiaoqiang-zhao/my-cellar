@@ -42,6 +42,12 @@
 
 [更多解释](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/section)
 
+### header 
+
+`header` 元素表示一组引导性的帮助，可能包含标题元素，也可以包含其他元素，像logo、分节头部、搜索表单等。
+
+[更多解释](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/header)
+
 ## 与table相关的标签
 
 ## 与表单相关的标签
