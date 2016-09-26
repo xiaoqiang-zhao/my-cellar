@@ -104,6 +104,8 @@
 
 刚入行的时候面试经常被问到元素分类的问题，那时以为“行内元素和块状元素”就是标准答案，再后来的很长一段时间里依然这么认为，期间也面过很多人，还没有人给过这个层次的回答。直到最近系统研究 HTML5 元素，发现每个元素都有内容分类、许可内容、父元素这么几个特性，那么问题来了，除了 div 不能放在 p 中，还有其他类似的禁忌吗？
 
+`aside` 不能成为 `address` 的子元素、`header` 不能作为 `address footer 或其他 header`的子元素、`main` 不能放在 `header article footer aside nav` 中而且整个页面只允许出现一个。
+
 ## 参考和扩展
 
 [英文原版](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories)
