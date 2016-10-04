@@ -20,6 +20,24 @@ function quickSort(array, from, to) {
     // to || (array.length - 1); 此种写法对 to=0 的情况会出问题
 
     if (from < to) {
+
+        // Plan one
+        //var markIndex = from - 1;  // 标记位
+        //var spaceItem = array[to]; // 默认最后一个
+        //
+        //// 找出分水岭的位置，并把大小数分列两侧
+        //for (var i = from; i <= to; i++) {
+        //    if (array[i] <= spaceItem) {
+        //        markIndex++;
+        //        var temp = array[markIndex];
+        //        array[markIndex] = array[i];
+        //        array[i] = temp;
+        //    }
+        //}
+        //arguments.callee(array, from, markIndex - 1);
+        //arguments.callee(array, markIndex + 1, to);
+
+        // Plan two(少运算二次)
         var markIndex = from;  // 标记位
         var spaceItem = array[to]; // 默认最后一个
 

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>组件配置迁移 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">组件配置迁移</h1>
+<h2 id="header-1-1">问题描述</h2>
+<p>组件设计好之后拖入使用,随着时间的推移越来越多的项目会使用,面对的场景很多都是没有考虑到的,再加上多人开发参数的设计风格和思路也越来越多样化,这给维护和使用都带来很多不便,如果改参数的话还需要兼容老系统,包袱越来越重最后在某个时刻不许推倒重来,组件的声明周期短对开发来说需要重新造一批轮子,对于业务系统的人来说又要重新学习新组件的使用方法,两方面都是极大的浪费。那么有什么方法不让坏的设计不断积累,不让历史的包袱像滚雪球一样越滚越大最后不堪重负整体重构?</p>
+<h2 id="header-1-2">解决思路</h2>
+
+</div>
+</body>
+</html>
