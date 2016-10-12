@@ -85,7 +85,8 @@ FireFox 的 HostAdmin 插件很好用，可以方便的切换 host 配置。
 ## 软件推荐
 
 - Dash 长按 Command 键出现当前软件的快捷键；
-- ZSH 终端神器，[传送门](http://blog.163.com/qy_gong/blog/static/1718738792013102992830558/)
+- ZSH 终端神器，[传送门](http://blog.163.com/qy_gong/blog/static/1718738792013102992830558/)；
+- [BetterZip](https://macitbetter.com/)，Mac 下的免费压缩和解压工具；
 
 ## 开发工具推荐
 
