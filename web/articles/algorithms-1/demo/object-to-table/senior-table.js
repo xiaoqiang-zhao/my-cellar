@@ -91,6 +91,7 @@ var seniorData = [
         ]
     }
 ];
+
 var seniorTableContainer = document.getElementById('senior-table');
 var html = objectToTable(seniorData, seniorDataHead);
 seniorTableContainer.innerHTML = html;
