@@ -8,7 +8,7 @@ POST: 提交数据时Content-Type的不同配置会导致数据以不同的形�
 
 application/x-www-form-urlencoded  ->  Form Data  表单式的打平的数据
 
-multipart/form-data -> Request Payload   会把数据拼起来，像GET请求那样
+multipart/form-data -> Request Payload   会把数据像GET请求那样拼在地址里面，异步发送文件流必用此配置
 
 application/json   -> Request Payload    结构化的 JSON 数据
 
