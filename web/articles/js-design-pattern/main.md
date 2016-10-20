@@ -205,4 +205,76 @@
     
 ## 职责链模式
 
+定义：使多个对象都有机会处理请求，从而避免请求的发送者和接收者之前的耦合关系，这些对象形成一条链，并沿着这条链传递该请求，直到有一个对象处理它为止。
+
+链在数据结构中是一种和栈与队列相似的数据结构，链和队列的不同之处在于：链是元素之间自行指定向下级关系的(如双向链和二叉树)，而队列是靠数组把元素串起来，元素之间没有指向关系。所以职责链应该还有个亲兄弟叫"职责队列"，书中的预约销售和上传文件应该使用"职责队列"更为适合，链对于队列的优势在于如果要插入或删除其中的一个元素需要修改上一个并知道下一个，优势在于每个节点可以自行控制下一个是哪一个以及是否到下一个，如果判断逻辑相同那么每个节点中又必然会存在判断逻辑。如果你感兴趣可以用职责队列的方法改造书中的两个例子。下面是后台服务器框架中处理路由的一个例子：
+
+场景描述：当客户端的一个请求打到服务器上时我们要请求进行处理，这个请求是静态文件还是数据接口请求，请求可以直接对应到静态文件或接口，但是也可以通过配置来控制请求路径和后台处理逻辑的对应关系，这就是服务器路由的常规场景，如果我们使用现成的服务器框架不会考虑到这些事情，但如果我们要定制或根据自己的具体项目优化服务器框架时这些东西就有必要了解了：
+
+关键代码：
+
+    function routRequest(request, response) {
+        // 路由队列（路由的优先顺序在此配置）
+        var routList = [
+            routUserSettingPath,
+            routStaticFile,
+            routAutoPath,
+            response404
+        ];
+    
+        var rout = {
+            next: function () {
+                if (routList.length > 0) {
+                    routList.shift()(request, response, rout);
+                }
+            },
+            last: function () {
+                // 拼接额外的参数
+                var arg = [request, response].concat([].slice.call(arguments));
+                routList.pop().apply(null, arg);
+            }
+        };
+        // 错误日志，异常处理
+        try {
+            rout.next();
+        }
+        catch (e) {
+            console.log('静态文件路由错误: ');
+            console.log(e);
+        }
+    }
+
+    function routUserSettingPath(request, response, rout) {
+        // 代码省略
+    }
+    function routStaticFile(request, response, rout) {
+        // 请求路径
+        var path = url.parse(request.url).pathname;
+    
+        // 取得后缀名作为文件类型
+        var contentType = path.match(/(\.[^.]+|)$/)[0];
+        var staticFieldConfig = getStaticFieldConfig(contentType);
+    
+        // 允许访问此扩展名的静态文件
+        if (staticFieldConfig !== undefined) {
+            // 读取静态文件
+            fs.readFile(config.webRootPath + path, staticFieldConfig.encoding, function (err, data) {
+                if (err) {
+                    rout.last({
+                        type: 'file',
+                        data: staticFieldConfig,
+                        msg: '未找到文件，或文件读取失败'
+                    });
+                }
+                else {
+                    response200(response, contentType, data, staticFieldConfig.encoding);
+                }
+            });
+        }
+        // 不允许访问此扩展名的静态文件
+        else {
+            rout.next();
+        }
+    }
+
 

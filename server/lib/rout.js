@@ -42,7 +42,7 @@ function routRequest(request, response) {
         rout.next();
     }
     catch (e) {
-        console.log('静态文件路由错误:           ');
+        console.log('静态文件路由错误: ');
         console.log(e);
     }
 }
