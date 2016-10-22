@@ -6,26 +6,15 @@
 </head>
 <body>
 <script>
-    function A () {
-        this.name = 'default';
-        this.fn = function () {
-            console.log(this.name);
+    var A = {
+        fn: function () {
+            console.log('fn');
         }
-    }
+    };
 
-    function B (name) {
-        this.name = name;
-    }
+    A.fn.before(function () {
 
-    // B 本不知 A 的存在
-
-    // 只因缘分把它们聚在了一起
-    B.prototype = new A();
-
-    var b1 = new B('jack');
-    var b2 = new B('tony');
-    b1.fn();
-    b2.fn();
+    });
 </script>
 </body>
 </html>
