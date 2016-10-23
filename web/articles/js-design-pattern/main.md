@@ -287,4 +287,14 @@
 
 一个更常见的例子就是表格中的"全选/全不选/反选"的例子，是中介者模式很适用的场景。
 
+## 装饰者模式
 
+不赞成动 `Function`，如果用包装的方式就是挂羊头卖狗肉了，还不如直接用代理模式再起个名字，因此此模式略过。
+
+## 状态模式
+
+状态机是个极好的东西
+
+http://codeincomplete.com/posts/javascript-state-machine-v2-3-0/
+
+https://github.com/longze/javascript-state-machine.git
