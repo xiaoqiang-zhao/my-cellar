@@ -382,6 +382,30 @@
     "todoList": []
   },
   {
+    "enName": "http",
+    "title": "HTTP",
+    "introduction": "关于协议的那些备忘信息",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1477315331201,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "interview-salary",
+    "title": "面试 & 薪酬",
+    "introduction": "工作第四个年头，对于面试和薪酬有了一些心得，写下来帮自己整理思路，也对被我虐过的同行有个交代。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1477315331202,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "jointjs",
     "title": "译 JointJS API",
     "introduction": "本篇是[JointJS API](http://www.jointjs.com/api)的译文，期间会夹杂一些我的理解和辅助理解的Demo。",
@@ -438,8 +462,8 @@
   },
   {
     "enName": "js-design-pattern",
-    "title": "Js 中的16种设计模式",
-    "introduction": "GoF 四人组总结出23种设计模式,后人对设计模式的评价总体来说赞誉多一点,也有负面意见,认为设计模式就是语言这件衣服的补丁。JavaScript 这件衣服不算太破,前辈们总结出了16种模式来弥补语言设计的\"缺陷\",在很多事情上选择是对立的,所以这里的缺陷只是一种选择。其实设计模式另一个来源就是实践中总结出来的套路,比如适配器模式在平滑迁移老代码这种场景下特别好用。这篇文章会梳理常用的14种设计模式,力求每个模式给一个项目中的场景(而不是举那些不接地气的例子),从知名框架和库中剥离出其设计模式(这也是一个深入了解知名框架和库的角度)。",
+    "title": "Js 中的14种设计模式",
+    "introduction": "GoF 四人组总结出23种设计模式,后人对设计模式的评价总体来说赞誉多一点,也有负面意见,认为设计模式就是语言这件衣服的补丁。JavaScript 这件衣服不算太破,前辈们总结出了14种模式来弥补语言设计的\"缺陷\",在很多事情上选择是对立的,所以这里的缺陷只是一种选择。其实设计模式另一个来源就是实践中总结出来的套路,比如适配器模式在平滑迁移老代码这种场景下特别好用。这篇文章会梳理常用的14种设计模式,力求每个模式给一个项目中的场景(而不是举那些不接地气的例子),从知名框架和库中剥离出其设计模式(这也是一个深入了解知名框架和库的角度)。",
     "tags": [],
     "isPublished": false,
     "state": "立项",
@@ -457,6 +481,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1458264048129,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "js-es6",
+    "title": "ES6 学习笔记",
+    "introduction": "未找到描述信息",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1477315331207,
     "commentList": [],
     "todoList": []
   },
@@ -580,6 +616,30 @@
     "state": "立项",
     "type": "md",
     "createDate": 1474197131441,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "react-docs-thinking-in-react",
+    "title": "React 编程思想",
+    "introduction": "未找到描述信息",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1477315331213,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "react-docs-tutorial",
+    "title": "React 官方文档 - 实例指导",
+    "introduction": "我们将建立一个你可以放进博客的简单却真实的评论框，一个 Disqus、LiveFyre 或 Facebook comments 提供的实时评论的基础版本。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1477315331214,
     "commentList": [],
     "todoList": []
   },

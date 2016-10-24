@@ -77,7 +77,10 @@ var ComponentB = Vue.extend({
     template: &#39;&lt;div&gt;ComponentB的实例&lt;/div&gt;&#39;
 });
 </code></pre><p>需呀注意的是父子组件数据传递时需要通过<code>props</code>特性,在子组件中建议直接使用父组件传过来的数据,同名覆盖是不推荐的,最后给个 <a href="/articles/vue-note/demo/for-components.html" target="_blank">Demo 链接</a>,方便查看源码。</p>
-<h2 id="header-1-2">组件中数组的 watch</h2>
+<h2 id="header-1-2">dialog 组件</h2>
+<h2 id="header-1-3">表格组件</h2>
+<p>表格个跨页选中与返回数据，需要单独维护一份选中的数据，可以是外面传进来的，也可以和分页数据(最好只放在第一页)一起从后端传过来。</p>
+<h2 id="header-1-4">组件中数组的 watch</h2>
 <p><a href="articles/vue-note/demo/event.html" target="_blank">Event</a></p>
 <p><a href="articles/vue-note/demo/v-ref.html" target="_blank">子组件索引，组件循环</a></p>
 <p><a href="http://vuejs.org.cn/guide/components.html#子组件索引" target="_blank">参考</a></p>

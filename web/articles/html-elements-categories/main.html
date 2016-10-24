@@ -90,6 +90,7 @@
 <p>这里有一个异类 <code>Sectioning root</code>，作为单独的一个分类，目前还没有标签按此分类解析，是一个备用分类。</p>
 <h2 id="header-1-5">一点点感悟</h2>
 <p>刚入行的时候面试经常被问到元素分类的问题，那时以为“行内元素和块状元素”就是标准答案，再后来的很长一段时间里依然这么认为，期间也面过很多人，还没有人给过这个层次的回答。直到最近系统研究 HTML5 元素，发现每个元素都有内容分类、许可内容、父元素这么几个特性，那么问题来了，除了 div 不能放在 p 中，还有其他类似的禁忌吗？</p>
+<p><code>aside</code> 不能成为 <code>address</code> 的子元素、<code>header</code> 不能作为 <code>address footer 或其他 header</code>的子元素、<code>main</code> 不能放在 <code>header article footer aside nav</code> 中而且整个页面只允许出现一个。</p>
 <h2 id="header-1-6">参考和扩展</h2>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories" target="_blank">英文原版</a></p>
 <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/HTML/Content_categories" target="_blank">标签分类</a></p>
