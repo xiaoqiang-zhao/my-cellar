@@ -293,8 +293,6 @@
 
 ## 状态模式
 
-状态机是个极好的东西
+状态实际成效的时机可以放在切换完成前也可以放在切换完成后，用 `if-else` 或 `switch` 简单实现是典型的状态切换完成后处理，这种方式的优点在于代码容易写也容易读，后处理在描述页面状态和操作动作上都有优势，状态的顺序表现在代码顺序上而不是代码逻辑上，我认真的思考过真的没发现状态模式有什么优点， `if-else` 和 `switch` 是简单，难道我们为了现的有水平而抛弃简单的用复杂的吗？ 
 
-http://codeincomplete.com/posts/javascript-state-machine-v2-3-0/
-
-https://github.com/longze/javascript-state-machine.git
+另外 MVVM 类的框架js内存数据和Dom的同步以及数据改变时的 `watch` 监听才是状态思想的正确实现方式，但在实现上确实代理和发布-订阅模式的结合。
