@@ -6,15 +6,30 @@
 </head>
 <body>
 <script>
-    var A = {
-        fn: function () {
-            console.log('fn');
+
+    var createId = (function () {
+        var id = 0;
+        return function () {
+            return id++;
         }
-    };
+    })();
 
-    A.fn.before(function () {
+    var ObjectAFactory = (function () {
+        var t;
+        return function () {
+            // 如果第一次调用就生成一个对象，并利用作用域特性保存起来
+            // 否则这届放回第一次生成的对象
+            if (!t) {
+                t = {
+                    description: '这可能是个很大很复杂的对象'
+                };
+            }
+            return t;
+        };
+    })();
 
-    });
+    // 每次使用时都要生成一下，工厂会判断是否已经存在过
+    var singleObject = ObjectAFactory();
 </script>
 </body>
 </html>
