@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>HTTP - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">HTTP</h1>
+<blockquote>
+<p>关于协议的那些备忘信息</p>
+</blockquote>
+<h2 id="header-1-1">Content-Type</h2>
+<p>POST: 提交数据时Content-Type的不同配置会导致数据以不同的形式来传递。</p>
+<p>application/x-www-form-urlencoded  -&gt;  Form Data  表单式的打平的数据</p>
+<p>multipart/form-data -&gt; Request Payload   会把数据像GET请求那样拼在地址里面，异步发送文件流必用此配置</p>
+<p>application/json   -&gt; Request Payload    结构化的 JSON 数据</p>
+<h2 id="header-1-2">跨域</h2>
+<p>在返回头(Response Headers)中配置 Access-Control-Allow-Origin，星号表示允许所有域名下的页面请求和使用返回的数据，也可以单独配置</p>
+<p>Access-Control-Allow-Origin:http:*</p>
+<p>Access-Control-Allow-Origin:<a href="http://www.baidu.com" target="_blank">http://www.baidu.com</a></p>
+<p>Access-Control-Allow-Methods:POST</p>
+
+</div>
+</body>
+</html>
