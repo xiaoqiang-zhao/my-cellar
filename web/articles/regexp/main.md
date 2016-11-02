@@ -62,6 +62,22 @@
     new RegExp('\\d', 'g')
     /\d/g
 
+在系统中我们经常需要接收一个正则配置字符串然后返回一个正则，这时你可能需要这样一个函数：
+
+    function createRegExpObject(text) {
+        var matchedText = text.match(/^\/(.*?)\/([gmiy]*)$/);
+        var reg;
+        if (!matchedText || !matchedText[1]) {
+            return null;
+        }
+        try {
+            reg = new RegExp(matchedText[1], matchedText[2] || '');
+        } catch (e) {
+            reg = null;
+        }
+        return reg;
+    }
+
 ### 简写字符与常用语法
 
 我们以“检测合格”为例来探究匹配的技巧。
@@ -72,7 +88,7 @@
 
 `\s` ：任何 Unicode 空白符，可用来匹配空格，Tab，回车
 
-大写的对应其补集
+`\S` ：大写的对应其补集
 
 `.` ：除换行外的其他字符
 
