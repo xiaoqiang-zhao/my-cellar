@@ -9,16 +9,34 @@
             text-align: center;
         }
         .node .value {
+            position: relative;
+            z-index: 2;
             display: inline-block;
             border-radius: 50%;
             line-height: 20px;
             width: 20px;
             height: 20px;
             background: #c7c7c7;
-            margin: 5px 30px;
+            margin: 10px;
         }
         .node .con-left-right {
             display: flex;
+        }
+        .node .left .line,
+        .node .right .line {
+            position: relative;
+            z-index: 1;
+            width: 50%;
+            height: 20px;
+            border-top: 1px solid #c7c7c7;
+        }
+        .node .left > .line {
+            border-left: 1px solid #c7c7c7;
+            margin: -20px 0 -10px 50%;
+        }
+        .node .right > .line {
+            border-right: 1px solid #c7c7c7;
+            margin: -20px 0 -10px 0;
         }
         .node .left,
         .node .right {
@@ -36,10 +54,12 @@
         <div class="value">{{nodeData.value}}</div>
         <div class="con-left-right">
             <div class="left">
+                <div v-if="leftNodeData !== null" class="line"></div>
                 <node v-if="leftNodeData !== null"
                       :node-data="leftNodeData"></node>
             </div>
             <div class="right">
+                <div v-if="rightNodeData !== null" class="line"></div>
                 <node v-if="rightNodeData !== null"
                       :node-data="rightNodeData"></node>
             </div>
