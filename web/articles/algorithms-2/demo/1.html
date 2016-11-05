@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> 渲染一棵二叉树 </title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <style rel="stylesheet">
+        .node {
+            text-align: center;
+        }
+        .node .value {
+            display: inline-block;
+            border-radius: 50%;
+            line-height: 20px;
+            width: 20px;
+            height: 20px;
+            background: #c7c7c7;
+            margin: 5px 30px;
+        }
+        .node .con-left-right {
+            display: flex;
+        }
+        .node .left,
+        .node .right {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <node :node-data="list[list.rootKey]"></node>
+</div>
+
+<script type="text/x-template" id="node">
+    <div class="node">
+        <div class="value">{{nodeData.value}}</div>
+        <div class="con-left-right">
+            <div class="left">
+                <node v-if="leftNodeData !== null"
+                      :node-data="leftNodeData"></node>
+            </div>
+            <div class="right">
+                <node v-if="rightNodeData !== null"
+                      :node-data="rightNodeData"></node>
+            </div>
+        </div>
+    </div>
+</script>
+<script>
+    var list = {
+        rootKey: '5',
+        '5': {
+            value: 5,
+            leftKey: '3',
+            rightKey: '7',
+            parentKey: null
+        },
+        '3': {
+            value: 3,
+            leftKey: '2',
+            rightKey: '4',
+            parentKey: '5'
+        },
+        '7': {
+            value: 7,
+            leftKey: '6',
+            rightKey: '8',
+            parentKey: '5'
+        },
+        '2': {
+            value: 2,
+            leftKey: '1',
+            rightKey: null,
+            parentKey: '3'
+        },
+        '4': {
+            value: 4,
+            leftKey: null,
+            rightKey: null,
+            parentKey: '3'
+        },
+        '6': {
+            value: 6,
+            leftKey: null,
+            rightKey: null,
+            parentKey: '7'
+        },
+        '8': {
+            value: 8,
+            leftKey: null,
+            rightKey: null,
+            parentKey: '7'
+        },
+        '1': {
+            value: 1,
+            leftKey: null,
+            rightKey: null,
+            parentKey: '2'
+        }
+    };
+
+    Vue.component('node', {
+        name: 'node',
+        template: '#node',
+        props: ['nodeData'],
+        data: function () {
+            // 左节点数据兼容
+            var leftNodeData = null;
+            if (this.nodeData.leftKey !== null) {
+                var t = list[this.nodeData.leftKey];
+                if (t !== undefined) {
+                    leftNodeData = t;
+                }
+            }
+            // 右节点数据兼容
+            var rightNodeData = null;
+            if (this.nodeData.rightKey !== null) {
+                var t = list[this.nodeData.rightKey];
+                if (t !== undefined) {
+                    rightNodeData = t;
+                }
+            }
+            return {
+                leftNodeData: leftNodeData,
+                rightNodeData: rightNodeData
+            };
+        }
+    });
+
+    var app = new Vue({
+        components: {},
+        el: '#app',
+        data: {
+            list: list
+        }
+    });
+</script>
+</body>
+</html>
