@@ -58,12 +58,26 @@ regexp.exec(&#39;&lt;div&gt;&lt;span&gt;aa&lt;/span&gt;&lt;span&gt;bb&lt;/span&g
 <p>两种方式等价，注意字符转译，代码如下：</p>
 <pre><code>new RegExp(&#39;\\d&#39;, &#39;g&#39;)
 /\d/g
+</code></pre><p>在系统中我们经常需要接收一个正则配置字符串然后返回一个正则，这时你可能需要这样一个函数：</p>
+<pre><code>function createRegExpObject(text) {
+    var matchedText = text.match(/^\/(.*?)\/([gmiy]*)$/);
+    var reg;
+    if (!matchedText || !matchedText[1]) {
+        return null;
+    }
+    try {
+        reg = new RegExp(matchedText[1], matchedText[2] || &#39;&#39;);
+    } catch (e) {
+        reg = null;
+    }
+    return reg;
+}
 </code></pre><h3 id="header-1-2-2">简写字符与常用语法</h3>
 <p>我们以“检测合格”为例来探究匹配的技巧。</p>
 <p><code>\d</code> ：匹配数字，相当于 <code>[0-9]</code></p>
 <p><code>\w</code> ：匹配数字字母下划线，相当于 <code>[0-9a-zA-Z_]</code></p>
 <p><code>\s</code> ：任何 Unicode 空白符，可用来匹配空格，Tab，回车</p>
-<p>大写的对应其补集</p>
+<p><code>\S</code> ：大写的对应其补集</p>
 <p><code>.</code> ：除换行外的其他字符</p>
 <p><code>[...]</code> ：方括号内的任意字符</p>
 <p><code>[^...]</code> ：不在方括号内的任意字符</p>

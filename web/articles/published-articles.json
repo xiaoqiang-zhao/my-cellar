@@ -238,6 +238,20 @@
     "todoList": []
   },
   {
+    "enName": "interview-salary",
+    "title": "面试 & 薪酬",
+    "introduction": "工作第四个年头，对于面试和薪酬有了一些心得，写下来帮自己整理思路，探讨虐与被虐的博弈。",
+    "tags": [
+      "个人笔记"
+    ],
+    "isPublished": true,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1477315331202,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "jointjs",
     "title": "译 JointJS API",
     "introduction": "本篇是[JointJS API](http://www.jointjs.com/api)的译文，期间会夹杂一些我的理解和辅助理解的Demo。",
