@@ -2,17 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> 渲染一棵二叉树 </title>
+    <title> 遍历二叉树 </title>
     <!-- 经常加载不成功，下载个本地的放这里 -->
     <!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
     <script src="./vue.js"></script>
     <style rel="stylesheet">
-
-        /* 二叉树展示 */
         .node {
             text-align: center;
         }
-        .node .value {
+        .node .value,
+        .order .value {
             position: relative;
             z-index: 2;
             display: inline-block;
@@ -46,11 +45,28 @@
         .node .right {
             flex: 1;
         }
+
+        /* 遍历展示 */
+        .order {
+            text-align: center;
+        }
+        .order .title {
+            display: inline-block;
+        }
+        .order .value {
+
+        }
     </style>
 </head>
 <body>
-<div id="app">
+<div id="binary-tree">
     <node :node-data="nodeData"></node>
+</div>
+<div id="order" class="order">
+    <div class="item" v-for="item in data">
+        <h3 class="title">{{item.title}}: </h3>
+        <span class="value" v-for="value in item.list">{{value}}</span>
+    </div>
 </div>
 
 <script type="text/x-template" id="node">
@@ -102,12 +118,69 @@
     });
 
     var app = new Vue({
-        components: {},
-        el: '#app',
+        el: '#binary-tree',
         data: {
             // getNode 函数来自 get-node.js，模拟二级存储的提取操作
             nodeData: getNode()
         }
+    });
+
+    var order = new Vue({
+        el: '#order',
+        data: (function () {
+            var data = [];
+            // 遍历二叉树
+            function order(node, result) {
+                if (node !== null) {
+                    if (result.title === '前序') {
+                        result.list.push(node.value);
+                    }
+                    
+                    // 左子树
+                    if (node.leftKey !== null) {
+                        arguments.callee(getNode(node.leftKey), result);
+                    }
+                    
+                    if (result.title === '中序') {
+                        result.list.push(node.value);
+                    }
+
+                    // 右子树
+                    if (node.rightKey !== null) {
+                        arguments.callee(getNode(node.rightKey), result);
+                    }
+                    
+                    if (result.title === '后序') {
+                        result.list.push(node.value);
+                    }
+                }
+            }
+
+            var order1Item = {
+                title: '中序',
+                list: []
+            };
+            order(getNode(), order1Item);
+            data.push(order1Item);
+
+            var order2Item = {
+                title: '前序',
+                list: []
+            };
+            order(getNode(), order2Item);
+            data.push(order2Item);
+
+            var order3Item = {
+                title: '后序',
+                list: []
+            };
+            order(getNode(), order3Item);
+            data.push(order3Item);
+
+            return {
+                data: data
+            };
+        })()
     });
 </script>
 </body>

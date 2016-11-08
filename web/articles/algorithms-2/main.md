@@ -39,6 +39,39 @@
         return result;
     }
 
-使用一些前端技术实现二叉树的展示功能，查看[实例 1.html](/articles/algorithms-2/demo/1.html).
+使用一些前端技术实现二叉树的展示功能，查看[实例 1.html](/articles/algorithms-2/demo/1.html)。
 
 ![二叉树图片](/articles/algorithms-2/demo/1.png)
+
+根据当前节点输出位于左节点和右节点的位置，遍历二叉树有3种方式：`中序` `前序` `后序`：
+
+![遍历二叉树结果](/articles/algorithms-2/demo/2.png)
+
+    // 遍历二叉树
+    function order(node, result) {
+        if (node !== null) {
+            if (result.title === '前序') {
+                result.list.push(node.value);
+            }
+            
+            // 左子树
+            if (node.leftKey !== null) {
+                arguments.callee(getNode(node.leftKey), result);
+            }
+            
+            if (result.title === '中序') {
+                result.list.push(node.value);
+            }
+
+            // 右子树
+            if (node.rightKey !== null) {
+                arguments.callee(getNode(node.rightKey), result);
+            }
+            
+            if (result.title === '后序') {
+                result.list.push(node.value);
+            }
+        }
+    }
+
+[实例地址 2.html](/articles/algorithms-2/demo/2.html)
