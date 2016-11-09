@@ -1,5 +1,9 @@
 /**
- * Created by zhaoxiaoqiang on 16/11/6.
+ * 根据 key 获取节点
+ *
+ * @param key {string} [可选]索引值，为空时获取根节点
+ *
+ * @return result {Object} 节点对象
  */
 function getNode(key) {
     var list = {
