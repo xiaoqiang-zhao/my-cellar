@@ -57,8 +57,28 @@ function Tree (initNumbers) {
 
     this.deleteNode = function (key) {
 
+        // 在右子树中找没有左子树的节点
+        // 要删除的目标节点
+        var targetNode = this.getNode(key);
+        // 父节点
+        var parentNode = null;
+        // 确保找到了
+        if (targetNode) {
+
+
+            if (targetNode.leftKey === null && targetNode.rightKey === null) {
+                delete list[key];
+            }
+            else if (targetNode.leftKey === null) {
+
+            }
+
+        }
+
+        return targetNode;
     };
 
+    // 初始化
     if (Array.isArray(initNumbers)) {
         var me = this;
         initNumbers.forEach(function (number) {
