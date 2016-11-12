@@ -1,5 +1,4 @@
-
-function Tree (initNumbers) {
+function Tree(initNumbers) {
     list = {};
     var id = 1;
     this.getNode = function (key) {
@@ -60,18 +59,60 @@ function Tree (initNumbers) {
         // 在右子树中找没有左子树的节点
         // 要删除的目标节点
         var targetNode = this.getNode(key);
+        // 删除后的候补节点
+        var targetNodeReplace;
         // 父节点
         var parentNode = null;
         // 确保找到了
         if (targetNode) {
 
+            // 左子树或右子树为空
+            // if (targetNode.leftKey === null || targetNode.rightKey === null) {
+            //     delete list[key];
+            // }
+            // else
 
+            // 先把候补找好，(再设置父节点的指向)
             if (targetNode.leftKey === null && targetNode.rightKey === null) {
-                delete list[key];
+                targetNodeReplace = null;
             }
-            else if (targetNode.leftKey === null) {
+            else if (targetNode.leftKey === null && targetNode.rightKey !== null) {
+                targetNodeReplace = this.getNode(targetNode.rightKey);
+            }
+            else if (targetNode.rightKey === null && targetNode.leftKey !== null) {
+                targetNodeReplace = this.getNode(targetNode.leftKey);
+            }
+            // 最复杂的情况：左右子树都不为空
+            else {
+                // 向右查找没有左子树的节点(其实向左查找没有右子树的节点也一样)
+                targetNodeReplace = targetNode;
+                while (targetNodeReplace.leftKey !== null) {
+                    if (targetNodeReplace.rightKey !== null) {
+                        targetNodeReplace = this.getNode(targetNodeReplace.rightKey);
+                    }
+                    else {
+                        targetNodeReplace = this.getNode(targetNodeReplace.leftKey);
+                    }
+                }
 
+                // 删除的是根节点
+                if (targetNodeReplace.parentKey === null) {
+
+                }
+                else {
+                    // var p = this.getNode(targetNodeReplace.parentKey);
+                    // targetNodeReplace.leftKey = p.id;
+                    // p.parentKey = targetNodeReplace.id;
+                }
+
+                // 已经连接上
+                var p = this.getNode(targetNodeReplace.parentKey);
+                targetNodeReplace.leftKey = p.id;
+                p.parentKey = targetNodeReplace.id;
             }
+
+            delete list[targetNode.id];
+
 
         }
 
