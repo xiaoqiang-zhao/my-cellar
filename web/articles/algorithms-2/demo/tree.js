@@ -62,16 +62,10 @@ function Tree(initNumbers) {
         // 删除后的候补节点
         var targetNodeReplace;
         // 父节点
-        var parentNode = null;
+        var parentNode;
+
         // 确保找到了
         if (targetNode) {
-
-            // 左子树或右子树为空
-            // if (targetNode.leftKey === null || targetNode.rightKey === null) {
-            //     delete list[key];
-            // }
-            // else
-
             // 先把候补找好，(再设置父节点的指向)
             if (targetNode.leftKey === null && targetNode.rightKey === null) {
                 targetNodeReplace = null;
@@ -84,26 +78,31 @@ function Tree(initNumbers) {
             }
             // 最复杂的情况：左右子树都不为空
             else {
-                // 向右查找没有左子树的节点(其实向左查找没有右子树的节点也一样)
+                // 向左查找没有左子树的节点(这样可以保证最小右大)
                 targetNodeReplace = targetNode;
-                while (targetNodeReplace.leftKey !== null) {
-                    if (targetNodeReplace.rightKey !== null) {
-                        targetNodeReplace = this.getNode(targetNodeReplace.rightKey);
-                    }
-                    else {
-                        targetNodeReplace = this.getNode(targetNodeReplace.leftKey);
-                    }
+                var targetNodeReplaceParent;
+                do {
+                    targetNodeReplaceParent = targetNodeReplace;
+                    targetNodeReplace = this.getNode(targetNodeReplace.leftKey);
+                } while (targetNodeReplace.leftKey !== null);
+
+                targetNodeReplace.leftKey = targetNode.leftKey;
+                this.getNode(targetNode.leftKey).parentKey = targetNodeReplace.id;
+
+                var t = targetNodeReplace.rightKey;
+                targetNodeReplace.rightKey = targetNode.rightKey;
+                this.getNode(targetNode.rightKey).parentKey = targetNodeReplace.id;
+
+                if (t !== null) {
+                    targetNodeReplaceParent.leftKey = t;
+                    this.getNode(t).parentKey = targetNodeReplaceParent.id;
                 }
 
-                // 删除的是根节点
-                if (targetNodeReplace.parentKey === null) {
-
-                }
-                else {
-                    // var p = this.getNode(targetNodeReplace.parentKey);
-                    // targetNodeReplace.leftKey = p.id;
-                    // p.parentKey = targetNodeReplace.id;
-                }
+                // else {
+                //     // var p = this.getNode(targetNodeReplace.parentKey);
+                //     // targetNodeReplace.leftKey = p.id;
+                //     // p.parentKey = targetNodeReplace.id;
+                // }
 
                 // 已经连接上
                 var p = this.getNode(targetNodeReplace.parentKey);
@@ -111,9 +110,18 @@ function Tree(initNumbers) {
                 p.parentKey = targetNodeReplace.id;
             }
 
+            // 删除的不是根节点
+            if (targetNode.parentKey !== null) {
+                parentNode = this.getNode(targetNode.parentKey);
+                if (parentNode.leftKey === targetNode.id) {
+                    parentNode.leftKey = targetNodeReplace === null ? null : targetNodeReplace.id;
+                }
+                else {
+                    parentNode.rightKey = targetNodeReplace === null ? null : targetNodeReplace.id;
+                }
+            }
+
             delete list[targetNode.id];
-
-
         }
 
         return targetNode;
