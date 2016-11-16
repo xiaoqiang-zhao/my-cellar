@@ -138,3 +138,68 @@
     -webkit-transform:rotate(-45deg);
     -o-transform:rotate(-45deg);
 }
+
+.three-jiao {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-top: 20px solid #1b9af7;
+    border-right: 20px solid #1b9af7;
+    border-bottom: 20px solid #fff;
+    border-left: 20px solid #fff;
+    transform: rotate(45deg);
+}
+.three-jiao-2 {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-top: 20px solid #1b9af7;
+    border-right: 20px solid #fff;
+    border-bottom: 0;
+    border-left: 20px solid #fff;
+    transform: rotate(-89deg);
+}
+
+/* 右上角的角标 */
+.corner-mark {
+    box-sizing: border-box;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    line-height: 20px;
+    top: -6px;
+    /* 几何计算结果：1/2 - sqr(2)/4 */
+    right: -6px;
+    padding: 5px;
+    color: #fff;
+    transform: rotate(45deg);
+    text-align: center;
+}
+.corner-mark:before {
+    position: absolute;
+    top: 6.8px;
+    right: 0;
+    z-index: -1;
+    content: '\200B';
+    display: inline-block;
+    line-height: 1px;
+    box-sizing: border-box;
+    width: 40px;
+    height: 40px;
+    opacity: .9;
+    border-top: 20px solid #d73d32;
+    border-bottom: 20px solid #fff;
+    border-right: 20px solid #d73d32;
+    border-left: 20px solid #fff;
+    transform: rotate(-45deg);
+}
+/*.corner-mark:after {*/
+    /*left: 0;*/
+    /*bottom: 0;*/
+    /*position: absolute;*/
+    /*content: '\200B';*/
+    /*background: #1abc9c;*/
+    /*width: 40px;*/
+    /*height: 40px;*/
+    /*transform: rotate(-45deg);*/
+/*}*/
