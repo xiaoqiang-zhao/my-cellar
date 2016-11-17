@@ -4,7 +4,8 @@
  * 提供http的接口探测和查找可用端口服务
  */
 
-var DefaultPort = 8080;
+const DefaultPort = 8080;
+
 /**
  * 查看端口是否可用
  *
@@ -20,8 +21,8 @@ function isAvailable(port, callback) {
     }
     // 检查端口是否占用
     else {
-        var net = require('net');
-        var tester = net.createServer().once('error', function (err) {
+        let net = require('net');
+        let tester = net.createServer().once('error', function (err) {
             tester.close();
             // 端口被占用
             if (err.code === 'EADDRINUSE') {
