@@ -10,7 +10,7 @@
 
 - 撤销，Undo，
 Win:Ctrl + Z; Mac:Com + Z
- 
+
 - 恢复，Redo，
 Win:Ctrl + Shift + Z; Mac:Com + Shift + Z
 
@@ -46,7 +46,7 @@ Ctrl + Shift + 上/下箭头，大括号内的，块状注释等都是代码块�
 ### 操作编辑窗体
 
 - 关闭当前的编辑窗体，Close Active Tab，
-Win:Ctrl + F4; Mac:Com + F4 或 Com + W
+Win:Ctrl + F4; Mac:Com + F4 或 Com + W, 如果要实用F4，需要在【系统偏好设置/键盘】下选中"将F1、F2等键用作标准功能"，否则需要附带 fn 键。
 
 - 左右切换编辑窗体，Select Previous/Next Tab，
 Win:Alt + 左右箭头; Mac:Ctrl + 左右箭头，但是这和Mac系统左右切屏的快捷键有冲突，另外左右切屏可以通过在触摸板上三指左右滑动来切屏，其实我平时也是这么用的，所以我禁用了系统切屏快捷键。禁用方式：系统偏好设置/快捷键/Mission Control/向左移动一个 space。
