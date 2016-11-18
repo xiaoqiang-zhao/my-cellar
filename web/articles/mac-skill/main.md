@@ -31,6 +31,10 @@
 
 - 休眠 Ctrl + Shift + 电源键，Mac 上没有锁屏的概念，锁屏通过休眠和设置休眠后启动需要输入密码来实现，后者可以在 “系统偏好设置/安全与隐私/通用/进入睡眠或开始屏保程序立即要求输入密码” 下设置
 
+## 新建txt文件
+
+【Launchpad 程序选择(一般三指抓合)/其他/文本编辑器/新建文稿/格式/制作纯文本】写内容然后保存就可以
+
 ## One App One Key Map
 
 > 一个应用，一个常用的快捷键
@@ -47,6 +51,8 @@
 - 回到上一级目录 cd .. (注意 cd 后面要跟一个空格，和windows的不同；另外有一个插件Go2Shell可以让你从Finder中直接进入当前目录命令行，在appStore中就可以找到)
 - 查看当前目录下的文件 ls (加 “空格-a” 可现实隐藏文件)
 - 查看当前目录下的文件并且包含文件的详细信息 ll (加 “空格-a” 可现实隐藏文件)
+- pwd 查看当前路径
+- open + space + 文件名 打开文件
 - Tab 键自动补齐
 - 删除文件 rm filename
 - 删除文件夹 rmdir dirname
@@ -74,7 +80,7 @@
 
 FireFox 的 HostAdmin 插件很好用，可以方便的切换 host 配置。
 
-还有一个工具也很好用：switchHost。
+工具：switchHost、HostsAdmin、Chrome插件Host Switch Plus。
 
 ## 显示隐藏文件
 
