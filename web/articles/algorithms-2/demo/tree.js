@@ -1,5 +1,5 @@
 function Tree(initNumbers) {
-    list = {};
+    var list = {};
     var id = 1;
     this.getNode = function (key) {
         // 不传参数返回根节点
@@ -61,12 +61,10 @@ function Tree(initNumbers) {
         var targetNode = this.getNode(key);
         // 删除后的候补节点
         var targetNodeReplace;
-        // 父节点
-        var parentNode;
 
         // 确保找到了
         if (targetNode) {
-            // 先把候补找好，(再设置父节点的指向)
+            // 1、先把候补找好
             if (targetNode.leftKey === null && targetNode.rightKey === null) {
                 targetNodeReplace = null;
             }
@@ -106,19 +104,28 @@ function Tree(initNumbers) {
                 }
             }
 
-            // 删除的不是根节点
+            // 2、再设置父节点的指向
+            // 2.1、被删除的节点有父节点(删除的不是根节点）
             if (targetNode.parentKey !== null) {
+                // 父节点
+                var parentNode;
                 parentNode = this.getNode(targetNode.parentKey);
+
+                // 目标节点在左子树
                 if (parentNode.leftKey === targetNode.id) {
                     parentNode.leftKey = targetNodeReplace === null ? null : targetNodeReplace.id;
                 }
+                // 目标节点在右子树
                 else {
                     parentNode.rightKey = targetNodeReplace === null ? null : targetNodeReplace.id;
                 }
+
+                // 更新替换节点的父节点指向
                 if (targetNodeReplace !== null) {
                     targetNodeReplace.parentKey = targetNode.parentKey;
                 }
             }
+            // 2.2、被删除的节点无父节点(删除的是根节点)
             else {
                 list.rootKey = targetNodeReplace.id;
             }

@@ -6,7 +6,6 @@
     <!-- 经常加载不成功，下载个本地的放这里 -->
     <!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
     <script src="./vue.js"></script>
-    <script src="./clone.js"></script>
     <link href="tree.css" rel="stylesheet">
     <style rel="stylesheet">
         /* 遍历展示 */
@@ -99,7 +98,7 @@
             }
         }
     });
-    var newTree = clone(tree.getNode());
+
     var app = new Vue({
         el: '#binary-tree',
         data: {
