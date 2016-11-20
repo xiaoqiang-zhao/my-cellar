@@ -64,6 +64,7 @@
             if (this.nodeData !== null) {
                 // 左节点数据兼容
                 if (this.nodeData.leftKey !== null) {
+                    // TODO 这里用 tree 这个变量时不对的
                     var t = tree.getNode(this.nodeData.leftKey);
                     if (t !== undefined) {
                         leftNodeData = t;
