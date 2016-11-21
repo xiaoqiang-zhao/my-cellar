@@ -22,11 +22,11 @@
 </head>
 <body>
 <div id="binary-tree">
-    <node :node-data="nodeData"></node>
+    <node :node-data="nodeData" :tree="tree"></node>
 </div>
 
 <div id="binary-new-tree">
-    <node :node-data="nodeData"></node>
+    <node :node-data="nodeData" :tree="tree"></node>
 </div>
 
 <script type="text/x-template" id="node">
@@ -36,12 +36,14 @@
             <div class="left">
                 <div v-if="leftNodeData !== null" class="line"></div>
                 <node v-if="leftNodeData !== null"
-                      :node-data.sync="leftNodeData"></node>
+                      :node-data.sync="leftNodeData"
+                      :tree="tree"></node>
             </div>
             <div class="right">
                 <div v-if="rightNodeData !== null" class="line"></div>
                 <node v-if="rightNodeData !== null"
-                      :node-data.sync="rightNodeData"></node>
+                      :node-data.sync="rightNodeData"
+                      :tree="tree"></node>
             </div>
         </div>
     </div>
@@ -55,27 +57,21 @@
     Vue.component('node', {
         name: 'node',
         template: '#node',
-        props: ['nodeData'],
+        props: ['nodeData', 'tree'],
         data: function () {
 
             var leftNodeData = null;
             var rightNodeData = null;
+            var tree = this.tree;
 
             if (this.nodeData !== null) {
                 // 左节点数据兼容
                 if (this.nodeData.leftKey !== null) {
-                    // TODO 这里用 tree 这个变量时不对的
-                    var t = tree.getNode(this.nodeData.leftKey);
-                    if (t !== undefined) {
-                        leftNodeData = t;
-                    }
+                    leftNodeData = tree.getNode(this.nodeData.leftKey);
                 }
                 // 右节点数据兼容
                 if (this.nodeData.rightKey !== null) {
-                    var t = tree.getNode(this.nodeData.rightKey);
-                    if (t !== undefined) {
-                        rightNodeData = t;
-                    }
+                    rightNodeData = tree.getNode(this.nodeData.rightKey);
                 }
             }
             return {
@@ -88,12 +84,12 @@
                 var newTree = new Tree(initData);
                 newTree.deleteNode(nodeData.id);
 
-                console.log(newTree);
                 new Vue({
                     el: '#binary-new-tree',
                     data: {
                         // getNode 函数来自 get-node.js，模拟二级存储的提取操作
-                        nodeData: newTree.getNode()
+                        nodeData: newTree.getNode(),
+                        tree: newTree
                     }
                 });
             }
@@ -104,7 +100,8 @@
         el: '#binary-tree',
         data: {
             // getNode 函数来自 get-node.js，模拟二级存储的提取操作
-            nodeData: tree.getNode()
+            nodeData: tree.getNode(),
+            tree: tree
         }
     });
 </script>
