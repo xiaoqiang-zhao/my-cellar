@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>vue2-lab - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">vue2-lab</h1>
+<blockquote>
+<p>vue2.0 实验室，探索vue从起步到复杂的具体操作流程。</p>
+</blockquote>
+<h2 id="header-1-1">从那些依赖开始</h2>
+<p>要想跑起来一个简单的页面，需要各种工具的辅助，前端早已不是那个写个静态页面就能跑的年代了。</p>
+<p>首先是 vue，版本在这里找：<a href="https://github.com/vuejs/vue/releases" target="_blank">git releases</a>，好最新版：v2.1.4，我们就安装这个。</p>
+<pre><code>npm i vue@2.1.4 --save
+</code></pre><p>然后是 webpack 包管理工具，老办法：<a href="https://github.com/webpack/webpack/releases" target="_blank">git releases</a>，最新版：v1.14.0。</p>
+<pre><code>npm i webpack@1.14.0 --save
+</code></pre><h2 id="header-1-2">一个简单的页面要跑起来</h2>
+<p>先准备<code>dist/index.html</code> 和 <code>src/index.js</code>静态文件，我们这一趴只把包管理搞定。</p>
+<p>这里需要 npm 和 webpack 的知识，可以出门右转到<a href="https://longze.github.io/#!/" target="_blank">我的博客</a>看相关内容。</p>
+<p>本来打算像下面这样在脚本里面配置一行脚本搞定打包：</p>
+<pre><code>&quot;scripts&quot;: {
+    &quot;lab-start&quot;: &quot;webpack ./config/webpack.config.start.js&quot;
+}
+</code></pre><p>但是发现行不通，离开了 config 文件夹就玩不转了(知道怎么解决的劳烦告诉一下，红包答谢)。然后查看 vuecli 的源码是用 node 脚本包装了一下搞定的，好我也照猫画虎的搞一下，写一个 node 脚本：</p>
+<pre><code>var webpack = require(&#39;webpack&#39;);
+var webpackConfig = require(&#39;../config/webpack.config&#39;);
+
+webpack(webpackConfig, function (err, stats) {
+    // 打包完可以干一些事情
+});
+</code></pre><p>补上脚本配置：</p>
+<pre><code>&quot;scripts&quot;: {
+    &quot;build-pack&quot;: &quot;node ./build/build-pack.js&quot;
+}
+</code></pre><p>终于可以运行一下脚本了：</p>
+<pre><code>run build-pack
+</code></pre><p>运行之后可以看到在 <code>/dist/</code> 下面多了一个 <code>index.js</code> 文件，恭喜恭喜，终于把包打出来了，直接在浏览器中查看 <code>dist/index.html</code>，看到了下面的页面：</p>
+<p><img src="/articles/vue2-lab/img/1.png" alt="页面展示-1"></p>
+
+</div>
+</body>
+</html>
