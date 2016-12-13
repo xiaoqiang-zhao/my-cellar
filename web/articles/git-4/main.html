@@ -73,14 +73,14 @@ git checkout -b dev origin/master
 git push origin dev
 </code></pre><h2 id="header-1-3">创建开发分支</h2>
 <p>git 起源于开源，所以有很重的极客Style，项目开发以一种松散的组织方式来进行，当有人提了Issue或者你自己觉得可以为项目添加某个新特性或者有兴趣修复 bug，那就从开发主干<code>dev(或develop)</code>迁出开发分支，然后在开发分支上编写代码。开发分支一般有三种类型：特性，修复 bug，预发布。新建开发分支的方法如下：</p>
-<pre><code>// 创建特性分支   【分知名】 【衍生分支原】
+<pre><code>// 创建特性分支   【分支名】 【衍生分支原】
 git checkout -b feature/x origin/dev
 // 创建修补 bug 分支
 git checkout -b bug/x origin/dev
 // 创建预发布分支
 git checkout -b release/x origin/dev
 // 注：有 release/x 和 release-x 两种形式，
-//    前一种多一些可视化工具支持比较好，后一种命名更清楚
+//    前一种对一些可视化工具支持比较好，后一种命名更清楚
 </code></pre><p>这里有两点需要说明：
 1.怎么确定我要建的开发分支是远程还是本地？如果你想让别人知道你的开发进度或者当前的特性或bug修复需要多人协作完成，这时你需要的就是远程分支；否则新建本地就是你的选择，毕竟远程分支需要<code>push</code>到服务器(必须在有网的环境中，这又是一个限制)才能被其他开发者看到，另外开发完成还需要删除本地和远程的分支。
 2.一个容易被忽略的地方，新建完远程分支后<code>push</code>到服务器才能被其他开发这看到。</p>
@@ -119,7 +119,23 @@ git push
 // 如果没有建立过追踪可用下面命令，推送并建立追踪
 git push -u origin dev
 </code></pre><p>如果新特性已经开发完成可以进入下面一步删除分支，如果还要继续开发，切回到特性分支 <code>git checkout feature/x</code> 然后回到“提交和推送代码”这一步。</p>
-<h2 id="header-1-8">删除分支</h2>
+<h2 id="header-1-8">fork</h2>
+<p>当你也想加入到开源的浪潮中，但是还没有一个好点子开始一个自己的开源项目，那我们可以从别人的开源项目开始。fork 他的项目到你自己的账户下面，然后读源码，突然发现老虎也有打盹的时候，发现了一个可以贡献代码的机会，ok，怎么办？</p>
+<p>注：为了叙述方便，我们将被 fork 的项目称为&quot;原项目&quot;。</p>
+<h3 id="header-1-8-1">怎么同步原项目的更新</h3>
+<p>将代码克隆到本地等操作就不说了，在你读源码的这段时间中原项目可能有很多代码提交，但是你发现你fork出的项目并没有什么变化，那么第一步怎么同步原项目的更新？</p>
+<p>首先，添加远程主机，将原项目的主机添加到本机的git远程线上，默认情况下远程线只有 <code>origin</code>，使用 <code>git remote show</code> 命令可以看到只能返回 <code>origin</code>，使用 <code>git branch -a</code> 可以看到只有以 <code>remotes/origin/</code> 开头的远程分支：</p>
+<pre><code>git remote add y https://github.com/vuejs/vue-router.git
+</code></pre><p>注：这条命令后你可以用 <code>git remote show</code> 检查是否成功，上面命令其中的&quot;y&quot;是给远程线起的别名，奇怪的是使用 <code>git branch -a</code> 并不能看到远程分支，需要下面的操作才可以。</p>
+<p>然后就可以将原项目的远程分支代码拉到本地了：</p>
+<pre><code>git pull y
+</code></pre><p>这时使用 <code>git branch -a</code>，就可以看到很多新的远程分支：</p>
+<pre><code>remotes/y/dev
+remotes/y/master
+</code></pre><p>这时就可以合并原项目的远程分支代码到你当前的本地分支了：</p>
+<pre><code>git merge remotes/y/dev
+</code></pre><p>同步其他分支时需要切换本地分支，同步后需要推到远程。然后到 github 网站上找&quot;new pull request&quot;按钮，请求原项目分支拉取你fork出的项目分支的改变。为了方便原项目管理者判断是否接受其他人贡献的代码，开源界有几套规范 -- 有空再整理一下 -- mark。</p>
+<h2 id="header-1-9">删除分支</h2>
 <p>当新特性或bug修复分支已经合并到开发分支，这个分支的生命就走到了尽头。删除分支这里提供几种方法：</p>
 <ul>
 <li>github官网: 如果你用的是 github，在网站上合并之后有一个操作项可以一键删除，但是错过了这个入口就回不来了。但是在项目的 <code>/branches</code> 目录下可以看到全部的分支，这里可以随便删除。但是不推荐这种方法，这种方法会引起“被删除的远程分支本地依然存在”，下面有原理介绍和解决方案。</li>
@@ -128,14 +144,14 @@ git push -u origin dev
 <li>SourceTree 中可视化删除</li>
 </ul>
 <p>分支删除后本地状态需要重新检出，因为当前的本地分支和远程分支已经失去了对应关系。需要继续添加新功能或者修复回到上面。</p>
-<h2 id="header-1-9">一些常见问题的解决方案</h2>
-<h3 id="header-1-9-1">被删除的远程分支本地依然存在</h3>
+<h2 id="header-1-10">一些常见问题的解决方案</h2>
+<h3 id="header-1-10-1">被删除的远程分支本地依然存在</h3>
 <p>如果远程分支被删除，在本地使用<code>git branch -a</code>依然存在，尝试了各种同步和删除命令都无法删除本地的这个分支，而这个分支原本就不应该存在，多方查找资料后得到两个方案：</p>
 <p>在文件夹<code>.git/refs/heads</code>下查找你文件名与关心的分支名称有关的文件，如果找到了删除。
 对应的命令行 <code>rm .git/refs/heads/本地分支名</code></p>
 <p>如果你有使用<code>SourceTree</code>这个辅助工具，直接删除远端的分支，虽然提示远程分支不存在(事实上确实也不存在)，但确定之后就成功了。</p>
 <p>这个问题是因为 git 缺少对分支缓存文件的更新机制引起的，所以在本地使用命令行删除远程分支可以避免该问题。</p>
-<h3 id="header-1-9-2">移除被误提交的 IDE 配置文件</h3>
+<h3 id="header-1-10-2">移除被误提交的 IDE 配置文件</h3>
 <p>IDE 的配置文件通常是隐藏文件，不易直接可视化操作，这是需要命令行来辅助一下，下面是相关操作：</p>
 <p>1、到达项目文件夹下，进入 IDE 的隐藏文件夹，这里以 WebStorm 为例，命令如下：</p>
 <pre><code>cd .idea
@@ -149,7 +165,7 @@ rmdir .idea
 </code></pre><p>5、为了永绝后患在 <code>.gitignore</code> 中添加或略配置；</p>
 <p>6、push 修改到服务器</p>
 <pre><code>git push origin master
-</code></pre><h3 id="header-1-9-3">解决冲突</h3>
+</code></pre><h3 id="header-1-10-3">解决冲突</h3>
 <p>对于同一个文件如果本地有修改远程文件也有修改就可能在提交时产生冲突。如果有冲突，<code>merge</code>的时候需要先将本地代码提交以防止被覆盖丢失，然后 <code>merge</code> 就会将冲突显示出来，可能向下面：</p>
 <pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 var a = &#39;a.js&#39; + &#39;1&#39;;
@@ -169,7 +185,7 @@ var a = &#39;a.js&#39; + &#39;2&#39;;
 // 我改1
 // 我改2
 </code></pre><p>然后就可以进行提交和推送操作了。</p>
-<h2 id="header-1-10">参考资料</h2>
+<h2 id="header-1-11">参考资料</h2>
 <p><a href="http://blog.csdn.net/showhilllee/article/details/27706679" target="_blank">GitHub详细教程</a></p>
 <p><a href="http://www.cnblogs.com/terrylin/archive/2013/04/04/2999465.html" target="_blank">Sublime 下配置 GitHub</a></p>
 <p><a href="http://www.ruanyifeng.com/blog/2012/07/git.html" target="_blank">Git分支管理策略</a></p>
