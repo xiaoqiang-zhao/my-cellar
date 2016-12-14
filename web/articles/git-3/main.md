@@ -39,6 +39,21 @@
 	git commit -m "提交的描述信息"
 	// 提交全部更改和删除的文件
 	git commit -a -m "提交的描述信息" 
+	// 合并缓存区的修改和最近的一次commit, 然后用生成的新的commit替换掉老的. 
+	// 如果缓存区没有内容, 那么利用amend可以修改上一次commit的描述.
+	git commit --amend
+
+开发过程中很容易忘记stage某个文件或填写了不够准确的commit描述. --amend就是用来fix这些错误的.
+
+不要对一个公共的commit使用amend，amend后生成的commit是一个全新的commit, 之前的老的commit会从项目历史中被删除. 如果你amend了一个被其他开发者使用的commit, 会严重影响其他开发者。
+
+另外你可能需要一些命令行的技巧：
+
+    // 插入文字，你会发现默认是不让输入的
+    i
+    // 提交编辑后的文本
+    esc
+    :wq!
 
 ### git log	
 
