@@ -76,6 +76,7 @@
 `git branch --track 本地分支名 origin/远程分支名`，手动建立追踪，[资料传送门](http://blog.csdn.net/hudashi/article/details/7664474)。在 `push` 的时候可以指定 `-u` 参数来快速建立追踪，一般在分支第一次提交的时候加此参数，以后就可以直接 `git push` 了，不需要添加远程分支名。
 
 `git branch -d 分知名` 删除本地分支；
+`git branch -D 分知名` 经常是这个分支出问题了我们才删除，最常见的就是合并坏了需要重新 checkout(典型的警告提示 "deleting branch XXX that has been merged")，大写 D 强制删除；
 
 `git branch -d origin/分知名` 删除远程分支；
 
