@@ -80,6 +80,8 @@
 
 `git branch -d origin/分知名` 删除远程分支；
 
+有时候用上面的方法删除会报出"error: branch 'origin/branch_to_delete' not found."的错误，但是我们明明可以看到远程有那个分支，为什么要报找不到呢？这个可能是本地描述文件缺失造成的路径".git/refs/remotes/origin/"，一个简单除暴的办法就是当做一次 push，这样就不会走本地扫描这条路： `git push origin :branch_to_delete`。
+
 ### git config
 
 	// 获取配置信息
