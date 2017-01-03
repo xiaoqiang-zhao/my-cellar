@@ -49,6 +49,17 @@ git rm --cached 文件名
 git commit -m &quot;提交的描述信息&quot;
 // 提交全部更改和删除的文件
 git commit -a -m &quot;提交的描述信息&quot; 
+// 合并缓存区的修改和最近的一次commit, 然后用生成的新的commit替换掉老的. 
+// 如果缓存区没有内容, 那么利用amend可以修改上一次commit的描述.
+git commit --amend
+</code></pre><p>开发过程中很容易忘记stage某个文件或填写了不够准确的commit描述. --amend就是用来fix这些错误的.</p>
+<p>不要对一个公共的commit使用amend，amend后生成的commit是一个全新的commit, 之前的老的commit会从项目历史中被删除. 如果你amend了一个被其他开发者使用的commit, 会严重影响其他开发者。</p>
+<p>另外你可能需要一些命令行的技巧：</p>
+<pre><code>// 插入文字，你会发现默认是不让输入的
+i
+// 提交编辑后的文本
+esc
+:wq!
 </code></pre><h3 id="header-1-1-6">git log</h3>
 <pre><code>// 查看 commit日志
 git log
@@ -61,8 +72,11 @@ git push
 <p><code>git branch</code> 列出本地分支；</p>
 <p><code>git branch -a</code> 列出全部分支，包括远程和本地分支；</p>
 <p><code>git branch --track 本地分支名 origin/远程分支名</code>，手动建立追踪，<a href="http://blog.csdn.net/hudashi/article/details/7664474" target="_blank">资料传送门</a>。在 <code>push</code> 的时候可以指定 <code>-u</code> 参数来快速建立追踪，一般在分支第一次提交的时候加此参数，以后就可以直接 <code>git push</code> 了，不需要添加远程分支名。</p>
-<p><code>git branch -d 分知名</code> 删除本地分支；</p>
+<p><code>git branch -d 分知名</code> 删除本地分支；
+<code>git branch -D 分知名</code> 经常是这个分支出问题了我们才删除，最常见的就是合并坏了需要重新 checkout(典型的警告提示 &quot;deleting branch XXX that has been merged&quot;)，大写 D 强制删除；</p>
 <p><code>git branch -d origin/分知名</code> 删除远程分支；</p>
+<p>有时候用上面的方法删除会报出&quot;error: branch &#39;origin/branch_to_delete&#39; not found.&quot;的错误，但是我们明明可以看到远程有那个分支，为什么要报找不到呢？这个可能是本地分支描述文件错误造成的，&quot;.git/refs/heads/origin/&quot;下有所有分支的描述文件，一个简单除暴的办法就是当做一次 push，这样就不会走本地扫描这条路： <code>git push origin :branch_to_delete</code>。</p>
+<p>造成错误的原因可能是已经向这个分支 commit 了，但是没有 push 或者 push 出错都会造成分支描述文件的改变，可以试试 &quot;rm .git/refs/heads/branch_to_delete&quot; -- 删除描述文件。</p>
 <h3 id="header-1-1-9">git config</h3>
 <pre><code>// 获取配置信息
 git config --list

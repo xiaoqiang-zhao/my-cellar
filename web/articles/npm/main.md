@@ -36,6 +36,12 @@
 
 	npm uninstall module-name -save
 
+## dependencies 和 devDependencies
+
+简单的说 dependencies 是生产环境依赖的包，上线的时候需要将 dependencies 下的包打包；而 devDependencies 是开发这个包时需要的一些依赖，也就是说脱离了这个包的开发 devDependencies 可以被忽略。
+
+TODO: 验证 devDependencies 不会安装依赖的说法
+
 ## 安装依赖
 
 一个项目的依赖包一般是不被提交的，这就需要在将项目克隆到本地后手动安转依赖
@@ -97,5 +103,10 @@ node 版本的偶数版是稳定版，使用 `n ls` 可以查看全部发布过�
 待续...
 
 ## 参考资料
+
+[package.json 的官方说明](https://github.com/npm/npm/blob/2e3776bf5676bc24fec6239a3420f377fe98acde/doc/files/package.json.md)
+
+[What's the difference between dependencies, devDependencies and peerDependencies in npm package.json file?](http://stackoverflow.com/questions/18875674/whats-the-difference-between-dependencies-devdependencies-and-peerdependencies)
 	
 [记npm包开发全过程](http://www.w2bc.com/Article/86039)	
+
