@@ -39,13 +39,16 @@
 <pre><code>npm --registry=https://registry.npm.taobao.org install cnpm -g
 </code></pre><p>如果装错了你可以不用管，但是如果有一点小洁癖的话可以卸载掉，加<code>-save</code>同样会将<code>package.json</code> 中的配置移除掉：</p>
 <pre><code>npm uninstall module-name -save
-</code></pre><h2 id="header-1-3">安装依赖</h2>
+</code></pre><h2 id="header-1-3">dependencies 和 devDependencies</h2>
+<p>简单的说 dependencies 是生产环境依赖的包，上线的时候需要将 dependencies 下的包打包；而 devDependencies 是开发这个包时需要的一些依赖，也就是说脱离了这个包的开发 devDependencies 可以被忽略。</p>
+<p>TODO: 验证 devDependencies 不会安装依赖的说法</p>
+<h2 id="header-1-4">安装依赖</h2>
 <p>一个项目的依赖包一般是不被提交的，这就需要在将项目克隆到本地后手动安转依赖</p>
 <pre><code>npm install
-</code></pre><h2 id="header-1-4">常用命令</h2>
+</code></pre><h2 id="header-1-5">常用命令</h2>
 <p><code>npm init</code>: 初始化 package.json 文件，根据提示输入一些关键信息就可以将文件初始化完成；</p>
 <p><code>npm ls -g</code>: 查看所有全局安装的模块；</p>
-<h2 id="header-1-5">多版本 node 管理</h2>
+<h2 id="header-1-6">多版本 node 管理</h2>
 <p>在维护一些老项目的时候，一些工具依赖于某一版本的 node 才能运行起来，这就需要在不同的版本之间来回切换，这时你需要一个多版本管理工具 <code>n</code>，没错这个工具的名字就这么简短，只有一个字母，下面是使用方法：</p>
 <pre><code>// 安装多版本管理工具
 sudo npm install -g n
@@ -67,16 +70,18 @@ n rm 6.0.0
 6.0.0
 6.1.0
 </code></pre><p>关于版本管理，可以查看我的另一篇博客 <a href="/index.html#!/articles/semantic-versioning" target="_blank">语义化版本 2.0.0</a>。</p>
-<h2 id="header-1-6">常见问题</h2>
-<h3 id="header-1-6-1">缺 package.json 文件</h3>
+<h2 id="header-1-7">常见问题</h2>
+<h3 id="header-1-7-1">缺 package.json 文件</h3>
 <p><code>npm ERR! registry error parsing json</code> 填写了 <code>-save</code> 或者 <code>-save-dev</code> 参数但是当前位置没有 package.json 文件，需要先执行 <code>npm init</code>；</p>
-<h3 id="header-1-6-2">依赖安装失败</h3>
+<h3 id="header-1-7-2">依赖安装失败</h3>
 <p>待续...</p>
-<h3 id="header-1-6-3">依赖变更</h3>
+<h3 id="header-1-7-3">依赖变更</h3>
 <p>锁定依赖版本防止被人上房抽梯，由 left-pad 引发的思考。 待续...</p>
-<h3 id="header-1-6-4">依赖的依赖放在哪里？</h3>
+<h3 id="header-1-7-4">依赖的依赖放在哪里？</h3>
 <p>待续...</p>
-<h2 id="header-1-7">参考资料</h2>
+<h2 id="header-1-8">参考资料</h2>
+<p><a href="https://github.com/npm/npm/blob/2e3776bf5676bc24fec6239a3420f377fe98acde/doc/files/package.json.md" target="_blank">package.json 的官方说明</a></p>
+<p><a href="http://stackoverflow.com/questions/18875674/whats-the-difference-between-dependencies-devdependencies-and-peerdependencies" target="_blank">What&#39;s the difference between dependencies, devDependencies and peerDependencies in npm package.json file?</a></p>
 <p><a href="http://www.w2bc.com/Article/86039" target="_blank">记npm包开发全过程</a>    </p>
 
 </div>

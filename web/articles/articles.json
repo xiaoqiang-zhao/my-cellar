@@ -286,6 +286,18 @@
     "todoList": []
   },
   {
+    "enName": "es6",
+    "title": "ES6 学习笔记",
+    "introduction": "未找到描述信息",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1483976529020,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "fe-question",
     "title": "前端面试题收集",
     "introduction": "未找到描述信息",
