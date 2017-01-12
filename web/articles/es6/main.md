@@ -121,11 +121,19 @@ padStart，padEnd 字符串补全长度功能
       ${name + '-' + a}
     </div>`
 
-   
+## 正则的扩展
 
+初始化函数更强悍
 
+    var regex = new RegExp(/xyz/i);
+    // 等价于
+    var regex = /xyz/i;
 
+添加 u 修饰符，识别大于 `0xFFFF` 的 Unicode 字符
 
+flags 和 sticky 属性，y 修饰符。
+
+## 
 
 
 
