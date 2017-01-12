@@ -133,13 +133,25 @@ padStart，padEnd 字符串补全长度功能
 
 flags 和 sticky 属性，y 修饰符。
 
-## 
+## 数值的扩展
 
+二进制和八进制的新写法，字母大小写都可以：
 
+    0b1001 === 9   // true
+    0o11 === 9     // true
 
+将全局方法 parseInt 和 parseFloat 移到 Number 下。
 
+添加新函数 isFinite，isNaN，isInteger，isSafeInteger
 
+isInteger 是否为整数：
 
+    Number.isInteger(1);   // true
+    Number.isInteger(1.0); // true
+
+添加一个属性 EPSILON，表示极小值。
+
+isSafeInteger 判断整数范围在-2^53到2^53之间（不含两个端点），超过这个范围，无法精确表示这个值。
 
 
 
