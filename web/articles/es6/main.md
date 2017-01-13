@@ -175,10 +175,100 @@ isSafeInteger 判断整数范围在-2^53到2^53之间（不含两个端点），
 
 空位，要尽量避免。
 
+## 函数的扩展
 
+函数参数的默认值：
 
+    function log(x, y = 'World') {
+      console.log(x, y);
+    }
+    
+    log('Hello') // Hello World
+    log('Hello', 'China') // Hello China
 
+与解构赋值默认值结合使用
 
+    function foo({x, y = 5}) {
+      console.log(x, y);
+    }
+    
+    foo({x: 1}) // 1, 5
+    foo() // TypeError: Cannot read property 'x' of undefined
+
+双重默认值的用法
+
+    function fetch(url, { method = 'GET' } = {}) {
+      console.log(method);
+    }
+    
+    fetch('http://example.com');
+    // "GET"
+    fetch('http://example.com', {method: 'POST'});
+    // "POST"
+
+双重默认值的两种写法及区别
+
+    // 写法一
+    function m1({x = 0, y = 0} = {}) {
+      return [x, y];
+    }
+    
+    // 写法二
+    function m2({x, y} = { x: 0, y: 0 }) {
+      return [x, y];
+    }
+
+函数的length属性，等于函数的参数个数减去指定了默认值的参数个数，rest参数也不会计入length属性。
+
+    (function(...args) {}).length // 0
+
+指定参数为必填参数的技巧：
+
+    function throwIfMissing() {
+      throw new Error('Missing parameter');
+    }
+    
+    function foo(mustBeProvided = throwIfMissing()) {
+      return mustBeProvided;
+    }
+    
+    foo()
+    // Error: Missing parameter
+
+rest参数（形式为“...变量名”），用于获取函数的多余参数，这样就不需要使用arguments对象了。rest参数搭配的变量是一个数组，该变量将多余的参数放入数组中。使用 of 来遍历：
+
+    function add(...values) {
+      let sum = 0;
+    
+      for (var val of values) {
+        sum += val;
+      }
+    
+      return sum;
+    }
+    
+    add(2, 5, 3) // 10
+
+扩展运算符（spread）是三个点（...）。它好比rest参数的逆运算，将一个数组转为用逗号分隔的参数序列。
+
+    console.log(...[1, 2, 3])
+
+扩展运算符提供了数组合并的新写法。
+    
+    // ES5
+    [1, 2].concat(more)
+    // ES6
+    [1, 2, ...more]
+
+扩展运算符还可以将字符串转为真正的数组。
+
+    [...'hello']
+    // [ "h", "e", "l", "l", "o" ]
+
+扩展运算符还可以将类数组(Iterator) 转换成数组
+
+    var nodeList = document.querySelectorAll('div');
+    var array = [...nodeList];
 
 
 
