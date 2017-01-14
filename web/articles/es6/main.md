@@ -270,5 +270,90 @@ rest参数（形式为“...变量名”），用于获取函数的多余参数�
     var nodeList = document.querySelectorAll('div');
     var array = [...nodeList];
 
+Map和Set结构，Generator函数 ??? 
+
+函数的name属性，返回该函数的函数名。
+
+    function foo() {}
+    foo.name // "foo"
+    
+    var f = function () {};
+    
+    // ES5
+    f.name // ""
+    
+    // ES6
+    f.name // "f"
+
+箭头函数，使得表达更加简洁。
+
+    // 平方
+    const square = n => n * n;
+
+由于大括号被解释为代码块，所以如果箭头函数直接返回一个对象，必须在对象外面加上括号。
+
+    var getTempItem = id => ({ id: id, name: "Temp" });
+
+箭头函数的一个用处是简化回调函数。
+
+    [1,2,3].map(x => x * x);
+
+箭头函数有几个使用注意点。
+
+（1）函数体内的this对象，就是定义时所在的对象，而不是使用时所在的对象。
+
+（2）不可以当作构造函数，也就是说，不可以使用new命令，否则会抛出一个错误。
+
+（3）不可以使用arguments对象，该对象在函数体内不存在。如果要用，可以用Rest参数代替。
+
+（4）不可以使用yield命令，因此箭头函数不能用作Generator函数。
+
+关于 this 的两个例子：
+
+例一：
+
+    function foo() {
+      setTimeout(() => {
+        console.log('id:', this.id);
+      }, 100);
+    }
+    
+    var id = 21;
+    
+    foo.call({ id: 42 });
+    // id: 42
+
+例二：
+
+    function Timer() {
+      this.s1 = 0;
+      this.s2 = 0;
+      // 箭头函数
+      setInterval(() => this.s1++, 1000);
+      // 普通函数
+      setInterval(function () {
+        this.s2++;
+      }, 1000);
+    }
+    
+    var timer = new Timer();
+    
+    setTimeout(() => console.log('s1: ', timer.s1), 3100);
+    setTimeout(() => console.log('s2: ', timer.s2), 3100);
+    // s1: 3
+    // s2: 0
+
+绑定 this
+
+    foo::bar;
+    // 等同于
+    bar.bind(foo);
+
+尾调用，尾调用（Tail Call）是函数式编程的一个重要概念，本身非常简单，一句话就能说清楚，就是指某个函数的最后一步是调用另一个函数。
+
+    function f(x){
+      return g(x);
+    }
+
 
 
