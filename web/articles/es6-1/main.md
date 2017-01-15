@@ -1,4 +1,4 @@
-# ES6 学习笔记
+# ES6 学习笔记 - Part 1
 
 ## ECMAScript 6简介
 
