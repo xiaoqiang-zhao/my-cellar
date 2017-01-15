@@ -355,5 +355,69 @@ Map和Set结构，Generator函数 ???
       return g(x);
     }
 
+用尾调用优化性能，简单地说如果对下一个函数的调用写在中间，那么就需要先"保护现场"，等下一个函数执行完毕之后继续执行当前函数剩余的语句，而把下一个函数的调用写在末尾，js 的引擎就能尽早放下对执行现场的控制从而优化性能。以下三种情况，都不属于尾调用。
 
+    // 情况一
+    function f(x){
+      let y = g(x);
+      return y;
+    }
+    
+    // 情况二
+    function f(x){
+      return g(x) + 1;
+    }
+    
+    // 情况三
+    function f(x){
+      g(x);
+    }
 
+尾递归，函数调用自身，称为递归。如果尾调用自身，就称为尾递归。下面是用尾递归优化求阶乘函数前后的代码：
+
+    
+    function factorial(n) {
+      if (n === 1) return 1;
+      return n * factorial(n - 1);
+    }
+    
+    function factorial(n, total = 1) {
+      if (n === 1) return total;
+      return factorial(n - 1, n * total);
+    }
+    
+尾递归节省内存的效果非常明显，如果是非尾递归的 fibonacci 递归方法
+
+    function Fibonacci (n) {
+      if ( n <= 1 ) {return 1};
+    
+      return Fibonacci(n - 1) + Fibonacci(n - 2);
+    }
+    
+    Fibonacci(10);  // 89
+    Fibonacci(500); // 浏览器直接卡死
+
+如果采用尾递归优化
+
+    function Fibonacci (n, ac1 = 1, ac2 = 1) {
+        if (n <= 1) {
+            return ac2;
+        }
+        
+        return Fibonacci(n -1, ca2, ca1 + ca2);
+    }
+    Fibonacci(500); // 2.2559151616193602e+104
+
+ES6的尾调用优化只在严格模式下开启，正常模式是无效的。这是因为在正常模式下，函数内部有变量 arguments，可以跟踪函数的调用栈。
+
+函数参数的尾逗号，ECMAScript 2017将允许函数定义和调用的最后一个参数有尾逗号（trailing comma）。
+
+    function clownsEverywhere(
+      param1,
+      param2,
+    ) { /* ... */ }
+    
+    clownsEverywhere(
+      'foo',
+      'bar',
+    );
