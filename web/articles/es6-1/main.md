@@ -421,3 +421,41 @@ ES6的尾调用优化只在严格模式下开启，正常模式是无效的。�
       'foo',
       'bar',
     );
+
+## 对象的扩展
+
+属性和方法的简洁表示法:
+
+    var foo = 'bar';
+    function f () {}
+    var baz = {foo, f, f2 () {}};
+    
+    // 等同于
+    var baz = {foo: foo, f: f, f2: function () {}};
+
+属性名表达式：
+
+    let propKey = 'foo';
+    
+    let obj = {
+      [propKey]: true,
+      ['a' + 'bc']: 123
+    };
+
+Object.assign 方法，同名属性后面的覆盖前面的：
+
+    var target = { a: 1 };
+    
+    var source1 = { b: 2 };
+    var source2 = { c: 3 };
+    
+    Object.assign(target, source1, source2);
+    target // {a:1, b:2, c:3}
+
+注意，Object.assign 方法实行的是浅拷贝，而不是深拷贝。
+
+
+
+
+
+
