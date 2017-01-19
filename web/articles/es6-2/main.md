@@ -64,8 +64,84 @@ Symbol.keyFor()，返回一个已登记的 Symbol 类型值的key。
     var s2 = Symbol("foo");
     Symbol.keyFor(s2) // undefined
 
+## Set数据结构
 
+ES6提供了新的数据结构Set。它类似于数组，但是成员的值都是唯一的，没有重复的值。Set本身是一个构造函数，用来生成Set数据结构。
 
+    var s = new Set();
+    [2, 3, 5, 4, 5, 2, 2].map(x => s.add(x));
+    
+    for (let i of s) {
+      console.log(i);
+    }
+    // 2 3 5 4
 
+Set函数可以接受一个数组（或类似数组的对象）作为参数，用来初始化。
 
+    var set = new Set([1, 2, 2]);
+    [...set]  // [1, 2]
+
+Set结构的实例有两个属性：
+
+- constructor，构造函数，默认就是Set函数。
+- size，返回Set实例的成员总数。
+
+Set 实例的四个方法：
+
+- add(value)：添加某个值，返回Set结构本身。
+- delete(value)：删除某个值，返回一个布尔值，表示删除是否成功。
+- has(value)：返回一个布尔值，表示该值是否为Set的成员。
+- clear()：清除所有成员，没有返回值。
+
+Array.from方法可以将Set结构转为数组。
+
+    var items = new Set([1, 2, 3, 4, 5]);
+    var array = Array.from(items);
+
+这就提供了去除数组重复成员的另一种方法。
+
+    function dedupe(array) {
+      return Array.from(new Set(array));
+    }
+    
+    dedupe([1, 1, 2, 3]) // [1, 2, 3]
+
+Set结构的实例有四个遍历方法，可以用于遍历成员。
+
+- keys()：返回键名的遍历器
+- values()：返回键值的遍历器
+- entries()：返回键值对的遍历器
+- forEach()：使用回调函数遍历每个成员
+
+Set结构的实例默认可遍历，它的默认遍历器生成函数就是它的values方法，不明白为什么提供那么多方法。
+
+    let set = new Set(['red', 'green', 'blue']);
+    
+    for (let x of set) {
+      console.log(x);
+    }
+    // red
+    // green
+    // blue
+
+因此使用Set可以很容易地实现并集（Union）、交集（Intersect）和差集（Difference）。
+
+    let a = new Set([1, 2, 3]);
+    let b = new Set([4, 3, 2]);
+    
+    // 并集
+    let union = new Set([...a, ...b]);
+    // Set {1, 2, 3, 4}
+    
+    // 交集
+    let intersect = new Set([...a].filter(x => b.has(x)));
+    // set {2, 3}
+    
+    // 差集
+    let difference = new Set([...a].filter(x => !b.has(x)));
+    // Set {1}
+
+Set 数据结构不能单独修改某一项，只能整体重置。
+
+## Map数据结构
 
