@@ -196,5 +196,24 @@ forEach方法还可以接受第二个参数，用来绑定this。
       this.report(key, value);
     }, reporter);
 
+## WeakMap 数据结构
+
+WeakMap结构与Map结构基本类似，唯一的区别是它只接受对象作为键名（null除外），不接受其他类型的值作为键名，而且键名所指向的对象，不计入垃圾回收机制。WeakMap的专用场合就是，它的键所对应的对象，可能会在将来消失。WeakMap结构有助于防止内存泄漏。
+
+    var wm = new WeakMap();
+    var element = document.querySelector(".element");
+    
+    wm.set(element, "Original");
+    wm.get(element) // "Original"
+    
+    element.parentNode.removeChild(element);
+    element = null;
+    wm.get(element) // undefined
+
+上面代码中，变量wm是一个WeakMap实例，我们将一个DOM节点element作为键名，然后销毁这个节点，element对应的键就自动消失了，再引用这个键名就返回undefined。
+
+WeakMap与Map在API上的区别主要是两个，一是没有遍历操作和size属性；二是不支持clear方法。
+
+
 
 
