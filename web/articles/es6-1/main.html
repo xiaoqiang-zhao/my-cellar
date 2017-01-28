@@ -318,7 +318,31 @@ clownsEverywhere(
   &#39;foo&#39;,
   &#39;bar&#39;,
 );
-</code></pre>
+</code></pre><h2 id="header-1-9">对象的扩展</h2>
+<p>属性和方法的简洁表示法:</p>
+<pre><code>var foo = &#39;bar&#39;;
+function f () {}
+var baz = {foo, f, f2 () {}};
+
+// 等同于
+var baz = {foo: foo, f: f, f2: function () {}};
+</code></pre><p>属性名表达式：</p>
+<pre><code>let propKey = &#39;foo&#39;;
+
+let obj = {
+  [propKey]: true,
+  [&#39;a&#39; + &#39;bc&#39;]: 123
+};
+</code></pre><p>Object.assign 方法，同名属性后面的覆盖前面的：</p>
+<pre><code>var target = { a: 1 };
+
+var source1 = { b: 2 };
+var source2 = { c: 3 };
+
+Object.assign(target, source1, source2);
+target // {a:1, b:2, c:3}
+</code></pre><p>注意，Object.assign 方法实行的是浅拷贝，而不是深拷贝。</p>
+
 </div>
 </body>
 </html>

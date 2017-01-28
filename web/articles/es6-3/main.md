@@ -141,6 +141,8 @@ Generator 函数返回的遍历器对象，还有一个 return 方法，可以�
 
 ## Promise 对象
 
+### 概述
+
 Promise是异步编程的一种解决方案，比传统的解决方案——回调函数和事件——更合理和更强大。从语法上说，Promise是一个对象，从它可以获取异步操作的消息。Promise提供统一的API，各种异步操作都可以用同样的方法进行处理。
 
 两个特点一个不同：
@@ -148,6 +150,184 @@ Promise是异步编程的一种解决方案，比传统的解决方案——回�
 - 对象的状态不受外界影响。
 - 只能从Pending变为Resolved和从Pending变为Rejected。
 - 就算改变已经发生了，你再对Promise对象添加回调函数，也会立即得到这个结果。
+
+简单实例：
+
+    function timeout(ms) {
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, ms, 'done');
+      });
+    }
+    
+    var promise = timeout(100);
+    promise.then((value) => {
+      console.log(value);
+    });
+    // 控制台输出：done
+
+上面代码执行后，单独执行下面代码也输出同样的结果：
+
+    promise.then((value) => {
+      console.log(value);
+    });
+    // 控制台输出：done
+
+### .then(resolve, reject)
+
+定义在 Promise 原型链上，它的作用是为Promise实例添加状态改变时的回调函数。可以链式调用，内部可以返回其他 Promise 实例，代码示例：
+
+    function p1() {
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                resolve('p1');
+            }, 2000);
+        });
+    }
+    
+    function p2(value) {
+        console.log('第一个promise向第二个promise传入参数: ' + value);
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                resolve('p2');
+            }, 1000);
+        });
+    }
+    
+    p1().then(function (value) {
+        console.log(value);
+        return p2(value);
+    }).then(function (value) {
+        console.log(value);
+    });
+
+    // 控制台结果：
+    // p1
+    // 第一个promise向第二个promise传入参数: p1
+    // p2
+
+### .catch(callback)
+
+用于指定发生错误时的回调函数，与 then 方法第二个参数 -- reject 回调函数调用逻辑相同。在写 Promise 实例生成器时应该捕获生成器本身的错误，resolve 应该交给 resolve 来处理，否则会造成错误难以跟踪的问题。接着上面的代码 catch 方法可以这样使用：
+
+    p1().then(function (value) {
+        console.log(value);
+        return p2(value);
+    }).catch(function (e) {
+        // 捕获错误后的处理逻辑...
+    });
+
+另外 catch 中还可以抛出错误，catch 后面还可以连续使用 catch：
+
+    p1().then(function (value) {
+        console.log(value);
+        return p2(value);
+    }).catch(function (e) {
+        // 捕获错误后的处理逻辑...
+        throw new Error();
+    }).catch(function () {
+        // 继续处理上一个 catch 抛出的错误...
+    });
+
+### .all([p1, p2, ...])
+
+用于将多个Promise实例，包装成一个新的Promise实例。Promise对象的实例，如果不是，就会先调用 resolve 方法，将参数转为Promise实例，再进一步处理。
+
+    function p1() {
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                resolve('p1');
+            }, 2000);
+        });
+    }
+    
+    function p2() {
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                resolve('p2');
+            }, 1000);
+        });
+    }
+    
+    Promise.all([p1(), p2()]).then(function (values) {
+       console.log(values[0] + ',' + values[1]);
+    });
+    
+    // 控制台输出结果: p1,p2
+
+注意，只有作为参数的 Promise 实例全部转变为 Resolved 状态，返回值才会转变为 Resolved，如果其中一个状态装变为 Rejected ，那么后面的 promise 不会执行，并且直接调用 reject 或 catch。
+
+### .race()
+
+同样是将多个Promise实例，包装成一个新的Promise实例。
+
+    var p = Promise.race([p1, p2, p3]);
+
+只要p1、p2、p3之中有一个实例率先改变状态，p的状态就跟着改变。那个率先改变的 Promise 实例的返回值，就传递给p的回调函数。
+
+### .resolve()
+
+将现有对象转为Promise对象，resolve 方法的参数分成四种情况：
+
+1、参数是一个Promise实例，则原封不动的返回
+
+2、如果参数具有 then 方法，转化成 Promise 实例，并立即执行 then 方法。
+
+    var thenable = {
+        then: function (resolve, reject) {
+            setTimeout(function () {
+                resolve('p1');
+            }, 2000);
+        }
+    };
+    
+    let p1 = Promise.resolve(thenable);
+    p1.then(function(value) {
+        console.log(value);
+    });
+
+3、不是具有then方法的对象，或根本就不是对象，则返回一个新的Promise对象，状态为Resolved。
+
+    var p = Promise.resolve('Hello');
+    
+    p.then(function (s){
+      console.log(s)
+    });
+    // Hello
+
+4、不带有任何参数，则直接返回一个 Resolved 状态的 Promise 对象。
+
+    setTimeout(function () {
+      console.log('three');
+    }, 0);
+    
+    Promise.resolve().then(function () {
+      console.log('two');
+    });
+    
+    console.log('one');
+    
+    // one
+    // two
+    // three
+
+需要注意的是，立即resolve的Promise对象，是在本轮“事件循环”（event loop）的结束时，而不是在下一轮“事件循环”的开始时。
+
+### .reject()
+
+返回一个新的 Promise 实例，该实例的状态为rejected。
+
+    var p = Promise.reject('出错了');
+    // 等同于
+    var p = new Promise((resolve, reject) => reject('出错了'))
+    
+    p.then(null, function (s) {
+      console.log(s)
+    });
+    // 出错了
+
+### .finally()
+
+指定不管Promise对象最后状态如何，都会执行的操作。
 
 
 

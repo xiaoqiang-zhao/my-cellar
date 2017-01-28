@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>ES6 学习笔记 - Part 3 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">ES6 学习笔记 - Part 3</h1>
+<h2 id="header-1-1">Generator 函数</h2>
+<h3 id="header-1-1-1">概述</h3>
+<p>Generator函数是ES6提供的一种异步编程解决方案。Generator函数有多种理解角度。从语法上，首先可以把它理解成，Generator函数是一个状态机，封装了多个内部状态。先来段示例代码：</p>
+<pre><code>function* gen() {
+  yield &#39;hello&#39;;
+  console.log(&#39;somthing&#39;);
+  yield &#39;world&#39;;
+  return &#39;ending&#39;;
+}
+var g = gen();
+
+g.next() // { value: &#39;hello&#39;, done: false }
+g.next() // somthing   { value: &#39;world&#39;, done: false }
+g.next() // { value: &#39;ending&#39;, done: true }
+g.next() // { value: undefined, done: true }
+</code></pre><p>其中 function 后面加星号是 Generator 函数的声明方式，yield 是状态的标识，Generator 函数的返回值是一个遍历器。每次使用 next 方法执行到下一个状态位停止(遇到 yield 就停止执行后面的语句)。yield 不能被用在普通函数中，包括 Generator 函数内部的回调函数和子函数。</p>
+<h3 id="header-1-1-2">next方法的参数</h3>
+<p>yield 语句本身没有返回值，或者说总是返回 undefined。next方法可以带一个参数，该参数就会被当作上一个yield语句的返回值。</p>
+<pre><code>function* f() {
+  for(var i = 0; true; i++) {
+    var reset = yield i;
+    if(reset) { i = -1; }
+  }
+}
+
+var g = f();
+
+g.next() // { value: 0, done: false }
+g.next() // { value: 1, done: false }
+g.next(true) // { value: 0, done: false }
+</code></pre><p>这个功能有很重要的语法意义。Generator 函数从暂停状态到恢复运行，它的上下文状态（context）是不变的。通过next方法的参数，就有办法在 Generator 函数开始运行之后，继续向函数体内部注入值。</p>
+<p>注意，由于next方法的参数表示上一个yield语句的返回值，所以第一次使用next方法时，不能带有参数。V8引擎直接忽略第一次使用next方法时的参数，只有从第二次使用next方法开始，参数才是有效的。变通的方法最方便的是在生成函数中传入参数，最彻底的方式是在 Generator 函数外面包一层函数。</p>
+<h3 id="header-1-1-3">for...of循环</h3>
+<pre><code>function *foo() {
+  yield 1;
+  yield 2;
+  yield 3;
+  yield 4;
+  yield 5;
+  return 6;
+}
+var f = foo()
+for (let v of f) {
+  console.log(v);
+}
+// 1 2 3 4 5
+</code></pre><p>这里需要注意，一旦next方法的返回对象的done属性为true，for...of循环就会中止，且不包含该返回对象，所以上面代码的return语句返回的6，不包括在for...of循环之中。
+同样的道理可以用在扩展运算符上：</p>
+<pre><code>function* numbers () {
+  yield 1
+  yield 2
+  return 3
+  yield 4
+}
+
+// 扩展运算符
+[...numbers()] // [1, 2]
+</code></pre><h3 id="header-1-1-4">Generator.prototype.throw()</h3>
+<p>Generator函数返回的遍历器对象，都有一个throw方法，可以在函数体外抛出错误，然后在Generator函数体内捕获。</p>
+<pre><code>var g = function* () {
+  try {
+    yield;
+  } catch (e) {
+    console.log(&#39;内部捕获&#39;, e);
+  }
+};
+
+var i = g();
+i.next();
+
+try {
+  i.throw(&#39;a&#39;);
+  i.throw(&#39;b&#39;);
+} catch (e) {
+  console.log(&#39;外部捕获&#39;, e);
+}
+// 内部捕获 a
+// 外部捕获 b
+</code></pre><p>错误捕获只执行一次，注意 throw 的参数。另外如果Generator函数内部和外部，都没有部署try...catch代码块，那么程序将报错，直接中断执行。</p>
+<h3 id="header-1-1-5">Generator.prototype.return()</h3>
+<p>Generator 函数返回的遍历器对象，还有一个 return 方法，可以返回给定的值，并且终结遍历 Generator 函数，并且改变的只是遍历器的状态，不会执行 Generator 内部的代码。</p>
+<pre><code>function* gen() {
+  yield 1;
+  console.log(&#39;after yield 1&#39;);
+  yield 2;
+  console.log(&#39;after yield 2&#39;);
+  yield 3;
+  console.log(&#39;after yield 3&#39;);
+}
+
+var g = gen();
+
+g.next()        // { value: 1, done: false }
+g.return(&#39;foo&#39;) // { value: &quot;foo&quot;, done: true }
+</code></pre><h3 id="header-1-1-6">yield* 语句</h3>
+<p>使 Generator 函数可嵌套：</p>
+<pre><code>function *foo() {
+  yield 2;
+  yield 3;
+  return &quot;foo&quot;;
+}
+
+function *bar() {
+  yield 1;
+  var v = yield *foo();
+  console.log( &quot;v: &quot; + v );
+  yield 4;
+}
+
+var it = bar();
+
+it.next()
+// {value: 1, done: false}
+it.next()
+// {value: 2, done: false}
+</code></pre><h2 id="header-1-2">Promise 对象</h2>
+<h3 id="header-1-2-1">概述</h3>
+<p>Promise是异步编程的一种解决方案，比传统的解决方案——回调函数和事件——更合理和更强大。从语法上说，Promise是一个对象，从它可以获取异步操作的消息。Promise提供统一的API，各种异步操作都可以用同样的方法进行处理。</p>
+<p>两个特点一个不同：</p>
+<ul>
+<li>对象的状态不受外界影响。</li>
+<li>只能从Pending变为Resolved和从Pending变为Rejected。</li>
+<li>就算改变已经发生了，你再对Promise对象添加回调函数，也会立即得到这个结果。</li>
+</ul>
+<p>简单实例：</p>
+<pre><code>function timeout(ms) {
+  return new Promise((resolve, reject) =&gt; {
+    setTimeout(resolve, ms, &#39;done&#39;);
+  });
+}
+
+var promise = timeout(100);
+promise.then((value) =&gt; {
+  console.log(value);
+});
+// 控制台输出：done
+</code></pre><p>上面代码执行后，单独执行下面代码也输出同样的结果：</p>
+<pre><code>promise.then((value) =&gt; {
+  console.log(value);
+});
+// 控制台输出：done
+</code></pre><h3 id="header-1-2-2">.then()</h3>
+
+</div>
+</body>
+</html>
