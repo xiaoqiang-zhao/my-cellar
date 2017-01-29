@@ -329,5 +329,42 @@ Promise是异步编程的一种解决方案，比传统的解决方案——回�
 
 指定不管Promise对象最后状态如何，都会执行的操作。
 
+## 异步操作和 Async 函数
+
+Generator 和 Promise 处理异步还是不够直观，借助一些辅助函数可以方便一点，这里略去这些辅助函数的原理和用法，直接进入 ES2017 标准提供的 Async 函数的使用方法。
+
+    // 返回 Promise 实例的函数
+    function p(value) {
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                var date = new Date();
+                resolve(value + ':' + date);
+            }, 2000);
+        });
+    }
+    
+    var asyncSetTimeout = async function (){
+        var f1 = await p('p1');
+        var f2 = await p('p2');
+        console.log(f1);
+        console.log(f2);
+    };
+    
+    asyncSetTimeout();
+    
+    // 控制台输出结果:
+    // p1:Sun Jan 29 2017 21:48:16 GMT+0800 (CST)
+    // p2:Sun Jan 29 2017 21:48:18 GMT+0800 (CST)
+
+使用 async 和 await 处理多个异步请求避免回调地狱要自然的多，另外返回的是一个 Promise 实例。
+
+
+
+
+
+
+
+
+
 
 
