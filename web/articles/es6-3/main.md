@@ -358,7 +358,9 @@ Generator 和 Promise 处理异步还是不够直观，借助一些辅助函数�
 
 使用 async 和 await 处理多个异步请求避免回调地狱要自然的多，另外返回的是一个 Promise 实例。
 
+## Class
 
+需要补充 ES5 中的相关知识
 
 
 
