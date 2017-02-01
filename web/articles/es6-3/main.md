@@ -370,13 +370,27 @@ JS需要一个模块管理器来支持大型复杂的项目，于是有了模块
 
 一个思想先说明：ES6 模块不是对象，而是通过export命令显式指定输出的代码，再通过import命令输入。
 
-经典用法：
+经典用法一：
 
-    // 声明一个模块，并提供对外引用
+    // 声明一个模块 a.js，并提供对外引用
+    var b = 'bb';
+    var c = 'cc';
     
+    export {b, c};
+    export let d = 'dd';
     
+    // 可以向下面这样引用
+    import {b, c, d} from './a';
+    
+经典用法二：
 
-
-
-
+    // 声明一个模块 a.js，并提供对外引用
+    var b = 'bb';
+    var c = 'cc';
+    
+    export default {b, c, d: 'dd'};
+    
+    // 可以向下面这样引用
+    import a from './a';
+    a.b;   // bb
 
