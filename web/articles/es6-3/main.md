@@ -377,7 +377,7 @@ JS需要一个模块管理器来支持大型复杂的项目，于是有了模块
     var c = 'cc';
     
     export {b, c};
-    export let d = 'dd';
+    export function d () {};
     
     // 可以向下面这样引用
     import {b, c, d} from './a';
@@ -393,4 +393,45 @@ JS需要一个模块管理器来支持大型复杂的项目，于是有了模块
     // 可以向下面这样引用
     import a from './a';
     a.b;   // bb
+
+补充说明一下，如果 `export default` 与普通 `export` 同时使用时，可以像下面这样 `import`。
+
+    import {default as a, c} from './a';
+    
+### 模块的整体加载
+
+经典用法一对外暴露的变量如果想挂在一个对象被引入需要用到 "*" 这一特殊符号：
+
+    // 声明一个模块 a.js，并提供对外引用
+    var b = 'bb';
+    var c = 'cc';
+    
+    export {b, c};
+    export let d = 'dd';
+    
+    // 可以向下面这样引用
+    import * as a from './a';
+    a.b;   // bb
+
+### export 与 import 的复合写法
+
+示例：
+
+    export { foo, bar } from 'my_module';
+    
+    // 等同于
+    import { foo, bar } from 'my_module';
+    export { foo, bar };
+    
+    // 整体输出
+    export * from 'my_module';
+
+整体输出可以用于模块之间的继承，如果需要改变名称可以参考下面示例：
+
+    export { area as circleArea } from 'circle';
+
+### ES6模块加载的实质
+
+
+
 
