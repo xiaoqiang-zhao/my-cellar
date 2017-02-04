@@ -370,48 +370,101 @@ JS需要一个模块管理器来支持大型复杂的项目，于是有了模块
 
 一个思想先说明：ES6 模块不是对象，而是通过export命令显式指定输出的代码，再通过import命令输入。
 
-经典用法一：
+### 经典用法
+
+经典用法一：模块功能单一，只输出一个函数或一个常量，使用 default 关键字
+
+一个常量：
 
     // 声明一个模块 a.js，并提供对外引用
-    var b = 'bb';
-    var c = 'cc';
-    
-    export {b, c};
-    export function d () {};
+    var str = 'string';
+    export default str;
     
     // 可以向下面这样引用
-    import {b, c, d} from './a';
+    import a from './a';  // a 的值就是 "string"
     
-经典用法二：
+一个函数：
+    
+    // 声明一个模块 a.js，并提供对外引用
+    function fun () {
+        // do something
+        console.log('function fun in module a');
+    }
+    
+    // 可以向下面这样引用
+    import a from './a';  // a 的值就是 fun 函数
+    a();  // 控制台输出 "function fun in module a"
+
+个人推荐定义和对外引用分离书写，这样显得逻辑更清晰，像上面示例代码那样，但是在语法上还可以何在一起书写，代码更简洁，像下面这样(引用方式不变，这里代码略去):
+
+    // 对外引用字符串
+    export default 'string';
+    // 对外引用对象
+    export default {
+        attr: 'Attribution'
+    };
+    // 对外引用函数
+    export default function () {
+        console.log('function fun in module a');
+    };
+    
+经典用法二：一个模块对外输出多个引用
+
+分离写法：
 
     // 声明一个模块 a.js，并提供对外引用
-    var b = 'bb';
-    var c = 'cc';
-    
-    export default {b, c, d: 'dd'};
+    var str = 'string';
+    function fun () {
+        console.log('function fun in module a');
+    }
+    export {str, fun};
     
     // 可以向下面这样引用
+    import {str, fun} from './a';
+    console.log(str);   // "string"
+    fun();              // "function fun in module a"
+
+简略写法：
+
+    // 声明一个模块 a.js，并提供对外引用
+    export var str = 'string';
+    export function fun () {
+        console.log('function fun in module a');
+    }
+    export let object = {
+        // ...
+    };
+
+补充说明一下，对外引用 `export default` 与普通 `export` 可以同时使用：
+
+    var str = 'string';
+    function fun () {
+        console.log('function fun in module a');
+    }
+    export {str, fun};
+    export default {str, fun};
+
+引用时可以单独只使用 default 的对外输出：
+
     import a from './a';
-    a.b;   // bb
+    a.fun();      // "function fun in module a"
 
-补充说明一下，如果 `export default` 与普通 `export` 同时使用时，可以像下面这样 `import`。
+也可以像下面这样混合使用。
 
-    import {default as a, c} from './a';
+    import {default as a, str, fun, object} from './a';
+    console.log(a.fun === fun);   // true
+
+你还可能遇到一种情况，如果两个模块都有 fun 方法怎么办？这里提供两个解决方案：
+
+使用 as 关键字指定别名，可以这样写：
+
+    import {fun as moduleAFun} from './a';
+    moduleAFun();
     
-### 模块的整体加载
+将模块 a 直接整体使用，可以这样写：
 
-经典用法一对外暴露的变量如果想挂在一个对象被引入需要用到 "*" 这一特殊符号：
-
-    // 声明一个模块 a.js，并提供对外引用
-    var b = 'bb';
-    var c = 'cc';
-    
-    export {b, c};
-    export let d = 'dd';
-    
-    // 可以向下面这样引用
     import * as a from './a';
-    a.b;   // bb
+    a.fun();
 
 ### export 与 import 的复合写法
 
