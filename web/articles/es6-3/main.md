@@ -487,5 +487,59 @@ JS需要一个模块管理器来支持大型复杂的项目，于是有了模块
 
 ES6模块加载的机制，与CommonJS模块完全不同。CommonJS模块输出的是一个值的拷贝，而ES6模块输出的是值的引用。
 
+先看一个例子，index.js 中引用两个模块 a.js 和 b.js，并且分别调用两个模块的 log 方法：
+
+    // index.js
+    import a from './a';
+    import b from './b';
+    
+    a.log();
+    b.log();
+    
+a.js，该模块与 b.js 都引用了 x.js 模块，在该模块中先输出 x.js 模块的 str 属性，然后调用 x.js 模块下的 object.changeStr 方法改变 x.js 模块中的内部变量并输出：
+
+    import {object, str} from './x';
+    
+    function log () {
+        console.log('1、' + str);
+        console.log('2、change str in module a:' + object.changeStr());
+    };
+    
+    export default {log};
+    
+b.js，同样引用 x.js 模块，但是模块中只有一个 log 方法对外调用，log 方法的作用就是输出 x.js 模块的 str 属性：
+
+    import {object, str} from './x'
+    
+    function log () {
+        console.log('3、' + str);
+    };
+    
+    export default {log};
+
+x.js，该模块中 object.changeStr 方法改变内部变量 str，具体的说就是添加字符串 "++"： 
+
+    var str = 'String';
+    var object = {
+        attr: 'Attribution',
+        changeStr: function () {
+            str += '++';
+            return str;
+        }
+    };
+    
+    export {object, str};
+
+最后控制台输出的结果是：
+
+    1、String
+    2、change str in module a:String++
+    3、String++
+
+可以看到当 a.js 模块通过调用 x.js 的方法改变了 x.js 模块的内部变量会引起 b.js 中 x.js 模块的字符串属性的改变，这就是 ES6 模块管理的值引用。
+
+
+
+
 
 
