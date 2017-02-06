@@ -538,8 +538,55 @@ x.js，该模块中 object.changeStr 方法改变内部变量 str，具体的说
 
 可以看到当 a.js 模块通过调用 x.js 的方法改变了 x.js 模块的内部变量会引起 b.js 中 x.js 模块的字符串属性的改变，这就是 ES6 模块管理的值引用。
 
+### Node 的加载处理
 
+Node 对 ES6 模块的处理比较麻烦，因为它有自己的 CommonJS 模块格式，与 ES6 模块格式是不兼容的。目前的解决方案是，将两者分开，ES6 模块和 CommonJS 采用各自的加载方案。
+ 
+ 在静态分析阶段，一个模块脚本只要有一行import或export语句，Node 就会认为该脚本为 ES6 模块，否则就为 CommonJS 模块。如果不输出任何接口，但是希望被 Node 认为是 ES6 模块，可以在脚本中加一行语句。
 
+如何不指定绝对路径，Node 加载 ES6 模块会依次寻找以下脚本：
+    
+    import './foo';
+    // 依次寻找
+    //   ./foo.js
+    //   ./foo/package.json
+    //   ./foo/index.js
 
+### import 命令加载 CommonJS 模块
+
+Node 采用 CommonJS 模块格式，模块的输出都定义在module.exports这个属性上面。在 Node 环境中，使用import命令加载 CommonJS 模块，Node 会自动将module.exports属性，当作模块的默认输出，即等同于export default。示例：
+
+    // a.js
+    module.exports = {
+      foo: 'hello',
+      bar: 'world'
+    };
+    
+    // 等同于
+    export default {
+      foo: 'hello',
+      bar: 'world'
+    };
+
+CommonJS 模块的输出缓存机制，在 ES6 加载方式下依然有效。
+
+    module.exports = 123;
+    setTimeout(_ => module.exports = null);
+
+上面代码中，对于加载上面脚本，module.exports 将一直是 123，而不会变成 null。
+
+### require 命令加载 ES6 模块
+
+采用require命令加载 ES6 模块时，ES6 模块的所有输出接口，会成为输入对象的属性。
+
+    // es.js
+    let foo = {bar:'my-default'};
+    export default foo;
+    foo = null;
+    
+    // cjs.js
+    const es_namespace = require('./es');
+    console.log(es_namespace.default);
+    // {bar:'my-default'}
 
 
