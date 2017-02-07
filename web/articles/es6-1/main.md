@@ -453,9 +453,3 @@ Object.assign 方法，同名属性后面的覆盖前面的：
     target // {a:1, b:2, c:3}
 
 注意，Object.assign 方法实行的是浅拷贝，而不是深拷贝。
-
-
-
-
-
-

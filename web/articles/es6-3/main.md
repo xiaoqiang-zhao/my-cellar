@@ -588,5 +588,3 @@ CommonJS 模块的输出缓存机制，在 ES6 加载方式下依然有效。
     const es_namespace = require('./es');
     console.log(es_namespace.default);
     // {bar:'my-default'}
-
-
