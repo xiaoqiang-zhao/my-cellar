@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Object - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">Object</h1>
+<blockquote>
+<p>ES2015 的新特性还没跟上 ES6 又来了，让我们一起补课，紧跟时代别拉下。</p>
+</blockquote>
+<h2 id="header-1-1">声明方式</h2>
+<p>声明方式有了一些简化写法：</p>
+<pre><code>var human = {
+    breathe() {
+        console.log(&#39;breathing...&#39;);
+    }
+};
+
+function sleep() {
+    console.log(&#39;sleeping...&#39;);
+}
+
+var worker = {
+    __proto__: human, // 设置原型，相当于继承human
+    company: &#39;code&#39;,
+    sleep, // 相当于 `sleep: sleep`
+    work() {
+        console.log(&#39;working...&#39;);
+    }
+};
+</code></pre><p>调用方式没有什么大的变化：</p>
+<pre><code>human.breathe(); // `breathing...`
+worker.sleep(); // `sleeping...`
+worker.work(); // `working...`
+
+for ()
+</code></pre><h2 id="header-1-2">参考</h2>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#New_notations_in_ECMAScript_2015" target="_blank">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#New_notations_in_ECMAScript_2015</a></p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object</a></p>
+
+</div>
+</body>
+</html>
