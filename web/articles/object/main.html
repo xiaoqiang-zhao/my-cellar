@@ -43,11 +43,24 @@ var worker = {
     }
 };
 </code></pre><p>调用方式没有什么大的变化：</p>
-<pre><code>human.breathe(); // `breathing...`
-worker.sleep(); // `sleeping...`
-worker.work(); // `working...`
+<pre><code>human.breathe(); // breathing...
+worker.sleep();  // sleeping...
+worker.work();   // working...
 
-for ()
+for (key in worker) {
+    console.log(key);
+    if (worker.hasOwnProperty(key)) {
+        console.log(&#39;OwnProperty:&#39; + key);
+    }
+}
+// 控制台输出结果
+company
+OwnProperty:company
+sleep
+OwnProperty:sleep
+work
+OwnProperty:work
+breathe
 </code></pre><h2 id="header-1-2">参考</h2>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#New_notations_in_ECMAScript_2015" target="_blank">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#New_notations_in_ECMAScript_2015</a></p>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object</a></p>
