@@ -1,10 +1,14 @@
 # 开源项目的文件目录
 
+> 从 github 上找那些 star 最多最有名气的项目，分析他们的目录结构找共同点
+
 ## 基础的目录
 
     ${root}
         ├── README.md
         ├── LICENSE
+        ├── package.json
+        ├── dist 全称 distribution，存放发布后的代码
         └── .gitignore
             
 ## 特定场景的目录
