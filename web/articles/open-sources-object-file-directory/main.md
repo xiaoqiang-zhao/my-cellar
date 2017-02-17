@@ -13,6 +13,8 @@
             
 ## 特定场景的目录
 
+https://www.qianduan.net/jslint-to-eslint/
+
 ## 参考资料
 
 github 上 start 排名前十的开源项目：

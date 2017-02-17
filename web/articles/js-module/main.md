@@ -21,7 +21,7 @@
 
 但不幸的是CommonJs对浏览器端不适用。因为要调用 `math` 要调用因此必须等 `math.js` 加载完成。也就是说，如果加载时间很长，整个应用就会停在那里等。这对服务器端不是一个问题，因为所有的模块都存放在本地硬盘，可以同步加载完成，等待时间就是硬盘的读取时间。但是，对于浏览器，这却是一个大问题，因为模块都放在服务器端，等待时间取决于网速的快慢，可能要等很长时间，浏览器处于"假死"状态。因此，浏览器端的模块，不能采用"同步加载"（synchronous），只能采用"异步加载"（asynchronous）。
 
-面对这样的问题，一位大侠站了出来，他就是James Burke，此人练成一种神功名曰 `RequireJs`，又总结了心得出了一本内功心法名曰 `AMD`，他的口号是“我的神功可以复制”，话说大侠心法还还真不是浪得虚名，江湖后辈根据此心法又有多人练成神功，比如[curl.js](https://github.com/cujojs/curl)、 [esl.js](https://github.com/ecomfe/esl/)。关于`RequireJs`的详细锻造过程被记录在了[GitHub](https://github.com/jrburke/requirejs)上，从记录中我们可以看到 `first commit(首次提交)` 的时间是2009.8.28。
+面对这样的问题，一位大侠站了出来，他就是James Burke，此人练成一种神功名曰 `RequireJs`，又总结了心得出了一本内功心法名曰 `AMD`，他的口号是“我的神功可以复制”，话说大侠心法还真不是浪得虚名，江湖后辈根据此心法又有多人练成神功，比如[curl.js](https://github.com/cujojs/curl)、 [esl.js](https://github.com/ecomfe/esl/)。关于`RequireJs`的详细锻造过程被记录在了[GitHub](https://github.com/jrburke/requirejs)上，从记录中我们可以看到 `first commit(首次提交)` 的时间是2009.8.28。
 
 长江后浪推前浪，又过了一年（软件行业发展就是快，不像武侠小说一过就是20年），一位来自中国的少侠名曰玉伯出来叫板 `RequireJs`，并创出另一种神功 `SeaJs`，同时根据这一神功也出了一种心法名曰 `CMD`，从此JS模块化的江湖再度腥风血雨，孰正孰邪只能交给历史来评论了，这里就不再引述王婆自卖自夸的吆喝和那些无法证实的流言了。`SeaJs` 的`first commit(首次提交)` 的时间是2010.12.29。
 
