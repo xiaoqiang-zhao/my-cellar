@@ -9,3 +9,7 @@
 [eslint](https://github.com/eslint/eslint)
 
 [eslint 中文版配置](https://segmentfault.com/a/1190000004468428)
+
+[百度 ESLint 的使用规则](https://github.com/ecomfe/fecs/wiki/ESLint)
+
+[百度 ESLint 的配置规则](https://github.com/ecomfe/fecs/blob/master/lib/js/eslint.yml)
