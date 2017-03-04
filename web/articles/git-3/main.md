@@ -55,6 +55,14 @@
     esc
     :wq!
 
+如果你想查看有几个 commit，可以用下面命令
+
+    git log
+
+撤销 commit 的命令如下：
+
+    git reset --hard commit_id 
+    
 ### git log	
 
 	// 查看 commit日志
