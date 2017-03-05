@@ -14,7 +14,7 @@
 
 `test` 自动化测试文件。
 
-## 安装一个包
+## 安装一个依赖包
 
 自动把模块和版本号添加到dependencies部分。
  
@@ -36,11 +36,23 @@
 
 	npm uninstall module-name -save
 
+### 依赖包版本的控制
+
+如果我们没有精力去实时关注依赖包的更新，或者依赖包是一个不稳定版本，API 还处在一个快速迭代的时期，那么我们最好依赖一个特定的版本。根据自己的需求来指定版本依赖方式，下面是来自官方文档的部分译文。
+
+Dependencies 用一个包名的简单哈希来描述包的版本范围(译者注：简单地说就是键值对"vue": "^2.1.4")。版本范围通过一个字符串来设置，该字符串可以有一个或多个间隔描述符。依赖包还可以通过源码或 git 的 URL来指定。 
+
+注意不要讲测试工具和打包转换等工具的依赖放到 Dependencies 中。
+
+- `^version` 能兼容所配置版本
+- `version1 - version2`
+- `range1 || range2`
+
+[语法规则原文](https://github.com/npm/npm/blob/2e3776bf5676bc24fec6239a3420f377fe98acde/doc/files/package.json.md#dependencies)
+
 ## dependencies 和 devDependencies
 
-简单的说 dependencies 是生产环境依赖的包，上线的时候需要将 dependencies 下的包打包；而 devDependencies 是开发这个包时需要的一些依赖，也就是说脱离了这个包的开发 devDependencies 可以被忽略。
-
-TODO: 验证 devDependencies 不会安装依赖的说法
+简单的说 dependencies 是生产环境依赖的包，上线的时候需要将 dependencies 下的包打包；而 devDependencies 是开发这个包时需要的一些依赖，也就是说脱离了这个包的开发 devDependencies 可以被忽略。如果其他包引用了当前包，devDependencies 下的依赖是不会被安装的，dependencies 下的依赖 npm 会和其他包的依赖进行全集计算，使安装的包尽可能少。
 
 ## 安装依赖
 
