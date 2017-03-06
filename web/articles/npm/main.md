@@ -50,6 +50,14 @@ Dependencies 用一个包名的简单哈希来描述包的版本范围(译者注
 
 [语法规则原文](https://github.com/npm/npm/blob/2e3776bf5676bc24fec6239a3420f377fe98acde/doc/files/package.json.md#dependencies)
 
+Git URLs 可以是下面格式：
+
+    git://github.com/user/project.git#commit-ish
+    git+ssh://user@hostname:project.git#commit-ish
+    git+ssh://user@hostname/project.git#commit-ish
+    git+http://user@hostname/project/blah.git#commit-ish
+    git+https://user@hostname/project/blah.git#commit-ish
+
 ## dependencies 和 devDependencies
 
 简单的说 dependencies 是生产环境依赖的包，上线的时候需要将 dependencies 下的包打包；而 devDependencies 是开发这个包时需要的一些依赖，也就是说脱离了这个包的开发 devDependencies 可以被忽略。如果其他包引用了当前包，devDependencies 下的依赖是不会被安装的，dependencies 下的依赖 npm 会和其他包的依赖进行全集计算，使安装的包尽可能少。
@@ -104,15 +112,28 @@ node 版本的偶数版是稳定版，使用 `n ls` 可以查看全部发布过�
 
 ### 依赖安装失败
 
-待续...
+国内环境受到墙的影响，可能安装缓慢，也可能大面积安装失败，如果大面积安装失败可以尝试 `cnpm` 这样的国内镜像 或者翻墙。个别安装失败会在安装或运行的时候提示某个包找不到，这时需要单独安装缺失的包，npm 2.0 之后依赖的依赖不会放在依赖下面的 node_modules，而是会放在依赖的同级，所以只要在项目路径下安装缺失的包就可以。如果以上方法都不行，先去喝杯咖啡回来可能就可以装上了...
 
 ### 依赖变更
 
-锁定依赖版本防止被人上房抽梯，由 left-pad 引发的思考。 待续...
+锁定依赖版本防止被人上房抽梯，由 left-pad 引发的思考。如果某个包不遵守开原版本规范，有了不兼容升级却只改了一个小版本，npm 平台并不限制这种行为，但是 npm 是不允许修改已发布版本的，所以版本锁定是一个较为稳妥的方案。
 
-### 依赖的依赖放在哪里？
+### 引用逻辑
 
-待续...
+先说一下定义文件的读取规则：
+
+- .js;
+- 文件夹，读取 package.json 的 main 设置，然后根据设置引用文件;
+- 文件夹，读取不到 package.json 的直接引用 index.js;
+- 注意 .json 并不能直接被包引用识别。
+
+自定义文件像这样引用 `import packageName from './package-path`，依赖包的引用像这样`import packageName from 'package-name`。依赖包的引用规则：
+
+- 先找缓存中是否有;
+- 然后当先项目下的 node_modules 文件夹下，如果找到了添加到缓存下;
+- 项目上一层目录的 node_modules，如果找到了添加到缓存下。
+
+ES6 与 CommonJs 的引用略有不同，具体参考我的另一篇学习笔记[ ES6 学习笔记 - Part 3](/index.html#!/articles/es6-3)。
 
 ## 参考资料
 
