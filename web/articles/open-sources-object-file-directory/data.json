@@ -1,0 +1,12 @@
+{
+  "enName": "open-sources-object-file-directory",
+  "title": "开源项目的文件目录",
+  "introduction": "从 github 上找那些 star 最多最有名气的项目，分析他们的目录结构找共同点",
+  "tags": [],
+  "isPublished": false,
+  "state": "立项",
+  "type": "md",
+  "createDate": 1488791920703,
+  "commentList": [],
+  "todoList": []
+}

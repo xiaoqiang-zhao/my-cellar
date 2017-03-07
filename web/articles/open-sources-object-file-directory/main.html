@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>开源项目的文件目录 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">开源项目的文件目录</h1>
+<blockquote>
+<p>从 github 上找那些 star 最多最有名气的项目，分析他们的目录结构找共同点</p>
+</blockquote>
+<h2 id="header-1-1">基础的目录</h2>
+<pre><code>${root}
+    ├── README.md
+    ├── LICENSE
+    ├── package.json
+    ├── dist 全称 distribution，存放发布后的代码
+    └── .gitignore
+</code></pre><h2 id="header-1-2">特定场景的目录</h2>
+<p><a href="https://www.qianduan.net/jslint-to-eslint/" target="_blank">https://www.qianduan.net/jslint-to-eslint/</a></p>
+<h2 id="header-1-3">参考资料</h2>
+<p>github 上 start 排名前十的开源项目：</p>
+<p><a href="https://github.com/freeCodeCamp/freeCodeCamp" target="_blank">freeCodeCamp</a></p>
+<p><a href="https://github.com/twbs/bootstrap" target="_blank">bootstrap</a></p>
+<p><a href="https://github.com/d3/d3" target="_blank">d3</a></p>
+<p><a href="https://github.com/facebook/react" target="_blank">react</a></p>
+<p><a href="https://github.com/angular/angular.js" target="_blank">angular</a></p>
+<p><a href="https://github.com/getify/You-Dont-Know-JS" target="_blank">You-Dont-Know-JS</a></p>
+<p><a href="https://github.com/airbnb/javascript" target="_blank">airbnb</a></p>
+<p><a href="https://github.com/facebook/react-native" target="_blank">react-native</a></p>
+<p><a href="https://github.com/jquery/jquery" target="_blank">jquery</a></p>
+<p><a href="https://github.com/vuejs/vue" target="_blank">vue</a></p>
+
+</div>
+</body>
+</html>
