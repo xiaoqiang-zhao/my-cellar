@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Koa 学习笔记 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">Koa 学习笔记</h1>
+<blockquote>
+<p>总需要学一个 Node 的服务器端框架吧，就从 Koa 开始吧。</p>
+</blockquote>
+<h2 id="header-1-1">开始</h2>
+<p>就像官网上说的一切框架都从一个&quot;Hello World&quot;开始，首先我们新建一个 package.json，内容尽量简单：</p>
+<pre><code>{
+  &quot;name&quot;: &quot;koa-note&quot;,
+  &quot;description&quot;: &quot;Koa 学习笔记&quot;,
+  &quot;main&quot;: &quot;index.js&quot;
+}  
+</code></pre><p>然后 npm 安装 Koa</p>
+<pre><code>npm i koa
+</code></pre><p>将官网上给的示例粘贴进去：</p>
+<pre><code>const Koa = require(&#39;koa&#39;);
+const app = new Koa();
+
+app.use(ctx =&gt; {
+    ctx.body = &#39;Hello World&#39;;
+});
+
+app.listen(4000);
+</code></pre><p>然后执行 <code>node index.js</code>，就可以在浏览器中访问 <code>http://localhost:4000/</code> 了。如果你是最新的 Node，已经不需要添加 harmony flag(实测版本 v7.1.0)。</p>
+
+</div>
+</body>
+</html>
