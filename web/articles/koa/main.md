@@ -129,11 +129,70 @@ Koa Context 将 node 的 request 和 response 对象封装在一个单独的对�
 
 Koa 就是一个框架，大部分功能还需要靠中间件实现。
 
-### 中间件 Koa-Rout
+### 中间件 koa-router
+
+安装
 
     npm install koa-router
+
+使用
     
-[koa-router](https://github.com/alexmingoia/koa-router)
+    const Koa = require('koa');
+    const app = new Koa();
+    var router = require('koa-router')();
+    
+    router.get('/', function *(next) {
+        this.body = 'Hello World!';
+    });
+    
+    router.get('/a', function *(next) {
+        this.body = 'Hello World A!';
+    });
+    
+    app.use(router.routes());
+    app.listen(4000);
+    
+    console.log('服务已启动: localhost:4000');
+    
+RESTFul 风格的路由像这样配置：
+
+    router.get('/users/:id', function *(next) {
+        // ...
+    }).del('/users/:id', function *(next) {
+        // ...
+    });
+
+官网：[koa-router](https://github.com/alexmingoia/koa-router)。
+
+### 中间件 koa-static
+
+安装
+
+    npm i koa-static --save
+    
+使用
+
+    var koaStatic = require('koa-static')('./');
+    app.use(koaStatic);
+
+说明：
+
+- 第一个参数指定根路径
+- 第二个参数指定各种配置项
+
+注意：
+
+默认请求指向 `index.html` 文件，当然你可以通过第二个参数 options 自定义默认请求的文件。如果配置了 `koa-router` 的默认路径那么静态文件的路由默认会失效。如下面访问 `http://localhost:4000/` 这样的路径会返回报 404，而不会去读取 `../dist/index.html` 文件并返回。
+
+    router.get('/', function *(next) {
+    });
+    var koaStatic = require('koa-static')('./', {
+        index: '../dist/index.html'
+    });
+
+其他参数参考 koa-static 中间件官网：[koa-static](https://github.com/koajs/static)。
+
+注：[示例源码](/articles/koa/demo/koa-static.js)，示例验证了 HTML，图片，CSS 和 JS 静态文件的加载。
 
 ## 参考
 
