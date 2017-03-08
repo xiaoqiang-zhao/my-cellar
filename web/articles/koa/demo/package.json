@@ -12,7 +12,8 @@
     "email": "longze_xq@163.com"
   },
   "dependencies": {
-    "koa": "^2.0.1"
+    "koa": "^2.0.1",
+    "koa-router": "^5.4.0"
   },
   "license": "MIT"
 }

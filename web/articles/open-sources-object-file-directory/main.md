@@ -10,7 +10,9 @@
         ├── package.json
         ├── dist 全称 distribution，存放发布后的代码
         └── .gitignore
-            
+
+dist 有的项目也用 bin 代替，bin 的全程 binary，一些需要编译的语言(如C)多用 bin。
+
 ## 特定场景的目录
 
 https://www.qianduan.net/jslint-to-eslint/
@@ -38,3 +40,9 @@ github 上 start 排名前十的开源项目：
 [jquery](https://github.com/jquery/jquery)
 
 [vue](https://github.com/vuejs/vue)
+
+大规模使用的一些库和框架
+
+[Koa](https://github.com/koajs)
+
+
