@@ -139,7 +139,7 @@ Koa 就是一个框架，大部分功能还需要靠中间件实现。
     
     const Koa = require('koa');
     const app = new Koa();
-    var router = require('koa-router')();
+    const router = require('koa-router')();
     
     router.get('/', function *(next) {
         this.body = 'Hello World!';
@@ -172,7 +172,7 @@ RESTFul 风格的路由像这样配置：
     
 使用
 
-    var koaStatic = require('koa-static')('./');
+    const koaStatic = require('koa-static')('./');
     app.use(koaStatic);
 
 说明：
@@ -186,13 +186,35 @@ RESTFul 风格的路由像这样配置：
 
     router.get('/', function *(next) {
     });
-    var koaStatic = require('koa-static')('./', {
+    const koaStatic = require('koa-static')('./', {
         index: '../dist/index.html'
     });
 
 其他参数参考 koa-static 中间件官网：[koa-static](https://github.com/koajs/static)。
 
-注：[示例源码](/articles/koa/demo/koa-static.js)，示例验证了 HTML，图片，CSS 和 JS 静态文件的加载。
+注：[示例源码](/articles/koa/demo/koa-static/index.js)，示例验证了 HTML，图片，CSS 和 JS 静态文件的加载。
+
+### 中间件 koa-proxy
+
+安装
+
+    npm i koa-proxy --save
+    
+代理接口，默认只代理接口不代理静态文件，当前的 `router` 优先，也就是说如果已经配置了某接口的路由，那么此接口不会被代理带其他服务器上。
+
+    const koaProxy = require('koa-proxy')({
+        host: 'http://127.0.0.1:5000'
+    });
+    app.use(koaProxy);
+
+也可以给静态文件做远程代理：
+
+    app.get('index.js', proxy({
+      url: 'http://127.0.0.1:5000/index.js'
+    }));
+
+注1：[示例源码](/articles/koa/demo/koa-proxy/index.js)。
+注2：[中间件 koa-proxy](https://github.com/popomore/koa-proxy)
 
 ## 参考
 
