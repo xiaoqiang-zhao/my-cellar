@@ -13,10 +13,9 @@ const koaProxy = require('koa-proxy')({
 //     this.body = '来端口 4000 *非*自代理的 Hello World A!';
 // });
 
-app.use(router.routes());
+app.use(router.routes());   // 不合规
 app.use(koaStatic);
-
-app.use(koaProxy);
+app.use(koaProxy);          // 不合规
 
 app.listen(4000);
 

@@ -4,7 +4,7 @@
 
 ## 开始
 
-就像官网上说的一切框架都从一个"Hello World"开始，首先我们新建一个 package.json，内容尽量简单：
+就像官网上说的，一切框架都从一个"Hello World"开始，首先我们新建一个 package.json，内容尽量简单：
 
     {
       "name": "koa-note",
@@ -30,6 +30,7 @@
 然后执行 `node --harmony index.js`，就可以在浏览器中访问 `http://localhost:4000/` 了。
 
 注1：ctx 是 context 的简写，下面详细介绍。
+
 注2：[示例源码](/articles/koa/demo/start.js)。
 
 ## 2个关键点
@@ -88,6 +89,12 @@ Koa 通过 generators 来实现“真正”的中间件。 Connect 简单地将�
     });
 
 注：[示例源码](/articles/koa/demo/middleware.js)。
+
+说到中间件就不得不提到中间件的开发，简单地说中间件就是一个回调函数，中间件的原理可以参考下面这个"洋葱模型"：
+
+![image](img/middleware-model.png) 
+
+2.x 版可以使用 `yield` 来分割 request 和 response，但是 2.0 发版后就明确说明在 3.x 希望使用 `await` 来代替 `yield`，也就是要从 generator function 升级到 async function。某些组件还没有进行升级，经常会看到控制台上又这样的警告信息 "Support for generators will be removed in v3."，其中常用的 koa-router 和 koa-proxy 就在其中，如果想去除警告，并且与下一个版本兼容，可以参考 koa-static 这个库(做静态文件路由的一个中间件)。
 
 ### app 的几个方法
 
@@ -216,6 +223,30 @@ RESTFul 风格的路由像这样配置：
 注1：[示例源码](/articles/koa/demo/koa-proxy/index.js)。
 注2：[中间件 koa-proxy](https://github.com/popomore/koa-proxy)
 
+## 意外收获的包
+
+> 读源码的时候发现了很多服务器开发有用的包，下面列一下：
+
+### co
+
+Generator 函数执行器，TJ大神的作品。[GitHub](https://github.com/tj/co)
+
+### methods
+
+Node 支持的 http 类型，这种只返回一个数组的小包居然也是 TJ 大神创立的。[GitHub](https://github.com/jshttp/methods)
+
+### http-errors
+
+处理 http 异常的模块，这个做服务器端开发肯定少不了。[GitHub](https://github.com/jshttp/http-errors)
+
+### cookie
+
+这种包用途也和广泛。[GitHub](https://github.com/jshttp/cookie)
+
+### path-to-regexp
+
+非常棒的路径匹配和 RESTFul 地址转化的工具。[GitHub](https://github.com/pillarjs/path-to-regexp)
+
 ## 参考
 
 [github koajs](https://github.com/koajs/koa)
@@ -224,6 +255,6 @@ RESTFul 风格的路由像这样配置：
 
 [Koa 中文文档](http://koa.bootcss.com/)
 
-
+[《Koa 实战》](http://book.apebook.org/minghe/koa-action/hello-koa/index.html)
 
 
