@@ -8,6 +8,7 @@
         ├── README.md
         ├── LICENSE
         ├── package.json
+        ├── build 构建、测试等各种脚本
         ├── dist 全称 distribution，存放发布后的代码
         └── .gitignore
 

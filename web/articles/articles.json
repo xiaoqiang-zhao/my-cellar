@@ -28,18 +28,6 @@
     "todoList": []
   },
   {
-    "enName": "Jenkins",
-    "title": "Jenkins 学习笔记",
-    "introduction": "持续集成必备神器。",
-    "tags": [],
-    "isPublished": false,
-    "state": "立项",
-    "type": "md",
-    "createDate": 1488791920658,
-    "commentList": [],
-    "todoList": []
-  },
-  {
     "enName": "algorithms-1",
     "title": "当算法与前端相遇",
     "introduction": "前端需要了解算法吗？读了几章《算法导论》，结合一下项目实践试着以前端的视角来窥视一下算法的世界。",
@@ -492,6 +480,18 @@
     "todoList": []
   },
   {
+    "enName": "jenkins",
+    "title": "Jenkins 学习笔记",
+    "introduction": "持续集成必备神器。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1488791920658,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "jointjs",
     "title": "译 JointJS API",
     "introduction": "本篇是[JointJS API](http://www.jointjs.com/api)的译文，期间会夹杂一些我的理解和辅助理解的Demo。",
@@ -603,8 +603,12 @@
     "enName": "koa",
     "title": "Koa 学习笔记",
     "introduction": "总需要学一个 Node 的服务器端框架吧，就从 Koa 开始吧。",
-    "tags": [],
-    "isPublished": false,
+    "tags": [
+      "框架",
+      "个人笔记",
+      "推荐"
+    ],
+    "isPublished": true,
     "state": "立项",
     "type": "md",
     "createDate": 1488856791722,

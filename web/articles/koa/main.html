@@ -23,7 +23,7 @@
 <p>总需要学一个 Node 的服务器端框架吧，就从 Koa 开始吧。</p>
 </blockquote>
 <h2 id="header-1-1">开始</h2>
-<p>就像官网上说的一切框架都从一个&quot;Hello World&quot;开始，首先我们新建一个 package.json，内容尽量简单：</p>
+<p>就像官网上说的，一切框架都从一个&quot;Hello World&quot;开始，首先我们新建一个 package.json，内容尽量简单：</p>
 <pre><code>{
   &quot;name&quot;: &quot;koa-note&quot;,
   &quot;description&quot;: &quot;Koa 学习笔记&quot;,
@@ -40,7 +40,166 @@ app.use(ctx =&gt; {
 });
 
 app.listen(4000);
-</code></pre><p>然后执行 <code>node index.js</code>，就可以在浏览器中访问 <code>http://localhost:4000/</code> 了。如果你是最新的 Node，已经不需要添加 harmony flag(实测版本 v7.1.0)。</p>
+</code></pre><p>然后执行 <code>node --harmony index.js</code>，就可以在浏览器中访问 <code>http://localhost:4000/</code> 了。</p>
+<p>注1：ctx 是 context 的简写，下面详细介绍。</p>
+<p>注2：<a href="/articles/koa/demo/start.js" target="_blank">示例源码</a>。</p>
+<h2 id="header-1-2">2个关键点</h2>
+<p>Koa 的核心设计思路是为中间件层提供高级语法糖封装，以增强其互用性和健壮性，并使得编写中间件变得相当有趣。Koa 应用是一个包含一系列中间件 generator 函数的对象。 </p>
+<h3 id="header-1-2-1">中间件级联</h3>
+<p>Koa 通过 generators 来实现“真正”的中间件。 Connect 简单地将控制权交给一系列函数来处理，直到函数返回。 与之不同，当执行到 yield next 语句时，Koa 暂停了该中间件，继续执行下一个符合请求的中间件(&#39;downstrem&#39;)，然后控制权再逐级返回给上层中间件(&#39;upstream&#39;)。</p>
+<pre><code>const Koa = require(&#39;koa&#39;);
+const app = new Koa();
+
+// 定制请求头
+app.use(async function (ctx, next) {
+    const start = new Date();
+    await next();
+    const ms = new Date() - start;
+    ctx.set(&#39;X-Response-Time&#39;, `${ms}ms`);
+});
+
+// 日志
+app.use(async function (ctx, next) {
+    const start = new Date();
+    await next();
+    const ms = new Date() - start;
+    console.log(`${ctx.method} ${ctx.url} - ${ms}`);
+});
+
+// 请求内容
+app.use(ctx =&gt; {
+    ctx.body = &#39;Hello World&#39;;
+});
+</code></pre><p>上面的例子在页面中返回 &quot;Hello World&quot;，然而当请求开始时，请求先经过定制请求头和日志中间件，并记录中间件执行起始时间。 然后将控制权交给 reponse 中间件。当中间件运行到 yield next 时，函数挂起并将控制前交给下一个中间件。当没有中间件执行 yield next 时，程序栈会逆序唤起被挂起的中间件来执行接下来的代码。</p>
+<p>为了方便理解我 YY 了下面的例子：</p>
+<pre><code>// 定制请求头
+app.use(async function (ctx, next) {
+    console.log(&#39;step 1&#39;);
+    await next();
+    console.log(&#39;step 5&#39;);
+});
+
+// 日志输出
+app.use(async function (ctx, next) {
+    console.log(&#39;step 2&#39;);
+    await next();
+    console.log(&#39;step 4:&#39;);
+});
+
+// 请求内容
+app.use(ctx =&gt; {
+    console.log(&#39;step 3&#39;);
+});
+</code></pre><p>注：<a href="/articles/koa/demo/middleware.js" target="_blank">示例源码</a>。</p>
+<p>说到中间件就不得不提到中间件的开发，简单地说中间件就是一个回调函数，中间件的原理可以参考下面这个&quot;洋葱模型&quot;：</p>
+<p><img src="img/middleware-model.png" alt="image"> </p>
+<p>2.x 版可以使用 <code>yield</code> 来分割 request 和 response，但是 2.0 发版后就明确说明在 3.x 希望使用 <code>await</code> 来代替 <code>yield</code>，也就是要从 generator function 升级到 async function。某些组件还没有进行升级，经常会看到控制台上又这样的警告信息 &quot;Support for generators will be removed in v3.&quot;，其中常用的 koa-router 和 koa-proxy 就在其中，如果想去除警告，并且与下一个版本兼容，可以参考 koa-static 这个库(做静态文件路由的一个中间件)。</p>
+<h3 id="header-1-2-2">app 的几个方法</h3>
+<p>app.listen()，为应用绑定端口，参数的详细文档请查看<a href="http://nodejs.org/api/http.html#http_server_listen_port_hostname_backlog_callback" target="_blank">nodejs.org</a>。</p>
+<p>app.callback()，返回一个适合 <code>http.createServer()</code> 方法的回调函数用来处理请求。</p>
+<p>app.use(function)，为应用添加指定的中间件，详情请看 <a href="https://github.com/koajs/koa/wiki#middleware" target="_blank">Middleware</a>。</p>
+<p>app.keys=，设置签名Cookie密钥。</p>
+<p>app.context，方便扩展 ctx：</p>
+<pre><code>app.context.db = db();
+
+app.use(async (ctx) =&gt; {
+  console.log(ctx.db);
+});
+</code></pre><p>app.on，典型的是错误处理：</p>
+<pre><code>app.on(&#39;error&#39;, function(err){
+  log.error(&#39;server error&#39;, err);
+});
+</code></pre><h2 id="header-1-3">上下文</h2>
+<p>Koa Context 将 node 的 request 和 response 对象封装在一个单独的对象里面，其为编写 web 应用和 API 提供了很多有用的方法。</p>
+<pre><code>app.use(function *(){
+  this; // is the Context
+  this.request; // is a koa Request
+  this.response; // is a koa Response
+});
+</code></pre><p>一堆 API 就不写了，自行到官网查看。</p>
+<h2 id="header-1-4">中间件</h2>
+<p>Koa 就是一个框架，大部分功能还需要靠中间件实现。</p>
+<h3 id="header-1-4-1">中间件 koa-router</h3>
+<p>安装</p>
+<pre><code>npm install koa-router
+</code></pre><p>使用</p>
+<pre><code>const Koa = require(&#39;koa&#39;);
+const app = new Koa();
+const router = require(&#39;koa-router&#39;)();
+
+router.get(&#39;/&#39;, function *(next) {
+    this.body = &#39;Hello World!&#39;;
+});
+
+router.get(&#39;/a&#39;, function *(next) {
+    this.body = &#39;Hello World A!&#39;;
+});
+
+app.use(router.routes());
+app.listen(4000);
+
+console.log(&#39;服务已启动: localhost:4000&#39;);
+</code></pre><p>RESTFul 风格的路由像这样配置：</p>
+<pre><code>router.get(&#39;/users/:id&#39;, function *(next) {
+    // ...
+}).del(&#39;/users/:id&#39;, function *(next) {
+    // ...
+});
+</code></pre><p>官网：<a href="https://github.com/alexmingoia/koa-router" target="_blank">koa-router</a>。</p>
+<h3 id="header-1-4-2">中间件 koa-static</h3>
+<p>安装</p>
+<pre><code>npm i koa-static --save
+</code></pre><p>使用</p>
+<pre><code>const koaStatic = require(&#39;koa-static&#39;)(&#39;./&#39;);
+app.use(koaStatic);
+</code></pre><p>说明：</p>
+<ul>
+<li>第一个参数指定根路径</li>
+<li>第二个参数指定各种配置项</li>
+</ul>
+<p>注意：</p>
+<p>默认请求指向 <code>index.html</code> 文件，当然你可以通过第二个参数 options 自定义默认请求的文件。如果配置了 <code>koa-router</code> 的默认路径那么静态文件的路由默认会失效。如下面访问 <code>http://localhost:4000/</code> 这样的路径会返回报 404，而不会去读取 <code>../dist/index.html</code> 文件并返回。</p>
+<pre><code>router.get(&#39;/&#39;, function *(next) {
+});
+const koaStatic = require(&#39;koa-static&#39;)(&#39;./&#39;, {
+    index: &#39;../dist/index.html&#39;
+});
+</code></pre><p>其他参数参考 koa-static 中间件官网：<a href="https://github.com/koajs/static" target="_blank">koa-static</a>。</p>
+<p>注：<a href="/articles/koa/demo/koa-static/index.js" target="_blank">示例源码</a>，示例验证了 HTML，图片，CSS 和 JS 静态文件的加载。</p>
+<h3 id="header-1-4-3">中间件 koa-proxy</h3>
+<p>安装</p>
+<pre><code>npm i koa-proxy --save
+</code></pre><p>代理接口，默认只代理接口不代理静态文件，当前的 <code>router</code> 优先，也就是说如果已经配置了某接口的路由，那么此接口不会被代理带其他服务器上。</p>
+<pre><code>const koaProxy = require(&#39;koa-proxy&#39;)({
+    host: &#39;http://127.0.0.1:5000&#39;
+});
+app.use(koaProxy);
+</code></pre><p>也可以给静态文件做远程代理：</p>
+<pre><code>app.get(&#39;index.js&#39;, proxy({
+  url: &#39;http://127.0.0.1:5000/index.js&#39;
+}));
+</code></pre><p>注1：<a href="/articles/koa/demo/koa-proxy/index.js" target="_blank">示例源码</a>。
+注2：<a href="https://github.com/popomore/koa-proxy" target="_blank">中间件 koa-proxy</a></p>
+<h2 id="header-1-5">意外收获的包</h2>
+<blockquote>
+<p>读源码的时候发现了很多服务器开发有用的包，下面列一下：</p>
+</blockquote>
+<h3 id="header-1-5-1">co</h3>
+<p>Generator 函数执行器，TJ大神的作品。<a href="https://github.com/tj/co" target="_blank">GitHub</a></p>
+<h3 id="header-1-5-2">methods</h3>
+<p>Node 支持的 http 类型，这种只返回一个数组的小包居然也是 TJ 大神创立的。<a href="https://github.com/jshttp/methods" target="_blank">GitHub</a></p>
+<h3 id="header-1-5-3">http-errors</h3>
+<p>处理 http 异常的模块，这个做服务器端开发肯定少不了。<a href="https://github.com/jshttp/http-errors" target="_blank">GitHub</a></p>
+<h3 id="header-1-5-4">cookie</h3>
+<p>这种包用途也和广泛。<a href="https://github.com/jshttp/cookie" target="_blank">GitHub</a></p>
+<h3 id="header-1-5-5">path-to-regexp</h3>
+<p>非常棒的路径匹配和 RESTFul 地址转化的工具。<a href="https://github.com/pillarjs/path-to-regexp" target="_blank">GitHub</a></p>
+<h2 id="header-1-6">参考</h2>
+<p><a href="https://github.com/koajs/koa" target="_blank">github koajs</a></p>
+<p><a href="http://koajs.com/" target="_blank">Koa 官网</a></p>
+<p><a href="http://koa.bootcss.com/" target="_blank">Koa 中文文档 1</a></p>
+<p><a href="https://github.com/guo-yu/koa-guide" target="_blank">Koa 中文文档 2</a></p>
+<p><a href="http://book.apebook.org/minghe/koa-action/hello-koa/index.html" target="_blank">《Koa 实战》</a></p>
 
 </div>
 </body>
