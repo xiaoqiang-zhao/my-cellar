@@ -186,15 +186,24 @@ app.use(koaProxy);
 </blockquote>
 <h3 id="header-1-5-1">co</h3>
 <p>Generator 函数执行器，TJ大神的作品。<a href="https://github.com/tj/co" target="_blank">GitHub</a></p>
-<h3 id="header-1-5-2">methods</h3>
+<pre><code>co(gen);
+</code></pre><h3 id="header-1-5-2">methods</h3>
 <p>Node 支持的 http 类型，这种只返回一个数组的小包居然也是 TJ 大神创立的。<a href="https://github.com/jshttp/methods" target="_blank">GitHub</a></p>
-<h3 id="header-1-5-3">http-errors</h3>
+<h3 id="header-1-5-3">assert</h3>
+<p>对 Node 原生包的扩展，支持浏览器。<a href="https://github.com/defunctzombie/commonjs-assert" target="_blank">GitHub</a></p>
+<pre><code>// 判空
+assert(root, &#39;root directory is required to serve files&#39;);
+</code></pre><h3 id="header-1-5-4">http-errors</h3>
 <p>处理 http 异常的模块，这个做服务器端开发肯定少不了。<a href="https://github.com/jshttp/http-errors" target="_blank">GitHub</a></p>
-<h3 id="header-1-5-4">cookie</h3>
+<h3 id="header-1-5-5">cookie</h3>
 <p>这种包用途也和广泛。<a href="https://github.com/jshttp/cookie" target="_blank">GitHub</a></p>
-<h3 id="header-1-5-5">path-to-regexp</h3>
+<h3 id="header-1-5-6">path-to-regexp</h3>
 <p>非常棒的路径匹配和 RESTFul 地址转化的工具。<a href="https://github.com/pillarjs/path-to-regexp" target="_blank">GitHub</a></p>
-<h2 id="header-1-6">参考</h2>
+<h3 id="header-1-5-7">is-generator-function</h3>
+<p>判断一个函数是否是 Generator 函数。<a href="https://github.com/ljharb/is-generator-function" target="_blank">GitHub</a></p>
+<pre><code>const isG = require(&#39;is-generator-function&#39;);
+isG(fn);
+</code></pre><h2 id="header-1-6">参考</h2>
 <p><a href="https://github.com/koajs/koa" target="_blank">github koajs</a></p>
 <p><a href="http://koajs.com/" target="_blank">Koa 官网</a></p>
 <p><a href="http://koa.bootcss.com/" target="_blank">Koa 中文文档 1</a></p>
