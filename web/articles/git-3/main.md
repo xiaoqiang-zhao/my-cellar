@@ -61,7 +61,7 @@
 
 如果你误 commit 了某一部分文件，还没有 push 到远程，那么你可以用上面的命令找到上一个 commit 的 commit_id，然后回滚到上一个 commit 之后的那一点，加 --hard 参数后未被 commit 的内容将被抛弃并不能被找回：
 
-    git reset --hard commit_id 
+    git reset --hard commit_id
 
 如果已经提交到了远程建议不要尝试各种撤销，建议提交一个新版本修正所犯错误。
 

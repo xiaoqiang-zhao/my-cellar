@@ -5,12 +5,13 @@
 ## 基础的目录
 
     ${root}
-        ├── README.md
-        ├── LICENSE
-        ├── package.json
         ├── build 构建、测试等各种脚本
         ├── dist 全称 distribution，存放发布后的代码
-        └── .gitignore
+        ├── test 测试相关的目录
+        ├── .gitignore
+        ├── package.json
+        ├── LICENSE
+        └── README.md
 
 dist 有的项目也用 bin 代替，bin 的全程 binary，一些需要编译的语言(如C)多用 bin。
 
