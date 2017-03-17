@@ -63,7 +63,7 @@ esc
 </code></pre><p>如果你想查看有几个 commit，可以用下面命令</p>
 <pre><code>git log
 </code></pre><p>如果你误 commit 了某一部分文件，还没有 push 到远程，那么你可以用上面的命令找到上一个 commit 的 commit_id，然后回滚到上一个 commit 之后的那一点，加 --hard 参数后未被 commit 的内容将被抛弃并不能被找回：</p>
-<pre><code>git reset --hard commit_id 
+<pre><code>git reset --hard commit_id
 </code></pre><p>如果已经提交到了远程建议不要尝试各种撤销，建议提交一个新版本修正所犯错误。</p>
 <h3 id="header-1-1-6">git log</h3>
 <pre><code>// 查看 commit日志

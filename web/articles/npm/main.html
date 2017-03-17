@@ -107,7 +107,15 @@ n rm 6.0.0
 <li>项目上一层目录的 node_modules，如果找到了添加到缓存下。</li>
 </ul>
 <p>ES6 与 CommonJs 的引用略有不同，具体参考我的另一篇学习笔记<a href="/index.html#!/articles/es6-3" target="_blank"> ES6 学习笔记 - Part 3</a>。</p>
-<h2 id="header-1-8">参考资料</h2>
+<h2 id="header-1-8">发布一个包</h2>
+<p>首先去 <a href="https://www.npmjs.com/" target="_blank">npm 官网</a>注册账户;</p>
+<p>然后登录</p>
+<pre><code>npm login
+</code></pre><p>最后发布</p>
+<pre><code>sudo npm publish
+</code></pre><p>实测我开发的一个中间件 <code>koa-auto-path-router</code> 从发布到可以搜到只需要 3 分钟(8:35 - 8:38)。如果要发布新版本记得手动修改 package.json 中的版本号。发布后在项目中的更新命令：</p>
+<pre><code>npm update &lt;package name&gt;
+</code></pre><h2 id="header-1-9">参考资料</h2>
 <p><a href="https://github.com/npm/npm/blob/2e3776bf5676bc24fec6239a3420f377fe98acde/doc/files/package.json.md" target="_blank">package.json 的官方说明</a></p>
 <p><a href="http://stackoverflow.com/questions/18875674/whats-the-difference-between-dependencies-devdependencies-and-peerdependencies" target="_blank">What&#39;s the difference between dependencies, devDependencies and peerDependencies in npm package.json file?</a></p>
 <p><a href="http://www.w2bc.com/Article/86039" target="_blank">记npm包开发全过程</a>    </p>
