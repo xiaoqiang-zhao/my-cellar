@@ -62,6 +62,8 @@ Git URLs 可以是下面格式：
 
 简单的说 dependencies 是生产环境依赖的包，上线的时候需要将 dependencies 下的包打包；而 devDependencies 是开发这个包时需要的一些依赖，也就是说脱离了这个包的开发 devDependencies 可以被忽略。如果其他包引用了当前包，devDependencies 下的依赖是不会被安装的，dependencies 下的依赖 npm 会和其他包的依赖进行全集计算，使安装的包尽可能少。
 
+如果写的是某个库的或框架的插件，还有一种 dependencies 类型是 peerDependencies，应该在 peerDependencies 中写一份，再在 devDependencies 写一份。具体的原因参考[开发组件库时 Vue 应该放哪儿](https://cnodejs.org/topic/5819624a1a9a7d9909531395)
+
 ## 安装依赖
 
 一个项目的依赖包一般是不被提交的，这就需要在将项目克隆到本地后手动安转依赖
@@ -156,6 +158,8 @@ ES6 与 CommonJs 的引用略有不同，具体参考我的另一篇学习笔记
 [package.json 的官方说明](https://github.com/npm/npm/blob/2e3776bf5676bc24fec6239a3420f377fe98acde/doc/files/package.json.md)
 
 [What's the difference between dependencies, devDependencies and peerDependencies in npm package.json file?](http://stackoverflow.com/questions/18875674/whats-the-difference-between-dependencies-devdependencies-and-peerdependencies)
+
+[开发组件库时 Vue 应该放哪儿：devDependencies or peerDependencies？](https://cnodejs.org/topic/5819624a1a9a7d9909531395)
 	
 [记npm包开发全过程](http://www.w2bc.com/Article/86039)	
 
