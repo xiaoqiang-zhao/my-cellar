@@ -7,19 +7,25 @@
 <body>
 <script>
     function unique(arr) {
-        arr.forEach((value, index) => {
+        if (!Array.isArray(arr)) {
+            return arr;
+        }
+
+        for (var i = 0; i < arr.length; i++) {
+            let value = arr[i];
+            let index = i + 1;
             while (index !== -1) {
-                index = arr.indexOf(value, index + 1);
+                index = arr.indexOf(value, index);
                 if (index !== -1) {
                     arr.splice(index, 1);
                 }
             }
-        });
+        }
 
         return arr;
     }
 
-    var a = unique([1,2,3,1,2,3,4,5,2]);
+    var a = unique([1, 2, 3, 1, 2, 3, 4, 5, 5, 5, 2]);
     console.log(a);
 </script>
 </body>
