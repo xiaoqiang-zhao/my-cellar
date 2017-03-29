@@ -25,7 +25,26 @@
         return arr;
     }
 
+    function unique2(arr) {
+        if (!Array.isArray(arr)) {
+            return arr;
+        }
+
+        arr.forEach((value, index) => {
+            while (index !== -1) {
+                index = arr.indexOf(value, index + 1);
+                if (index !== -1) {
+                    arr.splice(index--, 1);
+                }
+            }
+        });
+
+        return arr;
+    }
+
     var a = unique([1, 2, 3, 1, 2, 3, 4, 5, 5, 5, 2]);
+    console.log(a);
+    a = unique2([1, 2, 3, 1, 2, 3, 4, 5, 5, 5, 2]);
     console.log(a);
 </script>
 </body>

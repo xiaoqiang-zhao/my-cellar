@@ -4,6 +4,31 @@
 
 [参考](http://www.w3cplus.com/javascript/remove-duplicates-from-javascript-array.html)
 
+提供一个我的方法：
+
+    function unique2(arr) {
+        if (!Array.isArray(arr)) {
+            return arr;
+        }
+
+        arr.forEach((value, index) => {
+            while (index !== -1) {
+                index = arr.indexOf(value, index + 1);
+                if (index !== -1) {
+                    arr.splice(index--, 1);
+                }
+            }
+        });
+
+        return arr;
+    }
+
+这种算法的时间复杂度是 n 方。具体的计算法：
+
+第一个数需要 n - 1 次比较，第二个数需要 n - 2 次，...，最后一个数不需要比较，于是有下面的累加式
+
+ O(n) = (n - 1) + (n - 2) + ... + [n - (n - 1)] = n(n - 1)/2
+
 ## 素质类
 
 ### 你能将一件我不知道的事情用两三分钟跟我讲明白吗？
