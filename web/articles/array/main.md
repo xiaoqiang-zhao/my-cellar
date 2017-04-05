@@ -360,7 +360,43 @@ every **不会**改变原有数组。
     }, window); // undefined
     array[0].order; // 1
     array[2].order; // 3
-	
+
+需要注意的一点如果在遍历的时候对数组做了改变，如果删除当前元素遍历会跳过下一个，如果插入元素会有重复遍历的问题。
+
+	var array = [
+        { order: 0 },
+        { order: 1 },
+        { order: 2 }
+    ];
+    var result = array.forEach(function (item, index, currentArray) {
+        console.log('item.order:' + item.order);
+        
+        // 删除当前元素
+        if (index === 0) {
+            array.splice(index, 1);
+        }
+    });
+    // 0, 2
+    // 跳过 { order: 1 }
+    
+    var array = [
+        { order: 0 },
+        { order: 1 },
+        { order: 2 }
+    ];
+    var result = array.forEach(function (item, index, currentArray) {
+        console.log('item.order:' + item.order);
+        
+        // 添加元素
+        if (index === 0) {
+            array.unshift({order: 100});
+        }
+    });
+    // 0, 0, 1
+    // 重复 { order: 0 }，却丢了 { order: 2 }
+
+遍历的本质是按预定的方式走格子，如果格子移位了或内容变了，这个"预定"不变。
+
 ### map
 
 .map(callback[, thisObject])
