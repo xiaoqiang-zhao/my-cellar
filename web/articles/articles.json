@@ -143,6 +143,18 @@
     "todoList": []
   },
   {
+    "enName": "coder-creed",
+    "title": "百度工程师信条",
+    "introduction": "2016年7月16日周六下午，来自4个体系，81位高工，8个小组，8位TC委员，历时3个小时，最终大家从现场贡献的243条百度工程师信条中，集体讨论并投票产出了9条新版百度工程师信条：",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1492050376158,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "components",
     "title": "组件收集",
     "introduction": "为项目写过多少组件，又有多少是今年写完明年可能又要写一个大同小异的。这里收集一些组件，自己写的和那些小而美的第三方组件。",
@@ -829,6 +841,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1460254890796,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "shell",
+    "title": "标题缺失",
+    "introduction": "未找到描述信息",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1492050376221,
     "commentList": [],
     "todoList": []
   },
