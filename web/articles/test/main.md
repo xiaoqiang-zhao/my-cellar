@@ -18,3 +18,5 @@
 [ava](http://www.tuicool.com/articles/UJ3MNbf)
 
 [selenium + nightwatch 进行前端测试](http://www.jianshu.com/p/a54b2d1045b5)
+
+[GUI软件测试](http://baike.baidu.com/item/GUI%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95)
