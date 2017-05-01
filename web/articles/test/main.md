@@ -11,6 +11,56 @@ BDD（行为驱动开发，Behaviour Driven Development）时代。BDD 与 TDD �
 
 ### Jasmine
 
+准备工作，在工程目录下准备一个 package.json，然后运行下面的命令，我们就可以得到一个 spec 目录，spec 下有 support/jasmine.json 文件，它是 jasmine 的配置文件。
+
+    npm install jasmine --save-dev
+    sudo npm install -g jasmine
+    sudo jasmine init
+
+写代码，这一趴我们先写功能代码，再写测试，功能代码是4则运算的加和乘：
+
+    /** 
+     * @file operation.js 功能代码
+     */
+    module.exports = {
+        // 加法
+        add: function (a, b) {
+            return a + b;
+        },
+        // 乘法
+        mult: function (a, b) {
+            return a * b;
+        }
+    };
+    
+    /**
+     * @file spec/operationSpec.js 测试代码
+     */
+     var operation = require('../operation');
+     
+     describe('四则运算测试', function() {
+         it('加法测试', function() {
+             var result = operation.add(1, 1);
+             expect(result).toEqual(2);
+         });
+     
+         it('乘法测试', function () {
+             var result = operation.mult(1, 1);
+             expect(result).toEqual(1);
+         });
+     });
+    
+运行测试
+    
+    jasmine spec/operationSpec.js
+
+在控制台就可以看到测试结果
+
+    Started
+    ..
+    
+    2 specs, 0 failures
+    Finished in 0.006 seconds
 
 [官网](https://jasmine.github.io/)
 
@@ -31,3 +81,5 @@ BDD（行为驱动开发，Behaviour Driven Development）时代。BDD 与 TDD �
 [selenium + nightwatch 进行前端测试](http://www.jianshu.com/p/a54b2d1045b5)
 
 [GUI软件测试](http://baike.baidu.com/item/GUI%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95)
+
+[Testing Javascript: get started with Jasmine](https://inviqa.com/blog/testing-javascript-get-started-jasmine-0)
