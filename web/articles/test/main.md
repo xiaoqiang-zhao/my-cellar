@@ -13,9 +13,10 @@ BDD（行为驱动开发，Behaviour Driven Development）时代。BDD 与 TDD �
 
 准备工作，在工程目录下准备一个 package.json，然后运行下面的命令，我们就可以得到一个 spec 目录，spec 下有 support/jasmine.json 文件，它是 jasmine 的配置文件。
 
+    // 全局安装，方便在命令行中直接使用
+    $ npm install -g jasmine
     npm install jasmine --save-dev
-    sudo npm install -g jasmine
-    sudo jasmine init
+    $ jasmine init
 
 写代码，这一趴我们先写功能代码，再写测试，功能代码是4则运算的加和乘：
 
@@ -66,6 +67,46 @@ BDD（行为驱动开发，Behaviour Driven Development）时代。BDD 与 TDD �
 
 ### Mocha
 
+准备工作
+
+    // 全局安装，方便在命令行中直接使用
+    $ npm install -g mocha
+    npm install mocha --save-dev
+    // 断言库
+    npm install chai --save-dev
+
+写代码，功能代码直接将上面的 operation.js 拷贝下来；关于测试代码，先建文件夹 test，再在其中添加文件 operation.test.js 
+    
+    /**
+     * @file operation.test.js 测试脚本
+     */
+    var expect = require('chai').expect;
+    var operation = require('../operation');
+    
+    describe('四则运算测试', () => {
+        it('加法测试', () => {
+            var result = operation.add(1, 1);
+            expect(result).to.be.equal(2);
+        });
+    
+        it('乘法测试', () => {
+            var result = operation.mult(1, 1);
+            expect(result).to.be.equal(1);
+        });
+    });
+
+运行测试
+    
+    mocha
+
+在控制台就可以看到测试结果
+
+    四则运算测试
+      ✓ 加法测试
+      ✓ 乘法测试
+
+    2 passing (9ms)
+    
 ## 参考
 
 [如何进行前端自动化测试？](https://www.zhihu.com/question/29922082)

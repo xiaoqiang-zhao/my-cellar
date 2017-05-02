@@ -1,0 +1,17 @@
+{
+  "name": "mocha test",
+  "description": "mocha 示例",
+  "author": {
+    "name": "赵晓强",
+    "email": "longze_xq@163.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/longze/my-cellar.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.3.0"
+  }
+}

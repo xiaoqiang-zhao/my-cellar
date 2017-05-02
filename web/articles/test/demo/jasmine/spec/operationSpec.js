@@ -1,3 +1,9 @@
+/**
+ * @file operationSpec.js 测试脚本
+ *
+ * Created by longze on 2017/5/2.
+ */
+
 var operation = require('../operation');
 
 describe('四则运算测试', function() {

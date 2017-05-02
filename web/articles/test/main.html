@@ -20,10 +20,100 @@
 <div>
     <h1 id="header-1">前端测试</h1>
 <blockquote>
+<p>相对于后端测试前端测试是成本非常高的，后端功能性测试是API测试，而前端功能性测试包含3个方面：AIP测试、节点测试、图形测试。下面来一一了解。</p>
 </blockquote>
-<h2 id="header-1-1"> </h2>
-<h2 id="header-1-2">参考</h2>
+<h2 id="header-1-1">API 测试</h2>
+<p>API 测试框架比较有名的是 Jasmine 和 Mocha，前者大而全是 Vue 等现代框架推荐的测试框架，后者是 TJ 大神开发的插件式测试框架；前者入门简单，后者插件众多功能齐全。API 测试适用于 Node.js 的项目 和 与浏览器无关的纯功能函数或库测试。</p>
+<p>注：这里我们跳过了 TDD（Test Driven Development ）测试框架，如 JQuery 用的测试框架 QUnit，直接进入 
+BDD（行为驱动开发，Behaviour Driven Development）时代。BDD 与 TDD 的主要区别是，使得非程序人员也能参与到测试用例的编写中来。</p>
+<h3 id="header-1-1-1">Jasmine</h3>
+<p>准备工作，在工程目录下准备一个 package.json，然后运行下面的命令，我们就可以得到一个 spec 目录，spec 下有 support/jasmine.json 文件，它是 jasmine 的配置文件。</p>
+<pre><code>// 全局安装，方便在命令行中直接使用
+$ npm install -g jasmine
+npm install jasmine --save-dev
+$ jasmine init
+</code></pre><p>写代码，这一趴我们先写功能代码，再写测试，功能代码是4则运算的加和乘：</p>
+<pre><code>/** 
+ * @file operation.js 功能代码
+ */
+module.exports = {
+    // 加法
+    add: function (a, b) {
+        return a + b;
+    },
+    // 乘法
+    mult: function (a, b) {
+        return a * b;
+    }
+};
+
+/**
+ * @file spec/operationSpec.js 测试代码
+ */
+ var operation = require(&#39;../operation&#39;);
+
+ describe(&#39;四则运算测试&#39;, function() {
+     it(&#39;加法测试&#39;, function() {
+         var result = operation.add(1, 1);
+         expect(result).toEqual(2);
+     });
+
+     it(&#39;乘法测试&#39;, function () {
+         var result = operation.mult(1, 1);
+         expect(result).toEqual(1);
+     });
+ });
+</code></pre><p>运行测试</p>
+<pre><code>jasmine spec/operationSpec.js
+</code></pre><p>在控制台就可以看到测试结果</p>
+<pre><code>Started
+..
+
+2 specs, 0 failures
+Finished in 0.006 seconds
+</code></pre><p><a href="https://jasmine.github.io/" target="_blank">官网</a></p>
+<h3 id="header-1-1-2">Mocha</h3>
+<p>准备工作</p>
+<pre><code>// 全局安装，方便在命令行中直接使用
+$ npm install -g mocha
+npm install mocha --save-dev
+// 断言库
+npm install chai --save-dev
+</code></pre><p>写代码，功能代码直接将上面的 operation.js 拷贝下来；关于测试代码，先建文件夹 test，再在其中添加文件 operation.test.js </p>
+<pre><code>/**
+ * @file operation.test.js 测试脚本
+ */
+var expect = require(&#39;chai&#39;).expect;
+var operation = require(&#39;../operation&#39;);
+
+describe(&#39;四则运算测试&#39;, () =&gt; {
+    it(&#39;加法测试&#39;, () =&gt; {
+        var result = operation.add(1, 1);
+        expect(result).to.be.equal(2);
+    });
+
+    it(&#39;乘法测试&#39;, () =&gt; {
+        var result = operation.mult(1, 1);
+        expect(result).to.be.equal(1);
+    });
+});
+</code></pre><p>运行测试</p>
+<pre><code>mocha
+</code></pre><p>在控制台就可以看到测试结果</p>
+<pre><code>四则运算测试
+  ✓ 加法测试
+  ✓ 乘法测试
+
+2 passing (9ms)
+</code></pre><h2 id="header-1-2">参考</h2>
+<p><a href="https://www.zhihu.com/question/29922082" target="_blank">如何进行前端自动化测试？</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/21263120" target="_blank">前端可视化的测试实践</a></p>
+<p><a href="http://www.jianshu.com/p/a515fbbdd1b2" target="_blank">karma+webpack搭建vue单元测试环境</a></p>
+<p><a href="https://www.awesomes.cn/repos/Applications/Testings" target="_blank">测试框架</a></p>
+<p><a href="http://www.tuicool.com/articles/UJ3MNbf" target="_blank">ava</a></p>
+<p><a href="http://www.jianshu.com/p/a54b2d1045b5" target="_blank">selenium + nightwatch 进行前端测试</a></p>
+<p><a href="http://baike.baidu.com/item/GUI%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95" target="_blank">GUI软件测试</a></p>
+<p><a href="https://inviqa.com/blog/testing-javascript-get-started-jasmine-0" target="_blank">Testing Javascript: get started with Jasmine</a></p>
 
 </div>
 </body>

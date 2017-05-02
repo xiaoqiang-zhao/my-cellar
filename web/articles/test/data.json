@@ -1,12 +1,12 @@
 {
   "enName": "test",
   "title": "前端测试",
-  "introduction": "",
+  "introduction": "相对于后端测试前端测试是成本非常高的，后端功能性测试是API测试，而前端功能性测试包含3个方面：AIP测试、节点测试、图形测试。下面来一一了解。",
   "tags": [],
   "isPublished": false,
   "state": "立项",
   "type": "md",
-  "createDate": 1464863741558,
+  "createDate": 1493688877182,
   "commentList": [],
   "todoList": []
 }
