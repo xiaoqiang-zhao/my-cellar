@@ -1,0 +1,17 @@
+{
+  "name": "nightwatch test",
+  "description": "nightwatch 示例",
+  "author": {
+    "name": "赵晓强",
+    "email": "longze_xq@163.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/longze/my-cellar.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "nightwatch": "^0.9.14",
+    "selenium-standalone": "^6.4.1"
+  }
+}

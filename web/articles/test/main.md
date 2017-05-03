@@ -106,7 +106,35 @@ BDD（行为驱动开发，Behaviour Driven Development）时代。BDD 与 TDD �
       ✓ 乘法测试
 
     2 passing (9ms)
+
+[官网](https://mochajs.org/)
+
+## 节点测试
+
+### Nightwatch
+
+准备工作，
+
+    npm i nightwatch --save-dev
+    npm i nightwatch -g
+
+我们还需要安装浏览器驱动管理，这样我们就可以在一个地方管理多个浏览器，从而实现多浏览器的覆盖测试，去[ Selenium downloads page](http://selenium-release.storage.googleapis.com/index.html)下载最新版的 `selenium-server-standalone-{VERSION}.jar`
+
+    $ java -jar selenium-server-standalone-{VERSION}.jar
+    // sudo java -jar bin/selenium-server-standalone-3.4.0.jar
+
+启动成功
     
+    Selenium Server is up and running
+
+Chrome 驱动，https://sites.google.com/a/chromium.org/chromedriver/downloads
+
+    node test/start.js -t test/baidu.js -e chrome --verbose
+    
+    nightwatch test/baidu.js -e chrome --verbose
+
+[官网](http://nightwatchjs.org/)
+
 ## 参考
 
 [如何进行前端自动化测试？](https://www.zhihu.com/question/29922082)
