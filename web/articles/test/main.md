@@ -127,13 +127,46 @@ BDD（行为驱动开发，Behaviour Driven Development）时代。BDD 与 TDD �
     
     Selenium Server is up and running
 
-Chrome 驱动，https://sites.google.com/a/chromium.org/chromedriver/downloads
+[Chrome 驱动](https://sites.google.com/a/chromium.org/chromedriver/downloads)
 
     node test/start.js -t test/baidu.js -e chrome --verbose
     
     nightwatch test/baidu.js -e chrome --verbose
 
 [官网](http://nightwatchjs.org/)
+
+---------- 备忘 ----------
+
+nightwatch 示例
+
+module.exports = {
+  '测试样例，访问baidu.com' : function (client) {
+    client
+      .url('http://www.baidu.com')
+      .waitForElementVisible('body', 1000)
+      .elements('css selector', '#index-container ul.features li', function (result) {
+
+        for (var i = 0; i < result.value.length; i++) {
+          var element = result.value[i];
+
+          var selector = '#index-container ul.features li:nth-child(' + (element.ELEMENT ) +') em';
+          client.verify.cssClassPresent(selector, 'glyphicon');
+        }
+      });
+      //.end();
+  }
+};
+
+module.exports = {
+    'Blog test': function (client) {
+        client
+            .url('https://longze.github.io/#!/')
+            .assert.containsText('.main-title', '龙则的个人站点')
+            .end();
+    }
+};
+
+Error retrieving a new session from the selenium server 这个问题怎么都调不过去，先放放吧。
 
 ## 参考
 

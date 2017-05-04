@@ -1,5 +1,5 @@
 {
-  "name": "nightwatch test",
+  "name": "nightwatch-test",
   "description": "nightwatch 示例",
   "author": {
     "name": "赵晓强",
@@ -11,7 +11,10 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "babel-core": "^6.24.1",
+    "chromedriver": "^2.29.0",
     "nightwatch": "^0.9.14",
+    "selenium-server": "^3.4.0",
     "selenium-standalone": "^6.4.1"
   }
 }
