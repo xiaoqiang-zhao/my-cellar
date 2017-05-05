@@ -109,6 +109,10 @@ BDD（行为驱动开发，Behaviour Driven Development）时代。BDD 与 TDD �
 
 [官网](https://mochajs.org/)
 
+### 其他
+
+ava 自称"面向未来的测试框架"，对 IO 繁重的测试特别有用，速度快于 Mocha。
+
 ## 节点测试
 
 ### Nightwatch
