@@ -20,7 +20,7 @@
 <div>
     <h1 id="header-1">前端测试</h1>
 <blockquote>
-<p>相对于后端测试前端测试是成本非常高的，后端功能性测试是API测试，而前端功能性测试包含3个方面：AIP测试、节点测试、图形测试。下面来一一了解。</p>
+<p>相对于后端测试前端测试是成本非常高的，后端功能性测试是API测试，而前端功能性测试包含3个方面：AIP测试、节点测试、图形测试。本文会逐个介绍，并且给出能运行的 Demo。</p>
 </blockquote>
 <h2 id="header-1-1">API 测试</h2>
 <p>API 测试框架比较有名的是 Jasmine 和 Mocha，前者大而全是 Vue 等现代框架推荐的测试框架，后者是 TJ 大神开发的插件式测试框架；前者入门简单，后者插件众多功能齐全。API 测试适用于 Node.js 的项目 和 与浏览器无关的纯功能函数或库测试。</p>
@@ -105,7 +105,52 @@ describe(&#39;四则运算测试&#39;, () =&gt; {
   ✓ 乘法测试
 
 2 passing (9ms)
-</code></pre><h2 id="header-1-2">参考</h2>
+</code></pre><p><a href="https://mochajs.org/" target="_blank">官网</a></p>
+<h3 id="header-1-1-3">其他</h3>
+<p>ava 自称&quot;面向未来的测试框架&quot;，对 IO 繁重的测试特别有用，速度快于 Mocha。<a href="https://github.com/avajs/ava" target="_blank">ava GitHub</a> <a href="https://www.awesomes.cn/repo/sindresorhus/ava" target="_blank">中文资料</a></p>
+<h2 id="header-1-2">节点测试</h2>
+<h3 id="header-1-2-1">Nightwatch</h3>
+<p>准备工作，</p>
+<pre><code>npm i nightwatch --save-dev
+npm i nightwatch -g
+</code></pre><p>我们还需要安装浏览器驱动管理，这样我们就可以在一个地方管理多个浏览器，从而实现多浏览器的覆盖测试，去<a href="http://selenium-release.storage.googleapis.com/index.html" target="_blank"> Selenium downloads page</a>下载最新版的 <code>selenium-server-standalone-{VERSION}.jar</code></p>
+<pre><code>$ java -jar selenium-server-standalone-{VERSION}.jar
+// sudo java -jar bin/selenium-server-standalone-3.4.0.jar
+</code></pre><p>启动成功</p>
+<pre><code>Selenium Server is up and running
+</code></pre><p><a href="https://sites.google.com/a/chromium.org/chromedriver/downloads" target="_blank">Chrome 驱动</a></p>
+<pre><code>node test/start.js -t test/baidu.js -e chrome --verbose
+
+nightwatch test/baidu.js -e chrome --verbose
+</code></pre><p><a href="http://nightwatchjs.org/" target="_blank">官网</a></p>
+<p>---------- 备忘 ----------</p>
+<p>nightwatch 示例</p>
+<p>module.exports = {
+  &#39;测试样例，访问baidu.com&#39; : function (client) {
+    client
+      .url(&#39;<a href="http://www.baidu.com" target="_blank">http://www.baidu.com</a>&#39;)
+      .waitForElementVisible(&#39;body&#39;, 1000)
+      .elements(&#39;css selector&#39;, &#39;#index-container ul.features li&#39;, function (result) {</p>
+<pre><code>    for (var i = 0; i &lt; result.value.length; i++) {
+      var element = result.value[i];
+
+      var selector = &#39;#index-container ul.features li:nth-child(&#39; + (element.ELEMENT ) +&#39;) em&#39;;
+      client.verify.cssClassPresent(selector, &#39;glyphicon&#39;);
+    }
+  });
+  //.end();
+</code></pre><p>  }
+};</p>
+<p>module.exports = {
+    &#39;Blog test&#39;: function (client) {
+        client
+            .url(&#39;<a href="https://longze.github.io/#!/" target="_blank">https://longze.github.io/#!/</a>&#39;)
+            .assert.containsText(&#39;.main-title&#39;, &#39;龙则的个人站点&#39;)
+            .end();
+    }
+};</p>
+<p>Error retrieving a new session from the selenium server 这个问题怎么都调不过去，先放放吧。</p>
+<h2 id="header-1-3">参考</h2>
 <p><a href="https://www.zhihu.com/question/29922082" target="_blank">如何进行前端自动化测试？</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/21263120" target="_blank">前端可视化的测试实践</a></p>
 <p><a href="http://www.jianshu.com/p/a515fbbdd1b2" target="_blank">karma+webpack搭建vue单元测试环境</a></p>

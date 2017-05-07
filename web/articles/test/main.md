@@ -1,6 +1,6 @@
 # 前端测试
 
-> 相对于后端测试前端测试是成本非常高的，后端功能性测试是API测试，而前端功能性测试包含3个方面：AIP测试、节点测试、图形测试。下面来一一了解。
+> 相对于后端测试前端测试是成本非常高的，后端功能性测试是API测试，而前端功能性测试包含3个方面：AIP测试、节点测试、图形测试。本文会逐个介绍，并且给出能运行的 Demo。
 
 ## API 测试
 
@@ -111,7 +111,7 @@ BDD（行为驱动开发，Behaviour Driven Development）时代。BDD 与 TDD �
 
 ### 其他
 
-ava 自称"面向未来的测试框架"，对 IO 繁重的测试特别有用，速度快于 Mocha。[ava GitHub](https://github.com/avajs/ava)
+ava 自称"面向未来的测试框架"，对 IO 繁重的测试特别有用，速度快于 Mocha。[ava GitHub](https://github.com/avajs/ava) [中文资料](https://www.awesomes.cn/repo/sindresorhus/ava)
 
 ## 节点测试
 
@@ -171,6 +171,12 @@ module.exports = {
 };
 
 Error retrieving a new session from the selenium server 这个问题怎么都调不过去，先放放吧。
+
+编写用例的方式：
+
+API 测试方面，的人工编写测试代码效率和效果都很好。
+
+Dom 测试方面，人工编写测试代码效率较高，但是测试面
 
 ## 参考
 
