@@ -27,6 +27,7 @@
 注：Chrome默认情况下是不支持修改快捷键的，但是可以安装插件的方式来支持，推荐插件“Keyconfig”。
 
 ## 锁屏
+
 > 在公司办公人离开电脑把电脑锁屏是必要的，大公司特别注意这一点，甚至IBM的制度中有离开电脑不锁屏可以开除的规定，锁屏绝对是个好习惯，尤其是对于启动速度超快的Mac。
 
 - 休眠 Ctrl + Shift + 电源键，Mac 上没有锁屏的概念，锁屏通过休眠和设置休眠后启动需要输入密码来实现，后者可以在 “系统偏好设置/安全与隐私/通用/进入睡眠或开始屏保程序立即要求输入密码” 下设置
@@ -80,7 +81,7 @@
 
 FireFox 的 HostAdmin 插件很好用，可以方便的切换 host 配置。
 
-工具：switchHost、HostsAdmin、Chrome插件Host Switch Plus。
+工具：switchHosts、HostsAdmin、Chrome插件Host Switch Plus。
 
 ## 显示隐藏文件
 
@@ -91,12 +92,17 @@ FireFox 的 HostAdmin 插件很好用，可以方便的切换 host 配置。
 ## 软件推荐
 
 - Dash 长按 Command 键出现当前软件的快捷键；
-- ZSH 终端神器，[传送门](http://blog.163.com/qy_gong/blog/static/1718738792013102992830558/)；
 - [BetterZip](https://macitbetter.com/)，Mac 下的免费压缩和解压工具；
+- [Kap](https://getkap.co/)，录屏生成 gif 软件； 
+- [CleanMyMac](https://macpaw.com/cleanmymac)，Mac 上的垃圾清理工具和软件管理工具(收费)。
 
 ## 开发工具推荐
 
+- ZSH 终端神器，[传送门](http://blog.163.com/qy_gong/blog/static/1718738792013102992830558/)；
 - 前端神器 WebStorm，参见另一篇文章 [WebStorm 使用文档](/index.html#!/articles/webstorm)
+- 代理工具 [Charles](https://www.charlesproxy.com/)
+- 高效的设计稿标注、测量工具 [MarkMan](http://www.getmarkman.com/)
+- 发送网页HTTP请求的工具，请求[Postman](https://www.getpostman.com/apps)
 
 ## 外接显示器
 
