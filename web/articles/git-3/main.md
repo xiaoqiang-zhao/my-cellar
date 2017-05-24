@@ -76,6 +76,8 @@
 	git push -u origin dev
 	// -u 分支是建立分支，以后就可以直接用下面命令了
 	git push
+	// 删除远程分支
+	git push origin :branch_to_delete
 
 ### git branch 
 
