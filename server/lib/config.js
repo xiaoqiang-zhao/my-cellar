@@ -75,6 +75,11 @@ var config = {
         ico: {
             contentType: 'image/x-ico',
             encoding: 'binary'
+        },
+        // 字体
+        woff: {
+            contentType: 'application/octet-stream',
+            encoding: 'binary'
         }
         // 更多对应关系可以在 http://tool.oschina.net/commons 找到
     }
