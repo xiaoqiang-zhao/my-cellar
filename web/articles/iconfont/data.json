@@ -1,8 +1,10 @@
 {
   "enName": "iconfont",
   "title": "iconfont 使用笔记",
-  "introduction": "用自体做图标。",
-  "tags": ["个人笔记"],
+  "introduction": "图标引用解决方案 -- 再也不用切图了。",
+  "tags": [
+    "个人笔记"
+  ],
   "isPublished": true,
   "state": "完结",
   "type": "md",
