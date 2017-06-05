@@ -16,6 +16,7 @@
 - unicode引用 和 font-class引用 支持自定义颜色，symbol引用不支持。
 - symbol引用 和 其他两种引用可以在一个页面中同时使用，[Demo](/articles/iconfont/demo/remote-symbol.html)。
 - 不建议 unicode引用 和 font-class引用 同时使用，因为这两个只是写法不同而已没有本质差别，代码风格统一比较好。
+- svg 是矢量图，放大不失真不模糊，绘制图标需要一定技巧，绘制不好可能有毛边。
 
 ## 参考
 
