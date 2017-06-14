@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Linux 备忘笔记 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">Linux 备忘笔记</h1>
+<h2 id="header-1-1">chmod -- 权限管理</h2>
+<p>Linux系统中的每个文件和目录都有访问许可权限，用它来确定谁可以通过何种方式对文件和目录进行访问和操作。文件或目录的访问权限分为只读，只写和可执行三种。</p>
+<pre><code>// 查看文件所属权限
+ls -l
+// 可以看到下面的权限描述
+-rw-rw-r--
+drwxrwxr-x
+</code></pre><p>注意这里共有10个位置，第一个字符指定了文件类型，<code>d</code> 代表文件夹，<code>-</code> 代表文件。之后的 9 个字母分成三组，r代表只读，w代表写，x代表可执行，横线代表空许可。3 组分别对应不同的用户：文件主 组用户 其他用户。</p>
+<p>执行 <code>ls -l</code> 可以看到 <code>dist</code> 文件夹的权限情况：</p>
+<pre><code>drwxr-xr-x  root  root  dist
+</code></pre><p>我们执行命令 <code>chmod o+w,g+w dist</code>，发现文件夹的权限变成了这样：</p>
+<pre><code>drwxrwxrwx  root  root  dist
+</code></pre><p>上面命令什么意思？<code>chomd</code> 是变更权限的命令。<code>o+w,g+w</code> 是给指定用户赋指定权限：</p>
+<ul>
+<li>u 表示“用户（user）”，即文件或目录的所有者。</li>
+<li>g 表示“同组（group）用户”，即与文件属主有相同组ID的所有用户。</li>
+<li>o 表示“其他（others）用户”。</li>
+<li>a 表示“所有（all）用户”。它是系统默认值。</li>
+</ul>
+<p>操作符号可以是：</p>
+<ul>
+<li><ul>
+<li>添加某个权限。</li>
+</ul>
+</li>
+<li><ul>
+<li>取消某个权限。</li>
+</ul>
+</li>
+<li>= 赋予给定权限并取消其他所有权限（如果有的话）。</li>
+</ul>
+<p>后面两项分别是权限和文件夹。</p>
+<h2 id="header-1-2">chgrp -- 改变文件或目录所属的组</h2>
+<pre><code>chgrp -R username filename
+</code></pre><h2 id="header-1-3">chown -- 更改某个文件或目录的属主</h2>
+<pre><code>chown -R username filename
+</code></pre><h2 id="header-1-4">VIM 编辑文件</h2>
+<p>常用命令</p>
+<pre><code>// 将文件在 VIM 编辑器中打开
+vi filename
+// 唤起输入
+i
+// 保存退出
+esc
+:wq!
+</code></pre><p>还有一些命令你可能用得到：</p>
+<pre><code>// 放弃所作修改而直接退到shell下
+:q!
+// 另存为
+:w newfile
+</code></pre><h2 id="header-1-5">进程相关</h2>
+<p>启动进程的命令后加 <code>&amp;</code>，将进程指定为后台进程，这样关闭 shell 或 断开远程连接后进程依然没有被退出，如：</p>
+<pre><code>gulp &amp;
+</code></pre><h2 id="header-1-6">零碎</h2>
+<p>显示命令的文档，如显示 <code>gulp</code> 使用文档：</p>
+<pre><code>man gulp
+// 注：按 q 退出
+// 并不是所有命令都提供文档
+</code></pre>
+</div>
+</body>
+</html>
