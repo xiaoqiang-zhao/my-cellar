@@ -18,11 +18,11 @@
 
 自动把模块和版本号添加到dependencies部分。
  
-	npm install module-name -save 
+	npm install module-name --save 
 
 自动把模块和版本号添加到devDependencies部分。
 
-	npm install module-name -save-dve
+	npm install module-name --save-dev
 
 `npm install`默认会安转两种依赖相当于`npm install --production` + `npm install --dev`，如果你只是单纯的使用这个包而不需要进行一些改动测试之类的可以使用前一个，如果随着深入了解需要想进一步了解再将后一条命令执行以下就可以了。
 
