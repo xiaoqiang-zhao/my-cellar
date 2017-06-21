@@ -70,9 +70,31 @@ esc
 // 另存为
 :w newfile
 </code></pre><h2 id="header-1-5">进程相关</h2>
-<p>启动进程的命令后加 <code>&amp;</code>，将进程指定为后台进程，这样关闭 shell 或 断开远程连接后进程依然没有被退出，如：</p>
+<p>启动进程的命令后加 <code>&amp;</code>，将进程指定为后台进程，这样可以在 shell 做一些其他事情而不需要再打开新的窗口，如：</p>
 <pre><code>gulp &amp;
-</code></pre><h2 id="header-1-6">零碎</h2>
+// 启动时会给出一个进程ID，如：32750
+</code></pre><p>但是关闭 shell 或 断开 ssh 连接后进程就退出了，这在开发机上不是我们的期望，我们期望服务一直运行着，这样就轮到 <code>nohup</code> 登场了：</p>
+<pre><code>nohup gulp &amp;
+</code></pre><p>那怎么退出进程和重启进程呢？需要知道懂东西有点多我们一点点来。首先是查看进程：</p>
+<pre><code>// 查看所有进程
+ps -e
+// 能找到这样一行进程
+32750 pts/1    00:00:05 gulp
+</code></pre><p>寻找的过程比较费劲，这里有一些技巧：</p>
+<pre><code>// 查看当前用户启动的进程
+ps -u
+</code></pre><p>可以看到形如下面信息：</p>
+<pre><code>USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+500       1888  0.5  1.9 1339056 159584 pts/1  Sl   10:55   0:05 gulp
+</code></pre><p>如果你启动的进程比较多，会依然不好找，下面是配合 <code>grep</code> 进程搜索命令：</p>
+<pre><code>ps -ef -l | grep gulp
+</code></pre><p>最终我们要拿到 PID，这样我们能对线程做一些操作，比如杀掉它：</p>
+<pre><code>kill 1888
+</code></pre><ul>
+<li><a href="https://cnbin.github.io/blog/2015/06/15/shell-qian-hou-tai-jin-cheng-qie-huan/" target="_blank">Shell 前后台进程切换</a></li>
+<li><a href="https://www.zybuluo.com/ghostfn1/note/123409" target="_blank">Linux进程管理命令</a></li>
+</ul>
+<h2 id="header-1-6">零碎</h2>
 <p>显示命令的文档，如显示 <code>gulp</code> 使用文档：</p>
 <pre><code>man gulp
 // 注：按 q 退出

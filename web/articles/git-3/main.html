@@ -107,7 +107,9 @@ git ci -m &quot;提交描述&quot;
 // 如果只想获取远程分支映射而不想检出到本地，可用下面简写
 git fetch origin 远程分知名
 </code></pre><p>此命令不仅将远程映射到本地，还会检出一份代码作为本地分支，本地分知名在冒号后面指定。</p>
-<h3 id="header-1-1-12">git merge</h3>
+<p>远程分支删除后用 <code>git branch -a</code> 还能看到被删除的分支，这是因为 git 的缓存机制，可以用下面命令删除远程已经不存在但本地却还有缓存的分支。</p>
+<pre><code>git fetch -p
+</code></pre><h3 id="header-1-1-12">git merge</h3>
 <p>将其他分支的代码合并到当前所在分支，</p>
 <pre><code>// 合并远程分支代码
 git merge origin/feature/z

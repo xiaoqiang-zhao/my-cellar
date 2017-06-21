@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>代码统计 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">代码统计</h1>
+<blockquote>
+<p>非常方便统计各种语言代码行数、空行数、注释行数、文件数的工具 -- cloc。</p>
+</blockquote>
+<h2 id="header-1-1">软件</h2>
+<p>如果你电脑有 Node.js 环境那就太简单了：</p>
+<pre><code>npm install -g cloc
+</code></pre><p>更多资料见 <a href="https://github.com/AlDanial/cloc" target="_blank">官网</a>。</p>
+<h2 id="header-1-2">统计</h2>
+<p>统计当前文件夹下的全部代码：</p>
+<pre><code>cloc ./
+</code></pre>
+</div>
+</body>
+</html>

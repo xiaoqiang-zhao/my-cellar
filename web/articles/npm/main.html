@@ -30,9 +30,9 @@
 <p><code>test</code> 自动化测试文件。</p>
 <h2 id="header-1-2">安装一个依赖包</h2>
 <p>自动把模块和版本号添加到dependencies部分。</p>
-<pre><code>npm install module-name -save 
+<pre><code>npm install module-name --save 
 </code></pre><p>自动把模块和版本号添加到devDependencies部分。</p>
-<pre><code>npm install module-name -save-dve
+<pre><code>npm install module-name --save-dev
 </code></pre><p><code>npm install</code>默认会安转两种依赖相当于<code>npm install --production</code> + <code>npm install --dev</code>，如果你只是单纯的使用这个包而不需要进行一些改动测试之类的可以使用前一个，如果随着深入了解需要想进一步了解再将后一条命令执行以下就可以了。</p>
 <p>另外参数 <code>npm install -g</code> 为全局安装。</p>
 <p>还可以从指定路径安装需要的包：</p>
