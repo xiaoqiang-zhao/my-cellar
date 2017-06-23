@@ -84,7 +84,7 @@
   },
   {
     "enName": "code-count",
-    "title": "代码统计",
+    "title": "代码统计与分析",
     "introduction": "非常方便统计各种语言代码行数、空行数、注释行数、文件数的工具 -- cloc。",
     "tags": [
       "辅助软件",

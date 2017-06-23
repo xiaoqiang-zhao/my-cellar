@@ -3,7 +3,7 @@
 <head lang="zh-cn">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>代码统计 - 龙则的个人站点</title>
+    <title>代码统计与分析 - 龙则的个人站点</title>
     <script>
         // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
         var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
@@ -18,18 +18,30 @@
     <h2> 精进自己，服务他人 </h2>
 </header>
 <div>
-    <h1 id="header-1">代码统计</h1>
+    <h1 id="header-1">代码统计与分析</h1>
 <blockquote>
 <p>非常方便统计各种语言代码行数、空行数、注释行数、文件数的工具 -- cloc。</p>
 </blockquote>
-<h2 id="header-1-1">软件</h2>
+<h2 id="header-1-1">代码行数统计</h2>
 <p>如果你电脑有 Node.js 环境那就太简单了：</p>
 <pre><code>npm install -g cloc
-</code></pre><p>更多资料见 <a href="https://github.com/AlDanial/cloc" target="_blank">官网</a>。</p>
-<h2 id="header-1-2">统计</h2>
-<p>统计当前文件夹下的全部代码：</p>
+</code></pre><p>统计当前文件夹下的全部代码：</p>
 <pre><code>cloc ./
-</code></pre>
+</code></pre><p>更多资料见 <a href="https://github.com/AlDanial/cloc" target="_blank">官网</a>。</p>
+<h2 id="header-1-2">分析代码重复</h2>
+<p>安装：</p>
+<pre><code>npm install -g jsinspect
+</code></pre><p>分析当前文件夹下的全部代码：</p>
+<pre><code>jsinspect ./
+</code></pre><p>这货貌似分析不了 <code>.vue</code> 文件的代码。</p>
+<p>更多资料见 <a href="https://github.com/AlDanial/cloc" target="_blank">官网</a>。</p>
+<h2 id="header-1-3">其他</h2>
+<p>听老大讲了个趣闻，早期有一段时间衡量工程师的一个指标就是千行代码数 bug。如果在背地里偷偷统计可能还稍微好一些，如果将这个作为公开指标，那么就和工程师的追求背道而驰了，工程师的追求是用尽量简洁的代码实现一个功能，而这个指标要求的是用尽量多的代码实现相同的功能。</p>
+<p>换个角度看，如果用这个指标衡量两个工程师：甲，喜欢粘贴复制，功能能实现就好，代码冗余无所谓；乙，喜欢抽象和封装，最求代码简洁，那么胜出的显然是甲。这显然是不合理的。</p>
+<p>再换个角度，如果这条规则并为公示，拿来偷偷统计同一同事在不同年份的工作，在一定程度上就有参考价值了。这里需要注意不同性质的工作对代码的要求不同，业务代码通常需求确定项的较少写的较快，同时由于需求明确所以自测起来较容易，负责一点的工程师很高产bug 率也低，也不会有很多人用各种场景来检测；但如果是核心框架代码，需要花很多时间抽象不同的使用场景，当项目在不同项目不同场景中被使用时，就相当于写各种测试用例。</p>
+<p>有一些公司有 code review 的文化和流程，如果执行的比较好，那么对同一项目两位工程师产出代码的统计也是有产考价值的。</p>
+<p>最后你的代码有没有被主管偷偷统计过那只有天知道了，好好写代码吧，做个靠谱的工程师。</p>
+
 </div>
 </body>
 </html>
