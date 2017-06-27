@@ -39,7 +39,6 @@ Linux系统中的每个文件和目录都有访问许可权限，用它来确定
 
     chgrp -R username filename
 
-
 ## chown -- 更改某个文件或目录的属主
 
     chown -R username filename
