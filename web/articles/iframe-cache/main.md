@@ -6,3 +6,15 @@
 
 用抓包工具查看，发现被缓存的 iframe 页面资源并没有向后台发出请求，而是直接使用的本地缓存。那么第一次一定有不同。
 
+HTTP中cache-control的应用及说明
+https://my.oschina.net/mickelfeng/blog/103180
+
+时间单位是秒
+
+Last-Modified，
+服务器端最后更改的时间
+
+Transfer-Encoding
+https://imququ.com/post/transfer-encoding-header-in-http.html
+
+屈屈的文章讲的很清楚，需要反向验证
