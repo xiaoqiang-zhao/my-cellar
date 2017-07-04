@@ -1,9 +1,13 @@
 {
   "enName": "iframe-cache",
-  "title": "iframe-cache",
+  "title": "彻底解决 iframe 缓存不刷新",
   "introduction": "这是一篇为 “iframe 缓存不刷新” 洗地的文章。iframe 为这事背了这么多年的锅，是该有人管管这事了。",
-  "tags": [],
-  "isPublished": false,
+  "tags": [
+    "解决方案",
+    "推荐",
+    "技术点"
+  ],
+  "isPublished": true,
   "state": "立项",
   "type": "md",
   "createDate": 1499134708139,

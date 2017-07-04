@@ -9,6 +9,6 @@ var koaStatic = require('koa-static')('./');
 app.use(router.routes());
 app.use(koaStatic);
 
-app.listen(4000);
+app.listen(4002);
 
-console.log('服务已启动: localhost:4000');
+console.log('服务已启动: localhost:4002');

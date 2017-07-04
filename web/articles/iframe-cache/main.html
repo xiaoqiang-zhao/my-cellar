@@ -3,7 +3,7 @@
 <head lang="zh-cn">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>iframe-cache - 龙则的个人站点</title>
+    <title>彻底解决 iframe 缓存不刷新 - 龙则的个人站点</title>
     <script>
         // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
         var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
@@ -18,7 +18,7 @@
     <h2> 精进自己，服务他人 </h2>
 </header>
 <div>
-    <h1 id="header-1">iframe-cache</h1>
+    <h1 id="header-1">彻底解决 iframe 缓存不刷新</h1>
 <blockquote>
 <p>这是一篇为 “iframe 缓存不刷新” 洗地的文章。iframe 为这事背了这么多年的锅，是该有人管管这事了。</p>
 </blockquote>
@@ -35,22 +35,54 @@
 <li>2、对于缓存策略，对所有页面不缓存肯定不是一个完美的策略；</li>
 <li>3、前两点只是猜测，在研究问题时发现就算不加随机数有些页面是不缓存的。</li>
 </ul>
-<p>当你遇到 iframe 页面有比较严重缓存问题时，是在客户端强制修改地址来解决的吗？但是有些页面就算用 iframe 嵌进来的并没有混存问题，这其中的问题需要探索一下，可能这个锅不能全部由 iframe 来背。</p>
 <h2 id="header-1-2">问题分析和定位</h2>
+<h3 id="header-1-2-1">第一回合</h3>
 <p>通过 Chrome 的 Network 就可以看到请求头和返回头：</p>
-<p><img src="/articles/iframe-cache/img/1.png" alt=""></p>
-<p>一个重要的信息就是 <code>from disk cache</code>，大概意思就是请求内容没有从远程服务器拉，而是使用的本地硬盘缓存。搜了很多资料没找到这次请求到底有没有和服务器端交互，从浏览器中也不能明确这一点，但是这一点很重要，如果请求了后端就可以通过请求头来指定本地缓存是否失效，这对于缓存控制很有用，如果没请求那只能前端来采用上面提到的那种方案来强制请求新页面了。</p>
-<p>于是抓包工具登场了，通过抓包工具看并没有向服务器端发送请求，看来在前端加时间戳或随机数是一种很有效的解决方案，因为不向服务器端发送请求，所以服务器端的一切防止缓存都没有登场的机会。但是在做实验的时候发现了另一个怪异的现象，有些页面是不被 iframe 缓存的，真是山穷水尽疑无路，柳暗花明又一村，把有缓存和无缓存的响应头拿来对比一下：</p>
-<p><img src="/articles/iframe-cache/img/2.jpg" alt=""></p>
-<p>用抓包工具查看，发现被缓存的 iframe 页面资源并没有向后台发出请求，而是直接使用的本地缓存。那么第一次一定有不同。</p>
-<p>HTTP中cache-control的应用及说明
-<a href="https://my.oschina.net/mickelfeng/blog/103180" target="_blank">https://my.oschina.net/mickelfeng/blog/103180</a></p>
-<p>时间单位是秒</p>
-<p>Last-Modified，
-服务器端最后更改的时间</p>
-<p>Transfer-Encoding
-<a href="https://imququ.com/post/transfer-encoding-header-in-http.html" target="_blank">https://imququ.com/post/transfer-encoding-header-in-http.html</a></p>
-<p>屈屈的文章讲的很清楚，需要反向验证</p>
+<p><img src="/articles/iframe-cache/img/1.png" alt="非对齐表格示例图"></p>
+<p>一个重要的信息就是 <code>from disk cache</code>，大概意思就是请求内容没有从远程服务器拉，而是使用的本地硬盘缓存。搜了一下没找到这次请求到底有没有和服务器端交互，从浏览器中也不能明确这一点，但是这一点很重要，如果请求了后端就可以通过请求头来指定本地缓存是否失效，这对于缓存控制很有用，如果没请求那只能前端来采用上面提到的那种方案来强制请求新页面了。</p>
+<p>于是抓包工具登场了，在本地构建了页面，通过抓包工具看并没有向服务器端发送请求，这真是很不愿意接受的事实，但事实却是如此，看来在前端加时间戳或随机数是一种很有效的解决方案，因为不向服务器端发送请求，服务器端的一切防止缓存都没有登场的机会。</p>
+<h3 id="header-1-2-2">第二回合</h3>
+<p>但是在做实验的时候发现了另一个怪异的现象，在没有配置缓存头的时候，页面是不被 iframe 缓存的，真是山穷水尽疑无路，柳暗花明又一村，于是一顿折腾构建了两个服务器容器，把有缓存和无缓存的响应头拿来对比一下：</p>
+<p><img src="img/2.jpg" alt="img"></p>
+<p>一共四个主要的不同点：Cache-Control、Content-length、Last-Modified、Transfer-Encoding，通过“相面”重点看一下 Cache-Control。通过查资料得知这个字段可能有四个值：</p>
+<ul>
+<li>private 默认值，会缓存</li>
+<li>no-cache 不会缓存</li>
+<li>must-revalidate 强制重新生效，不缓存</li>
+<li>max-age 过时缓存失效，单位是秒</li>
+</ul>
+<p>改一下服务器配置，通过正向和反向测试都OK (浏览器测试了 Chrome、Firefox、IE9)。</p>
+<p>说说验证的过程：</p>
+<p>首先是起两个服务器配置不同的请求头，我用的是 Koa，可以在 Demo 中找到具体的代码，重要代码摘录如下：</p>
+<pre><code>// 定制请求头
+app.use(async function (ctx, next) {
+    ctx.set(&#39;Cache-Control&#39;, &#39;max-age=20&#39;);
+    await next();
+});
+
+// 在 cache-max-age 目录下启动服务
+node --harmony index.js
+</code></pre><p>然后是做一个父页面用 iframe 来签入两个子页面：</p>
+<pre><code>&lt;body&gt;
+
+无缓存：
+&lt;iframe src=&quot;http://172.24.164.46:4000/index.html&quot; width=&quot;100%&quot; height=&quot;50px&quot;&gt;&lt;/iframe&gt;
+
+有缓存反向验证：
+&lt;iframe src=&quot;http://172.24.164.46:4001/index.html&quot; width=&quot;100%&quot; height=&quot;50px&quot;&gt;&lt;/iframe&gt;
+
+&lt;/body&gt;
+</code></pre><p>测试的流程是清除缓存然后访问父页面，再修改两个子页面的内容保存并刷新页面，结果是指定不缓存的页面内容更新了，指定缓存的页面内容没更新，等待 20 秒再刷新，指定了缓存 20 秒的页面刷新到了新内容。最后我们可以说各浏览器的 iframe 是可以识别并执行响应头的缓存策略的。</p>
+<h2 id="header-1-3">两种方案的总结和对比</h2>
+<p>场景一：如果 Demo 中的父页面是一个平台，子页面是业务方。</p>
+<p>采用加随机数的方案，优点是子平台不用管缓存策略，缺点是丧失了缓存策略，或者说他的缓存策略就是永不缓存，这对于服务器端渲染和首页频繁访问的系统不是很好。</p>
+<p>采用子系统配请求头的方案，优点是可以最大限度的发挥缓存优势，缺点是每个业务方都需要配置缓存头。</p>
+<p>场景二：如果 Demo 中的父页面是一个平台，子页面是业务方，但是业务方会被多个平台签入。</p>
+<p>这时会有一个优势反转，如果采用随机数方案，那么每个平台方都需要加随机数。</p>
+<p>通过场景和方案的对比，随机数方案是一种简单粗暴的方式，适合短线解决问题；请求头方案适合大型系统的长线解决问题，侵入性比较小有人比较灵活。</p>
+<h2 id="header-1-4">参考</h2>
+<p><a href="https://my.oschina.net/mickelfeng/blog/103180" target="_blank">HTTP中cache-control的应用及说明</a></p>
+<p><a href="https://imququ.com/post/transfer-encoding-header-in-http.html" target="_blank">Transfer-Encoding</a></p>
 
 </div>
 </body>
