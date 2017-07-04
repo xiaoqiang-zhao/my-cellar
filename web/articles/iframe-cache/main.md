@@ -43,7 +43,7 @@
 - must-revalidate 强制重新生效，不缓存
 - max-age 过时缓存失效，单位是秒
 
-改一下服务器配置，通过正向和反向测试都OK (浏览器测试了 Chrome、Firefox、IE9)。
+改一下服务器配置，通过正向和反向测试都OK (浏览器测试了 Chrome、Firefox、IE9，另外在 windows 下IE8、搜狗、百度浏览器 没有缓存策略)。
 
 说说验证的过程：
 

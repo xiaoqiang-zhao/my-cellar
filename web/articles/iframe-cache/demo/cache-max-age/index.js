@@ -8,7 +8,7 @@ var koaStatic = require('koa-static')('./');
 
 // 定制请求头
 app.use(async function (ctx, next) {
-    ctx.set('Cache-Control', 'max-age=20');
+    ctx.set('Cache-Control', 'max-age=2000');
     await next();
 });
 
