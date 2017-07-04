@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>iframe-cache - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">iframe-cache</h1>
+<blockquote>
+<p>这是一篇为 “iframe 缓存不刷新” 洗地的文章。iframe 为这事背了这么多年的锅，是该有人管管这事了。</p>
+</blockquote>
+<h2 id="header-1-1">问题描述</h2>
+<p>当用 iframe 嵌入一个页面，被嵌入的页面明明内容已经改变了，但是呈现在 iframe 中的内容却还是之前的，如果在新浏览器 Tab 中打开 iframe 内嵌的页面也可以看到新内容，同样清除浏览器缓存也能解决 iframe 不呈现新内容的问题。在网上搜索一下可以找到这个类型的解决方案：</p>
+<pre><code>&lt;script type=&quot;text/JavaScript&quot;&gt;
+    var random = Math.floor(Math.random()*100000)
+    var url = &#39;http://www.freedonation.com/hunger/hunger_thankyou.php3&#39;;
+    document.write(&#39;&lt;iframe src=&quot;&#39; + url + &#39;?random=&#39; + random + &#39;&quot;&gt;&lt;/iframe&gt;&#39;);
+&lt;/script&gt;
+</code></pre><p>如果用这种方式解决问题就不会有这篇文章了，那为什么会对这种方案产生怀疑？回想了一下主要有以下几点：</p>
+<ul>
+<li>1、iframe 真的有 bug 吗，所有页面都缓存起来不更新，这样的设计是在太诡异；</li>
+<li>2、对于缓存策略，对所有页面不缓存肯定不是一个完美的策略；</li>
+<li>3、前两点只是猜测，在研究问题时发现就算不加随机数有些页面是不缓存的。</li>
+</ul>
+<p>当你遇到 iframe 页面有比较严重缓存问题时，是在客户端强制修改地址来解决的吗？但是有些页面就算用 iframe 嵌进来的并没有混存问题，这其中的问题需要探索一下，可能这个锅不能全部由 iframe 来背。</p>
+<h2 id="header-1-2">问题分析和定位</h2>
+<p>通过 Chrome 的 Network 就可以看到请求头和返回头：</p>
+<p><img src="/articles/iframe-cache/img/1.png" alt=""></p>
+<p>一个重要的信息就是 <code>from disk cache</code>，大概意思就是请求内容没有从远程服务器拉，而是使用的本地硬盘缓存。搜了很多资料没找到这次请求到底有没有和服务器端交互，从浏览器中也不能明确这一点，但是这一点很重要，如果请求了后端就可以通过请求头来指定本地缓存是否失效，这对于缓存控制很有用，如果没请求那只能前端来采用上面提到的那种方案来强制请求新页面了。</p>
+<p>于是抓包工具登场了，通过抓包工具看并没有向服务器端发送请求，看来在前端加时间戳或随机数是一种很有效的解决方案，因为不向服务器端发送请求，所以服务器端的一切防止缓存都没有登场的机会。但是在做实验的时候发现了另一个怪异的现象，有些页面是不被 iframe 缓存的，真是山穷水尽疑无路，柳暗花明又一村，把有缓存和无缓存的响应头拿来对比一下：</p>
+<p><img src="/articles/iframe-cache/img/2.jpg" alt=""></p>
+<p>用抓包工具查看，发现被缓存的 iframe 页面资源并没有向后台发出请求，而是直接使用的本地缓存。那么第一次一定有不同。</p>
+<p>HTTP中cache-control的应用及说明
+<a href="https://my.oschina.net/mickelfeng/blog/103180" target="_blank">https://my.oschina.net/mickelfeng/blog/103180</a></p>
+<p>时间单位是秒</p>
+<p>Last-Modified，
+服务器端最后更改的时间</p>
+<p>Transfer-Encoding
+<a href="https://imququ.com/post/transfer-encoding-header-in-http.html" target="_blank">https://imququ.com/post/transfer-encoding-header-in-http.html</a></p>
+<p>屈屈的文章讲的很清楚，需要反向验证</p>
+
+</div>
+</body>
+</html>

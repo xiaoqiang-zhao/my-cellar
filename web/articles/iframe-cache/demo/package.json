@@ -1,0 +1,21 @@
+{
+  "name": "koa-note",
+  "description": "Koa 学习笔记",
+  "keywords": [
+    "koa",
+    "note",
+    "longze"
+  ],
+  "main": "./index.js",
+  "author": {
+    "name": "赵晓强",
+    "email": "longze_xq@163.com"
+  },
+  "dependencies": {
+    "koa": "^2.0.1",
+    "koa-proxy": "^0.8.0",
+    "koa-router": "^5.4.0",
+    "koa-static": "^3.0.0"
+  },
+  "license": "MIT"
+}

@@ -495,6 +495,18 @@
     "todoList": []
   },
   {
+    "enName": "iframe-cache",
+    "title": "iframe-cache",
+    "introduction": "这是一篇为 “iframe 缓存不刷新” 洗地的文章。iframe 为这事背了这么多年的锅，是该有人管管这事了。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1499134708139,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "interview-salary",
     "title": "面试 & 薪酬",
     "introduction": "工作第四个年头，对于面试和薪酬有了一些心得，写下来帮自己整理思路，探讨虐与被虐的博弈。",
