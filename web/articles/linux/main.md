@@ -1,5 +1,83 @@
 # Linux 备忘笔记
 
+> 前端很多人都不是计算机相关专业的科班出生，但是前端的环境越来越复杂，好多人脚手架出了问题无从下手查。
+
+## 程序通用
+
+Linux 的核心思想就是一切皆文件。
+
+查看程序装在了哪里，比如看看 node 装到了哪里：
+
+    which node
+    // 输出可能是这样:/usr/local/bin/node
+
+其实所有的程序安装都是将文件从远程下载下来然后放在一个地方。然后这个文件是否可执行，那些用户可启动执行我们后面讲。但是我们每次执行并不把路径写全，比如：
+
+    node -v
+
+其实写全了应该是酱紫：
+
+    /usr/local/bin/node -v
+
+而这种简写归功于 `.bash_profile` 文件，每个用户都有一个这样的文件(用户文件夹可能在 `/home/username/.bash_profile`)，还有一个全局的文件在 `/root/username/.bash_profile`。我们随便找一个打开看看：
+
+    cat .bash_profile
+    # .bash_profile
+    
+    # Get the aliases and functions
+    if [ -f ~/.bashrc ]; then
+    	. ~/.bashrc
+    fi
+    
+    # User specific environment and startup programs
+    
+    PATH=$PATH:$HOME/bin
+    
+    export PATH
+
+并不是每个全局程序都需要配置的，一般是把全局能执行的文件放在 `bin` 目录下，同样每个用户自己有一个全局有一个。看一下 `bin` 目录，我们常用的程序都在里面：
+
+    cd bin
+    ls
+    
+    // 输出：
+    node
+    n
+    npm
+
+修改完执行下面命令使环境变量生效：
+
+    $ source ~/.bash_profile
+
+除了通过修改配置文件
+
+显示命令的文档，如显示 `gulp` 使用文档：
+
+    man gulp
+    // 注：按 q 退出
+    // 并不是所有命令都提供文档
+
+## 用 vi 编辑文件
+
+常用命令
+
+    // 将文件在 VIM 编辑器中打开
+    vi filename
+    // 唤起输入
+    i
+    // 保存退出
+    esc
+    :wq!
+
+还有一些命令你可能用得到：
+    
+    // 放弃所作修改而直接退到shell下
+    :q!
+    // 另存为
+    :w newfile
+   
+## 用户相关
+
 ## chmod -- 权限管理
 
 Linux系统中的每个文件和目录都有访问许可权限，用它来确定谁可以通过何种方式对文件和目录进行访问和操作。文件或目录的访问权限分为只读，只写和可执行三种。
@@ -42,26 +120,7 @@ Linux系统中的每个文件和目录都有访问许可权限，用它来确定
 ## chown -- 更改某个文件或目录的属主
 
     chown -R username filename
-
-## VIM 编辑文件
-
-常用命令
-
-    // 将文件在 VIM 编辑器中打开
-    vi filename
-    // 唤起输入
-    i
-    // 保存退出
-    esc
-    :wq!
-
-还有一些命令你可能用得到：
-    
-    // 放弃所作修改而直接退到shell下
-    :q!
-    // 另存为
-    :w newfile
-    
+ 
 ## 进程相关
 
 启动进程的命令后加 `&`，将进程指定为后台进程，这样可以在 shell 做一些其他事情而不需要再打开新的窗口，如：
@@ -102,14 +161,6 @@ Linux系统中的每个文件和目录都有访问许可权限，用它来确定
 - [Linux进程管理命令](https://www.zybuluo.com/ghostfn1/note/123409)
 
 ## 零碎
-
-### 显示命令的文档
-
-显示命令的文档，如显示 `gulp` 使用文档：
-
-    man gulp
-    // 注：按 q 退出
-    // 并不是所有命令都提供文档
 
 ### 查看文件行数
 

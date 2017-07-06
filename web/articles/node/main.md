@@ -27,6 +27,8 @@
 
 	n 6.2.0
 
+[node.js版本管理工具n无效的原理和解决方法](http://www.jb51.net/article/98153.htm)
+
 ## 调试环境
 
 ### inspector
