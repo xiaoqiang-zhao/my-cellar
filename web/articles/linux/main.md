@@ -49,7 +49,12 @@ Linux 的核心思想就是一切皆文件。
 
     $ source ~/.bash_profile
 
-除了通过修改配置文件
+除了通过修改配置文件可以设定更多的全局命令，全局命令不仅我们自己敲的时候要用到，很多软件的执行依赖其他可执行文件，这时就需要修改 `.bash_profile` 文件添加环境变量，在行为插入：
+
+    export N_PREFIX=/opt/node #node实际安装位置
+    export PATH=$N_PREFIX/bin:$PATH
+
+注：这里其实没看懂具体意思，需要找个东西验证一下，比如 ip 那个例子；探索一下世纪的例子，gulp 是怎么可以全局执行的？
 
 显示命令的文档，如显示 `gulp` 使用文档：
 
@@ -59,7 +64,7 @@ Linux 的核心思想就是一切皆文件。
 
 ## 用 vi 编辑文件
 
-常用命令
+常用命令 
 
     // 将文件在 VIM 编辑器中打开
     vi filename
@@ -77,6 +82,36 @@ Linux 的核心思想就是一切皆文件。
     :w newfile
    
 ## 用户相关
+    
+创建用户 testuser
+
+    useradd testuser
+    
+给已创建的用户 testuser 设置密码
+
+    passwd testuser
+
+删除用户 testuser
+
+    userdel testuser
+
+切换用户(switch user)
+
+    su username
+
+查看已有用户(具备 root 权限才可以)
+
+    cat /etc/passwd
+    // 简化输出版
+    cat /etc/passwd|grep -v nologin|grep -v halt|grep -v shutdown|awk -F":" '{ print $1"|"$3"|"$4 }'|more
+
+添加用户组
+
+    groupadd testgroup
+
+删除用户组
+
+    groupdel testgroup
 
 ## chmod -- 权限管理
 
