@@ -1,6 +1,7 @@
 # IDE的配置文件
 /.idea/
 .idea/codeStyleSettings.xml
+.vscod/settings.json
 
 # npm日志
 npm-debug.log
