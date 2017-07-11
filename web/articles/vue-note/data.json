@@ -1,7 +1,7 @@
 {
   "enName": "vue-note",
-  "title": "vue2.0 使用技巧",
-  "introduction": "使用 vue 已经有一段时间了,vue2.0已经进入 rc 版,这里终结并验证一些从 vue1.x 中延续而来的一些经验,同时备忘一些新特性和老版迁移方案。",
+  "title": "vue2.0 通用代码片段",
+  "introduction": "有一些全局起作用的代码，你的项目中也可能用得到。",
   "tags": [],
   "isPublished": false,
   "state": "立项",

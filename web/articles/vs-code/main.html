@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Visual Studio Code 使用笔记 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">Visual Studio Code 使用笔记</h1>
+<blockquote>
+<p>Visual Studio Code 大有后来居上超过 WebStrom 的趋势，他的插件卡法方式实在太吸引人了。总的来说 vs 还 没有 ws 功能强大，但是很快这些确实的功能会补上。</p>
+</blockquote>
+<h2 id="header-1-1">设置</h2>
+<p>vs 的配置分3个级别，分别是默认配置、用户设置和工作区设置，优先级也依次递增。</p>
+<pre><code>// 编辑区字体
+&quot;editor.fontSize&quot;: 16,
+
+// 在新窗口打开文件夹
+&quot;window.openFoldersInNewWindow&quot;: &quot;on&quot;
+</code></pre><p>左侧资源管理器的字体没找到调节的办法，window.zoomLevel 是整体放缩不是我想要的效果。</p>
+<p>皮肤切换：Code/首选项/颜色主题 (Cmd + T + K)</p>
+<h2 id="header-1-2">快捷键</h2>
+<p>快捷键的查看和设置：Code/首选项/键盘快捷方式 (Cmd + K + S)</p>
+<h3 id="header-1-2-1">基本</h3>
+<p>上/下移动一行：Alt + 上/下箭头</p>
+<p>向上/下复制一行：Shift + Alt + 上/下箭头</p>
+<p>删除一行：Shift + Cmd + K</p>
+<p>剪切一行：Cmd + C</p>
+<p>切换编辑窗口：Ctr + Tab</p>
+<p>查找：Cmd + F</p>
+<p>查找替换：Cmd + Alt + F，在当前文件查找</p>
+<h2 id="header-1-3">Git 相关</h2>
+<p>点击左侧 Git 图标/更多/切换源代码管理系统.../安装其他SCM提供程序...，然后在插件系统中可以安装好用的 Visual Studio Team Services 插件，然后就可以轻松查看修改过的内容了。</p>
+<p>commit 比较方便，写完 message 按 Cmd + Enter 就直接提交了；</p>
+<p>唤出命令行：Shift + Cmd + C，不是唤出 VS Code 自带的工具，而是打开系统自带的命令行工具。</p>
+<h2 id="header-1-4">杂项</h2>
+<p>如果用了 <code>vetur</code> 插件可能会出一个这样的警告：</p>
+<pre><code>&#39;v-for&#39; directives require &#39;v-bind:key&#39; directives.
+</code></pre><p>这是ESLint的功能。对vue进行了eslint检查。那么我们就把eslint对该插件的检查关闭，在配置文件中添加如下配置：</p>
+<pre><code>&quot;vetur.validation.template&quot;: false
+</code></pre>
+</div>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head lang="zh-cn">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>vue2.0 使用技巧 - 龙则的个人站点</title>
+    <title>vue2.0 通用代码片段 - 龙则的个人站点</title>
     <script>
         // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
         var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
@@ -18,68 +18,63 @@
     <h2> 精进自己，服务他人 </h2>
 </header>
 <div>
-    <h1 id="header-1">vue2.0 使用技巧</h1>
+    <h1 id="header-1">vue2.0 通用代码片段</h1>
 <blockquote>
-<p>使用 vue 已经有一段时间了,vue2.0已经进入 rc 版,这里终结并验证一些从 vue1.x 中延续而来的一些经验,同时备忘一些新特性和老版迁移方案。</p>
+<p>有一些全局起作用的代码，你的项目中也可能用得到。</p>
 </blockquote>
-<h2 id="header-1-1">循环组件</h2>
-<h3 id="header-1-1-1">要解决的问题</h3>
-<p>如果你在写一个高度定制化的组件或页面，那么组件是否出现需要由配置数据决定。</p>
-<h3 id="header-1-1-2">关键特性</h3>
-<p><code>:is</code> 通过这个特性来配置组件类型。</p>
-<p>需要在子组件列表中将可能出现的全部组件列出来。</p>
-<pre><code>components: {
-    &#39;component-a&#39;: ComponentA,
-    &#39;component-b&#39;: ComponentB
-}    
-</code></pre><h3 id="header-1-1-3">解决方案示例</h3>
-<p>模板部分:</p>
-<pre><code>&lt;div id=&quot;app&quot;&gt;
-    &lt;component v-for=&quot;(item,index) in items&quot; :is=&quot;item.type&quot; :index=&quot;index&quot;&gt;&lt;/component&gt;
-&lt;/div&gt;
-</code></pre><p>Js 部分:</p>
-<pre><code>var app = new Vue({
-    el: &#39;#app&#39;,
-    components: {
-        &#39;component-a&#39;: ComponentA,
-        &#39;component-b&#39;: ComponentB
-    },
-    data: {
-        items: [
-            {
-                type: &#39;component-a&#39;
-            },
-            {
-                type: &#39;component-b&#39;
-            },
-            {
-                type: &#39;component-a&#39;
-            }
-        ]
-    }
+<h2 id="header-1-1">全局的 Ajax 错误拦截</h2>
+<p>在业务代码中每个异步请求都需要有一个处理请求失败的回调函数，向下面这样：</p>
+<pre><code>this.$http.get(url).then((res) =&gt; {
+    // 成功的逻辑
+}, (res) =&gt; {
+    // 失败的逻辑
 });
-</code></pre><p>两个子组件:</p>
-<pre><code>var ComponentA = Vue.extend({
-    props: [&quot;index&quot;],
-    data: function () {
-        var index = this.index;
-        if (index !== undefined) {
-            index = index + &#39;- &#39;;
+</code></pre><p>对于失败的逻辑，代码几乎都一致 -- 弹个框提示数据请求失败，这样的代码写多了就像能不能不每次写，研究了一下还真有，而且实现并不麻烦，先把代码扔出来：</p>
+<pre><code>import Vue from &#39;vue&#39;;
+import VueResource from &#39;vue-resource&#39;;
+Vue.use(VueResource);
+Vue.http.interceptors.push((request, next) =&gt; {
+    // 异步成功后最开始执行下面方法
+    next(response =&gt; {
+        if (response.body !== null) {
+            // 业务代码可能需要 后台返回的 status 和 statusInfo，这里添加一个字段
+            response.json = response.body;
+            // 为了数据使用方便，提升一级 data
+            response.body = response.body.data;
+
+            // 这里补一个系统级别的 逻辑错误指定
+            if (response.json.status !== 0) {
+                response.ok = false;
+            }
         }
 
-        return {
-            index2: index
-        };
-    },
-    template: &#39;&lt;div&gt;{{index2}}ComponentA的实例&lt;/div&gt;&#39;
+        // 弹出全局错误提示
+        if (response.ok === false) {
+            let message;
+            let title = &#39;系统异常&#39;;
+            if (response.status !== 200) {
+                message = &#39;接口异常，异常状态码:&#39; + response.status;
+            }
+            else if (response.json &amp;&amp; response.json.statusInfo) {
+                message = response.json.statusInfo;
+                if (response.json.status === 500) {
+                    title = &#39;提示&#39;;
+                }
+            }
+
+            // messageBox 是封装的一个消息弹框
+            messageBox({
+                title: title,
+                type: &#39;error&#39;,
+                message: message
+            });
+        }
+
+        return response;
+    });
 });
-var ComponentB = Vue.extend({
-    template: &#39;&lt;div&gt;ComponentB的实例&lt;/div&gt;&#39;
-});
-</code></pre><p>需要注意的是父子组件向子组件传递数据时需要通过 <code>props</code> 特性，在子组件中建议直接使用父组件传过来的数据，同名覆盖是不推荐的，最后给个 <a href="/articles/vue-note/demo/for-components.html" target="_blank">Demo 链接</a>,方便查看源码。</p>
-<h3 id="header-1-1-4">相关信息</h3>
-<p>2.3 新增了 slot 的作用域设置特性，可以向一个组件(为了表述方便我们称其为A)中直接传入另一个组件(为了表述方便我们称其为B)，并且 B 可以使用 A 的部分数据作为数据作用域，而不一定是与 A 相同的父组件的数据作用域。 </p>
-<h2 id="header-1-2">vue-resource 的一个解决方案</h2>
+</code></pre><p>VueResource 提供了 interceptors 接口，我们可以注入自己的逻辑，回调函数会在请求前被执行，请求完成后会执行 next 函数。值得注意的是这个系统级别的拦截，业务代码无法控制其中的逻辑，除非你在里面加一下特殊的业务逻辑判断，但我认为那是比较糟糕的实现。</p>
+<h2 id="header-1-2">404 页面</h2>
 
 </div>
 </body>

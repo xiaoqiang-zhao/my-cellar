@@ -19,7 +19,82 @@
 </header>
 <div>
     <h1 id="header-1">Linux 备忘笔记</h1>
-<h2 id="header-1-1">chmod -- 权限管理</h2>
+<blockquote>
+<p>前端很多人都不是计算机相关专业的科班出生，但是前端的环境越来越复杂，好多人脚手架出了问题无从下手查。</p>
+</blockquote>
+<h2 id="header-1-1">程序通用</h2>
+<p>Linux 的核心思想就是一切皆文件。</p>
+<p>查看程序装在了哪里，比如看看 node 装到了哪里：</p>
+<pre><code>which node
+// 输出可能是这样:/usr/local/bin/node
+</code></pre><p>其实所有的程序安装都是将文件从远程下载下来然后放在一个地方。然后这个文件是否可执行，那些用户可启动执行我们后面讲。但是我们每次执行并不把路径写全，比如：</p>
+<pre><code>node -v
+</code></pre><p>其实写全了应该是酱紫：</p>
+<pre><code>/usr/local/bin/node -v
+</code></pre><p>而这种简写归功于 <code>.bash_profile</code> 文件，每个用户都有一个这样的文件(用户文件夹可能在 <code>/home/username/.bash_profile</code>)，还有一个全局的文件在 <code>/root/username/.bash_profile</code>。我们随便找一个打开看看：</p>
+<pre><code>cat .bash_profile
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+PATH=$PATH:$HOME/bin
+
+export PATH
+</code></pre><p>并不是每个全局程序都需要配置的，一般是把全局能执行的文件放在 <code>bin</code> 目录下，同样每个用户自己有一个全局有一个。看一下 <code>bin</code> 目录，我们常用的程序都在里面：</p>
+<pre><code>cd bin
+ls
+
+// 输出：
+node
+n
+npm
+</code></pre><p>修改完执行下面命令使环境变量生效：</p>
+<pre><code>$ source ~/.bash_profile
+</code></pre><p>除了通过修改配置文件可以设定更多的全局命令，全局命令不仅我们自己敲的时候要用到，很多软件的执行依赖其他可执行文件，这时就需要修改 <code>.bash_profile</code> 文件添加环境变量，在行为插入：</p>
+<pre><code>export N_PREFIX=/opt/node #node实际安装位置
+export PATH=$N_PREFIX/bin:$PATH
+</code></pre><p>注：这里其实没看懂具体意思，需要找个东西验证一下，比如 ip 那个例子；探索一下世纪的例子，gulp 是怎么可以全局执行的？</p>
+<p>显示命令的文档，如显示 <code>gulp</code> 使用文档：</p>
+<pre><code>man gulp
+// 注：按 q 退出
+// 并不是所有命令都提供文档
+</code></pre><h2 id="header-1-2">用 vi 编辑文件</h2>
+<p>常用命令 </p>
+<pre><code>// 将文件在 VIM 编辑器中打开
+vi filename
+// 唤起输入
+i
+// 保存退出
+esc
+:wq!
+</code></pre><p>还有一些命令你可能用得到：</p>
+<pre><code>// 放弃所作修改而直接退到shell下
+:q!
+// 另存为
+:w newfile
+</code></pre><h2 id="header-1-3">用户相关</h2>
+<p>创建用户 testuser</p>
+<pre><code>useradd testuser
+</code></pre><p>给已创建的用户 testuser 设置密码</p>
+<pre><code>passwd testuser
+</code></pre><p>删除用户 testuser</p>
+<pre><code>userdel testuser
+</code></pre><p>切换用户(switch user)</p>
+<pre><code>su username
+</code></pre><p>查看已有用户(具备 root 权限才可以)</p>
+<pre><code>cat /etc/passwd
+// 简化输出版
+cat /etc/passwd|grep -v nologin|grep -v halt|grep -v shutdown|awk -F&quot;:&quot; &#39;{ print $1&quot;|&quot;$3&quot;|&quot;$4 }&#39;|more
+</code></pre><p>添加用户组</p>
+<pre><code>groupadd testgroup
+</code></pre><p>删除用户组</p>
+<pre><code>groupdel testgroup
+</code></pre><h2 id="header-1-4">chmod -- 权限管理</h2>
 <p>Linux系统中的每个文件和目录都有访问许可权限，用它来确定谁可以通过何种方式对文件和目录进行访问和操作。文件或目录的访问权限分为只读，只写和可执行三种。</p>
 <pre><code>// 查看文件所属权限
 ls -l
@@ -51,25 +126,11 @@ drwxrwxr-x
 <li>= 赋予给定权限并取消其他所有权限（如果有的话）。</li>
 </ul>
 <p>后面两项分别是权限和文件夹。</p>
-<h2 id="header-1-2">chgrp -- 改变文件或目录所属的组</h2>
+<h2 id="header-1-5">chgrp -- 改变文件或目录所属的组</h2>
 <pre><code>chgrp -R username filename
-</code></pre><h2 id="header-1-3">chown -- 更改某个文件或目录的属主</h2>
+</code></pre><h2 id="header-1-6">chown -- 更改某个文件或目录的属主</h2>
 <pre><code>chown -R username filename
-</code></pre><h2 id="header-1-4">VIM 编辑文件</h2>
-<p>常用命令</p>
-<pre><code>// 将文件在 VIM 编辑器中打开
-vi filename
-// 唤起输入
-i
-// 保存退出
-esc
-:wq!
-</code></pre><p>还有一些命令你可能用得到：</p>
-<pre><code>// 放弃所作修改而直接退到shell下
-:q!
-// 另存为
-:w newfile
-</code></pre><h2 id="header-1-5">进程相关</h2>
+</code></pre><h2 id="header-1-7">进程相关</h2>
 <p>启动进程的命令后加 <code>&amp;</code>，将进程指定为后台进程，这样可以在 shell 做一些其他事情而不需要再打开新的窗口，如：</p>
 <pre><code>gulp &amp;
 // 启动时会给出一个进程ID，如：32750
@@ -94,13 +155,8 @@ ps -u
 <li><a href="https://cnbin.github.io/blog/2015/06/15/shell-qian-hou-tai-jin-cheng-qie-huan/" target="_blank">Shell 前后台进程切换</a></li>
 <li><a href="https://www.zybuluo.com/ghostfn1/note/123409" target="_blank">Linux进程管理命令</a></li>
 </ul>
-<h2 id="header-1-6">零碎</h2>
-<h3 id="header-1-6-1">显示命令的文档</h3>
-<p>显示命令的文档，如显示 <code>gulp</code> 使用文档：</p>
-<pre><code>man gulp
-// 注：按 q 退出
-// 并不是所有命令都提供文档
-</code></pre><h3 id="header-1-6-2">查看文件行数</h3>
+<h2 id="header-1-8">零碎</h2>
+<h3 id="header-1-8-1">查看文件行数</h3>
 <p>有些系统生成的文件比较大，怎么能不打开文件统计文件行数呢？</p>
 <pre><code>wc -lcw file1 file2
 </code></pre><p>参数说明：</p>
