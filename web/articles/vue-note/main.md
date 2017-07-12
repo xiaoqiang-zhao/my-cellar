@@ -62,6 +62,33 @@ VueResource 提供了 interceptors 接口，我们可以注入自己的逻辑，
 
 ## 404 页面
 
+如果地址做了修改没有匹配到相应的页面模块，默认会出空白页面，这时我们需要有一个像传统多页面网站那样的 404 页面，可以添加这么一段检测路由匹配的代码：
 
+    router.beforeEach(function (to, from, next) {
+        // 未找到匹配页面
+        if (to.matched.length === 0) {
+            next({
+                path: '/page-404',
+                query: {
+                    fromPath: to.path
+                }
+            });
+        }
+    }
 
+404 页面和普通的页面没有什么区别，这里简单示意一下：
 
+    <template>
+        <div class="page-404">
+            未找到匹配的页面模块:{{fromPath}}
+        </div>
+    </template>
+    <script>
+        export default {
+            data () {
+                return {
+                    fromPath: this.$route.query.fromPath
+                }
+            }
+        }
+    </script>

@@ -3,6 +3,16 @@
 > 这些年用过的一些小组件，整理收集在此。class命名很接地气，坏处就是容易冲突，如果和其他样式库公用注意冲突的问题。
 一些实例：[DEMO](/articles/css-widget/demo/demo.html)，也可下载[dem/css.css](demo/css.css)直接使用。
 
+## CSS 样式一致化
+
+有了这个东西可以减少我们很多工作量。
+
+https://www.zhihu.com/question/20094066
+
+normalize.css 适合大项目和移动项目，reset.css 适合小项目或 Demo。
+
+http://jerryzou.com/posts/aboutNormalizeCss/
+
 ## 文字按钮
 
 一个看着干净简单的按钮，在动作上又够精致，鼠标移上、按下、抬起以及不可用都有样式响应，另外还有风骚的小动画。在技术上，由于 `active` 这一动态伪类只有在 链接 和 按钮 上才能响应，所以此样式的元素用在 `a`、`button`、`input type="button"` 上才能充分展示按钮的丰富。下面是三种按钮的定义方法：
