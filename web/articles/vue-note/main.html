@@ -60,6 +60,8 @@ Vue.http.interceptors.push((request, next) =&gt; {
                 if (response.json.status === 500) {
                     title = &#39;提示&#39;;
                 }
+                // 这里还可以和服务器端约定一些系统级的 status 码
+                // 如登录超时，无权限，系统繁忙稍后重试等，并进行统一处理
             }
 
             // messageBox 是封装的一个消息弹框
@@ -75,7 +77,34 @@ Vue.http.interceptors.push((request, next) =&gt; {
 });
 </code></pre><p>VueResource 提供了 interceptors 接口，我们可以注入自己的逻辑，回调函数会在请求前被执行，请求完成后会执行 next 函数。值得注意的是这个系统级别的拦截，业务代码无法控制其中的逻辑，除非你在里面加一下特殊的业务逻辑判断，但我认为那是比较糟糕的实现。</p>
 <h2 id="header-1-2">404 页面</h2>
-
+<p>如果地址做了修改没有匹配到相应的页面模块，默认会出空白页面，这时我们需要有一个像传统多页面网站那样的 404 页面，可以添加这么一段检测路由匹配的代码：</p>
+<pre><code>router.beforeEach(function (to, from, next) {
+    // 未找到匹配页面
+    if (to.matched.length === 0) {
+        next({
+            path: &#39;/page-404&#39;,
+            query: {
+                fromPath: to.path
+            }
+        });
+    }
+}
+</code></pre><p>404 页面和普通的页面没有什么区别，这里简单示意一下：</p>
+<pre><code>&lt;template&gt;
+    &lt;div class=&quot;page-404&quot;&gt;
+        未找到匹配的页面模块:{{fromPath}}
+    &lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;
+    export default {
+        data () {
+            return {
+                fromPath: this.$route.query.fromPath
+            }
+        }
+    }
+&lt;/script&gt;
+</code></pre>
 </div>
 </body>
 </html>
