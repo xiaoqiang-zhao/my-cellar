@@ -508,6 +508,22 @@
     "todoList": []
   },
   {
+    "enName": "vue-note",
+    "title": "vue2.0 通用代码片段",
+    "introduction": "有一些全局起作用的代码，你的项目中也可能用得到。",
+    "tags": [
+      "代码片段",
+      "个人笔记",
+      "推荐"
+    ],
+    "isPublished": true,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1499822980788,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "w3c-recommendation",
     "title": "W3C 标准成熟过程中的里程点",
     "introduction": "CSS 和 JS 都处在一个快速发展的阶段，不断有新属性加进来，要想知道那些可用那些还得等等再用，就需要这个属性在标准中的进行到哪一步了还有浏览器支持情况怎么样，这篇文章介绍一个特性成为标准都有那几步，各步又是什么意思。",

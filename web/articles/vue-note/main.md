@@ -62,6 +62,34 @@
 
 VueResource 提供了 interceptors 接口，我们可以注入自己的逻辑，回调函数会在请求前被执行，请求完成后会执行 next 函数。值得注意的是这个系统级别的拦截，业务代码无法控制其中的逻辑，除非你在里面加一下特殊的业务逻辑判断，但我认为那是比较糟糕的实现。
 
+## axios
+
+刚做完上面的分享，发现 vue-resource 被官网弃坑了，真是感慨前端的技术迭代速度真是快。
+
+具体为什么弃坑请查阅这篇文章：[Retiring vue-resource](https://medium.com/the-vue-point/retiring-vue-resource-871a82880af4)。我简单翻译了给出的 3 条理由：
+
+- 与 Vue 核心功能没有太大关系；
+- 有第三方库可以完成同样的功能，而且社区更活跃，我们是在做重复工作；
+- 我们可以把用在 vue-resource 上的时间花在更有意义的事情上。
+
+axios 也有 interceptors，只是将请求前和完成后分成了 request 和 response，用法大同小异：
+
+    axios.interceptors.request.use(function (config) {
+        // Do something before request is sent
+        return config;
+    }, function (error) {
+        // Do something with request error
+        return Promise.reject(error);
+    });
+    
+    axios.interceptors.response.use(function (response) {
+        // Do something with response data
+        return response;
+    }, function (error) {
+        // Do something with response error
+        return Promise.reject(error);
+    });
+
 ## 404 页面
 
 如果地址做了修改没有匹配到相应的页面模块，默认会出空白页面，这时我们需要有一个像传统多页面网站那样的 404 页面，可以添加这么一段检测路由匹配的代码：
@@ -94,3 +122,4 @@ VueResource 提供了 interceptors 接口，我们可以注入自己的逻辑，
             }
         }
     </script>
+

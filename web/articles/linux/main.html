@@ -94,7 +94,18 @@ cat /etc/passwd|grep -v nologin|grep -v halt|grep -v shutdown|awk -F&quot;:&quot
 <pre><code>groupadd testgroup
 </code></pre><p>删除用户组</p>
 <pre><code>groupdel testgroup
-</code></pre><h2 id="header-1-4">chmod -- 权限管理</h2>
+</code></pre><p>用户的文件夹一般在 <code>/home</code> 下。</p>
+<h2 id="header-1-4">常用</h2>
+<p>新建文件</p>
+<p>删除文件</p>
+<pre><code>rm 文件名
+</code></pre><p>删除文件夹和其中的内容</p>
+<pre><code>rm -rf 文件夹名称
+</code></pre><p>重命名文件或文件夹</p>
+<pre><code>mv 旧名 新名
+</code></pre><p>移动文件夹也可以用上面的命令</p>
+<pre><code>mv 旧文件路径 新文件路径
+</code></pre><h2 id="header-1-5">chmod -- 权限管理</h2>
 <p>Linux系统中的每个文件和目录都有访问许可权限，用它来确定谁可以通过何种方式对文件和目录进行访问和操作。文件或目录的访问权限分为只读，只写和可执行三种。</p>
 <pre><code>// 查看文件所属权限
 ls -l
@@ -126,11 +137,11 @@ drwxrwxr-x
 <li>= 赋予给定权限并取消其他所有权限（如果有的话）。</li>
 </ul>
 <p>后面两项分别是权限和文件夹。</p>
-<h2 id="header-1-5">chgrp -- 改变文件或目录所属的组</h2>
+<h2 id="header-1-6">chgrp -- 改变文件或目录所属的组</h2>
 <pre><code>chgrp -R username filename
-</code></pre><h2 id="header-1-6">chown -- 更改某个文件或目录的属主</h2>
+</code></pre><h2 id="header-1-7">chown -- 更改某个文件或目录的属主</h2>
 <pre><code>chown -R username filename
-</code></pre><h2 id="header-1-7">进程相关</h2>
+</code></pre><h2 id="header-1-8">进程相关</h2>
 <p>启动进程的命令后加 <code>&amp;</code>，将进程指定为后台进程，这样可以在 shell 做一些其他事情而不需要再打开新的窗口，如：</p>
 <pre><code>gulp &amp;
 // 启动时会给出一个进程ID，如：32750
@@ -155,8 +166,8 @@ ps -u
 <li><a href="https://cnbin.github.io/blog/2015/06/15/shell-qian-hou-tai-jin-cheng-qie-huan/" target="_blank">Shell 前后台进程切换</a></li>
 <li><a href="https://www.zybuluo.com/ghostfn1/note/123409" target="_blank">Linux进程管理命令</a></li>
 </ul>
-<h2 id="header-1-8">零碎</h2>
-<h3 id="header-1-8-1">查看文件行数</h3>
+<h2 id="header-1-9">零碎</h2>
+<h3 id="header-1-9-1">查看文件行数</h3>
 <p>有些系统生成的文件比较大，怎么能不打开文件统计文件行数呢？</p>
 <pre><code>wc -lcw file1 file2
 </code></pre><p>参数说明：</p>

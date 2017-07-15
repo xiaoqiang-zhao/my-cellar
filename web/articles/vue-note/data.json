@@ -2,8 +2,12 @@
   "enName": "vue-note",
   "title": "vue2.0 通用代码片段",
   "introduction": "有一些全局起作用的代码，你的项目中也可能用得到。",
-  "tags": [],
-  "isPublished": false,
+  "tags": [
+    "代码片段",
+    "个人笔记",
+    "推荐"
+  ],
+  "isPublished": true,
   "state": "立项",
   "type": "md",
   "createDate": 1499822980788,
