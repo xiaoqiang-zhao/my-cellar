@@ -54,3 +54,11 @@ commit 比较方便，写完 message 按 Cmd + Enter 就直接提交了；
 
     "vetur.validation.template": false
 
+## 插件
+
+emmet 语法插件 Mithril Emmet support for VS Code，添加配置：
+
+    "emmet.syntaxProfiles": {
+        "vue-html": "html",
+        "vue": "html"
+    }
