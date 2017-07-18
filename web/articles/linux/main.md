@@ -61,6 +61,52 @@ Linux 的核心思想就是一切皆文件。
     man gulp
     // 注：按 q 退出
     // 并不是所有命令都提供文档
+ 
+## 进程相关
+
+启动进程的命令后加 `&`，将进程指定为后台进程，这样可以在 shell 做一些其他事情而不需要再打开新的窗口，如：
+
+    gulp &
+    // 启动时会给出一个进程ID，如：32750
+
+但是关闭 shell 或 断开 ssh 连接后进程就退出了，这在开发机上不是我们的期望，我们期望服务一直运行着，这样就轮到 `nohup` 登场了：
+
+    nohup gulp &
+
+那怎么退出进程和重启进程呢？需要知道懂东西有点多我们一点点来。首先是查看进程：
+
+    // 查看所有进程
+    ps -e
+    // 能找到这样一行进程
+    32750 pts/1    00:00:05 gulp
+
+寻找的过程比较费劲，这里有一些技巧：
+
+    // 查看当前用户启动的进程
+    ps -u
+    // Mac 下需要这样
+    ps -U 用户名
+    // 其实 Mac 用活动监视器查看更方便
+
+可以看到形如下面信息：
+
+    USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+    500       1888  0.5  1.9 1339056 159584 pts/1  Sl   10:55   0:05 gulp
+
+如果你启动的进程比较多，会依然不好找，下面是配合 `grep` 进程搜索命令：
+
+    ps -ef -l | grep gulp
+
+最终我们要拿到 PID，这样我们能对线程做一些操作，比如杀掉它：
+
+    kill 1888
+
+线程，进程，进程ID(PID)，端口... 进程的端口是个什么鬼?
+
+更多资料：
+
+- [Shell 前后台进程切换](https://cnbin.github.io/blog/2015/06/15/shell-qian-hou-tai-jin-cheng-qie-huan/)
+- [Linux进程管理命令](https://www.zybuluo.com/ghostfn1/note/123409)
 
 ## 用 vi 编辑文件
 
@@ -135,7 +181,15 @@ Linux 的核心思想就是一切皆文件。
 
     mv 旧文件路径 新文件路径
 
-## chmod -- 权限管理
+上传文件
+
+    // 本地
+    scp local_file remote_username@remote_ip:remote_folder
+    scp dist-b.zip work@bjyz-coparch10.epc.baidu.com:/home/work/apache-tomcat-6.0.39/webapps/ROOT/
+
+XShell 远程传文件好用
+
+## 权限管理
 
 Linux系统中的每个文件和目录都有访问许可权限，用它来确定谁可以通过何种方式对文件和目录进行访问和操作。文件或目录的访问权限分为只读，只写和可执行三种。
 
@@ -170,52 +224,13 @@ Linux系统中的每个文件和目录都有访问许可权限，用它来确定
 
 后面两项分别是权限和文件夹。
 
-## chgrp -- 改变文件或目录所属的组
+chgrp -- 改变文件或目录所属的组
 
     chgrp -R username filename
 
-## chown -- 更改某个文件或目录的属主
+chown -- 更改某个文件或目录的属主
 
     chown -R username filename
- 
-## 进程相关
-
-启动进程的命令后加 `&`，将进程指定为后台进程，这样可以在 shell 做一些其他事情而不需要再打开新的窗口，如：
-
-    gulp &
-    // 启动时会给出一个进程ID，如：32750
-
-但是关闭 shell 或 断开 ssh 连接后进程就退出了，这在开发机上不是我们的期望，我们期望服务一直运行着，这样就轮到 `nohup` 登场了：
-
-    nohup gulp &
-
-那怎么退出进程和重启进程呢？需要知道懂东西有点多我们一点点来。首先是查看进程：
-
-    // 查看所有进程
-    ps -e
-    // 能找到这样一行进程
-    32750 pts/1    00:00:05 gulp
-
-寻找的过程比较费劲，这里有一些技巧：
-
-    // 查看当前用户启动的进程
-    ps -u
-
-可以看到形如下面信息：
-
-    USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-    500       1888  0.5  1.9 1339056 159584 pts/1  Sl   10:55   0:05 gulp
-
-如果你启动的进程比较多，会依然不好找，下面是配合 `grep` 进程搜索命令：
-
-    ps -ef -l | grep gulp
-
-最终我们要拿到 PID，这样我们能对线程做一些操作，比如杀掉它：
-
-    kill 1888
-
-- [Shell 前后台进程切换](https://cnbin.github.io/blog/2015/06/15/shell-qian-hou-tai-jin-cheng-qie-huan/)
-- [Linux进程管理命令](https://www.zybuluo.com/ghostfn1/note/123409)
 
 ## 零碎
 
