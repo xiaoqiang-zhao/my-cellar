@@ -63,7 +63,37 @@ export PATH=$N_PREFIX/bin:$PATH
 <pre><code>man gulp
 // 注：按 q 退出
 // 并不是所有命令都提供文档
-</code></pre><h2 id="header-1-2">用 vi 编辑文件</h2>
+</code></pre><h2 id="header-1-2">进程相关</h2>
+<p>启动进程的命令后加 <code>&amp;</code>，将进程指定为后台进程，这样可以在 shell 做一些其他事情而不需要再打开新的窗口，如：</p>
+<pre><code>gulp &amp;
+// 启动时会给出一个进程ID，如：32750
+</code></pre><p>但是关闭 shell 或 断开 ssh 连接后进程就退出了，这在开发机上不是我们的期望，我们期望服务一直运行着，这样就轮到 <code>nohup</code> 登场了：</p>
+<pre><code>nohup gulp &amp;
+</code></pre><p>那怎么退出进程和重启进程呢？需要知道懂东西有点多我们一点点来。首先是查看进程：</p>
+<pre><code>// 查看所有进程
+ps -e
+// 能找到这样一行进程
+32750 pts/1    00:00:05 gulp
+</code></pre><p>寻找的过程比较费劲，这里有一些技巧：</p>
+<pre><code>// 查看当前用户启动的进程
+ps -u
+// Mac 下需要这样
+ps -U 用户名
+// 其实 Mac 用活动监视器查看更方便
+</code></pre><p>可以看到形如下面信息：</p>
+<pre><code>USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+500       1888  0.5  1.9 1339056 159584 pts/1  Sl   10:55   0:05 gulp
+</code></pre><p>如果你启动的进程比较多，会依然不好找，下面是配合 <code>grep</code> 进程搜索命令：</p>
+<pre><code>ps -ef -l | grep gulp
+</code></pre><p>最终我们要拿到 PID，这样我们能对线程做一些操作，比如杀掉它：</p>
+<pre><code>kill 1888
+</code></pre><p>线程，进程，进程ID(PID)，端口... 进程的端口是个什么鬼?</p>
+<p>更多资料：</p>
+<ul>
+<li><a href="https://cnbin.github.io/blog/2015/06/15/shell-qian-hou-tai-jin-cheng-qie-huan/" target="_blank">Shell 前后台进程切换</a></li>
+<li><a href="https://www.zybuluo.com/ghostfn1/note/123409" target="_blank">Linux进程管理命令</a></li>
+</ul>
+<h2 id="header-1-3">用 vi 编辑文件</h2>
 <p>常用命令 </p>
 <pre><code>// 将文件在 VIM 编辑器中打开
 vi filename
@@ -77,7 +107,7 @@ esc
 :q!
 // 另存为
 :w newfile
-</code></pre><h2 id="header-1-3">用户相关</h2>
+</code></pre><h2 id="header-1-4">用户相关</h2>
 <p>创建用户 testuser</p>
 <pre><code>useradd testuser
 </code></pre><p>给已创建的用户 testuser 设置密码</p>
@@ -95,7 +125,7 @@ cat /etc/passwd|grep -v nologin|grep -v halt|grep -v shutdown|awk -F&quot;:&quot
 </code></pre><p>删除用户组</p>
 <pre><code>groupdel testgroup
 </code></pre><p>用户的文件夹一般在 <code>/home</code> 下。</p>
-<h2 id="header-1-4">常用</h2>
+<h2 id="header-1-5">常用</h2>
 <p>新建文件</p>
 <p>删除文件</p>
 <pre><code>rm 文件名
@@ -105,7 +135,12 @@ cat /etc/passwd|grep -v nologin|grep -v halt|grep -v shutdown|awk -F&quot;:&quot
 <pre><code>mv 旧名 新名
 </code></pre><p>移动文件夹也可以用上面的命令</p>
 <pre><code>mv 旧文件路径 新文件路径
-</code></pre><h2 id="header-1-5">chmod -- 权限管理</h2>
+</code></pre><p>上传文件</p>
+<pre><code>// 本地
+scp local_file remote_username@remote_ip:remote_folder
+scp dist-b.zip work@bjyz-coparch10.epc.baidu.com:/home/work/apache-tomcat-6.0.39/webapps/ROOT/
+</code></pre><p>XShell 远程传文件好用</p>
+<h2 id="header-1-6">权限管理</h2>
 <p>Linux系统中的每个文件和目录都有访问许可权限，用它来确定谁可以通过何种方式对文件和目录进行访问和操作。文件或目录的访问权限分为只读，只写和可执行三种。</p>
 <pre><code>// 查看文件所属权限
 ls -l
@@ -137,37 +172,12 @@ drwxrwxr-x
 <li>= 赋予给定权限并取消其他所有权限（如果有的话）。</li>
 </ul>
 <p>后面两项分别是权限和文件夹。</p>
-<h2 id="header-1-6">chgrp -- 改变文件或目录所属的组</h2>
+<p>chgrp -- 改变文件或目录所属的组</p>
 <pre><code>chgrp -R username filename
-</code></pre><h2 id="header-1-7">chown -- 更改某个文件或目录的属主</h2>
+</code></pre><p>chown -- 更改某个文件或目录的属主</p>
 <pre><code>chown -R username filename
-</code></pre><h2 id="header-1-8">进程相关</h2>
-<p>启动进程的命令后加 <code>&amp;</code>，将进程指定为后台进程，这样可以在 shell 做一些其他事情而不需要再打开新的窗口，如：</p>
-<pre><code>gulp &amp;
-// 启动时会给出一个进程ID，如：32750
-</code></pre><p>但是关闭 shell 或 断开 ssh 连接后进程就退出了，这在开发机上不是我们的期望，我们期望服务一直运行着，这样就轮到 <code>nohup</code> 登场了：</p>
-<pre><code>nohup gulp &amp;
-</code></pre><p>那怎么退出进程和重启进程呢？需要知道懂东西有点多我们一点点来。首先是查看进程：</p>
-<pre><code>// 查看所有进程
-ps -e
-// 能找到这样一行进程
-32750 pts/1    00:00:05 gulp
-</code></pre><p>寻找的过程比较费劲，这里有一些技巧：</p>
-<pre><code>// 查看当前用户启动的进程
-ps -u
-</code></pre><p>可以看到形如下面信息：</p>
-<pre><code>USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-500       1888  0.5  1.9 1339056 159584 pts/1  Sl   10:55   0:05 gulp
-</code></pre><p>如果你启动的进程比较多，会依然不好找，下面是配合 <code>grep</code> 进程搜索命令：</p>
-<pre><code>ps -ef -l | grep gulp
-</code></pre><p>最终我们要拿到 PID，这样我们能对线程做一些操作，比如杀掉它：</p>
-<pre><code>kill 1888
-</code></pre><ul>
-<li><a href="https://cnbin.github.io/blog/2015/06/15/shell-qian-hou-tai-jin-cheng-qie-huan/" target="_blank">Shell 前后台进程切换</a></li>
-<li><a href="https://www.zybuluo.com/ghostfn1/note/123409" target="_blank">Linux进程管理命令</a></li>
-</ul>
-<h2 id="header-1-9">零碎</h2>
-<h3 id="header-1-9-1">查看文件行数</h3>
+</code></pre><h2 id="header-1-7">零碎</h2>
+<h3 id="header-1-7-1">查看文件行数</h3>
 <p>有些系统生成的文件比较大，怎么能不打开文件统计文件行数呢？</p>
 <pre><code>wc -lcw file1 file2
 </code></pre><p>参数说明：</p>

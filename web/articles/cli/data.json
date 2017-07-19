@@ -1,0 +1,15 @@
+{
+  "enName": "cli",
+  "title": "cli - 匠者造器",
+  "introduction": "用前端的知识来写命令行工具，能敲几个字母搞定的事情我们就不要浪费生命了，这篇文章手把从零叫你写命令行工具。",
+  "tags": [
+    "工程",
+    "推荐"
+  ],
+  "isPublished": true,
+  "state": "立项",
+  "type": "md",
+  "createDate": 1500385338878,
+  "commentList": [],
+  "todoList": []
+}

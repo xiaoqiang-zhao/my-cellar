@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>cli - 匠者造器 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">cli - 匠者造器</h1>
+<blockquote>
+<p>用前端的知识来写命令行工具，能敲几个字母搞定的事情我们就不要浪费生命了，这篇文章手把从零叫你写命令行工具。</p>
+</blockquote>
+<h2 id="header-1-1">前置知识点</h2>
+<p>npm 全局安装一个包的时候到底偷偷摸摸做了那些事？</p>
+<p>首先是从网上把这个包本身(敲黑板划重点：不包括依赖的包)下载下来；</p>
+<p>然后根据参数下载依赖(依赖分 dependencies 和 devDependencies，具体出门左转<a href="/#!/articles/npm" target="_blank">npm</a>)，安装的目录 Mac 下是 <code>/usr/local/lib/node_modules</code>；</p>
+<p>如果依赖没问题会读取 <code>package.json</code> 中的 <code>bin</code> 配置，然后把文件写入到 <code>/usr/local/bin/</code> 目录下，这个目录下放的是全局命令的，这个路径可能因为系统的不同而不同，可以在环境变量配置文件查看。我们在命令行中敲的任何一个用户命令都要先从这个文件夹找。</p>
+<p>我们看一下 <code>gulp</code> 命令中有点啥：</p>
+<pre><code>#!/usr/bin/env node
+
+&#39;use strict&#39;;
+var gutil = require(&#39;gulp-util&#39;);
+...
+</code></pre><p>为了简单只看 4 行代码。env 是一个命令，参数是 node，就是在程序中用 nodejs 的引擎，也就是 v8 引擎，去执行下面的代码，这样就不需要知道 node 装在哪里了。</p>
+<p>一般安装全局包都需要 <code>sudo</code>，这货是干啥的？</p>
+<p>我们看到上面有很多文件拷贝，而且涉及到 <code>/usr/local/bin/</code> 这样的军机要地，而且在系统中不是每个文件都可以被执行的，这有涉及到文件的权限问题，这里不展开，想了解更多出门左转我的另一篇文章 <a href="/#!/articles/linux" target="_blank">Linux 笔记</a>。</p>
+<p>这么多事不是谁想干就让干的，<code>sudo</code> 通俗一点可以理解为赐下尚方宝剑，想砍哪个砍哪个，专业一点讲就是赋予一系列执行的权限。</p>
+<h2 id="header-1-2">简单粗暴</h2>
+<p>我们做点简单粗暴的事爽一下，建一个文件内如如下：</p>
+<pre><code>#!/usr/bin/env node
+
+console.log(&#39;Hello world.&#39;);
+</code></pre><p>然后拷贝到 <code>/usr/local/bin/</code>，然后就可以在命令行中敲个命令爽一下了：</p>
+<pre><code>cubao
+</code></pre><p>靠，报了个错：<code>permission denied: cubao</code>，没爽成。但是有没有发现，已经不是没有定义的命令那种提示了(<code>command not found</code>)，从信息来看是没有权限。好给一下权限：</p>
+<pre><code>chmod a+x cubao
+</code></pre><p>再执行上面的命令，ok，妥妥的 Hello world。有人该不乐意了，个你整个 Hello world 嘚瑟个啥劲呀。你可别小看这个 Hellow world，简直是开启新世界的一把钥匙，你可以使用 nodejs 的一切功能。比如这样：</p>
+<pre><code>#!/usr/bin/env node
+var fs = require(&#39;fs&#39;);
+
+fs.copy
+fs.past
+fs.rename
+fs.replace
+</code></pre><p>一切文件的复制粘贴和简单改内容的操作都可以自动化了，当然上面 <code>fs.</code> 的那段代码是伪代码，你可以去 NodeJs 官网查看具体的 API，传送门:<a href="http://nodejs.cn/api/fs.html" target="_blank">中文API</a>。</p>
+<p>配合 js 的原生功能，一些定时任务也可以写了。通过文件监听还能统计你写代码的时间。能干多少事就取决于你的 NodeJs 的掌握程度了。</p>
+<h2 id="header-1-3">造福世界</h2>
+<p>上面是自己小打小闹的自己玩，如果想把自己的玩具分享给全世界的小伙伴怎么搞？其实建一个 npm 包就可以了，唯一不同的就是在第一行加上下面这行代码：</p>
+<pre><code>#!/usr/bin/env node
+</code></pre><p>npm 包的内容可以参考我另一篇文章 <a href="/#!/articles/npm" target="_blank">npm</a>，你可以完全手动完成然后发布，也可以用一些工具，比如 Yeoman：</p>
+<pre><code>sudo npm install -g yo
+sudo npm install -g generator-cli-starter
+yo cli-starter
+</code></pre><p>注：Yeoman，直译“仆人”，一个通用的脚手架系统，更多信息参阅<a href="http://www.yowebapp.com/" target="_blank">官网</a>。</p>
+<h2 id="header-1-4">参考</h2>
+<p><a href="http://www.yowebapp.com/learning/index.html" target="_blank">http://www.yowebapp.com/learning/index.html</a></p>
+<p><a href="https://segmentfault.com/a/1190000002810318" target="_blank">https://segmentfault.com/a/1190000002810318</a></p>
+<p><a href="https://github.com/alonalon/get-ip" target="_blank">https://github.com/alonalon/get-ip</a></p>
+
+</div>
+</body>
+</html>
