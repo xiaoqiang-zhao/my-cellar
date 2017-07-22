@@ -72,6 +72,23 @@ npm 包的内容可以参考我另一篇文章 [npm](/#!/articles/npm)，你可�
 
 注：Yeoman，直译“仆人”，一个通用的脚手架系统，更多信息参阅[官网](http://www.yowebapp.com/)。
 
+## 我写的几个工具
+
+每次登陆远程服务器都要敲一串很长的命令，其实把这个命令直接新进文件(文件名是 ssh-relay)就可以：
+
+    // 内容
+    ssh 远程服务器地址
+    // 命令
+    ssh-relay
+
+用来操作git的工具....持续编写中
+
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+    sudo apt-get install libssl-dev
+
+https://github.com/nodegit/nodegit
+
 ## 参考
 
 http://www.yowebapp.com/learning/index.html

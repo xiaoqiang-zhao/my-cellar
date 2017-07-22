@@ -96,6 +96,9 @@
 
 造成错误的原因可能是已经向这个分支 commit 了，但是没有 push 或者 push 出错都会造成分支描述文件的改变，可以试试 "rm .git/refs/heads/branch_to_delete" -- 删除描述文件。
 
+有时远程分支明明已经没有了可是在本地 `git branch -a` 的时候还能看到，这是怎么回事？
+因为 .git/refs/remotes/origin 文件夹下有缓存文件，手动删除一下就可以。还有一个地方可能有缓存 .git/packed-ref 文件中。
+
 ### git config
 
 	// 获取配置信息
