@@ -18,7 +18,9 @@ vs 的配置分3个级别，分别是默认配置、用户设置和工作区设�
 
 ## 快捷键
 
-快捷键的查看和设置：Code/首选项/键盘快捷方式 (Cmd + K + S)
+快捷键的查看和设置：Code/首选项/键盘快捷方式 (Cmd + K + S)。
+
+对于快捷键的设置，特殊案件的顺序是：Shift -> Ctr -> Alt -> Cmd -> page(按键L型)，这样便于搜索。
 
 ### 基本
 
@@ -28,13 +30,37 @@ vs 的配置分3个级别，分别是默认配置、用户设置和工作区设�
 
 删除一行：Shift + Cmd + K
 
-剪切一行：Cmd + C
+剪切一行：Cmd + X
 
-切换编辑窗口：Ctr + Tab
+切换编辑窗口：Alt + Cmd + Pageleft/Pageright
 
 查找：Cmd + F
 
 查找替换：Cmd + Alt + F，在当前文件查找
+
+### 效率
+
+关闭其他Tab：Alt + Cmd + T
+
+新建文件：Cmd + N，吐槽一下默认居然在项目的根目录新建文件，多数情况下还是希望在当前选中目录下新建文件，所以我们自定义一下：
+
+    {
+        "key": "cmd+n",
+        "command": "explorer.newFile"
+    }
+
+新建文件夹：Cmd + Shift + N，这个快捷键并没有原始提供，需要加配置：
+
+    {
+        "key": "shift+cmd+n",
+        "command": "explorer.newFolder"
+    }
+
+折叠代码：Alt + Cmd + [
+
+在当前编辑器打开文件：Cmd + P
+
+复制文件路径：
 
 ## Git 相关
 
