@@ -61,18 +61,58 @@
 
 ## 路由
 
-对路由进行管理会清晰一点：
+对路由进行管理会清晰一点，一般 Node 后台系统会这么做：
 
-    // 
+    app.get('/aa', function (req, res) {
+        // 转到 Nodejs 业务处理模块
+    })
 
-自动路由会比较方便
-
-    // 
+    app.listen(3000, function () {
+        // 在这里按规则读取数据
+    });
 
 两者结合同时具有上面的优点和缺点，对特殊路由要维护，并且要告诉新加入的成员，不推荐。
+
+## 路由参考
+
+### 斌哥的后端脚手架用的 Express
+
+    import * as express from 'express';
+    import router from './routes';
+    let app = express();
+
+    router(app);
+
+    app.listen(3000);
+
+`./routes` 中的内容：
+
+    import editor from './aa';
+
+    export default app => {
+        app.use(aa);
+    };
+
+`./aa` 是多个接口的路由集合，把一个模块的接口放在里面：
+
+    import * as express from 'express';
+    import aa from '../action/aa';
+
+    const router = express.Router();
+    // 这里可以配置多个接口，访问会被打到 action 上，然后就可以读取数据库等操作
+    router.post('/ara/aa/create', aa.create);
+
+### 涛哥用的 Koa
+
+    var app = require('koa')()
+    var router = require('koa-router')()
+
+涛哥个脚手架用的是代理，没有 Mock 数据。
 
 ## 参考
 
 [中文官网](http://www.expressjs.com.cn/)
 
-[江涛的脚手架]()
+[江涛的脚手架](https://github.com/chef-template/vue-mobile)
+
+用的 Koa
