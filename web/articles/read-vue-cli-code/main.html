@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Vue-cli 源码解读 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">Vue-cli 源码解读</h1>
+<blockquote>
+<p>Vue-cli 是创建 Vue 项目的脚手架，但是不像 Angular 和 React 脚手架那样提供大而全的功能，而是让使用者通过学习其他开源工具(如 Express，webpack 等)来根据自己的项目定制脚手架。两种思路各有优劣，这里不做评判，关于这一点可以在知乎看 大漠穷秋 和 尤雨溪 的论战。由于 Vue-cli 脚手架的特点，我们需要深入了解 Vue-cli 的源码，才能更好的配置自己的脚手架，搜易这篇文章来了。</p>
+</blockquote>
+<h2 id="header-1-1">用到了那些库？</h2>
+<p>如果你对前端的开源项目保持关注，那么通过阅读 package.json 中的依赖你就能大体猜到这个脚手架有什么功能，采用那个方案实现的。Vue-cli 一共用到 53 个库，我们挑几个说一下。</p>
+<ul>
+<li>babel 系列，那意味着可以写 ES6 了；</li>
+<li>commander，看来能在命令行敲几行命令玩玩；</li>
+<li>express，有服务端的能力，不是个简单打包工具；</li>
+<li>postcss-loader，写样式不用加浏览器前缀了；</li>
+<li>vue 系列，哦 ~ 这是个 Vue 脚手架；</li>
+<li>webpack，可以随便玩包了；</li>
+<li>webpack-hot-middleware，看来不用手动刷页面了；</li>
+<li>eslint，编码规范检测也有了；</li>
+<li>mocha，单元测试也有了。</li>
+</ul>
+<p>一眼瞥过去能看懂这些，还有什么能一眼看出来的欢迎补充。</p>
+<h2 id="header-1-2">目录</h2>
+<p>了解项目下的各个文件夹是干什么的，是一种读源码不错的开始：</p>
+<pre><code>${object-root}
+    ├── bin  命令执行的入口文件，对应 package.json 的 bin 配置
+    ├── docs 文档
+    ├── lib  功能代码，提供 bin 所需的一切
+    └── test 测试相关
+</code></pre><p>其实最重要的就是 bin 和 lib 这两个文件夹了，之所以没有将代码全部写进 bin 我觉得有以下几点考虑(其实很多项目都是这么做的)：</p>
+<p>一、bin 中的每个文件会比较大；</p>
+<p>二、bin 中的内容提供一个二级目录的功能，具体实现交给 lib 中的模块，你可以从 bin 中找到你关心的内容然后进入到 lib 中查看细节，而不用把全部代码都看一遍。</p>
+<p>三、一些公用的配置和功能模块可以抽离出来，A 和 B 公用的部分放在 A 和 B 任何一方都是不合理的。</p>
+<h2 id="header-1-3">整理流程和关键点</h2>
+<p>读一个库要把它能干什么时刻放在心里，这样不会“因为走的太久，而忘记为什么出发”。</p>
+<ul>
+<li><p>vue-init，初始化项目命令；</p>
+</li>
+<li><p>vue-list，列出可选模板；</p>
+</li>
+<li><p>vue-build，构建项目；</p>
+</li>
+<li><p>vue，通过参数调用上面 3 个。</p>
+</li>
+</ul>
+<p>先从最简单</p>
+
+</div>
+</body>
+</html>

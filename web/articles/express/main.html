@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Express - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">Express</h1>
+<blockquote>
+<p>了解完 Koa，需要了解一下适用范围更广泛的 Express，也为改造脚手架做准备。</p>
+</blockquote>
+<h2 id="header-1-1">快速开始</h2>
+<p>随便找个文件夹</p>
+<pre><code>npm init
+npm install express --save
+</code></pre><p>然后新建个 <code>index.js</code> 文件，把下面内容粘进去：</p>
+<pre><code>var express = require(&#39;express&#39;);
+var app = express();
+
+app.get(&#39;/&#39;, function(req, res) {
+    res.send(&#39;hello world&#39;);
+});
+
+var server = app.listen(3000, function () {
+    var port = server.address().port;
+
+    console.log(&#39;Example app listening at http://localhost:%s&#39;, port);
+});
+</code></pre><p>然后 <code>node index</code> 就可以在浏览器访问了。</p>
+<h2 id="header-1-2">静态文件</h2>
+<p>为了安全起见，用户是不能随便访问服务器上的任意目录的，但是我们的网站有一些文件(如：图片、样式、js代码文件)总要提供给客户访问，一般把这些需要发放给用户的文件放在一个特定的文件夹下：</p>
+<pre><code>app.use(&#39;/&#39;, express.static(__dirname + &#39;/dist&#39;));
+</code></pre><p>向上面这样配置完毕后就可以访问了，具体代码参见 Demo。</p>
+<p>如果我们想把某个链接，如 <code>/</code> 或 <code>/index</code>，指向一个 html 文件，可以在 <code>app.get</code> 中做些文章，完整配置如下：</p>
+<pre><code>app.get(&#39;/&#39;, (req, res, next) =&gt; {
+    var options = {
+        root: __dirname + &#39;/dist/&#39;,
+        dotfiles: &#39;deny&#39;,
+        headers: {
+            &#39;x-timestamp&#39;: Date.now(),
+            &#39;x-sent&#39;: true
+        }
+    };
+
+    var fileName = &#39;index.html&#39;;
+    res.sendFile(fileName, options, function (err) {
+        if (err) {
+            next(err);
+        } 
+        else {
+            console.log(&#39;Sent:&#39;, fileName);
+        }
+    });
+});
+</code></pre><p>你你让可以运行 Demo 查看效果。</p>
+<h2 id="header-1-3">路由</h2>
+<p>对路由进行管理会清晰一点，一般 Node 后台系统会这么做：</p>
+<pre><code>app.get(&#39;/aa&#39;, function (req, res) {
+    // 转到 Nodejs 业务处理模块
+})
+
+app.listen(3000, function () {
+    // 在这里按规则读取数据
+});
+</code></pre><p>两者结合同时具有上面的优点和缺点，对特殊路由要维护，并且要告诉新加入的成员，不推荐。</p>
+<h2 id="header-1-4">路由参考</h2>
+<h3 id="header-1-4-1">斌哥的后端脚手架用的 Express</h3>
+<pre><code>import * as express from &#39;express&#39;;
+import router from &#39;./routes&#39;;
+let app = express();
+
+router(app);
+
+app.listen(3000);
+</code></pre><p><code>./routes</code> 中的内容：</p>
+<pre><code>import editor from &#39;./aa&#39;;
+
+export default app =&gt; {
+    app.use(aa);
+};
+</code></pre><p><code>./aa</code> 是多个接口的路由集合，把一个模块的接口放在里面：</p>
+<pre><code>import * as express from &#39;express&#39;;
+import aa from &#39;../action/aa&#39;;
+
+const router = express.Router();
+// 这里可以配置多个接口，访问会被打到 action 上，然后就可以读取数据库等操作
+router.post(&#39;/ara/aa/create&#39;, aa.create);
+</code></pre><h3 id="header-1-4-2">涛哥用的 Koa</h3>
+<pre><code>var app = require(&#39;koa&#39;)()
+var router = require(&#39;koa-router&#39;)()
+</code></pre><p>涛哥个脚手架用的是代理，没有 Mock 数据。</p>
+<h2 id="header-1-5">参考</h2>
+<p><a href="http://www.expressjs.com.cn/" target="_blank">中文官网</a></p>
+<p><a href="https://github.com/chef-template/vue-mobile" target="_blank">江涛的脚手架</a></p>
+<p>用的 Koa</p>
+
+</div>
+</body>
+</html>

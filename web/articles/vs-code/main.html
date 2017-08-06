@@ -32,15 +32,32 @@
 </code></pre><p>左侧资源管理器的字体没找到调节的办法，window.zoomLevel 是整体放缩不是我想要的效果。</p>
 <p>皮肤切换：Code/首选项/颜色主题 (Cmd + T + K)</p>
 <h2 id="header-1-2">快捷键</h2>
-<p>快捷键的查看和设置：Code/首选项/键盘快捷方式 (Cmd + K + S)</p>
+<p>快捷键的查看和设置：Code/首选项/键盘快捷方式 (Cmd + K + S)。</p>
+<p>对于快捷键的设置，特殊案件的顺序是：Shift -&gt; Ctr -&gt; Alt -&gt; Cmd -&gt; page(按键L型)，这样便于搜索。</p>
 <h3 id="header-1-2-1">基本</h3>
 <p>上/下移动一行：Alt + 上/下箭头</p>
 <p>向上/下复制一行：Shift + Alt + 上/下箭头</p>
 <p>删除一行：Shift + Cmd + K</p>
-<p>剪切一行：Cmd + C</p>
-<p>切换编辑窗口：Ctr + Tab</p>
+<p>剪切一行：Cmd + X</p>
+<p>切换编辑窗口：Alt + Cmd + Pageleft/Pageright</p>
 <p>查找：Cmd + F</p>
 <p>查找替换：Cmd + Alt + F，在当前文件查找</p>
+<h3 id="header-1-2-2">效率</h3>
+<p>关闭其他Tab：Alt + Cmd + T</p>
+<p>新建文件：Cmd + N，吐槽一下默认居然在项目的根目录新建文件，多数情况下还是希望在当前选中目录下新建文件，所以我们自定义一下：</p>
+<pre><code>{
+    &quot;key&quot;: &quot;cmd+n&quot;,
+    &quot;command&quot;: &quot;explorer.newFile&quot;
+}
+</code></pre><p>新建文件夹：Cmd + Shift + N，这个快捷键并没有原始提供，需要加配置：</p>
+<pre><code>{
+    &quot;key&quot;: &quot;shift+cmd+n&quot;,
+    &quot;command&quot;: &quot;explorer.newFolder&quot;
+}
+</code></pre><p>折叠代码：Alt + Cmd + [</p>
+<p>在当前编辑器打开文件：Cmd + P</p>
+<h3 id="header-1-2-3">功能</h3>
+<p>格式化代码：Shift + Alt + F</p>
 <h2 id="header-1-3">Git 相关</h2>
 <p>点击左侧 Git 图标/更多/切换源代码管理系统.../安装其他SCM提供程序...，然后在插件系统中可以安装好用的 Visual Studio Team Services 插件，然后就可以轻松查看修改过的内容了。</p>
 <p>commit 比较方便，写完 message 按 Cmd + Enter 就直接提交了；</p>

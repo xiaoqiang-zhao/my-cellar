@@ -1,0 +1,12 @@
+{
+  "enName": "read-vue-cli-code",
+  "title": "Vue-cli 源码解读",
+  "introduction": "Vue-cli 是创建 Vue 项目的脚手架，但是不像 Angular 和 React 脚手架那样提供大而全的功能，而是让使用者通过学习其他开源工具(如 Express，webpack 等)来根据自己的项目定制脚手架。两种思路各有优劣，这里不做评判，关于这一点可以在知乎看 大漠穷秋 和 尤雨溪 的论战。由于 Vue-cli 脚手架的特点，我们需要深入了解 Vue-cli 的源码，才能更好的配置自己的脚手架，搜易这篇文章来了。",
+  "tags": [],
+  "isPublished": false,
+  "state": "立项",
+  "type": "md",
+  "createDate": 1502020304503,
+  "commentList": [],
+  "todoList": []
+}

@@ -26,6 +26,7 @@
 <p>Linux 的核心思想就是一切皆文件。</p>
 <p>查看程序装在了哪里，比如看看 node 装到了哪里：</p>
 <pre><code>which node
+where node
 // 输出可能是这样:/usr/local/bin/node
 </code></pre><p>其实所有的程序安装都是将文件从远程下载下来然后放在一个地方。然后这个文件是否可执行，那些用户可启动执行我们后面讲。但是我们每次执行并不把路径写全，比如：</p>
 <pre><code>node -v
@@ -45,7 +46,7 @@ fi
 PATH=$PATH:$HOME/bin
 
 export PATH
-</code></pre><p>并不是每个全局程序都需要配置的，一般是把全局能执行的文件放在 <code>bin</code> 目录下，同样每个用户自己有一个全局有一个。看一下 <code>bin</code> 目录，我们常用的程序都在里面：</p>
+</code></pre><p>并不是每个全局程序都需要配置的，一般是把全局能执行的文件放在 <code>bin</code> 目录下，同样每个用户自己有一个 <code>bin</code>。看一下 <code>bin</code> 目录，我们常用的程序都在里面：</p>
 <pre><code>cd bin
 ls
 
@@ -135,6 +136,8 @@ cat /etc/passwd|grep -v nologin|grep -v halt|grep -v shutdown|awk -F&quot;:&quot
 <pre><code>mv 旧名 新名
 </code></pre><p>移动文件夹也可以用上面的命令</p>
 <pre><code>mv 旧文件路径 新文件路径
+</code></pre><p>复制文件夹</p>
+<pre><code>cp 被复制的文件 复制到的路径
 </code></pre><p>上传文件</p>
 <pre><code>// 本地
 scp local_file remote_username@remote_ip:remote_folder
@@ -147,7 +150,15 @@ ls -l
 // 可以看到下面的权限描述
 -rw-rw-r--
 drwxrwxr-x
-</code></pre><p>注意这里共有10个位置，第一个字符指定了文件类型，<code>d</code> 代表文件夹，<code>-</code> 代表文件。之后的 9 个字母分成三组，r代表只读，w代表写，x代表可执行，横线代表空许可。3 组分别对应不同的用户：文件主 组用户 其他用户。</p>
+</code></pre><p>注意这里共有10个位置，第一个字符指定了文件类型，<code>d</code> 代表文件夹，<code>-</code> 代表文件。</p>
+<p>之后的 9 个字母分成三组，每三个字母一组。</p>
+<ul>
+<li>r代表只读；</li>
+<li>w代表写；</li>
+<li>x代表可执行；</li>
+<li>横线代表空许可。</li>
+</ul>
+<p>3 组分别对应不同的用户：文件主 组用户 其他用户。</p>
 <p>执行 <code>ls -l</code> 可以看到 <code>dist</code> 文件夹的权限情况：</p>
 <pre><code>drwxr-xr-x  root  root  dist
 </code></pre><p>我们执行命令 <code>chmod o+w,g+w dist</code>，发现文件夹的权限变成了这样：</p>
