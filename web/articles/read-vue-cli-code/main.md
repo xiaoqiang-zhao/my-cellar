@@ -45,9 +45,33 @@
 - vue-build，构建项目；
 - vue，通过参数调用上面 3 个。
 
-先从最简单的 vue-list 说起，调用 github api 提供的接口，然后拼字符串打印出来。显然这货在断网环境下是玩不转的。这里我们可以 get 两个新技能：
+### vue list
+
+先从最简单的 vue-list 说起，调用 github api 提供的接口，然后拼字符串打印出来。显然这货在断网环境下是玩不转的。这这段并不是很长的源码里，我们可以 get 两个新技能：
 
 - https://api.github.com 原来世界上还存在这么个东东，我是如此的孤陋寡闻；
 - 库 chalk，有了这个宝贝妈妈再也不用担心我的命名行输出不能高亮了。
 
 官方提供了 6 套模板，帮助我们初始化不同类型(从技术栈的角度划分)的项目。
+
+### vue init
+
+用法：
+
+    $ vue init <template-name> <project-name>
+
+template-name 首先可以从官方提供的 6 套模板中选一套，也可以自定义一套模板，放在你的 github 上：
+
+    vue init username/repo my-project
+
+如果你不想开源你的模板，还可可以放在本地：
+
+    vue init ~/fs/path/to-custom-template my-project
+
+上面这些就是 `vue init` 命令实现的功能，下面我们通过源码分析一下这些功能是怎么实现的。
+
+首先是一段参数的定义 Usage，然后是一段帮助文档 Help，这些都不是重点我们直接跳过，
+
+## 参考
+
+https://github.com/vuejs/vue-cli

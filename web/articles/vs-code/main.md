@@ -72,6 +72,15 @@ commit 比较方便，写完 message 按 Cmd + Enter 就直接提交了；
 
 唤出命令行：Shift + Cmd + C，不是唤出 VS Code 自带的工具，而是打开系统自带的命令行工具。
 
+## 插件
+
+emmet 语法插件 Mithril Emmet support for VS Code，添加配置：
+
+    "emmet.syntaxProfiles": {
+        "vue-html": "html",
+        "vue": "html"
+    }
+
 ## 杂项
 
 如果用了 `vetur` 插件可能会出一个这样的警告：
@@ -82,11 +91,4 @@ commit 比较方便，写完 message 按 Cmd + Enter 就直接提交了；
 
     "vetur.validation.template": false
 
-## 插件
-
-emmet 语法插件 Mithril Emmet support for VS Code，添加配置：
-
-    "emmet.syntaxProfiles": {
-        "vue-html": "html",
-        "vue": "html"
-    }
+某些项目左侧的 git 图标在修改了文件后依然没啥动静，这是需要点击图标，然后点击三个点，在下拉中点“切换源代码管理系统”，最后选 Git，问题就解决了。
