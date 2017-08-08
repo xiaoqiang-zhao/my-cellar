@@ -1,0 +1,11 @@
+{
+    "name": "my-demo",
+    "version": "0.0.1",
+    "bin": {
+        "a": "index.js"
+    },
+    "dependencies": {
+        "commander": "^2.9.0",
+        "inquirer": "^0.12.0"
+    }
+}

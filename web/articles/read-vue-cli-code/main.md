@@ -75,3 +75,5 @@ template-name 首先可以从官方提供的 6 套模板中选一套，也可以
 ## 参考
 
 https://github.com/vuejs/vue-cli
+
+http://blog.fens.me/nodejs-commander/
