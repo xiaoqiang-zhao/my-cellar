@@ -72,6 +72,8 @@ template-name 首先可以从官方提供的 6 套模板中选一套，也可以
 
 首先是一段参数的定义 Usage，然后是一段帮助文档 Help，这些都不是重点我们直接跳过，
 
+如何调试 nodejs commander？ debug nodejs commander in vscode 
+
 ## 参考
 
 https://github.com/vuejs/vue-cli
