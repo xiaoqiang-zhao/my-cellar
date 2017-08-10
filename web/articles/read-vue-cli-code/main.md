@@ -70,12 +70,60 @@ template-name 首先可以从官方提供的 6 套模板中选一套，也可以
 
 上面这些就是 `vue init` 命令实现的功能，下面我们通过源码分析一下这些功能是怎么实现的。
 
-首先是一段参数的定义 Usage，然后是一段帮助文档 Help，这些都不是重点我们直接跳过，
+首先是一段参数的定义 Usage，然后是一段帮助文档 Help，这些都不是重点我们直接跳过。从 Settings 开始进入重点，首先是处理模板和项目路径这两个输入值，然后判断项目路径是否存在，如果存在给出提示，并询问是否继续，代码就是下面这一段：
 
-如何调试 nodejs commander？ debug nodejs commander in vscode 
+    if (exists(to)) {
+        inquirer.prompt([{
+            type: 'confirm',
+            message: inPlace
+                    ? 'Generate project in current directory?'
+                    : 'Target directory exists. Continue?',
+            name: 'ok'
+        }], function (answers) {
+            if (answers.ok) {
+                run()
+            }
+        })
+    } else {
+        run()
+    }
+
+然后判断模板的类型，如果是本地模板那么直接复制，这部分逻辑在上面用到的 run 函数中：
+
+    function run () {
+        // check if template is local
+        if (isLocalPath(template)) {
+            ...
+        }
+        else {
+            ...
+        }
+    }
+
+而 isLocalPath 函数就来自 lib 文件夹下的一个自定义模块中。如果不是本地模板那就是远程模板，进入到 else 分支中。进入到 else 后做的第一件事就是检验 Node 版本：
+
+    checkVersion(function () {
+        // ...
+    })
+
+因为如果 Node 版本不够高，官方的模板根本跑不起来，看到这里还是佩服作者的，如果只把文件给你下载到本地其实他的本质工作已经做完了，但是你跑不起来会报错，如果是小白用户卡在这里可能就过不去了。回调函数中放得是版本检测没问后才执行的代码。
+
+经过上面一个检测 Node 版本的小插曲后我们回到正题，本地模板的对立面就是远程模板，远程模板又分两种，上面提到过，一种官方模板，一种自定义模板，区分他们的方式也很简单，就是看输入值是否有斜杠：
+
+    if (!hasSlash) {
+        // 官方模板逻辑
+    }
+    else {
+        // 自定义模板逻辑
+    }
+
 
 ## 参考
 
 https://github.com/vuejs/vue-cli
 
 http://blog.fens.me/nodejs-commander/
+
+## 遗留的问题
+
+如何调试 nodejs commander？ debug nodejs commander in vscode 
