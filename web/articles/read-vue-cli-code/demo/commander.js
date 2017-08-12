@@ -10,18 +10,18 @@ program
     .option('-P, --pineapple', 'Add pineapple')
     .option('-b, --bbq-sauce', 'Add bbq sauce')
 
-console.log('pineapple:' + program.pineapple);
+// console.log('pineapple:' + program.pineapple);
 
 // confirm 判断
-// inquirer.prompt([{
-//     type: 'confirm',
-//     message: 'ok?',
-//     name: 'ok'
-// }], function (answers) {
-//     if (answers.ok) {
-//         console.log('欧克');
-//     }
-//     else {
-//         console.log('不欧克');
-//     }
-// })
+inquirer.prompt([{
+    type: 'confirm',
+    message: 'ok?',
+    name: 'ok'
+}], function (answers) {
+    if (answers.ok) {
+        console.log('欧克');
+    }
+    else {
+        console.log('不欧克');
+    }
+})

@@ -117,15 +117,42 @@ template-name 首先可以从官方提供的 6 套模板中选一套，也可以
         // 自定义模板逻辑
     }
 
-下载官方模板前，对是否包含 “#” 和 “-2.0” 两个字符串做了判断，没看懂是出于什么目的，可能是有一些历史包袱。直接从远程下载内容到本地，这里面有个东西挺好玩 -- `ora`，命令行中的 loading。还有一个 `download-git-repo`，用来下载 github repository。这两个库在写一些工具的时候很有用。
+下载官方模板前，对是否包含 “#” 和 “-2.0” 两个字符串做了判断，来识别是 vue 1.0 还是 vue 2.0，可能是有一些历史包袱。直接从远程下载内容到本地，这里面有个东西挺好玩 -- `ora`，命令行中的 loading。还有一个 `download-git-repo`，用来下载 github repository。这两个库在写一些工具的时候很有用。
+
+到目前为止，远程的模板已经下载到了本地，但是并没有写入本地文件夹，而是在本地内存里悬着，具体为什么，我们在下一趴揭晓。
 
 ### 自定义模板
+
+自定义模板就是把官方模板用到的那套模板引擎流程做了规范，主要的有这么几点：
+
+- 必须要有一个 template 文件夹；
+- 以 meta.js 为配置文件；
+- meta.js 中配置用户输入项 和 要过滤的文件。
+
+上面这些不需要深入理解，只需要把官方模板复制一份出来，做简单的修改就可以。
+
+说一下实现，vue cli 用了一个叫 metalsmith 的任务管理器，和 gulp 比较类似。然后依次执行下面任务：
+
+- 收集用户输入；
+- 根据用户输入过滤文件；
+- 渲染模板。
+
+这些操作在 lib/generate.js 中，关键代码摘录如下：
+
+    metalsmith.use(askQuestions(opts.prompts))
+        .use(filterFiles(opts.filters))
+        .use(renderTemplateFiles(opts.skipInterpolation))
 
 ## 参考
 
 https://github.com/vuejs/vue-cli
 
+https://github.com/vuejs-templates/webpack
+
 http://blog.fens.me/nodejs-commander/
+
+https://github.com/segmentio/metalsmith
+
 
 ## 遗留的问题
 
