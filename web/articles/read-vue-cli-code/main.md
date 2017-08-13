@@ -106,7 +106,7 @@ template-name 首先可以从官方提供的 6 套模板中选一套，也可以
         // ...
     })
 
-因为如果 Node 版本不够高，官方的模板根本跑不起来，看到这里还是佩服作者的，如果只把文件给你下载到本地其实他的本质工作已经做完了，但是你跑不起来会报错，如果是小白用户卡在这里可能就过不去了。回调函数中放得是版本检测没问后才执行的代码。
+因为如果 Node 版本不够高，官方的模板根本跑不起来，看到这里还是佩服作者的，如果只把文件给你下载到本地其实他的本质工作已经做完了，但是你跑不起来会报错，如果是小白用户卡在这里可能就过不去了。回调函数中放的是版本检测没问后才执行的代码。
 
 经过上面一个检测 Node 版本的小插曲后我们回到正题，本地模板的对立面就是远程模板，远程模板又分两种，上面提到过，一种官方模板，一种自定义模板，区分他们的方式也很简单，就是看输入值是否有斜杠：
 
@@ -117,7 +117,7 @@ template-name 首先可以从官方提供的 6 套模板中选一套，也可以
         // 自定义模板逻辑
     }
 
-下载官方模板前，对是否包含 “#” 和 “-2.0” 两个字符串做了判断，来识别是 vue 1.0 还是 vue 2.0，可能是有一些历史包袱。直接从远程下载内容到本地，这里面有个东西挺好玩 -- `ora`，命令行中的 loading。还有一个 `download-git-repo`，用来下载 github repository。这两个库在写一些工具的时候很有用。
+下载官方模板前，对是否包含 “#” 和 “-2.0” 两个字符串做了判断，来识别是 vue 1.0 还是 vue 2.0。直接从远程下载内容到本地，这里面有个东西挺好玩 -- `ora`，命令行中的 loading。还有一个 `download-git-repo`，用来下载 github repository。这两个库在写一些工具的时候很有用。
 
 到目前为止，远程的模板已经下载到了本地，但是并没有写入本地文件夹，而是在本地内存里悬着，具体为什么，我们在下一趴揭晓。
 
@@ -143,6 +143,54 @@ template-name 首先可以从官方提供的 6 套模板中选一套，也可以
         .use(filterFiles(opts.filters))
         .use(renderTemplateFiles(opts.skipInterpolation))
 
+渲染模板用的是 consolidate.handlebars，consolidate 是 TJ 大神开发的集成模板引擎，支持很多模板引擎：
+
+- [atpl](https://github.com/soywiz/atpl.js)
+- [bracket](https://github.com/danlevan/bracket-template)
+- [doT.js](https://github.com/olado/doT) [(website)](http://olado.github.io/doT/)
+- [dust (unmaintained)](https://github.com/akdubya/dustjs) [(website)](http://akdubya.github.com/dustjs/)
+- [dustjs-linkedin (maintained fork of dust)](https://github.com/linkedin/dustjs) [(website)](http://linkedin.github.io/dustjs/)
+- [eco](https://github.com/sstephenson/eco)
+- [ect](https://github.com/baryshev/ect) [(website)](http://ectjs.com/)
+- [ejs](https://github.com/mde/ejs) [(website)](http://ejs.co/)
+- [haml](https://github.com/visionmedia/haml.js)
+- [haml-coffee](https://github.com/9elements/haml-coffee)
+- [hamlet](https://github.com/gregwebs/hamlet.js)
+- [handlebars](https://github.com/wycats/handlebars.js/) [(website)](http://handlebarsjs.com/)
+- [hogan](https://github.com/twitter/hogan.js) [(website)](http://twitter.github.com/hogan.js/)
+- [htmling](https://github.com/codemix/htmling)
+- [jade](https://github.com/visionmedia/jade) [(website)](http://jade-lang.com/)
+- [jazz](https://github.com/shinetech/jazz)
+- [jqtpl](https://github.com/kof/jqtpl)
+- [JUST](https://github.com/baryshev/just)
+- [liquor](https://github.com/chjj/liquor)
+- [lodash](https://github.com/bestiejs/lodash) [(website)](http://lodash.com/)
+- [marko](https://github.com/marko-js/marko) [(website)](http://markojs.com)
+- [mote](https://github.com/satchmorun/mote) [(website)](http://satchmorun.github.io/mote/)
+- [mustache](https://github.com/janl/mustache.js)
+- [nunjucks](https://github.com/mozilla/nunjucks) [(website)](https://mozilla.github.io/nunjucks)
+- [pug (formerly jade)](https://github.com/pugjs/pug) [(website)](http://jade-lang.com/)
+- [QEJS](https://github.com/jepso/QEJS)
+- [ractive](https://github.com/Rich-Harris/Ractive)
+- [react](https://github.com/facebook/react)
+- [slm](https://github.com/slm-lang/slm)
+- [swig (unmaintained)](https://github.com/paularmstrong/swig)
+- [templayed](http://archan937.github.com/templayed.js/)
+- [twig](https://github.com/justjohn/twig.js)
+- [liquid](https://github.com/leizongmin/tinyliquid) [(website)](http://liquidmarkup.org/)
+- [toffee](https://github.com/malgorithms/toffee)
+- [underscore](https://github.com/documentcloud/underscore) [(website)](http://underscorejs.org/#template)
+- [vash](https://github.com/kirbysayshi/vash)
+- [walrus](https://github.com/jeremyruppel/walrus) [(website)](http://documentup.com/jeremyruppel/walrus/)
+- [whiskers](https://github.com/gsf/whiskers.js)    
+
+也就是在一些复杂的项目中，不同类型的文件可以使用不同的模板，而 handlebars 是一个比较简单的模板引擎，用法大概是这样：
+
+    var render = require('consolidate').handlebars.render
+    render(fileStr, data, function (err, res) {
+        // ...
+    })
+
 ## 参考
 
 https://github.com/vuejs/vue-cli
@@ -153,6 +201,9 @@ http://blog.fens.me/nodejs-commander/
 
 https://github.com/segmentio/metalsmith
 
+https://github.com/tj/consolidate.js
+
+https://github.com/wycats/handlebars.js/
 
 ## 遗留的问题
 
