@@ -62,11 +62,11 @@
 
 template-name 首先可以从官方提供的 6 套模板中选一套，也可以自定义一套模板，放在你的 github 上：
 
-    vue init username/repo my-project
+    $ vue init <username/repo> <project-name>
 
 如果你不想开源你的模板，还可可以放在本地：
 
-    vue init ~/fs/path/to-custom-template my-project
+    $ vue init <~/fs/path/to-custom-template> <project-name>
 
 上面这些就是 `vue init` 命令实现的功能，下面我们通过源码分析一下这些功能是怎么实现的。
 
@@ -143,6 +143,8 @@ template-name 首先可以从官方提供的 6 套模板中选一套，也可以
         .use(filterFiles(opts.filters))
         .use(renderTemplateFiles(opts.skipInterpolation))
 
+metalsmith 的关键用法
+
 渲染模板用的是 consolidate.handlebars，consolidate 是 TJ 大神开发的集成模板引擎，支持很多模板引擎：
 
 - [atpl](https://github.com/soywiz/atpl.js)
@@ -191,6 +193,20 @@ template-name 首先可以从官方提供的 6 套模板中选一套，也可以
         // ...
     })
 
+## 整理用到的库
+
+consolidate，集成模板引擎。
+
+chalk，命令行高亮。
+
+command，命令行辅助。
+
+inquirer，收集用户输入，
+
+download-git-repo，下载远程仓库。容易被忽略的一点就是带了 ssh 的功能，可以用来从私有库下载
+回调函数执行的时候文件没有被保存到本地硬盘，可以在回调函数中加工下载文件。
+
+
 ## 参考
 
 https://github.com/vuejs/vue-cli
@@ -204,6 +220,16 @@ https://github.com/segmentio/metalsmith
 https://github.com/tj/consolidate.js
 
 https://github.com/wycats/handlebars.js/
+
+## 相关文章
+
+https://zhuanlan.zhihu.com/p/25000026
+
+https://segmentfault.com/a/1190000009803941
+
+https://segmentfault.com/q/1010000007948863
+
+https://github.com/dwqs/blog/issues/56
 
 ## 遗留的问题
 

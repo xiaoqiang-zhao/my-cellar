@@ -3,6 +3,7 @@
  *
  * Created by zhaoxiaoqiang on 15/10/13.
  */
+
 var config = {
     // 公开网站的路径（下面表示和 cellar 同级的 longze 文件夹）
     publicSitePath: '/../../longze',

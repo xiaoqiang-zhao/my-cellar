@@ -62,18 +62,21 @@
 <p>点击左侧 Git 图标/更多/切换源代码管理系统.../安装其他SCM提供程序...，然后在插件系统中可以安装好用的 Visual Studio Team Services 插件，然后就可以轻松查看修改过的内容了。</p>
 <p>commit 比较方便，写完 message 按 Cmd + Enter 就直接提交了；</p>
 <p>唤出命令行：Shift + Cmd + C，不是唤出 VS Code 自带的工具，而是打开系统自带的命令行工具。</p>
-<h2 id="header-1-4">杂项</h2>
-<p>如果用了 <code>vetur</code> 插件可能会出一个这样的警告：</p>
-<pre><code>&#39;v-for&#39; directives require &#39;v-bind:key&#39; directives.
-</code></pre><p>这是ESLint的功能。对vue进行了eslint检查。那么我们就把eslint对该插件的检查关闭，在配置文件中添加如下配置：</p>
-<pre><code>&quot;vetur.validation.template&quot;: false
-</code></pre><h2 id="header-1-5">插件</h2>
+<h2 id="header-1-4">插件</h2>
 <p>emmet 语法插件 Mithril Emmet support for VS Code，添加配置：</p>
 <pre><code>&quot;emmet.syntaxProfiles&quot;: {
     &quot;vue-html&quot;: &quot;html&quot;,
     &quot;vue&quot;: &quot;html&quot;
 }
-</code></pre>
+</code></pre><h2 id="header-1-5">杂项</h2>
+<p>如果用了 <code>vetur</code> 插件可能会出一个这样的警告：</p>
+<pre><code>&#39;v-for&#39; directives require &#39;v-bind:key&#39; directives.
+</code></pre><p>这是ESLint的功能。对vue进行了eslint检查。那么我们就把eslint对该插件的检查关闭，在配置文件中添加如下配置：</p>
+<pre><code>&quot;vetur.validation.template&quot;: false
+</code></pre><p>某些项目左侧的 git 图标在修改了文件后依然没啥动静，这是需要点击图标，然后点击三个点，在下拉中点“切换源代码管理系统”，最后选 Git，问题就解决了。</p>
+<p>ESLint
+<a href="http://www.cnblogs.com/rubylouvre/p/7280219.html" target="_blank">http://www.cnblogs.com/rubylouvre/p/7280219.html</a></p>
+
 </div>
 </body>
 </html>

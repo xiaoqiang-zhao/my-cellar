@@ -50,16 +50,139 @@
 <h2 id="header-1-3">整理流程和关键点</h2>
 <p>读一个库要把它能干什么时刻放在心里，这样不会“因为走的太久，而忘记为什么出发”。</p>
 <ul>
-<li><p>vue-init，初始化项目命令；</p>
-</li>
-<li><p>vue-list，列出可选模板；</p>
-</li>
-<li><p>vue-build，构建项目；</p>
-</li>
-<li><p>vue，通过参数调用上面 3 个。</p>
-</li>
+<li>vue-init，初始化项目命令；</li>
+<li>vue-list，列出可选模板；</li>
+<li>vue-build，构建项目；</li>
+<li>vue，通过参数调用上面 3 个。</li>
 </ul>
-<p>先从最简单</p>
+<h3 id="header-1-3-1">vue list</h3>
+<p>先从最简单的 vue-list 说起，调用 github api 提供的接口，然后拼字符串打印出来。显然这货在断网环境下是玩不转的。这这段并不是很长的源码里，我们可以 get 两个新技能：</p>
+<ul>
+<li><a href="https://api.github.com" target="_blank">https://api.github.com</a> 原来世界上还存在这么个东东，我是如此的孤陋寡闻；</li>
+<li>库 chalk，有了这个宝贝妈妈再也不用担心我的命名行输出不能高亮了。</li>
+</ul>
+<p>官方提供了 6 套模板，帮助我们初始化不同类型(从技术栈的角度划分)的项目。</p>
+<h3 id="header-1-3-2">vue init</h3>
+<p>用法：</p>
+<pre><code>$ vue init &lt;template-name&gt; &lt;project-name&gt;
+</code></pre><p>template-name 首先可以从官方提供的 6 套模板中选一套，也可以自定义一套模板，放在你的 github 上：</p>
+<pre><code>vue init username/repo my-project
+</code></pre><p>如果你不想开源你的模板，还可可以放在本地：</p>
+<pre><code>vue init ~/fs/path/to-custom-template my-project
+</code></pre><p>上面这些就是 <code>vue init</code> 命令实现的功能，下面我们通过源码分析一下这些功能是怎么实现的。</p>
+<p>首先是一段参数的定义 Usage，然后是一段帮助文档 Help，这些都不是重点我们直接跳过。从 Settings 开始进入重点，首先是处理模板和项目路径这两个输入值，然后判断项目路径是否存在，如果存在给出提示，并询问是否继续，代码就是下面这一段：</p>
+<pre><code>if (exists(to)) {
+    inquirer.prompt([{
+        type: &#39;confirm&#39;,
+        message: inPlace
+                ? &#39;Generate project in current directory?&#39;
+                : &#39;Target directory exists. Continue?&#39;,
+        name: &#39;ok&#39;
+    }], function (answers) {
+        if (answers.ok) {
+            run()
+        }
+    })
+} else {
+    run()
+}
+</code></pre><p>然后判断模板的类型，如果是本地模板那么直接复制，这部分逻辑在上面用到的 run 函数中：</p>
+<pre><code>function run () {
+    // check if template is local
+    if (isLocalPath(template)) {
+        ...
+    }
+    else {
+        ...
+    }
+}
+</code></pre><p>而 isLocalPath 函数就来自 lib 文件夹下的一个自定义模块中。如果不是本地模板那就是远程模板，进入到 else 分支中。进入到 else 后做的第一件事就是检验 Node 版本：</p>
+<pre><code>checkVersion(function () {
+    // ...
+})
+</code></pre><p>因为如果 Node 版本不够高，官方的模板根本跑不起来，看到这里还是佩服作者的，如果只把文件给你下载到本地其实他的本质工作已经做完了，但是你跑不起来会报错，如果是小白用户卡在这里可能就过不去了。回调函数中放的是版本检测没问后才执行的代码。</p>
+<p>经过上面一个检测 Node 版本的小插曲后我们回到正题，本地模板的对立面就是远程模板，远程模板又分两种，上面提到过，一种官方模板，一种自定义模板，区分他们的方式也很简单，就是看输入值是否有斜杠：</p>
+<pre><code>if (!hasSlash) {
+    // 官方模板逻辑
+}
+else {
+    // 自定义模板逻辑
+}
+</code></pre><p>下载官方模板前，对是否包含 “#” 和 “-2.0” 两个字符串做了判断，来识别是 vue 1.0 还是 vue 2.0。直接从远程下载内容到本地，这里面有个东西挺好玩 -- <code>ora</code>，命令行中的 loading。还有一个 <code>download-git-repo</code>，用来下载 github repository。这两个库在写一些工具的时候很有用。</p>
+<p>到目前为止，远程的模板已经下载到了本地，但是并没有写入本地文件夹，而是在本地内存里悬着，具体为什么，我们在下一趴揭晓。</p>
+<h3 id="header-1-3-3">自定义模板</h3>
+<p>自定义模板就是把官方模板用到的那套模板引擎流程做了规范，主要的有这么几点：</p>
+<ul>
+<li>必须要有一个 template 文件夹；</li>
+<li>以 meta.js 为配置文件；</li>
+<li>meta.js 中配置用户输入项 和 要过滤的文件。</li>
+</ul>
+<p>上面这些不需要深入理解，只需要把官方模板复制一份出来，做简单的修改就可以。</p>
+<p>说一下实现，vue cli 用了一个叫 metalsmith 的任务管理器，和 gulp 比较类似。然后依次执行下面任务：</p>
+<ul>
+<li>收集用户输入；</li>
+<li>根据用户输入过滤文件；</li>
+<li>渲染模板。</li>
+</ul>
+<p>这些操作在 lib/generate.js 中，关键代码摘录如下：</p>
+<pre><code>metalsmith.use(askQuestions(opts.prompts))
+    .use(filterFiles(opts.filters))
+    .use(renderTemplateFiles(opts.skipInterpolation))
+</code></pre><p>渲染模板用的是 consolidate.handlebars，consolidate 是 TJ 大神开发的集成模板引擎，支持很多模板引擎：</p>
+<ul>
+<li><a href="https://github.com/soywiz/atpl.js" target="_blank">atpl</a></li>
+<li><a href="https://github.com/danlevan/bracket-template" target="_blank">bracket</a></li>
+<li><a href="https://github.com/olado/doT" target="_blank">doT.js</a> <a href="http://olado.github.io/doT/" target="_blank">(website)</a></li>
+<li><a href="https://github.com/akdubya/dustjs" target="_blank">dust (unmaintained)</a> <a href="http://akdubya.github.com/dustjs/" target="_blank">(website)</a></li>
+<li><a href="https://github.com/linkedin/dustjs" target="_blank">dustjs-linkedin (maintained fork of dust)</a> <a href="http://linkedin.github.io/dustjs/" target="_blank">(website)</a></li>
+<li><a href="https://github.com/sstephenson/eco" target="_blank">eco</a></li>
+<li><a href="https://github.com/baryshev/ect" target="_blank">ect</a> <a href="http://ectjs.com/" target="_blank">(website)</a></li>
+<li><a href="https://github.com/mde/ejs" target="_blank">ejs</a> <a href="http://ejs.co/" target="_blank">(website)</a></li>
+<li><a href="https://github.com/visionmedia/haml.js" target="_blank">haml</a></li>
+<li><a href="https://github.com/9elements/haml-coffee" target="_blank">haml-coffee</a></li>
+<li><a href="https://github.com/gregwebs/hamlet.js" target="_blank">hamlet</a></li>
+<li><a href="https://github.com/wycats/handlebars.js/" target="_blank">handlebars</a> <a href="http://handlebarsjs.com/" target="_blank">(website)</a></li>
+<li><a href="https://github.com/twitter/hogan.js" target="_blank">hogan</a> <a href="http://twitter.github.com/hogan.js/" target="_blank">(website)</a></li>
+<li><a href="https://github.com/codemix/htmling" target="_blank">htmling</a></li>
+<li><a href="https://github.com/visionmedia/jade" target="_blank">jade</a> <a href="http://jade-lang.com/" target="_blank">(website)</a></li>
+<li><a href="https://github.com/shinetech/jazz" target="_blank">jazz</a></li>
+<li><a href="https://github.com/kof/jqtpl" target="_blank">jqtpl</a></li>
+<li><a href="https://github.com/baryshev/just" target="_blank">JUST</a></li>
+<li><a href="https://github.com/chjj/liquor" target="_blank">liquor</a></li>
+<li><a href="https://github.com/bestiejs/lodash" target="_blank">lodash</a> <a href="http://lodash.com/" target="_blank">(website)</a></li>
+<li><a href="https://github.com/marko-js/marko" target="_blank">marko</a> <a href="http://markojs.com" target="_blank">(website)</a></li>
+<li><a href="https://github.com/satchmorun/mote" target="_blank">mote</a> <a href="http://satchmorun.github.io/mote/" target="_blank">(website)</a></li>
+<li><a href="https://github.com/janl/mustache.js" target="_blank">mustache</a></li>
+<li><a href="https://github.com/mozilla/nunjucks" target="_blank">nunjucks</a> <a href="https://mozilla.github.io/nunjucks" target="_blank">(website)</a></li>
+<li><a href="https://github.com/pugjs/pug" target="_blank">pug (formerly jade)</a> <a href="http://jade-lang.com/" target="_blank">(website)</a></li>
+<li><a href="https://github.com/jepso/QEJS" target="_blank">QEJS</a></li>
+<li><a href="https://github.com/Rich-Harris/Ractive" target="_blank">ractive</a></li>
+<li><a href="https://github.com/facebook/react" target="_blank">react</a></li>
+<li><a href="https://github.com/slm-lang/slm" target="_blank">slm</a></li>
+<li><a href="https://github.com/paularmstrong/swig" target="_blank">swig (unmaintained)</a></li>
+<li><a href="http://archan937.github.com/templayed.js/" target="_blank">templayed</a></li>
+<li><a href="https://github.com/justjohn/twig.js" target="_blank">twig</a></li>
+<li><a href="https://github.com/leizongmin/tinyliquid" target="_blank">liquid</a> <a href="http://liquidmarkup.org/" target="_blank">(website)</a></li>
+<li><a href="https://github.com/malgorithms/toffee" target="_blank">toffee</a></li>
+<li><a href="https://github.com/documentcloud/underscore" target="_blank">underscore</a> <a href="http://underscorejs.org/#template" target="_blank">(website)</a></li>
+<li><a href="https://github.com/kirbysayshi/vash" target="_blank">vash</a></li>
+<li><a href="https://github.com/jeremyruppel/walrus" target="_blank">walrus</a> <a href="http://documentup.com/jeremyruppel/walrus/" target="_blank">(website)</a></li>
+<li><a href="https://github.com/gsf/whiskers.js" target="_blank">whiskers</a>    </li>
+</ul>
+<p>也就是在一些复杂的项目中，不同类型的文件可以使用不同的模板，而 handlebars 是一个比较简单的模板引擎，用法大概是这样：</p>
+<pre><code>var render = require(&#39;consolidate&#39;).handlebars.render
+render(fileStr, data, function (err, res) {
+    // ...
+})
+</code></pre><h2 id="header-1-4">参考</h2>
+<p><a href="https://github.com/vuejs/vue-cli" target="_blank">https://github.com/vuejs/vue-cli</a></p>
+<p><a href="https://github.com/vuejs-templates/webpack" target="_blank">https://github.com/vuejs-templates/webpack</a></p>
+<p><a href="http://blog.fens.me/nodejs-commander/" target="_blank">http://blog.fens.me/nodejs-commander/</a></p>
+<p><a href="https://github.com/segmentio/metalsmith" target="_blank">https://github.com/segmentio/metalsmith</a></p>
+<p><a href="https://github.com/tj/consolidate.js" target="_blank">https://github.com/tj/consolidate.js</a></p>
+<p><a href="https://github.com/wycats/handlebars.js/" target="_blank">https://github.com/wycats/handlebars.js/</a></p>
+<h2 id="header-1-5">遗留的问题</h2>
+<p>如何调试 nodejs commander？ debug nodejs commander in vscode </p>
 
 </div>
 </body>

@@ -59,7 +59,8 @@ npm
 </code></pre><p>除了通过修改配置文件可以设定更多的全局命令，全局命令不仅我们自己敲的时候要用到，很多软件的执行依赖其他可执行文件，这时就需要修改 <code>.bash_profile</code> 文件添加环境变量，在行为插入：</p>
 <pre><code>export N_PREFIX=/opt/node #node实际安装位置
 export PATH=$N_PREFIX/bin:$PATH
-</code></pre><p>注：这里其实没看懂具体意思，需要找个东西验证一下，比如 ip 那个例子；探索一下世纪的例子，gulp 是怎么可以全局执行的？</p>
+</code></pre><p>注：这里其实没看懂具体意思，需要找个东西验证一下，比如 ip 那个例子；探索一下实际的例子，gulp 是怎么可以全局执行的？</p>
+<p>node 命令的依赖包安装在 <code>/usr/local/lib/node_modules</code> 目录下</p>
 <p>显示命令的文档，如显示 <code>gulp</code> 使用文档：</p>
 <pre><code>man gulp
 // 注：按 q 退出
@@ -127,8 +128,9 @@ cat /etc/passwd|grep -v nologin|grep -v halt|grep -v shutdown|awk -F&quot;:&quot
 <pre><code>groupdel testgroup
 </code></pre><p>用户的文件夹一般在 <code>/home</code> 下。</p>
 <h2 id="header-1-5">常用</h2>
-<p>新建文件</p>
-<p>删除文件</p>
+<p>新建文件夹</p>
+<pre><code>mkdir 文件夹名
+</code></pre><p>删除文件</p>
 <pre><code>rm 文件名
 </code></pre><p>删除文件夹和其中的内容</p>
 <pre><code>rm -rf 文件夹名称
@@ -138,6 +140,8 @@ cat /etc/passwd|grep -v nologin|grep -v halt|grep -v shutdown|awk -F&quot;:&quot
 <pre><code>mv 旧文件路径 新文件路径
 </code></pre><p>复制文件夹</p>
 <pre><code>cp 被复制的文件 复制到的路径
+</code></pre><p>查看命令行当前的路径</p>
+<pre><code>pwd
 </code></pre><p>上传文件</p>
 <pre><code>// 本地
 scp local_file remote_username@remote_ip:remote_folder
@@ -163,7 +167,7 @@ drwxrwxr-x
 <pre><code>drwxr-xr-x  root  root  dist
 </code></pre><p>我们执行命令 <code>chmod o+w,g+w dist</code>，发现文件夹的权限变成了这样：</p>
 <pre><code>drwxrwxrwx  root  root  dist
-</code></pre><p>上面命令什么意思？<code>chomd</code> 是变更权限的命令。<code>o+w,g+w</code> 是给指定用户赋指定权限：</p>
+</code></pre><p>上面命令什么意思？<code>chmod</code> 是变更权限的命令。<code>o+w,g+w</code> 是给指定用户赋指定权限：</p>
 <ul>
 <li>u 表示“用户（user）”，即文件或目录的所有者。</li>
 <li>g 表示“同组（group）用户”，即与文件属主有相同组ID的所有用户。</li>
