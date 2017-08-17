@@ -152,7 +152,27 @@ ES6 与 CommonJs 的引用略有不同，具体参考我的另一篇学习笔记
 实测我开发的一个中间件 `koa-auto-path-router` 从发布到可以搜到只需要 3 分钟(8:35 - 8:38)。如果要发布新版本记得手动修改 package.json 中的版本号。发布后在项目中的更新命令：
 
     npm update <package name>
-     
+
+## 收集常用的包
+
+### 浏览器端、客户端
+
+- js-cookie 浏览器端操作 cookie
+
+### 服务端、CLI
+
+- consolidate，集成模板引擎；
+
+- chalk，命令行高亮；
+
+- commander，命令行辅助，TJ 大神的库。还有更简单的库 -- yargs；
+
+- inquirer，收集用户输入，支持单选，多选，文本输入，密码输入，更具前面输入判断是否展示当前项，校验，加工输入；
+
+- download-git-repo，下载远程仓库。容易被忽略的一点就是带了 ssh 的功能，可以用来从私有库下载，回调函数执行的时候文件没有被保存到本地硬盘，可以在回调函数中加工下载文件；
+
+- metalsmith，构建静态网站的工具，每一个加工的工序就是一个插件；
+
 ## 参考资料
 
 [package.json 的官方说明](https://github.com/npm/npm/blob/2e3776bf5676bc24fec6239a3420f377fe98acde/doc/files/package.json.md)
