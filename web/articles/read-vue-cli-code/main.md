@@ -1,6 +1,6 @@
 # Vue-cli 源码解读
 
-> Vue-cli 是创建 Vue 项目的脚手架，但是不像 Angular 和 React 脚手架那样提供大而全的功能，而是让使用者通过学习其他开源工具(如 Express，webpack 等)来根据自己的项目定制脚手架。两种思路各有优劣，这里不做评判，关于这一点可以在知乎看 大漠穷秋 和 尤雨溪 的论战。由于 Vue-cli 脚手架的特点，我们需要深入了解 Vue-cli 的源码，才能更好的配置自己的脚手架，搜易这篇文章来了。cli -> Command Line Interface for batch scripting.
+> Vue-cli 是创建 Vue 项目的脚手架，但是不像 Angular 和 React 脚手架那样提供大而全的功能，而是让使用者通过学习其他开源工具(如 Express，webpack 等)来根据自己的项目定制脚手架。两种思路各有优劣，这里不做评判，关于这一点可以在知乎看 大漠穷秋 和 尤雨溪 的论战。由于 Vue-cli 脚手架的特点，我们需要深入了解 Vue-cli 的源码，才能更好的配置自己的脚手架，所以这篇文章来了。cli -> Command Line Interface for batch scripting.
 
 ## 用到了那些库？
 
@@ -142,8 +142,6 @@ template-name 首先可以从官方提供的 6 套模板中选一套，也可以
     metalsmith.use(askQuestions(opts.prompts))
         .use(filterFiles(opts.filters))
         .use(renderTemplateFiles(opts.skipInterpolation))
-
-metalsmith 的关键用法
 
 渲染模板用的是 consolidate.handlebars，consolidate 是 TJ 大神开发的集成模板引擎，支持很多模板引擎：
 

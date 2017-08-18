@@ -116,7 +116,27 @@ n rm 6.0.0
 <pre><code>sudo npm publish
 </code></pre><p>实测我开发的一个中间件 <code>koa-auto-path-router</code> 从发布到可以搜到只需要 3 分钟(8:35 - 8:38)。如果要发布新版本记得手动修改 package.json 中的版本号。发布后在项目中的更新命令：</p>
 <pre><code>npm update &lt;package name&gt;
-</code></pre><h2 id="header-1-9">参考资料</h2>
+</code></pre><h2 id="header-1-9">收集常用的包</h2>
+<h3 id="header-1-9-1">浏览器端、客户端</h3>
+<ul>
+<li>js-cookie 浏览器端操作 cookie</li>
+</ul>
+<h3 id="header-1-9-2">服务端、CLI</h3>
+<ul>
+<li><p>consolidate，集成模板引擎；</p>
+</li>
+<li><p>chalk，命令行高亮；</p>
+</li>
+<li><p>commander，命令行辅助，TJ 大神的库。还有更简单的库 -- yargs；</p>
+</li>
+<li><p>inquirer，收集用户输入，支持单选，多选，文本输入，密码输入，更具前面输入判断是否展示当前项，校验，加工输入；</p>
+</li>
+<li><p>download-git-repo，下载远程仓库。容易被忽略的一点就是带了 ssh 的功能，可以用来从私有库下载，回调函数执行的时候文件没有被保存到本地硬盘，可以在回调函数中加工下载文件；</p>
+</li>
+<li><p>metalsmith，构建静态网站的工具，每一个加工的工序就是一个插件；</p>
+</li>
+</ul>
+<h2 id="header-1-10">参考资料</h2>
 <p><a href="https://github.com/npm/npm/blob/2e3776bf5676bc24fec6239a3420f377fe98acde/doc/files/package.json.md" target="_blank">package.json 的官方说明</a></p>
 <p><a href="http://stackoverflow.com/questions/18875674/whats-the-difference-between-dependencies-devdependencies-and-peerdependencies" target="_blank">What&#39;s the difference between dependencies, devDependencies and peerDependencies in npm package.json file?</a></p>
 <p><a href="https://cnodejs.org/topic/5819624a1a9a7d9909531395" target="_blank">开发组件库时 Vue 应该放哪儿：devDependencies or peerDependencies？</a></p>
