@@ -1,6 +1,6 @@
 # NPM
 
-> NPM的全称是Node Package Manager，是一个NodeJS包管理和分发工具，但是在实际的操作中此管理器已经不止是 NodeJs 的包管理了，浏览器端的资源管理也可以借助此工具完成，前端的各种辅助工具也对此有依赖，所以 NPM 基本可以算作前端的必备技能，这里介绍一些基础知识和典型场景下的技巧。
+> NPM的全称是Node Package Manager，是一个NodeJS包管理和分发工具，但实际上此管理器已经不止是 NodeJs 的包管理了，浏览器端的资源管理也可以借助此工具完成，前端的各种辅助工具也对此有依赖，所以 NPM 基本可以算作前端的必备技能，这里介绍一些基础知识和典型场景下的技巧。
 
 ## 一个包的基本组成
 
@@ -72,9 +72,13 @@ Git URLs 可以是下面格式：
 
 ## 常用命令
 
-`npm init`: 初始化 package.json 文件，根据提示输入一些关键信息就可以将文件初始化完成；
+`npm init`: 初始化 package.json 文件，根据提示输入一些关键信息就可以将文件初始化完成。
 
-`npm ls -g`: 查看所有全局安装的模块；
+`npm ls -g`: 查看所有全局安装的模块。如果你不想看到那么多层的依赖，那就加个参数吧：`sudo npm ls -g --depth 0`。
+
+`npm prune`: 如果你的node_modules目录中已经安装了一个package，但是package.json中并没有对该package做依赖，那么这个package就应该被删除。这时如果执行npm ls命令则指示有一个 “npm ERR! extraneous: ...”。为了清理代码，你需要执行npm prune。
+
+`npm uninstall <package-name>`: 卸载包。
 
 ## 多版本 node 管理
 

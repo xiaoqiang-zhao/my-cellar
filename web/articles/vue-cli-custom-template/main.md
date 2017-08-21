@@ -1,0 +1,103 @@
+# vue-cli 定义模板
+
+> 由于 vue-cli 官方提供的模板不能满足所有的业务需求(工具链层面的)，很多情况需要定制自己的模板，这篇文章主要讲怎样定制一个模板，并介绍一下我定制的模板特性。
+
+## 站在巨人的肩上
+
+我们的总体思路是最大限度的利用官方已有模板，进行改造和增强。我在 github 上建了一个 organization: [vuejs-custom-templates-aggregate](https://github.com/vuejs-custom-templates-aggregate) ---- vue 自定义模板集合。然后将 https://github.com/vuejs-templates/webpack 项目 fork 进 vuejs-custom-templates-aggregate，我给他取了个名字叫 spa。之所以没叫 webpack-spa，是应为 browserify 用的人越来越少了，大家提到包加载器基本默认就是 webpack，另外我想从应用场景来区分模板，并大胆的幻想将来出现的其他模板是：
+
+- spa 纯前端单页应用；
+- full-stack-spa 全栈单页应用，后端提供业务模板和数据库；
+- spa-ts 单页应用 typescript 版；
+- full-stack-spa-ts 全栈单页应用 typescript 版；
+- mpa 纯前端多页应用。
+
+然后我们将 spa 用 git clone 到本地，进行下一步。
+
+## 改造前的观察
+
+先看看有什么功能，看着有用的保留，没用的去除：
+
+- Project name 保持不变；
+- Project description 保持不变；
+- Author 保持不变；
+- Vue build 去掉，直接采用 Runtime-only 方案；
+- Install vue-router 去掉，直接选中；
+- ESLint 改为默认选中，需要增强，配置成自己公司的规范；
+- Pick an ESLint preset
+- Setup unit tests with Karma + Mocha 保留；
+- Setup e2e tests with Nightwatch 保留；
+
+### Compiler
+
+讲一下 Runtime + Compiler 和 Runtime-only 的区别，首先我们讲知其然：
+
+- Runtime + Compiler: 支持 template，如果用了 SSR，前后端要同构，那么不能用；
+- Runtime-only: 体积小 6KB，不支持 template，模板只能写在 .vue 文件中。
+
+所谓的“支持 template”，就是下面这种形式：
+
+    export default {
+        name: 'hello',
+        template: '<h1>{{msg}}</h1>',
+        data() {
+            return {
+                msg: 'Welcome to Your Vue.js App'
+            }
+        }
+    }
+
+两种模式对下面写法都是支持的：
+
+    <template src="./index.tpl"></template>
+    <script>
+        export default {
+        name: 'hello',
+            data() {
+                return {
+                    msg: 'Welcome to Your Vue.js App'
+                }
+            }
+        }
+    </script>
+
+然后我们在探一下因 -- 知其所以然，模板转化成 html 并绑定事件有一个必不可少了步骤，那就是将模板转换成函数，这一步称为编译，数据和 html 标签的融合并输出 Dom 结构就是在编译后的函数中进行的，如果在打包的过程中完成编译，并将编译产生的函数打入代码中，那么发布出来的代码就没有必要包含这部分功能了，这部分功能压缩后所占的体积就是上面提到的 6KB。
+
+还有另外一个问题，这个开关是在哪里控制的？
+在 build/webpack.base.conf.js 中：
+
+    resolve: {
+        extensions: ['.js', '.vue', '.json'],
+        alias: {
+            'vue$': 'vue/dist/vue.esm.js',
+            '@': resolve('src')
+        }
+    }
+
+默认是不提供 Compiler 功能的，如果我们需要，把 vue 的引用指向 vue 代码包中的另一个文件 -- vue.esm.js，这个文件包含了 Compiler 功能。可以看到添加时很简单的，所以我们这里去掉 Compiler 功能的支持，万一有需要可以手动加回来。
+
+### ESLint
+
+本来不打算讲这一块的，但是发现有几处需要注意的地方，虽然比较简单，但不说很多人不知道。eslint 是用 node 写的，所以需要有 node 环境，并全局安装 eslint 和 其插件，IDE 才能玩的转：
+
+    sudo npm install -g eslint
+    // 为了能检测 .vue 文件，还需要装 eslint 插件
+    sudo npm install -g eslint-plugin-html
+
+vs code 需要加配置：
+
+    "eslint.options": {
+        "configFile": "./.eslintrc.js",
+        "plugins": ["html"]
+    },
+    "eslint.validate": [
+        "javascript",
+        "html",
+        "vue"
+    ]
+
+我们新加入百度的编码规范，并把它放在第一个
+
+## 参考
+
+http://gcdn.gcpowertools.com.cn/showtopic-36912-1-3.html?utm_source=segmentfault&utm_medium=referral&utm_campaign=20170417&utm_content=36912
