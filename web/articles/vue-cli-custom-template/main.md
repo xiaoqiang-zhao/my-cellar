@@ -96,8 +96,29 @@ vs code 需要加配置：
         "vue"
     ]
 
-我们新加入百度的编码规范，并把它放在第一个
+现在的规范有 3 中类型：
+
+- standard 互联网通用，约束较轻；
+- airbnb 约束较具体；
+- none 没有约束。
+
+国内互联网公司的编码规范，找到了百度的(欢迎补充其他厂的):
+
+规范文档：https://github.com/ecomfe/spec/blob/master/javascript-style-guide.md
+
+配置文件：https://github.com/ecomfe/fecs/tree/master/lib
+
+注意这套框架中没有 CSS 格式检测，可以扩展添加 csshint。
+
+最后注意一点，如果把编码规范的 level 设为 2(也就是 error)，那么在编码格式有问题的时候运行会直接报错。
+
+- "off" 或 0 - 关闭规则；
+- "warn" 或 1 - 开启规则，使用警告级别的错误：warn (不会导致程序退出)；
+- "error" 或 2 - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)。
 
 ## 参考
 
 http://gcdn.gcpowertools.com.cn/showtopic-36912-1-3.html?utm_source=segmentfault&utm_medium=referral&utm_campaign=20170417&utm_content=36912
+
+http://eslint.cn/docs/rules/
+
