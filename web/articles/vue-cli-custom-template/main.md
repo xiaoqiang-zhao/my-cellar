@@ -116,6 +116,15 @@ vs code 需要加配置：
 - "warn" 或 1 - 开启规则，使用警告级别的错误：warn (不会导致程序退出)；
 - "error" 或 2 - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)。
 
+## 开始改造现有功能
+
+这一部分比较简单，先略过...
+
+## 添加 Mock 功能
+
+line 45: proxy api requests 
+line 55: connect-history-api-fallback ？？
+
 ## 参考
 
 http://gcdn.gcpowertools.com.cn/showtopic-36912-1-3.html?utm_source=segmentfault&utm_medium=referral&utm_campaign=20170417&utm_content=36912
