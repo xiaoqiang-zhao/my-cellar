@@ -10,6 +10,7 @@
   "author": "longze",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.15.3"
+    "express": "^4.15.3",
+    "http-proxy-middleware": "^0.17.4"
   }
 }

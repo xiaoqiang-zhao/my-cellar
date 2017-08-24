@@ -109,10 +109,20 @@
 
 涛哥个脚手架用的是代理，没有 Mock 数据。
 
+## 代理
+
+在搭建脚手架时，支持前后端联调的最简单有效的方式就是配置代理，所以有必要讲一下代理中间件，以  http-proxy-middleware 为例。
+
+    var options = {
+        target: 'http://192.168.1.6:3210'
+    };
+    app.use('/api', proxy(options));
+    // http://localhost:3000/api/aa  ->  http://192.168.1.6:3210/api/aa
+
+更多配置参见[官网](https://github.com/chimurai/http-proxy-middleware)。
+
 ## 参考
 
 [中文官网](http://www.expressjs.com.cn/)
 
-[江涛的脚手架](https://github.com/chef-template/vue-mobile)
-
-用的 Koa
+[江涛的脚手架](https://github.com/chef-template/vue-mobile) 用的 Koa

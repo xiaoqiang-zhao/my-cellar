@@ -122,8 +122,37 @@ vs code 需要加配置：
 
 ## 添加 Mock 功能
 
-line 45: proxy api requests 
-line 55: connect-history-api-fallback ？？
+先看看原来的和 server 有关的功能，首先从 package.json 中了解到启动开发环境是从 dev-server.js 文件开始的。首先通过 express 启动 Web 服务：
+
+    var app = express()
+    // ...
+    var server = app.listen(port)
+
+然后通过中间件 webpack-hot-middleware 路由静态文件：
+
+    var devMiddleware = require('webpack-dev-middleware')(compiler, {
+        publicPath: webpackConfig.output.publicPath,
+        quiet: true
+    })
+
+再然后通过中间件 webpack-hot-middleware 提供热加载：
+
+    var hotMiddleware = require('webpack-hot-middleware')(compiler, {
+        log: false,
+        heartbeat: 2000
+    })
+
+热加载需要 webpack 插件配合才能实现：
+
+    // 当 html 模板改变时，触发页面重新加载
+    compiler.plugin('compilation', function (compilation) {
+        compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
+            hotMiddleware.publish({ action: 'reload' })
+            cb()
+        })
+    })
+
+再然后是代理
 
 ## 参考
 
