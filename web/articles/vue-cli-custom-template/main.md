@@ -152,7 +152,22 @@ vs code 需要加配置：
         })
     })
 
-再然后是代理
+再然后是代理，用的中间件 http-proxy-middleware，可以设置多个代理：
+
+    Object.keys(proxyTable).forEach(function (context) {
+        var options = proxyTable[context]
+        if (typeof options === 'string') {
+            options = { target: options }
+        }
+        app.use(proxyMiddleware(options.filter || context, options))
+    })
+
+最后用 connect-history-api-fallback 中间件支持 HTML5 History，原理就是将所有的 text/html 请求都打到 /index.html 上，当然这个是可以设置的，像下面这样：
+
+    var history = require('connect-history-api-fallback');
+    app.use(history({
+        index: '/default.html'
+    }));
 
 ## 参考
 
