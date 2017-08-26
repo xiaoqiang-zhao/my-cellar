@@ -122,6 +122,8 @@ vs code 需要加配置：
 
 ## 添加 Mock 功能
 
+### 原有功能分析
+
 先看看原来的和 server 有关的功能，首先从 package.json 中了解到启动开发环境是从 dev-server.js 文件开始的。首先通过 express 启动 Web 服务：
 
     var app = express()
@@ -168,6 +170,16 @@ vs code 需要加配置：
     app.use(history({
         index: '/default.html'
     }));
+
+### 功能改造和增强
+
+找了很久没找到一个 start 数较高的自动路由中间件(根据访问路径直接读取相同路径模块并返回结果)，可能因为这种包对于后台开发来说太鸡肋，像下面这种路由需要将 id 写死：
+
+    articles/:id
+
+但是在脚手架 Mock 功能上这是很通用的需求，其中最核心的功能需求是不需要每新加一个接口都要改配置文件，直接添加文件就好了，这也是一种思路的体现 -- 流程优于配置。所以决定先造个轮子: 
+
+express-auto-route-middleware
 
 ## 参考
 

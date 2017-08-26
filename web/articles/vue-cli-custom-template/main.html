@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>vue-cli 定义模板 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">vue-cli 定义模板</h1>
+<blockquote>
+<p>由于 vue-cli 官方提供的模板不能满足所有的业务需求(工具链层面的)，很多情况需要定制自己的模板，这篇文章主要讲怎样定制一个模板，并介绍一下我定制的模板特性。</p>
+</blockquote>
+<h2 id="header-1-1">站在巨人的肩上</h2>
+<p>我们的总体思路是最大限度的利用官方已有模板，进行改造和增强。我在 github 上建了一个 organization: <a href="https://github.com/vuejs-custom-templates-aggregate" target="_blank">vuejs-custom-templates-aggregate</a> ---- vue 自定义模板集合。然后将 <a href="https://github.com/vuejs-templates/webpack" target="_blank">https://github.com/vuejs-templates/webpack</a> 项目 fork 进 vuejs-custom-templates-aggregate，我给他取了个名字叫 spa。之所以没叫 webpack-spa，是应为 browserify 用的人越来越少了，大家提到包加载器基本默认就是 webpack，另外我想从应用场景来区分模板，并大胆的幻想将来出现的其他模板是：</p>
+<ul>
+<li>spa 纯前端单页应用；</li>
+<li>full-stack-spa 全栈单页应用，后端提供业务模板和数据库；</li>
+<li>spa-ts 单页应用 typescript 版；</li>
+<li>full-stack-spa-ts 全栈单页应用 typescript 版；</li>
+<li>mpa 纯前端多页应用。</li>
+</ul>
+<p>然后我们将 spa 用 git clone 到本地，进行下一步。</p>
+<h2 id="header-1-2">改造前的观察</h2>
+<p>先看看有什么功能，看着有用的保留，没用的去除：</p>
+<ul>
+<li>Project name 保持不变；</li>
+<li>Project description 保持不变；</li>
+<li>Author 保持不变；</li>
+<li>Vue build 去掉，直接采用 Runtime-only 方案；</li>
+<li>Install vue-router 去掉，直接选中；</li>
+<li>ESLint 改为默认选中，需要增强，配置成自己公司的规范；</li>
+<li>Pick an ESLint preset</li>
+<li>Setup unit tests with Karma + Mocha 保留；</li>
+<li>Setup e2e tests with Nightwatch 保留；</li>
+</ul>
+<h3 id="header-1-2-1">Compiler</h3>
+<p>讲一下 Runtime + Compiler 和 Runtime-only 的区别，首先我们讲知其然：</p>
+<ul>
+<li>Runtime + Compiler: 支持 template，如果用了 SSR，前后端要同构，那么不能用；</li>
+<li>Runtime-only: 体积小 6KB，不支持 template，模板只能写在 .vue 文件中。</li>
+</ul>
+<p>所谓的“支持 template”，就是下面这种形式：</p>
+<pre><code>export default {
+    name: &#39;hello&#39;,
+    template: &#39;&lt;h1&gt;{{msg}}&lt;/h1&gt;&#39;,
+    data() {
+        return {
+            msg: &#39;Welcome to Your Vue.js App&#39;
+        }
+    }
+}
+</code></pre><p>两种模式对下面写法都是支持的：</p>
+<pre><code>&lt;template src=&quot;./index.tpl&quot;&gt;&lt;/template&gt;
+&lt;script&gt;
+    export default {
+    name: &#39;hello&#39;,
+        data() {
+            return {
+                msg: &#39;Welcome to Your Vue.js App&#39;
+            }
+        }
+    }
+&lt;/script&gt;
+</code></pre><p>然后我们在探一下因 -- 知其所以然，模板转化成 html 并绑定事件有一个必不可少了步骤，那就是将模板转换成函数，这一步称为编译，数据和 html 标签的融合并输出 Dom 结构就是在编译后的函数中进行的，如果在打包的过程中完成编译，并将编译产生的函数打入代码中，那么发布出来的代码就没有必要包含这部分功能了，这部分功能压缩后所占的体积就是上面提到的 6KB。</p>
+<p>还有另外一个问题，这个开关是在哪里控制的？
+在 build/webpack.base.conf.js 中：</p>
+<pre><code>resolve: {
+    extensions: [&#39;.js&#39;, &#39;.vue&#39;, &#39;.json&#39;],
+    alias: {
+        &#39;vue$&#39;: &#39;vue/dist/vue.esm.js&#39;,
+        &#39;@&#39;: resolve(&#39;src&#39;)
+    }
+}
+</code></pre><p>默认是不提供 Compiler 功能的，如果我们需要，把 vue 的引用指向 vue 代码包中的另一个文件 -- vue.esm.js，这个文件包含了 Compiler 功能。可以看到添加时很简单的，所以我们这里去掉 Compiler 功能的支持，万一有需要可以手动加回来。</p>
+<h3 id="header-1-2-2">ESLint</h3>
+<p>本来不打算讲这一块的，但是发现有几处需要注意的地方，虽然比较简单，但不说很多人不知道。eslint 是用 node 写的，所以需要有 node 环境，并全局安装 eslint 和 其插件，IDE 才能玩的转：</p>
+<pre><code>sudo npm install -g eslint
+// 为了能检测 .vue 文件，还需要装 eslint 插件
+sudo npm install -g eslint-plugin-html
+</code></pre><p>vs code 需要加配置：</p>
+<pre><code>&quot;eslint.options&quot;: {
+    &quot;configFile&quot;: &quot;./.eslintrc.js&quot;,
+    &quot;plugins&quot;: [&quot;html&quot;]
+},
+&quot;eslint.validate&quot;: [
+    &quot;javascript&quot;,
+    &quot;html&quot;,
+    &quot;vue&quot;
+]
+</code></pre><p>现在的规范有 3 中类型：</p>
+<ul>
+<li>standard 互联网通用，约束较轻；</li>
+<li>airbnb 约束较具体；</li>
+<li>none 没有约束。</li>
+</ul>
+<p>国内互联网公司的编码规范，找到了百度的(欢迎补充其他厂的):</p>
+<p>规范文档：<a href="https://github.com/ecomfe/spec/blob/master/javascript-style-guide.md" target="_blank">https://github.com/ecomfe/spec/blob/master/javascript-style-guide.md</a></p>
+<p>配置文件：<a href="https://github.com/ecomfe/fecs/tree/master/lib" target="_blank">https://github.com/ecomfe/fecs/tree/master/lib</a></p>
+<p>注意这套框架中没有 CSS 格式检测，可以扩展添加 csshint。</p>
+<p>最后注意一点，如果把编码规范的 level 设为 2(也就是 error)，那么在编码格式有问题的时候运行会直接报错。</p>
+<ul>
+<li>&quot;off&quot; 或 0 - 关闭规则；</li>
+<li>&quot;warn&quot; 或 1 - 开启规则，使用警告级别的错误：warn (不会导致程序退出)；</li>
+<li>&quot;error&quot; 或 2 - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)。</li>
+</ul>
+<h2 id="header-1-3">开始改造现有功能</h2>
+<p>这一部分比较简单，先略过...</p>
+<h2 id="header-1-4">添加 Mock 功能</h2>
+<h3 id="header-1-4-1">原有功能分析</h3>
+<p>先看看原来的和 server 有关的功能，首先从 package.json 中了解到启动开发环境是从 dev-server.js 文件开始的。首先通过 express 启动 Web 服务：</p>
+<pre><code>var app = express()
+// ...
+var server = app.listen(port)
+</code></pre><p>然后通过中间件 webpack-hot-middleware 路由静态文件：</p>
+<pre><code>var devMiddleware = require(&#39;webpack-dev-middleware&#39;)(compiler, {
+    publicPath: webpackConfig.output.publicPath,
+    quiet: true
+})
+</code></pre><p>再然后通过中间件 webpack-hot-middleware 提供热加载：</p>
+<pre><code>var hotMiddleware = require(&#39;webpack-hot-middleware&#39;)(compiler, {
+    log: false,
+    heartbeat: 2000
+})
+</code></pre><p>热加载需要 webpack 插件配合才能实现：</p>
+<pre><code>// 当 html 模板改变时，触发页面重新加载
+compiler.plugin(&#39;compilation&#39;, function (compilation) {
+    compilation.plugin(&#39;html-webpack-plugin-after-emit&#39;, function (data, cb) {
+        hotMiddleware.publish({ action: &#39;reload&#39; })
+        cb()
+    })
+})
+</code></pre><p>再然后是代理，用的中间件 http-proxy-middleware，可以设置多个代理：</p>
+<pre><code>Object.keys(proxyTable).forEach(function (context) {
+    var options = proxyTable[context]
+    if (typeof options === &#39;string&#39;) {
+        options = { target: options }
+    }
+    app.use(proxyMiddleware(options.filter || context, options))
+})
+</code></pre><p>最后用 connect-history-api-fallback 中间件支持 HTML5 History，原理就是将所有的 text/html 请求都打到 /index.html 上，当然这个是可以设置的，像下面这样：</p>
+<pre><code>var history = require(&#39;connect-history-api-fallback&#39;);
+app.use(history({
+    index: &#39;/default.html&#39;
+}));
+</code></pre><h3 id="header-1-4-2">功能改造和增强</h3>
+<p>没有一个专门的自动路由，</p>
+<h2 id="header-1-5">参考</h2>
+<p><a href="http://gcdn.gcpowertools.com.cn/showtopic-36912-1-3.html?utm_source=segmentfault&amp;utm_medium=referral&amp;utm_campaign=20170417&amp;utm_content=36912" target="_blank">http://gcdn.gcpowertools.com.cn/showtopic-36912-1-3.html?utm_source=segmentfault&amp;utm_medium=referral&amp;utm_campaign=20170417&amp;utm_content=36912</a></p>
+<p><a href="http://eslint.cn/docs/rules/" target="_blank">http://eslint.cn/docs/rules/</a></p>
+
+</div>
+</body>
+</html>

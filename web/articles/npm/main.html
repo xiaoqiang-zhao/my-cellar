@@ -20,7 +20,7 @@
 <div>
     <h1 id="header-1">NPM</h1>
 <blockquote>
-<p>NPM的全称是Node Package Manager，是一个NodeJS包管理和分发工具，但是在实际的操作中此管理器已经不止是 NodeJs 的包管理了，浏览器端的资源管理也可以借助此工具完成，前端的各种辅助工具也对此有依赖，所以 NPM 基本可以算作前端的必备技能，这里介绍一些基础知识和典型场景下的技巧。</p>
+<p>NPM的全称是Node Package Manager，是一个NodeJS包管理和分发工具，但实际上此管理器已经不止是 NodeJs 的包管理了，浏览器端的资源管理也可以借助此工具完成，前端的各种辅助工具也对此有依赖，所以 NPM 基本可以算作前端的必备技能，这里介绍一些基础知识和典型场景下的技巧。</p>
 </blockquote>
 <h2 id="header-1-1">一个包的基本组成</h2>
 <p><code>package.json</code> 包的配置文件(一些重要的说明也在里面)；</p>
@@ -62,8 +62,10 @@ git+https://user@hostname/project/blah.git#commit-ish
 <p>一个项目的依赖包一般是不被提交的，这就需要在将项目克隆到本地后手动安转依赖</p>
 <pre><code>npm install
 </code></pre><h2 id="header-1-5">常用命令</h2>
-<p><code>npm init</code>: 初始化 package.json 文件，根据提示输入一些关键信息就可以将文件初始化完成；</p>
-<p><code>npm ls -g</code>: 查看所有全局安装的模块；</p>
+<p><code>npm init</code>: 初始化 package.json 文件，根据提示输入一些关键信息就可以将文件初始化完成。</p>
+<p><code>npm ls -g</code>: 查看所有全局安装的模块。如果你不想看到那么多层的依赖，那就加个参数吧：<code>sudo npm ls -g --depth 0</code>。</p>
+<p><code>npm prune</code>: 如果你的node_modules目录中已经安装了一个package，但是package.json中并没有对该package做依赖，那么这个package就应该被删除。这时如果执行npm ls命令则指示有一个 “npm ERR! extraneous: ...”。为了清理代码，你需要执行npm prune。</p>
+<p><code>npm uninstall &lt;package-name&gt;</code>: 卸载包。</p>
 <h2 id="header-1-6">多版本 node 管理</h2>
 <p>在维护一些老项目的时候，一些工具依赖于某一版本的 node 才能运行起来，这就需要在不同的版本之间来回切换，这时你需要一个多版本管理工具 <code>n</code>，没错这个工具的名字就这么简短，只有一个字母，下面是使用方法：</p>
 <pre><code>// 安装多版本管理工具

@@ -102,10 +102,17 @@ router.post(&#39;/ara/aa/create&#39;, aa.create);
 <pre><code>var app = require(&#39;koa&#39;)()
 var router = require(&#39;koa-router&#39;)()
 </code></pre><p>涛哥个脚手架用的是代理，没有 Mock 数据。</p>
-<h2 id="header-1-5">参考</h2>
+<h2 id="header-1-5">代理</h2>
+<p>在搭建脚手架时，支持前后端联调的最简单有效的方式就是配置代理，所以有必要讲一下代理中间件，以  http-proxy-middleware 为例。</p>
+<pre><code>var options = {
+    target: &#39;http://192.168.1.6:3210&#39;
+};
+app.use(&#39;/api&#39;, proxy(options));
+// http://localhost:3000/api/aa  -&gt;  http://192.168.1.6:3210/api/aa
+</code></pre><p>更多配置参见<a href="https://github.com/chimurai/http-proxy-middleware" target="_blank">官网</a>。</p>
+<h2 id="header-1-6">参考</h2>
 <p><a href="http://www.expressjs.com.cn/" target="_blank">中文官网</a></p>
-<p><a href="https://github.com/chef-template/vue-mobile" target="_blank">江涛的脚手架</a></p>
-<p>用的 Koa</p>
+<p><a href="https://github.com/chef-template/vue-mobile" target="_blank">江涛的脚手架</a> 用的 Koa</p>
 
 </div>
 </body>
