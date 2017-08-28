@@ -41,6 +41,7 @@ Koa 的核心设计思路是为中间件层提供高级语法糖封装，以增�
 
 Koa 通过 generators 来实现“真正”的中间件。 Connect 简单地将控制权交给一系列函数来处理，直到函数返回。 与之不同，当执行到 yield next 语句时，Koa 暂停了该中间件，继续执行下一个符合请求的中间件('downstrem')，然后控制权再逐级返回给上层中间件('upstream')。
 
+```js
     const Koa = require('koa');
     const app = new Koa();
     
@@ -64,6 +65,7 @@ Koa 通过 generators 来实现“真正”的中间件。 Connect 简单地将�
     app.use(ctx => {
         ctx.body = 'Hello World';
     });
+```
 
 上面的例子在页面中返回 "Hello World"，然而当请求开始时，请求先经过定制请求头和日志中间件，并记录中间件执行起始时间。 然后将控制权交给 reponse 中间件。当中间件运行到 yield next 时，函数挂起并将控制前交给下一个中间件。当没有中间件执行 yield next 时，程序栈会逆序唤起被挂起的中间件来执行接下来的代码。
 
@@ -250,7 +252,7 @@ Node 支持的 http 类型，这种只返回一个数组的小包居然也是 TJ
 
 ### cookie
 
-这种包用途也和广泛。[GitHub](https://github.com/jshttp/cookie)
+这种包用途也很广泛。[GitHub](https://github.com/jshttp/cookie)
 
 ### path-to-regexp
 

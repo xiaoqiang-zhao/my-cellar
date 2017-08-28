@@ -41,7 +41,7 @@ var server = app.listen(3000, function () {
 });
 </code></pre><p>然后 <code>node index</code> 就可以在浏览器访问了。</p>
 <h2 id="header-1-2">静态文件</h2>
-<p>为了安全起见，用户是不能随便访问服务器上的任意目录的，但是我们的网站有一些文件(如：图片、样式、js代码文件)总要提供给客户访问，一般把这些需要发放给用户的文件放在一个特定的文件夹下：</p>
+<p>为了安全起见，用户是不能随便访问服务器上的任意目录的，但是我们的网站有一些文件(如：图片、样式、js代码文件)总要提供给客户访问，一般把这些需要开放给用户的文件放在一个特定的文件夹下：</p>
 <pre><code>app.use(&#39;/&#39;, express.static(__dirname + &#39;/dist&#39;));
 </code></pre><p>向上面这样配置完毕后就可以访问了，具体代码参见 Demo。</p>
 <p>如果我们想把某个链接，如 <code>/</code> 或 <code>/index</code>，指向一个 html 文件，可以在 <code>app.get</code> 中做些文章，完整配置如下：</p>
@@ -65,7 +65,7 @@ var server = app.listen(3000, function () {
         }
     });
 });
-</code></pre><p>你你让可以运行 Demo 查看效果。</p>
+</code></pre><p>你可以运行 Demo 查看效果。</p>
 <h2 id="header-1-3">路由</h2>
 <p>对路由进行管理会清晰一点，一般 Node 后台系统会这么做：</p>
 <pre><code>app.get(&#39;/aa&#39;, function (req, res) {
@@ -110,7 +110,8 @@ var router = require(&#39;koa-router&#39;)()
 app.use(&#39;/api&#39;, proxy(options));
 // http://localhost:3000/api/aa  -&gt;  http://192.168.1.6:3210/api/aa
 </code></pre><p>更多配置参见<a href="https://github.com/chimurai/http-proxy-middleware" target="_blank">官网</a>。</p>
-<h2 id="header-1-6">参考</h2>
+<h2 id="header-1-6">中间件</h2>
+<h2 id="header-1-7">参考</h2>
 <p><a href="http://www.expressjs.com.cn/" target="_blank">中文官网</a></p>
 <p><a href="https://github.com/chef-template/vue-mobile" target="_blank">江涛的脚手架</a> 用的 Koa</p>
 
