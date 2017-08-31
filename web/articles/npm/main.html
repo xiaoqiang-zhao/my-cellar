@@ -120,7 +120,18 @@ n rm 6.0.0
 <pre><code>sudo npm publish
 </code></pre><p>实测我开发的一个中间件 <code>koa-auto-path-router</code> 从发布到可以搜到只需要 3 分钟(8:35 - 8:38)。如果要发布新版本记得手动修改 package.json 中的版本号。发布后在项目中的更新命令：</p>
 <pre><code>npm update &lt;package name&gt;
-</code></pre><h2 id="header-1-9">收集常用的包</h2>
+</code></pre><p>删除一个包</p>
+<pre><code>npm --force unpublish 包名
+</code></pre><p>查看其它配置:</p>
+<pre><code>npm config ls -l
+// 查看当前用户
+npm whoami
+</code></pre><p>退出登录</p>
+<pre><code>npm logout
+</code></pre><p>有一次发布包的时候遇到个小问题，报错信息如下：</p>
+<pre><code>npm ERR! you must verify your email before publishing a new package: https://www.npmjs.com/email-edit :
+</code></pre><p>首先包中配置的邮箱要和 npm 账户中的邮箱要匹配，如果邮箱改变了需要重新验证，npm 会发验证邮件到邮箱，你需要点一下。</p>
+<h2 id="header-1-9">收集常用的包</h2>
 <h3 id="header-1-9-1">浏览器端、客户端</h3>
 <ul>
 <li>js-cookie 浏览器端操作 cookie</li>
@@ -141,6 +152,7 @@ n rm 6.0.0
 </li>
 </ul>
 <h2 id="header-1-10">参考资料</h2>
+<p><a href="https://docs.npmjs.com" target="_blank">官方文档</a></p>
 <p><a href="https://github.com/npm/npm/blob/2e3776bf5676bc24fec6239a3420f377fe98acde/doc/files/package.json.md" target="_blank">package.json 的官方说明</a></p>
 <p><a href="http://stackoverflow.com/questions/18875674/whats-the-difference-between-dependencies-devdependencies-and-peerdependencies" target="_blank">What&#39;s the difference between dependencies, devDependencies and peerDependencies in npm package.json file?</a></p>
 <p><a href="https://cnodejs.org/topic/5819624a1a9a7d9909531395" target="_blank">开发组件库时 Vue 应该放哪儿：devDependencies or peerDependencies？</a></p>

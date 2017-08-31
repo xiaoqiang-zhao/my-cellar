@@ -160,6 +160,26 @@ ES6 与 CommonJs 的引用略有不同，具体参考我的另一篇学习笔记
 
     npm update <package name>
 
+删除一个包
+
+    npm --force unpublish 包名
+
+查看其它配置:
+
+    npm config ls -l
+    // 查看当前用户
+    npm whoami
+
+退出登录
+
+    npm logout
+
+有一次发布包的时候遇到个小问题，报错信息如下：
+
+    npm ERR! you must verify your email before publishing a new package: https://www.npmjs.com/email-edit :
+
+首先包中配置的邮箱要和 npm 账户中的邮箱要匹配，如果邮箱改变了需要重新验证，npm 会发验证邮件到邮箱，你需要点一下。
+
 ## 收集常用的包
 
 ### 浏览器端、客户端
@@ -181,6 +201,8 @@ ES6 与 CommonJs 的引用略有不同，具体参考我的另一篇学习笔记
 - metalsmith，构建静态网站的工具，每一个加工的工序就是一个插件；
 
 ## 参考资料
+
+[官方文档](https://docs.npmjs.com)
 
 [package.json 的官方说明](https://github.com/npm/npm/blob/2e3776bf5676bc24fec6239a3420f377fe98acde/doc/files/package.json.md)
 

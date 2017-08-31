@@ -111,6 +111,12 @@ app.use(&#39;/api&#39;, proxy(options));
 // http://localhost:3000/api/aa  -&gt;  http://192.168.1.6:3210/api/aa
 </code></pre><p>更多配置参见<a href="https://github.com/chimurai/http-proxy-middleware" target="_blank">官网</a>。</p>
 <h2 id="header-1-6">中间件</h2>
+<pre><code class="lang-js">app.use(function (req, res, next) {
+  // req is the Node.js http request object
+  // res is the Node.js http response object
+  // next is a function to call to invoke the next middleware
+});
+</code></pre>
 <h2 id="header-1-7">参考</h2>
 <p><a href="http://www.expressjs.com.cn/" target="_blank">中文官网</a></p>
 <p><a href="https://github.com/chef-template/vue-mobile" target="_blank">江涛的脚手架</a> 用的 Koa</p>

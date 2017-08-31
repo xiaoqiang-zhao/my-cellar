@@ -123,7 +123,13 @@
 
 ## 中间件
 
-
+```js
+app.use(function (req, res, next) {
+  // req is the Node.js http request object
+  // res is the Node.js http response object
+  // next is a function to call to invoke the next middleware
+});
+```
 
 ## 参考
 
