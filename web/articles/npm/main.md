@@ -82,6 +82,8 @@ Git URLs 可以是下面格式：
 
 `npm uninstall <package-name>`: 卸载包。
 
+`npm root -g`: 查看全局安装路径。
+
 ## 多版本 node 管理
 
 在维护一些老项目的时候，一些工具依赖于某一版本的 node 才能运行起来，这就需要在不同的版本之间来回切换，这时你需要一个多版本管理工具 `n`，没错这个工具的名字就这么简短，只有一个字母，下面是使用方法：
@@ -178,7 +180,7 @@ ES6 与 CommonJs 的引用略有不同，具体参考我的另一篇学习笔记
 
     npm ERR! you must verify your email before publishing a new package: https://www.npmjs.com/email-edit :
 
-首先包中配置的邮箱要和 npm 账户中的邮箱要匹配，如果邮箱改变了需要重新验证，npm 会发验证邮件到邮箱，你需要点一下。
+首先包中配置的邮箱要和 npm 账户中的邮箱要匹配，如果邮箱改变了需要重新验证，npm 会发验证邮件到邮箱，你需要点一下。有段时间翻墙有点问题，发现配 gmail 私活 publish 不上去，后来换成 163 邮箱就上去了。
 
 ## 收集常用的包
 

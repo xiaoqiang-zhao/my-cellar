@@ -50,15 +50,18 @@ Linux 的核心思想就是一切皆文件。
 
     $ source ~/.bash_profile
 
-除了通过修改配置文件可以设定更多的全局命令，全局命令不仅我们自己敲的时候要用到，很多软件的执行依赖其他可执行文件，这时就需要修改 `.bash_profile` 文件添加环境变量，在行为插入：
+除了通过修改配置文件可以设定更多的全局命令，全局命令不仅我们自己敲的时候要用到，很多软件的执行依赖其他可执行文件，这时就需要修改 `.bash_profile` 文件，添加环境变量：
 
-    export N_PREFIX=/opt/node #node实际安装位置
+    export N_PREFIX=/usr/local/bin/node  #node实际安装位置
     export PATH=$N_PREFIX/bin:$PATH
+    export NODE_PATH=/usr/local/lib/node_modules
 
-注：这里其实没看懂具体意思，需要找个东西验证一下，比如 ip 那个例子；探索一下实际的例子，gulp 是怎么可以全局执行的？
+node 命令的依赖包安装在 `/usr/local/lib/node_modules` 目录下。
 
-node 命令的依赖包安装在 `/usr/local/lib/node_modules` 目录下
+查看环境变量
 
+    echo $PATH
+    echo $NODE_PATH
 
 显示命令的文档，如显示 `gulp` 使用文档：
 

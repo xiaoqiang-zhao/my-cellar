@@ -56,12 +56,15 @@ n
 npm
 </code></pre><p>修改完执行下面命令使环境变量生效：</p>
 <pre><code>$ source ~/.bash_profile
-</code></pre><p>除了通过修改配置文件可以设定更多的全局命令，全局命令不仅我们自己敲的时候要用到，很多软件的执行依赖其他可执行文件，这时就需要修改 <code>.bash_profile</code> 文件添加环境变量，在行为插入：</p>
-<pre><code>export N_PREFIX=/opt/node #node实际安装位置
+</code></pre><p>除了通过修改配置文件可以设定更多的全局命令，全局命令不仅我们自己敲的时候要用到，很多软件的执行依赖其他可执行文件，这时就需要修改 <code>.bash_profile</code> 文件，添加环境变量：</p>
+<pre><code>export N_PREFIX=/usr/local/bin/node  #node实际安装位置
 export PATH=$N_PREFIX/bin:$PATH
-</code></pre><p>注：这里其实没看懂具体意思，需要找个东西验证一下，比如 ip 那个例子；探索一下实际的例子，gulp 是怎么可以全局执行的？</p>
-<p>node 命令的依赖包安装在 <code>/usr/local/lib/node_modules</code> 目录下</p>
-<p>显示命令的文档，如显示 <code>gulp</code> 使用文档：</p>
+export NODE_PATH=/usr/local/lib/node_modules
+</code></pre><p>node 命令的依赖包安装在 <code>/usr/local/lib/node_modules</code> 目录下。</p>
+<p>查看环境变量</p>
+<pre><code>echo $PATH
+echo $NODE_PATH
+</code></pre><p>显示命令的文档，如显示 <code>gulp</code> 使用文档：</p>
 <pre><code>man gulp
 // 注：按 q 退出
 // 并不是所有命令都提供文档

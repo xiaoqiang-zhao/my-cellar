@@ -67,6 +67,7 @@ git+https://user@hostname/project/blah.git#commit-ish
 <p><code>npm ls -g</code>: 查看所有全局安装的模块。如果你不想看到那么多层的依赖，那就加个参数吧：<code>sudo npm ls -g --depth 0</code>。</p>
 <p><code>npm prune</code>: 如果你的node_modules目录中已经安装了一个package，但是package.json中并没有对该package做依赖，那么这个package就应该被删除。这时如果执行npm ls命令则指示有一个 “npm ERR! extraneous: ...”。为了清理代码，你需要执行npm prune。</p>
 <p><code>npm uninstall &lt;package-name&gt;</code>: 卸载包。</p>
+<p><code>npm root -g</code>: 查看全局安装路径。</p>
 <h2 id="header-1-6">多版本 node 管理</h2>
 <p>在维护一些老项目的时候，一些工具依赖于某一版本的 node 才能运行起来，这就需要在不同的版本之间来回切换，这时你需要一个多版本管理工具 <code>n</code>，没错这个工具的名字就这么简短，只有一个字母，下面是使用方法：</p>
 <pre><code>// 安装多版本管理工具
@@ -130,7 +131,7 @@ npm whoami
 <pre><code>npm logout
 </code></pre><p>有一次发布包的时候遇到个小问题，报错信息如下：</p>
 <pre><code>npm ERR! you must verify your email before publishing a new package: https://www.npmjs.com/email-edit :
-</code></pre><p>首先包中配置的邮箱要和 npm 账户中的邮箱要匹配，如果邮箱改变了需要重新验证，npm 会发验证邮件到邮箱，你需要点一下。</p>
+</code></pre><p>首先包中配置的邮箱要和 npm 账户中的邮箱要匹配，如果邮箱改变了需要重新验证，npm 会发验证邮件到邮箱，你需要点一下。有段时间翻墙有点问题，发现配 gmail 私活 publish 不上去，后来换成 163 邮箱就上去了。</p>
 <h2 id="header-1-9">收集常用的包</h2>
 <h3 id="header-1-9-1">浏览器端、客户端</h3>
 <ul>
