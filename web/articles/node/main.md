@@ -133,4 +133,6 @@ Git:[https://github.com/saschagehlich/hotnode](https://github.com/saschagehlich/
 
 pm2扩展资料: [http://www.douban.com/note/314200231/](http://www.douban.com/note/314200231/)
 
+http://www.jianshu.com/p/fdc12d82b661
+
 forver扩展资料: [http://blog.fens.me/nodejs-server-forever/](http://blog.fens.me/nodejs-server-forever/)

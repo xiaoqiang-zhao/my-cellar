@@ -11,15 +11,15 @@
 
 然后新建个 `index.js` 文件，把下面内容粘进去：
 
-    var express = require('express');
-    var app = express();
+    const express = require('express');
+    let app = express();
 
     app.get('/', function(req, res) {
         res.send('hello world');
     });
 
-    var server = app.listen(3000, function () {
-        var port = server.address().port;
+    app.listen(3000, function () {
+        const port = server.address().port;
 
         console.log('Example app listening at http://localhost:%s', port);
     });
@@ -37,7 +37,7 @@
 如果我们想把某个链接，如 `/` 或 `/index`，指向一个 html 文件，可以在 `app.get` 中做些文章，完整配置如下：
 
     app.get('/', (req, res, next) => {
-        var options = {
+        let options = {
             root: __dirname + '/dist/',
             dotfiles: 'deny',
             headers: {
@@ -46,11 +46,11 @@
             }
         };
 
-        var fileName = 'index.html';
+        let fileName = 'index.html';
         res.sendFile(fileName, options, function (err) {
             if (err) {
                 next(err);
-            } 
+            }
             else {
                 console.log('Sent:', fileName);
             }
@@ -113,7 +113,7 @@
 
 在搭建脚手架时，支持前后端联调的最简单有效的方式就是配置代理，所以有必要讲一下代理中间件，以  http-proxy-middleware 为例。
 
-    var options = {
+    const options = {
         target: 'http://192.168.1.6:3210'
     };
     app.use('/api', proxy(options));
