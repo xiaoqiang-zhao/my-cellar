@@ -27,15 +27,15 @@
 <pre><code>npm init
 npm install express --save
 </code></pre><p>然后新建个 <code>index.js</code> 文件，把下面内容粘进去：</p>
-<pre><code>var express = require(&#39;express&#39;);
-var app = express();
+<pre><code>const express = require(&#39;express&#39;);
+let app = express();
 
 app.get(&#39;/&#39;, function(req, res) {
     res.send(&#39;hello world&#39;);
 });
 
-var server = app.listen(3000, function () {
-    var port = server.address().port;
+app.listen(3000, function () {
+    const port = server.address().port;
 
     console.log(&#39;Example app listening at http://localhost:%s&#39;, port);
 });
@@ -46,7 +46,7 @@ var server = app.listen(3000, function () {
 </code></pre><p>向上面这样配置完毕后就可以访问了，具体代码参见 Demo。</p>
 <p>如果我们想把某个链接，如 <code>/</code> 或 <code>/index</code>，指向一个 html 文件，可以在 <code>app.get</code> 中做些文章，完整配置如下：</p>
 <pre><code>app.get(&#39;/&#39;, (req, res, next) =&gt; {
-    var options = {
+    let options = {
         root: __dirname + &#39;/dist/&#39;,
         dotfiles: &#39;deny&#39;,
         headers: {
@@ -55,11 +55,11 @@ var server = app.listen(3000, function () {
         }
     };
 
-    var fileName = &#39;index.html&#39;;
+    let fileName = &#39;index.html&#39;;
     res.sendFile(fileName, options, function (err) {
         if (err) {
             next(err);
-        } 
+        }
         else {
             console.log(&#39;Sent:&#39;, fileName);
         }
@@ -104,7 +104,7 @@ var router = require(&#39;koa-router&#39;)()
 </code></pre><p>涛哥个脚手架用的是代理，没有 Mock 数据。</p>
 <h2 id="header-1-5">代理</h2>
 <p>在搭建脚手架时，支持前后端联调的最简单有效的方式就是配置代理，所以有必要讲一下代理中间件，以  http-proxy-middleware 为例。</p>
-<pre><code>var options = {
+<pre><code>const options = {
     target: &#39;http://192.168.1.6:3210&#39;
 };
 app.use(&#39;/api&#39;, proxy(options));
