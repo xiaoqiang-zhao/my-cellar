@@ -98,6 +98,10 @@ Git:[https://github.com/saschagehlich/hotnode](https://github.com/saschagehlich/
 上面的准备已经做好，倒着一步就水到渠成了，
 将inspector中的 `node --debug-brk=5858 server` 换成 `hotnode --debug-brk=5858 server` 就可以了。
 
+### IDE
+
+上面是不依赖 IDE 的方式，但是用过 VS Code 之后发现用不着了解那么多东西，直接配置 VS Code 的启动项，然后 F5 就启动了，打断点、变量实时查看等各种调试方法都支持的很好。
+
 ## 路径
 
 `require` 加载相对路径的模块时其参考路径是当前的执行文件所在的路径，
@@ -111,7 +115,9 @@ Git:[https://github.com/saschagehlich/hotnode](https://github.com/saschagehlich/
     rootPath = __dirname.replace(/\\/g, '/').split('/').slice(0, -1 * config.rootLevel).join('/');
     // 然后把根路径加到前面，用的时候就好了
     config.webRootPath = rootPath + config.webRootPath;
-    
+
+另外还有一个技巧来统一启动路径，那就是在 package.json 中配置 scripts，执行脚本的时候用 `npm run xxx` 这种方式，这样脚本的启动路径就一定是项目根路径了。
+
 ## 异步队列
 
 下面是一个路由队列的方案，每个成功后调用下一个，在最后一个中做404处理。

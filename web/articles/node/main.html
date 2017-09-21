@@ -83,6 +83,8 @@ hotnode app
 <h3 id="header-1-2-3">两种技术的结合</h3>
 <p>上面的准备已经做好，倒着一步就水到渠成了，
 将inspector中的 <code>node --debug-brk=5858 server</code> 换成 <code>hotnode --debug-brk=5858 server</code> 就可以了。</p>
+<h3 id="header-1-2-4">IDE</h3>
+<p>上面是不依赖 IDE 的方式，但是用过 VS Code 之后发现用不着了解那么多东西，直接配置 VS Code 的启动项，然后 F5 就启动了，打断点、变量实时查看等各种调试方法都支持的很好。</p>
 <h2 id="header-1-3">路径</h2>
 <p><code>require</code> 加载相对路径的模块时其参考路径是当前的执行文件所在的路径，
 <code>fs</code> 文件系统读取文件时参考路径是程序的启动路径，
@@ -93,7 +95,8 @@ hotnode app
 rootPath = __dirname.replace(/\\/g, &#39;/&#39;).split(&#39;/&#39;).slice(0, -1 * config.rootLevel).join(&#39;/&#39;);
 // 然后把根路径加到前面，用的时候就好了
 config.webRootPath = rootPath + config.webRootPath;
-</code></pre><h2 id="header-1-4">异步队列</h2>
+</code></pre><p>另外还有一个技巧来统一启动路径，那就是在 package.json 中配置 scripts，执行脚本的时候用 <code>npm run xxx</code> 这种方式，这样脚本的启动路径就一定是项目根路径了。</p>
+<h2 id="header-1-4">异步队列</h2>
 <p>下面是一个路由队列的方案，每个成功后调用下一个，在最后一个中做404处理。</p>
 <pre><code>// 路由队列（路由的优先顺序在此配置）
 var routList = [

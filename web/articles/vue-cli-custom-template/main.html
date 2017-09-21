@@ -20,7 +20,7 @@
 <div>
     <h1 id="header-1">vue-cli 定义模板</h1>
 <blockquote>
-<p>由于 vue-cli 官方提供的模板不能满足所有的业务需求(工具链层面的)，很多情况需要定制自己的模板，这篇文章主要讲怎样定制一个模板，并介绍一下我定制的模板特性。</p>
+<p>由于 vue-cli 官方提供的模板不能满足前后端分离的工作模式(工具链层面的)，需要定制自己的模板，这篇文章主要讲怎样定制一个模板，并介绍一下我定制的模板特性。</p>
 </blockquote>
 <h2 id="header-1-1">站在巨人的肩上</h2>
 <p>我们的总体思路是最大限度的利用官方已有模板，进行改造和增强。我在 github 上建了一个 organization: <a href="https://github.com/vuejs-custom-templates-aggregate" target="_blank">vuejs-custom-templates-aggregate</a> ---- vue 自定义模板集合。然后将 <a href="https://github.com/vuejs-templates/webpack" target="_blank">https://github.com/vuejs-templates/webpack</a> 项目 fork 进 vuejs-custom-templates-aggregate，我给他取了个名字叫 spa。之所以没叫 webpack-spa，是应为 browserify 用的人越来越少了，大家提到包加载器基本默认就是 webpack，另外我想从应用场景来区分模板，并大胆的幻想将来出现的其他模板是：</p>
@@ -73,7 +73,7 @@
         }
     }
 &lt;/script&gt;
-</code></pre><p>然后我们在探一下因 -- 知其所以然，模板转化成 html 并绑定事件有一个必不可少了步骤，那就是将模板转换成函数，这一步称为编译，数据和 html 标签的融合并输出 Dom 结构就是在编译后的函数中进行的，如果在打包的过程中完成编译，并将编译产生的函数打入代码中，那么发布出来的代码就没有必要包含这部分功能了，这部分功能压缩后所占的体积就是上面提到的 6KB。</p>
+</code></pre><p>然后我们再探一下因 -- 知其所以然，模板转化成 html 并绑定事件有一个必不可少了步骤，那就是将模板转换成函数，这一步称为编译，数据和 html 标签的融合并输出 Dom 结构就是在编译后的函数中进行的，如果在打包的过程中完成编译，并将编译产生的函数打入代码中，那么发布出来的代码就没有必要包含这部分功能了，这部分功能压缩后所占的体积就是上面提到的 6KB。</p>
 <p>还有另外一个问题，这个开关是在哪里控制的？
 在 build/webpack.base.conf.js 中：</p>
 <pre><code>resolve: {
@@ -85,7 +85,7 @@
 }
 </code></pre><p>默认是不提供 Compiler 功能的，如果我们需要，把 vue 的引用指向 vue 代码包中的另一个文件 -- vue.esm.js，这个文件包含了 Compiler 功能。可以看到添加时很简单的，所以我们这里去掉 Compiler 功能的支持，万一有需要可以手动加回来。</p>
 <h3 id="header-1-2-2">ESLint</h3>
-<p>本来不打算讲这一块的，但是发现有几处需要注意的地方，虽然比较简单，但不说很多人不知道。eslint 是用 node 写的，所以需要有 node 环境，并全局安装 eslint 和 其插件，IDE 才能玩的转：</p>
+<p>本来不打算讲这一块的，但是发现有几处需要注意的地方，虽然比较简单，但如果不说很多人不知道。eslint 是用 node 写的，所以需要有 node 环境，并全局安装 eslint 和 其插件，IDE 才能玩的转：</p>
 <pre><code>sudo npm install -g eslint
 // 为了能检测 .vue 文件，还需要装 eslint 插件
 sudo npm install -g eslint-plugin-html
@@ -99,7 +99,7 @@ sudo npm install -g eslint-plugin-html
     &quot;html&quot;,
     &quot;vue&quot;
 ]
-</code></pre><p>现在的规范有 3 中类型：</p>
+</code></pre><p>现在的规范有 3 种类型：</p>
 <ul>
 <li>standard 互联网通用，约束较轻；</li>
 <li>airbnb 约束较具体；</li>
@@ -116,7 +116,51 @@ sudo npm install -g eslint-plugin-html
 <li>&quot;error&quot; 或 2 - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)。</li>
 </ul>
 <h2 id="header-1-3">开始改造现有功能</h2>
-<p>这一部分比较简单，先略过...</p>
+<p>写 vue 模板并没有什么特别好的方法，因为模板改完之后需要编译后才能运行，所以我们先用现有模板生成一份比较全的，然后把相关依赖装好，提交到 github 上，然后改这个模板生成后的项目，改完之后把修改点同步回模板中，这是我能想到的最简单快捷的方式。</p>
+<h3 id="header-1-3-1">router</h3>
+<p>这个是一个项目必须的功能，如果只想写个 Demo 那直接用官方的模板好了。我们首先需要改配置：</p>
+<p>首先删除下面的配置，使不再询问是否安装router：</p>
+<pre><code>// meta.js，
+&quot;router&quot;: {
+  &quot;type&quot;: &quot;confirm&quot;,
+  &quot;message&quot;: &quot;Install vue-router?&quot;
+},
+</code></pre><p>然后去掉多虑设置，使其恒定不过滤：</p>
+<pre><code>&quot;filters&quot;: {
+  &quot;.eslintrc.js&quot;: &quot;lint&quot;,
+  &quot;.eslintignore&quot;: &quot;lint&quot;,
+  &quot;config/test.env.js&quot;: &quot;unit || e2e&quot;,
+  &quot;test/unit/**/*&quot;: &quot;unit&quot;,
+  &quot;build/webpack.test.conf.js&quot;: &quot;unit&quot;,
+  &quot;test/e2e/**/*&quot;: &quot;e2e&quot;,
+  // 删掉下面一行
+  &quot;src/router/**/*&quot;: &quot;router&quot;
+},
+</code></pre><p>还有 template/src/main.js 需要改，一大堆判断真是复杂，直接去掉，最后像下面这样：</p>
+<pre><code>import Vue from &#39;vue&#39;;
+import App from &#39;./App&#39;;
+import router from &#39;./router&#39;;
+
+Vue.config.productionTip = false;
+new Vue({
+  el: &#39;#app&#39;,
+  router,
+  render: h =&gt; h(App),
+  components: { App }
+});
+</code></pre><p>最后把 template/package.json 里面对 <code>vue-router</code> 包的判断去掉，这个功能就改造完成了，我们试着跑一下:</p>
+<pre><code>//            本地模板路径        测试项目名
+vue init ~/code-github/spa spa-router
+cd spa-router
+yarn
+npm run dev
+</code></pre><p>耶，完美✌️.</p>
+<p>注：</p>
+<ul>
+<li>1、不要测试会快很多；</li>
+<li>2、我们打算干掉编码规范，所以选择 node</li>
+</ul>
+<h3 id="header-1-3-2">Vue build</h3>
 <h2 id="header-1-4">添加 Mock 功能</h2>
 <h3 id="header-1-4-1">原有功能分析</h3>
 <p>先看看原来的和 server 有关的功能，首先从 package.json 中了解到启动开发环境是从 dev-server.js 文件开始的。首先通过 express 启动 Web 服务：</p>
@@ -154,11 +198,72 @@ compiler.plugin(&#39;compilation&#39;, function (compilation) {
 app.use(history({
     index: &#39;/default.html&#39;
 }));
-</code></pre><h3 id="header-1-4-2">功能改造和增强</h3>
+</code></pre><p>其实看到这里我们就明白了，官方想让我们通过代理直接调用 server，但是我们开发的流程一般是定完接口前后端个开发各的，然后联调。对于全栈来说启两个项目很显然来回切换很麻烦，但是官方并没有提供全栈的模板，我们后面会完善。</p>
+<h3 id="header-1-4-2">功能改造和增强</h3>
 <p>找了很久没找到一个 start 数较高的自动路由中间件(根据访问路径直接读取相同路径模块并返回结果)，可能因为这种包对于后台开发来说太鸡肋，像下面这种路由需要将 id 写死：</p>
 <pre><code>articles/:id
-</code></pre><p>但是在脚手架 Mock 功能上这是很通用的需求，其中最核心的功能需求是不需要每新加一个接口都要改配置文件，直接添加文件就好了，这也是一种思路的体现 -- 流程优于配置。所以决定先造个轮子: </p>
-<p>express-auto-route-middleware</p>
+</code></pre><p>但是在脚手架 Mock 功能上这是很通用的需求，其中最核心的功能需求是不需要每新加一个接口都要改配置文件，直接添加文件就好了，这也是一种思路的体现 -- 流程优于配置。所以决定先造个轮子: 
+<a href="https://github.com/longze/express-auto-path-router" target="_blank">express-auto-path-router</a>。
+怎么开发中间件这里就不展开了，解决的主要问题就是省略路由配置文件，路由和功能的对应采用一种逻辑关系，规则如下：</p>
+<pre><code>GET /a -&gt; /GET/a/index.js
+POST /a -&gt; /POST/a/index.js
+</code></pre><p>这对于我们写 Mock 数据是很便捷的方式，我们先把 axios 加进来：</p>
+<pre><code>// mian.js
+import axios from &#39;axios&#39;;
+// 将axios挂载到prototype上，在组件中可以直接使用this.$http访问
+Vue.prototype.$http = axios;
+</code></pre><p>然后加 Mock 功能，之前只有代理模式，现在我们要加一种提供数据的模式 Mock，考虑到后面我们还要加 全栈模式，这里把配置顺便升一下级：</p>
+<pre><code>// config/index.js
+dataType: &#39;mock&#39;,  // proxy:代理; mock:模拟; full-stack:全栈(默认此项)
+proxyTable: {
+  &#39;/&#39;: {
+    target: &#39;http://172.0.0.1:8800/&#39;
+  }
+},
+mockTable: {
+  // 相对于整个项目的路径
+  rootPath: &#39;./mock/&#39;
+}
+</code></pre><p>然后改造路由，添加 mock 路由和 proxy 路由以及全栈路由的区分逻辑，关键代码如下：</p>
+<pre><code>// build/dev-server.js
+var expressAutoPathRouter = require(&#39;express-auto-path-router&#39;)
+// Define HTTP proxies to your custom API backend
+// https://github.com/chimurai/http-proxy-middleware
+if (config.dev.dataType === &#39;proxy&#39;) {
+Object.keys(config.dev.proxyTable).forEach(function (context) {
+    var options = proxyTable[context]
+    if (typeof options === &#39;string&#39;) {
+    options = { target: options }
+    }
+    app.use(proxyMiddleware(options.filter || context, options))
+  })
+}
+// https://github.com/longze/express-auto-path-router
+else if (config.dev.dataType === &#39;mock&#39;) {
+  app.use(expressAutoPathRouter(config.dev.mockTable.rootPath))
+}
+</code></pre><p>最后添加 mock 数据的文件夹和客户端的调用逻辑：</p>
+<pre><code>// mock 数据的写法
+// mock/GET/a/index.js
+let mock = require(&#39;mockjs&#39;);
+module.exports = function (param) {
+    return {
+        status: 0,
+        statusInfo: &#39;&#39;,
+        data: mock.Random.cparagraph()
+    };
+};
+// 前端调用
+// src/components/Hello.vue
+data () {
+    this.$http.get(&#39;/a&#39;).then(res =&gt; {
+        console.log(&#39;mock 数据支持成功&#39;, res)
+    })
+    return {
+        msg: &#39;Welcome to Your Vue.js App&#39;
+    }
+}
+</code></pre><p>到此为止 mock 数据功能就基本添加完了，把添加的代码同步到模板中就不展开了。</p>
 <h2 id="header-1-5">参考</h2>
 <p><a href="http://gcdn.gcpowertools.com.cn/showtopic-36912-1-3.html?utm_source=segmentfault&amp;utm_medium=referral&amp;utm_campaign=20170417&amp;utm_content=36912" target="_blank">http://gcdn.gcpowertools.com.cn/showtopic-36912-1-3.html?utm_source=segmentfault&amp;utm_medium=referral&amp;utm_campaign=20170417&amp;utm_content=36912</a></p>
 <p><a href="http://eslint.cn/docs/rules/" target="_blank">http://eslint.cn/docs/rules/</a></p>

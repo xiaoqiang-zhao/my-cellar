@@ -1,6 +1,6 @@
 # vue-cli 定义模板
 
-> 由于 vue-cli 官方提供的模板不能满足所有的业务需求(工具链层面的)，很多情况需要定制自己的模板，这篇文章主要讲怎样定制一个模板，并介绍一下我定制的模板特性。
+> 由于 vue-cli 官方提供的模板不能满足前后端分离的工作模式(工具链层面的)，需要定制自己的模板，这篇文章主要讲怎样定制一个模板，并介绍一下我定制的模板特性。
 
 ## 站在巨人的肩上
 
@@ -61,7 +61,7 @@
         }
     </script>
 
-然后我们在探一下因 -- 知其所以然，模板转化成 html 并绑定事件有一个必不可少了步骤，那就是将模板转换成函数，这一步称为编译，数据和 html 标签的融合并输出 Dom 结构就是在编译后的函数中进行的，如果在打包的过程中完成编译，并将编译产生的函数打入代码中，那么发布出来的代码就没有必要包含这部分功能了，这部分功能压缩后所占的体积就是上面提到的 6KB。
+然后我们再探一下因 -- 知其所以然，模板转化成 html 并绑定事件有一个必不可少了步骤，那就是将模板转换成函数，这一步称为编译，数据和 html 标签的融合并输出 Dom 结构就是在编译后的函数中进行的，如果在打包的过程中完成编译，并将编译产生的函数打入代码中，那么发布出来的代码就没有必要包含这部分功能了，这部分功能压缩后所占的体积就是上面提到的 6KB。
 
 还有另外一个问题，这个开关是在哪里控制的？
 在 build/webpack.base.conf.js 中：
@@ -78,7 +78,7 @@
 
 ### ESLint
 
-本来不打算讲这一块的，但是发现有几处需要注意的地方，虽然比较简单，但不说很多人不知道。eslint 是用 node 写的，所以需要有 node 环境，并全局安装 eslint 和 其插件，IDE 才能玩的转：
+本来不打算讲这一块的，但是发现有几处需要注意的地方，虽然比较简单，但如果不说很多人不知道。eslint 是用 node 写的，所以需要有 node 环境，并全局安装 eslint 和 其插件，IDE 才能玩的转：
 
     sudo npm install -g eslint
     // 为了能检测 .vue 文件，还需要装 eslint 插件
@@ -96,7 +96,7 @@ vs code 需要加配置：
         "vue"
     ]
 
-现在的规范有 3 中类型：
+现在的规范有 3 种类型：
 
 - standard 互联网通用，约束较轻；
 - airbnb 约束较具体；
@@ -118,7 +118,64 @@ vs code 需要加配置：
 
 ## 开始改造现有功能
 
-这一部分比较简单，先略过...
+写 vue 模板并没有什么特别好的方法，因为模板改完之后需要编译后才能运行，所以我们先用现有模板生成一份比较全的，然后把相关依赖装好，提交到 github 上，然后改这个模板生成后的项目，改完之后把修改点同步回模板中，这是我能想到的最简单快捷的方式。
+
+### router
+
+这个是一个项目必须的功能，如果只想写个 Demo 那直接用官方的模板好了。我们首先需要改配置：
+
+首先删除下面的配置，使不再询问是否安装router：
+
+    // meta.js，
+    "router": {
+      "type": "confirm",
+      "message": "Install vue-router?"
+    },
+
+然后去掉多虑设置，使其恒定不过滤：
+
+    "filters": {
+      ".eslintrc.js": "lint",
+      ".eslintignore": "lint",
+      "config/test.env.js": "unit || e2e",
+      "test/unit/**/*": "unit",
+      "build/webpack.test.conf.js": "unit",
+      "test/e2e/**/*": "e2e",
+      // 删掉下面一行
+      "src/router/**/*": "router"
+    },
+
+还有 template/src/main.js 需要改，一大堆判断真是复杂，直接去掉，最后像下面这样：
+
+    import Vue from 'vue';
+    import App from './App';
+    import router from './router';
+
+    Vue.config.productionTip = false;
+    new Vue({
+      el: '#app',
+      router,
+      render: h => h(App),
+      components: { App }
+    });
+
+最后把 template/package.json 里面对 `vue-router` 包的判断去掉，这个功能就改造完成了，我们试着跑一下:
+
+    //            本地模板路径        测试项目名
+    vue init ~/code-github/spa spa-router
+    cd spa-router
+    yarn
+    npm run dev
+
+耶，完美✌️.
+
+注：
+- 1、不要测试会快很多；
+- 2、我们打算干掉编码规范，所以选择 node
+
+### Vue build
+
+
 
 ## 添加 Mock 功能
 
@@ -171,6 +228,8 @@ vs code 需要加配置：
         index: '/default.html'
     }));
 
+其实看到这里我们就明白了，官方想让我们通过代理直接调用 server，但是我们开发的流程一般是定完接口前后端个开发各的，然后联调。对于全栈来说启两个项目很显然来回切换很麻烦，但是官方并没有提供全栈的模板，我们后面会完善。
+
 ### 功能改造和增强
 
 找了很久没找到一个 start 数较高的自动路由中间件(根据访问路径直接读取相同路径模块并返回结果)，可能因为这种包对于后台开发来说太鸡肋，像下面这种路由需要将 id 写死：
@@ -178,12 +237,80 @@ vs code 需要加配置：
     articles/:id
 
 但是在脚手架 Mock 功能上这是很通用的需求，其中最核心的功能需求是不需要每新加一个接口都要改配置文件，直接添加文件就好了，这也是一种思路的体现 -- 流程优于配置。所以决定先造个轮子: 
+[express-auto-path-router](https://github.com/longze/express-auto-path-router)。
+怎么开发中间件这里就不展开了，解决的主要问题就是省略路由配置文件，路由和功能的对应采用一种逻辑关系，规则如下：
 
-express-auto-route-middleware
+    GET /a -> /GET/a/index.js
+    POST /a -> /POST/a/index.js
+
+这对于我们写 Mock 数据是很便捷的方式，我们先把 axios 加进来：
+
+    // mian.js
+    import axios from 'axios';
+    // 将axios挂载到prototype上，在组件中可以直接使用this.$http访问
+    Vue.prototype.$http = axios;
+
+然后加 Mock 功能，之前只有代理模式，现在我们要加一种提供数据的模式 Mock，考虑到后面我们还要加 全栈模式，这里把配置顺便升一下级：
+
+    // config/index.js
+    dataType: 'mock',  // proxy:代理; mock:模拟; full-stack:全栈(默认此项)
+    proxyTable: {
+      '/': {
+        target: 'http://172.0.0.1:8800/'
+      }
+    },
+    mockTable: {
+      // 相对于整个项目的路径
+      rootPath: './mock/'
+    }
+
+然后改造路由，添加 mock 路由和 proxy 路由以及全栈路由的区分逻辑，关键代码如下：
+
+    // build/dev-server.js
+    var expressAutoPathRouter = require('express-auto-path-router')
+    // Define HTTP proxies to your custom API backend
+    // https://github.com/chimurai/http-proxy-middleware
+    if (config.dev.dataType === 'proxy') {
+    Object.keys(config.dev.proxyTable).forEach(function (context) {
+        var options = proxyTable[context]
+        if (typeof options === 'string') {
+        options = { target: options }
+        }
+        app.use(proxyMiddleware(options.filter || context, options))
+      })
+    }
+    // https://github.com/longze/express-auto-path-router
+    else if (config.dev.dataType === 'mock') {
+      app.use(expressAutoPathRouter(config.dev.mockTable.rootPath))
+    }
+
+最后添加 mock 数据的文件夹和客户端的调用逻辑：
+
+    // mock 数据的写法
+    // mock/GET/a/index.js
+    let mock = require('mockjs');
+    module.exports = function (param) {
+        return {
+            status: 0,
+            statusInfo: '',
+            data: mock.Random.cparagraph()
+        };
+    };
+    // 前端调用
+    // src/components/Hello.vue
+    data () {
+        this.$http.get('/a').then(res => {
+            console.log('mock 数据支持成功', res)
+        })
+        return {
+            msg: 'Welcome to Your Vue.js App'
+        }
+    }
+
+到此为止 mock 数据功能就基本添加完了，把添加的代码同步到模板中就不展开了。
 
 ## 参考
 
 http://gcdn.gcpowertools.com.cn/showtopic-36912-1-3.html?utm_source=segmentfault&utm_medium=referral&utm_campaign=20170417&utm_content=36912
 
 http://eslint.cn/docs/rules/
-

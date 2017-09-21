@@ -255,6 +255,8 @@ IDE 的配置文件通常是隐藏文件，不易直接可视化操作，这是�
 
 [Sublime 下配置 GitHub](http://www.cnblogs.com/terrylin/archive/2013/04/04/2999465.html)
 
+[创建 git 项目](http://www.jianshu.com/p/df7ce9f3a5cb)
+
 [Git分支管理策略](http://www.ruanyifeng.com/blog/2012/07/git.html)
 
 [功能分支工作流](http://blog.jobbole.com/76857/)
@@ -262,5 +264,3 @@ IDE 的配置文件通常是隐藏文件，不易直接可视化操作，这是�
 [github-flow](http://scottchacon.com/2011/08/31/github-flow.html)
 
 [Gitflow工作流](http://blog.jobbole.com/76867/)
-
-[创建 git 项目](http://www.jianshu.com/p/df7ce9f3a5cb)
