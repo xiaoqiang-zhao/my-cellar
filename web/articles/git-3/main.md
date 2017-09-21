@@ -74,7 +74,7 @@
 	
 	// 将当前分支的修改推送到远程分支 dev
 	git push -u origin dev
-	// -u 分支是建立分支，以后就可以直接用下面命令了
+	// -u 是建立分支追踪，以后就可以直接用下面命令了，而不需要指定要 push 哪个分支
 	git push
 	// 删除远程分支
 	git push origin :branch_to_delete
@@ -92,9 +92,9 @@
 
 `git branch -d origin/分知名` 删除远程分支；
 
-有时候用上面的方法删除会报出"error: branch 'origin/branch_to_delete' not found."的错误，但是我们明明可以看到远程有那个分支，为什么要报找不到呢？这个可能是本地分支描述文件错误造成的，".git/refs/heads/origin/"下有所有分支的描述文件，一个简单除暴的办法就是当做一次 push，这样就不会走本地扫描这条路： `git push origin :branch_to_delete`。
+有时候用上面的方法删除会报出"error: branch 'origin/branch_to_delete' not found."的错误，但是我们明明可以看到远程有那个分支，为什么要报找不到呢？这个可能是本地分支描述文件错误造成的，".git/refs/heads/origin/"下有所有分支的描述文件，一个简单粗暴的办法就是当做一次 push，这样就不会走本地扫描这条路了，命令： `git push origin :分支名`。
 
-造成错误的原因可能是已经向这个分支 commit 了，但是没有 push 或者 push 出错都会造成分支描述文件的改变，可以试试 "rm .git/refs/heads/branch_to_delete" -- 删除描述文件。
+造成错误的原因可能是已经向这个分支 commit 了，但是没有 push 或者 push 出错都会造成分支描述文件的改变，可以试试 "rm .git/refs/heads/分支名" -- 删除描述文件。
 
 有时远程分支明明已经没有了可是在本地 `git branch -a` 的时候还能看到，这是怎么回事？
 因为 .git/refs/remotes/origin 文件夹下有缓存文件，手动删除一下就可以。还有一个地方可能有缓存 .git/packed-ref 文件中。

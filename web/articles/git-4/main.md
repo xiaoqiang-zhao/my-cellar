@@ -264,3 +264,7 @@ IDE 的配置文件通常是隐藏文件，不易直接可视化操作，这是�
 [github-flow](http://scottchacon.com/2011/08/31/github-flow.html)
 
 [Gitflow工作流](http://blog.jobbole.com/76867/)
+
+[功能分支工作流](http://blog.jobbole.com/76857/)
+
+[集中式工作流](http://blog.jobbole.com/76847/)

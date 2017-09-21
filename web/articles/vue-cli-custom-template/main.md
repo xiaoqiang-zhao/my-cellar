@@ -16,6 +16,8 @@
 
 ## 改造前的观察
 
+### 概述
+
 先看看有什么功能，看着有用的保留，没用的去除：
 
 - Project name 保持不变；
@@ -24,13 +26,15 @@
 - Vue build 去掉，直接采用 Runtime-only 方案；
 - Install vue-router 去掉，直接选中；
 - ESLint 改为默认选中，需要增强，配置成自己公司的规范；
-- Pick an ESLint preset
+- Pick an ESLint preset 选一种编码格式，根据团队习惯默认选一种
 - Setup unit tests with Karma + Mocha 保留；
 - Setup e2e tests with Nightwatch 保留；
 
-### Compiler
+其中有一些不太好理解，下面讲一下：
 
-讲一下 Runtime + Compiler 和 Runtime-only 的区别，首先我们讲知其然：
+### Vue build
+
+讲一下 Runtime + Compiler 和 Runtime-only 的区别，首先我们从知其然的角度来说：
 
 - Runtime + Compiler: 支持 template，如果用了 SSR，前后端要同构，那么不能用；
 - Runtime-only: 体积小 6KB，不支持 template，模板只能写在 .vue 文件中。
@@ -50,6 +54,7 @@
 两种模式对下面写法都是支持的：
 
     <template src="./index.tpl"></template>
+    <!-- 或者直接在 template 中写模板-->
     <script>
         export default {
         name: 'hello',
@@ -61,7 +66,7 @@
         }
     </script>
 
-然后我们再探一下因 -- 知其所以然，模板转化成 html 并绑定事件有一个必不可少了步骤，那就是将模板转换成函数，这一步称为编译，数据和 html 标签的融合并输出 Dom 结构就是在编译后的函数中进行的，如果在打包的过程中完成编译，并将编译产生的函数打入代码中，那么发布出来的代码就没有必要包含这部分功能了，这部分功能压缩后所占的体积就是上面提到的 6KB。
+然后我们再探一下因 -- 知其所以然，模板转化成 html 并绑定事件有一个必不可少了步骤，那就是将模板转换成函数，这一步称为编译，数据和 html 标签的融合并输出 Dom 结构就是在编译后产生的函数中进行的，如果在打包的过程中完成编译，并将编译产生的函数打入代码中，那么发布出来的代码就没有必要包含这部分功能了，这部分功能压缩后所占的体积就是上面提到的 6KB。
 
 还有另外一个问题，这个开关是在哪里控制的？
 在 build/webpack.base.conf.js 中：
@@ -116,9 +121,61 @@ vs code 需要加配置：
 - "warn" 或 1 - 开启规则，使用警告级别的错误：warn (不会导致程序退出)；
 - "error" 或 2 - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)。
 
+另外可以看到，编码规范的选择让模板显得异常臃肿：
+
+    export default {
+      name: 'app'{{#router}}{{#if_eq lintConfig "airbnb"}},{{/if_eq}}{{else}},
+      components: {
+        Hello{{#if_eq lintConfig "airbnb"}},{{/if_eq}}
+      }{{#if_eq lintConfig "airbnb"}},{{/if_eq}}{{/router}}
+    }{{#if_eq lintConfig "airbnb"}};{{/if_eq}}
+
+为了一个逗号和行位的封号写了很多的判断，对于一个团队来说定制一种编码规范改一下模板的成本会更小。如果想要初始化一些公用功能进去，这样判断需要大面积存在，特别不利于模板的二次定制，所以我们先定义几个简单的编码规范，我再提供一份编码规范的常用配置清单，各团队按需定制就行。
+
 ## 开始改造现有功能
 
-写 vue 模板并没有什么特别好的方法，因为模板改完之后需要编译后才能运行，所以我们先用现有模板生成一份比较全的，然后把相关依赖装好，提交到 github 上，然后改这个模板生成后的项目，改完之后把修改点同步回模板中，这是我能想到的最简单快捷的方式。
+写 vue 模板并没有什么特别好的方法，因为模板改完之后需要编译后才能运行，所以我们先用现有模板生成一份比较全的，然后把相关依赖装好，提交到 github 上，然后改这个模板生成后的项目，改一部分验证一部分，验证没问题之后把修改点同步回模板中，这是我能想到的最简单快捷的方式。
+
+### Vue build
+
+关于这个选项的描述上面已经讲过了，策略是去掉询问，直接用 `Runtime-only` 方案。首先删除配置：
+
+    // meta.js
+    "build": {
+      "type": "list",
+      "message": "Vue build",
+      "choices": [
+        {
+          "name": "Runtime + Compiler: recommended for most users",
+          "value": "standalone",
+          "short": "standalone"
+        },
+        {
+          "name": "Runtime-only: about 6KB lighter min+gzip, but templates (or any Vue-specific HTML) are ONLY allowed in .vue files - render functions are required elsewhere",
+          "value": "runtime",
+          "short": "runtime"
+        }
+      ]
+    },
+
+然后修改 template/src/main.js
+
+    // 去掉这部分的判断和里面的内容
+    {{#if_eq build "standalone"}}
+    // 去掉 template 的定义和判断，直接用 render 函数，
+    // 简单的说就是改成下面这样
+    new Vue({
+        el: '#app',
+        router,
+        render: h => h(App),
+        components: { App }
+    });
+
+最后去掉 template/build/webpack.base.conf.js 中的下面这部分判断：
+
+    {{#if_eq build "standalone"}}
+    'vue$': 'vue/dist/vue.esm.js',
+    {{/if_eq}}
 
 ### router
 
@@ -172,10 +229,6 @@ vs code 需要加配置：
 注：
 - 1、不要测试会快很多；
 - 2、我们打算干掉编码规范，所以选择 node
-
-### Vue build
-
-
 
 ## 添加 Mock 功能
 
