@@ -6,10 +6,10 @@
 
 我们的总体思路是最大限度的利用官方已有模板，进行改造和增强。我在 github 上建了一个 organization: [vuejs-custom-templates-aggregate](https://github.com/vuejs-custom-templates-aggregate) ---- vue 自定义模板集合。然后将 https://github.com/vuejs-templates/webpack 项目 fork 进 vuejs-custom-templates-aggregate，我给他取了个名字叫 spa。之所以没叫 webpack-spa，是应为 browserify 用的人越来越少了，大家提到包加载器基本默认就是 webpack，另外我想从应用场景来区分模板，并大胆的幻想将来出现的其他模板是：
 
-- spa 纯前端单页应用；
-- full-stack-spa 全栈单页应用，后端提供业务模板和数据库；
-- spa-ts 单页应用 typescript 版；
-- full-stack-spa-ts 全栈单页应用 typescript 版；
+- spa-simple 纯前端单页应用；
+- spa-full-stack 全栈单页应用，后端提供业务模板和数据库；
+- spa-simple-ts 单页应用 typescript 版；
+- spa-full-stack-ts 全栈单页应用 typescript 版；
 - mpa 纯前端多页应用。
 
 然后我们将 spa 用 git clone 到本地，进行下一步。
@@ -83,7 +83,7 @@
 
 ### ESLint
 
-本来不打算讲这一块的，但是发现有几处需要注意的地方，虽然比较简单，但如果不说很多人不知道。eslint 是用 node 写的，所以需要有 node 环境，并全局安装 eslint 和 其插件，IDE 才能玩的转：
+本来不打算讲这一块的，但是发现有几处需要注意的地方，花了点时间才搞明白。eslint 是用 node 写的，所以需要有 node 环境，并全局安装 eslint，IDE 才能玩的转：
 
     sudo npm install -g eslint
     // 为了能检测 .vue 文件，还需要装 eslint 插件
@@ -361,6 +361,79 @@ vs code 需要加配置：
     }
 
 到此为止 mock 数据功能就基本添加完了，把添加的代码同步到模板中就不展开了。
+
+## 改造代码格式验证
+
+我们打算去掉 ESlint 的询问，并且配置自己的验证规则，再加上 CSS 的验证，最后给出 IDE 的支持。
+
+### 去除配置
+
+去除下面三项配置，这样在安装的时候就不会询问了：
+
+    // meta.js
+    "lint": {
+      "type": "confirm",
+      "message": "Use ESLint to lint your code?"
+    },
+    "lintConfig": {
+       // 此处省略若干行... 
+    }
+    // 去除 eslint 相关的过滤
+    filters
+    ".eslintrc.js": "lint",
+    ".eslintignore": "lint",
+
+然后修改依赖包的判断逻辑：
+
+    // template/package.json
+    // 去掉 {{#lint}} 成对的判断，我们恒定需要
+    {{#lint}}
+    // 去掉下面两项的判断和其中的内容
+    {{#if_eq lintConfig "standard"}}
+    {{#if_eq lintConfig "airbnb"}}
+
+eslint 的配置文件也需要更改：
+
+    // template/.eslintrc.js
+    // 去掉 {{#if_eq lintConfig "standard"}} 之间的内容，上下共 3 处
+    // 去掉 {{#if_eq lintConfig "airbnb"}} 之间的内容，上下共 3 处
+
+webpack 中的配置改一下：
+
+    // template/build/webpack.base.conf.js
+    // 去掉 {{#lint}} 成对的判断，我们恒定需要
+
+最后把项目代码改一下，`template/src` 下的全部文件过一下，地方太多但是改起来很容易，我就不一个个的粘上来了。
+
+### 改 ESLint
+
+在 rules 中添加两条演示规则，最通用的两条：缩进两个空格，语句不能省略封号。
+
+    // template/.eslintrc.js
+    'indent': [level, 2],
+    'semi': [2, 'always'],
+
+更多配置在这里：[https://eslint.org/docs/rules/](https://eslint.org/docs/rules/)
+
+如果你和我一样用的是 vscode，先全局装一下 eslint 包和插件：
+
+    sudo npm install -g eslint
+    // 为了能检测 .vue 文件，还需要装 eslint 插件
+    sudo npm install -g eslint-plugin-html
+
+然后在工作区设计里加上配置：
+
+    "eslint.options": {
+        "configFile": "./.eslintrc.js",
+        "plugins": ["html"]
+    },
+    "eslint.validate": [
+        "javascript",
+        "html",
+        "vue"
+    ]
+
+最后把生成的文件 `settings.js` 连同文件夹 `.vscode` 拷贝进 `template`。
 
 ## 参考
 
