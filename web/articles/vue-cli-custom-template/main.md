@@ -4,7 +4,7 @@
 
 ## 站在巨人的肩上
 
-我们的总体思路是最大限度的利用官方已有模板，进行改造和增强。我在 github 上建了一个 organization: [vuejs-custom-templates-aggregate](https://github.com/vuejs-custom-templates-aggregate) ---- vue 自定义模板集合。然后将 https://github.com/vuejs-templates/webpack 项目 fork 进 vuejs-custom-templates-aggregate，我给他取了个名字叫 spa。之所以没叫 webpack-spa，是应为 browserify 用的人越来越少了，大家提到包加载器基本默认就是 webpack，另外我想从应用场景来区分模板，并大胆的幻想将来出现的其他模板是：
+我们的总体思路是最大限度的利用官方已有模板，进行改造和增强。我在 github 上建了一个 organization: [vuejs-custom-templates-aggregate](https://github.com/vuejs-custom-templates-aggregate) ---- vue 自定义模板集合。然后将 https://github.com/vuejs-templates/webpack 项目 fork 进 vuejs-custom-templates-aggregate，我给他取了个名字叫 spa-simple。之所以没叫 webpack-spa，是应为 browserify 用的人越来越少了，大家提到包加载器基本默认就是 webpack，另外我想从应用场景来区分模板，并大胆的幻想将来出现的其他模板是：
 
 - spa-simple 纯前端单页应用；
 - spa-full-stack 全栈单页应用，后端提供业务模板和数据库；
@@ -79,7 +79,7 @@
         }
     }
 
-默认是不提供 Compiler 功能的，如果我们需要，把 vue 的引用指向 vue 代码包中的另一个文件 -- vue.esm.js，这个文件包含了 Compiler 功能。可以看到添加时很简单的，所以我们这里去掉 Compiler 功能的支持，万一有需要可以手动加回来。
+默认是不提供 Compiler 功能的，如果我们需要，把 vue 的引用指向 vue 代码包中的另一个文件 -- vue.esm.js，这个文件包含了 Compiler 功能。可以看，到添加时很简单的，所以我们这里去掉 Compiler 功能的支持，万一有需要可以手动加回来。
 
 ### ESLint
 
@@ -364,9 +364,9 @@ vs code 需要加配置：
 
 ## 改造代码格式验证
 
-我们打算去掉 ESlint 的询问，并且配置自己的验证规则，再加上 CSS 的验证，最后给出 IDE 的支持。
+我们打算去掉 ESlint 的询问，并且配置自己的验证规则，最后给出 IDE 的支持。
 
-### 去除配置
+### 去除 ESlint 询问配置
 
 去除下面三项配置，这样在安装的时候就不会询问了：
 
@@ -415,6 +415,8 @@ webpack 中的配置改一下：
 
 更多配置在这里：[https://eslint.org/docs/rules/](https://eslint.org/docs/rules/)
 
+### vscode 插件
+
 如果你和我一样用的是 vscode，先全局装一下 eslint 包和插件：
 
     sudo npm install -g eslint
@@ -435,8 +437,20 @@ webpack 中的配置改一下：
 
 最后把生成的文件 `settings.js` 连同文件夹 `.vscode` 拷贝进 `template`。
 
+其他的支持请自行 google。
+
+### 小遗憾
+
+本来样式也应该这样搞一下的，但是没找到比较好的工具和插件。最好用的也要算是 EFE 的 [csshint](https://github.com/ecomfe/node-csshint)了，但是定制能力不足，缺 IDE 插件支持。less、sass、stylus 可能需要不同的规则支持，不知道有没有比较好的规范和工具，这一块的配置可以加上。
+
+另外还有一种走全家桶路线思路，集成化格式验证工具中比较好用的是 FECS：https://github.com/ecomfe/fecs/wiki/CSSHint
+
 ## 参考
 
 http://gcdn.gcpowertools.com.cn/showtopic-36912-1-3.html?utm_source=segmentfault&utm_medium=referral&utm_campaign=20170417&utm_content=36912
 
-http://eslint.cn/docs/rules/
+## 持续关注
+
+改变了 postcss 的使用方法，已集成到现有版本，改变详情参阅：
+https://github.com/vuejs-templates/webpack/commit/3caa013b559f90fcce781d17b7a9cd9e2d3796a8#diff-ebf2741126a75bcd0ccbf8df09b0f0fd
+
