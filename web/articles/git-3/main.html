@@ -71,7 +71,7 @@ git log
 </code></pre><h3 id="header-1-1-7">git push</h3>
 <pre><code>// 将当前分支的修改推送到远程分支 dev
 git push -u origin dev
-// -u 分支是建立分支，以后就可以直接用下面命令了
+// -u 是建立分支追踪，以后就可以直接用下面命令了，而不需要指定要 push 哪个分支
 git push
 // 删除远程分支
 git push origin :branch_to_delete
@@ -82,8 +82,8 @@ git push origin :branch_to_delete
 <p><code>git branch -d 分知名</code> 删除本地分支；
 <code>git branch -D 分知名</code> 经常是这个分支出问题了我们才删除，最常见的就是合并坏了需要重新 checkout(典型的警告提示 &quot;deleting branch XXX that has been merged&quot;)，大写 D 强制删除；</p>
 <p><code>git branch -d origin/分知名</code> 删除远程分支；</p>
-<p>有时候用上面的方法删除会报出&quot;error: branch &#39;origin/branch_to_delete&#39; not found.&quot;的错误，但是我们明明可以看到远程有那个分支，为什么要报找不到呢？这个可能是本地分支描述文件错误造成的，&quot;.git/refs/heads/origin/&quot;下有所有分支的描述文件，一个简单除暴的办法就是当做一次 push，这样就不会走本地扫描这条路： <code>git push origin :branch_to_delete</code>。</p>
-<p>造成错误的原因可能是已经向这个分支 commit 了，但是没有 push 或者 push 出错都会造成分支描述文件的改变，可以试试 &quot;rm .git/refs/heads/branch_to_delete&quot; -- 删除描述文件。</p>
+<p>有时候用上面的方法删除会报出&quot;error: branch &#39;origin/branch_to_delete&#39; not found.&quot;的错误，但是我们明明可以看到远程有那个分支，为什么要报找不到呢？这个可能是本地分支描述文件错误造成的，&quot;.git/refs/heads/origin/&quot;下有所有分支的描述文件，一个简单粗暴的办法就是当做一次 push，这样就不会走本地扫描这条路了，命令： <code>git push origin :分支名</code>。</p>
+<p>造成错误的原因可能是已经向这个分支 commit 了，但是没有 push 或者 push 出错都会造成分支描述文件的改变，可以试试 &quot;rm .git/refs/heads/分支名&quot; -- 删除描述文件。</p>
 <p>有时远程分支明明已经没有了可是在本地 <code>git branch -a</code> 的时候还能看到，这是怎么回事？
 因为 .git/refs/remotes/origin 文件夹下有缓存文件，手动删除一下就可以。还有一个地方可能有缓存 .git/packed-ref 文件中。</p>
 <h3 id="header-1-1-9">git config</h3>

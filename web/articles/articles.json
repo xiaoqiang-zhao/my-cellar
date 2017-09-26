@@ -538,6 +538,18 @@
     "todoList": []
   },
   {
+    "enName": "interview",
+    "title": "我是怎么面试的",
+    "introduction": "这一篇是\"面试 & 薪酬\"的一节，内容太多单独拿出来，这样内容结构更清晰。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1506405921177,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "interview-salary",
     "title": "面试 & 薪酬",
     "introduction": "工作第四个年头，对于面试和薪酬有了一些心得，写下来帮自己整理思路，探讨虐与被虐的博弈。",
@@ -548,18 +560,6 @@
     "state": "立项",
     "type": "md",
     "createDate": 1477315331202,
-    "commentList": [],
-    "todoList": []
-  },
-  {
-    "enName": "javascript-linting",
-    "title": "JS校验",
-    "introduction": "未找到描述信息",
-    "tags": [],
-    "isPublished": false,
-    "state": "立项",
-    "type": "md",
-    "createDate": 1488791920688,
     "commentList": [],
     "todoList": []
   },

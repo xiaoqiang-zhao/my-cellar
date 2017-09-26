@@ -23,16 +23,17 @@
 <p>由于 vue-cli 官方提供的模板不能满足前后端分离的工作模式(工具链层面的)，需要定制自己的模板，这篇文章主要讲怎样定制一个模板，并介绍一下我定制的模板特性。</p>
 </blockquote>
 <h2 id="header-1-1">站在巨人的肩上</h2>
-<p>我们的总体思路是最大限度的利用官方已有模板，进行改造和增强。我在 github 上建了一个 organization: <a href="https://github.com/vuejs-custom-templates-aggregate" target="_blank">vuejs-custom-templates-aggregate</a> ---- vue 自定义模板集合。然后将 <a href="https://github.com/vuejs-templates/webpack" target="_blank">https://github.com/vuejs-templates/webpack</a> 项目 fork 进 vuejs-custom-templates-aggregate，我给他取了个名字叫 spa。之所以没叫 webpack-spa，是应为 browserify 用的人越来越少了，大家提到包加载器基本默认就是 webpack，另外我想从应用场景来区分模板，并大胆的幻想将来出现的其他模板是：</p>
+<p>我们的总体思路是最大限度的利用官方已有模板，进行改造和增强。我在 github 上建了一个 organization: <a href="https://github.com/vuejs-custom-templates-aggregate" target="_blank">vuejs-custom-templates-aggregate</a> ---- vue 自定义模板集合。然后将 <a href="https://github.com/vuejs-templates/webpack" target="_blank">https://github.com/vuejs-templates/webpack</a> 项目 fork 进 vuejs-custom-templates-aggregate，我给他取了个名字叫 spa-simple。之所以没叫 webpack-spa，是应为 browserify 用的人越来越少了，大家提到包加载器基本默认就是 webpack，另外我想从应用场景来区分模板，并大胆的幻想将来出现的其他模板是：</p>
 <ul>
-<li>spa 纯前端单页应用；</li>
-<li>full-stack-spa 全栈单页应用，后端提供业务模板和数据库；</li>
-<li>spa-ts 单页应用 typescript 版；</li>
-<li>full-stack-spa-ts 全栈单页应用 typescript 版；</li>
+<li>spa-simple 纯前端单页应用；</li>
+<li>spa-full-stack 全栈单页应用，后端提供业务模板和数据库；</li>
+<li>spa-simple-ts 单页应用 typescript 版；</li>
+<li>spa-full-stack-ts 全栈单页应用 typescript 版；</li>
 <li>mpa 纯前端多页应用。</li>
 </ul>
 <p>然后我们将 spa 用 git clone 到本地，进行下一步。</p>
 <h2 id="header-1-2">改造前的观察</h2>
+<h3 id="header-1-2-1">概述</h3>
 <p>先看看有什么功能，看着有用的保留，没用的去除：</p>
 <ul>
 <li>Project name 保持不变；</li>
@@ -41,12 +42,13 @@
 <li>Vue build 去掉，直接采用 Runtime-only 方案；</li>
 <li>Install vue-router 去掉，直接选中；</li>
 <li>ESLint 改为默认选中，需要增强，配置成自己公司的规范；</li>
-<li>Pick an ESLint preset</li>
+<li>Pick an ESLint preset 选一种编码格式，根据团队习惯默认选一种</li>
 <li>Setup unit tests with Karma + Mocha 保留；</li>
 <li>Setup e2e tests with Nightwatch 保留；</li>
 </ul>
-<h3 id="header-1-2-1">Compiler</h3>
-<p>讲一下 Runtime + Compiler 和 Runtime-only 的区别，首先我们讲知其然：</p>
+<p>其中有一些不太好理解，下面讲一下：</p>
+<h3 id="header-1-2-2">Vue build</h3>
+<p>讲一下 Runtime + Compiler 和 Runtime-only 的区别，首先我们从知其然的角度来说：</p>
 <ul>
 <li>Runtime + Compiler: 支持 template，如果用了 SSR，前后端要同构，那么不能用；</li>
 <li>Runtime-only: 体积小 6KB，不支持 template，模板只能写在 .vue 文件中。</li>
@@ -63,6 +65,7 @@
 }
 </code></pre><p>两种模式对下面写法都是支持的：</p>
 <pre><code>&lt;template src=&quot;./index.tpl&quot;&gt;&lt;/template&gt;
+&lt;!-- 或者直接在 template 中写模板--&gt;
 &lt;script&gt;
     export default {
     name: &#39;hello&#39;,
@@ -73,7 +76,7 @@
         }
     }
 &lt;/script&gt;
-</code></pre><p>然后我们再探一下因 -- 知其所以然，模板转化成 html 并绑定事件有一个必不可少了步骤，那就是将模板转换成函数，这一步称为编译，数据和 html 标签的融合并输出 Dom 结构就是在编译后的函数中进行的，如果在打包的过程中完成编译，并将编译产生的函数打入代码中，那么发布出来的代码就没有必要包含这部分功能了，这部分功能压缩后所占的体积就是上面提到的 6KB。</p>
+</code></pre><p>然后我们再探一下因 -- 知其所以然，模板转化成 html 并绑定事件有一个必不可少了步骤，那就是将模板转换成函数，这一步称为编译，数据和 html 标签的融合并输出 Dom 结构就是在编译后产生的函数中进行的，如果在打包的过程中完成编译，并将编译产生的函数打入代码中，那么发布出来的代码就没有必要包含这部分功能了，这部分功能压缩后所占的体积就是上面提到的 6KB。</p>
 <p>还有另外一个问题，这个开关是在哪里控制的？
 在 build/webpack.base.conf.js 中：</p>
 <pre><code>resolve: {
@@ -83,9 +86,9 @@
         &#39;@&#39;: resolve(&#39;src&#39;)
     }
 }
-</code></pre><p>默认是不提供 Compiler 功能的，如果我们需要，把 vue 的引用指向 vue 代码包中的另一个文件 -- vue.esm.js，这个文件包含了 Compiler 功能。可以看到添加时很简单的，所以我们这里去掉 Compiler 功能的支持，万一有需要可以手动加回来。</p>
-<h3 id="header-1-2-2">ESLint</h3>
-<p>本来不打算讲这一块的，但是发现有几处需要注意的地方，虽然比较简单，但如果不说很多人不知道。eslint 是用 node 写的，所以需要有 node 环境，并全局安装 eslint 和 其插件，IDE 才能玩的转：</p>
+</code></pre><p>默认是不提供 Compiler 功能的，如果我们需要，把 vue 的引用指向 vue 代码包中的另一个文件 -- vue.esm.js，这个文件包含了 Compiler 功能。可以看，到添加时很简单的，所以我们这里去掉 Compiler 功能的支持，万一有需要可以手动加回来。</p>
+<h3 id="header-1-2-3">ESLint</h3>
+<p>本来不打算讲这一块的，但是发现有几处需要注意的地方，花了点时间才搞明白。eslint 是用 node 写的，所以需要有 node 环境，并全局安装 eslint，IDE 才能玩的转：</p>
 <pre><code>sudo npm install -g eslint
 // 为了能检测 .vue 文件，还需要装 eslint 插件
 sudo npm install -g eslint-plugin-html
@@ -115,9 +118,51 @@ sudo npm install -g eslint-plugin-html
 <li>&quot;warn&quot; 或 1 - 开启规则，使用警告级别的错误：warn (不会导致程序退出)；</li>
 <li>&quot;error&quot; 或 2 - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)。</li>
 </ul>
+<p>另外可以看到，编码规范的选择让模板显得异常臃肿：</p>
+<pre><code>export default {
+  name: &#39;app&#39;{{#router}}{{#if_eq lintConfig &quot;airbnb&quot;}},{{/if_eq}}{{else}},
+  components: {
+    Hello{{#if_eq lintConfig &quot;airbnb&quot;}},{{/if_eq}}
+  }{{#if_eq lintConfig &quot;airbnb&quot;}},{{/if_eq}}{{/router}}
+}{{#if_eq lintConfig &quot;airbnb&quot;}};{{/if_eq}}
+</code></pre><p>为了一个逗号和行位的封号写了很多的判断，对于一个团队来说定制一种编码规范改一下模板的成本会更小。如果想要初始化一些公用功能进去，这样判断需要大面积存在，特别不利于模板的二次定制，所以我们先定义几个简单的编码规范，我再提供一份编码规范的常用配置清单，各团队按需定制就行。</p>
 <h2 id="header-1-3">开始改造现有功能</h2>
-<p>写 vue 模板并没有什么特别好的方法，因为模板改完之后需要编译后才能运行，所以我们先用现有模板生成一份比较全的，然后把相关依赖装好，提交到 github 上，然后改这个模板生成后的项目，改完之后把修改点同步回模板中，这是我能想到的最简单快捷的方式。</p>
-<h3 id="header-1-3-1">router</h3>
+<p>写 vue 模板并没有什么特别好的方法，因为模板改完之后需要编译后才能运行，所以我们先用现有模板生成一份比较全的，然后把相关依赖装好，提交到 github 上，然后改这个模板生成后的项目，改一部分验证一部分，验证没问题之后把修改点同步回模板中，这是我能想到的最简单快捷的方式。</p>
+<h3 id="header-1-3-1">Vue build</h3>
+<p>关于这个选项的描述上面已经讲过了，策略是去掉询问，直接用 <code>Runtime-only</code> 方案。首先删除配置：</p>
+<pre><code>// meta.js
+&quot;build&quot;: {
+  &quot;type&quot;: &quot;list&quot;,
+  &quot;message&quot;: &quot;Vue build&quot;,
+  &quot;choices&quot;: [
+    {
+      &quot;name&quot;: &quot;Runtime + Compiler: recommended for most users&quot;,
+      &quot;value&quot;: &quot;standalone&quot;,
+      &quot;short&quot;: &quot;standalone&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Runtime-only: about 6KB lighter min+gzip, but templates (or any Vue-specific HTML) are ONLY allowed in .vue files - render functions are required elsewhere&quot;,
+      &quot;value&quot;: &quot;runtime&quot;,
+      &quot;short&quot;: &quot;runtime&quot;
+    }
+  ]
+},
+</code></pre><p>然后修改 template/src/main.js</p>
+<pre><code>// 去掉这部分的判断和里面的内容
+{{#if_eq build &quot;standalone&quot;}}
+// 去掉 template 的定义和判断，直接用 render 函数，
+// 简单的说就是改成下面这样
+new Vue({
+    el: &#39;#app&#39;,
+    router,
+    render: h =&gt; h(App),
+    components: { App }
+});
+</code></pre><p>最后去掉 template/build/webpack.base.conf.js 中的下面这部分判断：</p>
+<pre><code>{{#if_eq build &quot;standalone&quot;}}
+&#39;vue$&#39;: &#39;vue/dist/vue.esm.js&#39;,
+{{/if_eq}}
+</code></pre><h3 id="header-1-3-2">router</h3>
 <p>这个是一个项目必须的功能，如果只想写个 Demo 那直接用官方的模板好了。我们首先需要改配置：</p>
 <p>首先删除下面的配置，使不再询问是否安装router：</p>
 <pre><code>// meta.js，
@@ -160,7 +205,6 @@ npm run dev
 <li>1、不要测试会快很多；</li>
 <li>2、我们打算干掉编码规范，所以选择 node</li>
 </ul>
-<h3 id="header-1-3-2">Vue build</h3>
 <h2 id="header-1-4">添加 Mock 功能</h2>
 <h3 id="header-1-4-1">原有功能分析</h3>
 <p>先看看原来的和 server 有关的功能，首先从 package.json 中了解到启动开发环境是从 dev-server.js 文件开始的。首先通过 express 启动 Web 服务：</p>
@@ -264,9 +308,68 @@ data () {
     }
 }
 </code></pre><p>到此为止 mock 数据功能就基本添加完了，把添加的代码同步到模板中就不展开了。</p>
-<h2 id="header-1-5">参考</h2>
+<h2 id="header-1-5">改造代码格式验证</h2>
+<p>我们打算去掉 ESlint 的询问，并且配置自己的验证规则，最后给出 IDE 的支持。</p>
+<h3 id="header-1-5-1">去除 ESlint 询问配置</h3>
+<p>去除下面三项配置，这样在安装的时候就不会询问了：</p>
+<pre><code>// meta.js
+&quot;lint&quot;: {
+  &quot;type&quot;: &quot;confirm&quot;,
+  &quot;message&quot;: &quot;Use ESLint to lint your code?&quot;
+},
+&quot;lintConfig&quot;: {
+   // 此处省略若干行... 
+}
+// 去除 eslint 相关的过滤
+filters
+&quot;.eslintrc.js&quot;: &quot;lint&quot;,
+&quot;.eslintignore&quot;: &quot;lint&quot;,
+</code></pre><p>然后修改依赖包的判断逻辑：</p>
+<pre><code>// template/package.json
+// 去掉 {{#lint}} 成对的判断，我们恒定需要
+{{#lint}}
+// 去掉下面两项的判断和其中的内容
+{{#if_eq lintConfig &quot;standard&quot;}}
+{{#if_eq lintConfig &quot;airbnb&quot;}}
+</code></pre><p>eslint 的配置文件也需要更改：</p>
+<pre><code>// template/.eslintrc.js
+// 去掉 {{#if_eq lintConfig &quot;standard&quot;}} 之间的内容，上下共 3 处
+// 去掉 {{#if_eq lintConfig &quot;airbnb&quot;}} 之间的内容，上下共 3 处
+</code></pre><p>webpack 中的配置改一下：</p>
+<pre><code>// template/build/webpack.base.conf.js
+// 去掉 {{#lint}} 成对的判断，我们恒定需要
+</code></pre><p>最后把项目代码改一下，<code>template/src</code> 下的全部文件过一下，地方太多但是改起来很容易，我就不一个个的粘上来了。</p>
+<h3 id="header-1-5-2">改 ESLint</h3>
+<p>在 rules 中添加两条演示规则，最通用的两条：缩进两个空格，语句不能省略封号。</p>
+<pre><code>// template/.eslintrc.js
+&#39;indent&#39;: [level, 2],
+&#39;semi&#39;: [2, &#39;always&#39;],
+</code></pre><p>更多配置在这里：<a href="https://eslint.org/docs/rules/" target="_blank">https://eslint.org/docs/rules/</a></p>
+<h3 id="header-1-5-3">vscode 插件</h3>
+<p>如果你和我一样用的是 vscode，先全局装一下 eslint 包和插件：</p>
+<pre><code>sudo npm install -g eslint
+// 为了能检测 .vue 文件，还需要装 eslint 插件
+sudo npm install -g eslint-plugin-html
+</code></pre><p>然后在工作区设计里加上配置：</p>
+<pre><code>&quot;eslint.options&quot;: {
+    &quot;configFile&quot;: &quot;./.eslintrc.js&quot;,
+    &quot;plugins&quot;: [&quot;html&quot;]
+},
+&quot;eslint.validate&quot;: [
+    &quot;javascript&quot;,
+    &quot;html&quot;,
+    &quot;vue&quot;
+]
+</code></pre><p>最后把生成的文件 <code>settings.js</code> 连同文件夹 <code>.vscode</code> 拷贝进 <code>template</code>。</p>
+<p>其他的支持请自行 google。</p>
+<h3 id="header-1-5-4">小遗憾</h3>
+<p>本来样式也应该这样搞一下的，但是没找到比较好的工具和插件。最好用的也要算是 EFE 的 <a href="https://github.com/ecomfe/node-csshint" target="_blank">csshint</a>了，但是定制能力不足，缺 IDE 插件支持。less、sass、stylus 可能需要不同的规则支持，不知道有没有比较好的规范和工具，这一块的配置可以加上。</p>
+<p>另外还有一种走全家桶路线思路，集成化格式验证工具中比较好用的是 FECS：<a href="https://github.com/ecomfe/fecs/wiki/CSSHint" target="_blank">https://github.com/ecomfe/fecs/wiki/CSSHint</a></p>
+<h2 id="header-1-6">参考</h2>
 <p><a href="http://gcdn.gcpowertools.com.cn/showtopic-36912-1-3.html?utm_source=segmentfault&amp;utm_medium=referral&amp;utm_campaign=20170417&amp;utm_content=36912" target="_blank">http://gcdn.gcpowertools.com.cn/showtopic-36912-1-3.html?utm_source=segmentfault&amp;utm_medium=referral&amp;utm_campaign=20170417&amp;utm_content=36912</a></p>
-<p><a href="http://eslint.cn/docs/rules/" target="_blank">http://eslint.cn/docs/rules/</a></p>
+<h2 id="header-1-7">持续关注</h2>
+<p>改变了 postcss 的使用方法，已集成到现有版本，改变详情参阅：
+<a href="https://github.com/vuejs-templates/webpack/commit/3caa013b559f90fcce781d17b7a9cd9e2d3796a8#diff-ebf2741126a75bcd0ccbf8df09b0f0fd" target="_blank">https://github.com/vuejs-templates/webpack/commit/3caa013b559f90fcce781d17b7a9cd9e2d3796a8#diff-ebf2741126a75bcd0ccbf8df09b0f0fd</a></p>
 
 </div>
 </body>
