@@ -6,13 +6,19 @@
 
 NPM 是一个包管理平台，它对包做了一些规范，一些重要文件的描述如下：
 
-`package.json` 包的配置文件(一些重要的说明也在里面)；
+`package.json` 包的配置文件(一些重要的说明也在里面，依赖，版本，描述)；
 
 `README.md` 包的说明书；
 
 `LICENSE` 这个文件存放[许可协议](/index.html#!/articles/license)；
 
-`bin` 这个文件夹中存放功能代码；
+`bin` 如果是 node 包，是命令执行的入口文件，对应 package.json 的 bin 配置；
+
+`lib`  功能代码，提供 bin 所需的一切；
+
+`src` 如果是浏览器端的包，源码会放在这里；
+
+`dist` 存放浏览器端包的压缩代码，方便直接被下载使用，在模块化和自动构建盛行的今天可省略；
 
 `test` 自动化测试文件。
 
@@ -187,6 +193,7 @@ ES6 与 CommonJs 的引用略有不同，具体参考我的另一篇学习笔记
 ### 浏览器端、客户端
 
 - js-cookie 浏览器端操作 cookie
+- clipboard 复制，支持 IE9+
 
 ### 服务端、CLI
 
@@ -213,4 +220,3 @@ ES6 与 CommonJs 的引用略有不同，具体参考我的另一篇学习笔记
 [开发组件库时 Vue 应该放哪儿：devDependencies or peerDependencies？](https://cnodejs.org/topic/5819624a1a9a7d9909531395)
 	
 [记npm包开发全过程](http://www.w2bc.com/Article/86039)	
-

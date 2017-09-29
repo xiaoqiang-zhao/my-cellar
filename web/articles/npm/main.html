@@ -24,10 +24,13 @@
 </blockquote>
 <h2 id="header-1-1">一个包的基本组成</h2>
 <p>NPM 是一个包管理平台，它对包做了一些规范，一些重要文件的描述如下：</p>
-<p><code>package.json</code> 包的配置文件(一些重要的说明也在里面)；</p>
+<p><code>package.json</code> 包的配置文件(一些重要的说明也在里面，依赖，版本，描述)；</p>
 <p><code>README.md</code> 包的说明书；</p>
 <p><code>LICENSE</code> 这个文件存放<a href="/index.html#!/articles/license" target="_blank">许可协议</a>；</p>
-<p><code>bin</code> 这个文件夹中存放功能代码；</p>
+<p><code>bin</code> 如果是 node 包，是命令执行的入口文件，对应 package.json 的 bin 配置；</p>
+<p><code>lib</code>  功能代码，提供 bin 所需的一切；</p>
+<p><code>src</code> 如果是浏览器端的包，源码会放在这里；</p>
+<p><code>dist</code> 存放浏览器端包的压缩代码，方便直接被下载使用，在模块化和自动构建盛行的今天可省略；</p>
 <p><code>test</code> 自动化测试文件。</p>
 <h2 id="header-1-2">安装一个依赖包</h2>
 <p>自动把模块和版本号添加到dependencies部分。</p>
@@ -136,6 +139,7 @@ npm whoami
 <h3 id="header-1-9-1">浏览器端、客户端</h3>
 <ul>
 <li>js-cookie 浏览器端操作 cookie</li>
+<li>clipboard 复制，支持 IE9+</li>
 </ul>
 <h3 id="header-1-9-2">服务端、CLI</h3>
 <ul>

@@ -142,3 +142,9 @@ pm2扩展资料: [http://www.douban.com/note/314200231/](http://www.douban.com/n
 http://www.jianshu.com/p/fdc12d82b661
 
 forver扩展资料: [http://blog.fens.me/nodejs-server-forever/](http://blog.fens.me/nodejs-server-forever/)
+
+### pm2 
+
+$ pm2 list       # 显示所有进程状态
+
+$ pm2 stop 0       # 停止指定的进程
