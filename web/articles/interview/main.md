@@ -136,9 +136,41 @@ Array 有哪些方法？说说 some 和 every 的异同点。两个考察点，�
 
 父子组件传参需要注意的点，prop 里面的参数是否能直接用在子组件的 v-model 上？
 
-// todo,补充代码
+    // 父组件
+    <template>
+    <div>
+        <c :a="msg"></c>
+    </div>
+    </template>
+    <script>
+    import c from './c';
+    export default {
+        components: {c},
+        data() {
+            return {
+                msg: 'Welcome to Your Vue.js App'
+            };
+        }
+    };
+    </script>
+    // 子组件
+    <template>
+    <div>
+        <input type="text" v-model="a">
+    </div>
+    </template>
+    <script>
+    export default {
+        props: ['a'],
+        data() {
+            return {};
+        }
+    };
+    </script>
 
-子父组件的传参有哪几种写法，各适合什么场景？
+父组件可以直接向子组件传参，但是子组件不能直接改变传进来的值，这是使用 vue 必趟的坑，属于基础题。
+
+组件数据双向绑定有哪几种写法，各适合什么场景？
 
 // todo,补充代码
 
