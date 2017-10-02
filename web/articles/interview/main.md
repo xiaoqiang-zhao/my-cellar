@@ -172,11 +172,108 @@ Array 有哪些方法？说说 some 和 every 的异同点。两个考察点，�
 
 组件数据双向绑定有哪几种写法，各适合什么场景？
 
-// todo,补充代码
+    // 父组件
+    <template>
+    <div>
+        <c v-model="m"></c>
+    </div>
+    </template>
+    <script>
+    import c from './c';
+    export default {
+        components: {c},
+        data() {
+            return {
+                m: true
+            };
+        }
+    };
+    </script>
+    // 子组件
+    <template>
+    <div>
+        {{checked}}
+        <input type="button" value="改变值" @click="changeValue">
+    </div>
+    </template>
 
-slot 的作用域切换。
+    <script>
+    export default {
+        model: {
+            prop: 'checked',
+            event: 'change'
+        },
+        props: {
+            checked: Boolean
+        },
+        data() {
+            return {};
+        },
+        methods: {
+            changeValue() {
+                this.$emit('change', !this.checked);
+            }
+        }
+    };
+    </script>
 
-// todo,补充代码
+自定义 v-model 可以用来做双向绑定，对父组件来说比较简单，直接省略自定义事件的监听。需要注意的是 model 中定义的 prop 必须在 props 中定义，event 定义的事件名，被用做 $emit 函数的第一个参数。
+
+    // 父组件
+    <template>
+    <div>
+        {{m}}
+        <c :a.sync="m"></c>
+    </div>
+    </template>
+    <script>
+    import c from './c';
+    export default {
+        components: {c},
+        data() {
+            return {
+                m: true
+            };
+        }
+    };
+    </script>
+    // 子组件
+    <template>
+    <div>
+        {{checked}}
+        <input type="button" value="改变值" @click="changeValue">
+    </div>
+    </template>
+
+    <script>
+    export default {
+        props: {
+            a: Boolean
+        },
+        data() {
+            return {
+                checked: true
+            };
+        },
+        methods: {
+            changeValue() {
+                this.checked = !this.checked;
+                this.$emit('update:a', this.checked);
+            }
+        }
+    };
+    </script>
+
+sync 是 2.3 又加回来的属性，也是一种通过事件更新父组件属性的写法，与 v-model  在技术上不同的是它可以加多个。model 中的 event 硬编码不知道有什么特别的用处。
+
+slot 的作用域是什么？直接拿官方的代码上来：
+
+    <my-awesome-list :items="items">
+    <!-- 作用域插槽也可以是具名的 -->
+    <template slot="item" scope="props">
+        <li class="my-fancy-item">{{ props.text }}</li>
+    </template>
+    </my-awesome-list>
 
 知不知道 runtime only 的概念，框架上说说 runtime + compute 和 runtime only 的区别。
 
