@@ -80,7 +80,7 @@
     .b .c {}
     .a .c {}
 
-盒模型，width margin padding border box-size 这些属性的关系和效果要说清楚。弹性盒模型的概念要说的清除，flex 有哪几个属性值要了解(这里放弃老生常谈的 position 属性考察)，要明确兼容性，移动端可用(手淘已经在用了)，PC 端 IE11 才能用，但是有 postcss 的支持可以自动兼容到 IE9。
+盒模型，width margin padding border box-size 这些属性的关系和效果要说清楚。弹性盒模型的概念要说的清除，flex 有哪几个属性值要了解(这里放弃老生常谈的 position 属性考察)，要明确兼容性，移动端可用(手淘已经在用了)，PC 端 IE11 才能用。
 
 然后是动画，transition 和 animation 至少要说上来一个
 
