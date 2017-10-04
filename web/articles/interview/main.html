@@ -41,6 +41,9 @@
 <p>3、大厂工作过 1 年以上，美团、小米、乐视、网易、新浪、京东、滴滴等，我也不来那么多虚的，对一个我没听过的公司我真的无从判断；</p>
 <p>4、有不错的开源作品或者同事推荐的前同事上面 3 条可忽略，同样适用于外包岗。</p>
 <p>符合上面条件的人就不多了，经常好几天出不了一份简历，有时老板催得紧也会放宽一点要求。</p>
+<p>从另一个角度总结一下，通过的简历主要是两种特质，符合其中一种就可以：</p>
+<p>1、履历出色，这些人名校毕业或有大厂经验，能考上名校说明这个人智商较高或能下得了笨功夫，有大厂背书其他人已经帮我们考察过了；</p>
+<p>2、不是所有人都能读名校，大厂工作总要有第一份，如果你想从我这里开始，那就要拿出点东西来，比如你基础扎实，深入的了解过某个技术，总的来说就是我(应聘者)具备了这些能力，你(面试官)看看能不能干得了你的活儿。</p>
 <h2 id="header-1-3">面试都问点什么</h2>
 <h3 id="header-1-3-1">HTML</h3>
 <p>我会先从最简单的 HTML 问起，首先是让他概述，一般都能想得到超文本、语义化这些点，能提到文档类型、meta标签、再提几个H5的标签，什么 canvas、section、article、nav、aside 什么的都是加分项。文档类型的那些怪异模式我也背不过来，也不会事先准备好难为别人，meta 标签标记编码，移动端的宽度自适应都是一样，只要知道有这么个事就能加分，具体怎么写可以搜一下，但是如果连从哪个方向搜都不知道那这一块就不好意思了，不能加分。然后还问一个侧导航你会用 nav 还是 aside，在我心中用 nav 是比较正确的，因为“把导航重构成头部导航”的可能性要比“把导航去掉侧栏换成其他什么功能”的可能性要大，当然其他理由要是能自圆其说也行。还会问一个 section、article、div 怎么区分使用，每天写页面的人如果对细节有追求他应该思考过这个问题，面对新的东西能有所好奇，而不是 div 一撸到底完成工作酬和交差，我想能保持在细节上不断完善自己的人技术的路能走的更长远一点，也能和他做更长时间的同事。但是以上问题只是加分项，不会成为卡人的条件，因为还有另一种人，他们不太注重这些细节，但是大局观很好，能把有限的时间用在更复杂的技术上。</p>
@@ -64,7 +67,7 @@
 &lt;/div&gt;
 .b .c {}
 .a .c {}
-</code></pre><p>盒模型，width margin padding border box-size 这些属性的关系和效果要说清楚。弹性盒模型的概念要说的清除，flex 有哪几个属性值要了解(这里放弃老生常谈的 position 属性考察)，要明确兼容性，移动端可用(手淘已经在用了)，PC 端 IE11 才能用，但是有 postcss 的支持可以自动兼容到 IE9。</p>
+</code></pre><p>盒模型，width margin padding border box-size 这些属性的关系和效果要说清楚。弹性盒模型的概念要说的清除，flex 有哪几个属性值要了解(这里放弃老生常谈的 position 属性考察)，要明确兼容性，移动端可用(手淘已经在用了)，PC 端 IE11 才能用。</p>
 <p>然后是动画，transition 和 animation 至少要说上来一个</p>
 <p>布局，可以口述出常见的布局和实现方案，什么是栅格布局加分。
 <a href="http://www.cnblogs.com/dojo-lzz/p/4621627.html" target="_blank">http://www.cnblogs.com/dojo-lzz/p/4621627.html</a></p>
@@ -96,12 +99,137 @@
 </code></pre><p>主要考察有没有递归的思想，各种异常的判断可以加分，负数，小数(Number.isInteger)。</p>
 <p>框架主要问 vue，我们这边主要用的也是这个。</p>
 <p>父子组件传参需要注意的点，prop 里面的参数是否能直接用在子组件的 v-model 上？</p>
-<p>// todo,补充代码</p>
-<p>子父组件的传参有哪几种写法，各适合什么场景？</p>
-<p>// todo,补充代码</p>
-<p>slot 的作用域切换。</p>
-<p>// todo,补充代码</p>
-<p>知不知道 runtime only 的概念，框架上说说 runtime + compute 和 runtime only 的区别。</p>
+<pre><code>// 父组件
+&lt;template&gt;
+&lt;div&gt;
+    &lt;c :a=&quot;msg&quot;&gt;&lt;/c&gt;
+&lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;
+import c from &#39;./c&#39;;
+export default {
+    components: {c},
+    data() {
+        return {
+            msg: &#39;Welcome to Your Vue.js App&#39;
+        };
+    }
+};
+&lt;/script&gt;
+// 子组件
+&lt;template&gt;
+&lt;div&gt;
+    &lt;input type=&quot;text&quot; v-model=&quot;a&quot;&gt;
+&lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;
+export default {
+    props: [&#39;a&#39;],
+    data() {
+        return {};
+    }
+};
+&lt;/script&gt;
+</code></pre><p>父组件可以直接向子组件传参，但是子组件不能直接改变传进来的值，这是使用 vue 必趟的坑，属于基础题。</p>
+<p>组件数据双向绑定有哪几种写法，各适合什么场景？</p>
+<pre><code>// 父组件
+&lt;template&gt;
+&lt;div&gt;
+    &lt;c v-model=&quot;m&quot;&gt;&lt;/c&gt;
+&lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;
+import c from &#39;./c&#39;;
+export default {
+    components: {c},
+    data() {
+        return {
+            m: true
+        };
+    }
+};
+&lt;/script&gt;
+// 子组件
+&lt;template&gt;
+&lt;div&gt;
+    {{checked}}
+    &lt;input type=&quot;button&quot; value=&quot;改变值&quot; @click=&quot;changeValue&quot;&gt;
+&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+    model: {
+        prop: &#39;checked&#39;,
+        event: &#39;change&#39;
+    },
+    props: {
+        checked: Boolean
+    },
+    data() {
+        return {};
+    },
+    methods: {
+        changeValue() {
+            this.$emit(&#39;change&#39;, !this.checked);
+        }
+    }
+};
+&lt;/script&gt;
+</code></pre><p>自定义 v-model 可以用来做双向绑定，对父组件来说比较简单，直接省略自定义事件的监听。需要注意的是 model 中定义的 prop 必须在 props 中定义，event 定义的事件名，被用做 $emit 函数的第一个参数。</p>
+<pre><code>// 父组件
+&lt;template&gt;
+&lt;div&gt;
+    {{m}}
+    &lt;c :a.sync=&quot;m&quot;&gt;&lt;/c&gt;
+&lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;
+import c from &#39;./c&#39;;
+export default {
+    components: {c},
+    data() {
+        return {
+            m: true
+        };
+    }
+};
+&lt;/script&gt;
+// 子组件
+&lt;template&gt;
+&lt;div&gt;
+    {{checked}}
+    &lt;input type=&quot;button&quot; value=&quot;改变值&quot; @click=&quot;changeValue&quot;&gt;
+&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+    props: {
+        a: Boolean
+    },
+    data() {
+        return {
+            checked: true
+        };
+    },
+    methods: {
+        changeValue() {
+            this.checked = !this.checked;
+            this.$emit(&#39;update:a&#39;, this.checked);
+        }
+    }
+};
+&lt;/script&gt;
+</code></pre><p>sync 是 2.3 又加回来的属性，也是一种通过事件更新父组件属性的写法，与 v-model  在技术上不同的是它可以加多个。model 中的 event 硬编码不知道有什么特别的用处。</p>
+<p>slot 的作用域是什么？直接拿官方的代码上来：</p>
+<pre><code>&lt;my-awesome-list :items=&quot;items&quot;&gt;
+&lt;!-- 作用域插槽也可以是具名的 --&gt;
+&lt;template slot=&quot;item&quot; scope=&quot;props&quot;&gt;
+    &lt;li class=&quot;my-fancy-item&quot;&gt;{{ props.text }}&lt;/li&gt;
+&lt;/template&gt;
+&lt;/my-awesome-list&gt;
+</code></pre><p>知不知道 runtime only 的概念，框架上说说 runtime + compute 和 runtime only 的区别。</p>
 <h3 id="header-1-3-4">其他</h3>
 <p>如果简历里有写搭建脚手架，可以问问工程上的问题，webpack 和 gulp 的异同。</p>
 <p>如果有写是团队 leader 的，问问管理中出现过什么问题，怎么解决的。</p>
