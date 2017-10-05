@@ -4,7 +4,7 @@
 
 ## 站在巨人的肩上
 
-我们的总体思路是最大限度的利用官方已有模板，进行改造和增强。我在 github 上建了一个 organization: [vuejs-custom-templates-aggregate](https://github.com/vuejs-custom-templates-aggregate) ---- vue 自定义模板集合。然后将 https://github.com/vuejs-templates/webpack 项目 fork 进 vuejs-custom-templates-aggregate，我给他取了个名字叫 spa-simple。之所以没叫 webpack-spa，是应为 browserify 用的人越来越少了，大家提到包加载器基本默认就是 webpack，另外我想从应用场景来区分模板，并大胆的幻想将来出现的其他模板是：
+我们的总体思路是最大限度的利用官方已有模板，进行改造和增强。我在 github 上建了一个 organization: [vuejs-custom-templates-aggregate](https://github.com/vuejs-custom-templates-aggregate) ---- vue 自定义模板集合。然后将 https://github.com/vuejs-templates/webpack 项目 fork 进 vuejs-custom-templates-aggregate(vue 自定义模板集合)，我给他取了个名字叫 spa-simple。之所以没叫 webpack-spa，是应为 browserify 用的人越来越少了，大家提到包加载器基本默认就是 webpack，另外我想从应用场景来区分模板，并大胆的幻想将来出现的其他模板是：
 
 - spa-simple 纯前端单页应用；
 - spa-full-stack 全栈单页应用，后端提供业务模板和数据库；
@@ -12,7 +12,7 @@
 - spa-full-stack-ts 全栈单页应用 typescript 版；
 - mpa 纯前端多页应用。
 
-然后我们将 spa 用 git clone 到本地，进行下一步。
+然后我们将 spa-simple 用 git clone 到本地，进行下一步。
 
 ## 改造前的观察
 
@@ -66,7 +66,7 @@
         }
     </script>
 
-然后我们再探一下因 -- 知其所以然，模板转化成 html 并绑定事件有一个必不可少了步骤，那就是将模板转换成函数，这一步称为编译，数据和 html 标签的融合并输出 Dom 结构就是在编译后产生的函数中进行的，如果在打包的过程中完成编译，并将编译产生的函数打入代码中，那么发布出来的代码就没有必要包含这部分功能了，这部分功能压缩后所占的体积就是上面提到的 6KB。
+然后我们再探一下因 -- 知其所以然，模板转化成 html 并绑定事件有一个必不可少的步骤，那就是将模板转换成函数，这一步称为编译，数据和 html 标签的融合并输出 Dom 结构就是在编译后产生的函数中进行的，如果在打包的过程中完成编译，并将编译产生的函数打入代码中，那么发布出来的代码就没有必要包含这部分功能了，这部分功能压缩后所占的体积就是上面提到的 6KB。
 
 还有另外一个问题，这个开关是在哪里控制的？
 在 build/webpack.base.conf.js 中：
@@ -79,7 +79,7 @@
         }
     }
 
-默认是不提供 Compiler 功能的，如果我们需要，把 vue 的引用指向 vue 代码包中的另一个文件 -- vue.esm.js，这个文件包含了 Compiler 功能。可以看，到添加时很简单的，所以我们这里去掉 Compiler 功能的支持，万一有需要可以手动加回来。
+默认是不提供 Compiler 功能的，如果我们需要，把 vue 的引用指向 vue 代码包中的另一个文件 -- vue.esm.js，这个文件包含了 Compiler 功能。可以看到添加时很简单的，所以我们这里去掉 Compiler 功能的支持，万一有需要可以手动加回来。
 
 ### ESLint
 
@@ -130,7 +130,7 @@ vs code 需要加配置：
       }{{#if_eq lintConfig "airbnb"}},{{/if_eq}}{{/router}}
     }{{#if_eq lintConfig "airbnb"}};{{/if_eq}}
 
-为了一个逗号和行位的封号写了很多的判断，对于一个团队来说定制一种编码规范改一下模板的成本会更小。如果想要初始化一些公用功能进去，这样判断需要大面积存在，特别不利于模板的二次定制，所以我们先定义几个简单的编码规范，我再提供一份编码规范的常用配置清单，各团队按需定制就行。
+为了一个逗号和行尾的封号写了很多的判断，对于一个团队来说定制一种编码规范改一下模板的成本会更小。如果想要初始化一些公用功能进去，这样判断需要大面积存在，特别不利于模板的二次定制，所以我们先定义几个简单的编码规范，我再提供一份编码规范的常用配置清单，各团队按需定制就行。
 
 ## 开始改造现有功能
 
@@ -189,7 +189,7 @@ vs code 需要加配置：
       "message": "Install vue-router?"
     },
 
-然后去掉多虑设置，使其恒定不过滤：
+然后去掉过滤的设置，使其恒定不过滤：
 
     "filters": {
       ".eslintrc.js": "lint",
@@ -219,16 +219,16 @@ vs code 需要加配置：
 最后把 template/package.json 里面对 `vue-router` 包的判断去掉，这个功能就改造完成了，我们试着跑一下:
 
     //            本地模板路径        测试项目名
-    vue init ~/code-github/spa spa-router
-    cd spa-router
+    vue init ~/code-github/spa-simple spa-simple-router
+    cd spa-simple-router
     yarn
     npm run dev
 
 耶，完美✌️.
 
 注：
-- 1、不要测试会快很多；
-- 2、我们打算干掉编码规范，所以选择 node
+- 1、不安装测试会快很多；
+- 2、我们打算干掉编码规范，所以选择 none
 
 ## 添加 Mock 功能
 
@@ -240,7 +240,7 @@ vs code 需要加配置：
     // ...
     var server = app.listen(port)
 
-然后通过中间件 webpack-hot-middleware 路由静态文件：
+然后通过中间件 webpack-dev-middleware 路由静态文件：
 
     var devMiddleware = require('webpack-dev-middleware')(compiler, {
         publicPath: webpackConfig.output.publicPath,
@@ -303,7 +303,7 @@ vs code 需要加配置：
     // 将axios挂载到prototype上，在组件中可以直接使用this.$http访问
     Vue.prototype.$http = axios;
 
-然后加 Mock 功能，之前只有代理模式，现在我们要加一种提供数据的模式 Mock，考虑到后面我们还要加 全栈模式，这里把配置顺便升一下级：
+然后加 Mock 功能，之前只有代理模式，现在我们要加一种提供数据的模式 Mock，考虑到后面我们还要加全栈模式，这里把配置顺便升一下级：
 
     // config/index.js
     dataType: 'mock',  // proxy:代理; mock:模拟; full-stack:全栈(默认此项)
@@ -327,7 +327,7 @@ vs code 需要加配置：
     Object.keys(config.dev.proxyTable).forEach(function (context) {
         var options = proxyTable[context]
         if (typeof options === 'string') {
-        options = { target: options }
+            options = { target: options }
         }
         app.use(proxyMiddleware(options.filter || context, options))
       })
@@ -361,6 +361,16 @@ vs code 需要加配置：
     }
 
 到此为止 mock 数据功能就基本添加完了，把添加的代码同步到模板中就不展开了。
+
+开发完成后就可以联调了，将 dataType 的配置改为 proxy，然后启动项目，所有的 Ajax 请求将会被代理到 target 配置的服务器上。
+
+    // config/index.js
+    dataType: 'proxy',
+    proxyTable: {
+      '/': {
+        target: 'http://172.0.0.1:8800/'
+      }
+    },
 
 ## 改造代码格式验证
 
@@ -444,6 +454,19 @@ webpack 中的配置改一下：
 本来样式也应该这样搞一下的，但是没找到比较好的工具和插件。最好用的也要算是 EFE 的 [csshint](https://github.com/ecomfe/node-csshint)了，但是定制能力不足，缺 IDE 插件支持。less、sass、stylus 可能需要不同的规则支持，不知道有没有比较好的规范和工具，这一块的配置可以加上。
 
 另外还有一种走全家桶路线思路，集成化格式验证工具中比较好用的是 FECS：https://github.com/ecomfe/fecs/wiki/CSSHint
+
+## webpack
+
+webpack 是一个比较重要的技能，这里简单讲一下，
+
+## 问题
+
+不支持 less？没包
+
+"less": "^2.7.1",
+"less-loader": "^2.2.3",
+
+不支持未压缩的打包
 
 ## 参考
 
