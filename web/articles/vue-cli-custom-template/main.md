@@ -466,14 +466,10 @@ webpack 是一个比较重要的技能，这里简单讲一下，
 "less": "^2.7.1",
 "less-loader": "^2.2.3",
 
+less 的 alias 设置研究。
+
 不支持未压缩的打包
 
 ## 参考
 
 http://gcdn.gcpowertools.com.cn/showtopic-36912-1-3.html?utm_source=segmentfault&utm_medium=referral&utm_campaign=20170417&utm_content=36912
-
-## 持续关注
-
-改变了 postcss 的使用方法，已集成到现有版本，改变详情参阅：
-https://github.com/vuejs-templates/webpack/commit/3caa013b559f90fcce781d17b7a9cd9e2d3796a8#diff-ebf2741126a75bcd0ccbf8df09b0f0fd
-
