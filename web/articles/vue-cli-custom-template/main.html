@@ -23,7 +23,7 @@
 <p>由于 vue-cli 官方提供的模板不能满足前后端分离的工作模式(工具链层面的)，需要定制自己的模板，这篇文章主要讲怎样定制一个模板，并介绍一下我定制的模板特性。</p>
 </blockquote>
 <h2 id="header-1-1">站在巨人的肩上</h2>
-<p>我们的总体思路是最大限度的利用官方已有模板，进行改造和增强。我在 github 上建了一个 organization: <a href="https://github.com/vuejs-custom-templates-aggregate" target="_blank">vuejs-custom-templates-aggregate</a> ---- vue 自定义模板集合。然后将 <a href="https://github.com/vuejs-templates/webpack" target="_blank">https://github.com/vuejs-templates/webpack</a> 项目 fork 进 vuejs-custom-templates-aggregate，我给他取了个名字叫 spa-simple。之所以没叫 webpack-spa，是应为 browserify 用的人越来越少了，大家提到包加载器基本默认就是 webpack，另外我想从应用场景来区分模板，并大胆的幻想将来出现的其他模板是：</p>
+<p>我们的总体思路是最大限度的利用官方已有模板，进行改造和增强。我在 github 上建了一个 organization: <a href="https://github.com/vuejs-custom-templates-aggregate" target="_blank">vuejs-custom-templates-aggregate</a> ---- vue 自定义模板集合。然后将 <a href="https://github.com/vuejs-templates/webpack" target="_blank">https://github.com/vuejs-templates/webpack</a> 项目 fork 进 vuejs-custom-templates-aggregate(vue 自定义模板集合)，我给他取了个名字叫 spa-simple。之所以没叫 webpack-spa，是应为 browserify 用的人越来越少了，大家提到包加载器基本默认就是 webpack，另外我想从应用场景来区分模板，并大胆的幻想将来出现的其他模板是：</p>
 <ul>
 <li>spa-simple 纯前端单页应用；</li>
 <li>spa-full-stack 全栈单页应用，后端提供业务模板和数据库；</li>
@@ -31,7 +31,7 @@
 <li>spa-full-stack-ts 全栈单页应用 typescript 版；</li>
 <li>mpa 纯前端多页应用。</li>
 </ul>
-<p>然后我们将 spa 用 git clone 到本地，进行下一步。</p>
+<p>然后我们将 spa-simple 用 git clone 到本地，进行下一步。</p>
 <h2 id="header-1-2">改造前的观察</h2>
 <h3 id="header-1-2-1">概述</h3>
 <p>先看看有什么功能，看着有用的保留，没用的去除：</p>
@@ -76,7 +76,7 @@
         }
     }
 &lt;/script&gt;
-</code></pre><p>然后我们再探一下因 -- 知其所以然，模板转化成 html 并绑定事件有一个必不可少了步骤，那就是将模板转换成函数，这一步称为编译，数据和 html 标签的融合并输出 Dom 结构就是在编译后产生的函数中进行的，如果在打包的过程中完成编译，并将编译产生的函数打入代码中，那么发布出来的代码就没有必要包含这部分功能了，这部分功能压缩后所占的体积就是上面提到的 6KB。</p>
+</code></pre><p>然后我们再探一下因 -- 知其所以然，模板转化成 html 并绑定事件有一个必不可少的步骤，那就是将模板转换成函数，这一步称为编译，数据和 html 标签的融合并输出 Dom 结构就是在编译后产生的函数中进行的，如果在打包的过程中完成编译，并将编译产生的函数打入代码中，那么发布出来的代码就没有必要包含这部分功能了，这部分功能压缩后所占的体积就是上面提到的 6KB。</p>
 <p>还有另外一个问题，这个开关是在哪里控制的？
 在 build/webpack.base.conf.js 中：</p>
 <pre><code>resolve: {
@@ -86,7 +86,7 @@
         &#39;@&#39;: resolve(&#39;src&#39;)
     }
 }
-</code></pre><p>默认是不提供 Compiler 功能的，如果我们需要，把 vue 的引用指向 vue 代码包中的另一个文件 -- vue.esm.js，这个文件包含了 Compiler 功能。可以看，到添加时很简单的，所以我们这里去掉 Compiler 功能的支持，万一有需要可以手动加回来。</p>
+</code></pre><p>默认是不提供 Compiler 功能的，如果我们需要，把 vue 的引用指向 vue 代码包中的另一个文件 -- vue.esm.js，这个文件包含了 Compiler 功能。可以看到添加时很简单的，所以我们这里去掉 Compiler 功能的支持，万一有需要可以手动加回来。</p>
 <h3 id="header-1-2-3">ESLint</h3>
 <p>本来不打算讲这一块的，但是发现有几处需要注意的地方，花了点时间才搞明白。eslint 是用 node 写的，所以需要有 node 环境，并全局安装 eslint，IDE 才能玩的转：</p>
 <pre><code>sudo npm install -g eslint
@@ -125,7 +125,7 @@ sudo npm install -g eslint-plugin-html
     Hello{{#if_eq lintConfig &quot;airbnb&quot;}},{{/if_eq}}
   }{{#if_eq lintConfig &quot;airbnb&quot;}},{{/if_eq}}{{/router}}
 }{{#if_eq lintConfig &quot;airbnb&quot;}};{{/if_eq}}
-</code></pre><p>为了一个逗号和行位的封号写了很多的判断，对于一个团队来说定制一种编码规范改一下模板的成本会更小。如果想要初始化一些公用功能进去，这样判断需要大面积存在，特别不利于模板的二次定制，所以我们先定义几个简单的编码规范，我再提供一份编码规范的常用配置清单，各团队按需定制就行。</p>
+</code></pre><p>为了一个逗号和行尾的封号写了很多的判断，对于一个团队来说定制一种编码规范改一下模板的成本会更小。如果想要初始化一些公用功能进去，这样判断需要大面积存在，特别不利于模板的二次定制，所以我们先定义几个简单的编码规范，我再提供一份编码规范的常用配置清单，各团队按需定制就行。</p>
 <h2 id="header-1-3">开始改造现有功能</h2>
 <p>写 vue 模板并没有什么特别好的方法，因为模板改完之后需要编译后才能运行，所以我们先用现有模板生成一份比较全的，然后把相关依赖装好，提交到 github 上，然后改这个模板生成后的项目，改一部分验证一部分，验证没问题之后把修改点同步回模板中，这是我能想到的最简单快捷的方式。</p>
 <h3 id="header-1-3-1">Vue build</h3>
@@ -170,7 +170,7 @@ new Vue({
   &quot;type&quot;: &quot;confirm&quot;,
   &quot;message&quot;: &quot;Install vue-router?&quot;
 },
-</code></pre><p>然后去掉多虑设置，使其恒定不过滤：</p>
+</code></pre><p>然后去掉过滤的设置，使其恒定不过滤：</p>
 <pre><code>&quot;filters&quot;: {
   &quot;.eslintrc.js&quot;: &quot;lint&quot;,
   &quot;.eslintignore&quot;: &quot;lint&quot;,
@@ -195,15 +195,15 @@ new Vue({
 });
 </code></pre><p>最后把 template/package.json 里面对 <code>vue-router</code> 包的判断去掉，这个功能就改造完成了，我们试着跑一下:</p>
 <pre><code>//            本地模板路径        测试项目名
-vue init ~/code-github/spa spa-router
-cd spa-router
+vue init ~/code-github/spa-simple spa-simple-router
+cd spa-simple-router
 yarn
 npm run dev
 </code></pre><p>耶，完美✌️.</p>
 <p>注：</p>
 <ul>
-<li>1、不要测试会快很多；</li>
-<li>2、我们打算干掉编码规范，所以选择 node</li>
+<li>1、不安装测试会快很多；</li>
+<li>2、我们打算干掉编码规范，所以选择 none</li>
 </ul>
 <h2 id="header-1-4">添加 Mock 功能</h2>
 <h3 id="header-1-4-1">原有功能分析</h3>
@@ -211,7 +211,7 @@ npm run dev
 <pre><code>var app = express()
 // ...
 var server = app.listen(port)
-</code></pre><p>然后通过中间件 webpack-hot-middleware 路由静态文件：</p>
+</code></pre><p>然后通过中间件 webpack-dev-middleware 路由静态文件：</p>
 <pre><code>var devMiddleware = require(&#39;webpack-dev-middleware&#39;)(compiler, {
     publicPath: webpackConfig.output.publicPath,
     quiet: true
@@ -256,7 +256,7 @@ POST /a -&gt; /POST/a/index.js
 import axios from &#39;axios&#39;;
 // 将axios挂载到prototype上，在组件中可以直接使用this.$http访问
 Vue.prototype.$http = axios;
-</code></pre><p>然后加 Mock 功能，之前只有代理模式，现在我们要加一种提供数据的模式 Mock，考虑到后面我们还要加 全栈模式，这里把配置顺便升一下级：</p>
+</code></pre><p>然后加 Mock 功能，之前只有代理模式，现在我们要加一种提供数据的模式 Mock，考虑到后面我们还要加全栈模式，这里把配置顺便升一下级：</p>
 <pre><code>// config/index.js
 dataType: &#39;mock&#39;,  // proxy:代理; mock:模拟; full-stack:全栈(默认此项)
 proxyTable: {
@@ -277,7 +277,7 @@ if (config.dev.dataType === &#39;proxy&#39;) {
 Object.keys(config.dev.proxyTable).forEach(function (context) {
     var options = proxyTable[context]
     if (typeof options === &#39;string&#39;) {
-    options = { target: options }
+        options = { target: options }
     }
     app.use(proxyMiddleware(options.filter || context, options))
   })
@@ -308,7 +308,15 @@ data () {
     }
 }
 </code></pre><p>到此为止 mock 数据功能就基本添加完了，把添加的代码同步到模板中就不展开了。</p>
-<h2 id="header-1-5">改造代码格式验证</h2>
+<p>开发完成后就可以联调了，将 dataType 的配置改为 proxy，然后启动项目，所有的 Ajax 请求将会被代理到 target 配置的服务器上。</p>
+<pre><code>// config/index.js
+dataType: &#39;proxy&#39;,
+proxyTable: {
+  &#39;/&#39;: {
+    target: &#39;http://172.0.0.1:8800/&#39;
+  }
+},
+</code></pre><h2 id="header-1-5">改造代码格式验证</h2>
 <p>我们打算去掉 ESlint 的询问，并且配置自己的验证规则，最后给出 IDE 的支持。</p>
 <h3 id="header-1-5-1">去除 ESlint 询问配置</h3>
 <p>去除下面三项配置，这样在安装的时候就不会询问了：</p>
@@ -365,11 +373,16 @@ sudo npm install -g eslint-plugin-html
 <h3 id="header-1-5-4">小遗憾</h3>
 <p>本来样式也应该这样搞一下的，但是没找到比较好的工具和插件。最好用的也要算是 EFE 的 <a href="https://github.com/ecomfe/node-csshint" target="_blank">csshint</a>了，但是定制能力不足，缺 IDE 插件支持。less、sass、stylus 可能需要不同的规则支持，不知道有没有比较好的规范和工具，这一块的配置可以加上。</p>
 <p>另外还有一种走全家桶路线思路，集成化格式验证工具中比较好用的是 FECS：<a href="https://github.com/ecomfe/fecs/wiki/CSSHint" target="_blank">https://github.com/ecomfe/fecs/wiki/CSSHint</a></p>
-<h2 id="header-1-6">参考</h2>
+<h2 id="header-1-6">webpack</h2>
+<p>webpack 是一个比较重要的技能，这里简单讲一下，</p>
+<h2 id="header-1-7">问题</h2>
+<p>不支持 less？没包</p>
+<p>&quot;less&quot;: &quot;^2.7.1&quot;,
+&quot;less-loader&quot;: &quot;^2.2.3&quot;,</p>
+<p>less 的 alias 设置研究。</p>
+<p>不支持未压缩的打包</p>
+<h2 id="header-1-8">参考</h2>
 <p><a href="http://gcdn.gcpowertools.com.cn/showtopic-36912-1-3.html?utm_source=segmentfault&amp;utm_medium=referral&amp;utm_campaign=20170417&amp;utm_content=36912" target="_blank">http://gcdn.gcpowertools.com.cn/showtopic-36912-1-3.html?utm_source=segmentfault&amp;utm_medium=referral&amp;utm_campaign=20170417&amp;utm_content=36912</a></p>
-<h2 id="header-1-7">持续关注</h2>
-<p>改变了 postcss 的使用方法，已集成到现有版本，改变详情参阅：
-<a href="https://github.com/vuejs-templates/webpack/commit/3caa013b559f90fcce781d17b7a9cd9e2d3796a8#diff-ebf2741126a75bcd0ccbf8df09b0f0fd" target="_blank">https://github.com/vuejs-templates/webpack/commit/3caa013b559f90fcce781d17b7a9cd9e2d3796a8#diff-ebf2741126a75bcd0ccbf8df09b0f0fd</a></p>
 
 </div>
 </body>

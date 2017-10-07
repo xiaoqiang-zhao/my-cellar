@@ -298,6 +298,20 @@
     "todoList": []
   },
   {
+    "enName": "interview",
+    "title": "我是怎么面试的",
+    "introduction": "这一篇是\"面试 & 薪酬\"的一节，内容太多单独拿出来，这样内容结构更清晰。",
+    "tags": [
+      "个人笔记"
+    ],
+    "isPublished": true,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1506405921177,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "interview-salary",
     "title": "面试 & 薪酬",
     "introduction": "工作第四个年头，对于面试和薪酬有了一些心得，写下来帮自己整理思路，探讨虐与被虐的博弈。",
@@ -550,6 +564,21 @@
     "state": "完结",
     "type": "md",
     "createDate": 1502020304503,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "vue-cli-custom-template",
+    "title": "vue-cli 定义模板",
+    "introduction": "由于 vue-cli 官方提供的模板不能满足前后端分离的工作模式(工具链层面的)，需要定制自己的模板，这篇文章主要讲怎样定制一个模板，并介绍一下我定制的模板特性。",
+    "tags": [
+      "工程",
+      "推荐"
+    ],
+    "isPublished": true,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1503629707679,
     "commentList": [],
     "todoList": []
   },

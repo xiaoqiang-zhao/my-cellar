@@ -2,8 +2,10 @@
   "enName": "interview",
   "title": "我是怎么面试的",
   "introduction": "这一篇是\"面试 & 薪酬\"的一节，内容太多单独拿出来，这样内容结构更清晰。",
-  "tags": [],
-  "isPublished": false,
+  "tags": [
+    "个人笔记"
+  ],
+  "isPublished": true,
   "state": "立项",
   "type": "md",
   "createDate": 1506405921177,
