@@ -455,6 +455,18 @@ webpack 中的配置改一下：
 
 另外还有一种走全家桶路线思路，集成化格式验证工具中比较好用的是 FECS：https://github.com/ecomfe/fecs/wiki/CSSHint
 
+## style 强化
+
+CSS 在项目中必不可少，一般我们会引入后处理器来增强原生 CSS 的一些不足，但是官方模板并没有完全支持，每种后处理器都需要单独安装，如如你想使用 less，那么需要手动安装`less` 和 `less-oader`两个包：
+
+    npm install less --save-dev
+    npm install less-loader --save-dev
+
+安装后把生成的配置添加到 template/package.json 中：
+
+    "less": "^3.0.0-alpha.3",
+    "less-loader": "^4.0.5",
+
 ## webpack
 
 webpack 是一个比较重要的技能，这里简单讲一下，
