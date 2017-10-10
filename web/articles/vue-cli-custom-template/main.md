@@ -457,7 +457,9 @@ webpack 中的配置改一下：
 
 ## style 强化
 
-CSS 在项目中必不可少，一般我们会引入后处理器来增强原生 CSS 的一些不足，但是官方模板并没有完全支持，每种后处理器都需要单独安装，如如你想使用 less，那么需要手动安装`less` 和 `less-oader`两个包：
+### 预处理器
+
+CSS 在项目中必不可少，一般我们会引入预处理器来增强原生 CSS 的一些不足，但是官方模板并没有完全支持，每种预处理器都需要单独安装，如你想使用 less，那么需要手动安装`less` 和 `less-oader`两个包：
 
     npm install less --save-dev
     npm install less-loader --save-dev
@@ -466,6 +468,17 @@ CSS 在项目中必不可少，一般我们会引入后处理器来增强原生 
 
     "less": "^3.0.0-alpha.3",
     "less-loader": "^4.0.5",
+
+我们的项目用的是 Less，这里只把 Less 的依赖添加了进去，如果需要可以自行添加其他预处理器。
+
+另外再补充一点，webpack 对各种预处理器的配置在 template/build/utils.js 中生成，规则就是：预处理器名-loader：
+
+    loaders.push({
+        loader: loader + '-loader',
+        options: Object.assign({}, loaderOptions, {
+            sourceMap: options.sourceMap
+        })
+    })
 
 ## webpack
 
