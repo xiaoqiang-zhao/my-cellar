@@ -81,6 +81,11 @@ emmet 语法插件 Mithril Emmet support for VS Code，添加配置：
         "vue": "html"
     }
 
+beautify 格式化代码插件
+
+https://hao5743.github.io/2016/12/26/vscode%E4%B8%ADbeautifyrc%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%BF%BB%E8%AF%91%E5%92%8C%E8%AE%BE%E7%BD%AE/
+
+
 ## 杂项
 
 如果用了 `vetur` 插件可能会出一个这样的警告：
