@@ -107,14 +107,6 @@ vs code 需要加配置：
 - airbnb 约束较具体；
 - none 没有约束。
 
-国内互联网公司的编码规范，找到了百度的(欢迎补充其他厂的):
-
-规范文档：https://github.com/ecomfe/spec/blob/master/javascript-style-guide.md
-
-配置文件：https://github.com/ecomfe/fecs/tree/master/lib
-
-注意这套框架中没有 CSS 格式检测，可以扩展添加 csshint。
-
 最后注意一点，如果把编码规范的 level 设为 2(也就是 error)，那么在编码格式有问题的时候运行会直接报错。
 
 - "off" 或 0 - 关闭规则；
@@ -126,15 +118,36 @@ vs code 需要加配置：
     export default {
       name: 'app'{{#router}}{{#if_eq lintConfig "airbnb"}},{{/if_eq}}{{else}},
       components: {
-        Hello{{#if_eq lintConfig "airbnb"}},{{/if_eq}}
+        Hello{{#if_eq lint Config "airbnb"}},{{/if_eq}}
       }{{#if_eq lintConfig "airbnb"}},{{/if_eq}}{{/router}}
     }{{#if_eq lintConfig "airbnb"}};{{/if_eq}}
 
 为了一个逗号和行尾的封号写了很多的判断，对于一个团队来说定制一种编码规范改一下模板的成本会更小。如果想要初始化一些公用功能进去，这样判断需要大面积存在，特别不利于模板的二次定制，所以我们先定义几个简单的编码规范，我再提供一份编码规范的常用配置清单，各团队按需定制就行。
 
-国外大厂 AirBnb 的编码规范：
+### 编码规范参考
 
+国内大厂：
+
+百度的编码规范：
+
+规范文档：
+https://github.com/ecomfe/spec/blob/master/javascript-style-guide.md
+
+配置文件：
+https://github.com/ecomfe/fecs/tree/master/lib
+
+欢迎补充其他厂的...
+
+国外大厂：
+
+AirBnb 的编码规范：
 https://github.com/sivan/javascript-style-guide/blob/master/es5/README.md
+
+Google 的编码规范：
+https://google.github.io/styleguide/javascriptguide.xml
+
+国际标准编码规范：
+https://github.com/standard/standard
 
 ## 开始改造现有功能
 
