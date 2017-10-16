@@ -149,6 +149,15 @@ https://google.github.io/styleguide/javascriptguide.xml
 国际标准编码规范：
 https://github.com/standard/standard
 
+vue 组件的编码规范：
+https://github.com/pablohpsilva/vuejs-component-style-guide
+
+官方风格指南：
+https://cn.vuejs.org/v2/style-guide/index.html
+
+vue 源码的编码规范：
+2 space index, never semicolon.
+
 ## 开始改造现有功能
 
 写 vue 模板并没有什么特别好的方法，因为模板改完之后需要编译后才能运行，所以我们先用现有模板生成一份比较全的，然后把相关依赖装好，提交到 github 上，然后改这个模板生成后的项目，改一部分验证一部分，验证没问题之后把修改点同步回模板中，这是我能想到的最简单快捷的方式。
