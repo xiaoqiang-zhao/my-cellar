@@ -136,7 +136,9 @@ https://github.com/ecomfe/spec/blob/master/javascript-style-guide.md
 配置文件：
 https://github.com/ecomfe/fecs/tree/master/lib
 
-欢迎补充其他厂的...
+腾讯编码规范：
+http://alloyteam.github.io/CodeGuide/
+
 
 国外大厂：
 
