@@ -108,10 +108,6 @@ sudo npm install -g eslint-plugin-html
 <li>airbnb 约束较具体；</li>
 <li>none 没有约束。</li>
 </ul>
-<p>国内互联网公司的编码规范，找到了百度的(欢迎补充其他厂的):</p>
-<p>规范文档：<a href="https://github.com/ecomfe/spec/blob/master/javascript-style-guide.md" target="_blank">https://github.com/ecomfe/spec/blob/master/javascript-style-guide.md</a></p>
-<p>配置文件：<a href="https://github.com/ecomfe/fecs/tree/master/lib" target="_blank">https://github.com/ecomfe/fecs/tree/master/lib</a></p>
-<p>注意这套框架中没有 CSS 格式检测，可以扩展添加 csshint。</p>
 <p>最后注意一点，如果把编码规范的 level 设为 2(也就是 error)，那么在编码格式有问题的时候运行会直接报错。</p>
 <ul>
 <li>&quot;off&quot; 或 0 - 关闭规则；</li>
@@ -122,10 +118,32 @@ sudo npm install -g eslint-plugin-html
 <pre><code>export default {
   name: &#39;app&#39;{{#router}}{{#if_eq lintConfig &quot;airbnb&quot;}},{{/if_eq}}{{else}},
   components: {
-    Hello{{#if_eq lintConfig &quot;airbnb&quot;}},{{/if_eq}}
+    Hello{{#if_eq lint Config &quot;airbnb&quot;}},{{/if_eq}}
   }{{#if_eq lintConfig &quot;airbnb&quot;}},{{/if_eq}}{{/router}}
 }{{#if_eq lintConfig &quot;airbnb&quot;}};{{/if_eq}}
 </code></pre><p>为了一个逗号和行尾的封号写了很多的判断，对于一个团队来说定制一种编码规范改一下模板的成本会更小。如果想要初始化一些公用功能进去，这样判断需要大面积存在，特别不利于模板的二次定制，所以我们先定义几个简单的编码规范，我再提供一份编码规范的常用配置清单，各团队按需定制就行。</p>
+<h3 id="header-1-2-4">编码规范参考</h3>
+<p>国内大厂：</p>
+<p>百度的编码规范：</p>
+<p>规范文档：
+<a href="https://github.com/ecomfe/spec/blob/master/javascript-style-guide.md" target="_blank">https://github.com/ecomfe/spec/blob/master/javascript-style-guide.md</a></p>
+<p>配置文件：
+<a href="https://github.com/ecomfe/fecs/tree/master/lib" target="_blank">https://github.com/ecomfe/fecs/tree/master/lib</a></p>
+<p>腾讯编码规范：
+<a href="http://alloyteam.github.io/CodeGuide/" target="_blank">http://alloyteam.github.io/CodeGuide/</a></p>
+<p>国外大厂：</p>
+<p>AirBnb 的编码规范：
+<a href="https://github.com/sivan/javascript-style-guide/blob/master/es5/README.md" target="_blank">https://github.com/sivan/javascript-style-guide/blob/master/es5/README.md</a></p>
+<p>Google 的编码规范：
+<a href="https://google.github.io/styleguide/javascriptguide.xml" target="_blank">https://google.github.io/styleguide/javascriptguide.xml</a></p>
+<p>国际标准编码规范：
+<a href="https://github.com/standard/standard" target="_blank">https://github.com/standard/standard</a></p>
+<p>vue 组件的编码规范：
+<a href="https://github.com/pablohpsilva/vuejs-component-style-guide" target="_blank">https://github.com/pablohpsilva/vuejs-component-style-guide</a></p>
+<p>官方风格指南：
+<a href="https://cn.vuejs.org/v2/style-guide/index.html" target="_blank">https://cn.vuejs.org/v2/style-guide/index.html</a></p>
+<p>vue 源码的编码规范：
+2 space index, never semicolon.</p>
 <h2 id="header-1-3">开始改造现有功能</h2>
 <p>写 vue 模板并没有什么特别好的方法，因为模板改完之后需要编译后才能运行，所以我们先用现有模板生成一份比较全的，然后把相关依赖装好，提交到 github 上，然后改这个模板生成后的项目，改一部分验证一部分，验证没问题之后把修改点同步回模板中，这是我能想到的最简单快捷的方式。</p>
 <h3 id="header-1-3-1">Vue build</h3>
@@ -373,15 +391,36 @@ sudo npm install -g eslint-plugin-html
 <h3 id="header-1-5-4">小遗憾</h3>
 <p>本来样式也应该这样搞一下的，但是没找到比较好的工具和插件。最好用的也要算是 EFE 的 <a href="https://github.com/ecomfe/node-csshint" target="_blank">csshint</a>了，但是定制能力不足，缺 IDE 插件支持。less、sass、stylus 可能需要不同的规则支持，不知道有没有比较好的规范和工具，这一块的配置可以加上。</p>
 <p>另外还有一种走全家桶路线思路，集成化格式验证工具中比较好用的是 FECS：<a href="https://github.com/ecomfe/fecs/wiki/CSSHint" target="_blank">https://github.com/ecomfe/fecs/wiki/CSSHint</a></p>
-<h2 id="header-1-6">webpack</h2>
+<h2 id="header-1-6">style 强化</h2>
+<h3 id="header-1-6-1">预处理器</h3>
+<p>CSS 在项目中必不可少，一般我们会引入预处理器来增强原生 CSS 的一些不足，但是官方模板并没有完全支持，每种预处理器都需要单独安装，如你想使用 less，那么需要手动安装<code>less</code> 和 <code>less-oader</code>两个包：</p>
+<pre><code>npm install less --save-dev
+npm install less-loader --save-dev
+</code></pre><p>安装后把生成的配置添加到 template/package.json 中：</p>
+<pre><code>&quot;less&quot;: &quot;^3.0.0-alpha.3&quot;,
+&quot;less-loader&quot;: &quot;^4.0.5&quot;,
+</code></pre><p>我们的项目用的是 Less，这里只把 Less 的依赖添加了进去，如果需要可以自行添加其他预处理器。</p>
+<p>另外再补充一点，webpack 对各种预处理器的配置在 template/build/utils.js 中生成，规则就是：预处理器名-loader：</p>
+<pre><code>loaders.push({
+    loader: loader + &#39;-loader&#39;,
+    options: Object.assign({}, loaderOptions, {
+        sourceMap: options.sourceMap
+    })
+})
+</code></pre><p>Less 规范：<a href="https://github.com/ecomfe/spec/blob/master/less-code-style.md" target="_blank">https://github.com/ecomfe/spec/blob/master/less-code-style.md</a></p>
+<h3 id="header-1-6-2">iconfont</h3>
+<p>todo...</p>
+<p>代码格式...</p>
+<p>项目目录结构...</p>
+<h2 id="header-1-7">webpack</h2>
 <p>webpack 是一个比较重要的技能，这里简单讲一下，</p>
-<h2 id="header-1-7">问题</h2>
+<h2 id="header-1-8">问题</h2>
 <p>不支持 less？没包</p>
 <p>&quot;less&quot;: &quot;^2.7.1&quot;,
 &quot;less-loader&quot;: &quot;^2.2.3&quot;,</p>
 <p>less 的 alias 设置研究。</p>
 <p>不支持未压缩的打包</p>
-<h2 id="header-1-8">参考</h2>
+<h2 id="header-1-9">参考</h2>
 <p><a href="http://gcdn.gcpowertools.com.cn/showtopic-36912-1-3.html?utm_source=segmentfault&amp;utm_medium=referral&amp;utm_campaign=20170417&amp;utm_content=36912" target="_blank">http://gcdn.gcpowertools.com.cn/showtopic-36912-1-3.html?utm_source=segmentfault&amp;utm_medium=referral&amp;utm_campaign=20170417&amp;utm_content=36912</a></p>
 
 </div>

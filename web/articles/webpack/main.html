@@ -142,7 +142,15 @@ if (a === &#39;&#39;) {
     filename: &#39;[hash].js&#39;
 }
 </code></pre><p>那么为什么生成路径和请求路径一定要分两个参数呢，他们不应该是统一的吗？</p>
-<h2 id="header-1-10">被集成</h2>
+<p>ES6 分片，异步模块引入，一般在前端路由中配置：</p>
+<pre><code>{
+    path: &#39;/home&#39;,
+    name: &#39;home&#39;,
+    component() {
+        return System.import(&#39;@/pages/home&#39;);
+    }
+}
+</code></pre><h2 id="header-1-10">被集成</h2>
 <p>一个好的工具最好能集成其他工具或插件，也最好能被其他程序集成。webpack 就是这样一个工具，可以方便的集成加载器插件，也提供了被 node 作为独立模块使用的接口：</p>
 <pre><code>var webpack = require(&#39;webpack&#39;);
 var webpackConfig = require(&#39;./webpack-config&#39;);
