@@ -276,3 +276,13 @@ chown -- 更改某个文件或目录的属主
     -l 统计行数
     -w 统计字数
     -m 统计字符数
+
+## 经验
+
+Linux安装node.js的binaries包：
+http://blog.csdn.net/justforfly/article/details/39293819
+
+查看 binaries: uname -a
+
+    CST 2015 x86_64 x86_64 x86_64 GNU/Linux
+
