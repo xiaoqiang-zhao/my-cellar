@@ -139,7 +139,6 @@ https://github.com/ecomfe/fecs/tree/master/lib
 腾讯编码规范：
 http://alloyteam.github.io/CodeGuide/
 
-
 国外大厂：
 
 AirBnb 的编码规范：
@@ -517,6 +516,22 @@ todo...
 代码格式...
 
 项目目录结构...
+
+## 支持未压缩的打包
+
+在测试环境需要一个不压缩的包，发现脚手架没有提供，这里实现一下：
+
+    // build/build.js
+    if (process.argv.indexOf('--qa')) {
+      webpackConfig.plugins.splice(1, 1)
+    }
+    // package.json
+    "scripts": {
+      // 添加此行配置
+      "qa": "node build/build.js --qa"
+    }
+
+然后命令行 `npm run qa` 就可以打出测试包了，这样可以很方便的在测试环境定位问题。
 
 ## webpack
 
