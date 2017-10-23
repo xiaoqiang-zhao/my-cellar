@@ -1,5 +1,49 @@
 # 编码规范
 
+> 凡有代码处兼应有规范。
+
+## 市面上的编码规范
+
+### 国内大厂
+
+百度的编码规范：
+
+规范文档：
+https://github.com/ecomfe/spec/blob/master/javascript-style-guide.md
+
+配置文件：
+https://github.com/ecomfe/fecs/tree/master/lib
+
+腾讯编码规范：
+http://alloyteam.github.io/CodeGuide/
+
+阿里的编码规范没有找到
+
+### 国外大厂
+
+Airbnb 的编码规范：
+https://github.com/sivan/javascript-style-guide/blob/master/es5/README.md
+
+Google 的编码规范：
+https://google.github.io/styleguide/javascriptguide.xml
+
+### 独立组织
+
+国际标准编码规范：
+https://github.com/standard/standard
+
+vue 组件的编码规范：
+https://github.com/pablohpsilva/vuejs-component-style-guide
+
+官方风格指南：
+https://cn.vuejs.org/v2/style-guide/index.html
+
+vue 源码的编码规范：
+2 space index, never semicolon.
+
+## 优劣分析
+
+百度的编码规范脱胎于 Google 编码规范，国际编码规范是认可度比较广泛的 -- 13886 star(相对于 Google 一揽子规范 11387 star，Aribnb 1006)。
 
 ## 参考
 
