@@ -152,6 +152,19 @@ node 版本的偶数版是稳定版，使用 `n ls` 可以查看全部发布过�
 
 ES6 与 CommonJs 的引用略有不同，具体参考我的另一篇学习笔记[ ES6 学习笔记 - Part 3](/index.html#!/articles/es6-3)。
 
+### permission denied
+
+`Error: EACCES: permission denied` 这段报错也是较为常见的，尤其是一些不太出名的需要全局安装的包，在执行的时候可能会报这个错，直译就是“许可被拒绝”，也就是文件权限的问题，最简单粗暴的方法就是把 node_modules 的权限改成 777，污染小一点的方案是改单个工具的文件所属。比如我遇到的问题是公司全家桶 yog2，可以这样
+
+    sudo chown -R $USER /usr/local/lib/node_modules/yog2
+
+再补充一下前端工具经常用的的路径：
+
+    // node 全局命令的入口
+    /usr/local/bin
+    // 全局 node_modules路径
+    /usr/local/lib/node_modules
+
 ## 发布一个包
 
 首先去 [npm 官网](https://www.npmjs.com/)注册账户;
