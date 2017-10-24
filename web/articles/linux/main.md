@@ -220,7 +220,7 @@ Linux系统中的每个文件和目录都有访问许可权限，用它来确定
     -rw-rw-r--
     drwxrwxr-x
 
-注意这里共有10个位置，第一个字符指定了文件类型，`d` 代表文件夹，`-` 代表文件。
+注意这里共有10个位置，第一个字符指定了文件类型，`d` 代表文件夹，`-` 代表文件，`l` 代表引用。
 
 之后的 9 个字母分成三组，每三个字母一组。
 
@@ -252,16 +252,28 @@ Linux系统中的每个文件和目录都有访问许可权限，用它来确定
 - - 取消某个权限。
 - = 赋予给定权限并取消其他所有权限（如果有的话）。
 
+合起来编写可能就是这样的：
+
+    sudo chmod a+x 文件名
+
 后面两项分别是权限和文件夹。
 
 chgrp -- 改变文件或目录所属的组
 
-    chgrp -R username filename
+    sudo chgrp -R username filename
 
 chown -- 更改某个文件或目录的属主
 
-    chown -R username filename
+    sudo chown -R username filename
+    // 用 $USER 代表当前用户
 
+前端工具经常用的的路径：
+
+    // node 全局命令的入口
+    /usr/local/bin
+    // 全局 node_modules路径
+    /usr/local/lib/node_modules
+    
 ## 零碎
 
 ### 查看文件行数
