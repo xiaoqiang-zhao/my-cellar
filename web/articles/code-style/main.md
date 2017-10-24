@@ -17,12 +17,13 @@ https://github.com/ecomfe/fecs/tree/master/lib
 腾讯编码规范：
 http://alloyteam.github.io/CodeGuide/
 
-阿里的编码规范没有找到
+阿里的编码规范没有找到，欢迎补充。
 
 ### 国外大厂
 
 Airbnb 的编码规范：
-https://github.com/sivan/javascript-style-guide/blob/master/es5/README.md
+- 官方：https://github.com/airbnb/javascript
+- 中文翻译：https://github.com/sivan/javascript-style-guide/blob/master/es5/README.md
 
 Google 的编码规范：
 https://google.github.io/styleguide/javascriptguide.xml
@@ -43,7 +44,13 @@ vue 源码的编码规范：
 
 ## 优劣分析
 
-百度的编码规范脱胎于 Google 编码规范，国际编码规范是认可度比较广泛的 -- 13886 star(相对于 Google 一揽子规范 11387 star，Aribnb 1006)。
+百度的编码规范脱胎于谷歌编码规范，属于比较老牌的编码规范，比如百度的规范缩进是 4 个空格，谷歌编码规范没有样式预处理器的编码规范。
+
+国际编码规范是认可度比较广泛的 -- 13886 star(相对于 Google 一揽子规范 11387 star，Aribnb 1006)，功能开箱既用，node API 丰富，IDE 插件丰富，多语言文档完整，但是只有 js 的规范，没有 HTML 和 CSS 及样式预处理器规范。
+
+腾讯的覆盖面较广，从文件命名到HTML，连 CSS 属性的顺序都给了推荐，样式预处理器只有 Sass。
+
+[腾讯](http://alloyteam.github.io/CodeGuide/#css) 和 [Airbnb](https://github.com/airbnb/css) 都给出了 Sass 的规范，可见预处理器 Sass 是比较受欢迎的。
 
 ## 参考
 
