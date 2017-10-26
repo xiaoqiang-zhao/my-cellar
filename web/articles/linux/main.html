@@ -159,7 +159,7 @@ ls -l
 // 可以看到下面的权限描述
 -rw-rw-r--
 drwxrwxr-x
-</code></pre><p>注意这里共有10个位置，第一个字符指定了文件类型，<code>d</code> 代表文件夹，<code>-</code> 代表文件。</p>
+</code></pre><p>注意这里共有10个位置，第一个字符指定了文件类型，<code>d</code> 代表文件夹，<code>-</code> 代表文件，<code>l</code> 代表引用。</p>
 <p>之后的 9 个字母分成三组，每三个字母一组。</p>
 <ul>
 <li>r代表只读；</li>
@@ -191,11 +191,19 @@ drwxrwxr-x
 </li>
 <li>= 赋予给定权限并取消其他所有权限（如果有的话）。</li>
 </ul>
-<p>后面两项分别是权限和文件夹。</p>
+<p>合起来编写可能就是这样的：</p>
+<pre><code>sudo chmod a+x 文件名
+</code></pre><p>后面两项分别是权限和文件夹。</p>
 <p>chgrp -- 改变文件或目录所属的组</p>
-<pre><code>chgrp -R username filename
+<pre><code>sudo chgrp -R username filename
 </code></pre><p>chown -- 更改某个文件或目录的属主</p>
-<pre><code>chown -R username filename
+<pre><code>sudo chown -R username filename
+// 用 $USER 代表当前用户
+</code></pre><p>前端工具经常用的的路径：</p>
+<pre><code>// node 全局命令的入口
+/usr/local/bin
+// 全局 node_modules路径
+/usr/local/lib/node_modules
 </code></pre><h2 id="header-1-7">零碎</h2>
 <h3 id="header-1-7-1">查看文件行数</h3>
 <p>有些系统生成的文件比较大，怎么能不打开文件统计文件行数呢？</p>
@@ -205,6 +213,11 @@ drwxrwxr-x
 -l 统计行数
 -w 统计字数
 -m 统计字符数
+</code></pre><h2 id="header-1-8">经验</h2>
+<p>Linux安装node.js的binaries包：
+<a href="http://blog.csdn.net/justforfly/article/details/39293819" target="_blank">http://blog.csdn.net/justforfly/article/details/39293819</a></p>
+<p>查看 binaries: uname -a</p>
+<pre><code>CST 2015 x86_64 x86_64 x86_64 GNU/Linux
 </code></pre>
 </div>
 </body>

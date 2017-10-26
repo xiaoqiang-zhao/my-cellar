@@ -116,7 +116,15 @@ n rm 6.0.0
 <li>项目上一层目录的 node_modules，如果找到了添加到缓存下。</li>
 </ul>
 <p>ES6 与 CommonJs 的引用略有不同，具体参考我的另一篇学习笔记<a href="/index.html#!/articles/es6-3" target="_blank"> ES6 学习笔记 - Part 3</a>。</p>
-<h2 id="header-1-8">发布一个包</h2>
+<h3 id="header-1-7-5">permission denied</h3>
+<p><code>Error: EACCES: permission denied</code> 这段报错也是较为常见的，尤其是一些不太出名的需要全局安装的包，在执行的时候可能会报这个错，直译就是“许可被拒绝”，也就是文件权限的问题，最简单粗暴的方法就是把 node_modules 的权限改成 777，污染小一点的方案是改单个工具的文件所属。比如我遇到的问题是公司全家桶 yog2，可以这样</p>
+<pre><code>sudo chown -R $USER /usr/local/lib/node_modules/yog2
+</code></pre><p>再补充一下前端工具经常用的的路径：</p>
+<pre><code>// node 全局命令的入口
+/usr/local/bin
+// 全局 node_modules路径
+/usr/local/lib/node_modules
+</code></pre><h2 id="header-1-8">发布一个包</h2>
 <p>首先去 <a href="https://www.npmjs.com/" target="_blank">npm 官网</a>注册账户;</p>
 <p>然后登录</p>
 <pre><code>npm login

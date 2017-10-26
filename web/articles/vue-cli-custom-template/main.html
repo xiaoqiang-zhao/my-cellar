@@ -412,15 +412,27 @@ npm install less-loader --save-dev
 <p>todo...</p>
 <p>代码格式...</p>
 <p>项目目录结构...</p>
-<h2 id="header-1-7">webpack</h2>
+<h2 id="header-1-7">支持未压缩的打包</h2>
+<p>在测试环境需要一个不压缩的包，发现脚手架没有提供，这里实现一下：</p>
+<pre><code>// build/build.js
+if (process.argv.indexOf(&#39;--qa&#39;)) {
+  webpackConfig.plugins.splice(1, 1)
+}
+// package.json
+&quot;scripts&quot;: {
+  // 添加此行配置
+  &quot;qa&quot;: &quot;node build/build.js --qa&quot;
+}
+</code></pre><p>然后命令行 <code>npm run qa</code> 就可以打出测试包了，这样可以很方便的在测试环境定位问题。</p>
+<h2 id="header-1-8">webpack</h2>
 <p>webpack 是一个比较重要的技能，这里简单讲一下，</p>
-<h2 id="header-1-8">问题</h2>
+<h2 id="header-1-9">问题</h2>
 <p>不支持 less？没包</p>
 <p>&quot;less&quot;: &quot;^2.7.1&quot;,
 &quot;less-loader&quot;: &quot;^2.2.3&quot;,</p>
 <p>less 的 alias 设置研究。</p>
 <p>不支持未压缩的打包</p>
-<h2 id="header-1-9">参考</h2>
+<h2 id="header-1-10">参考</h2>
 <p><a href="http://gcdn.gcpowertools.com.cn/showtopic-36912-1-3.html?utm_source=segmentfault&amp;utm_medium=referral&amp;utm_campaign=20170417&amp;utm_content=36912" target="_blank">http://gcdn.gcpowertools.com.cn/showtopic-36912-1-3.html?utm_source=segmentfault&amp;utm_medium=referral&amp;utm_campaign=20170417&amp;utm_content=36912</a></p>
 
 </div>
