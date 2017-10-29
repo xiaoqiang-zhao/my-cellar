@@ -121,29 +121,7 @@ sudo npm install -g eslint-plugin-html
     Hello{{#if_eq lint Config &quot;airbnb&quot;}},{{/if_eq}}
   }{{#if_eq lintConfig &quot;airbnb&quot;}},{{/if_eq}}{{/router}}
 }{{#if_eq lintConfig &quot;airbnb&quot;}};{{/if_eq}}
-</code></pre><p>为了一个逗号和行尾的封号写了很多的判断，对于一个团队来说定制一种编码规范改一下模板的成本会更小。如果想要初始化一些公用功能进去，这样判断需要大面积存在，特别不利于模板的二次定制，所以我们先定义几个简单的编码规范，我再提供一份编码规范的常用配置清单，各团队按需定制就行。</p>
-<h3 id="header-1-2-4">编码规范参考</h3>
-<p>国内大厂：</p>
-<p>百度的编码规范：</p>
-<p>规范文档：
-<a href="https://github.com/ecomfe/spec/blob/master/javascript-style-guide.md" target="_blank">https://github.com/ecomfe/spec/blob/master/javascript-style-guide.md</a></p>
-<p>配置文件：
-<a href="https://github.com/ecomfe/fecs/tree/master/lib" target="_blank">https://github.com/ecomfe/fecs/tree/master/lib</a></p>
-<p>腾讯编码规范：
-<a href="http://alloyteam.github.io/CodeGuide/" target="_blank">http://alloyteam.github.io/CodeGuide/</a></p>
-<p>国外大厂：</p>
-<p>AirBnb 的编码规范：
-<a href="https://github.com/sivan/javascript-style-guide/blob/master/es5/README.md" target="_blank">https://github.com/sivan/javascript-style-guide/blob/master/es5/README.md</a></p>
-<p>Google 的编码规范：
-<a href="https://google.github.io/styleguide/javascriptguide.xml" target="_blank">https://google.github.io/styleguide/javascriptguide.xml</a></p>
-<p>国际标准编码规范：
-<a href="https://github.com/standard/standard" target="_blank">https://github.com/standard/standard</a></p>
-<p>vue 组件的编码规范：
-<a href="https://github.com/pablohpsilva/vuejs-component-style-guide" target="_blank">https://github.com/pablohpsilva/vuejs-component-style-guide</a></p>
-<p>官方风格指南：
-<a href="https://cn.vuejs.org/v2/style-guide/index.html" target="_blank">https://cn.vuejs.org/v2/style-guide/index.html</a></p>
-<p>vue 源码的编码规范：
-2 space index, never semicolon.</p>
+</code></pre><p>为了一个逗号和行尾的封号写了很多的判断，对于一个团队来说定制一种编码规范改一下模板的成本会更小。如果想要初始化一些公用功能进去，这样判断需要大面积存在，特别不利于模板的二次定制，所以我们会选择一种在开源届使用广泛的规范来作为唯一的规范。编码规范的详细内容查看我的另一篇文章<a href="/#!/articles/fe-code-style" target="_blank">前端编码规范</a>。</p>
 <h2 id="header-1-3">开始改造现有功能</h2>
 <p>写 vue 模板并没有什么特别好的方法，因为模板改完之后需要编译后才能运行，所以我们先用现有模板生成一份比较全的，然后把相关依赖装好，提交到 github 上，然后改这个模板生成后的项目，改一部分验证一部分，验证没问题之后把修改点同步回模板中，这是我能想到的最简单快捷的方式。</p>
 <h3 id="header-1-3-1">Vue build</h3>
@@ -335,6 +313,7 @@ proxyTable: {
   }
 },
 </code></pre><h2 id="header-1-5">改造代码格式验证</h2>
+<p>改造此处 ---- </p>
 <p>我们打算去掉 ESlint 的询问，并且配置自己的验证规则，最后给出 IDE 的支持。</p>
 <h3 id="header-1-5-1">去除 ESlint 询问配置</h3>
 <p>去除下面三项配置，这样在安装的时候就不会询问了：</p>

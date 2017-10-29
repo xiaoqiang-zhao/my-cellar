@@ -161,18 +161,6 @@
     "todoList": []
   },
   {
-    "enName": "code-style",
-    "title": "编码规范",
-    "introduction": "凡有代码处兼应有规范。",
-    "tags": [],
-    "isPublished": false,
-    "state": "立项",
-    "type": "md",
-    "createDate": 1454161815410,
-    "commentList": [],
-    "todoList": []
-  },
-  {
     "enName": "coder-creed",
     "title": "百度工程师信条",
     "introduction": "2016年7月16日周六下午，来自4个体系，81位高工，8个小组，8位TC委员，历时3个小时，最终大家从现场贡献的243条百度工程师信条中，集体讨论并投票产出了9条新版百度工程师信条：",
@@ -372,6 +360,21 @@
     "state": "立项",
     "type": "md",
     "createDate": 1502020304463,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "fe-code-style",
+    "title": "前端编码规范",
+    "introduction": "凡有代码处兼应有规范。",
+    "tags": [
+      "规范",
+      "笔记"
+    ],
+    "isPublished": true,
+    "state": "公示持续集成中",
+    "type": "md",
+    "createDate": 1454161815410,
     "commentList": [],
     "todoList": []
   },

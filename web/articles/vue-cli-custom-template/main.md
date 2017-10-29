@@ -122,44 +122,7 @@ vs code 需要加配置：
       }{{#if_eq lintConfig "airbnb"}},{{/if_eq}}{{/router}}
     }{{#if_eq lintConfig "airbnb"}};{{/if_eq}}
 
-为了一个逗号和行尾的封号写了很多的判断，对于一个团队来说定制一种编码规范改一下模板的成本会更小。如果想要初始化一些公用功能进去，这样判断需要大面积存在，特别不利于模板的二次定制，所以我们先定义几个简单的编码规范，我再提供一份编码规范的常用配置清单，各团队按需定制就行。
-
-此处要升级 ----
-
-### 编码规范参考
-
-国内大厂：
-
-百度的编码规范：
-
-规范文档：
-https://github.com/ecomfe/spec/blob/master/javascript-style-guide.md
-
-配置文件：
-https://github.com/ecomfe/fecs/tree/master/lib
-
-腾讯编码规范：
-http://alloyteam.github.io/CodeGuide/
-
-国外大厂：
-
-AirBnb 的编码规范：
-https://github.com/sivan/javascript-style-guide/blob/master/es5/README.md
-
-Google 的编码规范：
-https://google.github.io/styleguide/javascriptguide.xml
-
-国际标准编码规范：
-https://github.com/standard/standard
-
-vue 组件的编码规范：
-https://github.com/pablohpsilva/vuejs-component-style-guide
-
-官方风格指南：
-https://cn.vuejs.org/v2/style-guide/index.html
-
-vue 源码的编码规范：
-2 space index, never semicolon.
+为了一个逗号和行尾的封号写了很多的判断，对于一个团队来说定制一种编码规范改一下模板的成本会更小。如果想要初始化一些公用功能进去，这样判断需要大面积存在，特别不利于模板的二次定制，所以我们会选择一种在开源届使用广泛的规范来作为唯一的规范。编码规范的详细内容查看我的另一篇文章[前端编码规范](/#!/articles/fe-code-style)。
 
 ## 开始改造现有功能
 

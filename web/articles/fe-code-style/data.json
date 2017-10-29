@@ -1,10 +1,13 @@
 {
   "enName": "code-style",
-  "title": "编码规范",
+  "title": "前端编码规范",
   "introduction": "凡有代码处兼应有规范。",
-  "tags": [],
-  "isPublished": false,
-  "state": "立项",
+  "tags": [
+    "规范",
+    "笔记"
+  ],
+  "isPublished": true,
+  "state": "公示持续集成中",
   "type": "md",
   "createDate": 1454161815410,
   "commentList": [],
