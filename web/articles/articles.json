@@ -374,7 +374,7 @@
     "isPublished": true,
     "state": "公示持续集成中",
     "type": "md",
-    "createDate": 1454161815410,
+    "createDate": 1509372595193,
     "commentList": [],
     "todoList": []
   },
@@ -742,7 +742,7 @@
     "isPublished": false,
     "state": "立项",
     "type": "md",
-    "createDate": 1508324623203,
+    "createDate": 1509372699070,
     "commentList": [],
     "todoList": []
   },
@@ -1017,7 +1017,7 @@
   {
     "enName": "vue-cli-custom-template",
     "title": "vue-cli 定义模板",
-    "introduction": "由于 vue-cli 官方提供的模板不能满足前后端分离的工作模式(工具链层面的)，需要定制自己的模板，这篇文章主要讲怎样定制一个模板，并介绍一下我定制的模板特性。",
+    "introduction": "由于 vue-cli 官方提供的模板不能满足前后端分离的工作模式(工具链层面的)，需要定制自己的模板，这篇文章主要讲怎样定制一个模板，并介绍一下我定制的模板特性，此模板作为我将来的开源项目脚手架。",
     "tags": [
       "工程",
       "推荐"

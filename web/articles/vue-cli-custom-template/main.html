@@ -20,7 +20,7 @@
 <div>
     <h1 id="header-1">vue-cli 定义模板</h1>
 <blockquote>
-<p>由于 vue-cli 官方提供的模板不能满足前后端分离的工作模式(工具链层面的)，需要定制自己的模板，这篇文章主要讲怎样定制一个模板，并介绍一下我定制的模板特性。</p>
+<p>由于 vue-cli 官方提供的模板不能满足前后端分离的工作模式(工具链层面的)，需要定制自己的模板，这篇文章主要讲怎样定制一个模板，并介绍一下我定制的模板特性，此模板作为我将来的开源项目脚手架。</p>
 </blockquote>
 <h2 id="header-1-1">站在巨人的肩上</h2>
 <p>我们的总体思路是最大限度的利用官方已有模板，进行改造和增强。我在 github 上建了一个 organization: <a href="https://github.com/vuejs-custom-templates-aggregate" target="_blank">vuejs-custom-templates-aggregate</a> ---- vue 自定义模板集合。然后将 <a href="https://github.com/vuejs-templates/webpack" target="_blank">https://github.com/vuejs-templates/webpack</a> 项目 fork 进 vuejs-custom-templates-aggregate(vue 自定义模板集合)，我给他取了个名字叫 spa-simple。之所以没叫 webpack-spa，是应为 browserify 用的人越来越少了，大家提到包加载器基本默认就是 webpack，另外我想从应用场景来区分模板，并大胆的幻想将来出现的其他模板是：</p>
@@ -41,8 +41,8 @@
 <li>Author 保持不变；</li>
 <li>Vue build 去掉，直接采用 Runtime-only 方案；</li>
 <li>Install vue-router 去掉，直接选中；</li>
-<li>ESLint 改为默认选中，需要增强，配置成自己公司的规范；</li>
-<li>Pick an ESLint preset 选一种编码格式，根据团队习惯默认选一种</li>
+<li>ESLint 改为默认选中；</li>
+<li>Pick an ESLint preset 选一种编码格式，便于集成更多的代码进来；</li>
 <li>Setup unit tests with Karma + Mocha 保留；</li>
 <li>Setup e2e tests with Nightwatch 保留；</li>
 </ul>

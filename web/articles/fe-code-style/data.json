@@ -1,5 +1,5 @@
 {
-  "enName": "code-style",
+  "enName": "fe-code-style",
   "title": "前端编码规范",
   "introduction": "凡有代码处兼应有规范。",
   "tags": [
@@ -9,7 +9,7 @@
   "isPublished": true,
   "state": "公示持续集成中",
   "type": "md",
-  "createDate": 1454161815410,
+  "createDate": 1509372595193,
   "commentList": [],
   "todoList": []
 }

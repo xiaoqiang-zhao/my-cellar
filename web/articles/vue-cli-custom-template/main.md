@@ -1,6 +1,6 @@
 # vue-cli 定义模板
 
-> 由于 vue-cli 官方提供的模板不能满足前后端分离的工作模式(工具链层面的)，需要定制自己的模板，这篇文章主要讲怎样定制一个模板，并介绍一下我定制的模板特性。
+> 由于 vue-cli 官方提供的模板不能满足前后端分离的工作模式(工具链层面的)，需要定制自己的模板，这篇文章主要讲怎样定制一个模板，并介绍一下我定制的模板特性，此模板作为我将来的开源项目脚手架。
 
 ## 站在巨人的肩上
 
@@ -25,8 +25,8 @@
 - Author 保持不变；
 - Vue build 去掉，直接采用 Runtime-only 方案；
 - Install vue-router 去掉，直接选中；
-- ESLint 改为默认选中，需要增强，配置成自己公司的规范；
-- Pick an ESLint preset 选一种编码格式，根据团队习惯默认选一种
+- ESLint 改为默认选中；
+- Pick an ESLint preset 选一种编码格式，便于集成更多的代码进来；
 - Setup unit tests with Karma + Mocha 保留；
 - Setup e2e tests with Nightwatch 保留；
 
@@ -122,7 +122,7 @@ vs code 需要加配置：
       }{{#if_eq lintConfig "airbnb"}},{{/if_eq}}{{/router}}
     }{{#if_eq lintConfig "airbnb"}};{{/if_eq}}
 
-为了一个逗号和行尾的封号写了很多的判断，对于一个团队来说定制一种编码规范改一下模板的成本会更小。如果想要初始化一些公用功能进去，这样判断需要大面积存在，特别不利于模板的二次定制，所以我们会选择一种在开源届使用广泛的规范来作为唯一的规范。编码规范的详细内容查看我的另一篇文章[前端编码规范](/#!/articles/fe-code-style)。
+为了一个逗号和行尾的封号写了很多的判断，对于一个团队来说定制一种编码规范改一下模板的成本会更小。如果想要初始化一些公用功能进去，这样判断需要大面积存在，特别不利于模板的二次定制，所以我们会选择一种在开源届使用广泛的规范来作为唯一的规范，这种规范我准备选择 standard，具体原因和编码规范的详细内容查看我的另一篇文章[前端编码规范](/#!/articles/fe-code-style)。
 
 ## 开始改造现有功能
 
@@ -366,9 +366,7 @@ vs code 需要加配置：
 
 ## 改造代码格式验证
 
-改造此处 ---- 
-
-我们打算去掉 ESlint 的询问，并且配置自己的验证规则，最后给出 IDE 的支持。
+我们打算去掉 ESlint 的询问，并且将编码规范设为 standard，最后给出 IDE 的支持。
 
 ### 去除 ESlint 询问配置
 
@@ -392,14 +390,12 @@ vs code 需要加配置：
     // template/package.json
     // 去掉 {{#lint}} 成对的判断，我们恒定需要
     {{#lint}}
-    // 去掉下面两项的判断和其中的内容
-    {{#if_eq lintConfig "standard"}}
+    // 去掉 airbnb 的判断和其中的内容
     {{#if_eq lintConfig "airbnb"}}
 
 eslint 的配置文件也需要更改：
 
     // template/.eslintrc.js
-    // 去掉 {{#if_eq lintConfig "standard"}} 之间的内容，上下共 3 处
     // 去掉 {{#if_eq lintConfig "airbnb"}} 之间的内容，上下共 3 处
 
 webpack 中的配置改一下：
@@ -408,16 +404,6 @@ webpack 中的配置改一下：
     // 去掉 {{#lint}} 成对的判断，我们恒定需要
 
 最后把项目代码改一下，`template/src` 下的全部文件过一下，地方太多但是改起来很容易，我就不一个个的粘上来了。
-
-### 改 ESLint
-
-在 rules 中添加两条演示规则，最通用的两条：缩进两个空格，语句不能省略封号。
-
-    // template/.eslintrc.js
-    'indent': [level, 2],
-    'semi': [2, 'always'],
-
-更多配置在这里：[https://eslint.org/docs/rules/](https://eslint.org/docs/rules/)
 
 ### vscode 插件
 

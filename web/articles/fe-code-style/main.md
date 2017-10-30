@@ -52,6 +52,10 @@ vue 源码的编码规范：
 
 [腾讯](http://alloyteam.github.io/CodeGuide/#css) 和 [Airbnb](https://github.com/airbnb/css) 都给出了 Sass 的规范，可见预处理器 Sass 是比较受欢迎的。
 
+## eslint rules
+
+配置：[https://eslint.org/docs/rules/](https://eslint.org/docs/rules/)
+
 ## 参考
 
 [javascript检验工具的比较](http://zhenhua-lee.github.io/tools/linter.html)
