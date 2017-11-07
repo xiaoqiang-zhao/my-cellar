@@ -427,7 +427,7 @@ webpack 中的配置改一下：
 
 最后把生成的文件 `settings.js` 连同文件夹 `.vscode` 拷贝进 `template`。
 
-其他的支持请自行 google。
+其他的支持请自行 Google。
 
 ### 小遗憾
 
@@ -446,7 +446,7 @@ CSS 在项目中必不可少，一般我们会引入预处理器来增强原生 
 
 安装后把生成的配置添加到 template/package.json 中：
 
-    "less": "^3.0.0-alpha.3",
+    "less": "^2.3.1",
     "less-loader": "^4.0.5",
 
 我们的项目用的是 Less，这里只把 Less 的依赖添加了进去，如果需要可以自行添加其他预处理器。
@@ -464,11 +464,30 @@ Less 规范：https://github.com/ecomfe/spec/blob/master/less-code-style.md
 
 ### iconfont
 
-todo...
+很难想象一个项目没有图标界面会长什么样，这里引入 iconfont，那么 iconfont 解决什么问题呢？
 
-代码格式...
+传统的小图标用小图片来实现，会产生一些问题，iconfont 就是为了解决这些问题而引入的，具体如下：
 
-项目目录结构...
+- 放大或缩小失真，iconfont 用 svg 来处理解决此问题；
+- 为了提高性能要合并成雪碧图不方便管理，iconfont 用字体库方便管理；
+- 多个颜色的小图标用图片需要多个，iconfont 可以像改变文字一样改变图标颜色。
+
+怎么用呢？
+
+- 首先你要有个账号：http://www.iconfont.cn/
+- 然后建立一个项目；
+- 选择图标加到项目中，然后下载到本地；
+- 解压添加到 assets 目录下；
+- 在项目代码中引入；
+- 在标签上添加 class。
+
+### CSS Normalize
+
+为了高效写出兼容个浏览器的样式，[CSS Normalize](http://nicolasgallagher.com/about-normalize-css/) 是必不可少的，@necolas 和 @jon_neal 花了几百个小时来努力研究不同浏览器的默认样式的差异，这个项目终于变成了现在这样。如果你还想了解更多的内容，从这里传送：[http://jerryzou.com/posts/aboutNormalizeCss/](http://jerryzou.com/posts/aboutNormalizeCss/)。
+
+
+
+## 项目目录结构
 
 ## 支持未压缩的打包
 

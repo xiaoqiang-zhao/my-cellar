@@ -145,6 +145,9 @@ forver扩展资料: [http://blog.fens.me/nodejs-server-forever/](http://blog.fen
 
 ### pm2 
 
+$ pm2 server     # 启动守护，其实就是用 pm2 替代 node
+
 $ pm2 list       # 显示所有进程状态
 
 $ pm2 stop 0       # 停止指定的进程
+

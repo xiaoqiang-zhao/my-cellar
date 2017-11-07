@@ -85,6 +85,7 @@ beautify 格式化代码插件
 
 https://hao5743.github.io/2016/12/26/vscode%E4%B8%ADbeautifyrc%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%BF%BB%E8%AF%91%E5%92%8C%E8%AE%BE%E7%BD%AE/
 
+[Auto Rename Tag](https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-rename-tag) 修改HTML标签时，自动修改匹配的标签
 
 ## 杂项
 
