@@ -295,6 +295,17 @@ vs code 需要加配置：
     // 将axios挂载到prototype上，在组件中可以直接使用this.$http访问
     Vue.prototype.$http = axios;
 
+关于插件的添加这篇文章写的很不错：[Use Any Javascript Library With Vue.js](https://vuejsdevelopers.com/2017/04/22/vue-js-libraries-plugins/)。axios 对返回的数据做了包装，我们需要做一些处理，一些对 Ajax 数据请求全局的处理逻辑也可以写进里面：
+
+    // 添加响应拦截器
+    axios.interceptors.response.use(function (res) {
+    // 对响应数据做些事
+      return res.data
+    }, function (error) {
+      // 请求错误时做些事
+      return Promise.reject(error)
+    })
+
 然后加 Mock 功能，之前只有代理模式，现在我们要加一种提供数据的模式 Mock，考虑到后面我们还要加全栈模式，这里把配置顺便升一下级：
 
     // config/index.js
@@ -485,10 +496,6 @@ Less 规范：https://github.com/ecomfe/spec/blob/master/less-code-style.md
 
 为了高效写出兼容个浏览器的样式，[CSS Normalize](http://nicolasgallagher.com/about-normalize-css/) 是必不可少的，@necolas 和 @jon_neal 花了几百个小时来努力研究不同浏览器的默认样式的差异，这个项目终于变成了现在这样。如果你还想了解更多的内容，从这里传送：[http://jerryzou.com/posts/aboutNormalizeCss/](http://jerryzou.com/posts/aboutNormalizeCss/)。
 
-
-
-## 项目目录结构
-
 ## 支持未压缩的打包
 
 在测试环境需要一个不压缩的包，发现脚手架没有提供，这里实现一下：
@@ -505,20 +512,19 @@ Less 规范：https://github.com/ecomfe/spec/blob/master/less-code-style.md
 
 然后命令行 `npm run qa` 就可以打出测试包了，这样可以很方便的在测试环境定位问题。
 
-## webpack
+## 完善代码
 
-webpack 是一个比较重要的技能，这里简单讲一下，
+将代码在改改，更接近一个真实的项目，这里就不粘代码上来了，主要是目录规范：
 
-## 问题
+    ${src}
+        ├── assets      存放静态文件
+        ├── components  存放公共组件 
+        ├── pages       存放页面
+        ├── router      路由
+        ├── App.js      单页应用中，Vue 组件的根节点
+        └── main.js     入口文件，公共资源在这里加载
 
-不支持 less？没包
-
-"less": "^2.7.1",
-"less-loader": "^2.2.3",
-
-less 的 alias 设置研究。
-
-不支持未压缩的打包
+由于在单页应用中一切兼组件，所以全部的组件都放在 components 中反而不容易快速定位某个功能的代码，把页面全部放在 pages 中，pages 中的每个组件就是一个页面，和 router 中的配置一一对应。如果多个页面用到了相同的功能，或者功能本身不依赖于业务比较独立，那么把这类型的功能封装成组件放进 components 中。
 
 ## 参考
 
