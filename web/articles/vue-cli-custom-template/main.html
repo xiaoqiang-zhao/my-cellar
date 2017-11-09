@@ -23,7 +23,7 @@
 <p>由于 vue-cli 官方提供的模板不能满足前后端分离的工作模式(工具链层面的)，需要定制自己的模板，这篇文章主要讲怎样定制一个模板，并介绍一下我定制的模板特性，此模板作为我将来的开源项目脚手架。</p>
 </blockquote>
 <h2 id="header-1-1">站在巨人的肩上</h2>
-<p>我们的总体思路是最大限度的利用官方已有模板，进行改造和增强。我在 github 上建了一个 organization: <a href="https://github.com/vuejs-custom-templates-aggregate" target="_blank">vuejs-custom-templates-aggregate</a> ---- vue 自定义模板集合。然后将 <a href="https://github.com/vuejs-templates/webpack" target="_blank">https://github.com/vuejs-templates/webpack</a> 项目 fork 进 vuejs-custom-templates-aggregate(vue 自定义模板集合)，我给他取了个名字叫 spa-simple。之所以没叫 webpack-spa，是应为 browserify 用的人越来越少了，大家提到包加载器基本默认就是 webpack，另外我想从应用场景来区分模板，并大胆的幻想将来出现的其他模板是：</p>
+<p>我们的总体思路是最大限度的利用官方已有模板及其功能，进行改造和增强。我在 github 上建了一个 organization: <a href="https://github.com/vuejs-custom-templates-aggregate" target="_blank">vuejs-custom-templates-aggregate</a> ---- vue 自定义模板集合。然后将 <a href="https://github.com/vuejs-templates/webpack" target="_blank">https://github.com/vuejs-templates/webpack</a> 项目 fork 进 vuejs-custom-templates-aggregate，我给他取了个名字叫 spa-simple。之所以没叫 webpack-spa，是应为 browserify 用的人越来越少了，大家提到包加载器基本默认就是 webpack，另外我想从应用场景来区分模板，并大胆的幻想将来出现的其他模板是：</p>
 <ul>
 <li>spa-simple 纯前端单页应用；</li>
 <li>spa-full-stack 全栈单页应用，后端提供业务模板和数据库；</li>
@@ -34,7 +34,7 @@
 <p>然后我们将 spa-simple 用 git clone 到本地，进行下一步。</p>
 <h2 id="header-1-2">改造前的观察</h2>
 <h3 id="header-1-2-1">概述</h3>
-<p>先看看有什么功能，看着有用的保留，没用的去除：</p>
+<p>先看看有什么功能，有用的保留，没用的去除：</p>
 <ul>
 <li>Project name 保持不变；</li>
 <li>Project description 保持不变；</li>
@@ -121,7 +121,7 @@ sudo npm install -g eslint-plugin-html
     Hello{{#if_eq lint Config &quot;airbnb&quot;}},{{/if_eq}}
   }{{#if_eq lintConfig &quot;airbnb&quot;}},{{/if_eq}}{{/router}}
 }{{#if_eq lintConfig &quot;airbnb&quot;}};{{/if_eq}}
-</code></pre><p>为了一个逗号和行尾的封号写了很多的判断，对于一个团队来说定制一种编码规范改一下模板的成本会更小。如果想要初始化一些公用功能进去，这样判断需要大面积存在，特别不利于模板的二次定制，所以我们会选择一种在开源届使用广泛的规范来作为唯一的规范。编码规范的详细内容查看我的另一篇文章<a href="/#!/articles/fe-code-style" target="_blank">前端编码规范</a>。</p>
+</code></pre><p>为了一个逗号和行尾的封号写了很多的判断，对于一个团队来说定制一种编码规范改一下模板的成本会更小。如果想要初始化一些公用功能进去，这样判断需要大面积存在，特别不利于模板的二次定制，所以我们会选择一种在开源届使用广泛的规范来作为唯一的规范，这种规范我准备选择 standard，具体原因和编码规范的详细内容查看我的另一篇文章<a href="/#!/articles/fe-code-style" target="_blank">前端编码规范</a>。</p>
 <h2 id="header-1-3">开始改造现有功能</h2>
 <p>写 vue 模板并没有什么特别好的方法，因为模板改完之后需要编译后才能运行，所以我们先用现有模板生成一份比较全的，然后把相关依赖装好，提交到 github 上，然后改这个模板生成后的项目，改一部分验证一部分，验证没问题之后把修改点同步回模板中，这是我能想到的最简单快捷的方式。</p>
 <h3 id="header-1-3-1">Vue build</h3>
@@ -252,6 +252,15 @@ POST /a -&gt; /POST/a/index.js
 import axios from &#39;axios&#39;;
 // 将axios挂载到prototype上，在组件中可以直接使用this.$http访问
 Vue.prototype.$http = axios;
+</code></pre><p>关于插件的添加这篇文章写的很不错：<a href="https://vuejsdevelopers.com/2017/04/22/vue-js-libraries-plugins/" target="_blank">Use Any Javascript Library With Vue.js</a>。axios 对返回的数据做了包装，我们需要做一些处理，一些对 Ajax 数据请求全局的处理逻辑也可以写进里面：</p>
+<pre><code>// 添加响应拦截器
+axios.interceptors.response.use(function (res) {
+// 对响应数据做些事
+  return res.data
+}, function (error) {
+  // 请求错误时做些事
+  return Promise.reject(error)
+})
 </code></pre><p>然后加 Mock 功能，之前只有代理模式，现在我们要加一种提供数据的模式 Mock，考虑到后面我们还要加全栈模式，这里把配置顺便升一下级：</p>
 <pre><code>// config/index.js
 dataType: &#39;mock&#39;,  // proxy:代理; mock:模拟; full-stack:全栈(默认此项)
@@ -313,8 +322,7 @@ proxyTable: {
   }
 },
 </code></pre><h2 id="header-1-5">改造代码格式验证</h2>
-<p>改造此处 ---- </p>
-<p>我们打算去掉 ESlint 的询问，并且配置自己的验证规则，最后给出 IDE 的支持。</p>
+<p>我们打算去掉 ESlint 的询问，并且将编码规范设为 standard，最后给出 IDE 的支持。</p>
 <h3 id="header-1-5-1">去除 ESlint 询问配置</h3>
 <p>去除下面三项配置，这样在安装的时候就不会询问了：</p>
 <pre><code>// meta.js
@@ -333,24 +341,16 @@ filters
 <pre><code>// template/package.json
 // 去掉 {{#lint}} 成对的判断，我们恒定需要
 {{#lint}}
-// 去掉下面两项的判断和其中的内容
-{{#if_eq lintConfig &quot;standard&quot;}}
+// 去掉 airbnb 的判断和其中的内容
 {{#if_eq lintConfig &quot;airbnb&quot;}}
 </code></pre><p>eslint 的配置文件也需要更改：</p>
 <pre><code>// template/.eslintrc.js
-// 去掉 {{#if_eq lintConfig &quot;standard&quot;}} 之间的内容，上下共 3 处
 // 去掉 {{#if_eq lintConfig &quot;airbnb&quot;}} 之间的内容，上下共 3 处
 </code></pre><p>webpack 中的配置改一下：</p>
 <pre><code>// template/build/webpack.base.conf.js
 // 去掉 {{#lint}} 成对的判断，我们恒定需要
 </code></pre><p>最后把项目代码改一下，<code>template/src</code> 下的全部文件过一下，地方太多但是改起来很容易，我就不一个个的粘上来了。</p>
-<h3 id="header-1-5-2">改 ESLint</h3>
-<p>在 rules 中添加两条演示规则，最通用的两条：缩进两个空格，语句不能省略封号。</p>
-<pre><code>// template/.eslintrc.js
-&#39;indent&#39;: [level, 2],
-&#39;semi&#39;: [2, &#39;always&#39;],
-</code></pre><p>更多配置在这里：<a href="https://eslint.org/docs/rules/" target="_blank">https://eslint.org/docs/rules/</a></p>
-<h3 id="header-1-5-3">vscode 插件</h3>
+<h3 id="header-1-5-2">vscode 插件</h3>
 <p>如果你和我一样用的是 vscode，先全局装一下 eslint 包和插件：</p>
 <pre><code>sudo npm install -g eslint
 // 为了能检测 .vue 文件，还需要装 eslint 插件
@@ -366,8 +366,8 @@ sudo npm install -g eslint-plugin-html
     &quot;vue&quot;
 ]
 </code></pre><p>最后把生成的文件 <code>settings.js</code> 连同文件夹 <code>.vscode</code> 拷贝进 <code>template</code>。</p>
-<p>其他的支持请自行 google。</p>
-<h3 id="header-1-5-4">小遗憾</h3>
+<p>其他的支持请自行 Google。</p>
+<h3 id="header-1-5-3">小遗憾</h3>
 <p>本来样式也应该这样搞一下的，但是没找到比较好的工具和插件。最好用的也要算是 EFE 的 <a href="https://github.com/ecomfe/node-csshint" target="_blank">csshint</a>了，但是定制能力不足，缺 IDE 插件支持。less、sass、stylus 可能需要不同的规则支持，不知道有没有比较好的规范和工具，这一块的配置可以加上。</p>
 <p>另外还有一种走全家桶路线思路，集成化格式验证工具中比较好用的是 FECS：<a href="https://github.com/ecomfe/fecs/wiki/CSSHint" target="_blank">https://github.com/ecomfe/fecs/wiki/CSSHint</a></p>
 <h2 id="header-1-6">style 强化</h2>
@@ -376,7 +376,7 @@ sudo npm install -g eslint-plugin-html
 <pre><code>npm install less --save-dev
 npm install less-loader --save-dev
 </code></pre><p>安装后把生成的配置添加到 template/package.json 中：</p>
-<pre><code>&quot;less&quot;: &quot;^3.0.0-alpha.3&quot;,
+<pre><code>&quot;less&quot;: &quot;^2.3.1&quot;,
 &quot;less-loader&quot;: &quot;^4.0.5&quot;,
 </code></pre><p>我们的项目用的是 Less，这里只把 Less 的依赖添加了进去，如果需要可以自行添加其他预处理器。</p>
 <p>另外再补充一点，webpack 对各种预处理器的配置在 template/build/utils.js 中生成，规则就是：预处理器名-loader：</p>
@@ -388,9 +388,24 @@ npm install less-loader --save-dev
 })
 </code></pre><p>Less 规范：<a href="https://github.com/ecomfe/spec/blob/master/less-code-style.md" target="_blank">https://github.com/ecomfe/spec/blob/master/less-code-style.md</a></p>
 <h3 id="header-1-6-2">iconfont</h3>
-<p>todo...</p>
-<p>代码格式...</p>
-<p>项目目录结构...</p>
+<p>很难想象一个项目没有图标界面会长什么样，这里引入 iconfont，那么 iconfont 解决什么问题呢？</p>
+<p>传统的小图标用小图片来实现，会产生一些问题，iconfont 就是为了解决这些问题而引入的，具体如下：</p>
+<ul>
+<li>放大或缩小失真，iconfont 用 svg 来处理解决此问题；</li>
+<li>为了提高性能要合并成雪碧图不方便管理，iconfont 用字体库方便管理；</li>
+<li>多个颜色的小图标用图片需要多个，iconfont 可以像改变文字一样改变图标颜色。</li>
+</ul>
+<p>怎么用呢？</p>
+<ul>
+<li>首先你要有个账号：<a href="http://www.iconfont.cn/" target="_blank">http://www.iconfont.cn/</a></li>
+<li>然后建立一个项目；</li>
+<li>选择图标加到项目中，然后下载到本地；</li>
+<li>解压添加到 assets 目录下；</li>
+<li>在项目代码中引入；</li>
+<li>在标签上添加 class。</li>
+</ul>
+<h3 id="header-1-6-3">CSS Normalize</h3>
+<p>为了高效写出兼容个浏览器的样式，<a href="http://nicolasgallagher.com/about-normalize-css/" target="_blank">CSS Normalize</a> 是必不可少的，@necolas 和 @jon_neal 花了几百个小时来努力研究不同浏览器的默认样式的差异，这个项目终于变成了现在这样。如果你还想了解更多的内容，从这里传送：<a href="http://jerryzou.com/posts/aboutNormalizeCss/" target="_blank">http://jerryzou.com/posts/aboutNormalizeCss/</a>。</p>
 <h2 id="header-1-7">支持未压缩的打包</h2>
 <p>在测试环境需要一个不压缩的包，发现脚手架没有提供，这里实现一下：</p>
 <pre><code>// build/build.js
@@ -403,15 +418,18 @@ if (process.argv.indexOf(&#39;--qa&#39;)) {
   &quot;qa&quot;: &quot;node build/build.js --qa&quot;
 }
 </code></pre><p>然后命令行 <code>npm run qa</code> 就可以打出测试包了，这样可以很方便的在测试环境定位问题。</p>
-<h2 id="header-1-8">webpack</h2>
-<p>webpack 是一个比较重要的技能，这里简单讲一下，</p>
-<h2 id="header-1-9">问题</h2>
-<p>不支持 less？没包</p>
-<p>&quot;less&quot;: &quot;^2.7.1&quot;,
-&quot;less-loader&quot;: &quot;^2.2.3&quot;,</p>
-<p>less 的 alias 设置研究。</p>
-<p>不支持未压缩的打包</p>
-<h2 id="header-1-10">参考</h2>
+<h2 id="header-1-8">完善代码</h2>
+<p>将代码在改改，更接近一个真实的项目，这里就不粘代码上来了，主要是目录规范：</p>
+<pre><code>${src}
+    ├── assets      存放静态文件
+    ├── components  存放公共组件 
+    ├── pages       存放页面
+    ├── router      路由
+    ├── App.js      单页应用中，Vue 组件的根节点
+    └── main.js     入口文件，公共资源在这里加载
+</code></pre><p>由于在单页应用中一切兼组件，所以全部的组件都放在 components 中反而不容易快速定位某个功能的代码，把页面全部放在 pages 中，pages 中的每个组件就是一个页面，和 router 中的配置一一对应。如果多个页面用到了相同的功能，或者功能本身不依赖于业务比较独立，那么把这类型的功能封装成组件放进 components 中。</p>
+<p>最后说一下一个容易忽视的地方，在 template 写表达式的时候，如：<code>&lt;div&gt;{{text}}&lt;/div&gt;</code>，要加上转译符号，否则在模板中输不出来，像这样：<code>&lt;div&gt;\{{text}}&lt;/div&gt;</code></p>
+<h2 id="header-1-9">参考</h2>
 <p><a href="http://gcdn.gcpowertools.com.cn/showtopic-36912-1-3.html?utm_source=segmentfault&amp;utm_medium=referral&amp;utm_campaign=20170417&amp;utm_content=36912" target="_blank">http://gcdn.gcpowertools.com.cn/showtopic-36912-1-3.html?utm_source=segmentfault&amp;utm_medium=referral&amp;utm_campaign=20170417&amp;utm_content=36912</a></p>
 
 </div>

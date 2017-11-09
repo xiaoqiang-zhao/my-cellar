@@ -4,7 +4,7 @@
 
 ## 站在巨人的肩上
 
-我们的总体思路是最大限度的利用官方已有模板，进行改造和增强。我在 github 上建了一个 organization: [vuejs-custom-templates-aggregate](https://github.com/vuejs-custom-templates-aggregate) ---- vue 自定义模板集合。然后将 https://github.com/vuejs-templates/webpack 项目 fork 进 vuejs-custom-templates-aggregate(vue 自定义模板集合)，我给他取了个名字叫 spa-simple。之所以没叫 webpack-spa，是应为 browserify 用的人越来越少了，大家提到包加载器基本默认就是 webpack，另外我想从应用场景来区分模板，并大胆的幻想将来出现的其他模板是：
+我们的总体思路是最大限度的利用官方已有模板及其功能，进行改造和增强。我在 github 上建了一个 organization: [vuejs-custom-templates-aggregate](https://github.com/vuejs-custom-templates-aggregate) ---- vue 自定义模板集合。然后将 https://github.com/vuejs-templates/webpack 项目 fork 进 vuejs-custom-templates-aggregate，我给他取了个名字叫 spa-simple。之所以没叫 webpack-spa，是应为 browserify 用的人越来越少了，大家提到包加载器基本默认就是 webpack，另外我想从应用场景来区分模板，并大胆的幻想将来出现的其他模板是：
 
 - spa-simple 纯前端单页应用；
 - spa-full-stack 全栈单页应用，后端提供业务模板和数据库；
@@ -18,7 +18,7 @@
 
 ### 概述
 
-先看看有什么功能，看着有用的保留，没用的去除：
+先看看有什么功能，有用的保留，没用的去除：
 
 - Project name 保持不变；
 - Project description 保持不变；
@@ -525,6 +525,8 @@ Less 规范：https://github.com/ecomfe/spec/blob/master/less-code-style.md
         └── main.js     入口文件，公共资源在这里加载
 
 由于在单页应用中一切兼组件，所以全部的组件都放在 components 中反而不容易快速定位某个功能的代码，把页面全部放在 pages 中，pages 中的每个组件就是一个页面，和 router 中的配置一一对应。如果多个页面用到了相同的功能，或者功能本身不依赖于业务比较独立，那么把这类型的功能封装成组件放进 components 中。
+
+最后说一下一个容易忽视的地方，在 template 写表达式的时候，如：`<div>{{text}}</div>`，要加上转译符号，否则在模板中输不出来，像这样：`<div>\{{text}}</div>`
 
 ## 参考
 
