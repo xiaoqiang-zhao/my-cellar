@@ -1,0 +1,15 @@
+# 工具篇
+
+> 工欲善其事必先利其器，开发解决某些问题时用恰当的工具能事半功倍。这篇文章介绍一些解决特定问题的工具。
+
+## Weinre
+
+移动端调试的利器，有些 bug 只在某款手机上出现怎么调试，用 alert 调试效率太低，没办法定位复杂 bug，这时就需要 Weinre 出场了，这款工具可以在PC上调试跑在手机上的代码，查看 DOM 结构和样式，debug js，太方便了。
+
+https://github.com/nupthale/weinre
+
+## Charles
+
+http://www.jianshu.com/p/68684780c1b0
+
+注意如果要配置 https 抓包，需要安装证书，在安装证书的时候请先确保已经可以对 http 抓包了，也就是配置和 charles 已经启动好了。
