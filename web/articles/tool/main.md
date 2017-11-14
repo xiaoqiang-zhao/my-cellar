@@ -12,4 +12,4 @@ https://github.com/nupthale/weinre
 
 http://www.jianshu.com/p/68684780c1b0
 
-注意如果要配置 https 抓包，需要安装证书，在安装证书的时候请先确保已经可以对 http 抓包了，也就是配置和 charles 已经启动好了。
+注意如果要配置 https 抓包，需要安装证书，在安装证书的时候请先确保已经可以对 http 抓包了，也就是配置和 charles 已经启动好了。还有一点，保证证书的信任模式已经打开，打开方式：设置/通用/关于本机/证书信任设置。
