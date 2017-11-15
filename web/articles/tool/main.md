@@ -13,3 +13,13 @@ https://github.com/nupthale/weinre
 http://www.jianshu.com/p/68684780c1b0
 
 注意如果要配置 https 抓包，需要安装证书，在安装证书的时候请先确保已经可以对 http 抓包了，也就是配置和 charles 已经启动好了。还有一点，保证证书的信任模式已经打开，打开方式：设置/通用/关于本机/证书信任设置。
+
+## Beyond Compare
+
+对比文件差异的好工具，下载地址：https://www.scootersoftware.com/download.php
+
+## OBS
+
+这是一个直播推流的工具，现在国内的各种直播平台都没有提供 Mac 版直播工具，如果你想通过直播来提高自己的知名度，那么这款软件是很实用的。
+
+斗鱼的推流教程：https://www.douyu.com/cms/zhibo/201311/13/250.shtml
