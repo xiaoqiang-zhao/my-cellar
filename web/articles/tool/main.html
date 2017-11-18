@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>工具篇 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">工具篇</h1>
+<blockquote>
+<p>工欲善其事必先利其器，开发解决某些问题时用恰当的工具能事半功倍。这篇文章介绍一些解决特定问题的工具。</p>
+</blockquote>
+<h2 id="header-1-1">Weinre</h2>
+<p>移动端调试的利器，有些 bug 只在某款手机上出现怎么调试，用 alert 调试效率太低，没办法定位复杂 bug，这时就需要 Weinre 出场了，这款工具可以在PC上调试跑在手机上的代码，查看 DOM 结构和样式，debug js，太方便了。</p>
+<p><a href="https://github.com/nupthale/weinre" target="_blank">https://github.com/nupthale/weinre</a></p>
+<h2 id="header-1-2">Charles</h2>
+<p><a href="http://www.jianshu.com/p/68684780c1b0" target="_blank">http://www.jianshu.com/p/68684780c1b0</a></p>
+<p>注意如果要配置 https 抓包，需要安装证书，在安装证书的时候请先确保已经可以对 http 抓包了，也就是配置和 charles 已经启动好了。还有一点，保证证书的信任模式已经打开，打开方式：设置/通用/关于本机/证书信任设置。</p>
+<h2 id="header-1-3">Beyond Compare</h2>
+<p>对比文件差异的好工具，下载地址：<a href="https://www.scootersoftware.com/download.php" target="_blank">https://www.scootersoftware.com/download.php</a></p>
+<h2 id="header-1-4">OBS</h2>
+<p>这是一个直播推流的工具，现在国内的各种直播平台都没有提供 Mac 版直播工具，如果你想通过直播来提高自己的知名度，那么这款软件是很实用的。</p>
+<p>斗鱼的推流教程：<a href="https://www.douyu.com/cms/zhibo/201311/13/250.shtml" target="_blank">https://www.douyu.com/cms/zhibo/201311/13/250.shtml</a></p>
+
+</div>
+</body>
+</html>

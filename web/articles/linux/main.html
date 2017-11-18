@@ -152,7 +152,8 @@ scp dist-b.zip work@bjyz-coparch10.epc.baidu.com:/home/work/apache-tomcat-6.0.39
 </code></pre><p>XShell 远程传文件好用</p>
 <p>删除输入或粘贴的一大坨字符串</p>
 <pre><code>Ctr + u
-</code></pre><h2 id="header-1-6">权限管理</h2>
+</code></pre><p>wget，从服务器下载文件。</p>
+<h2 id="header-1-6">权限管理</h2>
 <p>Linux系统中的每个文件和目录都有访问许可权限，用它来确定谁可以通过何种方式对文件和目录进行访问和操作。文件或目录的访问权限分为只读，只写和可执行三种。</p>
 <pre><code>// 查看文件所属权限
 ls -l
@@ -181,14 +182,8 @@ drwxrwxr-x
 </ul>
 <p>操作符号可以是：</p>
 <ul>
-<li><ul>
-<li>添加某个权限。</li>
-</ul>
-</li>
-<li><ul>
-<li>取消某个权限。</li>
-</ul>
-</li>
+<li>+ 添加某个权限。</li>
+<li>- 取消某个权限。</li>
 <li>= 赋予给定权限并取消其他所有权限（如果有的话）。</li>
 </ul>
 <p>合起来编写可能就是这样的：</p>
@@ -218,6 +213,8 @@ drwxrwxr-x
 <a href="http://blog.csdn.net/justforfly/article/details/39293819" target="_blank">http://blog.csdn.net/justforfly/article/details/39293819</a></p>
 <p>查看 binaries: uname -a</p>
 <pre><code>CST 2015 x86_64 x86_64 x86_64 GNU/Linux
+</code></pre><p>查看 centos 版本</p>
+<pre><code>cat /etc/issue
 </code></pre>
 </div>
 </body>
