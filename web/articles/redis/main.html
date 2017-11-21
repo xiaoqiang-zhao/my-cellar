@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Redis 学习笔记 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">Redis 学习笔记</h1>
+<blockquote>
+<p>早闻大名，开始学习，下面是学习过程留下的笔记，力图用最少的时间，了解 80% 的内容。</p>
+</blockquote>
+<h2 id="header-1-1">初识</h2>
+<p>2009 年意大利程序员 Salvatore Sanfilippo 为了用一台服务器(有限的资源)解决高并发存取而开发的一种非关系数据库。</p>
+<p>此数据库的定位是非关系型键值数据库，比分布式缓存服务器 memcached 更灵活，数据类型也更多，memcached 只提供字符串类型。可以简单的理解成只有一张表，并且这张表只有两个字段 key 和 value 的轻量数据库，简化功能换取速度。随着社区的推动，Redis 在分布式上也走出了自己的道路。</p>
+<p>Redis 的适用场景是快速写入和读取结构简单的数据。</p>
+<h2 id="header-1-2">安装&amp;运行</h2>
+<pre><code>// 选取安装目录
+cd /usr/local/
+// 下载
+sudo wget http://download.redis.io/releases/redis-4.0.2.tar.gz
+// 解压
+tar xzf redis-4.0.2.tar.gz
+// 进入目录
+cd redis-4.0.2
+// 编译
+make
+// 安装
+make install
+// 启动
+redis-server
+// 启动 redis cli (需要在新命令行窗口)
+redis-cli
+// 插入数据
+set foo bar
+// 获取数据
+get foo
+</code></pre><p>参考：<a href="https://redis.io/download" target="_blank">https://redis.io/download</a></p>
+<p>一套命令下来， Redis 版的 Hello world 就完成了。先留下两个问题：</p>
+<p>1、退出 redis-server 后重新启动，之前 set 的数据找不到了，怎么持久化？</p>
+<p>2、搜索怎么做？</p>
+<h2 id="header-1-3">数据类型</h2>
+<p>一共五种，我们挨个看：</p>
+<h3 id="header-1-3-1">字符串 - Strings</h3>
+<p>其实是字符串和数字，包括整型和浮点，下面简称字符串类型。</p>
+<pre><code>// 增改
+set foo bar
+// 查
+get foo
+// 删
+del foo
+</code></pre><h3 id="header-1-3-2">列表 - Lists</h3>
+<p>有序存储多个字符串，字符串可重复</p>
+<pre><code>// 右插入，可存在重复元素
+rpush my-list item1 item2 item1
+// 左插入
+lpush my-list item0
+// 获取列表的指定区间，-1 表示获取全部
+lrange my-list 0 -1
+// 获取列表的其中一个字符串
+lindex my-list 2
+// 从列表弹出一个元素，并返回这个元素的值
+lpop my-list
+</code></pre><p>还有其他的命令这里先不展开...</p>
+<h3 id="header-1-3-3">集合 - Sets</h3>
+<p>有序存储多个字符串，字符串不可重复</p>
+<pre><code>// 添加元素到集合中，成功(插入已存在的元素视为不成功)返回 1，否则返回 0
+sadd my-set item0 item1
+// 获取集合的全部元素
+smembers my-set
+// 查看某个元素是否在集合中，存在返回 1，否则返回 0
+sismember my-set item1
+// 删除集合中的某元素，删除成功返回 1，否则返回 0
+srem my-set item1
+</code></pre><p>还有一些交集并集等操作这里也不展开...</p>
+<h3 id="header-1-3-4">散列 - Hashes</h3>
+<p>存储多个键值之间的映射。</p>
+<pre><code>// 添加/更新 键值对到散列
+hset my-hash name longze
+// 获取所有键值对
+hgetall my-hash
+// 删除键值对
+hdel my-hash name
+// 获取散列里面某个键的值
+hget my-hash name
+</code></pre><h3 id="header-1-3-5">有序集合 - Sorted sets</h3>
+<p>和散列一样也用来存放键值对，不同之处是：</p>
+<ul>
+<li>有序集合的键被称为成员 member，每个成员独一无二；</li>
+<li><p>有序集合的值被称为分值 score，分值必须为浮点数。</p>
+<p>  // 添加键值对，注意先值后键，值必须为浮点，键任意
+  zadd my-sorted-set 100 member0
+  // 读取全部键值
+  zrange my-sorted-set 0 -1 withscores
+  // 根据分值来获取
+  zrangebyscore my-sorted-set 0 100 withscores
+  // 移除键值对
+  zrem my-sorted-set mem0</p>
+</li>
+</ul>
+<h2 id="header-1-4">简单投票系统</h2>
+
+</div>
+</body>
+</html>
