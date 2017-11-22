@@ -20,7 +20,7 @@
 <div>
     <h1 id="header-1">Redis 学习笔记</h1>
 <blockquote>
-<p>早闻大名，开始学习，下面是学习过程留下的笔记，力图用最少的时间，了解 80% 的内容。</p>
+<p>早闻大名，开始学习，下面是学习过程留下的笔记，力图用最少的时间，了解 80% 的内容。这个笔记也是以书《Redis Action》为主线来进行，会加一些官网和博客中的内容。</p>
 </blockquote>
 <h2 id="header-1-1">初识</h2>
 <p>2009 年意大利程序员 Salvatore Sanfilippo 为了用一台服务器(有限的资源)解决高并发存取而开发的一种非关系数据库。</p>
@@ -48,9 +48,7 @@ set foo bar
 // 获取数据
 get foo
 </code></pre><p>参考：<a href="https://redis.io/download" target="_blank">https://redis.io/download</a></p>
-<p>一套命令下来， Redis 版的 Hello world 就完成了。先留下两个问题：</p>
-<p>1、退出 redis-server 后重新启动，之前 set 的数据找不到了，怎么持久化？</p>
-<p>2、搜索怎么做？</p>
+<p>一套命令下来， Redis 版的 Hello world 就完成了。</p>
 <h2 id="header-1-3">数据类型</h2>
 <p>一共五种，我们挨个看：</p>
 <h3 id="header-1-3-1">字符串 - Strings</h3>
@@ -111,6 +109,7 @@ hget my-hash name
 </li>
 </ul>
 <h2 id="header-1-4">简单投票系统</h2>
+<p>如果要做系统，那么选一种服务器语言是必不可少的步骤，业界推荐的是 Python，《Redis Action》中用的也是 Python，我这里用 Node.js 来写。包<a href="https://www.npmjs.com/package/redis" target="_blank">redis</a> 能满足我们的全部需求。</p>
 
 </div>
 </body>

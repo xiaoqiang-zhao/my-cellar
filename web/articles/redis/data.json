@@ -1,7 +1,7 @@
 {
   "enName": "redis",
   "title": "Redis 学习笔记",
-  "introduction": "早闻大名，开始学习，下面是学习过程留下的笔记，力图用最少的时间，了解 80% 的内容。",
+  "introduction": "早闻大名，开始学习，下面是学习过程留下的笔记，力图用最少的时间，了解 80% 的内容。这个笔记也是以书《Redis Action》为主线来进行，会加一些官网和博客中的内容。",
   "tags": [],
   "isPublished": false,
   "state": "立项",

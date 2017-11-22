@@ -759,6 +759,18 @@
     "todoList": []
   },
   {
+    "enName": "mongo-db",
+    "title": "MongDb 学习笔记",
+    "introduction": "早闻大名，开始学习，下面是学习过程留下的笔记，力图用最少的时间，了解 80% 的内容。这个笔记也是以书《MongDB in Action》为主线来进行，会加一些官网和博客中的内容，这一篇是 Redis 的姊妹篇。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1511316333072,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "n-s-graph",
     "title": "N-S 图",
     "introduction": "使用 div + css 画改进版的 N-S 图。 ",
@@ -909,6 +921,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1458264048135,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "redis",
+    "title": "Redis 学习笔记",
+    "introduction": "早闻大名，开始学习，下面是学习过程留下的笔记，力图用最少的时间，了解 80% 的内容。这个笔记也是以书《Redis Action》为主线来进行，会加一些官网和博客中的内容。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1511178633937,
     "commentList": [],
     "todoList": []
   },
