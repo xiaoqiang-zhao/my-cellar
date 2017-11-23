@@ -27,7 +27,30 @@
 然后就可以看到重要的启动信息了：
 
     MongoDB starting : pid=15390 port=27017
-    
+
+这里遇到了以一个坑，`/data/db` 这个目录的权限可能无法支持直接写操作，会报这样一个错 `Attempted to create a lock file on a read-only directory: /data/db`，然后 shutdown，加 sudo 是最简单快捷的处理方式，也可以改变此目录的权限。跳过此坑就可以再开一个命令行，转到 `mongodb-osx-x86_64-enterprise-3.4.10/bin` 下：
+
+    // 启动命令行
+    ./mongo
+    // 获取当前数据库的名称，默认是 test
+    db.getName()
+    // 获取全部数据库的名称，
+    // 默认有 admin local test 三个数据库，
+    // 其中前两个是系统数据库
+    show dbs
+    // 创建users集合，向集合中插入一条document
+    db.users.insert({"name":"name 1",age:21})
+    // 查看插入的数据
+    db.users.find()
+    // 关闭数据库链接
+    db.shutdownServer()
+
+三个数据库中 admin 对应管理员权限，最后的“关闭数据库链接”操作需要切换到 admin 才能进行(`use admin`)。命令行是要学一点的，因为有些机器可能就没有界面，不过有界面的时候也不用难为自己，介绍一个可视化数据库工具：[Robo 3T](https://robomongo.org/download)，很方便的就可以链接上，直接上一张图：
+
+![Robo-3T](/articles/mongo-db/img/robo-3t.png)
+
+## 理论
+
 ### 附注
 
 Community Server， 社区版，比企业版少一些高级功能
