@@ -159,8 +159,7 @@ vs code 需要加配置：
     new Vue({
         el: '#app',
         router,
-        render: h => h(App),
-        components: { App }
+        render: h => h(App)
     });
 
 最后去掉 template/build/webpack.base.conf.js 中的下面这部分判断：
