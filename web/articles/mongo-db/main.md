@@ -49,9 +49,51 @@
 
 ![Robo-3T](/articles/mongo-db/img/robo-3t.png)
 
-## 理论
+## 主要特性
 
-### 附注
+### 文档模型
+
+其实就是一个带 id 字段的大 json。数据采用嵌套而非表关联，每个文档能拥有不同的结果，属性可变。
+
+### 查询
+
+先插入两条数据，下面是示例：
+
+    db.articles.insert({
+        title: 'title1',
+        author: 'longze',
+        vote_count: 20,
+        content: '内容1',
+        tags: ['tag1', 'tag2', 'tag3'],
+        comments: [
+            {
+                user: 'user1',
+                text: 'text1'
+            },
+            {
+                user: 'user2',
+                text: 'text2'
+            }
+        ]
+    })
+
+然后看怎么找出来，我们查找 tag 包含 “tag2” 并且 vote_count 大于 10 的文章：
+
+    db.articles.find({'tags': 'tag2', 'vote_count': {'$gt': 10}})
+
+你可以变换条件来看看这些查询是否符合你的预期。
+
+### 速度和持久性
+
+写速度和持久性存在一种相反的关系，数据库设计者需要在速度和持久性中做出权衡。MongoDB 通过控制 Journaling 日志是否开启来控制选择速度和持久性，Journaling 默认是开启的。
+
+### 分布式
+
+不需要编写应用层代码就能实现集群，主从互备和容灾都可以底层本实现。
+
+## 核心服务器和工具
+
+## 附注
 
 Community Server， 社区版，比企业版少一些高级功能
 
