@@ -109,6 +109,7 @@
     // 插入一个稍微复杂一点的，方便后面查询
     db.users.insert({
         name: 'tony',
+        age: 18,
         favorites: {
             movies: ['Game of Thrones'],
             sports: ['football']
@@ -117,16 +118,90 @@
 
 ### 查询数据
 
-查询的姿势比较多：
+查询的姿势比较多，我们先开个头：
 
     // 最简单的查文档全集
     db.users.find()
     // 查单一字段
     db.users.find({name: 'tony'})
-    // 多级单一字段
+    // 内嵌文档单一字段
     db.users.find({'favorites.movies': 'Game of Thrones'})
 
-查询的内容比较多，就不一个个展开了，用的时候查询一下，相了解更多查看这篇博文：http://www.cnblogs.com/egger/p/3135847.html
+对于数字的查询会用到一些比较符号：
+
+- (>) 大于 - $gt；
+- (<) 小于 - $lt；
+- (>=) 大于等于 - $gte；
+- (<= ) 小于等于 - $lte；
+
+比如我们查找成年用户(大于等于 18 岁):
+
+    db.users.find({age: {
+        '$gte': 18
+    }})
+
+对于字符串，没有像 like 这样的语句，而是直接上正则，比如我们要找 name 以 t 开头的人：
+
+    db.users.find({
+        name: /^t/i
+    })
+
+还有一个比较特殊的地方就是数组的搜索，上面用到的 `db.users.find({'favorites.movies': 'Game of Thrones'})` 是包含某一项，精确包含且只包含某一项或几项用下面命名：
+
+    // 先插入一条数据
+    db.users.insert({
+        name: 'tony',
+        age: 18,
+        favorites: {
+            movies: ['Game of Thrones', 'The hundred'],
+            sports: ['football']
+        }
+    })
+    // 精确查询
+    db.users.find({'favorites.movies': ['Game of Thrones']})
+
+范围条件任意元素匹配查询
+
+    // 先插入一条数据，
+    // 其中 scores 表示其中成绩和期末成绩
+    db.users.insert({
+        name: 'tony',
+        age: 18,
+        scores: [59, 90],
+        favorites: {
+            movies: ['Game of Thrones', 'The hundred'],
+            sports: ['football']
+        }
+    })
+    // 有没有不及格的
+    db.users.find({'scores': {'$lt': 60}})
+
+嵌套文档查询，比如有没有不及格的科目，直接用数组的键值就可以：
+
+    // 先准备数据
+    db.users.insert({
+        name: 'tony',
+        age: 18,
+        courses: [
+            {
+                name: 'mathematics',
+                score: 59
+            },
+            {
+                name: 'material',
+                score: 90
+            }
+        ],
+        favorites: {
+            movies: ['Game of Thrones', 'The hundred'],
+            sports: ['football']
+        }
+    })
+    // 查询
+    db.users.find({'courses.score': {'$lt': 60}})
+
+另外还有 $elemMatch、$all、$size 等关键字就不一一讲了，参见这篇博文：http://blog.csdn.net/leshami/article/details/55049891
+。
 
 ### 更新数据
 
