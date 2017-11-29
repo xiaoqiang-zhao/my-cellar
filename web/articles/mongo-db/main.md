@@ -205,6 +205,20 @@
 
 ### 更新数据
 
+更新操作前半段是查询，后半段是更新，还有一点需要注意，MongoDB 的更新操作默认只会应用于匹配到的第一个文档，如果希望操作应用于匹配到的搜有文档，需要加参数。先看个简单的：
+
+    // 将 name 为 neo 的用户年龄设置成 19
+    db.users.update({name: 'neo'}, {$set: {age: 19}})
+    // neo 喜欢的电影应该包括 The Matrix(黑客帝国)
+    db.users.update({name: 'neo'}, {$addToSet: {'favorites.movies': 'The Matrix'}})
+
+`$set` 可以直接设置值；`$addToSet` 可以像数组中添加元素，并且保证不重复添加，与之类似的还有 `$push`，直接添加不判断是否重复；如果我们想删除某个字段，可以用 `$unset` 来做，需要注意的是被删除的字段需要写成键值对的形式，值是啥无所谓：
+
+    db.users.update({name: 'neo'}, {$unset: {'age': 0}})
+    // 下面这样是不行滴
+    db.users.update({name: 'neo'}, {$unset: 'age'})
+
+当然还有其他的内容，这里就不一一列举了。
 
 ## 附注
 
