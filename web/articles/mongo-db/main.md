@@ -232,6 +232,29 @@
 
 ### 索引
 
+索引是用来提升查询速度的，在没有索引的时候我们要查一个集合需要遍历搜有元素，索引的作用是把所有元素先按照索引的规则排序，然后查的时候用二分法(多数数据库是这么干的，MongoDB也不例外)就快多了。索引在比较多的数据下才会起显著作用，我们先插入 20 万条数据，猜猜要用多长时间？
+
+    for (i = 0; i < 200000; i++) {
+        db.t1.insert({number: i})
+    }
+    // 可以验证一下是不是插入了 20 万条
+    db.t1.count()
+
+大约用了 59秒，查询任意一条大约需要 90 毫秒，通过 `explain('executionStats')` 可以查看查询的一些细节，比如在 executionStats 下，executionTimeMillis 是查询时间、totalDocsExamined 是扫描了多少文档、totalKeysExamined 索引扫描了多少文档。
+
+    db.t1.find({number: 999}).explain('executionStats')
+
+查看当前集合上有什么索引，id 是默认存在的索引：
+
+    db.t1.getIndexes()
+
+我们加一个对 number 的索引试试，对 number 字段建立正序索引：
+
+    db.t1.ensureIndex({number: 1})
+
+再执行上面命令就可以看到多了一个索引，再执行查询的时候发现查询时间下降到了 2 毫秒。
+
+### 基本管理
 
 
 ## 附注
