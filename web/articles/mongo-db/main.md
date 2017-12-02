@@ -256,6 +256,69 @@
 
 ### 基本管理
 
+先整理一下我们前面用过的一些管理命令：
+
+    // 显示系统上的数据库列表
+    show dbs
+    // 获取当前数据库名称
+    db.getName()
+    // 切换数据库
+    use test
+    // 查看数据库中的集合
+    show collections
+
+还有一些其他的常用命令：
+
+    // 获取当前数据库信息
+    db.stats()
+    // 获取某集合的信息
+    db.numbers.stats()
+    // 持续添加中...
+
+db 下还有很多方法，执行 `db.help()` 可以看到，粘贴前几个进来看看：
+
+    db.adminCommand(nameOrDocument) - switches to 'admin' db, and runs command [ just calls db.runCommand(...) ]
+	db.auth(username, password)
+	db.cloneDatabase(fromhost)
+	db.commandHelp(name) returns the help for the command
+	db.copyDatabase(fromdb, todb, fromhost)
+	db.createCollection(name, { size : ..., capped : ..., max : ... } )
+
+同样，集合的方法也可以通过 `db.t1.help()` 拿到：
+
+    db.t1.find().help() - show DBCursor help
+	db.t1.bulkWrite( operations, <optional params> ) - bulk execute write operations, optional parameters are: w, wtimeout, j
+	db.t1.count( query = {}, <optional params> ) - count the number of documents that matches the query, optional parameters are: limit, skip, hint, maxTimeMS
+
+如果你想查看某个方法的源码，那么去掉括号就是了：
+
+    db.t1.find
+    // 下面是 find 方法的实现
+    function (query, fields, limit, skip, batchSize, options) {
+        var cursor = new DBQuery(this._mongo,
+                                this._db,
+                                this,
+                                this._fullName,
+                                this._massageObject(query),
+                                fields,
+                                limit,
+                                skip,
+                                batchSize,
+                                options || this.getQueryOptions());
+
+        var connObj = this.getMongo();
+        var readPrefMode = connObj.getReadPrefMode();
+        if (readPrefMode != null) {
+            cursor.readPref(readPrefMode, connObj.getReadPrefTagSet());
+        }
+
+        var rc = connObj.getReadConcern();
+        if (rc) {
+            cursor.readConcern(rc);
+        }
+
+        return cursor;
+    }
 
 ## 附注
 
