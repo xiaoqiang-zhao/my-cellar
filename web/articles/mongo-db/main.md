@@ -320,6 +320,10 @@ db 下还有很多方法，执行 `db.help()` 可以看到，粘贴前几个进�
         return cursor;
     }
 
+## 用在项目
+
+MongoDB 为各种语言提供了驱动，用 Node.js 的话首选 mongoose(npm 包)。
+
 ## 附注
 
 Community Server， 社区版，比企业版少一些高级功能
