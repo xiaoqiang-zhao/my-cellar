@@ -324,6 +324,25 @@ db 下还有很多方法，执行 `db.help()` 可以看到，粘贴前几个进�
 
 MongoDB 为各种语言提供了驱动，用 Node.js 的话首选 mongoose(npm 包)。
 
+首先需要安装：
+
+    npm install mongoose
+
+其次我们要把 MongoDB 启动起来
+
+    sudo ./mongod
+
+然后就可以连接了：
+
+
+
+参考文章：
+
+[官方 API 文档](http://mongoosejs.com/docs/connections.html#use-mongo-client)
+
+[Mongoose基础入门](
+https://www.cnblogs.com/xiaohuochai/p/7215067.html?utm_source=itdadao&utm_medium=referral)。
+
 ## 附注
 
 Community Server， 社区版，比企业版少一些高级功能
