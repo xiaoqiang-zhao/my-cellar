@@ -8,7 +8,7 @@
 
 先说终端，这是个比较早的概念，在微软推出个人电脑前计算机比较昂贵，模式是一台中央计算机，连出几套显示器和键盘，最初把这一套套的显示器和键盘叫终端，后台有了专门的链接设备。再后来两边都在升级，中央电脑这边升级成了服务器集群(谷歌亚马逊)，终端这边升级为个人电脑，所以广义上讲所有连接了显示器和键盘以及可以链接其他计算机的计算机就是终端，但是随着时代的发展词还是原来的那个词(终端 Terminal)，意思却升级成了计算机上某种特定的软件，这种软件的交互方式是命令行，所以我们平时“说打开终端，在终端中输入什么” 就是“打开命令行工具，在命令行工具中输入什么”。还有一点意思上的升级，原来的终端指操控其他计算机的一种机器，现在的终端不仅指操作远程计算机也指操作当前计算机(终端本身)。
 
-然后是 shell，shell 是一个抽象概念，shell的一切操作都在计算机内部，负责处理人机交互，执行脚本等，是操作系统能正常运行的重要组成部分。bash，ash，zsh，tcsh等是shell这个抽象概念的一种具体的实现，都是一个程序，都能生成一个进程对象。那怎么知道当前 Linux 用的是哪个呢？
+然后是 shell，shell 是一个抽象概念，shell的一切操作都在计算机内部，负责处理人机交互，执行脚本等，是操作系统能正常运行的重要组成部分。bash，ash，zsh，tcsh等是shell这个抽象概念的一种具体的实现，都是一个程序，都能生成一个进程对象。是borne again shell的缩写,Linux上默认采用的是bash。那怎么知道当前 Linux 用的是哪个呢？
 
     echo $SHELL
 
@@ -16,7 +16,6 @@
 - 如果输出的是：bash，sh，zsh，那么你的用的可能就是Bourne Shell的一个变种。
 
 对于 Mac，OS X 10.2之前默认的是C Shell，OS X 10.3之后默认的是Bourne Shell。
-
 
 ## 程序通用
 
@@ -27,6 +26,11 @@ Linux 的核心思想就是一切皆文件。
     which node
     where node
     // 输出可能是这样:/usr/local/bin/node
+### 环境变量 Linux
+
+待续...
+
+### 环境变量 Mac
 
 其实所有的程序安装都是将文件从远程下载下来然后放在一个地方。然后这个文件是否可执行，那些用户可启动执行我们后面讲。但是我们每次执行并不把路径写全，比如：
 
@@ -36,55 +40,19 @@ Linux 的核心思想就是一切皆文件。
 
     /usr/local/bin/node -v
 
-而这种简写归功于 `.bash_profile` 文件，每个用户都有一个这样的文件(用户文件夹可能在 `/home/username/.bash_profile`)，还有一个全局的文件在 `/root/username/.bash_profile`。我们随便找一个打开看看：
+而这种简写归功于环境变量，Mac系统的环境变量，加载顺序为：
 
-    cat .bash_profile
-    # .bash_profile
-    
-    # Get the aliases and functions
-    if [ -f ~/.bashrc ]; then
-    	. ~/.bashrc
-    fi
-    
-    # User specific environment and startup programs
-    
-    PATH=$PATH:$HOME/bin
-    
-    export PATH
+- /etc/profile
+- /etc/paths
+- ~/.bash_profile
+- ~/.bash_login
+- ~/.profile
+- ~/.bashrc
 
-并不是每个全局程序都需要配置的，一般是把全局能执行的文件放在 `bin` 目录下，同样每个用户自己有一个 `bin`。看一下 `bin` 目录，我们常用的程序都在里面：
+系统级的环境变量添加直接修改 `/etc/paths` 文件，修改后直接生效。用户级的环境变量添加通过修改 `~/.bash_profile` 实现，修改完成后还要执行 `source ~/.bash_profile` 才能生效，但是如果你开了新的终端，那么在执行一次 `source ~/.bash_profile` 环境变量才能在当前终端生效。
 
-    cd bin
-    ls
-    
-    // 输出：
-    node
-    n
-    npm
+参考：[(Mac)在bash和zsh配置环境变量path的几种方法](http://www.jianshu.com/p/020f3d02f538)
 
-修改完执行下面命令使环境变量生效：
-
-    $ source ~/.bash_profile
-
-除了通过修改配置文件可以设定更多的全局命令，全局命令不仅我们自己敲的时候要用到，很多软件的执行依赖其他可执行文件，这时就需要修改 `.bash_profile` 文件，添加环境变量：
-
-    export N_PREFIX=/usr/local/bin/node  #node实际安装位置
-    export PATH=$N_PREFIX/bin:$PATH
-    export NODE_PATH=/usr/local/lib/node_modules
-
-node 命令的依赖包安装在 `/usr/local/lib/node_modules` 目录下。
-
-查看环境变量
-
-    echo $PATH
-    echo $NODE_PATH
-
-显示命令的文档，如显示 `gulp` 使用文档：
-
-    man gulp
-    // 注：按 q 退出
-    // 并不是所有命令都提供文档
- 
 ## 进程相关
 
 启动进程的命令后加 `&`，将进程指定为后台进程，这样可以在 shell 做一些其他事情而不需要再打开新的窗口，如：
@@ -168,7 +136,7 @@ node 命令的依赖包安装在 `/usr/local/lib/node_modules` 目录下。
 
     su username
 
-查看已有用户(具备 root 权限才可以)
+查看已有用户(具备 root 权限才可以，Mac 下无效)
 
     cat /etc/passwd
     // 简化输出版
