@@ -30,9 +30,9 @@
 
     MongoDB starting : pid=15390 port=27017
 
-这里遇到了以一个坑，`/data/db` 这个目录的权限可能无法支持直接写操作，会报这样一个错 `Attempted to create a lock file on a read-only directory: /data/db`，然后 shutdown，加 sudo 是最简单快捷的处理方式，也可以改变此目录的权限。跳过此坑就可以再开一个命令行，转到 `mongodb-osx-x86_64-enterprise-3.4.10/bin` 下：
+这里遇到了以一个坑，`/data/db` 这个目录的权限可能无法支持直接写操作，会报这样一个错 `Attempted to create a lock file on a read-only directory: /data/db`，然后 shutdown，加 sudo 是最简单快捷的处理方式，缺点是每次都要 sudo 然后再输密码，如果只是测试不考虑安全性，比较彻底的方式是改变此目录的权限：`chmod 777 data/db`。跳过此坑就可以再开一个命令行，转到 `mongodb-osx-x86_64-enterprise-3.4.10/bin` 下：
 
-    // 启动命令行
+    // 启动命令行，可以添加环境变量，这样就不用转目录和 ./ 开头了
     ./mongo
     // 获取当前数据库的名称，默认是 test
     db.getName()
@@ -258,6 +258,8 @@
 
 先整理一下我们前面用过的一些管理命令：
 
+    // 启动数据库服务，可以带路径
+    mongod -dbpath /data2/db
     // 显示系统上的数据库列表
     show dbs
     // 获取当前数据库名称
