@@ -151,8 +151,7 @@ sudo npm install -g eslint-plugin-html
 new Vue({
     el: &#39;#app&#39;,
     router,
-    render: h =&gt; h(App),
-    components: { App }
+    render: h =&gt; h(App)
 });
 </code></pre><p>最后去掉 template/build/webpack.base.conf.js 中的下面这部分判断：</p>
 <pre><code>{{#if_eq build &quot;standalone&quot;}}

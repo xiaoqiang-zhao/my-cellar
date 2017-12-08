@@ -268,6 +268,9 @@
     use test
     // 查看数据库中的集合
     show collections
+    // 关闭数据库链接
+    db.shutdownServer()
+
 
 还有一些其他的常用命令：
 
