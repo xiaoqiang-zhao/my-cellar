@@ -301,15 +301,15 @@ db 下还有很多方法，执行 `db.help()` 可以看到，粘贴前几个进�
     // 下面是 find 方法的实现
     function (query, fields, limit, skip, batchSize, options) {
         var cursor = new DBQuery(this._mongo,
-                                this._db,
-                                this,
-                                this._fullName,
-                                this._massageObject(query),
-                                fields,
-                                limit,
-                                skip,
-                                batchSize,
-                                options || this.getQueryOptions());
+            this._db,
+            this,
+            this._fullName,
+            this._massageObject(query),
+            fields,
+            limit,
+            skip,
+            batchSize,
+            options || this.getQueryOptions());
 
         var connObj = this.getMongo();
         var readPrefMode = connObj.getReadPrefMode();
@@ -327,26 +327,127 @@ db 下还有很多方法，执行 `db.help()` 可以看到，粘贴前几个进�
 
 ## 用在项目
 
-MongoDB 为各种语言提供了驱动，用 Node.js 的话首选 mongoose(npm 包)。
+### 概述
+
+MongoDB 为各种语言提供了驱动，Node.js 的话首选 mongoose。mongoose 是 NodeJS 的驱动，不能作为其他语言的驱动。Mongoose有两个特点：
+
+- 1、通过关系型数据库的思想来设计非关系型数据库；
+- 2、基于mongodb驱动，简化操作。
+
+![mongoose](/articles/mongo-db/img/mongoose.png)
+
+mongooose中，有三个比较重要的概念，分别是 Schema、Model、Entity。它们的关系是：Schema 生成 Model，Model 实例化 Entity。Schema 主要用于定义 MongoDB 中Collection 里 document 的结构。比较清晰的写法像下面这样：
+
+    var Schema = mongoose.Schema;
+    const userSchema = new Schema({
+        name: String
+    });
+    const User = mongoose.model('users', userSchema);
+
+还有一个简化写法：
+
+    const User = mongoose.model('users', {
+        name: String
+    });
+
+model 方法将 Schema 编译为 Model，model 方法的第一个参数决定 Collection 的名称系，规则是这样的：
+
+- 如果不以数字和"s"结尾，全部转换为小写然后加 "s"；
+- 如果以数字和"s"结尾，直接作为 Collection 的名称。
+
+### Connect
 
 首先需要安装：
 
     npm install mongoose
 
-其次我们要把 MongoDB 启动起来
+其次我们要执行 `mongod` 命令把 MongoDB 启动起来，然后 Node.js 的连接代码是这样：
 
-    sudo ./mongod
+    const mongoose = require('mongoose');
+    mongoose.Promise = require('bluebird');
 
-然后就可以连接了：
+    mongoose.connect('mongodb://127.0.0.1/mydb', {
+        useMongoClient: true
+    }).then(() => {
+        console.log('数据库链接成功');
+    }, err => {
+        console.log('数据库链接失败:', err);
+    });
 
+我这里用的东西全是目前(2017.12.9)的最新版，MongoDB 3.6，mongoose 4.13，node 8.9，之所以写这些是因为“有坑！”。在官方文档中 `127.0.0.1` 位置放的是 `localhost`，这居然是 Node.js 的 bug。然后是 Promise，最新版的 mongoose 将 Promise 进行了抽离，如果不单独处理会有 Warning。
 
+在测试的时候可以跑完代码就断开数据库连接：
 
-参考文章：
+    // 断开数据库链接
+    setTimeout(() => {
+        mongoose.disconnect(function(){
+            console.log("断开连接");
+        })
+    }, 2000);    
 
-[官方 API 文档](http://mongoosejs.com/docs/connections.html#use-mongo-client)
+下面按照惯例我们来写一遍 CRUD。
 
-[Mongoose基础入门](
-https://www.cnblogs.com/xiaohuochai/p/7215067.html?utm_source=itdadao&utm_medium=referral)。
+### Create
+
+    var User = mongoose.model('User', {
+        name: String
+    });
+
+    var user = new User({
+        name: 'aaa'
+    });
+
+    user.save().then(() => {
+        console.log('user 保存成功');
+    }, res => {
+        console.log('user 保存失败:', err);
+    });
+
+上面是用 Promise 来写的，也可以用回调来写，下面的查询我们就用回调来写。
+
+### Retrieve
+
+查找数据：
+
+    // 找出 users collections 中的所有数据
+    User.find((err, docs) => {
+        console.log('users all:');
+        console.log(docs);
+    });
+
+    // 找出 users collections 中 name 为 aaa 的所有数据
+    User.find({
+        name: 'aaa'
+    }, (err, docs) => {
+        console.log('users of name is "aaa":');
+        console.log(docs);
+    });
+
+### Update
+
+我们将 name 为 "ccc" 的用户换个名字：
+
+    User.update({
+        name: 'ccc'
+    }, {
+        name: 'bbb'
+    }).then();
+
+[注意]使用 update 方法的时候，如果是回调形式，那么回调函数不能省略，如果是 Promise 形式，那么 then() 不能省略，否则数据不会被更新。如果回调函数里并没有什么有用的信息，则可以使用 exec() 简化代码：
+
+    User.update({
+        name: 'bbb'
+    }, {
+        name: 'ccc'
+    }).exec();
+
+### Delete
+
+    User.remove({
+        name: 'aaa'
+    }).exec();
+
+[注意]文档的 remove 方法的回调函数不能省略，否则数据不会被删除，同上。
 
 ## 附注
 
