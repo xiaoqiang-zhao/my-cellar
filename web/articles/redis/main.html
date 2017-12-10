@@ -108,8 +108,27 @@ hget my-hash name
   zrem my-sorted-set mem0</p>
 </li>
 </ul>
-<h2 id="header-1-4">用在项目</h2>
-<p>如果要做系统，那么选一种服务器语言是必不可少的步骤，业界推荐的是 Python，《Redis Action》中用的也是 Python，我这里用 Node.js 来写。包<a href="https://www.npmjs.com/package/redis" target="_blank">redis</a> 能满足我们的全部需求。</p>
+<h2 id="header-1-4">用在项目中</h2>
+<p>npm 包 <a href="https://www.npmjs.com/package/redis" target="_blank">redis</a> 能满足我们的全部需求。先看连接数据库：</p>
+<pre><code>const redis = require(&#39;redis&#39;);
+const client = redis.createClient();
+client.on(&#39;ready&#39;, function () {
+    console.log(&#39;Redis 连接成功：&#39;);
+});
+</code></pre><p>然后是获取数据库中的一条数据：</p>
+<pre><code>client.get(&#39;foo&#39;, (err, val) =&gt; {
+    console.log(&#39;get value:&#39;, val);
+});
+</code></pre><p>上面用的是回调方式，如果想要使用 Promise 方式，需要引入库 bluebird：</p>
+<pre><code>const redis = require(&#39;redis&#39;);
+const bluebird = require(&#39;bluebird&#39;);
+bluebird.promisifyAll(redis.RedisClient.prototype);
+bluebird.promisifyAll(redis.Multi.prototype);
+</code></pre><p>这样然后将回调方式改成 Promise 方式如下：</p>
+<pre><code>client.getAsync(&#39;foo&#39;).then(val =&gt; {
+    console.log(&#39;get value:&#39;, val);
+});
+</code></pre><p>示例到此为止，其余的操作和命令行一致。</p>
 <h2 id="header-1-5">参考</h2>
 <p><a href="http://redis.js.org/" target="_blank">http://redis.js.org/</a></p>
 
