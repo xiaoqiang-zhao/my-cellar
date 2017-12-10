@@ -114,8 +114,10 @@ Redis 的适用场景是快速写入和读取结构简单的数据。
     // 移除键值对
     zrem my-sorted-set mem0
 
-## 简单投票系统
+## 用在项目
 
 如果要做系统，那么选一种服务器语言是必不可少的步骤，业界推荐的是 Python，《Redis Action》中用的也是 Python，我这里用 Node.js 来写。包[redis](https://www.npmjs.com/package/redis) 能满足我们的全部需求。
 
+## 参考
 
+http://redis.js.org/
