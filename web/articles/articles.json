@@ -804,6 +804,18 @@
     "todoList": []
   },
   {
+    "enName": "nodeclub-code-read",
+    "title": "读 Nodeclub 源码",
+    "introduction": "一直想找一个全栈的项目学习一下，最好是已经上线还有好多人在用，而不是某些人写的作业或培训班的 Demo。经过几番挣扎终于找到了一个这样的项目 -- https://github.com/cnodejs/nodeclub。它是 [Node.js 中文论坛](https://cnodejs.org/)的源码，论坛每天都有人更新内容，代码基本稳定但还有小的更新，start 6k+，fork 2k+，1.9k+ 的 commits 从 2012.2.15 到今天历时 5 年多，用的技术也比较全面：EJS、Express、PM2、MongoDB、Redis，除了前端部分比较落后之外这个项目堪称全栈模范开源项目，所以我决定解读这个开源项目的源码，提升自己的编码水平。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1512961093198,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "npm",
     "title": "NPM",
     "introduction": "NPM 的全称是 Node Package Manager，原本是一个 NodeJS 包管理和分发平台，但是浏览器端运行的 JS 也缺一个第三方包管理平台，后来在社区的推动下 NPM 可以管理全部的第三方 JS 包，包括 Node 端和浏览器端，浏览器到目前为止还没有原生支持包管理，现在浏览器端项目的包管理一般借助脚手架来实现。NPM 可以算作前端的必备技能，这里介绍一些基础知识和典型场景下的技巧。",

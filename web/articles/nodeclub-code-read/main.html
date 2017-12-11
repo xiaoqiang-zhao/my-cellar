@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>读 Nodeclub 源码 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">读 Nodeclub 源码</h1>
+<blockquote>
+<p>一直想找一个全栈的项目学习一下，最好是已经上线还有好多人在用，而不是某些人写的作业或培训班的 Demo。经过几番挣扎终于找到了一个这样的项目 -- <a href="https://github.com/cnodejs/nodeclub。它是" target="_blank">https://github.com/cnodejs/nodeclub。它是</a> <a href="https://cnodejs.org/" target="_blank">Node.js 中文论坛</a>的源码，论坛每天都有人更新内容，代码基本稳定但还有小的更新，start 6k+，fork 2k+，1.9k+ 的 commits 从 2012.2.15 到今天历时 5 年多，用的技术也比较全面：EJS、Express、PM2、MongoDB、Redis，除了前端部分比较落后之外这个项目堪称全栈模范开源项目，所以我决定解读这个开源项目的源码，提升自己的编码水平。</p>
+</blockquote>
+<h2 id="header-1-1">概述</h2>
+<p>项目线上地址：<a href="https://cnodejs.org/" target="_blank">https://cnodejs.org/</a></p>
+<p>开源代码 Github 地址：<a href="https://github.com/cnodejs/nodeclub" target="_blank">https://github.com/cnodejs/nodeclub</a></p>
+<h2 id="header-1-2">启动</h2>
+<pre><code>node app.js
+</code></pre><h2 id="header-1-3"> </h2>
+
+</div>
+</body>
+</html>
