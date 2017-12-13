@@ -35,6 +35,29 @@ MongoDB 的连接和 Schema 定义都在这个模块下，具体内容不展开�
 
 大概的流程就这么多，剩下的就是技术点了，下面挑几个说说。
 
+## 数据存储和获取的流程是什么？
+
+这是一个入门级的问题，下面我们看看这个项目是怎么处理的。
+
+第一步是入口，上面说了是 app.js，然后数据库的连接和 Schema 定义都在 models 文件夹中，models 文件夹中的 index.js 负责连接数据库，引入项目需要的 5 个 collection，每个文件定义一个 collection，包括 Schema、索引和自定义函数。
+
+然后是在 web_router.js 文件中定义接口，比如“更新话题内容”这个接口的实现就放在 `topic.update` 方法下面。
+
+    router.post('/topic/:tid/edit', auth.userRequired, topic.update);
+
+然后不难发现 `topic.update` 方法的实现在 controllers/topic.js 文件中，然后一层层追进去，大概的代码逻辑是这样(下面是伪代码，只展现逻辑，省略参数等)：
+
+    var models = require('../models');
+    var Topic = models.Topic;
+    exports.update = function (req, res, next) {
+        Topic.findOne(function (topic) {
+            topic.title = req.body.title;
+            topic.save();
+        });
+    }
+
+这其中会涉及到很多个文件，我把代码抽象到一起方便理解。
+
 ## 看不懂备忘
 
 很多包没见过：oneapm、colors
