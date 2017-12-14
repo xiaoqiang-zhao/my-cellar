@@ -47,19 +47,81 @@ MongoDB 的连接和 Schema 定义都在这个模块下，具体内容不展开�
 
 然后不难发现 `topic.update` 方法的实现在 controllers/topic.js 文件中，然后一层层追进去，大概的代码逻辑是这样(下面是伪代码，只展现逻辑，省略参数等)：
 
-    var models = require('../models');
-    var Topic = models.Topic;
-    exports.update = function (req, res, next) {
-        Topic.findOne(function (topic) {
-            topic.title = req.body.title;
-            topic.save();
+```javascript
+var models = require('../models');
+var Topic = models.Topic;
+exports.update = function (req, res, next) {
+    Topic.findOne(function (topic) {
+        topic.title = req.body.title;
+        topic.save();
+    });
+}
+```
+
+这其中会涉及到很多个文件，我把代码抽象到一起方便理解。下面拆解开看看怎么分层的：
+
+```javascript
+// 1. controllers 层，定义方法，外露给 router 层直接调用
+//    controllers/topic.js
+exports.update = function (req, res, next) {
+    
+    // 2. 然后接收前端传过来的数据
+    var topic_id = req.params.tid;
+    var title = req.body.title;
+    // 3. 并校验数据有效性
+    var editError;
+    if (title === '') {
+        editError = '标题不能是空的。';
+    }
+    // 4. 还有将数据配装成对象，都在这一层完成
+    
+    // 5. 和数据库的交互由 proxy 层来定义
+    var Topic = require('../proxy').Topic;
+
+    // 7. 然后调用 proxy 返回的方法实现保存数据
+    //    保存完数据完成页面的重定向和内容返回
+    Topic.getTopicById(topic_id, function (err, topic, tags) {
+        topic.title = title;
+        topic.save(function (err) {
+            res.redirect('/topic/' + topic._id);
         });
     }
+}
+// 6. proxy 层来定义数据交互 
+//    proxy/topic.js
+// 6.1 首先拿到 model 定义
+var models = require('../models');
+var Topic = models.Topic;
+var User = require('./user');
+// 6.2 然后用了一个库 -- eventproxy，来实现多个 model 的组合
+//     这可能也是这一层叫 proxy 的原因
+var EventProxy = require('eventproxy');
+// 6.3 比如先查话题再查话题所属的用户，然后组合成
+var proxy = new EventProxy();
+var events = ['topic', 'author', 'last_reply'];
+proxy.assign(events, function (topic, author) {
+    if (!author) {
+        return callback(null, null, null);
+    }
+    return callback(null, topic, author);
+}).fail(callback);
 
-这其中会涉及到很多个文件，我把代码抽象到一起方便理解。
+Topic.findOne({_id: id}, proxy.done(function (topic) {
+    if (!topic) {
+        proxy.emit('topic', null);
+        proxy.emit('author', null);
+        return;
+    }
+    proxy.emit('topic', topic);
+
+    User.getUserById(topic.author_id, proxy.done('author'));
+}));
+```
 
 ## 看不懂备忘
 
 很多包没见过：oneapm、colors
 
+## 参考
 
+[node相比传统服务端技术栈差在哪里？](https://www.zhihu.com/question/263715023/answer/275984629)
