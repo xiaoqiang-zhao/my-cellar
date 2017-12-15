@@ -65,20 +65,20 @@ exports.update = function (req, res, next) {
 //    controllers/topic.js
 exports.update = function (req, res, next) {
     
-    // 2. 然后接收前端传过来的数据
+    // 1.1. 然后接收前端传过来的数据
     var topic_id = req.params.tid;
     var title = req.body.title;
-    // 3. 并校验数据有效性
+    // 1.2. 并校验数据有效性
     var editError;
     if (title === '') {
         editError = '标题不能是空的。';
     }
-    // 4. 还有将数据配装成对象，都在这一层完成
+    // 1.3. 还有将数据配装成对象，都在这一层完成
     
-    // 5. 和数据库的交互由 proxy 层来定义
+    // 1.4. 和数据库的交互由 proxy 层来定义
     var Topic = require('../proxy').Topic;
 
-    // 7. 然后调用 proxy 返回的方法实现保存数据
+    // 3. 然后调用 proxy 返回的方法实现保存数据
     //    保存完数据完成页面的重定向和内容返回
     Topic.getTopicById(topic_id, function (err, topic, tags) {
         topic.title = title;
@@ -87,16 +87,16 @@ exports.update = function (req, res, next) {
         });
     }
 }
-// 6. proxy 层来定义数据交互 
+// 2. proxy 层来定义数据交互 
 //    proxy/topic.js
-// 6.1 首先拿到 model 定义
+// 2.1 首先拿到 model 定义
 var models = require('../models');
 var Topic = models.Topic;
 var User = require('./user');
-// 6.2 然后用了一个库 -- eventproxy，来实现多个 model 的组合
+// 2.2 然后用了一个库 -- eventproxy，来实现多个 model 的组合
 //     这可能也是这一层叫 proxy 的原因
 var EventProxy = require('eventproxy');
-// 6.3 比如先查话题再查话题所属的用户，然后组合成
+// 2.3 比如先查话题再查话题所属的用户，然后组合成
 var proxy = new EventProxy();
 var events = ['topic', 'author', 'last_reply'];
 proxy.assign(events, function (topic, author) {
@@ -122,6 +122,12 @@ Topic.findOne({_id: id}, proxy.done(function (topic) {
 
 很多包没见过：oneapm、colors
 
-## 参考
+## 扩展阅读
 
 [node相比传统服务端技术栈差在哪里？](https://www.zhihu.com/question/263715023/answer/275984629)
+
+其他开源项目：
+
+[知名 node.js CMS](https://github.com/keystonejs/keystone)，2013.7.2开始，11k+ star，1.8k+ fork。
+
+[极客公园 后台管理系统](https://github.com/ericjjj/vms)，2017.4.12开始，700+ star，100+ fork。
