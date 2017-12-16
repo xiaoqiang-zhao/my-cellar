@@ -118,9 +118,34 @@ Topic.findOne({_id: id}, proxy.done(function (topic) {
 }));
 ```
 
+最后补充一下数据库日志，实现方式是给所有的 Model 扩展功能：
+
+```js
+// models/base_model.js
+var tools = require('../common/tools');
+
+module.exports = function (schema) {
+  schema.methods.create_at_ago = function () {
+    return tools.formatDate(this.create_at, true);
+  };
+
+  schema.methods.update_at_ago = function () {
+    return tools.formatDate(this.update_at, true);
+  };
+};
+```
+
+## Session
+
+Redis 
+
 ## 看不懂备忘
 
 很多包没见过：oneapm、colors
+
+## 包积累
+
+`eventproxy`，朴灵(田永强)开发的模块，解决回调地狱。
 
 ## 扩展阅读
 
