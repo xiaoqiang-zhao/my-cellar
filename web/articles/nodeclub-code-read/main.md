@@ -118,7 +118,7 @@ Topic.findOne({_id: id}, proxy.done(function (topic) {
 }));
 ```
 
-最后补充一下数据库日志，实现方式是给所有的 Model 扩展功能：
+最后还有一个彩蛋，MongoDB 的自定义函数：
 
 ```js
 // models/base_model.js
@@ -136,6 +136,8 @@ module.exports = function (schema) {
 ```
 
 ## Session
+
+http://blog.csdn.net/think2me/article/details/38726429
 
 Redis 
 
