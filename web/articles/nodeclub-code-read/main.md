@@ -118,7 +118,7 @@ Topic.findOne({_id: id}, proxy.done(function (topic) {
 }));
 ```
 
-最后还有一个彩蛋，MongoDB 的自定义函数：
+最后还有两个彩蛋，一个是 MongoDB 的自定义函数：
 
 ```js
 // models/base_model.js
@@ -135,9 +135,47 @@ module.exports = function (schema) {
 };
 ```
 
+另一个是日志，只有在 debug 状态才会开启日志：
+
+```js
+// app.js 是入口
+require('./middlewares/mongoose_log');
+// middlewares/mongoose_log.js 开启日志
+var logger = require('../common/logger');
+if (config.debug) {
+    // ...
+}
+// common/logger.js 用 log4js 写入文件
+// 默认日志文件地址 logs/cheese.log
+var log4js = require('log4js');
+```
+
 ## Session
 
-http://blog.csdn.net/think2me/article/details/38726429
+HTTP 是无状态，但我们的很多请求是需要有状态的，比如有些操作是需要用户登录的(比如登录和发布内容操作是不同的请求)，为了解决这一问题业界广泛使用的解决方案就是 Session。简单的说就是在 cookie 中放一个唯一标识，然后每次请求的时候都带着这个标识，具体数据存储在服务器上，通过这个唯一数据来获取。一般的后台语言如 Java 和 PHP 都提供 Session 功能，数据存放在内存和文件中。但是如果要构建大型应用，一台服务器不能满足 Session 对性能的需求时就会引入其他技术，cnode 的 Session 存储用的是 Redis。Redis 作为键值存储数据库，又能低成本实现分布式，作为 Session 的存储方案是很不错的，下面看看具体的实现。
+
+首先需要一个中间件，
+
+```js
+// app.js
+var express = require('express');
+var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
+
+var app = express();
+app.use(session({
+  secret: config.session_secret,
+  store: new RedisStore({
+    port: config.redis_port,
+    host: config.redis_host,
+    db: config.redis_db,
+    pass: config.redis_password,
+  }),
+  resave: false,
+  saveUninitialized: false,
+}));
+```
+
 
 Redis 
 
@@ -149,6 +187,11 @@ Redis
 
 `eventproxy`，朴灵(田永强)开发的模块，解决回调地狱。
 
+`log4js` 打印文件日志。
+
+`express-session` express session 中间件，可以配合 mongoDB 或 Redis 来做。
+
+
 ## 扩展阅读
 
 [node相比传统服务端技术栈差在哪里？](https://www.zhihu.com/question/263715023/answer/275984629)
@@ -158,3 +201,7 @@ Redis
 [知名 node.js CMS](https://github.com/keystonejs/keystone)，2013.7.2开始，11k+ star，1.8k+ fork。
 
 [极客公园 后台管理系统](https://github.com/ericjjj/vms)，2017.4.12开始，700+ star，100+ fork。
+
+[Session 扩展阅读 - 百度百科](https://baike.baidu.com/item/Session/479100)
+
+[Session 扩展阅读 - 某博客](http://blog.csdn.net/think2me/article/details/38726429)
