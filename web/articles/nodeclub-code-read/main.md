@@ -154,6 +154,8 @@ var log4js = require('log4js');
 
 HTTP 是无状态，但我们的很多请求是需要有状态的，比如有些操作是需要用户登录的(比如登录和发布内容操作是不同的请求)，为了解决这一问题业界广泛使用的解决方案就是 Session。简单的说就是在 cookie 中放一个唯一标识，然后每次请求的时候都带着这个标识，具体数据存储在服务器上，通过这个唯一数据来获取。一般的后台语言如 Java 和 PHP 都提供 Session 功能，数据存放在内存和文件中。但是如果要构建大型应用，一台服务器不能满足 Session 对性能的需求时就会引入其他技术，cnode 的 Session 存储用的是 Redis。Redis 作为键值存储数据库，又能低成本实现分布式，作为 Session 的存储方案是很不错的，下面看看具体的实现。
 
+Session data is not saved in the cookie itself, just the session ID. Session data is stored server-side.
+
 首先需要一个中间件，
 
 ```js
