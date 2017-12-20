@@ -124,9 +124,9 @@ Linux 的核心思想就是一切皆文件。
 
     useradd testuser
     
-给已创建的用户 testuser 设置密码
+给已创建的用户设置密码，回车后输入密码
 
-    passwd testuser
+    passwd 用户名
 
 删除用户 testuser
 
