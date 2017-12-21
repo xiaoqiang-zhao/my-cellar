@@ -13,5 +13,27 @@
 
 Linux 能干啥 -- 企业应用，网路服务，企业网络管理。
 
-如何学习 Linux -- 命令行。
+如何学习 Linux -- 如果只想“会使用”Linux，那么 X Window 也足够了；如果想深入学习 Linux，那么命令行才是学习的不二方式。
 
+Linux 的安装可以在 Virtuabox 中练习，练习一些系统初始化的设置，现在一般是云服务器，提交一个配置表单提供方就直接重装了，所以这里不展开。
+
+Linux 下的两种桌面环境：GNOME[nəʊm], KDE(Kool Desktop Environment)。
+
+然后是几个基础的命令，有的时候装某些软件有对系统的要求：
+
+```shell
+# 查看 Linux 内核版本，有时也叫 binaries
+uname -a
+# 结果：3.10.0_3-0-0-11 CST 2015 x86_64 x86_64 x86_64 GNU/Linux
+
+# 查看 centos 版本
+cat /etc/issue
+# 结果：CentOS release 6.3
+```
+
+然后就是用 `man` 来获取命令的帮助，比如：
+
+```shell
+man cat
+```
+最后记住忘了 root 密码不用重装系统也能搞定，但愿你永远用不到。什么？你担心不安全？哦，可以通过加堡垒机之类的方案做增强。
