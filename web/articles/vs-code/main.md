@@ -74,6 +74,8 @@ commit 比较方便，写完 message 按 Cmd + Enter 就直接提交了；
 
 ## 插件
 
+### emmet
+
 emmet 语法插件 Mithril Emmet support for VS Code，添加配置：
 
     "emmet.syntaxProfiles": {
@@ -85,7 +87,27 @@ beautify 格式化代码插件
 
 https://hao5743.github.io/2016/12/26/vscode%E4%B8%ADbeautifyrc%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%BF%BB%E8%AF%91%E5%92%8C%E8%AE%BE%E7%BD%AE/
 
+### Auto Rename Tag
+
 [Auto Rename Tag](https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-rename-tag) 修改HTML标签时，自动修改匹配的标签
+
+### FECS
+
+先安装插件 vscode-fecs-plugin，然后全局安装 fecs
+
+    npm install -g fecs
+
+配置 $NODE_PATH 环境变量
+
+    // 获取全局 npm 包安装路径
+    npm root -g
+    vi ~/.bash_profile
+    // 配置如下，路径可能不同
+    // export NODE_PATH=/usr/local/lib/node_modules
+
+然后重启 VS Code，是彻底退出，是彻底退出，是彻底退出，不是只重启当前项目。
+
+参考：https://github.com/l5oo00/vscode-fecs-plugin/issues/4#issuecomment-312411535
 
 ## 杂项
 

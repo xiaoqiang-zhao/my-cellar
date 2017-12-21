@@ -151,7 +151,11 @@ Linux 的核心思想就是一切皆文件。
     groupdel testgroup
 
 用户的文件夹一般在 `/home` 下。
-    
+
+改变文件或文件夹所有者
+
+    chown [-R] 账号名称 文件或目录
+
 ## 常用
 
 新建文件夹
@@ -280,9 +284,9 @@ chown -- 更改某个文件或目录的属主
 Linux安装node.js的binaries包：
 http://blog.csdn.net/justforfly/article/details/39293819
 
-查看 binaries: uname -a
+查看 Linux 内核版本，有时也叫 binaries: uname -a
 
-    CST 2015 x86_64 x86_64 x86_64 GNU/Linux
+    3.10.0_3-0-0-11 CST 2015 x86_64 x86_64 x86_64 GNU/Linux
 
 查看 centos 版本
 
