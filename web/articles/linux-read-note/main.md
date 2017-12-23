@@ -46,27 +46,13 @@ man cat
 
 `/etc/group` 中存放的是用户组信息。
 
-`/etc/profile` 中存放全局的环境变量。  可以在 文件的 `Path manipulation` 部分修改。
+`/etc/profile` 中存放全局的环境变量。可以在文件的 `Path manipulation` 部分修改。
 
 除了上面这些系统定义好的文件与文件夹之外，Linux 对软件和用户也提出了规范 -- FHS(Filesystem Hierarchy Standard)。
 
 比如 `/home/` 下，放用户目录，在新建用户的时候 CentOS 6.3 会自动在 `/home/` 下创建同名目录(CentOS 4.3需要手动创建)。
 
 比如 `/usr/local`，建议管理员将软件安装到这里，Redis 和 MondoDB 都是这么建议的。
-
-### 文件目录的基础命令
-
-```shell
-# 查看当前路径
-pwd
-# 新建文件夹
-mkdir -p a/b/c
-# 删除文件夹及其内部的全部内容
-rm -rf 文件夹名称
-# 从远程下载文件
-wget
-# ... 太多了放弃治疗
-```
 
 ### 文件权限
 
@@ -95,7 +81,7 @@ drwx------ 11 longze    longze  4096     Dec 22 20:17 longze
 - `x` 代表可执行；
 - `-` 代表空许可。
 
-用 `chmod` 可变更权限的命令，如 `chmod o+w,g+w longze`：
+用 `chmod` 可变更权限，如 `chmod o+w,g+w longze`：
 
 - `u` 表示“用户（user）”，即文件或目录的所有者。
 - `g` 表示“同组（group）用户”，即与文件属主有相同组ID的所有用户。
@@ -109,4 +95,62 @@ drwx------ 11 longze    longze  4096     Dec 22 20:17 longze
 chown -R 用户名 文件(夹)名
 # 改变 group
 chgrp -R 用户组名 文件(夹)名
+```
+
+### 文件与目录管理
+
+先来一组基础命令
+
+```shell
+# 查看当前路径
+pwd
+# 新建文件夹
+mkdir -p a/b/c
+# 删除文件夹及其内部的全部内容
+rm -rf 文件夹名称
+# 复制，复制文件夹以及里面的内容加参数 -r，联通文件属性复制加 -p
+cp -rp 源文件 目标文件
+# 移动文件，文件更名
+mv 源文件 目标文件
+# 从远程下载文件
+wget
+# 新建文件，
+touch text
+# 读文件
+cat text
+# 在当前目录以及其子目录下有没有一个 text 文件
+find ./ -name text
+```
+
+有些命令我们在任何地方都可以执行，这归功于环境变量，可以用 `echo` 将此变量打印出来查看：
+
+```shell
+echo $PATH
+# 结果：/usr/local/bin:/usr/bin:/bin
+```
+
+当我们执行一个命令的时候，Linux 会从上面的那些文件夹中(以冒号间隔)查找有没有我们输入的命令对应的可执行文件，如果找到了就执行。想要对所有户都生效修改 `/etc/profile` 文件，想要对当前用户生效修改 `~/.bash_profile` 文件，修改的方式都是在行尾加上一行：
+
+```shell
+# 添加某某环境变量
+export PATH=$PATH:自定义路径
+```
+
+如果想知道命令 `ls` 具体在哪里可以用 `which ls` 命令。
+
+还有一个文件默认权限的设置 umask，查看默认权限有下面两种形式：
+
+```shell
+umas
+# 结果：0002
+umas -S
+# 结果：u=rwx,g=rwx,o=rx
+```
+
+0002 的第一位是特殊权限先不管他，后面的 002 对应 u=rwx,g=rwx,o=rx。rwx 对应 421，然后用默认全有的 7 减去有的权限就是看到的数字。所以有一个大招叫 `chmod 777`。重新设置也很简单：
+
+```shell
+umask 000
+umask -S
+# 结果：u=rwx,g=rwx,o=rwx
 ```
