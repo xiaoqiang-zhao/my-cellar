@@ -292,3 +292,7 @@ http://blog.csdn.net/justforfly/article/details/39293819
 查看 centos 版本
 
     cat /etc/issue
+
+查看命令别名
+
+    alias
