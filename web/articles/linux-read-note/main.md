@@ -199,3 +199,66 @@ tar -jtv -f a.tar.bz2
 - `P` 将复制的一行粘贴在当先行的上一行；
 
 若未修改可以 `:q` 直接离开，如果已经修改但是想放弃修改强制离开可以用 `:q!`。
+
+### bash
+
+硬件 <--> 服务器内核 <--> Shell <--> 用户，shell 和 bash 的关系：bash 是 shell 的一种实现。我们来看看当前机器有多少个 shell 工具：
+
+```shell
+cat /etc/shells
+# 结果：
+/bin/sh
+/bin/bash
+/sbin/nologin
+/bin/zsh
+/bin/tcsh
+/bin/csh
+# 不同用户可以配置不同的 shell 工具
+cat /etc/passwd
+work:x:502:502::/home/work:/bin/bash
+```
+
+为什么要学 shell：全(可视化工具是shell的子集)、快(远程操作命令行非常快)。
+
+下面我们来认真学学 shell，我们都知道按向上键可以调出已经输入过的命令，那如果有个牛人上个月在我电脑上输了一些牛逼的命令我现在能调出来吗？当然可以，那怎么调，一条条翻到上个月？
+
+```shell
+cat ~/bash_history
+```
+
+所有的命令都在里面了，默认能存1000条，需要注意的一点是只有 bash 注销后才写文件。还有一个别名的功能，还记得 `ll` 等同于 `ls -l`，可以用 `alias` 查看更多简写：
+
+```shell
+alias
+# 部分结果
+ll='ls -lh'
+gba='git branch -a'
+md='mkdir -p'
+# 还可以设置新的别名或修改已有别名
+alias gp='git push'
+# 删除别名
+unalias gp
+```
+
+还有一个比较重要的概念那就是环境变量了，使用 env 或者 export 可以看到所有的环境变量：
+
+```shell
+env
+# 部分结果
+PATH=/usr/local/bin:/usr/bin
+USER=zhaoxiaoqiang
+# 查看一个环境变量
+echo $USER
+# 临时声明一个环境变量(通常大写字符为系统默认变量，用户变量建议用小写)
+myName="xiao qiang"
+echo $myName
+# 若变量需要在其它子进程中使用，可以用 export 变成环境变量
+# 注意是子进程，在其它命令行窗口依然调用不到的
+# 如果想在任意命令窗口都可以使用，重启后依然可以使用，需要修改环境变量配置文件
+export myName
+# 销毁变量和环境变量都可以用 unset
+unset myName
+```
+
+其实环境变量有很多个，PATH 是比较特别的一个，命令执行时如果当前目录没有此命令就从 PATH 环境变量的值所配置的文件路径一个个找过去。
+
