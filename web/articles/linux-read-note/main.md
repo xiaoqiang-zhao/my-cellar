@@ -262,3 +262,31 @@ unset myName
 
 其实环境变量有很多个，PATH 是比较特别的一个，命令执行时如果当前目录没有此命令就从 PATH 环境变量的值所配置的文件路径一个个找过去。
 
+还有一个非常重要的部分 -- 管道命令(pipe)，其实就是把命令输出的结果按行再做一次加工，方便查看，用到的手段主要有 cut 和 grep 两种，下面用一个例子来说明：
+
+```shell
+# 用下面命令可以看到好长一串
+echo $PATH
+# 比如我的电脑是这样：
+#/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mongodb-osx-x86_64-enterprise-3.4.10/bin/
+# 那我能不能一个个看呢？当然可以
+echo $PATH | cut -d ":" -f 1,2
+# 这样就能看到第一个和第二个了：/usr/local/bin
+# 所以 cut 的作用就是截取信息，grep 是过滤信息
+# 比如我这里有一堆的 node 包：
+ls -l
+# 部分结果：
+drwxr-xr-x  14 zhaoxiaoqiang  wheel  476 Dec 21 16:22 ala-cli
+drwxr-xr-x  11 zhaoxiaoqiang  wheel  374 Dec 22 14:34 fecs
+drwxrwxrwx  25 root           wheel  850 Dec  8 23:04 npm
+# 如果我只想看我装的包(或者说权限是当前用户的包)，我可以这样：
+ls -l | grep 'zhaoxiaoqiang'
+# 部分结果：
+drwxr-xr-x  14 zhaoxiaoqiang  wheel  476 Dec 21 16:22 ala-cli
+drwxr-xr-x  11 zhaoxiaoqiang  wheel  374 Dec 22 14:34 fecs
+# 其实就是按行分析，包含了某些信息的就输出，从而达到一种过滤的作用
+```
+
+最后是数据流重定向，如果你看到过 `2> /dev/null` 这样的 shell 片段并对他感兴趣可以看这一部分。
+
+
