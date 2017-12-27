@@ -285,8 +285,52 @@ ls -l | grep 'zhaoxiaoqiang'
 drwxr-xr-x  14 zhaoxiaoqiang  wheel  476 Dec 21 16:22 ala-cli
 drwxr-xr-x  11 zhaoxiaoqiang  wheel  374 Dec 22 14:34 fecs
 # 其实就是按行分析，包含了某些信息的就输出，从而达到一种过滤的作用
+# 最后过滤是支持正则的
 ```
 
 最后是数据流重定向，如果你看到过 `2> /dev/null` 这样的 shell 片段并对他感兴趣可以看这一部分。
 
+### shell script
+
+先来一个 Hello world：
+
+```shell
+#!/bin/bash
+
+# File:    sh01.sh
+# Desc:    print "Hello world."
+# History: 2017/12/26 zhaoxiaoqiang First release
+
+echo "Hello world."
+exit 0
+```
+
+如果打算自执行，那么第一行要声明解析这个文件的解析器。然后第二段是注释，写好注释要从 Hello world 抓起。然后就是就是打印输出，最后是返回值。下面加大难度继续进阶：
+
+```bash
+#!/bin/bash
+
+# File: sh02.sh
+# Desc: 创建三个文件夹，前缀由用户输入，后缀是昨天今天明天的日期
+# History: 2017/12/26 zhaoxiaoqiang First release
+
+# 获取用户输入
+read -p "请输入文件名前缀:" inputFilename
+# 为了避免随意按 Enter，分析是否设置
+preFilename=${inputFilename:-"defaultFilename"}
+# 利用 date 取得所需文件名
+yestady=$(date --date='1 days ago' +%Y%m%d)
+tady=$(date +%Y%m%d)
+tomorrow=$(date -d tomorrow +%Y%m%d)
+
+yestadyFile=${preFilename}-${yestady}
+tadyFile=${preFilename}-${tady}
+tomorrowFile=${preFilename}-${tomorrow}
+# 创建文件
+touch "$yestadyFile"
+touch "$tadyFile"
+touch "$tomorrowFile"
+```
+
+这里用到了收集用户输入，默认值设置，获取时间字符串，拼接文件名，创建文件等操作。这一 Demo 必然会产生很多文件，可以用通配符来删除这些试验文件 `rm def*`;
 
