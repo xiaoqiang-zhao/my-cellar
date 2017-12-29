@@ -400,7 +400,7 @@ else
     echo '8080 和 8081 端口都被占用'
 fi
 # 注：netstat -tuln 命令在 Mac 下的输出和 Linux 是不一样的，
-#    所以此命令在 Mac 下得不到预期
+#    所以此命令在 Mac 下得不到预期，Mac 下用 lsof -nP -iTCP 代替
 ```
 
 上面代码有很多重复的，如果我们想找一个 8080 端口之后未被占用的端口怎么办呢？是循环登场的时候了：
@@ -412,13 +412,18 @@ fi
 # Desc: 获取 8080 端口及以后未被占用的端口
 # History: 2017/12/28 zhaoxiaoqiang First release
 port=8080
-while [ "$(netstat -tuln | grep "$port")" != "" ]
+# 这一这里的第一对双引号必须要加
+# 然后 port 变量的引用必须以 $ 开始，并必须加引号(双引号也可以的)
+while [ "$(netstat -tuln | grep '$port')" != "" ]
 do
+    # 数值运算必须 加 $ 和两层括号，不然就成了字符串拼接了
     port=$(($port+1))
 done
+# 字符串拼接直接写就行，并不需要 +
 echo $port'端口没有被占用'
 
 exit $port
 ```
 
-while 循环在 shell 中比较常见，其他的循环还有 until、for 大同小异就不展开了。
+shell script 就简单讲这么多，更深入的学习推荐《Linux Shell 脚本攻略》
+
