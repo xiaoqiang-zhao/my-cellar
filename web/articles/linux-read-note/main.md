@@ -238,6 +238,8 @@ md='mkdir -p'
 alias gp='git push'
 # 删除别名
 unalias gp
+# 这样设置的别名在新命令行窗口中不生效，要想永久生效参考下面这篇文章：
+test -f ~/.bash_aliases && source ~/.bash_aliases
 ```
 
 还有一个比较重要的概念那就是环境变量了，使用 env 或者 export 可以看到所有的环境变量：
@@ -361,12 +363,12 @@ test 'a' == 'b' && echo '等于' || echo '不等于'
 ```
 其他常用参数：
 
-- eq ==
-- ne !=
-- gt >
-- lt <
-- ge >=
-- le <=
+- eq 数字 ==
+- ne 数字 !=
+- gt 数字 >
+- lt 数字 <
+- ge 数字 >=
+- le 数字 <=
 - 字符串可以直接使用 == 和 !=
 
 最后是多个条件之间的逻辑处理
@@ -380,3 +382,43 @@ test 2 -gt 1 -o 'a' == 'b' && echo '2大于1或"a"等于"b"' || echo '--'
 test ! 2 -gt 1 && echo '2不大于1' || echo '--'
 ```
 
+说完了 `if (test)` 中的 test 后可以来完整的说说 if 了：
+
+```bash
+#!/bin/bash
+
+# File: sh03.sh
+# Desc: if...then Demo, 判断端口是否暂用
+# History: 2017/12/28 zhaoxiaoqiang First release
+
+# 8080 端口被占用
+if [$(netstat -tuln | grep "8080") == '']; then
+    echo '8080 端口没有被占用'
+elif [$(netstat -tuln | grep "8081") == ''];then 
+    echo '8081 端口没有被占用'
+else
+    echo '8080 和 8081 端口都被占用'
+fi
+# 注：netstat -tuln 命令在 Mac 下的输出和 Linux 是不一样的，
+#    所以此命令在 Mac 下得不到预期
+```
+
+上面代码有很多重复的，如果我们想找一个 8080 端口之后未被占用的端口怎么办呢？是循环登场的时候了：
+
+```bash
+#!/bin/bash
+
+# File: sh04.sh
+# Desc: 获取 8080 端口及以后未被占用的端口
+# History: 2017/12/28 zhaoxiaoqiang First release
+port=8080
+while [ "$(netstat -tuln | grep "$port")" != "" ]
+do
+    port=$(($port+1))
+done
+echo $port'端口没有被占用'
+
+exit $port
+```
+
+while 循环在 shell 中比较常见，其他的循环还有 until、for 大同小异就不展开了。
