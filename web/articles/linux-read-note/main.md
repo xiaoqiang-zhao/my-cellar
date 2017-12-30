@@ -425,5 +425,19 @@ echo $port'端口没有被占用'
 exit $port
 ```
 
-shell script 就简单讲这么多，更深入的学习推荐《Linux Shell 脚本攻略》
+最后说一点点调试技巧：
+
+```bash
+sh [-nvx] 某.sh
+# -n 不执行，只检查语法
+# -v 在执行前先将 shell 输出
+# -x 将执行到的 shell 输出，排查分支逻辑的好办法
+```
+
+shell script 就简单讲这么多，更深入的学习推荐《Linux Shell 脚本攻略》。
+
+## 使用者管理
+
+### 账号管理
+
 
