@@ -143,11 +143,21 @@ http://www.jianshu.com/p/fdc12d82b661
 
 forver扩展资料: [http://blog.fens.me/nodejs-server-forever/](http://blog.fens.me/nodejs-server-forever/)
 
-### pm2 
+### pm2
 
-$ pm2 server     # 启动守护，其实就是用 pm2 替代 node
+```bash
+# 开启进程守护
+pm2 start server --name my-server-name
 
-$ pm2 list       # 显示所有进程状态
+# 显示所有进程状态
+pm2 list
 
-$ pm2 stop 0       # 停止指定的进程
+# 停止指定的进程
+pm2 stop 0
 
+# 从列表中移除，移除后进程也终止
+pm2 delete api
+
+# 重启进程
+pm2 restart api
+```
