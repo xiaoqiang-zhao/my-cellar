@@ -150,6 +150,7 @@ forver扩展资料: [http://blog.fens.me/nodejs-server-forever/](http://blog.fen
 pm2 start server --name my-server-name
 
 # 显示所有进程状态
+# 在 Linux 下是看不到其他用户启动的进程的，root 也不行
 pm2 list
 
 # 停止指定的进程
