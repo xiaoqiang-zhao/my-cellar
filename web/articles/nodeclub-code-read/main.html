@@ -39,8 +39,140 @@
 router.post(&#39;/user/set_star&#39;, auth.adminRequired, user.toggleStar);
 </code></pre><p>那么问题来了怎么成为管理员呢，接着看源码发现用 config.js 里面配置的 admin 用户名注册用户就成为了管理员，管理员可以是多个。然后在 <code>/user/:username</code> 页中就能看到 “设为达人” 的按钮了。</p>
 <p>大概的流程就这么多，剩下的就是技术点了，下面挑几个说说。</p>
-<h2 id="header-1-4">看不懂备忘</h2>
+<h2 id="header-1-4">数据存储和获取的流程是什么？</h2>
+<p>这是一个入门级的问题，下面我们看看这个项目是怎么处理的。</p>
+<p>第一步是入口，上面说了是 app.js，然后数据库的连接和 Schema 定义都在 models 文件夹中，models 文件夹中的 index.js 负责连接数据库，引入项目需要的 5 个 collection，每个文件定义一个 collection，包括 Schema、索引和自定义函数。</p>
+<p>然后是在 web_router.js 文件中定义接口，比如“更新话题内容”这个接口的实现就放在 <code>topic.update</code> 方法下面。</p>
+<pre><code>router.post(&#39;/topic/:tid/edit&#39;, auth.userRequired, topic.update);
+</code></pre><p>然后不难发现 <code>topic.update</code> 方法的实现在 controllers/topic.js 文件中，然后一层层追进去，大概的代码逻辑是这样(下面是伪代码，只展现逻辑，省略参数等)：</p>
+<pre><code class="lang-javascript">var models = require(&#39;../models&#39;);
+var Topic = models.Topic;
+exports.update = function (req, res, next) {
+    Topic.findOne(function (topic) {
+        topic.title = req.body.title;
+        topic.save();
+    });
+}
+</code></pre>
+<p>这其中会涉及到很多个文件，我把代码抽象到一起方便理解。下面拆解开看看怎么分层的：</p>
+<pre><code class="lang-javascript">// 1. controllers 层，定义方法，外露给 router 层直接调用
+//    controllers/topic.js
+exports.update = function (req, res, next) {
+
+    // 1.1. 然后接收前端传过来的数据
+    var topic_id = req.params.tid;
+    var title = req.body.title;
+    // 1.2. 并校验数据有效性
+    var editError;
+    if (title === &#39;&#39;) {
+        editError = &#39;标题不能是空的。&#39;;
+    }
+    // 1.3. 还有将数据配装成对象，都在这一层完成
+
+    // 1.4. 和数据库的交互由 proxy 层来定义
+    var Topic = require(&#39;../proxy&#39;).Topic;
+
+    // 3. 然后调用 proxy 返回的方法实现保存数据
+    //    保存完数据完成页面的重定向和内容返回
+    Topic.getTopicById(topic_id, function (err, topic, tags) {
+        topic.title = title;
+        topic.save(function (err) {
+            res.redirect(&#39;/topic/&#39; + topic._id);
+        });
+    }
+}
+// 2. proxy 层来定义数据交互 
+//    proxy/topic.js
+// 2.1 首先拿到 model 定义
+var models = require(&#39;../models&#39;);
+var Topic = models.Topic;
+var User = require(&#39;./user&#39;);
+// 2.2 然后用了一个库 -- eventproxy，来实现多个 model 的组合
+//     这可能也是这一层叫 proxy 的原因
+var EventProxy = require(&#39;eventproxy&#39;);
+// 2.3 比如先查话题再查话题所属的用户，然后组合成
+var proxy = new EventProxy();
+var events = [&#39;topic&#39;, &#39;author&#39;, &#39;last_reply&#39;];
+proxy.assign(events, function (topic, author) {
+    if (!author) {
+        return callback(null, null, null);
+    }
+    return callback(null, topic, author);
+}).fail(callback);
+
+Topic.findOne({_id: id}, proxy.done(function (topic) {
+    if (!topic) {
+        proxy.emit(&#39;topic&#39;, null);
+        proxy.emit(&#39;author&#39;, null);
+        return;
+    }
+    proxy.emit(&#39;topic&#39;, topic);
+
+    User.getUserById(topic.author_id, proxy.done(&#39;author&#39;));
+}));
+</code></pre>
+<p>最后还有两个彩蛋，一个是 MongoDB 的自定义函数：</p>
+<pre><code class="lang-js">// models/base_model.js
+var tools = require(&#39;../common/tools&#39;);
+
+module.exports = function (schema) {
+  schema.methods.create_at_ago = function () {
+    return tools.formatDate(this.create_at, true);
+  };
+
+  schema.methods.update_at_ago = function () {
+    return tools.formatDate(this.update_at, true);
+  };
+};
+</code></pre>
+<p>另一个是日志，只有在 debug 状态才会开启日志：</p>
+<pre><code class="lang-js">// app.js 是入口
+require(&#39;./middlewares/mongoose_log&#39;);
+// middlewares/mongoose_log.js 开启日志
+var logger = require(&#39;../common/logger&#39;);
+if (config.debug) {
+    // ...
+}
+// common/logger.js 用 log4js 写入文件
+// 默认日志文件地址 logs/cheese.log
+var log4js = require(&#39;log4js&#39;);
+</code></pre>
+<h2 id="header-1-5">Session</h2>
+<p>HTTP 是无状态，但我们的很多请求是需要有状态的，比如有些操作是需要用户登录的(比如登录和发布内容操作是不同的请求)，为了解决这一问题业界广泛使用的解决方案就是 Session。简单的说就是在 cookie 中放一个唯一标识，然后每次请求的时候都带着这个标识，具体数据存储在服务器上，通过这个唯一数据来获取。一般的后台语言如 Java 和 PHP 都提供 Session 功能，数据存放在内存和文件中。但是如果要构建大型应用，一台服务器不能满足 Session 对性能的需求时就会引入其他技术，cnode 的 Session 存储用的是 Redis。Redis 作为键值存储数据库，又能低成本实现分布式，作为 Session 的存储方案是很不错的，下面看看具体的实现。</p>
+<p>Session data is not saved in the cookie itself, just the session ID. Session data is stored server-side.</p>
+<p>首先需要一个中间件，</p>
+<pre><code class="lang-js">// app.js
+var express = require(&#39;express&#39;);
+var session = require(&#39;express-session&#39;);
+var RedisStore = require(&#39;connect-redis&#39;)(session);
+
+var app = express();
+app.use(session({
+  secret: config.session_secret,
+  store: new RedisStore({
+    port: config.redis_port,
+    host: config.redis_host,
+    db: config.redis_db,
+    pass: config.redis_password,
+  }),
+  resave: false,
+  saveUninitialized: false,
+}));
+</code></pre>
+<p>Redis </p>
+<h2 id="header-1-6">看不懂备忘</h2>
 <p>很多包没见过：oneapm、colors</p>
+<h2 id="header-1-7">包积累</h2>
+<p><code>eventproxy</code>，朴灵(田永强)开发的模块，解决回调地狱。</p>
+<p><code>log4js</code> 打印文件日志。</p>
+<p><code>express-session</code> express session 中间件，可以配合 mongoDB 或 Redis 来做。</p>
+<h2 id="header-1-8">扩展阅读</h2>
+<p><a href="https://www.zhihu.com/question/263715023/answer/275984629" target="_blank">node相比传统服务端技术栈差在哪里？</a></p>
+<p>其他开源项目：</p>
+<p><a href="https://github.com/keystonejs/keystone" target="_blank">知名 node.js CMS</a>，2013.7.2开始，11k+ star，1.8k+ fork。</p>
+<p><a href="https://github.com/ericjjj/vms" target="_blank">极客公园 后台管理系统</a>，2017.4.12开始，700+ star，100+ fork。</p>
+<p><a href="https://baike.baidu.com/item/Session/479100" target="_blank">Session 扩展阅读 - 百度百科</a></p>
+<p><a href="http://blog.csdn.net/think2me/article/details/38726429" target="_blank">Session 扩展阅读 - 某博客</a></p>
 
 </div>
 </body>
