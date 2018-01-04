@@ -544,5 +544,48 @@ edquota -p 限额范本号 -u 用户账号
 
 ### 定时任务
 
+定时任务还有个大名叫“例行性工作(crontab)”，Linux 的强大之处就是不仅可以指定多长时间后执行某些命令(setTimeout)，还能指定一个时间，比如我早上写好一封邮件，指定下午 6 点发出去。
 
+```bash
+# 查看 atd 是否启动，从下面可以看到 atd 服务在进程中
+ps -ef | grep atd
+# root      2261     1  0 21:49 ?        00:00:00 /usr/sbin/atd
 
+# 重启一下试试，一般用户无法控制 atd 服务，必须用 root 权限
+/etc/init.d/atd restart
+# 不出意外的话会出两条 failed，
+# Stopping atd:   [FAILED]
+# Starting atd:   [FAILED]
+# 使用 root 权限执行后出现下面提示就重启完成
+# Starting atd:   [  OK  ]
+
+# 添加一个延时任务，一分钟后删除某个空文件夹
+at now + 1 minutes 回车后开始输入命令
+rm -r 某空文件夹
+# 回车到空行， ctrl + d 来终止输入
+# job 2 at 2018-01-04 21:57
+# 如果不是出现上面的定时成功提示，而是出现下面的提示，说明 atd 服务没有运行，需要确认已启动
+# Can't open /var/run/atd.pid to signal atd. No atd running?
+
+# 查看定时任务列表
+atq
+# 6	2018-01-04 22:24 a zhaoxiaoqiang
+
+# 查看某个延时任务，任务 id 就是上面的第一列
+at -c 任务id
+
+# 放弃执行定时任务
+atrm 任务id
+
+# 定时任务完成后，使用 atq 会看到这样一行提示：
+# You have new mail
+# 用 cat 读取后标为已读，再使用 atq 就看不到提示了
+
+# 如果想指定时间，可以像下面这样
+at 18:00 2018-01-01
+
+```
+
+at 中的任务是脱机任务，关闭远程登录命令行后依然会执行。关于 at 最后提醒一下，当我们使用 at 时会进入一个 at shell 的环境来执行工作命令，因此做好使用绝对路径。
+
+例行性工作的另一个重要含义是每段时间，如每天、每周、每月或每小时定时去做一个事情。
