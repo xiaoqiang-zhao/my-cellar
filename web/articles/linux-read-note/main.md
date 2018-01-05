@@ -560,6 +560,7 @@ ps -ef | grep atd
 # Starting atd:   [  OK  ]
 
 # 添加一个延时任务，一分钟后删除某个空文件夹
+# 注意不支持秒，恒定 minutes，加 s
 at now + 1 minutes 回车后开始输入命令
 rm -r 某空文件夹
 # 回车到空行， ctrl + d 来终止输入
@@ -588,4 +589,20 @@ at 18:00 2018-01-01
 
 at 中的任务是脱机任务，关闭远程登录命令行后依然会执行。关于 at 最后提醒一下，当我们使用 at 时会进入一个 at shell 的环境来执行工作命令，因此做好使用绝对路径。
 
-例行性工作的另一个重要含义是每段时间，如每天、每周、每月或每小时定时去做一个事情。
+例行性工作的另一个重要含义是每段时间，如每天、每周、每月或每小时定时去做一个事情。在 Linux 上通过 crontab 命令来实现，比 setTimeinterval 强悍很多，看到这里有那么一丢丢感慨，服务端能做的事情要比客户端尤其是浏览器多太多。
+
+```bash
+# 首先看看服务是否启动
+service crond status
+# 这个样子就是没问题了：crond (pid  4384) is running...
+# 如果没有启动就：service crond start
+
+# 添加定时任务
+crontab -e
+1 * * * * /home/zhaoxiaoqiang/create-folder-per-hour.sh
+# 分 时 日 月 周
+
+# 查看列表
+crontab -l
+```
+
