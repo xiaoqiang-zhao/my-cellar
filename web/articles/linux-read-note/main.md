@@ -597,12 +597,21 @@ service crond status
 # 这个样子就是没问题了：crond (pid  4384) is running...
 # 如果没有启动就：service crond start
 
-# 添加定时任务
+# 添加定时任务,每天零点零分执行
 crontab -e
-1 * * * * /home/zhaoxiaoqiang/create-folder-per-hour.sh
+0 0 * * * /home/zhaoxiaoqiang/create-folder-per-hour.sh
 # 分 时 日 月 周
 
 # 查看列表
 crontab -l
 ```
 
+定时任务最关键的是时间的设定，下面是一些比较重要的点：
+
+- 数字范围，分：0-59，时：0-23，日：1-31，月：1-12，周：0-7(0和7都代表周日)；
+- 星号(*)，任何时间都可以接受；
+- 逗号(,)，分段，如 `0 3,6 * * *` 表示三点和六点各执行一次；
+- 减号(-)，表示时间段，如 `0 3-6 * * *` 表示三点到六点每小时执行一次；
+- 斜线(/)，表示单位间隔，如 `0 */4 * * *` 表示每四个小时执行一次；
+
+最后提醒一下 crontab 也是脱机任务。
