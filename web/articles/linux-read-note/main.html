@@ -440,6 +440,137 @@ newgrp t1_group
 </code></pre>
 <p>备注：目录、挂载点、文件系统的关系 --&gt; 首先系统会装进一块硬盘，然后建立起目录结构，如果硬盘不够用需要将硬盘“挂载”到某个目录下才能通过目录访问到此硬盘，然后才能读写，每一块硬盘都是独立的文件系统。我们要做的磁盘配额管理只能针对整个文件系统进行限制。这一块还没验证过，不知道理解的对不对。</p>
 <h3 id="header-1-4-3">定时任务</h3>
+<p>定时任务还有个大名叫“例行性工作(crontab)”，Linux 的强大之处就是不仅可以指定多长时间后执行某些命令(setTimeout)，还能指定一个时间，比如我早上写好一封邮件，指定下午 6 点发出去。</p>
+<pre><code class="lang-bash"># 查看 atd 是否启动，从下面可以看到 atd 服务在进程中
+ps -ef | grep atd
+# root      2261     1  0 21:49 ?        00:00:00 /usr/sbin/atd
+
+# 重启一下试试，一般用户无法控制 atd 服务，必须用 root 权限
+/etc/init.d/atd restart
+# 不出意外的话会出两条 failed，
+# Stopping atd:   [FAILED]
+# Starting atd:   [FAILED]
+# 使用 root 权限执行后出现下面提示就重启完成
+# Starting atd:   [  OK  ]
+
+# 添加一个延时任务，一分钟后删除某个空文件夹
+# 注意不支持秒，恒定 minutes，加 s
+at now + 1 minutes 回车后开始输入命令
+rm -r 某空文件夹
+# 回车到空行， ctrl + d 来终止输入
+# job 2 at 2018-01-04 21:57
+# 如果不是出现上面的定时成功提示，而是出现下面的提示，说明 atd 服务没有运行，需要确认已启动
+# Can&#39;t open /var/run/atd.pid to signal atd. No atd running?
+
+# 查看定时任务列表
+atq
+# 6    2018-01-04 22:24 a zhaoxiaoqiang
+
+# 查看某个延时任务，任务 id 就是上面的第一列
+at -c 任务id
+
+# 放弃执行定时任务
+atrm 任务id
+
+# 定时任务完成后，使用 atq 会看到这样一行提示：
+# You have new mail
+# 用 cat 读取后标为已读，再使用 atq 就看不到提示了
+
+# 如果想指定时间，可以像下面这样
+at 18:00 2018-01-01
+</code></pre>
+<p>at 中的任务是脱机任务，关闭远程登录命令行后依然会执行。关于 at 最后提醒一下，当我们使用 at 时会进入一个 at shell 的环境来执行工作命令，因此做好使用绝对路径。</p>
+<p>例行性工作的另一个重要含义是每段时间，如每天、每周、每月或每小时定时去做一个事情。在 Linux 上通过 crontab 命令来实现，比 setTimeinterval 强悍很多，看到这里有那么一丢丢感慨，服务端能做的事情要比客户端尤其是浏览器多太多。</p>
+<pre><code class="lang-bash"># 首先看看服务是否启动
+service crond status
+# 这个样子就是没问题了：crond (pid  4384) is running...
+# 如果没有启动就：service crond start
+
+# 添加定时任务,每天零点零分执行
+crontab -e
+0 0 * * * /home/zhaoxiaoqiang/create-folder-per-hour.sh
+# 分 时 日 月 周
+
+# 查看列表
+crontab -l
+</code></pre>
+<p>定时任务最关键的是时间的设定，下面是一些比较重要的点：</p>
+<ul>
+<li>数字范围，分：0-59，时：0-23，日：1-31，月：1-12，周：0-7(0和7都代表周日)；</li>
+<li>星号(*)，任何时间都可以接受；</li>
+<li>逗号(,)，分段，如 <code>0 3,6 * * *</code> 表示三点和六点各执行一次；</li>
+<li>减号(-)，表示时间段，如 <code>0 3-6 * * *</code> 表示三点到六点每小时执行一次；</li>
+<li>斜线(/)，表示单位间隔，如 <code>0 */4 * * *</code> 表示每四个小时执行一次；</li>
+</ul>
+<p>最后提醒一下 crontab 也是脱机任务。</p>
+<h3 id="header-1-4-4">进程管理</h3>
+<p>进程：一个程序被加载到内存中运行，那么在内存中的那个数据就被称为进程(Process)。</p>
+<p>将进程放在后台执行，比如我们启动一个 web 服务 <code>npm run dev</code> 后还想在同一个命令行中执行点别的，就可以加一个 <code>&amp;</code> 符号，执行后会输出后台命令编号和PID，进入后台的进程还可以将输出打在命令行界面上。退出后台服务最简单粗暴的方式就是将命令行窗口直接关闭，但是简单粗暴解决不了复杂的需求，下面展示更丰富的后台进程控制命令：</p>
+<pre><code class="lang-bash"># 将进程压入后台
+npm run dev &amp;
+# 输出：[1] 27590
+
+# 列出后台进程
+jobs -l
+# 输出：[1]  + 27590 running    npm run dev
+
+# 将后台进程拿到前台
+fg %1
+# 其实上面带加号的进程是首进程，可以免参数
+
+# 再放进后台
+ctrl + z
+# 输出：[1]  + 27590 suspended  npm run dev
+# 放进后台后进程属于暂停状态，表现为服务停止端口占用
+
+# 让暂停的后台进程启动
+bg %1
+</code></pre>
+<p>还有一种情况，我们用 vim 编辑的时候有时需要从其他地方看点信息，这时就可以将当前的 vi 编辑放进后台：</p>
+<pre><code class="lang-bash"># 编辑某文件
+vi ~/sh01.sh
+
+# 将编辑器压入后台
+esc
+ctrl + z
+
+# 然后可以打开别的文件复制点东西
+cat sh03.sh
+
+# 切回 vi 编辑
+fg
+</code></pre>
+<p>再说说进程管理，如果你上个月启动了一个脱机任务，今天还能记得吗？所以我们需要一个命令将进程都列出来。鸟哥说 <code>ps -l</code> 可以看到自己启动的全部进程，然而实际验证看到的结果是这样：</p>
+<pre><code class="lang-bash">ps -l
+F S   UID   PID  PPID  C PRI  NI ADDR SZ WCHAN  TTY          TIME CMD
+0 R   500   796 16158  0  80   0 - 27024 -      pts/2    00:00:00 ps
+0 S   500 16106 16105  0  80   0 - 26557 -      pts/2    00:00:00 bash
+0 S   500 16158 16106  0  80   0 - 27142 -      pts/2    00:00:00 bash
+</code></pre>
+<p>只有 ps 本身和几个 bash，我的 pm2 呢？我的 npm 和 node 呢？看来必须使用查看全部系统命令才有可能找到我关心的内容，<code>ps axjf</code> 能看到全部进程，并且可以标记出父进程。父子进程的概念比较简单，如果 A 进程启动了 B 进程，那么 A 进程就是 B 进程的父进程，反过来说 B 进程是 A 进程的子进程，但是这种关系和在进程列表中看到的结果可能不一样，因为进程之间的调用还存在一种“功成身退”的情况，什么意思？举例来说 A 启动 B，B 又启动 C，但是 B 可能会悄然引退就像没有存在过，看到的是 A 与 C 的父子关系。</p>
+<pre><code class="lang-bash"># 需要关心调用路径和启动文件所在的路劲
+node server
+npm run server
+# 参数需要每次都写
+pm2 start server
+npm run pm2
+# 应该的顺序是：/sbin/init -&gt; bash -&gt; npm -&gt; pm2 -&gt; node
+# 注：/sbin/init 是系统启动的第一个进程，也是一切其他进程的祖进程
+# 但从进程列表中看到的顺序是：/sbin/init -&gt; pm2 -&gt; node
+
+# 可以从父子进程中看出
+ps axjf
+# 输出：
+# PPID   PID  PGID   SID    TIME COMMAND
+#    0     1     1     1    1:58 /sbin/init
+#    1  3253  3253  3253   75:43 PM2 v2.7.1: God Daemon (/home/zhaoxiaoqiang/.pm2)
+# 3253  2457  2457  2457    7:38  \_ node /home/zhaoxiaoqiang/code/node-modules-manage/server              
+# 3253 10663 10663 10663    4:03  \_ node /home/zhaoxiaoqiang/code/demo-12-4/server
+</code></pre>
+<p>最后说一下 kill，就是想砍哪个进程砍哪个进程，而且一刀毙命，上面的 PID 就是进程ID(Process ID)，语法也很简单：<code>kill PID</code>。</p>
+<h2 id="header-1-5">结语</h2>
+<p>终于看完了...</p>
+<p>看这个类型的书就要定个计划，不间断的一口气看完，我看这本书前后用了不到一个月看了三遍，每天坚持看一章。具体看书的过程大概是三遍，第一遍快速看，不最求细节，知道讲了什么，我需要从中提取什么信息进我的认知框架，比如进程管理这一章第一遍先知道有进程有前台、后台、脱机的概念，这些概念为了解决什么问题，用的什么命令解决的，然后画一些标记。第二遍开始打开电脑，假设我遇到了一个问题，要怎么利用这一章提到的东西来解决，这其中可能会遇到与书上有出入的地方，也可能遇到一些问题书中并为提及，结合 Google 将解决问题的过程记录到笔记中。最后再过一遍看看有什么漏掉的没有，这一次就像一个有经验的人看同行写的书。</p>
 
 </div>
 </body>

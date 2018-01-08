@@ -752,8 +752,12 @@
     "enName": "linux-read-note",
     "title": "《鸟哥的 Linux 私房菜》读书笔记",
     "introduction": "为了不底层基础大的更牢靠，阅读以下系统相关的书是必要的，由于这本书没有电子版发行，这篇是阅读纸质版的笔记，方便查阅和自我梳理。",
-    "tags": [],
-    "isPublished": false,
+    "tags": [
+      "服务器软件",
+      "个人笔记",
+      "推荐"
+    ],
+    "isPublished": true,
     "state": "立项",
     "type": "md",
     "createDate": 1509372699070,
