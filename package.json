@@ -1,6 +1,9 @@
 {
   "name": "cellar",
   "description": "cellar中文意思酒窖，希望这里的每一篇博文都是一瓶美酒佳酿。采用node搭建，集框架与内容为一体的博客系统",
+  "scripts": {
+    "pm2": "pm2 start server --name my-cellar:9999"
+  },
   "keywords": [
     "cellar",
     "longze",
