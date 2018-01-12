@@ -20,7 +20,7 @@
 <div>
     <h1 id="header-1">《鸟哥的 Linux 私房菜》读书笔记</h1>
 <blockquote>
-<p>为了不底层基础大的更牢靠，阅读以下系统相关的书是必要的，由于这本书没有电子版发行，这篇是阅读纸质版的笔记，方便查阅和自我梳理。</p>
+<p>这是全栈系列第一篇，为了把底层基础打的更牢靠些，先从一本操作系统名作开始吧，由于这本书没有电子版发行，这篇是阅读纸质版的笔记，方便查阅和自我梳理。</p>
 </blockquote>
 <h2 id="header-1-1">Linux 的规则和安装</h2>
 <p>历史回顾 -- 程序员是个年轻的职业：</p>
@@ -29,11 +29,11 @@
 <li>1996 年 Linux 1.0 正式上线。</li>
 </ul>
 <p>之前的计算机基本是实验室里东西，实际使用单位也只有不差钱的政府和研究性质的高校。</p>
-<p>Linux 能干啥 -- 企业应用，网路服务，企业网络管理。</p>
-<p>如何学习 Linux -- 如果只想“会使用”Linux，那么 X Window 也足够了；如果想深入学习 Linux，那么命令行才是学习的不二方式。</p>
+<p>Linux 能干啥？企业应用，网路服务，企业网络管理。</p>
+<p>如何学习 Linux？如果只想“会使用”Linux，那么 X Window 也足够了；如果想深入学习 Linux，那么命令行才是真确姿势。</p>
 <p>Linux 的安装可以在 Virtuabox 中练习，练习一些系统初始化的设置，现在一般是云服务器，提交一个配置表单提供方就直接重装了，所以这里不展开。</p>
 <p>Linux 下的两种桌面环境：GNOME[nəʊm], KDE(Kool Desktop Environment)。</p>
-<p>然后是几个基础的命令，有的时候装某些软件有对系统的要求：</p>
+<p>装某些软件有对系统的要求，查看内核版本和发行版本号：</p>
 <pre><code class="lang-shell"># 查看 Linux 内核版本，有时也叫 binaries
 uname -a
 # 结果：3.10.0_3-0-0-11 CST 2015 x86_64 x86_64 x86_64 GNU/Linux
@@ -130,13 +130,22 @@ umas -S
 umask -S
 # 结果：u=rwx,g=rwx,o=rwx
 </code></pre>
-<p><code>inode</code> 记录索引和权限，<code>block</code> 存储具体的内容。还有一些分区和挂载相关的内容都已经工具化了，这里的原理简单了解就好，不详诉。</p>
+<p><code>inode</code> 记录索引和权限，<code>block</code> 存储具体的内容，还有一些分区和挂载相关的内容都已经工具化了，不详诉，唯一需要掌握的是软连接。软连接是相对于硬连接(hard link)使用inode做关联指向，软连接又叫符号连接(symbolic link)。硬连载资源使用上比较有优势，但是有不能跨目录等限制，反而软连使用比较广泛。</p>
+<pre><code class="lang-bash"># 建软连，aaa 连到 sh01.sh
+ln -s sh01.sh aaa
+# 查看文件可以看到多出来一个文件
+ls
+# 输出：aaa sh01.sh
+# 然后 bash aaa 与 bash sh01.sh 等价
+bash aaa
+</code></pre>
 <p>最后补一个打包压缩和解压的命令：</p>
-<pre><code class="lang-shell"># 压缩
+<pre><code class="lang-bash"># 压缩
 tar -jcv -f a.tar.bz2    a
             压缩后的名称   被压缩的文件夹
 # 解压到当前文件夹
 tar -jxv -f a.tar.bz2 -C ./
+tar -zxv -f a.tar.gz -C ./
 # 不解压也可以看目录
 tar -jtv -f a.tar.bz2
 </code></pre>
