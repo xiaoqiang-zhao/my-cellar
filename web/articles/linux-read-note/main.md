@@ -24,11 +24,11 @@ Linux 下的两种桌面环境：GNOME[nəʊm], KDE(Kool Desktop Environment)。
 ```shell
 # 查看 Linux 内核版本，有时也叫 binaries
 uname -a
-# 结果：3.10.0_3-0-0-11 CST 2015 x86_64 x86_64 x86_64 GNU/Linux
+# 输出：3.10.0_3-0-0-11 CST 2015 x86_64 x86_64 x86_64 GNU/Linux
 
 # 查看 centos 版本
 cat /etc/issue
-# 结果：CentOS release 6.3
+# 输出：CentOS release 6.3
 ```
 
 然后就是用 `man` 来获取命令的帮助，比如：
@@ -81,7 +81,7 @@ drwx------ 11 longze    longze  4096     Dec 22 20:17 longze
 - `x` 代表可执行；
 - `-` 代表空许可。
 
-用 `chmod` 可变更权限，如 `chmod o+w,g+w longze`：
+用 `chmod` 可变更权限，如 `chmod o+w,g+w 文件名`：
 
 - `u` 表示“用户（user）”，即文件或目录的所有者。
 - `g` 表示“同组（group）用户”，即与文件属主有相同组ID的所有用户。
@@ -141,9 +141,9 @@ export PATH=$PATH:自定义路径
 还有一个文件默认权限的设置 umask，查看默认权限有下面两种形式：
 
 ```shell
-umas
+umask
 # 结果：0002
-umas -S
+umask -S
 # 结果：u=rwx,g=rwx,o=rx
 ```
 
