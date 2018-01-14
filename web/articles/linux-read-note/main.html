@@ -22,33 +22,21 @@
 <blockquote>
 <p>这是全栈系列第一篇，为了把底层基础打的更牢靠些，先从一本操作系统名作开始吧，由于这本书没有电子版发行，这篇是阅读纸质版的笔记，方便查阅和自我梳理。</p>
 </blockquote>
-<h2 id="header-1-1">Linux 的规则和安装</h2>
-<p>历史回顾 -- 程序员是个年轻的职业：</p>
-<ul>
-<li>1985 年 Windows 1.0 发布；</li>
-<li>1996 年 Linux 1.0 正式上线。</li>
-</ul>
-<p>之前的计算机基本是实验室里东西，实际使用单位也只有不差钱的政府和研究性质的高校。</p>
-<p>Linux 能干啥？企业应用，网路服务，企业网络管理。</p>
-<p>如何学习 Linux？如果只想“会使用”Linux，那么 X Window 也足够了；如果想深入学习 Linux，那么命令行才是真确姿势。</p>
-<p>Linux 的安装可以在 Virtuabox 中练习，练习一些系统初始化的设置，现在一般是云服务器，提交一个配置表单提供方就直接重装了，所以这里不展开。</p>
-<p>Linux 下的两种桌面环境：GNOME[nəʊm], KDE(Kool Desktop Environment)。</p>
-<p>装某些软件有对系统的要求，查看内核版本和发行版本号：</p>
+<h2 id="header-1-1">Linux 概述</h2>
+<p>Linux 是一个多用户操作系统，诞生于 1996 年。Linux 能干啥？企业应用，网路服务，企业网络管理。</p>
+<p>如何学习 Linux？如果只想会使用 Linux，那么 X Window 也足够了；如果想深入学习 Linux，那么命令行才是真确姿势。</p>
+<p>装某些软件有对系统版本有特定的要求，查看内核版本和发行版本号是一项必要的技能：</p>
 <pre><code class="lang-shell"># 查看 Linux 内核版本，有时也叫 binaries
 uname -a
-# 结果：3.10.0_3-0-0-11 CST 2015 x86_64 x86_64 x86_64 GNU/Linux
+# 输出：3.10.0_3-0-0-11 CST 2015 x86_64 x86_64 x86_64 GNU/Linux
 
 # 查看 centos 版本
 cat /etc/issue
-# 结果：CentOS release 6.3
+# 输出：CentOS release 6.3
 </code></pre>
-<p>然后就是用 <code>man</code> 来获取命令的帮助，比如：</p>
-<pre><code class="lang-shell">man cat
-</code></pre>
-<p>最后记住忘了 root 密码不用重装系统也能搞定，但愿你永远用不到。什么？你担心不安全？哦，可以通过加堡垒机之类的方案做增强。</p>
 <h2 id="header-1-2">文件与目录</h2>
 <h3 id="header-1-2-1">那些重要的文件 与 FHS</h3>
-<p><code>/etc/</code> 下存放系统的重要配置，其中 <code>/etc/shadow</code> 存放所有的用户名和密码，当然只有 root 权限才能看，密码当让也是加过密的。</p>
+<p><code>/etc/</code> 下存放系统的重要配置，比如上面提到的存放系统版本的文件<code>/etc/issue</code>，还有一个重要文件 <code>/etc/shadow</code> 存放所有的用户名和密码，当然只有 root 才能看，密码当让也是加过密的。</p>
 <p><code>/etc/group</code> 中存放的是用户组信息。</p>
 <p><code>/etc/profile</code> 中存放全局的环境变量。可以在文件的 <code>Path manipulation</code> 部分修改。</p>
 <p>除了上面这些系统定义好的文件与文件夹之外，Linux 对软件和用户也提出了规范 -- FHS(Filesystem Hierarchy Standard)。</p>
@@ -76,7 +64,7 @@ drwx------ 11 longze    longze  4096     Dec 22 20:17 longze
 <li><code>x</code> 代表可执行；</li>
 <li><code>-</code> 代表空许可。</li>
 </ul>
-<p>用 <code>chmod</code> 可变更权限，如 <code>chmod o+w,g+w longze</code>：</p>
+<p>用 <code>chmod</code> 可变更权限，如 <code>chmod o+w,g+w 文件名</code>：</p>
 <ul>
 <li><code>u</code> 表示“用户（user）”，即文件或目录的所有者。</li>
 <li><code>g</code> 表示“同组（group）用户”，即与文件属主有相同组ID的所有用户。</li>
@@ -110,7 +98,7 @@ cat text
 # 在当前目录以及其子目录下有没有一个 text 文件
 find ./ -name text
 </code></pre>
-<p>有些命令我们在任何地方都可以执行，这归功于环境变量，可以用 <code>echo</code> 将此变量打印出来查看：</p>
+<p>有些命令在任何地方都可以执行，这归功于环境变量，可以用 <code>echo</code> 将此变量打印出来查看，<code>echo</code> 就是 Linux 上的 <code>console.log</code>：</p>
 <pre><code class="lang-shell">echo $PATH
 # 结果：/usr/local/bin:/usr/bin:/bin
 </code></pre>
@@ -120,9 +108,9 @@ export PATH=$PATH:自定义路径
 </code></pre>
 <p>如果想知道命令 <code>ls</code> 具体在哪里可以用 <code>which ls</code> 命令。</p>
 <p>还有一个文件默认权限的设置 umask，查看默认权限有下面两种形式：</p>
-<pre><code class="lang-shell">umas
+<pre><code class="lang-shell">umask
 # 结果：0002
-umas -S
+umask -S
 # 结果：u=rwx,g=rwx,o=rx
 </code></pre>
 <p>0002 的第一位是特殊权限先不管他，后面的 002 对应 u=rwx,g=rwx,o=rx。rwx 对应 421，然后用默认全有的 7 减去有的权限就是看到的数字。所以有一个大招叫 <code>chmod 777</code>。重新设置也很简单：</p>
@@ -146,8 +134,16 @@ tar -jcv -f a.tar.bz2    a
 # 解压到当前文件夹
 tar -jxv -f a.tar.bz2 -C ./
 tar -zxv -f a.tar.gz -C ./
+# 解压 zip 包可以直接用 unzip 命令
+unzip 文件名.zip &gt; /dev/null
 # 不解压也可以看目录
 tar -jtv -f a.tar.bz2
+</code></pre>
+<p>在某些解压脚本中你可能看到过 <code>2&gt; /dev/null</code> 这样的 shell 片段，意思是不输出标准错误。因为被解压的文件可能不可靠，这样就会有很多错误输出，一般大面积的错误输出会保存在文件中，抛弃这些错误是比较好的选择。其中的 <code>&gt;</code> 符号是重定向的语法，除了错误日志重定向，还可以重定向一些别的，下面是官方解释：</p>
+<pre><code class="lang-bash">&gt; file redirects stdout to file
+1&gt; file redirects stdout to file
+2&gt; file redirects stderr to file
+&amp;&gt; file redirects stdout and stderr to file
 </code></pre>
 <h2 id="header-1-3">Shell</h2>
 <h3 id="header-1-3-1">vim</h3>
@@ -173,8 +169,8 @@ tar -jtv -f a.tar.bz2
 <li><code>dd</code> 删除所在行；</li>
 <li><code>ndd</code> n 为数字，删除光标所在的向下 n 行；</li>
 <li><code>yy</code> 复制光标所在的行；</li>
-<li><code>p</code> 将复制的一行粘贴在当先行的下一行；</li>
-<li><code>P</code> 将复制的一行粘贴在当先行的上一行；</li>
+<li><code>p</code>(小写) 将复制的一行粘贴在当先行的下一行；</li>
+<li><code>P</code>(大写) 将复制的一行粘贴在当先行的上一行；</li>
 </ul>
 <p>若未修改可以 <code>:q</code> 直接离开，如果已经修改但是想放弃修改强制离开可以用 <code>:q!</code>。</p>
 <h3 id="header-1-3-2">bash</h3>
@@ -205,7 +201,9 @@ md=&#39;mkdir -p&#39;
 alias gp=&#39;git push&#39;
 # 删除别名
 unalias gp
-# 这样设置的别名在新命令行窗口中不生效，要想永久生效参考下面这篇文章：
+</code></pre>
+<p>这样设置的别名在新命令行窗口中不生效，要想永久生效我们还要多了解一些东西，首先是系统级别的别名出于安全方面的考虑是不建议改的，我们能做的就是为每个用户添加自定义别名配置。在每个用户的文件夹下有一个 <code>~/.bashrc</code>，每次用户打开命令行都会执行这个文件，我们上面提到过 shell 不是只有 bash 这一种实现方式，如果你换了 zsh，zsh 在 Mac 上使用较为广泛，那么进入命令行执行的文件是 <code>~/.oh-my-zsh/oh-my-zsh.sh</code>，总之我们要在这里调用我们的别名配置文件。先说怎么写别名配置文件，一般别名配置文件的命名由 “shell工具名” 和 “aliases” 组成，比如 bash 下的别名配置文件推荐为 “.bash_aliases”，然后每个别名独占一行，像这样 ：<code>alias gp=&#39;git push&#39;</code>。然后调用别名配置就简单了，向下面这样，先判断手否有别名配置文件，如果有那么就在同一进程中执行。</p>
+<pre><code class="lang-shell"># 添加自定义别
 test -f ~/.bash_aliases &amp;&amp; source ~/.bash_aliases
 </code></pre>
 <p>还有一个比较重要的概念那就是环境变量了，使用 env 或者 export 可以看到所有的环境变量：</p>
@@ -233,7 +231,7 @@ echo $PATH
 #/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mongodb-osx-x86_64-enterprise-3.4.10/bin/
 # 那我能不能一个个看呢？当然可以
 echo $PATH | cut -d &quot;:&quot; -f 1,2
-# 这样就能看到第一个和第二个了：/usr/local/bin
+# 这样就能看到第一个和第二个了：/usr/local/bin:/usr/bin
 # 所以 cut 的作用就是截取信息，grep 是过滤信息
 # 比如我这里有一堆的 node 包：
 ls -l
@@ -249,7 +247,6 @@ drwxr-xr-x  11 zhaoxiaoqiang  wheel  374 Dec 22 14:34 fecs
 # 其实就是按行分析，包含了某些信息的就输出，从而达到一种过滤的作用
 # 最后过滤是支持正则的
 </code></pre>
-<p>最后是数据流重定向，如果你看到过 <code>2&gt; /dev/null</code> 这样的 shell 片段并对他感兴趣可以看这一部分。</p>
 <h3 id="header-1-3-3">shell script</h3>
 <p>先来一个 Hello world：</p>
 <pre><code class="lang-shell">#!/bin/bash
@@ -265,7 +262,7 @@ exit 0
 <pre><code class="lang-bash">#!/bin/bash
 
 # File: sh02.sh
-# Desc: 创建三个文件夹，前缀由用户输入，后缀是昨天今天明天的日期
+# Desc: 创建三个文件夹，前缀由用户输入，后缀分别是昨天、今天、明天的日期
 # History: 2017/12/26 zhaoxiaoqiang First release
 
 # 获取用户输入
@@ -329,7 +326,7 @@ test ! 2 -gt 1 &amp;&amp; echo &#39;2不大于1&#39; || echo &#39;--&#39;
 <pre><code class="lang-bash">#!/bin/bash
 
 # File: sh03.sh
-# Desc: if...then Demo, 判断端口是否暂用
+# Desc: if...then Demo, 判断8080和8081端口是否被暂用
 # History: 2017/12/28 zhaoxiaoqiang First release
 
 # 8080 端口被占用
@@ -473,7 +470,7 @@ rm -r 某空文件夹
 
 # 查看定时任务列表
 atq
-# 6    2018-01-04 22:24 a zhaoxiaoqiang
+# 6    2018-01-04 22:24 zhaoxiaoqiang
 
 # 查看某个延时任务，任务 id 就是上面的第一列
 at -c 任务id
@@ -514,7 +511,7 @@ crontab -l
 <p>最后提醒一下 crontab 也是脱机任务。</p>
 <h3 id="header-1-4-4">进程管理</h3>
 <p>进程：一个程序被加载到内存中运行，那么在内存中的那个数据就被称为进程(Process)。</p>
-<p>将进程放在后台执行，比如我们启动一个 web 服务 <code>npm run dev</code> 后还想在同一个命令行中执行点别的，就可以加一个 <code>&amp;</code> 符号，执行后会输出后台命令编号和PID，进入后台的进程还可以将输出打在命令行界面上。退出后台服务最简单粗暴的方式就是将命令行窗口直接关闭，但是简单粗暴解决不了复杂的需求，下面展示更丰富的后台进程控制命令：</p>
+<p>将进程放在后台执行，比如我们启动一个 web 服务 <code>npm run dev</code> 后还想在同一个命令行中执行点别的，就可以加一个 <code>&amp;</code> 符号，执行后会输出后台命令编号和PID(Process ID，进程ID)，进入后台的进程还可以将 log 输出在命令行界面上。退出后台服务最简单粗暴的方式就是将命令行窗口直接关闭，但是简单粗暴解决不了复杂的需求，下面展示更丰富的后台进程控制命令：</p>
 <pre><code class="lang-bash"># 将进程压入后台
 npm run dev &amp;
 # 输出：[1] 27590
@@ -576,7 +573,7 @@ ps axjf
 # 3253  2457  2457  2457    7:38  \_ node /home/zhaoxiaoqiang/code/node-modules-manage/server              
 # 3253 10663 10663 10663    4:03  \_ node /home/zhaoxiaoqiang/code/demo-12-4/server
 </code></pre>
-<p>最后说一下 kill，就是想砍哪个进程砍哪个进程，而且一刀毙命，上面的 PID 就是进程ID(Process ID)，语法也很简单：<code>kill PID</code>。</p>
+<p>最后说一下 kill，就是想砍哪个进程砍哪个进程，而且一刀毙命：<code>kill PID</code>。</p>
 <h2 id="header-1-5">结语</h2>
 <p>终于看完了...</p>
 <p>看这个类型的书就要定个计划，不间断的一口气看完，我看这本书前后用了不到一个月看了三遍，每天坚持看一章。具体看书的过程大概是三遍，第一遍快速看，不最求细节，知道讲了什么，我需要从中提取什么信息进我的认知框架，比如进程管理这一章第一遍先知道有进程有前台、后台、脱机的概念，这些概念为了解决什么问题，用的什么命令解决的，然后画一些标记。第二遍开始打开电脑，假设我遇到了一个问题，要怎么利用这一章提到的东西来解决，这其中可能会遇到与书上有出入的地方，也可能遇到一些问题书中并为提及，结合 Google 将解决问题的过程记录到笔记中。最后再过一遍看看有什么漏掉的没有，这一次就像一个有经验的人看同行写的书。</p>
