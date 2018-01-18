@@ -24,30 +24,32 @@ cat /etc/issue
 
 ### 那些重要的文件 与 FHS
 
-`/etc/` 下存放系统的重要配置，比如上面提到的存放系统版本的文件`/etc/issue`，还有一个重要文件 `/etc/shadow` 存放所有的用户名和密码，当然只有 root 才能看，密码当让也是加过密的。
+`/etc/` 下存放系统的重要配置，比如上面提到的存放系统版本的文件`/etc/issue`，还有一个重要文件 `/etc/shadow` 存放所有用户的用户名和密码，当然只有 root 才能看，密码当然也是加过密的。
 
 `/etc/group` 中存放的是用户组信息。
 
 `/etc/profile` 中存放全局的环境变量。可以在文件的 `Path manipulation` 部分修改。
 
-除了上面这些系统定义好的文件与文件夹之外，Linux 对软件和用户也提出了规范 -- FHS(Filesystem Hierarchy Standard)。
+除了上面这些系统定义好的文件与文件夹之外，Linux 对软件放在哪里和用户数据放在哪里也提出了规范 -- FHS(Filesystem Hierarchy Standard)。
 
-比如 `/home/` 下，放用户目录，在新建用户的时候 CentOS 6.3 会自动在 `/home/` 下创建同名目录(CentOS 4.3需要手动创建)。
+FHS 建议用户目录放在 `/home/` 下放，在新建用户的时候 CentOS 6.3 会自动在 `/home/` 下创建同名目录，CentOS 4.3需要手动创建，或者在添加用户的时候加 `-m` 参数，像这样 `useradd 用户名 -m`。
 
-比如 `/usr/local`，建议管理员将软件安装到这里，Redis 和 MondoDB 都是这么建议的。
+FHS 建议管理员将软件安装到 `/usr/local`，Redis 和 MondoDB 都是这么建议的。
 
 ### 文件权限
 
-说到文件权限，就不得不提用户和用户组的相关内容，但是这里我们花开两朵各表一枝，先说文件权限，假设所有用户和用户组以及两者之间的关系已经确定不变。
+说到文件权限，就不得不提用户和用户组的相关内容，我们花开两朵各表一枝，先说文件权限，假设所有用户和用户组以及两者之间的关系已经确定不变。
 
 Linux 作为多用户操作系统文件权限是其保证安全的根本。怎么查看一个文件或文件夹的权限呢？
 
 ```shell
-ls -al
-ll -a
-# 比如 /home/ 下我自己的目录是下面这样
-drwx------ 11 longze    longze  4096     Dec 22 20:17 longze
-[权限]   [连接] [所有者]  [用户组] [文件容量] [修改日期]    [文件名]
+ls -l
+ll
+# 比如我自己的目录有下面这样的一个文件夹和两个文件
+drwxrwxr-x 8 zhaoxiaoqiang zhaoxiaoqiang 4096 Jan 16 10:33 code
+-rwxrw-r-- 1 zhaoxiaoqiang zhaoxiaoqiang  241 Jan  7 11:21 sh01.sh
+lrwxrwxrwx 1 zhaoxiaoqiang zhaoxiaoqiang    7 Jan  8 21:27 sh01.sh-link -> sh01.sh
+[权限]       [所有者]        [用户组]            [修改日期]    [文件(夹)名]
 ```
 
 两条命令等价，第一个字母代表文件类型：
@@ -63,14 +65,14 @@ drwx------ 11 longze    longze  4096     Dec 22 20:17 longze
 - `x` 代表可执行；
 - `-` 代表空许可。
 
-用 `chmod` 可变更权限，如 `chmod o+w,g+w 文件名`：
+用 `chmod` 变更权限，如 `chmod o+w,g+w 文件名`：
 
 - `u` 表示“用户（user）”，即文件或目录的所有者。
 - `g` 表示“同组（group）用户”，即与文件属主有相同组ID的所有用户。
 - `o` 表示“其他（others）用户”。
 - `a` 表示“所有（all）用户”。它是系统默认值。
 
-改变文件的所有者和用户组，加 `-R` 参数可修改子目录下的全部文件权限：
+用 `chown` 变更文件的所有者和用户组：
 
 ```shell
 # 改变 owner
@@ -78,6 +80,8 @@ chown -R 用户名 文件(夹)名
 # 改变 group
 chgrp -R 用户组名 文件(夹)名
 ```
+
+加 `-R` 参数可修改子目录下的全部文件权限。
 
 ### 文件与目录管理
 
@@ -100,41 +104,8 @@ wget
 touch text
 # 读文件
 cat text
-# 在当前目录以及其子目录下有没有一个 text 文件
+# 在当前目录以及其子目录下有没有一个名为 text 文件
 find ./ -name text
-```
-
-有些命令在任何地方都可以执行，这归功于环境变量，可以用 `echo` 将此变量打印出来查看，`echo` 就是 Linux 上的 `console.log`：
-
-```shell
-echo $PATH
-# 结果：/usr/local/bin:/usr/bin:/bin
-```
-
-当我们执行一个命令的时候，Linux 会从上面的那些文件夹中(以冒号间隔)查找有没有我们输入的命令对应的可执行文件，如果找到了就执行。想要对所有户都生效修改 `/etc/profile` 文件，想要对当前用户生效修改 `~/.bash_profile` 文件，修改的方式都是在行尾加上一行：
-
-```shell
-# 添加某某环境变量
-export PATH=$PATH:自定义路径
-```
-
-如果想知道命令 `ls` 具体在哪里可以用 `which ls` 命令。
-
-还有一个文件默认权限的设置 umask，查看默认权限有下面两种形式：
-
-```shell
-umask
-# 结果：0002
-umask -S
-# 结果：u=rwx,g=rwx,o=rx
-```
-
-0002 的第一位是特殊权限先不管他，后面的 002 对应 u=rwx,g=rwx,o=rx。rwx 对应 421，然后用默认全有的 7 减去有的权限就是看到的数字。所以有一个大招叫 `chmod 777`。重新设置也很简单：
-
-```shell
-umask 000
-umask -S
-# 结果：u=rwx,g=rwx,o=rwx
 ```
 
 `inode` 记录索引和权限，`block` 存储具体的内容，还有一些分区和挂载相关的内容都已经工具化了，不详诉，唯一需要掌握的是软连接。软连接是相对于硬连接(hard link)使用inode做关联指向，软连接又叫符号连接(symbolic link)。硬连载资源使用上比较有优势，但是有不能跨目录等限制，反而软连使用比较广泛。
@@ -149,12 +120,13 @@ ls
 bash aaa
 ```
 
-最后补一个打包压缩和解压的命令：
+最后介绍一下打包压缩和解压的命令：
 
 ```bash
-# 压缩
+# 压缩，使用不同的参数采用相应的压缩算法
 tar -jcv -f a.tar.bz2    a
             压缩后的名称   被压缩的文件夹
+zip a.zip a
 # 解压到当前文件夹
 tar -jxv -f a.tar.bz2 -C ./
 tar -zxv -f a.tar.gz -C ./
@@ -167,10 +139,10 @@ tar -jtv -f a.tar.bz2
 在某些解压脚本中你可能看到过 `2> /dev/null` 这样的 shell 片段，意思是不输出标准错误。因为被解压的文件可能不可靠，这样就会有很多错误输出，一般大面积的错误输出会保存在文件中，抛弃这些错误是比较好的选择。其中的 `>` 符号是重定向的语法，除了错误日志重定向，还可以重定向一些别的，下面是官方解释：
 
 ```bash
-> file redirects stdout to file
-1> file redirects stdout to file
-2> file redirects stderr to file
-&> file redirects stdout and stderr to file
+> file 将解压的文件重定向到 file
+1> file 将解压的文件重定向到 file
+2> file 将解压错误日志重定向到 file，/dev/null 是一种特定的写法，表示丢弃
+&> file 将解压的文件和错误日志重定向到 file
 ```
 
 ## Shell
@@ -244,14 +216,15 @@ alias gp='git push'
 unalias gp
 ```
 
-这样设置的别名在新命令行窗口中不生效，要想永久生效我们还要多了解一些东西，首先是系统级别的别名出于安全方面的考虑是不建议改的，我们能做的就是为每个用户添加自定义别名配置。在每个用户的文件夹下有一个 `~/.bashrc`，每次用户打开命令行都会执行这个文件，我们上面提到过 shell 不是只有 bash 这一种实现方式，如果你换了 zsh，zsh 在 Mac 上使用较为广泛，那么进入命令行执行的文件是 `~/.oh-my-zsh/oh-my-zsh.sh`，总之我们要在这里调用我们的别名配置文件。先说怎么写别名配置文件，一般别名配置文件的命名由 “shell工具名” 和 “aliases” 组成，比如 bash 下的别名配置文件推荐为 “.bash_aliases”，然后每个别名独占一行，像这样 ：`alias gp='git push'`。然后调用别名配置就简单了，向下面这样，先判断手否有别名配置文件，如果有那么就在同一进程中执行。
+这样设置的别名在新命令行窗口中不生效，要想永久生效我们还要多了解一些东西，首先是系统级别的别名出于安全方面的考虑是不建议改的，我们能做的就是为每个用户添加自定义别名配置。在每个用户的文件夹下有一个 `~/.bashrc`，每次用户打开命令行都会执行这个文件，我们上面提到过 shell 不是只有 bash 这一种实现方式，如果你换了 zsh，zsh 在 Mac 上使用较为广泛，那么进入命令行执行的文件是 `~/.oh-my-zsh/oh-my-zsh.sh`，总之我们要在这里调用我们的别名配置文件。先说怎么写别名配置文件，一般别名配置文件的命名由 “shell工具名” 和 “aliases” 组成，比如 bash 下的别名配置文件推荐为 “.bash_aliases”，然后每个别名独占一行，像这样 ：`alias gp='git push'`。然后调用别名配置就简单了，向下面这样，先判断是否有别名配置文件，如果有那么就在同一进程中执行。
 
 ```shell
 # 添加自定义别
 test -f ~/.bash_aliases && source ~/.bash_aliases
+# 具体 source 是什么意思我们在进程管理中细说
 ```
 
-还有一个比较重要的概念那就是环境变量了，使用 env 或者 export 可以看到所有的环境变量：
+还有一个比较重要的概念那就是环境变量了，对应到 js 就是作用域变量，使用 env 或者 export 可以看到所有的环境变量：
 
 ```shell
 env
