@@ -110,7 +110,7 @@ ls
 # 然后 bash aaa 与 bash sh01.sh 等价
 bash aaa
 </code></pre>
-<p>最后介绍一下打包压缩和解压的命令：</p>
+<h3 id="header-1-2-4">打包压缩和解压：</h3>
 <pre><code class="lang-bash"># 压缩，使用不同的参数采用相应的压缩算法
 tar -jcv -f a.tar.bz2    a
             压缩后的名称   被压缩的文件夹
@@ -157,7 +157,7 @@ tar -jtv -f a.tar.bz2
 <li><code>P</code>(大写) 将复制的一行粘贴在当先行的上一行；</li>
 </ul>
 <p>若未修改可以 <code>:q</code> 直接离开，如果已经修改但是想放弃修改强制离开可以用 <code>:q!</code>。</p>
-<h3 id="header-1-3-2">bash</h3>
+<h3 id="header-1-3-2">bash-history</h3>
 <p>硬件 &lt;--&gt; 服务器内核 &lt;--&gt; Shell &lt;--&gt; 用户，shell 和 bash 的关系：bash 是 shell 的一种实现。我们来看看当前机器有多少个 shell 工具：</p>
 <pre><code class="lang-shell">cat /etc/shells
 # 结果：
@@ -175,7 +175,9 @@ work:x:502:502::/home/work:/bin/bash
 <p>下面我们来认真学学 shell，我们都知道按向上键可以调出已经输入过的命令，那如果有个牛人上个月在我电脑上输了一些牛逼的命令我现在能调出来吗？当然可以，那怎么调，一条条翻到上个月？</p>
 <pre><code class="lang-shell">cat ~/bash_history
 </code></pre>
-<p>所有的命令都在里面了，默认能存1000条，需要注意的一点是只有 bash 注销后才写文件。还有一个别名的功能，还记得 <code>ll</code> 等同于 <code>ls -l</code>，可以用 <code>alias</code> 查看更多简写：</p>
+<p>所有的命令都在里面了，默认能存1000条，需要注意的一点是只有 bash 注销后才写文件。</p>
+<h3 id="header-1-3-3">bash-alias</h3>
+<p>还记得 <code>ll</code> 等同于 <code>ls -l</code> 吧，还可以用 <code>alias</code> 命令查看更多简写：</p>
 <pre><code class="lang-shell">alias
 # 部分结果
 ll=&#39;ls -lh&#39;
@@ -190,6 +192,7 @@ unalias gp
 <pre><code class="lang-shell"># 添加自定义别
 test -f ~/.bash_aliases &amp;&amp; source ~/.bash_aliases
 </code></pre>
+<h3 id="header-1-3-4">bash-父子进程</h3>
 <p>上面用到了 <code>source</code>，执行 shell 脚本有两种方式，一种是 <code>sh xx.sh</code>，另一种就是 <code>source xx.sh</code>，那么这两种方式有什么区别呢？我们用一段代码来说明一下，下面是一段简单的代码，只是声明一个变量，放在 <code>source.sh</code> 文件中：</p>
 <pre><code class="lang-shell">#!/bin/bash
 
@@ -211,6 +214,7 @@ echo $var1
 # 输出：var1-value
 </code></pre>
 <p>source 是在父线程里直接执行，sh 是在子线程里执行，子线程里面的变量不会在父线程里生效。所以我们要用 <code>source</code> 来设置别名，这样在父进程中才可以使用。</p>
+<h3 id="header-1-3-5">bash-环境变量</h3>
 <p>还有一个比较重要的概念那就是环境变量了，对应到 js 就是作用域变量，使用 env 或者 export 可以看到所有的环境变量：</p>
 <pre><code class="lang-shell">env
 # 部分结果
@@ -256,7 +260,7 @@ drwxr-xr-x  11 zhaoxiaoqiang  wheel  374 Dec 22 14:34 fecs
 # 其实就是按行分析，包含了某些信息的就输出，从而达到一种过滤的作用
 # 最后过滤是支持正则的
 </code></pre>
-<h3 id="header-1-3-3">shell script</h3>
+<h3 id="header-1-3-6">shell script</h3>
 <p>先来一个 Hello world：</p>
 <pre><code class="lang-shell">#!/bin/bash
 

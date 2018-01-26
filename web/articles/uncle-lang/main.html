@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>狼叔的分享梳理 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">狼叔的分享梳理</h1>
+<blockquote>
+</blockquote>
+<h2 id="header-1-1">狼叔自我介绍</h2>
+<p>江湖人称「狼叔」，目前是阿里巴巴技术专家，斯达克学院（ StuQ ）明星讲师， Node.js 技术布道者。曾就职于去哪儿、新浪、网秦，做过前端、后端、数据分析，是一名全栈技术的实践者。</p>
+<h2 id="header-1-2">概述</h2>
+<p>现在，越来越多的科技公司和开发者开始使用 Node.js 开发各种应用。Node.js除了能够辅助大前端开发外，还可以编写Web应用，封装Api，组装RPC服务等，甚至是开发VSCode编辑器一样的PC客户端。和其它技术相比， Node.js 简单易学，性能好、部署容易，能够轻松处理高并发场景下的大量服务器请求。Node.js 周边的生态也非常强大，NPM（Node包管理）上有超过60万个模块，日下超过载量3亿次。但编写 Node.js 代码对新人和其它语言背景的开发者来说，不是一件容易的事，在入门之前需要弄懂不少复杂的概念。我身边也有很多人问我：如何学习 Node.js ？作为一名 Node.js 布道者，我做过很多 Node.js 普及和推广的工作，对它的基本概念和核心模块都很熟悉； 此外，我还在撰写一本名为《更了不起的 Node.js 》的书，已经写了 2 年，积累了很丰富的资料，本次 Live 也将为你提供对 Node.js 更全面的解读。本次 Live 主要包括以下内容，目录：</p>
+<p>Part 0 ：Node.js简介</p>
+<p>a）Node.js简介
+b）什么是Node.js？
+c）基本原理</p>
+<p>Part 1前言：学习 Node.js 的三个境界</p>
+<p>Part 2准备：如何学习Node.js</p>
+<ul>
+<li>2.1 Node 用途那么多，我该从哪里学起？</li>
+<li>2.2 Node Web 框架那么多，我该怎么选？</li>
+<li>2.3 关于 Node 的书几乎都过时了，我该买哪本？</li>
+</ul>
+<p>Part 3延伸：大前端变化那么快，如何才能做到每日精进？</p>
+<p>Part 4实践：从招聘角度来看， Node.js 开发需要具备哪些技能？</p>
+<p>Part 5答疑：回答大家的问题</p>
+<h2 id="header-1-3">Node.js简介</h2>
+<h3 id="header-1-3-1">Node.js简介</h3>
+<p>Node.js 诞生于 2009 年，由 Joyent 的员工 <a href="https://github.com/ry" target="_blank">Ryan Dahl</a> 开发而成，之后 Joyent 公司一直扮演着 Node.js 孵化者的角色。由于诸多原因，Ryan 在2012年离开社区，随后在2015年由于 Node 贡献者对 es6 新特性集成问题的分歧，导致分裂出iojs，并由 iojs 发布1.0、2.0和3.0版本。由于 iojs 的分裂最终促成了2015年Node基金会的成立，并顺利发布了4.0版本。Node.js基金会的创始成员包括 Google、Joyent、IBM、Paypal、微软、Fidelity 和 Linux基金会，创始成员将共同掌管过去由 Joyent 一家企业掌控的 Node.js 开源项目。此后，Node.js基金会发展非常好，稳定的发布5、6、7、8等版本，截止发稿最新版本已经是8.6，长期支持版本是6.11。</p>
+<p>Node.js 不是一门语言也不是框架，它只是基于 Google V8 引擎的 JavaScript 运行时环境，同时结合 Libuv 扩展了 JavaScript 功能，使之支持 io、fs 等只有语言才有的特性，使得 JavaScript 能够同时具有 DOM 操作(浏览器)和 I/O、文件读写、操作数据库(服务器端)等能力，是目前最简单的全栈式语言。</p>
+<p>早在2007年，Jeff Atwood 就提出了著名的 <code>Atwood定律</code>：</p>
+<blockquote>
+<p>任何能够用 JavaScript 实现的应用系统，最终都必将用 JavaScript 实现</p>
+</blockquote>
+<p>目前 Node.js 在大部分领域都占有一席之地，尤其是 I/O 密集型的，比如 Web 开发，微服务，前端构建等。不少大型网站都是使用 Node.js 作为后台开发语言的，用的最多的就是使用Node.js做前端渲染和架构优化，比如 <a href="https://www.taobao.com/" target="_blank">淘宝</a> 双十一、<a href="https://www.qunar.com/" target="_blank">去哪儿网</a> 的 PC 端核心业务等，还有一些公司比较低调，比如腾讯内部有很多轮子但是不对外宣讲。另外，有不少知名的前端库也是使用 Node.js 开发的，比如，<a href="https://github.com/webpack/webpack" target="_blank">Webpack</a> 是一个强大的打包器，<a href="https://github.com/facebook/react" target="_blank">React</a>/<a href="https://github.com/vuejs/vue" target="_blank">Vue</a> 是成熟的前端组件化框架。</p>
+<p>Node.js通常被用来开发低延迟的网络应用，也就是那些需要在服务器端环境和前端实时收集和交换数据的应用（API、即时聊天、微服务）。阿里巴巴、腾讯、Qunar、百度、PayPal、道琼斯、沃尔玛和 LinkedIn 都采用了 Node.js 框架搭建应用。</p>
+<p>另外， Node.js 编写的包管理器 npm 已成为开源包管理了领域最好的生态，直接到2017年10月份，有模块超过47万，每周下载量超过32亿次，每个月有超过700万开发者使用npm。语言都在发展，NodeJs 刚出来的时候异步性能确实比较突出，但现在都差不多了，已经不能成为可以吹捧的点了，但是 npm 生态这个毋庸置疑，最起码在数量和社区活跃度上是可以碾压其他语言的。</p>
+<p>当然了，Node.js 也有一些缺点。Node.js 经常被人们吐槽的一点就是：回调太多难于控制（俗称回调地狱）和 CPU 密集任务处理的不是很好。但是，目前异步流程技术已经取得了非常不错的进步，从Callback、Promise 到 Async函数，可以轻松的满足所有开发需求。至于 CPU 密集任务处理并非不可解，方案有很多，比如通过系统底层语言 Rust 来扩展 Node.js，但这样会比较麻烦。笔者坚信在合适的场景使用合适的东西，尤其是在微服务架构下，一切都是服务，可以做到语言无关。如果大家想使 JavaScript 做 CPU 密集任务，推荐 Node.js 的兄弟项目 <a href="http://fibjs.org/" target="_blank">fibjs</a>，基于纤程(fiber，可以简单理解为更轻量级的线程)，效率非常高，兼容npm，同时没有异步回调烦恼。</p>
+<h3 id="header-1-3-2">什么是Node.js？</h3>
+<p>按照 <a href="https://nodejs.org/en/" target="_blank">Node.js官方网站主页</a> 的说法:</p>
+<pre><code>Node.js® is a JavaScript runtime built on Chrome&#39;s V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient. Node.js&#39; package ecosystem, npm, is the largest ecosystem of open source libraries in the world.
+</code></pre><p>从这段介绍来看，解读要点如下：</p>
+<ul>
+<li>Node.js 不是 JavaScript 应用，不是语言（JavaScript 是语言），不是像 Rails(Ruby)、 Laravel(PHP) 或 Django(Python) 一样的框架，也不是像 Nginx 一样的 Web 服务器。Node.js 是 JavaScript 运行时环境；</li>
+<li>构建在 Chrome&#39;s V8 这个著名的 JavaScript 引擎之上，Chrome V8 引擎以 C/C++ 为主，相当于使用JavaScript 写法，转成 C/C++ 调用，大大的降低了学习成本；</li>
+<li>事件驱动（event-driven），非阻塞 I/O 模型（non-blocking I/O model），简单点讲就是每个函数都是异步的，最后由 Libuv 这个 C/C++ 编写的事件循环处理库来处理这些 I/O 操作，隐藏了非阻塞 I/O 的具体细节，简化并发编程模型，让你可以轻松的编写高性能的Web应用，所以它是轻量（lightweight）且高效的（efficient）；</li>
+<li>使用 <code>npm</code> 作为包管理器，目前 <code>npm</code> 是开源库里包管理最大的生态，功能强大，截止到2017年12月，模块数量超过 60 万+</li>
+</ul>
+<p>大多数人都认为 Node.js 只能写网站后台或者前端工具，这其实是不全面的，Node.js的目标是让并发编程更简单，主要应用在以网络编程为主的 I/O 密集型应用。它是开源的，跨平台，并且高效（尤其是I/O处理），包括IBM、Microsoft、Yahoo、SAP、PayPal、沃尔玛及GoDaddy都是 Node.js 的用户。</p>
+<h3 id="header-1-3-3">基本原理</h3>
+<p>下面是一张 Node.js 早期的架构图，来自 Node.js 之父 Ryan Dahl 的演讲稿，在今天依然不过时，它简要的介绍了 Node.js 是基于 Chrome V8引擎构建的，由事件循环（Event Loop）分发 I/O 任务，最终工作线程（Work Thread）将任务丢到线程池（Thread Pool）里去执行，而事件循环只要等待执行结果就可以了。</p>
+<p><img src="/articles/uncle-lang/img/nodejs-frame-work.jpg" alt="NodeJs架构图"></p>
+<p>核心概念：</p>
+<ul>
+<li>Chrome V8 是 Google 发布的开源 JavaScript 引擎，采用 C/C++ 编写，在 Google 的 <code>Chrome</code> 浏览器中被使用。Chrome V8 引擎可以独立运行，也可以用来嵌入到 C/C++ 应用程序中执行。</li>
+<li>Event Loop 事件循环（由 <code>libuv</code> 提供）；</li>
+<li>Thread Pool 线程池（由 <code>libuv</code> 提供）。</li>
+</ul>
+<p>梳理一下：</p>
+<ul>
+<li>Chrome V8 是 JavaScript 引擎；</li>
+<li>Node.js 内置 Chrome V8 引擎，所以它使用的 JavaScript 语法；</li>
+<li>JavaScript 语言的一大特点就是单线程，也就是说，同一个时间只能做一件事；</li>
+<li>单线程就意味着，所有任务需要排队，前一个任务结束，才会执行后一个任务，如果前一个任务耗时很长，后一个任务就不得不一直等着；</li>
+<li>如果排队是因为计算量大，CPU 忙不过来，倒也算了，但是很多时候 CPU 是闲着的，因为 I/O 很慢，不得不等着结果出来，再往下执行；</li>
+<li>CPU 完全可以不管 I/O 设备，挂起处于等待中的任务，先运行排在后面的任务；</li>
+<li>将等待中的 I/O 任务放到 Event Loop 里；</li>
+<li>由 Event Loop 将 I/O 任务放到线程池里；</li>
+<li>只要有资源，就尽力执行。</li>
+</ul>
+<p>我们再换一个维度看一下</p>
+
+</div>
+</body>
+</html>
