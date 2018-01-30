@@ -83,7 +83,796 @@ c）基本原理</p>
 <li>由 Event Loop 将 I/O 任务放到线程池里；</li>
 <li>只要有资源，就尽力执行。</li>
 </ul>
-<p>我们再换一个维度看一下</p>
+<p>我们再换一个维度看一下：</p>
+<p><img src="/articles/uncle-lang/img/v2.jpg" alt="NodeJs架构图2"></p>
+<p>核心</p>
+<ul>
+<li>Chrome V8 解释并执行 JavaScript 代码（这就是为什么浏览器能执行 JavaScript 原因）；</li>
+<li><code>libuv</code> 由事件循环和线程池组成，负责所有 I/O 任务的分发与执行。</li>
+</ul>
+<p>在解决并发问题上，异步是最好的解决方案，可以拿“银行排队和叫号”来理解</p>
+<ul>
+<li>排队：在排队的时候，你除了等之外什么都干不了；</li>
+<li>叫号机：你要做的是先取号码，等轮到你的时候，系统会通知你，这中间，你可以做任何你想做的事儿。</li>
+</ul>
+<p>Node.js 其实就是帮我们构建类似的机制。我们在写代码的时候，实际上就是取号的过程，由 Event Loop 来接受处理，而真正执行操作的是具体的线程池里的 I/O 任务。之所以说 Node.js 是单线程，就是因为在接受任务的时候是单线程的，它无需进程/线程切换上下文的成本，非常高效，但它在执行具体任务的时候是多线程的。</p>
+<p>Node.js 公开宣称的目标是 “旨在提供一种简单的构建可伸缩网络程序的方法”，毫无疑问，它确实做到了。这种做法将并发编程模型简化了，Event Loop和具体线程池等细节被 Node.js 封装了，继而将异步调用 Api 写法暴露给开发者。真是福祸相依，一方面简化了并发编程，另一方面在写法上埋下了祸根，这种做法的好处是能让更多人轻而易举的写出高性能的程序！</p>
+<p>学习 Node.js 的三个境界：</p>
+<ul>
+<li>打日志：console.log</li>
+<li>断点调试：断点调试：node debugger 或node inspector 或vscode</li>
+<li>测试驱动开发（tdd | bdd）</li>
+</ul>
+<p>大家可以自测一下，自己在哪个水平？如果是第三个阶段，那么本场Live可能不太适合你。哈哈哈</p>
+<h2 id="header-1-4">如何学习Node.js</h2>
+<h3 id="header-1-4-1">基础学习</h3>
+<p>1）js语法必须会</p>
+<ol>
+<li>js基本语法，都是c语系的，有其他语言背景学习起来相对更简单</li>
+<li>常见用法，比如正则，比如数据结构，尤其是数组的几种用法。比如bind/call/apply等等</li>
+<li>面向对象写法。js是基于对象的，所以它的oo写起来非常诡异。参见红皮书JavaScript高级编程，很多框架都是自己实现oo基础框架，比如ext-core等。</li>
+</ol>
+<p>犀牛书，《JavaScript权威指南》，没事就多翻翻，看少多少遍都不为过。</p>
+<p>2）个人学习和技术选型都要循序渐进</p>
+<ol>
+<li>先能写，采用面向过程写法，简单理解就是定义一堆function，然后调用，非常简单</li>
+<li>然后再追求更好的写法，可以面向对象。对于规模化的编程来说，oo是有它的优势的，一般java、c#，ruby这些语言里都有面向对象，所以后端更习惯，但对于语言经验不那么强的前端来说算高级技巧。</li>
+<li>等oo玩腻了，可以有更好的追求：函数式编程，无论编程思维，还是用法上都对已有的编程思维是个挑战。我很喜欢函数式，但不太会在团队里使用，毕竟oo阶段还没完全掌握，风险会比较大。但如果团队水平都非常高了，团队稳定是可以用的。</li>
+</ol>
+<p>可以看出我的思路，先能写，然后再追求更好的写法，比如面向对象。等团队水平到一定程度了，并且稳定的时候，可以考虑更加极致的函数式写法。团队是这样选型的，个人学习也这样，最好是循序渐进，步子迈大了不好。</p>
+<p>3）各种高级的JavaScript友好语言</p>
+<p>JavaScript友好语言指的是能够使用其他语法实现，但最终编译成js的语言。自从Node.js出现后，这种黑科技层出不穷。比如比较有名的coffee、typescript、babel（es）等。</p>
+<p>CoffeeScript虽然也是JavaScript友好语言，但其语法借鉴ruby，崇尚极简，对于类型和OO机制上还是偏弱，而且这么多年也没发展起来，仍然是比较小众的活着。未来比例会越来越少的。</p>
+<p>显然TypeScript会越来越好，TypeScript 的强大之处是要用过才知道的。</p>
+<ul>
+<li>1）规模化编程，像Java那种，静态类型，面向对象，前端只有TypeScript能做到</li>
+<li>2）亲爹是微软安德斯·海尔斯伯格，不知道此人的请看borland传奇去</li>
+<li>3）开源，未来很好</li>
+<li>4）组合拳：TypeScript + VSCode = 神器</li>
+</ul>
+<p>当下前端发展速度极快，以指数级的曲线增长。以前可能1年都不一定有一项新技术，现在可能每个月都有。大前端，Node全栈，架构演进等等都在快速变化。可以说，前端越复杂，有越多的不确定性，TypeScript的机会就越大。</p>
+<p>4）再论面向对象</p>
+<p>面向对象想用好也不容易的，而且js里有各种实现，真是让人眼花缭乱。</p>
+<ul>
+<li>基于原型的写法，纵观JavaScript高级编程，就是翻来覆去的讲这个，这个很基础，但不是很好用。可以不用，但不可以不会。</li>
+<li>自己写面向对象机制是最好的，但不是每个人都有这个能力的。好在es6规范出了更好一点的面向对象，通过class、extends、super关键字来定义类，已经明显好很多了，虽然还很弱，但起码勉强能用起来了。从面向过程走过来的同学，推荐这种写法，简单易用。但要注意面向对象要有面向对象的写法，要理解抽象，继承，封装，多态4个基本特征。如果想用好，你甚至还需要看一些设计模式相关的书。好在有《JavaScript设计模式》一书。Koa2里已经在用这种写法了。</li>
+<li>js是脚本语言，解释即可执行。所以它的最大缺点是没有类型系统，这在规模化编程里是非常危险的，一个函数，传参就能玩死人。于是现在流行使用flow和typescript来做类型校验。flow只是工具，比较轻量级。而typescript是es6超级，给es6补充了类型系统和更完善的面向对象机制，所以大部分人都会对ts有好感，很有可能是未来的趋势。</li>
+</ul>
+<p>对于es6高级特性，我是比较保守的，一般node长期支持版本lts支持的我都让用，一些更新的特性我一般不让使用。根本lts版本保持一致就好。</p>
+<p>我的团队现在是采用es6的面向对象写法开发，后面会一点一点转到typescript上的。熟练oo转到ts是非常容易的。</p>
+<h3 id="header-1-4-2">安装Node.js环境</h3>
+<p>3m安装法</p>
+<ul>
+<li>nvm（node version manager）【需要使用npm安装，替代品是yrm（支持yarn）】</li>
+<li>nrm（node registry manager）【需要使用npm安装，替代品是yrm（支持yarn）】</li>
+<li>npm（node packages manager）【内置，替代品是n或nvs（对win也支持）】</li>
+</ul>
+<p>nvm，node版本发布非常快，而且多版本共存可能性较大，推荐使用nvm来安装node，并且 nvm 可以切换 nodejs 版本，可以隔离全局包。</p>
+<pre><code class="lang-shell">$ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash
+
+$ echo &#39;export NVM_DIR=&quot;$HOME/.nvm&quot;&#39; &gt;&gt; ~/.zshrc
+$ echo &#39;[ -s &quot;$NVM_DIR/nvm.sh&quot; ] &amp;&amp; . &quot;$NVM_DIR/nvm.sh&quot; # This loads nvm&#39; &gt;&gt; ~/.zshrc
+$ source ~/.zshrc
+
+$ nvm install 0.10
+$ nvm install 4
+$ nvm install 6
+$ nvm install 8
+</code></pre>
+<p>nrm，<a href="https://registry.npmjs.com" target="_blank">https://registry.npmjs.com</a> 是node官方的源（registry），服务器在国外，下载速度较慢，推荐安装nrm来切换源，国内的cnpm和taobao的源都非常快，当然，如果你想自建源也是支持的。</p>
+<pre><code class="lang-shell">$ npm install --global nrm --registry=https://registry.npm.taobao.org
+$ nrm use cnpm
+</code></pre>
+<p>npm，nrm切换完源之后，你安装npm模块的速度会更快。</p>
+<pre><code class="lang-shell">$ npm install --global yarn
+</code></pre>
+<p>npm基本命令</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>描述</th>
+<th>简写</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>npm install xxx</td>
+<td>安装xxx模块，但不记录到package.json里</td>
+<td>npm i xxx</td>
+</tr>
+<tr>
+<td>npm install --save xxx</td>
+<td>安装xxx模块，并且记录到package.json里，字段对应的dependency，是产品环境必须依赖的模块</td>
+<td>npm i -s xxx</td>
+</tr>
+<tr>
+<td>npm install --save-de xxx</td>
+<td>安装xxx模块，并且记录到package.json里，字段对应的dev-dependency，是开发环境必须依赖的模块，比如测试类的（mocha、chai、sinon、zombie、supertest等）都在</td>
+<td>npm i -D xxx</td>
+</tr>
+<tr>
+<td>npm install --global xxx</td>
+<td>全局安装xxx模块，但不记录到package.json里，如果模块里package.json有bin配置，会自动链接，作为cli命令</td>
+<td>npm i -g xxx</td>
+</tr>
+</tbody>
+</table>
+<h3 id="header-1-4-3">常用软件</h3>
+<ul>
+<li>1）oh my zsh是我最习惯的shell，终端下非常好用</li>
+</ul>
+<p>配合iterm2分屏 + spectacle全屏，几乎无敌</p>
+<ul>
+<li>2）brew是mac装软件非常好的方式，和apt-get、rpm等都非常类似</li>
+</ul>
+<p>安装4个必备软件</p>
+<ul>
+<li>brew install git 最流行的SCM源码版本控制软件</li>
+<li>brew install wget 下载、扒站神器</li>
+<li>brew install ack  搜索代码神器</li>
+<li><p>brew install autojump 终端下多目录跳转神器</p>
+</li>
+<li><p>3）vim</p>
+</li>
+</ul>
+<p>我虽然不算vim党，但也深爱着。janus是一个非常好用的vim集成开发环境。比如ctrl-p、nerdtree等插件都集成了，对我这种懒人足够了。</p>
+<h3 id="header-1-4-4">IDE和编辑器</h3>
+<p>关于Node.js的IDE和编辑器有很多选择，对比如下</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>是否收费</th>
+<th>断点调试</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Webstorm</td>
+<td>收费</td>
+<td>支持</td>
+<td>是IDE，在代码提示、重构等方面功能非常强大，支持的各种语言、框架、模板也非常多，支持断点调试，好处是特别智能，缺点也是特别智能</td>
+</tr>
+<tr>
+<td>Sublime/TextMate</td>
+<td>收费</td>
+<td>不支持</td>
+<td>编辑器里非常好用的，textmate主要针对mac用户，sublime是跨平台的，相信很多前端开发都熟悉</td>
+</tr>
+<tr>
+<td>Vim/Emace</td>
+<td>免费</td>
+<td>不支持</td>
+<td>命令行下的编辑器，非常强大，难度也稍大，但更为酷炫，而且对于服务器部署开发来说是值得一学的</td>
+</tr>
+<tr>
+<td>VSCode/Atom</td>
+<td>免费</td>
+<td>支持</td>
+<td>Atom比较早，功能强大，缺点稍卡顿，VSCode是微软出的，速度快，对于Node.js 调试，重构，代码提示等方面支持都非常好</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a>是一个运行于 Mac、Windows和 Linux 之上的，针对于编写现代 Web 和云应用的跨平台源代码编辑器。它功能强大，便于调试，加上它本身也是基于 Node.js 模块 <code>electron</code> 构建的，尤其要推荐大家使用。</p>
+<p>Visual Studio Code（以下简称vsc）</p>
+<ul>
+<li>vsc是一个比较潮比较新的编辑器（跨平台Mac OS X、Windows和 Linux ）</li>
+<li>vsc功能和textmate、sublime、notepad++，ultraedit等比较，毫不逊色</li>
+<li>vsc尤其是在nodejs（调试）和typescript、go上支持尤其好</li>
+<li>vsc提供了自定义 Debugger Adapter 和 VSCode Debug Protocol 从而实现自己的调试器</li>
+</ul>
+<p>值得一学，我推荐VSCode编辑器！</p>
+<p>更多调试方法，参见<a href="https://github.com/i5ting/node-debug-tutorial" target="_blank">https://github.com/i5ting/node-debug-tutorial</a></p>
+<h3 id="header-1-4-5">Node.js应用场景</h3>
+<p>《Node.js in action》一书里说，Node.js 所针对的应用程序有一个专门的简称：DIRT。它表示数据密集型实时（data-intensive real-time）程序。因为 Node.js 自身在 I/O 上非常轻量，它善于将数据从一个管道混排或代理到另一个管道上，这能在处理大量请求时持有很多开放的连接，并且只占用一小部分内存。它的设计目标是保证响应能力，跟浏览器一样。</p>
+<p>这话不假，但在今天来看，DIRT 还是范围小了。其实 DIRT 本质上说的 I/O 处理的都算，但随着大前端的发展，Node.js 已经不再只是 I/O 处理相关，而是更加的“Node”！</p>
+<p>Node.js 使用场景主要分为4大类:</p>
+<p><img src="/articles/uncle-lang/img/use.jpg" alt="NodeJs应用场景"></p>
+<ul>
+<li>1）跨平台：覆盖你能想到的面向用户的所有平台，传统的PC Web端，以及PC客户端 <code>nw.js/electron</code> 、移动端 <code>cordova</code>、HTML5、<code>react-native</code>、<code>weex</code>，硬件 <code>ruff.io</code> 等；</li>
+<li>2）Web应用开发：网站、Api、RPC服务等；</li>
+<li>3）前端：三大框架 React \ <code>Vue</code> \ <code>Angular</code> 辅助开发，以及工程化演进过程（使用<code>Gulp</code> /Webpack 构建 Web 开发工具）；</li>
+<li>4）工具：<code>npm</code>上各种工具模块，包括各种前端预编译、构建工具 <code>Grunt</code> / <code>Gulp</code>、脚手架，命令行工具，各种奇技淫巧等；</li>
+</ul>
+<p>Node.js 应用场景非常丰富，比如 Node.js 可以开发操作系统，但一般我都不讲的，就算说了也没多大意义，难道大家真的会用吗？一般，我习惯将 Node.js 应用场景分为7个部分。</p>
+<ul>
+<li>1）初衷，server端，不想成了前端开发的基础设施；</li>
+<li>2）命令行辅助工具，甚至可以是运维；</li>
+<li>3）移动端：cordova，pc端：nw.js和electron；</li>
+<li>4）组件化，构建，代理；</li>
+<li>5）架构，前后端分离、api proxy；</li>
+<li>6）性能优化、反爬虫与爬虫；</li>
+<li>7) 全栈最便捷之路。</li>
+</ul>
+<p>可以说目前大家能够看到的、用到的软件都有 Node.js 身影，当下最流行的软件写法也大都是基于 Node.js 的，比如 PC 客户端 <a href="https://github.com/luin/medis" target="_blank">luin/medis</a> 采用 <code>electron</code> 打包，写法采用 React + Redux。我自己一直的实践的【Node全栈】，也正是基于这种趋势而形成的。在未来，Node.js 的应用场景会更加的广泛，更多参见 <a href="https://github.com/sindresorhus/awesome-nodejs" target="_blank">sindresorhus/awesome-nodejs</a>。</p>
+<h3 id="header-1-4-6">Node核心：异步流程控制</h3>
+<p>Node.js是为异步而生的，它自己把复杂的事儿做了（高并发，低延时），交给用户的只是有点难用的Callback写法。也正是坦诚的将异步回调暴露出来，才有更好的流程控制方面的演进。也正是这些演进，让Node.js从DIRT（数据敏感实时应用）扩展到更多的应用场景，今天的Node.js已经不只是能写后端的JavaScript，已经涵盖了所有涉及到开发的各个方面，而Node全栈更是热门种的热门。</p>
+<p>直面问题才能有更好的解决方式，Node.js的异步是整个学习Node.js过程中重中之重。</p>
+<ul>
+<li>1) 异步流程控制学习重点；</li>
+<li>2）Api写法：Error-first Callback 和 EventEmitter；</li>
+<li>3）中流砥柱：Promise；</li>
+<li>4）终极解决方案：Async/Await。</li>
+</ul>
+<p>1) 学习重点 -- 异步流程控制</p>
+<p>我整理了一张图，更直观一些。从09年到现在，8年多的时间里，整个Node.js社区做了大量尝试，其中曲折足足够写一本书的了。大家先简单了解一下。</p>
+<p><img src="/articles/uncle-lang/img/async.jpg" alt="NodeJs异步流程控制图"></p>
+<ul>
+<li>红色代表Promise，是使用最多的，无论async还是generator都可用</li>
+<li>蓝色是Generator，过度货</li>
+<li>绿色是Async函数，趋势</li>
+</ul>
+<p><strong>结论</strong>：Promise是必须会的，那你为什么不顺势而为呢？</p>
+<p><strong>推荐</strong>：使用Async函数 + Promise组合，如下图所示。</p>
+<p>其实，一般使用是不需要掌握上图中的所有技术的。对于初学者来说，先够用，再去深究细节。所以，精简一下，只了解3个就足够足够用了。</p>
+<p><img src="/articles/uncle-lang/img/async-simple.jpg" alt="NodeJs异步流程控制图-简化版"></p>
+<p>结论</p>
+<ol>
+<li>Node.js SDK里callback写法必须会的。</li>
+<li>Node.js学习重点: Async函数与Promise<ol>
+<li>中流砥柱：Promise </li>
+<li>终极解决方案：Async/Await</li>
+</ol>
+</li>
+</ol>
+<p>所以下面我们会分个小部分进行讲解。</p>
+<p>2）Api写法：Error-first Callback 和 EventEmitter</p>
+<p>a）Error-first Callback
+定义错误优先的回调写法只需要注意2条规则即可：</p>
+<ul>
+<li>回调函数的第一个参数返回的error对象，如果error发生了，它会作为第一个err参数返回，如果没有，一般做法是返回null。</li>
+<li>回调函数的第二个参数返回的是任何成功响应的结果数据。如果结果正常，没有error发生，err会被设置为null，并在第二个参数就出返回成功结果数据。</li>
+</ul>
+<p>下面让我们看一下调用函数示例，Node.js 文档里最常采用下面这样的回调方式：</p>
+<pre><code class="lang-js">function(err, res) {
+  // process the error and result
+}
+</code></pre>
+<p>这里的 <code>callback</code> 指的是带有2个参数的函数：&quot;err&quot;和 &quot;res&quot;。语义上讲，非空的“err”相当于程序异常；而空的“err”相当于可以正常返回结果“res”，无任何异常。</p>
+<p>b）EventEmitter</p>
+<p>事件模块是 Node.js 内置的对观察者模式“发布/订阅”（publish/subscribe）的实现，通过<code>EventEmitter</code>属性，提供了一个构造函数。该构造函数的实例具有 <code>on</code> 方法，可以用来监听指定事件，并触发回调函数。任意对象都可以发布指定事件，被 <code>EventEmitter</code> 实例的 <code>on</code> 方法监听到。</p>
+<p>在node 6之后，可以直接使用<code>require(&#39;events&#39;)</code>类</p>
+<pre><code class="lang-js">var EventEmitter = require(&#39;events&#39;)
+var util = require(&#39;util&#39;)
+
+var MyEmitter = function () {
+
+}
+
+util.inherits(MyEmitter, EventEmitter)
+
+const myEmitter = new MyEmitter();
+
+myEmitter.on(&#39;event&#39;, (a, b) =&gt; {
+  console.log(a, b, this);
+    // Prints: a b {}
+});
+
+myEmitter.emit(&#39;event&#39;, &#39;a&#39;, &#39;b&#39;);
+</code></pre>
+<p>和jquery、vue里的Event是非常类似的。而且前端自己也有EventEmitter。</p>
+<p>c）如何更好的查Node.js文档</p>
+<p>API是应用程序接口Application Programming Interface的简称。从Node.js异步原理，我们可以知道，核心在于 Node.js SDK 中API调用，然后交由EventLoop（Libuv）去执行，所以我们一定要熟悉Node.js的API操作。</p>
+<p>Node.js的API都是异步的，同步的函数是奢求，要查API文档，在高并发场景下慎用。</p>
+<p>笔者推荐使用 <a href="https://kapeli.com/dash" target="_blank">Dash</a> 或 <a href="https://zealdocs.org/" target="_blank">Zeal</a> 查看离线文档，经常查看离线文档，对Api理解会深入很多，比IDE辅助要好，可以有效避免离开IDE就不会写代码的窘境。</p>
+<p>3）中流砥柱：Promise</p>
+<p>回调地狱</p>
+<p>Node.js 因为采用了错误优先的回调风格写法，导致sdk里导出都是回调函数。如果组合调用的话，就会特别痛苦，经常会出现回调里嵌套回调的问题，大家都非常厌烦这种写法，称之为Callback Hell，即回调地狱。一个经典的例子来自著名的Promise模块<a href="https://github.com/kriskowal/q" target="_blank">q</a>文档里。</p>
+<pre><code class="lang-js">step1(function (value1) {
+    step2(value1, function(value2) {
+        step3(value2, function(value3) {
+            step4(value3, function(value4) {
+                // Do something with value4
+            });
+        });
+    });
+});
+</code></pre>
+<p>这里只是做4步，嵌套了4层回调，如果更多步骤呢？很多新手浅尝辄止，到这儿就望而却步，粉转黑。这明显不够成熟，最起码你要看看它的应对解决方案吧！</p>
+<p>Node.js 约定所有Api都采用错误优先的回调方式，这部分场景都是大家直接调用接口，无太多变化。而Promise是对回调地狱的思考，或者说是改良方案。目前使用非常普遍，可以说是在async函数普及之前唯一一个通用性规范，甚至 Node.js 社区都在考虑 Promise 化，可见其影响之大。</p>
+<p>Promise最早也是在commonjs社区提出来的，当时提出了很多规范。比较接受的是promise/A规范。后来人们在这个基础上，提出了promise/A+规范，也就是实际上现在的业内推行的规范。ES6 也是采用的这种规范。</p>
+<p>Promise意味着[许愿|承诺]一个还没有完成的操作，但在未来会完成的。与Promise最主要的交互方法是通过将函数传入它的then方法从而获取得Promise最终的值或Promise最终最拒绝（reject）的原因。要点有三个：</p>
+<ul>
+<li>递归，每个异步操作返回的都是promise对象</li>
+<li>状态机：三种状态转换，只在promise对象内部可以控制，外部不能改变状态</li>
+<li>全局异常处理</li>
+</ul>
+<p>1)定义</p>
+<pre><code class="lang-js">var promise = new Promise(function(resolve, reject) {
+  // do a thing, possibly async, then…
+
+  if (/* everything turned out fine */) {
+    resolve(&quot;Stuff worked!&quot;);
+  }
+  else {
+    reject(Error(&quot;It broke&quot;));
+  }
+});
+</code></pre>
+<p>每个Promise定义都是一样的，在构造函数里传入一个匿名函数，参数是resolve和reject，分别代表成功和失败时候的处理。</p>
+<p>2)调用</p>
+<pre><code class="lang-js">promise.then(function(text){
+    console.log(text)// Stuff worked!
+    return Promise.reject(new Error(&#39;我是故意的&#39;))
+}).catch(function(err){
+    console.log(err)
+})
+</code></pre>
+<p>它的主要交互方式是通过then函数，如果Promise成功执行resolve了，那么它就会将resolve的值传给最近的then函数，作为它的then函数的参数。如果出错reject，那就交给catch来捕获异常就好了。</p>
+<p>Promise 的最大优势是标准化，各类异步工具库都按照统一规范实现，即使是async函数也可以无缝集成。所以用 Promise 封装 API 通用性强，用起来简单，学习成本低。在async函数普及之前，绝大部分应用都是采用Promise来做异步流程控制的，所以掌握Promise是Node.js学习过程中必须要掌握的重中之重。</p>
+<p>Bluebird是 Node.js 世界里性能最好的Promise/a+规范的实现模块，Api非常齐全，功能强大，是原生Promise外的不二选择。</p>
+<p>好处如下：</p>
+<ul>
+<li>避免Node.js内置Promise实现 问题，使用与所有版本兼容</li>
+<li>避免Node.js 4曾经出现的内存泄露问题</li>
+<li>内置更多扩展，timeout、 promisifyAll等，对Promise/A+规范提供了强有力的补充</li>
+</ul>
+<p>限于时间关系，这里就不一一列举了，还是那句话，在学习Node.js过程中，对于Promise了解多深入都不过分。</p>
+<p>推荐学习资料</p>
+<ul>
+<li>Node.js最新技术栈之Promise篇  <a href="https://cnodejs.org/topic/560dbc826a1ed28204a1e7de" target="_blank">https://cnodejs.org/topic/560dbc826a1ed28204a1e7de</a></li>
+<li>理解 Promise 的工作原理 <a href="https://cnodejs.org/topic/569c8226adf526da2aeb23fd" target="_blank">https://cnodejs.org/topic/569c8226adf526da2aeb23fd</a></li>
+<li>Promise 迷你书 <a href="http://liubin.github.io/promises-book/" target="_blank">http://liubin.github.io/promises-book/</a></li>
+</ul>
+<p>4）终极解决方案：Async/Await</p>
+<p>Async/Await是异步操作的终极解决方案，Koa 2在node 7.6发布之后，立马发布了正式版本，并且推荐使用async函数来编写Koa中间件。</p>
+<p>这里给出一段Koa 2应用里的一段代码 </p>
+<pre><code>exports.list = async (ctx, next) =&gt; {
+  try {
+    let students = await Student.getAllAsync();
+
+    await ctx.render(&#39;students/index&#39;, {
+      students : students
+    })
+  } catch (err) {
+    return ctx.api_error(err);
+  }
+};
+</code></pre><p>它做了3件事儿</p>
+<ul>
+<li>通过await Student.getAllAsync();来获取所有的students信息。</li>
+<li>通过await ctx.render渲染页面</li>
+<li>由于是同步代码，使用try/catch做的异常处理</li>
+</ul>
+<p>是不是非常简单，现在Eggjs里也都是这样同步的代码。</p>
+<p>Async函数要点如下：</p>
+<ul>
+<li>Async函数语义上非常好</li>
+<li>Async不需要执行器，它本身具备执行能力，不像Generator需要co模块</li>
+<li>Async函数的异常处理采用try/catch和Promise的错误处理，非常强大</li>
+<li>Await接Promise，Promise自身就足够应对所有流程了，包括async函数没有纯并行处理机制，也可以采用Promise里的all和race来补齐</li>
+<li>Await释放Promise的组合能力，外加co和Promise的then，几乎没有不支持的场景</li>
+</ul>
+<p>综上所述</p>
+<ul>
+<li>Async函数是趋势，如果Chrome 52. v8 5.1已经支持Async函数(<a href="https://github.com/nodejs/CTC/issues/7)了，Node.js支持还会远么？" target="_blank">https://github.com/nodejs/CTC/issues/7)了，Node.js支持还会远么？</a></li>
+<li>Async和Generator函数里都支持promise，所以promise是必须会的。</li>
+<li>Generator和yield异常强大，不过不会成为主流，所以学会基本用法和promise就好了，没必要所有的都必须会。</li>
+<li>co作为Generator执行器是不错的，它更好的是当做Promise 包装器，通过Generator支持yieldable，最后返回Promise，是不是有点无耻？</li>
+</ul>
+<p>小结</p>
+<p>这部分共讲了4个小点，都是极其直接的必须掌握的知识点。</p>
+<ul>
+<li>1) 异步流程控制学习重点</li>
+<li>2）Api写法：Error-first Callback 和 EventEmitter</li>
+<li>3）中流砥柱：Promise </li>
+<li>4）终极解决方案：Async/Await</li>
+</ul>
+<p>这里再提一下关于Node.js源码阅读问题，很多人api都还没完熟练就去阅读源码，这是非常不赞成的，不带着问题去读源码是比较容易迷失在大量代码中的。效果并不好。</p>
+<p>先用明白，然后再去阅读Node.js源码，然后探寻libuv并发机制。很多人买了朴大的《深入浅出Node.js》一书，看了之后还是不太会用，不是书写的不好，而是步骤不对。</p>
+<ul>
+<li>Node in action和了不起的Node.js是入门的绝好书籍，非常简单，各个部分都讲了，但不深入，看了之后，基本就能用起来了</li>
+<li>当你用了一段之后，你会对Node.js的运行机制好奇，为啥呢？这时候去读朴大的《深入浅出Node.js》一书就能够解惑。原因很简单，九浅一深一书是偏向底层实现原理的书，从操作系统，并发原理，node源码层层解读。如果是新手读，难免会比较郁闷。</li>
+<li>实践类的可以看看雷宗民（老雷）和赵坤（nswbmw）写的书</li>
+</ul>
+<p>我一般给大家的推荐是把Node in action读上5遍10遍，入门干活足够了。剩下的就是反复实践，多写代码和npm模块就好。</p>
+<p>目前所有的书籍几乎都有点过时了，大部分都是Node.js v0.10左右的版本的，我得新书是基于Node.js 8版本的，预计2018年3月或4月出版。别催我，真没法更快了。</p>
+<p>目录</p>
+<ul>
+<li><a href="01.md" target="_blank">01 Node.js初识</a></li>
+<li><a href="02.md" target="_blank">02 安装与入门</a></li>
+<li><a href="03.md" target="_blank">03 更了不起的Node.js</a></li>
+<li><a href="04.md" target="_blank">04 更好的Node.js</a></li>
+<li><a href="05.md" target="_blank">05 Node.js是如何执行的</a></li>
+<li><a href="06.md" target="_blank">06 模块与核心</a></li>
+<li><a href="07.md" target="_blank">07 异步写法与流程控制</a></li>
+<li><a href="08.md" target="_blank">08 下一代Web框架Koa入门</a></li>
+<li><a href="09.md" target="_blank">09 Koa的核心扩展机制：中间件</a></li>
+<li><a href="10.md" target="_blank">10 HTTP协议必知必会</a></li>
+<li><a href="11.md" target="_blank">11 Koa练习</a></li>
+<li><a href="12.md" target="_blank">12 数据库入门</a></li>
+<li><a href="13.md" target="_blank">13 数据库进阶</a></li>
+<li><a href="14.md" target="_blank">14 视图模板</a></li>
+<li><a href="15.md" target="_blank">15 Koa项目实战</a></li>
+<li><a href="16.md" target="_blank">16 自己动手写NPM模块</a></li>
+<li><a href="17.md" target="_blank">17 Node.js企业级Web开发</a></li>
+<li><a href="18.md" target="_blank">18 构建具有Node.js特色的微服务</a></li>
+<li><a href="19.md" target="_blank">19 让Node.js跑的更稳</a></li>
+<li><a href="20.md" target="_blank">20 让Node.js跑的更快</a></li>
+</ul>
+<p>博文视点的美女编辑在苦逼的整理中，预计出版在3月之后，20章，800页+，定价预计在130+。</p>
+<h3 id="header-1-4-7">Web编程要点</h3>
+<p>一般，后端开发指的是 Web 应用开发中和视图渲染无关的部分，主要是和数据库交互为主的重业务型逻辑处理。但现在架构升级后，Node.js 承担了前后端分离重任之后，有了更多玩法。从带视图的<strong>传统Web应用</strong>和<strong>面向Api接口应用</strong>，到通过 RPC 调用封装对数据库的操作，到提供前端 Api 代理和网关，服务组装等，统称为<strong>后端开发</strong>，不再是以往只有和数据库打交道的部分才算后端。这样，就可以让前端工程师对开发过程可控，更好的进行调优和性能优化。</p>
+<p>对 Node.js 来说，一直没有在后端取得其合理的占有率，原因是多方面的，暂列几条。</p>
+<ul>
+<li>1）利益分配，已有实现大多是Java或者其他语言，基本是没法撼动的，重写的成本是巨大的，另外，如果用Node写了，那么那些写Java的人怎么办？抢人饭碗，这是要拼命的。</li>
+<li>2）Node相对年轻，大家对Node的理解不够，回调和异步流程控制略麻烦，很多架构师都不愿意花时间去学习。尽管在Web应用部分处理起来非常简单高效，但在遇到问题时并不容易排查定位，对开发者水平要求略高。</li>
+<li>3）开发者技能单一，很多是从前端转过来的，对数据库，架构方面知识欠缺，对系统设计也知之不多，这是很危险的，有种麻杆打狼两头害怕的感觉。</li>
+<li>4）Node在科普、培训、布道等方面做的并不好，国外使用的非常多，国内却很少人知道，不如某些语言做得好。</li>
+</ul>
+<p>尽管如此，Node.js 还是尽人皆知，卷入各种是非风口，也算是在大前端浪潮中大红大紫。原因它的定位非常明确，补足以 JavaScript 为核心的全栈体系中服务器部分。开发也是人，能够同时掌握并精通多门语言的人毕竟不多，而且程序员的美德是“懒”，能使用 JavaScript 一门语言完成所有事儿，为什么要学更多呢？</p>
+<p>对于 Web 应用大致分2种，带视图的<strong>传统Web应用</strong>和<strong>面向Api接口应用</strong>，我们先看一下 Node.js Web 应用开发框架的演进时间线大致如下：</p>
+<ul>
+<li>2010年 TJ Holowaychuk 写的 Express</li>
+<li>2011年 Derby.js 开始开发，8月5日，WalmartLabs 的一位成员 Eran Hammer 提交了 Hapi 的第一次git记录。Hapi 原本是 Postmile 的一部分，并且最开始是基于 Express 构建的。后来它发展成自己自己的框架，</li>
+<li>2012年1月21日，专注于 Rest api 的 Restify 发布1.0版本，同构的 Meteor 开始投入开发，最像Rails 的 Sails 也开始了开发</li>
+<li>2013年 TJ Holowaychuk 开始玩 es6 generator，编写 <code>co</code> 这个 Generator 执行器，并开始了Koa 项目。2013 年下半年李成银开始 ThinkJS，参考 ThinkPHP</li>
+<li>2014年4月9日，Express 发布4.0，进入4.x时代持续到今天，MEAN.js 开始随着 MEAN 架构的提出开始开发，意图大一统，另外 Total.js 开始起步，最像PHP里 Laravel 或 Python 里的 Django 或 ASP.NET MVC的框架，代表着 Node.js 的成熟，开始从其他语言里的成熟框架借鉴</li>
+<li>2015年8月22日，下一代 Web 框架 Koa 发布1.0，可以在Node.js v0.12下面，通过<code>co</code> 和 generator实现同步逻辑，那时候 <code>co</code> 还是基于 <code>thunkfy</code> 的，在2015年10月30日，ThinkJS发布了首个基于 Es2015+ 特性开发的 v2.0 版本</li>
+<li>2016 年 09 月，蚂蚁金服的 Eggjs，在 JSConf China 2016 上亮相并宣布开源</li>
+<li>2017年2月，下一代Web框架 Koa 发布v2.0正式版</li>
+</ul>
+<p>我们可以根据框架的特性进行分类</p>
+<table>
+<thead>
+<tr>
+<th>框架名称</th>
+<th>特性</th>
+<th>点评</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Express</td>
+<td>简单、实用，路由中间件等五脏俱全</td>
+<td>最著名的Web框架</td>
+</tr>
+<tr>
+<td>Derby.js &amp;&amp; Meteor</td>
+<td>同构</td>
+<td>前后端都放到一起，模糊了开发便捷，看上去更简单，实际上上对开发来说要求更高</td>
+</tr>
+<tr>
+<td>Sails、Total</td>
+<td>面向其他语言，Ruby、PHP等</td>
+<td>借鉴业界优秀实现，也是 Node.js 成熟的一个标志</td>
+</tr>
+<tr>
+<td>MEAN.js</td>
+<td>面向架构</td>
+<td>类似于脚手架，又期望同构，结果只是蹭了热点</td>
+</tr>
+<tr>
+<td>Hapi和Restfy</td>
+<td>面向Api &amp;&amp; 微服务</td>
+<td>移动互联网时代Api的作用被放大，故而独立分类。尤其是对于微服务开发更是利器</td>
+</tr>
+<tr>
+<td>ThinkJS</td>
+<td>面向新特性</td>
+<td>借鉴ThinkPHP，并慢慢走出自己的一条路，对于Async函数等新特性支持，无出其右，新版v3.0是基于Koa v2.0的作为内核的</td>
+</tr>
+<tr>
+<td>Koa</td>
+<td>专注于异步流程改进</td>
+<td>下一代Web框架</td>
+</tr>
+<tr>
+<td>Egg</td>
+<td>基于Koa，在开发上有极大便利</td>
+<td>企业级Web开发框架</td>
+</tr>
+</tbody>
+</table>
+<p>对于框架选型</p>
+<ul>
+<li>业务场景、特点，不必为了什么而什么，避免本末倒置</li>
+<li>自身团队能力、喜好，有时候技术选型决定团队氛围的，需要平衡激进与稳定</li>
+<li>出现问题的时候，有人能够做到源码级定制。Node.js 已经有8年历史，但模块完善程度良莠不齐，如果不慎踩到一个坑里，需要团队在无外力的情况能够搞定，否则会影响进度</li>
+</ul>
+<blockquote>
+<p>Tips：个人学习求新，企业架构求稳，无非喜好与场景而已</p>
+</blockquote>
+<p>Web编程核心</p>
+<ul>
+<li>异步流程控制（前面讲过了）</li>
+<li>基本框架 Koa或Express，新手推荐Express，毕竟资料多，上手更容易。如果有一定经验，推荐Koa，其实这些都是为了了解Web编程原理，尤其是中间件机制理解。</li>
+<li>数据库 mongodb或mysql都行，mongoose和Sequelize、bookshelf，TypeOrm等都非常不错。对于事物，不是Node.js的锅，是你选的数据库的问题。另外一些偏门，想node连sqlserver等估计还不成熟，我是不会这样用的。</li>
+<li>模板引擎， ejs，jade，nunjucks。理解原理最好。尤其是extend，include等高级用法，理解布局，复用的好处。其实前后端思路都是一样的。</li>
+</ul>
+<h3 id="header-1-4-8">迷茫时学习Node.js最好的方法</h3>
+<p>Node.js 编写的包管理器 npm 已成为开源包管理了领域最好的生态，直接到2017年10月份，有模块超过47万，每周下载量超过32亿次，每个月有超过700万开发者使用npm。现在早已经超过60万个模块了。</p>
+<p>这里就不一一举例了，给出一个<strong>迷茫时学习Node.js最好的方法</strong>吧！</p>
+<p>某天，我在3w咖啡整理书稿，然后小弟梁过来了，聊聊他的现状，一副很不好的样子，在天津我曾带过他大半年，总不能不管，我给他的建议是：“每天看10个npm模块”</p>
+<p>对于学习Node.js迷茫的人来说，这是最好的方式，当你不知道如何做的时候，就要向前（钱）看，你要知道积累哪些技能对以后有好处。对于学习Node.js必经之路，一定是要掌握很多模块用法，并从中汲取技巧、思路、设计思想的。与其不知道学什么，为什么不每天积累几个技巧呢？</p>
+<p>推荐一个repo即 <a href="https://github.com/parro-it/awesome-micro-npm-packages" target="_blank">https://github.com/parro-it/awesome-micro-npm-packages</a> 小型库集合，一天看十个不是梦！</p>
+<p>更多讨论 <a href="https://zhuanlan.zhihu.com/p/29625882" target="_blank">https://zhuanlan.zhihu.com/p/29625882</a></p>
+<h2 id="header-1-5">解答困惑</h2>
+<h3 id="header-1-5-1">计算机基础薄弱该如何完善自己的知识体系？</h3>
+<p>答:追逐长尾，所见所闻不懂的都去学就好啦。我是这样过来的，头几年每天14个小时+，很累，不过效果还可以。os，算法，数据结构，设计模式，编译原理，基本也就这些重点。做到每天都有进步就好，别贪多求快。数学和英文当然也是越狠越好的！</p>
+<h3 id="header-1-5-2">如何在技术上做更深入的探索？</h3>
+<p>答:技术人只关注技术，想法创意通常比较少。最简单的办法就是抓自己的痒，比我大学时和朋友们翻译过grails文档，所以对翻译有情节。为了翻译，我用node写了无数工具尝试，反复对比各种翻译工具，理解它们背后的设计。包括markdown里嵌html标签标识中英文，然后gulp编译成独立文档。甚至一度想上线卖服务。这种折腾真的很爽，甚至耽误了不少翻译。有时要警惕长尾，不要忘了自己的初衷</p>
+<h3 id="header-1-5-3">如何系统的学习node？</h3>
+<p>答:</p>
+<ul>
+<li>1/要会用，能完成工作任务</li>
+<li>2/写点提高效率的工具</li>
+<li>3/参与开源项目，甚至是node源码</li>
+</ul>
+<p>应对方法</p>
+<ul>
+<li>1/《node in action》看五遍，然后就去写吧，别管代码质量如何，能写敢写</li>
+<li>2/多用些模块，理解它们，如果有机会就自己写一下，万一有很多人用你，我小弟写过一个地区选择加载的json数据，star数不少呢</li>
+<li>3/给别人贡献代码，要去学别人的习惯，网上有git标准工作流和提pr方法，你要做的是精研该模块代码，关注issue，其他就是等机会。另外朴灵的深入浅出多读几遍，试着读node源码，你的理解会更好。推荐看看我写的《通过开源项目去学习》<a href="https://github.com/i5ting/Study-For-StuQ" target="_blank">https://github.com/i5ting/Study-For-StuQ</a></li>
+<li>4/跳出node范围，重新审视node的应用场景，对未来你的技术选项和决策大有裨益</li>
+</ul>
+<h3 id="header-1-5-4">关于 Node 的书几乎都过时了，我该买哪本？</h3>
+<p>答：</p>
+<ul>
+<li>1）Node in action和了不起的Node.js是入门的绝好书籍，非常简单，各个部分都讲了，但不深入，看了之后，基本就能用起来了</li>
+<li>2）当你用了一段之后，你会对Node.js的运行机制好奇，为啥呢？这时候去读朴大的《深入浅出Node.js》一书就能够解惑。原因很简单，九浅一深一书是偏向底层实现原理的书，从操作系统，并发原理，node源码层层解读。如果是新手读，难免会比较郁闷。</li>
+<li>3)实践类的可以看看雷宗民（老雷）和赵坤（nswbmw）写的书</li>
+</ul>
+<p>如果你不着急，也可以等我的那本《更了不起的Node.js》，预计明年3月之后。</p>
+<h3 id="header-1-5-5">Node 用途那么多，我该从哪里学起？</h3>
+<p>答：如果有机会就直接上Web应用，如果没有机会就从前端构建，工具等方面开始做，慢慢引入更潮更酷的前端技术，自然就把Node引入进来了。不要急。</p>
+<h3 id="header-1-5-6">Node Web 框架那么多，我该怎么选？</h3>
+<p>答：初学者推荐Express，如果有一定经验，推荐Koa。当然真正项目里还是推荐Eggjs和Thinkjs这样的框架。</p>
+<h3 id="header-1-5-7">现在Android开发和web前端开发哪个前景更好？</h3>
+<p>我的回答是明显是前端更好，看一下移动端发展过程</p>
+<blockquote>
+<p>native &lt; hybrid &lt; rn/weex &lt; h5</p>
+</blockquote>
+<p>目前rn和weex的开发逐渐变得主流，组件化写法已经由前端主导了。以前ios和android程序员占比很高，但现在就留1到2个写插件，真是差别很大。</p>
+<p>Web开发对移动端的冲击非常大。当然现在Web技术也开发PC client了，比如vscode是通过electron打包的，效果还是相当不错的。</p>
+<p>前端可以说是最近几年开发里最火的部分，原因很多，最主要是开发方式的变更，以今时今日的眼光来看，称之为现代Web开发是不为过的。</p>
+<p>先给出现代Web开发的概览图:</p>
+<p><img src="/articles/uncle-lang/img/web.jpg" alt="现代Web"></p>
+<p>每次演讲我会都问大家是不是前端，回答“是”的人非常多，我会开玩笑的恭喜大家：“现在的前端就是钱端”，确实，现在前端发展异常的快，而且没有趋向于类比java里ssh框架的那种稳定，所以未来很长一段时间，还会增长，持续混乱，这对前端来说是把双刃剑，一方面有很强的压迫感，不学习就跟不上时代，另一方它也是机遇，能够带给更多机会，包括money。</p>
+<p>大家都疑惑的一个问题是如何在这样巨变的时代能够通过学习来应变，我可以很负责的告诉大家，没有捷径，但通过掌握 Node.js 能够让你降低这个学习曲线而已，毕竟Node.js是大前端的基础设施。大家可以看一下，前端的开发过程，模块化，构建，辅助工具，调优，架构调整，可以说Node.js是无处不在的。</p>
+<p>其实，辅助大前端开发只是Node.js的一个非常无心插柳的衍生功能，通过掌握Node.js能够让你能做的更多、获得的更多，甚至可以说有更多自我实现的快乐，这也是我那本书书名字里“更了不起的”要去阐述的内容。</p>
+<p>综上种种，就是我一直提倡以 JavaScript 语言为中心的 <code>Node全栈</code> 概念的缘由，JavaScript 覆盖所有前端，Node.js 擅长做 I/O 密集型的后端，外加辅助开发的各种基础设施，无疑是工作、学习和成为快速掌握全栈技术最好的途径。你会的越多，你能做的就更多，你的人生也将会有不一样的精彩篇章。</p>
+<p>全栈核心</p>
+<ul>
+<li>后端不会的 UI（界面相关）</li>
+<li>前端不会的 DB（业务相关）</li>
+</ul>
+<p>只要打通这2个要点，其他就比较容易了。最怕的是哪样都接触点，然后就号称自己是全栈，建议大家不要这样做，这就好比在简历里写精通一样，基本上都会被问到尴尬。全栈是一种信仰，不是拿来吹牛逼的，而可以解决更多问题，让自己的知识体系不留空白，享受自我实现的极致快乐。</p>
+<h3 id="header-1-5-8">我的全栈之路</h3>
+<p>想问 下狼叔最近的业务 直都是简单的 express搭 个后端服务，没有其他 加深 node的 业务 ，这种时候应该如何给自己创造应用场景呢？</p>
+<blockquote>
+<p>没有目标就向钱看，有目标就向前看</p>
+</blockquote>
+<ul>
+<li>从 java 开始，蹭课，背着机箱到深圳，3个月胖20斤</li>
+<li>坚持翻译英文文档，看 《Thinking in Java》</li>
+<li>毕业后开始 bi，整理 bi 文档</li>
+<li>学长明林清，传授 jQuery，愿意学，别人就更愿意分析</li>
+<li>接手《内蒙广电数据分析与科学决策系统》，打通前、后端</li>
+<li>广东联通，自己造轮子，写 jQuery 插件，DRY</li>
+<li>做云计算，学习 AIX，写有《凌云志》</li>
+<li>分手、离职，去做 iOS，从 cordova 开始搞 H5，研究各种移动端框架，自己写框架，转原生</li>
+<li>面试也是学习的利器，轻松进新浪</li>
+<li>总结了大量 iOS 经验，想写书，结果写了一堆写书的工具</li>
+</ul>
+<blockquote>
+<p>既然无法逃避，就热爱它，最后变成兴趣</p>
+</blockquote>
+<ul>
+<li>去网秦做技术总监，做首席，管架构，带人，写开源项目</li>
+<li>创业，当 CTO，结婚，做公众号运营，写书，最苦的时候没钱吃饭，又不能找媳妇要，只能在 StuQ 上讲点课</li>
+<li>加入去哪儿网，任职前端架构师</li>
+<li>加入阿里巴巴，前端技术专家</li>
+</ul>
+<blockquote>
+<p>人生不只有代码，但它能让我快乐，终生受益</p>
+</blockquote>
+<p>也曾懵懂，也曾迷茫，但我这人比较傻，一直信奉：“一次只做1件事儿，尽力做到极致”，短时间看这是比较傻的，但一旦你坚持下去，你就会发现技术其实是门手艺，厚积薄发。</p>
+<p>我没办法说自己最擅长什么，但在什么场景下用什么技术是我擅长的。或者说，应变是我最大的本事。很多框架，新技术我都没见过，用过，但花一点点过一下，就能拿已有的知识快速的理解它，这其实是长期学习的好处。</p>
+<p>现在越来越忙，写代码的时间越来越少，技术又越发展越快，我能做好的就是每日精进，仗着这点已有的知识储备跟年轻人比赛。我不觉得累，相反我很享受这种感觉，没有被时代淘汰，是一件多么幸福的事儿。</p>
+<h3 id="header-1-5-9">从后端转</h3>
+<p>做后端的人</p>
+<ul>
+<li>对数据库是比较熟悉，无论 mongodb，还是 mysql、postgres</li>
+<li>对前端理解比较弱，会基本的 html，css，模板引擎等比较熟悉</li>
+</ul>
+<blockquote>
+<p>4阶段循序渐进，build 与工具齐飞</p>
+</blockquote>
+<p>前端开发4阶段，我的感觉是按照顺序，循序渐进就好。</p>
+<h3 id="header-1-5-10">从前端转</h3>
+<p>从前端往后端转，api 接口非常容易学会，像 express、koa 这类框架大部分人一周就能学会，最难的是对 db、er 模型的理解，说直白点，还是业务需求落地的理解</p>
+<p>我们来想想一般的前端有什么技能？</p>
+<ul>
+<li>html</li>
+<li>css（兼容浏览器）</li>
+<li>js 会点（可能更多的是会点 jquery）</li>
+<li>ps 切图</li>
+<li>firebug 和 chrome debuger 会的人都不太多</li>
+<li>用过几个框架，大部分人是仅仅会用</li>
+<li>英语一般</li>
+<li>svn/git 会一点</li>
+</ul>
+<p>那么他们如果想在前端领域做的更深有哪些难点呢？</p>
+<ul>
+<li>基础：oo，dp，命令，shell，构建等</li>
+<li>编程思想上的理解（mvc、ioc，规约等）</li>
+<li>区分概念</li>
+<li>外围验收，如 H5 和 hybird 等</li>
+<li>追赶趋势，如何学习新东西</li>
+</ul>
+<p>以上皆是痛点，所以比较好的办法应该是这样的。</p>
+<ul>
+<li>玩转 npm、gulp 这样的前端工具类（此时还是前端）</li>
+<li>使用 node 做前后端分离（此时还是前端）</li>
+<li>express、koa 这类框架</li>
+<li>jade、ejs 等模板引擎</li>
+<li>nginx</li>
+<li>玩转【后端】异步流程处理（promise/es6的(generator|yield)/es7(async|await)）</li>
+<li>玩转【后端】mongodb、mysql 对应的 Node 模块</li>
+</ul>
+<p>从我们的经验看，这样是比较靠谱的。先做最简单前后端分离，里面没有任何和db相关，前端可以非常容易的学会，基本2周就已经非常熟练了。一般半年后，让他们接触【异步流程处理】和【数据库】相关内容，学习后端代码，就可以全栈了。</p>
+<h3 id="header-1-5-11">从移动端转</h3>
+<p>看一下移动端发展过程</p>
+<blockquote>
+<p>native &lt; hybrid &lt; rn/weex &lt; h5</p>
+</blockquote>
+<p>目前rn和weex的开发逐渐变得主流，组件化写法已经由前端主导了。以前ios和android程序员占比很高，但现在就留1到2个写插件，真是差别很大。狼叔一直固执的以为未来是h5的。</p>
+<p>现在的 Native 开发是姥姥不疼舅舅不爱，非常尴尬，很明显连培训出的人就业不要工资混经验就很明显了。另外领导们也都在惦记，能不能用 H5 写？这还算是保守的，如果直接激进的就直接上 RN 了，那么 Native开发的程序员就变了</p>
+<blockquote>
+<p>一个写插件的程序员...招谁惹谁了。。。。</p>
+</blockquote>
+<p>要么忍，要么转，没办法，认命吧，温水里舒服了几年，也该学点东西了</p>
+<ul>
+<li>hybrid 或组件化开发，你总要会一样</li>
+<li>无论哪种，你都离前端很近，因为 H5 或组件化都是从前端走出来的</li>
+<li>组件化在前端领域先行，无论借鉴还是学习都不可避免</li>
+<li>如果没时间就直接上组件化，如果有时间就好好学学前端完整体系，最终也还是要学组件化</li>
+</ul>
+<p>原生开发就是 iOS 用 OC/Swift,Android 用 java 或 scala 等，就算偶尔嵌入 webview，能玩js的机会也非常好少</p>
+<p>所以移动端转全栈的方法，最好是从 cordova（以前叫 phonegap）开始做 hybrid 开发。</p>
+<ul>
+<li>只要关注 www 目录里的 H5 即可，比较简单</li>
+<li>如果 H5 不足以完成的情况下，可以编写 cordova 插件，即通过插件让 js 调用原生 sdk 里功能</li>
+<li>cordova 的 cli 可以通过 npm 安装，学习 npm 的好方法</li>
+<li>学习 gulp 构建工具</li>
+</ul>
+<p>只要入了 H5 的坑，其实就非常好办了。</p>
+<ul>
+<li>然后 h5、zeptojs、iscroll、fastclick 等</li>
+<li>然后微信常用的，如 weui、vux（vue+weui）、jmui（react+weui）</li>
+<li>然后可以玩点框架，比如 jquery mobile，sencha touch</li>
+<li>然后可以玩点高级货，ionicframework（基于 angularjs、cordova）</li>
+<li>然后前端4阶段，依次打怪升级</li>
+<li>然后 node</li>
+</ul>
+<p>这个基本上是我走的路，从2010年写iOS、做phonegap（当时是0.9.3）、一路走到现在的总结吧！</p>
+<p>以前技术发展还不是那么明显，写 Java 的时候 <code>Apache</code> 的开源用的比较多，那时开源的代码托管<code>sourceforge</code>，<code>google code</code> 也都凑合用，自从 <code>Git</code> 和 <code>GitHub</code> 出现时候，代码社交兴起，极大的促进了开源的活跃，使得大量明星项目脱引而出。这是好事，如果没有开源，中国的软件水平真是要落后好多年。那么问题也来了，如何能够在技术快速发展的今天，个人成长也能更好呢？</p>
+<p>学习的3种层次，跟人学最快，其次是跟书（或者博客）学，最差的是自悟。但是牛人不能遇到，遇到了也未必有精力教你，书本或者博客，别人有，但不一定写出来，就算是写了，可能只是点到为止。至于自悟，如果没有深厚的积累的，还是有相当大难度的。</p>
+<p>对于开发来说代码是一切基础，在掌握了一定计算机基础后，其差别就在于代码质量和眼界。编程没有捷径，能够做到每日精进就是极好的。现在开源代码非常多，要能够从中获取自己所需的知识，也是一种本领！如果能够坚持着每日精进，根本不需要向其他人学习的。</p>
+<p>很多人问我怎么才能成为一个 Node.js 大神？我的回答是“在cnode论坛上坚持写文章和开源项目2年，足矣，轻松进阿里腾讯，不用你找他们，他们自会找你的”。</p>
+<blockquote>
+<p>从今天起，开始重视开源项目，重视 node，做到每日精进</p>
+</blockquote>
+<p>招人标准</p>
+<p>先说下我的招人标准，做技术总监时上指下派只要看好技术能力和态度即可，做CTO时要考虑团队文化，人品和能否在公司长留，所以不同的人面试要看的点是不一样的，我曾面过很多Node.js程序员，也见过很多面试题，汇总一下，大致有以下9个点：</p>
+<ol>
+<li>基本的Node.js几个特性，比如事件驱动、非阻塞I/O、Stream等</li>
+<li>异步流程控制相关，Promise是必问的</li>
+<li>掌握1种以上Web框架，比如Express、Koa、Thinkjs、Restfy、Hapi等，会问遇到过哪些问题、以及前端优化等常识</li>
+<li>数据库相关，尤其是SQL、缓存、Mongodb等</li>
+<li>对于常见Node.js模块、工具的使用，观察一个人是否爱学习、折腾</li>
+<li>是否熟悉linux，是否独立部署过服务器，有+分</li>
+<li>js语法和es6、es7，延伸CoffeeScript、TypeScript等，看看你是否关注新技术，有+分</li>
+<li>对前端是否了解，有+分</li>
+<li>是否参与过或写过开源项目，技术博客、有+分</li>
+</ol>
+<p>补充一句:只看技能没人品的人，千万别招，白脸狼</p>
+<h3 id="header-1-5-12">大家是选大公司还是小公司？</h3>
+<p>我再知乎上回复的《在跳槽后的第三个月，收到世界500强的offer，我该怎么办？》</p>
+<p>1）互联网公司优先，流量大，人才多，机会也多，流程规范一些</p>
+<p>2）今天的世界500强不比从前了，普华永道应该是四大之一，不知道信息化怎么样，你只要和你现在的公司对比就好了。</p>
+<p>3）问问自己想要什么，钱，经历，还是时间</p>
+<p>如果你很年轻，现在很安逸，我建议你换。如果不是很想动，那就学会所有能接触到的知识再换。</p>
+<p>我是降薪来的阿里，原因有三，一是有事可为，老板重用你给你机会，二是集团内部是open的，偏偏我知识面足够可以看出它们的好处，算是另一种补偿吧，三是对个人品牌是一个升级，狼叔的职业生涯到此已经足够了，进可攻退可守，也算另一种自由吧！</p>
+<p>钱多是个优势而已，还有氛围，文化，信仰</p>
+<ul>
+<li>牛人多</li>
+<li>业务需要</li>
+<li>成熟后有更多精力</li>
+<li>内部竞争，优胜劣汰</li>
+<li>财务相对自由，可以追求信仰了</li>
+</ul>
+<p>前几天还和 @苏千 聊，我和 @死月絲卡蕾特 相继入职阿里，还有cnode社区著名程序员也即将入职阿里，当时大家开玩笑说:</p>
+<blockquote>
+<p>“前端的终极归宿是阿里，不是在阿里，就是在去阿里的路上”</p>
+</blockquote>
+<p>另外要说的一点是pc和h5站在使用Node.js做api中间层，其最佳实践已成型，量也是极大的。以前前端玩得还是比较弱，如果能够缓存+控制页面数据，获得一个性能极大的提升也是极好的。2018年，争取拿这个做主题演讲上qcon或archsummit大会。</p>
+<p>每天忙得很开心，这就是我现在状态。其实，我的折腾还是在于想做些事情。如果你也想跟我一起做事，请将简历邮件给我 langshu.ssl@alibaba-inc.com，团队大量招人，也可以帮忙推荐给集团其他部门。</p>
+<p>大公司的做事方式</p>
+<ul>
+<li>按照规矩做事，不要碰红线</li>
+<li>工时一般压的都不会太紧，都是可以商量的，但态度一定要好</li>
+<li>闲的时候自己学点东西，上班要学习相关，下班学不相干的。别犯傻。</li>
+<li>多创造点额外价值，让你的领导更喜欢你</li>
+<li>理解能力要强，不要让你的领导说二遍。</li>
+</ul>
+<p>小公司</p>
+<ul>
+<li>简单粗暴，快速出东西，领导最关心的是进度</li>
+<li>执行力要强，遇佛杀佛，有鬼杀鬼</li>
+<li>代码质量其实没太多人管，但自己要注意养成好习惯</li>
+<li>没有机会自己创造机会。创造机会之前是赢得信任。</li>
+</ul>
+<p>狼叔经常说的一句：“少抱怨，多思考，未来更美好”，大部分人都喜欢积极的人，遇到问题不怕不躲不避，要相信自己能够解决，最多是时间问题。</p>
+<p>还有一句是：“没目标向钱看，有目标向前看”。历史上很多这样的例子，在2010年左右iOS开发刚起步，会拖拽弄个界面的就五位数工资，比做JAVA的几年的都要多。这世界就是这样不公平。但是你也不能不思进取，这样也是极其危险。在2016年左右，其实iOS开发就遇到了市场饱和的问题，很多培训出来的人都找不到工作，各家公司都在考虑换react-native或weex或者h5。</p>
+<p>所以，当你有机会进入一个很有前途的方向，你要努力学好，并准备好下一个阶段的应变。相反，如果当成找一个养老的地方，早晚会遇到尴尬的。比如现在很多iOS程序员被迫去学react/vue等，境遇也不太好的，更有甚者直接被开除。</p>
+<p>优酷-高级前端开发</p>
+<p>职位描述</p>
+<ol>
+<li>支撑企业级应用后台开发，使用 React 等前端框架搭建后台页面，实现交互需求及后端服务对接;</li>
+<li>以模块化的思想设计开发通用前端组件，并能够针对OTT,移动端进行针对性优化；</li>
+<li>在理解前端开发流程的基础上，结合前端实际建立或优化提升工作效率的工具；</li>
+<li>在理解产品业务的基础上，提升产品的用户体验，技术驱动业务的发展；</li>
+<li>关注前端前沿技术研究，通过新技术服务团队和业务；</li>
+<li>使用 Weex 技术开发产品需求。&quot;</li>
+</ol>
+<p>职位要求</p>
+<ol>
+<li>精通前端技术，包括HTML/CSS/JavaScript/Node.JS等；</li>
+<li>掌握Bootstrap，jQuery，AngularJS，React等框架，并有项目实践；</li>
+<li>熟悉前端模块化、编译和构建工具，如grunt，gulp,webpack等；</li>
+<li>至少熟悉一门非前端的语言（如Java/PHP/C/C++/Python/Ruby）,有项目实践更佳；</li>
+<li>具备跨终端的前端开发能力，在Web（PC+Mobile）/Node.js/Native App三个方向上至少精通一个方向，具备多个的更佳，鼓励在Native和Web技术融合上的探索；</li>
+<li>具有较强的学习能力，对前端技术有持续的热情，个性乐观开朗,逻辑性强，善于和产品，UED，后端等方向同学合作。</li>
+</ol>
+<h3 id="header-1-5-13">PixelLab</h3>
+<p>PixelLab是与淘宝GM Lab联合成立的专注于视频算法方向的研发部门，主要涉及视频的空间感知、轨迹跟踪、图像分割、遮挡检测以及照片级渲染等相关技术。用于实现视频内的内容植入与后期特效的研发，属于视频MR的场景，主要应用于广告植入平台的研发，方向靠谱老板人好，欢迎推荐。主要需要的岗位包括了图像算法、3D视觉算法，渲染算法，WebGL以及并行计算等几大方向，因为算法类招聘实在难，所以将JD的链接帖出来希望同事们有适合的人可以内推一下。</p>
+<p>岗位要求：
+1) 本科及以上学历，5年以上工作开发经验； 
+2) 扎实的计算几何基础，熟悉常见数学工具； 
+3) 熟练WebGL, Canvas渲染开发，熟练Shader编写， 熟悉Three.js, OSG.js者优先; 
+4) 熟练运用JavaScript语言与HTML5、CSS3等技术; 
+5) 熟悉主流移动浏览器的技术特点，有移动端H5, WebGL项目经验者优先; 
+6) 有移动端WebGL开发经验者优先; 
+6) 学习能力强、应变能力强，优秀的沟通能力和协调能力，执行能力强，具备较强的团队合作精神。</p>
+<h3 id="header-1-5-14">联系方式</h3>
+<p>目前北京，杭州，广州，上海，深圳，成都都在招聘，如果你也想跟我一起共事，请将简历邮件给我 langshu.ssl@alibaba-inc.com，团队大量招人，也可以帮忙推荐给集团其他部门。</p>
+<p>有机会和winter，勾股，玉伯，苏千，朴灵、死马、偏右，徐飞，阮一峰，天猪，裕波等大神一起工作哦。</p>
+<p>悄悄地说，其实其他公司我也可以帮推荐。</p>
+<h2 id="header-1-6">结束语</h2>
+<p>年轻时死磕，年长点让小弟死磕，现在抓个专家一起吃饭，没有什么是一顿饭解决不了的，不行就二顿 </p>
+<p>工程师的能力不是编码和死磕，而是解决问题</p>
+<ul>
+<li>年轻死磕是为了长本事，30岁以前都可以这样做</li>
+<li>带团队后，要懂得任务下放，让更多人帮你，别带人越多越累</li>
+<li>30岁之后是打牌阶段，技能积累足够用，这时要注重社交，打组合拳才能玩的更好</li>
+</ul>
+<p>强调30岁不是我创造的，大部分人都会认为30岁后事情，压力会明显大得多，比如家庭，孩子，房子，车子，票子，甚至是管理，权利，欲望等等吧。我感受最深的是身体不如从前和记忆力明显下降。</p>
+<p>狼叔说: “少抱怨，多思考，未来更美好”</p>
+<p>大部分人体会不到坚持的乐趣，不会玩，所以抱怨多。其实玩出乐趣也是一种能力，尤其是像写代码这种看似无聊的事儿。最开始可能只想赚点钱，后面变成热爱，这样才美好。只要坚持每日精进开心就好了。</p>
+<p>另外，时间也要好处处理，狼叔总会提菜根谭上的一句话:【闲时要有吃紧的心思，忙里要有偷闲的乐趣】。</p>
+<p>每个人的一生中都有很多坎，类似于瓶颈，唯有苦难和坚持才能冲破，坚持会产生自信，苦难会创造机会。一个经过苦难还有自信的人，一定会有更美好的未来。</p>
+<p>能否推荐点 适合 源码阅读 的 优秀 node 项目？</p>
+<p><a href="https://github.com/sindresorhus/awesome-nodejs" target="_blank">sindresorhus/awesome-nodejs</a>。</p>
+<ol>
+<li>基本的Node.js几个特性，比如事件驱动、非阻塞I/O、Stream等</li>
+<li>异步流程控制相关，Promise是必问的</li>
+<li>掌握1种以上Web框架，比如Express、Koa、Thinkjs、Restfy、Hapi等，会问遇到过哪些问题、以及前端优化等常识</li>
+<li>数据库相关，尤其是SQL、缓存、Mongodb等</li>
+<li>对于常见Node.js模块、工具的使用，观察一个人是否爱学习、折腾</li>
+<li>是否熟悉linux，是否独立部署过服务器，有+分</li>
+<li>js语法和es6、es7，延伸CoffeeScript、TypeScript等，看看你是否关注新技术，有+分</li>
+<li>对前端是否了解，有+分</li>
+<li>是否参与过或写过开源项目，技术博客、有+分</li>
+</ol>
+<p>昨天晚上陷入了沉思 决定不能把青春浪费在java和android上，跟着狼叔好好把node基础打好[微笑] 前两天面一家心仪的公司java 因为很久没做生疏了 基础没答好 原本想好好看看java 现在想想干嘛要把生命浪费在那上面 好好做node不好么 西安一定也有合适的node岗位</p>
+<p>我有一些学做JAVA后端的同学也开始学Node了，貌似用来搞微服务</p>
+<p>答：每一样学好都是非常棒的。当然，会node能做的事情更多。机遇与挑战并存。</p>
+<p>follow your heart吧</p>
+<p>西安是有node岗位的，不过偏少一点。北京还是最多的。</p>
 
 </div>
 </body>
