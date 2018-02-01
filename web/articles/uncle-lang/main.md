@@ -1,6 +1,6 @@
 # 狼叔的分享梳理
 
-> 
+> 花了9.9在知乎上买的狼叔的 live，总结的很不错，适合初学者，也适合中级查漏补缺。个人整理在这里，仅供自己学习，请勿转载。
 
 ## 狼叔自我介绍
 
@@ -12,9 +12,9 @@
 
 Part 0 ：Node.js简介
 
-a）Node.js简介
-b）什么是Node.js？
-c）基本原理
+- 0.1 Node.js简介
+- 0.2 什么是Node.js？
+- 0.3 基本原理
 
 Part 1前言：学习 Node.js 的三个境界
 
@@ -555,7 +555,7 @@ Async函数要点如下：
 对于 Web 应用大致分2种，带视图的**传统Web应用**和**面向Api接口应用**，我们先看一下 Node.js Web 应用开发框架的演进时间线大致如下：
 
 - 2010年 TJ Holowaychuk 写的 Express
-- 2011年 Derby.js 开始开发，8月5日，WalmartLabs 的一位成员 Eran Hammer 提交了 Hapi 的第一次git记录。Hapi 原本是 Postmile 的一部分，并且最开始是基于 Express 构建的。后来它发展成自己自己的框架，
+- 2011年 Derby.js 开始开发，8月5日，WalmartLabs 的一位成员 Eran Hammer 提交了 Hapi 的第一次git记录。Hapi 原本是 Postmile 的一部分，并且最开始是基于 Express 构建的。后来它发展成自己的框架，
 - 2012年1月21日，专注于 Rest api 的 Restify 发布1.0版本，同构的 Meteor 开始投入开发，最像Rails 的 Sails 也开始了开发
 - 2013年 TJ Holowaychuk 开始玩 es6 generator，编写 `co` 这个 Generator 执行器，并开始了Koa 项目。2013 年下半年李成银开始 ThinkJS，参考 ThinkPHP
 - 2014年4月9日，Express 发布4.0，进入4.x时代持续到今天，MEAN.js 开始随着 MEAN 架构的提出开始开发，意图大一统，另外 Total.js 开始起步，最像PHP里 Laravel 或 Python 里的 Django 或 ASP.NET MVC的框架，代表着 Node.js 的成熟，开始从其他语言里的成熟框架借鉴
