@@ -1,0 +1,22 @@
+{
+  "name": "remark-demo",
+  "version": "1.0.0",
+  "description": "demo",
+  "main": "index.js",
+  "devDependencies": {
+    "remark-cli": "^3.0.1",
+    "remark-html": "^6.0.1",
+    "remark-preset-lint-markdown-style-guide": "^1.0.0"
+  },
+  "scripts": {
+    "test": "remark . --quiet --frail && node test.js"
+  },
+  "remarkConfig": {
+    "plugins": [
+      "preset-lint-markdown-style-guide",
+      "html"
+    ]
+  },
+  "author": "longze",
+  "license": "MIT"
+}

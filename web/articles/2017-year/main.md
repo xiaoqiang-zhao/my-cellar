@@ -20,7 +20,8 @@
 - NodeJs 异步学习: Promise、async、wait；
 - 重写博客，添加功能：统计、网页编辑(手机也可用)、后台管理；
 - 讲 Linux；
-- 将 NodeJs；
+- 讲 NodeJs；
 
+## 
 
 
