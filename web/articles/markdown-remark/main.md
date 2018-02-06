@@ -17,3 +17,4 @@ https://github.com/remarkjs/remark
 
 [highlight](https://highlightjs.org/usage/)
 
+https://segmentfault.com/markdown
