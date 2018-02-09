@@ -20,15 +20,18 @@
 <div>
     <h1 id="header-1">狼叔的分享梳理</h1>
 <blockquote>
+<p>花了9.9在知乎上买的狼叔的 live，总结的很不错，适合初学者，也适合中级查漏补缺。个人整理在这里，仅供自己学习，请勿转载。</p>
 </blockquote>
 <h2 id="header-1-1">狼叔自我介绍</h2>
 <p>江湖人称「狼叔」，目前是阿里巴巴技术专家，斯达克学院（ StuQ ）明星讲师， Node.js 技术布道者。曾就职于去哪儿、新浪、网秦，做过前端、后端、数据分析，是一名全栈技术的实践者。</p>
 <h2 id="header-1-2">概述</h2>
 <p>现在，越来越多的科技公司和开发者开始使用 Node.js 开发各种应用。Node.js除了能够辅助大前端开发外，还可以编写Web应用，封装Api，组装RPC服务等，甚至是开发VSCode编辑器一样的PC客户端。和其它技术相比， Node.js 简单易学，性能好、部署容易，能够轻松处理高并发场景下的大量服务器请求。Node.js 周边的生态也非常强大，NPM（Node包管理）上有超过60万个模块，日下超过载量3亿次。但编写 Node.js 代码对新人和其它语言背景的开发者来说，不是一件容易的事，在入门之前需要弄懂不少复杂的概念。我身边也有很多人问我：如何学习 Node.js ？作为一名 Node.js 布道者，我做过很多 Node.js 普及和推广的工作，对它的基本概念和核心模块都很熟悉； 此外，我还在撰写一本名为《更了不起的 Node.js 》的书，已经写了 2 年，积累了很丰富的资料，本次 Live 也将为你提供对 Node.js 更全面的解读。本次 Live 主要包括以下内容，目录：</p>
 <p>Part 0 ：Node.js简介</p>
-<p>a）Node.js简介
-b）什么是Node.js？
-c）基本原理</p>
+<ul>
+<li>0.1 Node.js简介</li>
+<li>0.2 什么是Node.js？</li>
+<li>0.3 基本原理</li>
+</ul>
 <p>Part 1前言：学习 Node.js 的三个境界</p>
 <p>Part 2准备：如何学习Node.js</p>
 <ul>
@@ -506,7 +509,7 @@ myEmitter.emit(&#39;event&#39;, &#39;a&#39;, &#39;b&#39;);
 <p>对于 Web 应用大致分2种，带视图的<strong>传统Web应用</strong>和<strong>面向Api接口应用</strong>，我们先看一下 Node.js Web 应用开发框架的演进时间线大致如下：</p>
 <ul>
 <li>2010年 TJ Holowaychuk 写的 Express</li>
-<li>2011年 Derby.js 开始开发，8月5日，WalmartLabs 的一位成员 Eran Hammer 提交了 Hapi 的第一次git记录。Hapi 原本是 Postmile 的一部分，并且最开始是基于 Express 构建的。后来它发展成自己自己的框架，</li>
+<li>2011年 Derby.js 开始开发，8月5日，WalmartLabs 的一位成员 Eran Hammer 提交了 Hapi 的第一次git记录。Hapi 原本是 Postmile 的一部分，并且最开始是基于 Express 构建的。后来它发展成自己的框架，</li>
 <li>2012年1月21日，专注于 Rest api 的 Restify 发布1.0版本，同构的 Meteor 开始投入开发，最像Rails 的 Sails 也开始了开发</li>
 <li>2013年 TJ Holowaychuk 开始玩 es6 generator，编写 <code>co</code> 这个 Generator 执行器，并开始了Koa 项目。2013 年下半年李成银开始 ThinkJS，参考 ThinkPHP</li>
 <li>2014年4月9日，Express 发布4.0，进入4.x时代持续到今天，MEAN.js 开始随着 MEAN 架构的提出开始开发，意图大一统，另外 Total.js 开始起步，最像PHP里 Laravel 或 Python 里的 Django 或 ASP.NET MVC的框架，代表着 Node.js 的成熟，开始从其他语言里的成熟框架借鉴</li>

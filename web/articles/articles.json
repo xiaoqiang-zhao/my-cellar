@@ -28,6 +28,18 @@
     "todoList": []
   },
   {
+    "enName": "2017-year",
+    "title": "2017 年末总结",
+    "introduction": "未找到描述信息",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1518151610056,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "a-word-or-two",
     "title": "记录自己的和别人的只言片语",
     "introduction": "记录一些简短的东西，这些东西作为单独的一篇内容太单薄，但是放弃又太可惜，这里收录在这里。",
@@ -779,7 +791,7 @@
   {
     "enName": "markdown-remark",
     "title": "markdown 引擎 remark",
-    "introduction": "未找到描述信息",
+    "introduction": "引言...",
     "tags": [],
     "isPublished": false,
     "state": "立项",
@@ -830,6 +842,18 @@
     "state": "公示集成",
     "type": "md",
     "createDate": 1464314346073,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "node-async",
+    "title": "NodeJs 异步流程控制",
+    "introduction": "NodeJs 的核心就是异步流程控制，也是学习和使用 NodeJs 绕不开的坎儿，本文只要介绍异步的三种方法: Callback、Promise、Async/Await",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1518151610128,
     "commentList": [],
     "todoList": []
   },
@@ -1096,7 +1120,7 @@
   {
     "enName": "uncle-lang",
     "title": "狼叔的分享梳理",
-    "introduction": "",
+    "introduction": "花了9.9在知乎上买的狼叔的 live，总结的很不错，适合初学者，也适合中级查漏补缺。个人整理在这里，仅供自己学习，请勿转载。",
     "tags": [],
     "isPublished": false,
     "state": "立项",

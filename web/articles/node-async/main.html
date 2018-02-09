@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>NodeJs 异步流程控制 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">NodeJs 异步流程控制</h1>
+<blockquote>
+<p>NodeJs 的核心就是异步流程控制，也是学习和使用 NodeJs 绕不开的坎儿，本文只要介绍异步的三种方法: Callback、Promise、Async/Await</p>
+</blockquote>
+<h2 id="header-1-1">概述</h2>
+<p>NodeJs 的异步控制由 C++ 编写的 libuv 模块提供，libuv 提供两大功能: 事件循环(Event Loop) 和 线程池(Thread Pool)，这俩哥们儿把复杂的事做了(高并发，低延时)，交给用户的只是有点难用的 Callback 写法，好在随着社区的发展我们有了 Promise 和 Async/Await 方案，Callback 也不再那么难写了。也正是坦诚的将异步回调暴露出来，才有更好的流程控制方面的演进。</p>
+<p>广义上说 Callback、Promise、Async/Await 这三种方法都是 Callback 的实现形式，为了表述方便本文中的 Callback 指狭义的 Callback，不包含 Promise 和 Async/Await。</p>
+<p>这 3 中方法的区别和要点：</p>
+<ul>
+<li>Callback: 在不涉及多个异步操作控制时简单好用，可以和 EventEmitter 配合使用；</li>
+<li>Promise: 众多开源库的接口使用，中流砥柱，必须会；</li>
+<li>Async/Await: 终极解决方案，但 NodeJs 版本需 &gt;=7。</li>
+</ul>
+<h2 id="header-1-2">Callback &amp; EventEmitter</h2>
+<p>Callback 是用的最多的，是绝大部分的 API 遵守的约定，而 EventEmitter 是辅助机制，通过继承EventEmitter 来解耦业务逻辑。</p>
+<p>NodeJs 社区中对 Callback 参数广泛约定为 error-first -- 错误优先的回调机制。但是你需要知道 Callback 不等同于异步，看下面的例子：</p>
+<pre><code class="lang-js">// 同步
+function fn(cb) {
+    // ...
+    cb();
+    // ...
+}
+
+// 异步
+function fn(cb) {
+    // ...
+    setTimeout(() =&gt; {
+        cb();
+    });
+    // ...
+}
+
+// 在调用时对同步还是异步是无差别的
+fn(() =&gt; {
+    // ...
+});
+</code></pre>
+<p>error-first 是调用回调函数时，第一个参数是错误信息，后面是其他参数，通常无错误传递 null，代码示例：</p>
+<pre><code class="lang-js">function fn(cb) {
+    try {
+        // ...
+        cb(null, otherParams);
+    }
+    catch (err) {
+        cb(err);
+    }
+}
+</code></pre>
+
+</div>
+</body>
+</html>
