@@ -7,6 +7,7 @@ const value = 'a';
 function fn(cb) {
     const value = 'b';
     cb();
+    // a
 }
 
 fn(() => {
