@@ -361,6 +361,58 @@ Promise.all([p1(), p2()]).then(values => {
 
 同样是将多个 Promise 实例转换成一个新的 Promise 实例。
 
-    var p = Promise.race([p1, p2, p3]);
+```js
+var p = Promise.race([p1, p2, p3]);
+```
 
 只要p1、p2、p3之中有一个实例率先改变状态，p的状态就跟着改变。那个率先改变的 Promise 实例的返回值，就传递给p的回调函数。
+
+## Async/Await
+
+![图](/articles/node-async/img/async-await.png)
+
+Promise 解决了回调地狱的问题，但是异步和同步还是两种写法，并且异步处理不够直观。Async/Await 配合 Promise 可以更直观的编写异步处理代码，示例如下：
+
+```js
+// 返回 Promise 实例的函数
+function p(value) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            var date = new Date();
+            resolve(value + ':' + date);
+            // reject(value + ':' + date);
+        }, 2000);
+    });
+}
+
+var asyncSetTimeout = async function (){
+    var f1 = await p('p1');
+    var f2 = await p('p2');
+    console.log(f1);
+    console.log(f2);
+    return f2;
+};
+
+asyncSetTimeout().catch((err) => {
+    console.log('reject', err);
+});
+
+// 控制台输出结果:
+// p1:Sun Jan 29 2017 21:48:16 GMT+0800 (CST)
+// p2:Sun Jan 29 2017 21:48:18 GMT+0800 (CST)
+```
+
+便捷是有代价的，promise 本来是花开两朵，但在 async 函数中就只能单表一只了，而且只能对 resolve 这一分支的逻辑做处理。如果想对 reject 这一逻辑做处理，那么可以借助 catch 来实现(但是 catch 的设计本意是捕获异常):
+
+```js
+async function myFunction() {
+  await somethingThatReturnsAPromise()
+  .catch(function (err) {
+    console.log(err);
+  });
+}
+```
+
+## 总结
+
+
