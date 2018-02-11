@@ -151,7 +151,7 @@ Promise是异步编程的一种解决方案，比传统的解决方案——回�
 - 只能从Pending变为Resolved和从Pending变为Rejected。
 - 就算改变已经发生了，你再对Promise对象添加回调函数，也会立即得到这个结果。
 
-简单实例：
+简单示例：
 
     function timeout(ms) {
       return new Promise((resolve, reject) => {
@@ -160,14 +160,14 @@ Promise是异步编程的一种解决方案，比传统的解决方案——回�
     }
     
     var promise = timeout(100);
-    promise.then((value) => {
+    promise.then(value => {
       console.log(value);
     });
     // 控制台输出：done
 
 上面代码执行后，单独执行下面代码也输出同样的结果：
 
-    promise.then((value) => {
+    promise.then(value => {
       console.log(value);
     });
     // 控制台输出：done
@@ -176,6 +176,7 @@ Promise是异步编程的一种解决方案，比传统的解决方案——回�
 
 定义在 Promise 原型链上，它的作用是为Promise实例添加状态改变时的回调函数。可以链式调用，内部可以返回其他 Promise 实例，代码示例：
 
+```js
     function p1() {
         return new Promise(function (resolve, reject) {
             setTimeout(function () {
@@ -204,20 +205,24 @@ Promise是异步编程的一种解决方案，比传统的解决方案——回�
     // p1
     // 第一个promise向第二个promise传入参数: p1
     // p2
+```
 
 ### .catch(callback)
 
 用于指定发生错误时的回调函数，与 then 方法第二个参数 -- reject 回调函数调用逻辑相同。在写 Promise 实例生成器时应该捕获生成器本身的错误，resolve 应该交给 resolve 来处理，否则会造成错误难以跟踪的问题。接着上面的代码 catch 方法可以这样使用：
 
+```js
     p1().then(function (value) {
         console.log(value);
         return p2(value);
     }).catch(function (e) {
         // 捕获错误后的处理逻辑...
     });
+```
 
 另外 catch 中还可以抛出错误，catch 后面还可以连续使用 catch：
 
+```js
     p1().then(function (value) {
         console.log(value);
         return p2(value);
@@ -227,11 +232,13 @@ Promise是异步编程的一种解决方案，比传统的解决方案——回�
     }).catch(function () {
         // 继续处理上一个 catch 抛出的错误...
     });
+```
 
 ### .all([p1, p2, ...])
 
 用于将多个Promise实例，包装成一个新的Promise实例。Promise对象的实例，如果不是，就会先调用 resolve 方法，将参数转为Promise实例，再进一步处理。
 
+```js
     function p1() {
         return new Promise(function (resolve, reject) {
             setTimeout(function () {
@@ -253,6 +260,7 @@ Promise是异步编程的一种解决方案，比传统的解决方案——回�
     });
     
     // 控制台输出结果: p1,p2
+```
 
 注意，只有作为参数的 Promise 实例全部转变为 Resolved 状态，返回值才会转变为 Resolved，如果其中一个状态装变为 Rejected ，那么后面的 promise 不会执行，并且直接调用 reject 或 catch。
 
