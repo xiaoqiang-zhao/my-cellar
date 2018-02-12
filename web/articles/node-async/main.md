@@ -415,4 +415,4 @@ async function myFunction() {
 
 ## 总结
 
-
+根据场景选择 Callback、Promise、Async/Await，技术本身没有优劣，只有合适的才是最好的。
