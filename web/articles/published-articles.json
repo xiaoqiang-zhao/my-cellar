@@ -28,6 +28,20 @@
     "todoList": []
   },
   {
+    "enName": "2017-year",
+    "title": "2017 年末总结",
+    "introduction": "每年都写一篇，总结过去展望未来。",
+    "tags": [
+      "个人笔记"
+    ],
+    "isPublished": true,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1518151610056,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "a-word-or-two",
     "title": "记录自己的和别人的只言片语",
     "introduction": "记录一些简短的东西，这些东西作为单独的一篇内容太单薄，但是放弃又太可惜，这里收录在这里。",

@@ -143,7 +143,7 @@ it.next()
 <li>只能从Pending变为Resolved和从Pending变为Rejected。</li>
 <li>就算改变已经发生了，你再对Promise对象添加回调函数，也会立即得到这个结果。</li>
 </ul>
-<p>简单实例：</p>
+<p>简单示例：</p>
 <pre><code>function timeout(ms) {
   return new Promise((resolve, reject) =&gt; {
     setTimeout(resolve, ms, &#39;done&#39;);
@@ -151,87 +151,91 @@ it.next()
 }
 
 var promise = timeout(100);
-promise.then((value) =&gt; {
+promise.then(value =&gt; {
   console.log(value);
 });
 // 控制台输出：done
 </code></pre><p>上面代码执行后，单独执行下面代码也输出同样的结果：</p>
-<pre><code>promise.then((value) =&gt; {
+<pre><code>promise.then(value =&gt; {
   console.log(value);
 });
 // 控制台输出：done
 </code></pre><h3 id="header-1-2-2">.then(resolve, reject)</h3>
 <p>定义在 Promise 原型链上，它的作用是为Promise实例添加状态改变时的回调函数。可以链式调用，内部可以返回其他 Promise 实例，代码示例：</p>
-<pre><code>function p1() {
-    return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-            resolve(&#39;p1&#39;);
-        }, 2000);
+<pre><code class="lang-js">    function p1() {
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                resolve(&#39;p1&#39;);
+            }, 2000);
+        });
+    }
+
+    function p2(value) {
+        console.log(&#39;第一个promise向第二个promise传入参数: &#39; + value);
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                resolve(&#39;p2&#39;);
+            }, 1000);
+        });
+    }
+
+    p1().then(function (value) {
+        console.log(value);
+        return p2(value);
+    }).then(function (value) {
+        console.log(value);
     });
-}
 
-function p2(value) {
-    console.log(&#39;第一个promise向第二个promise传入参数: &#39; + value);
-    return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-            resolve(&#39;p2&#39;);
-        }, 1000);
-    });
-}
-
-p1().then(function (value) {
-    console.log(value);
-    return p2(value);
-}).then(function (value) {
-    console.log(value);
-});
-
-// 控制台结果：
-// p1
-// 第一个promise向第二个promise传入参数: p1
-// p2
-</code></pre><h3 id="header-1-2-3">.catch(callback)</h3>
+    // 控制台结果：
+    // p1
+    // 第一个promise向第二个promise传入参数: p1
+    // p2
+</code></pre>
+<h3 id="header-1-2-3">.catch(callback)</h3>
 <p>用于指定发生错误时的回调函数，与 then 方法第二个参数 -- reject 回调函数调用逻辑相同。在写 Promise 实例生成器时应该捕获生成器本身的错误，resolve 应该交给 resolve 来处理，否则会造成错误难以跟踪的问题。接着上面的代码 catch 方法可以这样使用：</p>
-<pre><code>p1().then(function (value) {
-    console.log(value);
-    return p2(value);
-}).catch(function (e) {
-    // 捕获错误后的处理逻辑...
-});
-</code></pre><p>另外 catch 中还可以抛出错误，catch 后面还可以连续使用 catch：</p>
-<pre><code>p1().then(function (value) {
-    console.log(value);
-    return p2(value);
-}).catch(function (e) {
-    // 捕获错误后的处理逻辑...
-    throw new Error();
-}).catch(function () {
-    // 继续处理上一个 catch 抛出的错误...
-});
-</code></pre><h3 id="header-1-2-4">.all([p1, p2, ...])</h3>
+<pre><code class="lang-js">    p1().then(function (value) {
+        console.log(value);
+        return p2(value);
+    }).catch(function (e) {
+        // 捕获错误后的处理逻辑...
+    });
+</code></pre>
+<p>另外 catch 中还可以抛出错误，catch 后面还可以连续使用 catch：</p>
+<pre><code class="lang-js">    p1().then(function (value) {
+        console.log(value);
+        return p2(value);
+    }).catch(function (e) {
+        // 捕获错误后的处理逻辑...
+        throw new Error();
+    }).catch(function () {
+        // 继续处理上一个 catch 抛出的错误...
+    });
+</code></pre>
+<h3 id="header-1-2-4">.all([p1, p2, ...])</h3>
 <p>用于将多个Promise实例，包装成一个新的Promise实例。Promise对象的实例，如果不是，就会先调用 resolve 方法，将参数转为Promise实例，再进一步处理。</p>
-<pre><code>function p1() {
-    return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-            resolve(&#39;p1&#39;);
-        }, 2000);
+<pre><code class="lang-js">    function p1() {
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                resolve(&#39;p1&#39;);
+            }, 2000);
+        });
+    }
+
+    function p2() {
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                resolve(&#39;p2&#39;);
+            }, 1000);
+        });
+    }
+
+    Promise.all([p1(), p2()]).then(function (values) {
+       console.log(values[0] + &#39;,&#39; + values[1]);
     });
-}
 
-function p2() {
-    return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-            resolve(&#39;p2&#39;);
-        }, 1000);
-    });
-}
-
-Promise.all([p1(), p2()]).then(function (values) {
-   console.log(values[0] + &#39;,&#39; + values[1]);
-});
-
-// 控制台输出结果: p1,p2
-</code></pre><p>注意，只有作为参数的 Promise 实例全部转变为 Resolved 状态，返回值才会转变为 Resolved，如果其中一个状态装变为 Rejected ，那么后面的 promise 不会执行，并且直接调用 reject 或 catch。</p>
+    // 控制台输出结果: p1,p2
+</code></pre>
+<p>注意，只有作为参数的 Promise 实例全部转变为 Resolved 状态，返回值才会转变为 Resolved，如果其中一个状态装变为 Rejected ，那么后面的 promise 不会执行，并且直接调用 reject 或 catch。</p>
 <h3 id="header-1-2-5">.race()</h3>
 <p>同样是将多个Promise实例，包装成一个新的Promise实例。</p>
 <pre><code>var p = Promise.race([p1, p2, p3]);
