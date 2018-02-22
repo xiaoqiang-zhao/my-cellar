@@ -276,3 +276,5 @@ Node 支持的 http 类型，这种只返回一个数组的小包居然也是 TJ
 [Koa 中文文档 2](https://github.com/guo-yu/koa-guide)
 
 [《Koa 实战》](http://book.apebook.org/minghe/koa-action/hello-koa/index.html)
+
+[Koa2 与 async/await 配合使用](https://www.w3ctech.com/topic/1917)
