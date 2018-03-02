@@ -10,7 +10,8 @@
 - spa-full-stack 全栈单页应用，后端提供业务模板和数据库；
 - spa-simple-ts 单页应用 typescript 版；
 - spa-full-stack-ts 全栈单页应用 typescript 版；
-- mpa 纯前端多页应用。
+- mpa-simple 纯前端多页应用；
+- mpa-simple-full-stack 全栈多页应用。
 
 然后我们将 spa-simple 用 git clone 到本地，进行下一步。
 
