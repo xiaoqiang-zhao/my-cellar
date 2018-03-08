@@ -1,6 +1,6 @@
 # NodeJs 异步流程控制
 
-> NodeJs 的核心就是异步流程控制，也是学习和使用 NodeJs 绕不开的坎儿，本文只要介绍异步的三种方法: Callback、Promise、Async/Await
+> NodeJs 的核心就是异步流程控制，也是学习和使用 NodeJs 绕不开的坎儿，本文主要介绍异步的三种方法: Callback、Promise、Async/Await
 
 ## 概述
 

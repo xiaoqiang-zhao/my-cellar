@@ -20,7 +20,7 @@
 <div>
     <h1 id="header-1">NodeJs 异步流程控制</h1>
 <blockquote>
-<p>NodeJs 的核心就是异步流程控制，也是学习和使用 NodeJs 绕不开的坎儿，本文只要介绍异步的三种方法: Callback、Promise、Async/Await</p>
+<p>NodeJs 的核心就是异步流程控制，也是学习和使用 NodeJs 绕不开的坎儿，本文主要介绍异步的三种方法: Callback、Promise、Async/Await</p>
 </blockquote>
 <h2 id="header-1-1">概述</h2>
 <p>NodeJs 的异步控制由 C++ 编写的 libuv 模块提供，libuv 提供两大功能: 事件循环(Event Loop) 和 线程池(Thread Pool)，这俩哥们儿把复杂的事做了(高并发，低延时)，交给用户的只是有点难用的 Callback 写法，好在随着社区的发展我们有了 Promise 和 Async/Await 方案，Callback 也不再那么难写了。也正是坦诚的将异步回调暴露出来，才有更好的流程控制方面的演进。</p>

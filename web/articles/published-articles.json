@@ -548,6 +548,21 @@
     "todoList": []
   },
   {
+    "enName": "node-async",
+    "title": "NodeJs 异步流程控制",
+    "introduction": "NodeJs 的核心就是异步流程控制，也是学习和使用 NodeJs 绕不开的坎儿，本文主要介绍异步的三种方法: Callback、Promise、Async/Await",
+    "tags": [
+      "技术点",
+      "个人笔记"
+    ],
+    "isPublished": true,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1518151610128,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "npm",
     "title": "NPM",
     "introduction": "NPM 的全称是 Node Package Manager，原本是一个 NodeJS 包管理和分发平台，但是浏览器端运行的 JS 也缺一个第三方包管理平台，后来在社区的推动下 NPM 可以管理全部的第三方 JS 包，包括 Node 端和浏览器端，浏览器到目前为止还没有原生支持包管理，现在浏览器端项目的包管理一般借助脚手架来实现。NPM 可以算作前端的必备技能，这里介绍一些基础知识和典型场景下的技巧。",
