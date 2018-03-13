@@ -27,3 +27,9 @@
 [如何看待萧井陌在 B 站直播写代码的行为？](https://www.zhihu.com/question/62436454/answer/215363999)
 
 [在斗鱼直播写代码是一种怎样的体验？](https://www.zhihu.com/question/27831296/answer/68288815)
+
+watchpeoplecode 在国内用不流畅：http://www.watchpeoplecode.com/
+
+在线教育，需要注册，注册需要翻墙: https://www.liveedu.tv
+
+
