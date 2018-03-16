@@ -1,10 +1,12 @@
-# Linux 知识体系主干
+# Linux 入门基础
 
-> 本文是全栈系列第一篇，主要建构起 Liunx 的知识树主干。
+> 本文是全栈系列第一篇，主要讲那些一定要知道的基础概念，有了这些基础概念才能更好的学习和使用 Linux，而不是零散的记住几个命令。除了基础概念还记录了一些我在使用 CentOS 是遇到的问题和解决办法，这些问题都是初学者大概率会遇到的问题。
 
 ## Linux 概述
 
 Linux 是一个多用户操作系统，诞生于 1996 年。Linux 能干啥？企业应用，网路服务，企业网络管理。
+
+如果家里有旧电脑，装一个 Liunx 来是必要的，装机传送: [https://linux.cn/article-1471-1.html](https://linux.cn/article-1471-1.html)。如果想要图形化界面记得选择 GNOME。
 
 如何学习 Linux？如果只想会使用 Linux，那么 X Window 也足够了；如果想深入学习 Linux，那么命令行才是真确姿势。
 
@@ -744,3 +746,5 @@ ps axjf
 《鸟哥的 Linux 私房菜》
 
 [CentOS 官网](https://www.centos.org/)
+
+[Linux 版本选择](https://www.soosmart.com/topic/687.html)
