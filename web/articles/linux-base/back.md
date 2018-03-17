@@ -6,7 +6,7 @@
 
 如果装失败了需要重新在 U 盘里写入安装引导程序和系统，可能遇到 U 盘无法格式化的情况，解决办法：[http://www.sunyuping.cn/2017/02/mac%E4%B8%8B%E7%A3%81%E7%9B%98%E5%B7%A5%E5%85%B7%E6%97%A0%E6%B3%95%E6%A0%BC%E5%BC%8F%E5%8C%96u%E7%9B%98%E7%9A%84%E6%97%B6%E5%80%99%E4%BD%BF%E7%94%A8%E7%BB%88%E7%AB%AFdiskutil%E5%91%BD%E4%BB%A4/](http://www.sunyuping.cn/2017/02/mac%E4%B8%8B%E7%A3%81%E7%9B%98%E5%B7%A5%E5%85%B7%E6%97%A0%E6%B3%95%E6%A0%BC%E5%BC%8F%E5%8C%96u%E7%9B%98%E7%9A%84%E6%97%B6%E5%80%99%E4%BD%BF%E7%94%A8%E7%BB%88%E7%AB%AFdiskutil%E5%91%BD%E4%BB%A4/)
 
-CentOS 适合做服务器，用命令行来操作66的；Ubuntu 适合做开发，界面支持较好。比较郁闷的是装了数次 CentOS 都没装成功可视化界面(命令行倒是一次成功而且非常快)，装 Ubuntu 很顺利一次性成功。
+CentOS 适合做服务器，用命令行来操作66的；Ubuntu 适合做开发，界面支持较好。比较郁闷的是装了数次 CentOS 都没装成功图形界面(命令行倒是一次成功而且非常快)，装 Ubuntu 很顺利一次性成功。
 
 ## 结语
 

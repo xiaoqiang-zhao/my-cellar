@@ -48,6 +48,8 @@
 
 - F1 到 F12 是功能键，默认状态下只有按着左下角的fn键才是原始功能，如果想倒过来需勾选 “系统偏好设置/键盘/将F1、F2等键用作标准功能键”
 
+- 快速找到并启动程序：Cmd + Space，这需要在 System Preferences/Keyboard/Shortcuts 下 将 Spotlight 选中，如果搜索出现卡顿可以在 System Preferences/Spotlight 中配置检索项，减少需要检索的内容会提升速度。
+
 ## 命令行
 
 - 回到上一级目录 cd .. (注意 cd 后面要跟一个空格，和windows的不同；另外有一个插件Go2Shell可以让你从Finder中直接进入当前目录命令行，在appStore中就可以找到)
