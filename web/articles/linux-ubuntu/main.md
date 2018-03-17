@@ -32,9 +32,43 @@ sudo dpkg -i google-chrome*; sudo apt-get -f install
 
 ## 开发环境
 
-首先是 git：`sudo apt-get install git`;
+首先是 git，有了 git 才有代码：
 
-然后是 IDE，我用的是 VS Code: 
+```shell
+# 安装 git
+sudo apt-get install git
+# 设置用户名和邮箱
+git config --gloable user.name 'longze'
+git config --gloable user.email 'email@example.com'
+# 克隆远程仓库
+git clone https://github.com/longze/my-cellar.git
+```
+
+然后是 IDE，写代码，我用的是 VS Code: 
+
+```shell
+# 需要先安装 umake
+sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make
+sudo apt-get update
+sudo apt-get install ubuntu-make
+# 安装 VS Code
+umake web visual-studio-code
+# 如果不需要 IDE 了可以将其卸载
+umake web visual-studio-code --remove
+```
+
+NodeJs 也是必不可少的：
+
+```shell
+sudo apt-get install nodejs
+sudo apt install nodejs-legacy
+# npm 需要单独安装
+sudo apt install npm
+# 然后发现 node 版本是 4.x，需要升级到最新
+sudo npm install -g cnpm
+sudo cnpm instal -g n
+sudo n latest
+```
 
 ## 基本快捷键
 
@@ -53,4 +87,6 @@ sudo dpkg -i google-chrome*; sudo apt-get -f install
 
 2、如果没有可用分辨率可以添加你想要的分辨率：`xrandr --addmode 显卡名 1366×768`；
 
-3、设置输出分辨率：`xrandr --output 显卡名 1366×768`。
+3、设置输出分辨率：`sudo xrandr --output LVDS-1 --mode 1366x768`。
+
+
