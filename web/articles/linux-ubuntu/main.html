@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Ubuntu 入门基础 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">Ubuntu 入门基础</h1>
+<blockquote>
+<p>把老电脑装了 Ubuntu 用来学习 Linux，记录一下学习历程。</p>
+</blockquote>
+<h2 id="header-1-1">Chrome 和 翻墙</h2>
+<p>首先要做的就是装个 Chrome，因为 Chrome 的搜藏夹是我的外挂，然后翻个墙。</p>
+<pre><code class="lang-shell"># 首先 Ctr + Alt + T 打开命令行
+# 然后下载安装包
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb 
+# 再然后安装
+sudo dpkg -i google-chrome*; sudo apt-get -f install
+# 最后启动
+/usr/bin/google-chrome-stable
+# 经常使用的 Application 可以 lock 到 Launcher 中，
+# 翻墙配置在 System Settings/Network/Network proxy 下，使用 Automatic 配置 pac 链接即可。
+</code></pre>
+<p>这也是 Linux 下经典的软件安装方法，没有图形化界面的时候，其他软件也可以像这样安装和使用。</p>
+<h2 id="header-1-2">定制系统</h2>
+<p>首先将左边的面板调小一点: System Setting/Appearance/Launcher icon size;</p>
+<p>顺便换个壁纸: System Setting/Appearance;</p>
+<p>再将触摸板的方向调成和 Mac 一样: System Setting/Mouse &amp; Touchpad/Natural scrolling;</p>
+<p>最后设置程序全屏时隐藏侧边栏: System Setting/Appearance/Behaviour/Auto-hide the Launcher。</p>
+<h2 id="header-1-3">开发环境</h2>
+<p>首先是 git，有了 git 才有代码：</p>
+<pre><code class="lang-shell"># 安装 git
+sudo apt-get install git
+# 设置用户名和邮箱
+git config --gloable user.name &#39;longze&#39;
+git config --gloable user.email &#39;email@example.com&#39;
+# 克隆远程仓库
+git clone https://github.com/longze/my-cellar.git
+</code></pre>
+<p>然后是 IDE，写代码，我用的是 VS Code: </p>
+<pre><code class="lang-shell"># 需要先安装 umake
+sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make
+sudo apt-get update
+sudo apt-get install ubuntu-make
+# 安装 VS Code
+umake web visual-studio-code
+# 如果不需要 IDE 了可以将其卸载
+umake web visual-studio-code --remove
+</code></pre>
+<p>NodeJs 也是必不可少的：</p>
+<pre><code class="lang-shell">sudo apt-get install nodejs
+sudo apt install nodejs-legacy
+# npm 需要单独安装
+sudo apt install npm
+# 然后发现 node 版本是 4.x，需要升级到最新
+sudo npm install -g cnpm
+sudo cnpm instal -g n
+sudo n latest
+</code></pre>
+<h2 id="header-1-4">基本快捷键</h2>
+<p>快速启动应用：Win + A，没有像 Windows 下那样的“我的程序”，更像 Mac 的 Spotlight。</p>
+<h2 id="header-1-5">一些奇怪的问题</h2>
+<h3 id="header-1-5-1">分辨率</h3>
+<p>问题描述：可视区变窄两边有黑边，又无法通过图形化工具选到合适的分辨率。</p>
+<p>解决方案：</p>
+<p>1、查看可用分辨率：<code>xrandr</code> ；</p>
+<p>2、如果没有可用分辨率可以添加你想要的分辨率：<code>xrandr --addmode 显卡名 1366×768</code>；</p>
+<p>3、设置输出分辨率：<code>sudo xrandr --output LVDS-1 --mode 1366x768</code>。</p>
+
+</div>
+</body>
+</html>
