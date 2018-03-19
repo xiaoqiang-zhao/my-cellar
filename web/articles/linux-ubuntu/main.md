@@ -38,8 +38,8 @@ sudo dpkg -i google-chrome*; sudo apt-get -f install
 # 安装 git
 sudo apt-get install git
 # 设置用户名和邮箱
-git config --gloable user.name 'longze'
-git config --gloable user.email 'email@example.com'
+git config --global user.name 'longze'
+git config --global user.email 'email@example.com'
 # 克隆远程仓库
 git clone https://github.com/longze/my-cellar.git
 ```
@@ -95,3 +95,9 @@ sudo n latest
 方案二：
 
 用 `lspci -k | grep -A 2 -i "VGA"` 命令查看显卡的硬件配置，在 System Setting/Detail 下可以查看当前系统用的是哪一块显卡，然后用 `sudo ubuntu-drivers devices` 命令查看驱动推荐，找到 recommended 的那一项进行安装，比如我的是 nvidia-384，用 `sudo apt-get install nvidia-384` 命令安装独立显卡驱动，重启后查看当前系统用的是哪一块显卡，如果还是集成显卡，用 `nvidia-settings` 命令切换。
+
+## 参考文章
+
+[显卡设置](http://blog.csdn.net/Yan_Chou/article/details/72847943)
+
+
