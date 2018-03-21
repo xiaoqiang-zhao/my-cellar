@@ -741,6 +741,11 @@ ps axjf
     value=$(curl http://172.0.0.1:8080/get)
 ```
 
+查看端口对应的进程 id:
+
+```bash
+lsof -i tcp:9999
+```
 ## 参考
 
 《鸟哥的 Linux 私房菜》
