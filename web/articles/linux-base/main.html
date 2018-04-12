@@ -599,6 +599,9 @@ ps axjf
 <p>系统之间可以通过 http 来交互，一个非常有用的命令就是 <code>curl</code>，示例如下:</p>
 <pre><code class="lang-bash">    value=$(curl http://172.0.0.1:8080/get)
 </code></pre>
+<p>查看端口对应的进程 id:</p>
+<pre><code class="lang-bash">lsof -i tcp:9999
+</code></pre>
 <h2 id="header-1-6">参考</h2>
 <p>《鸟哥的 Linux 私房菜》</p>
 <p><a href="https://www.centos.org/" target="_blank">CentOS 官网</a></p>
