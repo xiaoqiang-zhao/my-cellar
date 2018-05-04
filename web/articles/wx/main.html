@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>微信小程序开发记要 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">微信小程序开发记要</h1>
+<blockquote>
+<p>要实验一中商业模式，需要小程序来支持，这里记录从零开始的关键步骤。</p>
+</blockquote>
+<h2 id="header-1-1">注册</h2>
+<p>注册一个微信小程序公众号，包括账号注册和管理员信息登记，管理员信息登记很重要，因为管理员才有权限发布小程序、设置开发版的体验用户等。请注意，公共号注册时选择小程序，不是通常认为的公众号。</p>
+<p>官方详细文档：<a href="https://developers.weixin.qq.com/miniprogram/dev/index.html" target="_blank">https://developers.weixin.qq.com/miniprogram/dev/index.html</a></p>
+<p>这里有个坑，微信公众平台和微信公众号需要两个不同的邮箱注册，坑爹的是如果你用同一个邮箱注册也能注册成功，但是以后你就永远也进不了小程序的管理界面了。</p>
+<h2 id="header-1-2">开发工具</h2>
+<p>下载开发者工具：<a href="https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html?t=2018428" target="_blank">https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html?t=2018428</a>，用小程序ID创建一个 Hello World，很容易的就跑起来了。</p>
+<h2 id="header-1-3">数据库接入</h2>
+<p>如果只是展示一些静态页面上面的操作很简单，如果要接入动态数据就需要多费些手脚了，好在腾讯提供了不少基础设施，在开发阶段不需要购买服务，想上线的话半年400人民币。</p>
+<p>接入文档：<a href="https://developers.weixin.qq.com/miniprogram/dev/qcloud/qcloud.html" target="_blank">https://developers.weixin.qq.com/miniprogram/dev/qcloud/qcloud.html</a></p>
+<h2 id="header-1-4">测试体验</h2>
+<p>需要一个功能比较完整的程序才成发布测试，否则审核不给过。如果是小范围内固定几个人的测试，有一个变通的办法，把这几个人设置成开发人员不需要发布就可以看到。</p>
+
+</div>
+</body>
+</html>
