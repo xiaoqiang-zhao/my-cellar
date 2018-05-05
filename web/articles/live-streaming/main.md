@@ -37,5 +37,3 @@
 watchpeoplecode 在国内用不流畅：http://www.watchpeoplecode.com/
 
 在线教育，需要注册，注册需要翻墙: https://www.liveedu.tv
-
-
