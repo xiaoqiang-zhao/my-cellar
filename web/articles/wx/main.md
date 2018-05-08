@@ -20,9 +20,17 @@
 
 接入文档：https://developers.weixin.qq.com/miniprogram/dev/qcloud/qcloud.html
 
-
-
 ## 测试体验
 
 需要一个功能比较完整的程序才成发布测试，否则审核不给过。如果是小范围内固定几个人的测试，有一个变通的办法，把这几个人设置成开发人员不需要发布就可以看到。
+
+## 功能点简要整理
+
+### 定制
+
+*顶部 bar*
+
+顶部 bar 的颜色可以定制，不可以在左侧加图标和按钮。详情见此文档：https://developers.weixin.qq.com/miniprogram/dev/framework/config.html。
+
+右侧的更多按钮下拉列表不可以定制，只有“转发|关于|取消”三个按钮，其中的转发可以配置回调函数，转发小程序或者转发小程序中的某个页面。
 
