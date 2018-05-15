@@ -68,6 +68,9 @@ routes: [
 router.get('/users', function (req, res, next) {
     //...
 });
+router.get('/users/:id', function (req, res, next) {
+    //...
+});
 ```
 
 所以需要注意后端的数据接口和页面接口一定不能相同，比较好的办法是给数据接口加统一的前缀(比如 /api 是官方示例给的方案)。
@@ -75,19 +78,20 @@ router.get('/users', function (req, res, next) {
 第二个是拼 html 层面，`nuxt.config.js` 代替了原来的 `index.html`，同时 webpack 中的一些配置也移到了这个文件中，然后 layouts 下放全局的导航和版权之类的信息，`<nuxt/>` 作为同构的标识点，nuxt 内部是这样处理的：
 
 ```js
-const renderer = require('vue-server-renderer').createRenderer();
 // 定义一个 vue 组件
 const app = new Vue({
-  // 读取数据库数据
+  // 读取数据
   async asyncData () {
     let { data } = await axios.get('/api/users')
     return { users: data }
   },
+  // ...
   data: {
     url: req.url
   },
   template: `<div>Hello world.</div>`
 });
+const renderer = require('vue-server-renderer').createRenderer();
 renderer.renderToString(app, (err, html) => {
   // 其中的 html 就是我们页面需要的 html 片段
   // 其中不包含公共部分，将上面的 html 片段放在页面中是由 nuxt 来做的
