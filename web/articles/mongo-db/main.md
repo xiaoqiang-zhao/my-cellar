@@ -454,3 +454,7 @@ model 方法将 Schema 编译为 Model，model 方法的第一个参数决定 Co
 Community Server， 社区版，比企业版少一些高级功能
 
 Enterprise Server， 企业版，功能最全，免费
+
+## 扩展阅读
+
+[让node.js高效操作mongodb](https://blog.csdn.net/lydiacheung/article/details/52797956)

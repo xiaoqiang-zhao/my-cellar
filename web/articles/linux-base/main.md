@@ -753,3 +753,5 @@ lsof -i tcp:9999
 [CentOS 官网](https://www.centos.org/)
 
 [Linux 版本选择](https://www.soosmart.com/topic/687.html)
+
+[Systemd 定时器教程](http://www.ruanyifeng.com/blog/2018/03/systemd-timer.html)

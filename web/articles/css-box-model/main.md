@@ -319,3 +319,5 @@ flex 定义在弹性布局子项的元素上，属性值有两组：
 [两个viewport的故事（第一部分）](http://weizhifeng.net/viewports.html)
 
 [两个viewport的故事（第二部分）](http://weizhifeng.net/viewports2.html)
+
+[flex布局踩过的那些坑](https://segmentfault.com/a/1190000006559564)
