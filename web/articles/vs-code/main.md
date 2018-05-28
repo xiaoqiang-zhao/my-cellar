@@ -1,4 +1,4 @@
-# Visual Studio Code 使用笔记
+# VS Code 使用笔记
 
 > Visual Studio Code 大有后来居上超过 WebStrom 的趋势，他的插件卡法方式实在太吸引人了。总的来说 vs 还 没有 ws 功能强大，但是很快这些确实的功能会补上。
 
@@ -106,6 +106,8 @@ https://hao5743.github.io/2016/12/26/vscode%E4%B8%ADbeautifyrc%E6%8F%92%E4%BB%B6
     // export NODE_PATH=/usr/local/lib/node_modules
 
 然后重启 VS Code，是彻底退出，是彻底退出，是彻底退出，不是只重启当前项目。
+
+如果有的项目采用了不同的编码规范，可以找到插件然后 disable workspace，就可以在此项目中禁用 FECS 的代码格式检测。
 
 参考：https://github.com/l5oo00/vscode-fecs-plugin/issues/4#issuecomment-312411535
 
