@@ -33,3 +33,7 @@
 顶部 bar 的颜色可以定制，不可以在左侧加图标和按钮。详情见此文档：https://developers.weixin.qq.com/miniprogram/dev/framework/config.html。
 
 右侧的更多按钮下拉列表不可以定制，只有“转发|关于|取消”三个按钮，其中的转发可以配置回调函数，转发小程序或者转发小程序中的某个页面。
+
+## 参考
+
+[开发者社区](https://developers.weixin.qq.com/home?)

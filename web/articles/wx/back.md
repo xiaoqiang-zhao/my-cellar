@@ -48,7 +48,7 @@ this.setData({
 
 也没有提供像 Vue 中动态 class 语法，需要在标签上直接写大括号语法
 
-````css
+````html
 <div class="item {{actived ? 'actived' : ''}}">
 </div>
 ````
@@ -89,6 +89,161 @@ toPage(event) {
 
 更多内容可以参见官方文档：https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html
 
+## 自定义弹框
+
+微信小程序提供的弹框太简单，`wx.showModal` 的功能和浏览器自带的 `confirm`差不多，承载不了输入点击等交互逻辑，微信小程序的前端部分没有 npm 机制，只能自己封装组件，所以有必要封装一个自定义弹框。
+
+先了解一下组件的相关内容，小程序的语法和 Vue 特别像，组件也和 Vue 比较像，所以组件和页面的逻辑基本一样，很庆幸小程序组件支持了 slot 特性，这让我们能做许多事情。下面我们将怎样一步步创建一个弹窗组件，如果你不想了解这部分内容那也没关系，直接跳过到下面的 API 部分直接查看用法。
+
+### 创建弹框组件
+
+**Step 1:**
+
+首先是新建目录，一般我们将组件放在 `components` 下，然后给这个组件起名叫 `dialog`，创建同名文件夹，如果你用的是小程序开发工具，直接在 `dialog` 文件夹上右击就可以看到创建组件的选项，点击后需要输入名称，我们直接输入 `index` 确定后就可以创建出 4 个文件：index.js、index.json、index.wxml、index.wxss。一个组件已经创建完成了，我们这时可以将其引入到页面中查看效果。
+
+怎么引入呢？首先需要在页面文件夹中添加一个 `index.json` 文件，在里面添加配置：
+
+````json
+{
+  "usingComponents": {
+    "dialog": "/components/dialog/index"
+  }
+}
+````
+
+然后在页面中就可以直接使用标签 `dialog` 将组件引入到页面中了，效果如下：
+
+图：component-1.png
+
+**Step 2:**
+
+然后我们来实现插入 slot 和组件与页面的事件交互两个功能，具体就是采用 slot 的方式放入一个按钮点击这个按钮让组件消失。
+
+现在组件的 xwml 文件中插入 slot 标签：
+
+````html
+<article class="dialog">
+    dialog
+    <slot/>
+</article>
+````
+
+然后是组件的显隐功能(也就是弹框的打开和关闭功能)，官方组件的显隐通过 hidden 属性来控制，并将其定为公共属性，尽量和官方组件保持一致，在 properties 中添加属性：
+
+````js
+properties: {
+  // 是否展示
+  hidden: {
+    type: Boolean,
+    value: true
+  }
+}
+````
+将组件更新到上面的 Dom 片段中
+````html
+<article class="dialog" wx:if="{{!hidden}}">
+  dialog
+  <slot/>
+</article>
+````
+
+然后在业务页面中调用该组件：
+
+````html
+<button bindtap="openDialog">打开弹窗</button>
+<dialog hidden="{{hidden}}" class="someone-page-dialog">
+  <input placeholder="这里可以输入"/>
+  <button bindtap="closeDialog">确定</button>
+</dialog>
+````
+
+其中 isShowDialog 是业务页面中定义的数据， openDialog 和 closeDialog 是业务页面中定义的方法用来修改 isShowDialog 的值，如下面代码。class 是原生支持的，不需要自己开发。
+
+````js
+// 打开弹框
+openDialog() {
+  this.setData({
+    hidden: false
+  });
+}
+````
+
+**Step 3:**
+
+在组件自定义 API 方面可以完全照抄 wx.showModal，连文档都省得写了，直接给个链接: https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowmodalobject
+
+在动手写代码之前需要讲清楚组件属性的交互原则，主要是三条，下面通过实际的例子来说明：
+
+一、父组件可以通过 setData 修改子组件的属性；
+
+````html
+<!-- 父组件/业务页面 中  -->
+<dialog hidden="{{!isShowDialog}}" class="index-dialog">
+  <input placeholder="这里可以输入"/>
+</dialog>
+<!-- 组件中 -->
+<article class="dialog" wx:if="{{!hidden}}">
+  <slot/>
+</article>
+````
+
+父组件可以通过下面代码开打开弹框
+
+````js
+this.setData({
+  isShowDialog: true
+});
+````
+
+二、子组件可以修改自己的属性，并且修改后不会影响父组；
+
+````html
+<!-- 组件中 -->
+<article class="dialog" wx:if="{{!hidden}}">
+  <button bindtap="close">关闭弹框</button>
+  <slot/>
+</article>
+````
+````js
+// 组件中
+methods: {
+  close() {
+    this.setData({
+      hidden: true
+    });
+  }
+}
+````
+
+组件总可以通过改变属性 hidden 来关闭弹框，但是父组件中的 hidden 并不会随着修改。这一点也有别于 Vue，Vue 是不容许组件修改对外属性的。
+
+三、父组件再次自己的数据，子组件让然可以相应。
+
+上面例子中子组件的 hidden 是 true 父组件的 hidden 是 false，但如果父组件执行
+
+````js
+this.setData({
+  hidden: false
+});
+````
+
+依然可以打开弹框，这一点也有别于 Vue，Vue 中如果值在赋值前和赋值后一样，那么不会产生影响，但在小程序中父组件修改数据是会影响子组件的。
+
+有了上面的知识储备终于可以实现我们的组件了，
+
+
+**附注：**
+
+默认情况下，一个组件的 wxml 中只能有一个 slot。需要使用多个 slot 时，可以在组件 js 中声明启用。
+
+````js
+Component({
+  options: {
+    multipleSlots: true // 在组件定义时的选项中启用多slot支持
+  }
+})
+````
+
 ## 坑
 
 ### textarea-placeholder
@@ -96,3 +251,9 @@ toPage(event) {
 textarea 如果设置了行高就可能出现占位文字和输入文字不在一行的问题，试图通过布局样式解决，发现textarea 的 placeholder 的布局样式设置不起作用，包括 position、padding、margin 还有 line-height，从架构设计的角度看不可设置也能理解，但是行高只作用于输入文字却不作用于占位文字就不应该了，目测是微信小程序的 bug。
 
 最好的解决方案是不设置行高，如果非要设置行高那就需要通过事件监听用 js 切换样式了。
+
+## 参考
+
+[微信小程序官方文档 - 自定义组件](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/wxml-wxss.html)
+
+[博客 - 微信小程序之自定义模态弹窗](https://blog.csdn.net/michael_ouyang/article/details/62430905)
