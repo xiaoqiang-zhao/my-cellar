@@ -127,8 +127,12 @@ bash aaa
 ```bash
 # 压缩，使用不同的参数采用相应的压缩算法
 tar -jcv -f a.tar.bz2    a
+tar -zcv -f a.tar.gz     a
             压缩后的名称   被压缩的文件夹
+# zip 命令压缩文件
 zip a.zip a
+# zip 命令压缩文件夹
+zip -r ./a.zip ./a/*
 # 解压到当前文件夹
 tar -jxv -f a.tar.bz2 -C ./
 tar -zxv -f a.tar.gz -C ./

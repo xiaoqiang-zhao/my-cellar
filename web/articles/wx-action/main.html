@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>微信小程序实战篇 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">微信小程序实战篇</h1>
+<blockquote>
+<p>记录一些微信小程序开发遇到的问题和解决方案。</p>
+</blockquote>
+<h2 id="header-1-1">iconfont</h2>
+<p>一个项目中免不了要有图标，但微信小程序不支持引入字体文件，需要通过工具将字体文件转成 base64 后直接写进样式文件，<a href="https://www.jianshu.com/p/221bebfae266" target="_blank">参考文章</a>。</p>
+<p>转 base 64 工具：<a href="https://transfonter.org/" target="_blank">https://transfonter.org/</a></p>
+<h2 id="header-1-2">双向绑定</h2>
+<p>微信小程序中的 data 并不是双向绑定的，如果想触发页面上的更新，需要用 setData 方法触发。</p>
+<pre><code class="lang-js">this.setData({
+    isActivedSearch: true
+});
+</code></pre>
+<h2 id="header-1-3">样式 class 的增删</h2>
+<p>也没有提供像 Vue 中动态 class 语法，需要在标签上直接写大括号语法</p>
+<pre><code class="lang-html">&lt;div class=&quot;item {{actived ? &#39;actived&#39; : &#39;&#39;}}&quot;&gt;
+&lt;/div&gt;
+</code></pre>
+<h2 id="header-1-4">图片</h2>
+<p>微信小程序限制不超过 2M，有 2-3 张高清 banner 图就超过限制了，租用图片服务器是最直接的方式，但是我发现了一个更省钱的方式，将图片上传到公众号的素材管理中，可以直接使用先上图片。我猜图片存储是腾讯的基础设施，腾讯内部不同应用之间不会触发防盗链。</p>
+<p>图片组件功能比较完善，支持 4 种缩放模式 3 中裁剪模式。比如我喜欢的 <code>aspectFit</code> 缩放模式：保持纵横比缩放图片，使图片的长边能完全显示出来。也就是说，可以完整地将图片显示出来。</p>
+<h2 id="header-1-5">固定比例</h2>
+<p>纯用样式实现固定比例是不可以的，比如我要画一个黄金比例的 textarea，需要借助 js 来计算，获取窗口宽度。</p>
+<pre><code class="lang-js">wx.getSystemInfoSync().windowWidth
+</code></pre>
+<h2 id="header-1-6">列表渲染和事件传值</h2>
+<p>给列表绑定事件的时候怎么获取当前项的数据呢，文档中并没有</p>
+<p>WXML: </p>
+<pre><code class="lang-html">&lt;article class=&quot;item&quot; wx:for=&quot;{{dataList}}&quot; wx:key=&quot;id&quot;&gt;
+  &lt;image bindtap=&quot;toPage&quot; data-id=&quot;{{item.id}}&quot; src=&quot;{{item.url}}&quot;/&gt;
+&lt;/article&gt;
+</code></pre>
+<p>JS: </p>
+<pre><code class="lang-js">toPage(event) {
+  const id = event.currentTarget.dataset.id;
+  wx.navigateTo({
+    url: &#39;/pages/stager-detail/index?stagerId=&#39; + id
+  });
+}
+</code></pre>
+<p>更多内容可以参见官方文档：<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html" target="_blank">https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html</a></p>
+<h2 id="header-1-7">自定义弹框</h2>
+<p>微信小程序提供的弹框太简单，<code>wx.showModal</code> 的功能和浏览器自带的 <code>confirm</code>差不多，承载不了输入点击等交互逻辑，微信小程序的前端部分没有 npm 机制，只能自己封装组件，所以有必要封装一个自定义弹框。</p>
+<p>先了解一下组件的相关内容，小程序的语法和 Vue 特别像，组件也和 Vue 比较像，所以组件和页面的逻辑基本一样，很庆幸小程序组件支持了 slot 特性，这让我们能做许多事情。下面我们将怎样一步步创建一个弹窗组件，如果你不想了解这部分内容那也没关系，直接跳过到下面的 API 部分直接查看用法。</p>
+<h3 id="header-1-7-1">创建组件</h3>
+<p>首先是新建目录，一般我们将组件放在 <code>components</code> 下，然后给这个组件起名叫 <code>dialog</code>，创建同名文件夹，如果你用的是小程序开发工具，直接在 <code>dialog</code> 文件夹上右击就可以看到创建组件的选项，点击后需要输入名称，我们直接输入 <code>index</code> 确定后就可以创建出 4 个文件：index.js、index.json、index.wxml、index.wxss。一个组件已经创建完成了，我们这时可以将其引入到页面中查看效果。</p>
+<p>怎么引入呢？首先需要在页面文件夹中添加一个 <code>index.json</code> 文件，在里面添加配置：</p>
+<pre><code class="lang-json">{
+  &quot;usingComponents&quot;: {
+    &quot;dialog&quot;: &quot;/components/dialog/index&quot;
+  }
+}
+</code></pre>
+<p>然后在页面中就可以直接使用标签 <code>dialog</code> 将组件引入到页面中了，效果如下：</p>
+<p>图：component-1.png</p>
+<h3 id="header-1-7-2">组件的 slot</h3>
+<p>然后我们来实现插入 slot 和组件与页面的事件交互两个功能，具体就是采用 slot 的方式放入一个按钮点击这个按钮让组件消失。</p>
+<p>现在组件的 xwml 文件中插入 slot 标签：</p>
+<pre><code class="lang-html">&lt;article class=&quot;dialog&quot;&gt;
+    dialog
+    &lt;slot/&gt;
+&lt;/article&gt;
+</code></pre>
+<p>然后是组件的显隐功能(也就是弹框的打开和关闭功能)，官方组件的显隐通过 hidden 属性来控制，并将其定为公共属性，尽量和官方组件保持一致，在 properties 中添加属性：</p>
+<pre><code class="lang-js">properties: {
+  // 是否展示
+  hidden: {
+    type: Boolean,
+    value: true
+  }
+}
+</code></pre>
+<p>将组件更新到上面的 Dom 片段中</p>
+<pre><code class="lang-html">&lt;article class=&quot;dialog&quot; wx:if=&quot;{{!hidden}}&quot;&gt;
+  dialog
+  &lt;slot/&gt;
+&lt;/article&gt;
+</code></pre>
+<p>然后在业务页面中调用该组件：</p>
+<pre><code class="lang-html">&lt;button bindtap=&quot;openDialog&quot;&gt;打开弹窗&lt;/button&gt;
+&lt;dialog hidden=&quot;{{hidden}}&quot; class=&quot;someone-page-dialog&quot;&gt;
+  &lt;input placeholder=&quot;这里可以输入&quot;/&gt;
+  &lt;button bindtap=&quot;closeDialog&quot;&gt;确定&lt;/button&gt;
+&lt;/dialog&gt;
+</code></pre>
+<p>其中 isShowDialog 是业务页面中定义的数据， openDialog 和 closeDialog 是业务页面中定义的方法用来修改 isShowDialog 的值，如下面代码。class 是原生支持的，不需要自己开发。</p>
+<pre><code class="lang-js">// 打开弹框
+openDialog() {
+  this.setData({
+    hidden: false
+  });
+}
+</code></pre>
+<p><strong>附注：</strong></p>
+<p>默认情况下，一个组件的 wxml 中只能有一个 slot。需要使用多个 slot 时，可以在组件 js 中声明启用。</p>
+<pre><code class="lang-js">Component({
+  options: {
+    multipleSlots: true // 在组件定义时的选项中启用多slot支持
+  }
+})
+</code></pre>
+<h3 id="header-1-7-3">父子组件数据交互原理</h3>
+<p>在组件自定义 API 方面可以完全照抄 wx.showModal，连文档都省得写了，直接给个链接: <a href="https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowmodalobject" target="_blank">https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowmodalobject</a></p>
+<p>在动手写代码之前需要讲清楚组件属性的交互原则，主要是三条，下面通过实际的例子来说明：</p>
+<p>一、父组件可以通过 setData 修改子组件的属性；</p>
+<pre><code class="lang-html">&lt;!-- 父组件/业务页面 中  --&gt;
+&lt;dialog hidden=&quot;{{!isShowDialog}}&quot; class=&quot;index-dialog&quot;&gt;
+  &lt;input placeholder=&quot;这里可以输入&quot;/&gt;
+&lt;/dialog&gt;
+&lt;!-- 组件中 --&gt;
+&lt;article class=&quot;dialog&quot; wx:if=&quot;{{!hidden}}&quot;&gt;
+  &lt;slot/&gt;
+&lt;/article&gt;
+</code></pre>
+<p>父组件可以通过下面代码开打开弹框</p>
+<pre><code class="lang-js">this.setData({
+  isShowDialog: true
+});
+</code></pre>
+<p>二、子组件可以修改自己的属性，并且修改后不会影响父组；</p>
+<pre><code class="lang-html">&lt;!-- 组件中 --&gt;
+&lt;article class=&quot;dialog&quot; wx:if=&quot;{{!hidden}}&quot;&gt;
+  &lt;button bindtap=&quot;close&quot;&gt;关闭弹框&lt;/button&gt;
+  &lt;slot/&gt;
+&lt;/article&gt;
+</code></pre>
+<pre><code class="lang-js">// 组件中
+methods: {
+  close() {
+    this.setData({
+      hidden: true
+    });
+  }
+}
+</code></pre>
+<p>组件总可以通过改变属性 hidden 来关闭弹框，但是父组件中的 hidden 并不会随着修改。这一点也有别于 Vue，Vue 是不容许组件修改对外属性的。</p>
+<p>三、父组件再次自己的数据，子组件让然可以相应。</p>
+<p>上面例子中子组件的 hidden 是 true 父组件的 hidden 是 false，但如果父组件执行</p>
+<pre><code class="lang-js">this.setData({
+  hidden: false
+});
+</code></pre>
+<p>依然可以打开弹框，这一点也有别于 Vue，Vue 中如果值在赋值前和赋值后一样，那么不会产生影响，但在小程序中父组件修改数据是会影响子组件的。</p>
+<p>有了上面的知识储备终于可以实现我们的组件了，</p>
+<h3 id="header-1-7-4">父子组件数据交互实现</h3>
+<h2 id="header-1-8">#</h2>
+<h2 id="header-1-9">坑</h2>
+<h3 id="header-1-9-1">textarea-placeholder</h3>
+<p>textarea 如果设置了行高就可能出现占位文字和输入文字不在一行的问题，试图通过布局样式解决，发现textarea 的 placeholder 的布局样式设置不起作用，包括 position、padding、margin 还有 line-height，从架构设计的角度看不可设置也能理解，但是行高只作用于输入文字却不作用于占位文字就不应该了，目测是微信小程序的 bug。</p>
+<p>最好的解决方案是不设置行高，如果非要设置行高那就需要通过事件监听用 js 切换样式了。</p>
+<h2 id="header-1-10">参考</h2>
+<p><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/wxml-wxss.html" target="_blank">微信小程序官方文档 - 自定义组件</a></p>
+<p><a href="https://blog.csdn.net/michael_ouyang/article/details/62430905" target="_blank">博客 - 微信小程序之自定义模态弹窗</a></p>
+
+</div>
+</body>
+</html>

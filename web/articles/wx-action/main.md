@@ -1,36 +1,10 @@
-# 素材
+# 微信小程序实战篇
 
-## 屏幕分辨率研究
-
-rpx（responsive pixel）: 可以根据屏幕宽度进行自适应。规定屏幕宽为750rpx。如在 iPhone6 上，屏幕宽度为375px，共有750个物理像素，则750rpx = 375px = 750物理像素，1rpx = 0.5px = 1物理像素。
-
-iPhone5      320  Dpr:2   1px = 2.34rpx
-
-iPhone6      375  Dpr:2   1px = 2rpx
-
-iPhone6 Plus 414  Dpr:3   1px = 1.81rpx
-
-iPhone7      375  Dpr:2   1px =  2rpx
-
-iPhone7 Plus 414  Dpr:3   1px = 1.81rpx
-
-iPhone8      375  Dpr:2   1px =  2rpx
-
-建议： 开发微信小程序时设计师可以用 iPhone6 作为视觉稿的标准。
-
-计算公式：(375/width)*Dpr，单位 rpx/px，width 表示设计稿的宽度除以Dpr
-
-ppi，每一英寸的像素数目。
-
-https://www.apple.com/cn/iphone-7/specs/
-
-https://www.jianshu.com/p/221bebfae266
-
-https://www.zhihu.com/question/25388683/answer/393230091
+> 记录一些微信小程序开发遇到的问题和解决方案。
 
 ## iconfont
 
-不支持引入字体文件，需要通过工具将字体文件转成 base64 后直接写进样式文件，[参考文章](https://www.jianshu.com/p/221bebfae266)。
+一个项目中免不了要有图标，但微信小程序不支持引入字体文件，需要通过工具将字体文件转成 base64 后直接写进样式文件，[参考文章](https://www.jianshu.com/p/221bebfae266)。
 
 转 base 64 工具：https://transfonter.org/
 
@@ -95,11 +69,17 @@ toPage(event) {
 
 先了解一下组件的相关内容，小程序的语法和 Vue 特别像，组件也和 Vue 比较像，所以组件和页面的逻辑基本一样，很庆幸小程序组件支持了 slot 特性，这让我们能做许多事情。下面我们将怎样一步步创建一个弹窗组件，如果你不想了解这部分内容那也没关系，直接跳过到下面的 API 部分直接查看用法。
 
-### 创建弹框组件
+### 创建组件
 
-**Step 1:**
+首先是新建目录，一般我们将组件放在 `components` 下，然后给这个组件起名叫 `dialog`，创建同名文件夹，如果你用的是小程序开发工具，直接在 `dialog` 文件夹上右击就可以看到创建组件的选项，点击后需要输入名称，我们直接输入 `index` 确定后就可以创建出 4 个文件：index.js、index.json、index.wxml、index.wxss。在 index.wxml 中写入内容：
 
-首先是新建目录，一般我们将组件放在 `components` 下，然后给这个组件起名叫 `dialog`，创建同名文件夹，如果你用的是小程序开发工具，直接在 `dialog` 文件夹上右击就可以看到创建组件的选项，点击后需要输入名称，我们直接输入 `index` 确定后就可以创建出 4 个文件：index.js、index.json、index.wxml、index.wxss。一个组件已经创建完成了，我们这时可以将其引入到页面中查看效果。
+````html
+<article>
+  dialog
+</article>
+````
+
+一个组件已经创建完成了，我们这时可以将其引入到页面中查看效果。
 
 怎么引入呢？首先需要在页面文件夹中添加一个 `index.json` 文件，在里面添加配置：
 
@@ -113,9 +93,9 @@ toPage(event) {
 
 然后在页面中就可以直接使用标签 `dialog` 将组件引入到页面中了，效果如下：
 
-图：component-1.png
+![图片](/articles/wx-action/img/component-1.png)
 
-**Step 2:**
+### 组件的 slot
 
 然后我们来实现插入 slot 和组件与页面的事件交互两个功能，具体就是采用 slot 的方式放入一个按钮点击这个按钮让组件消失。
 
@@ -168,7 +148,27 @@ openDialog() {
 }
 ````
 
-**Step 3:**
+未打开弹框：
+
+![图片](/articles/wx-action/img/component-2.png)
+
+打开弹框：
+
+![图片](/articles/wx-action/img/component-3.png)
+
+**附注：**
+
+默认情况下，一个组件的 wxml 中只能有一个 slot。需要使用多个 slot 时，可以在组件 js 中声明启用。
+
+````js
+Component({
+  options: {
+    multipleSlots: true // 在组件定义时的选项中启用多slot支持
+  }
+})
+````
+
+### 父子组件数据交互原理
 
 在组件自定义 API 方面可以完全照抄 wx.showModal，连文档都省得写了，直接给个链接: https://developers.weixin.qq.com/miniprogram/dev/api/api-react.html#wxshowmodalobject
 
@@ -231,18 +231,18 @@ this.setData({
 
 有了上面的知识储备终于可以实现我们的组件了，
 
+### 父子组件数据交互实现
 
-**附注：**
+上面显隐的控制基本已完成这里不赘述，加上标题和按钮，样式要和原生保持一致，我们依然以 wx.showModal 作为参考：
 
-默认情况下，一个组件的 wxml 中只能有一个 slot。需要使用多个 slot 时，可以在组件 js 中声明启用。
+首先是 wxml：
 
-````js
-Component({
-  options: {
-    multipleSlots: true // 在组件定义时的选项中启用多slot支持
-  }
-})
+````html
+
 ````
+
+###
+
 
 ## 坑
 

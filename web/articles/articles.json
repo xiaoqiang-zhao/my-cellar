@@ -120,6 +120,18 @@
     "todoList": []
   },
   {
+    "enName": "blog",
+    "title": "小强赵博客开发记要",
+    "introduction": "未找到描述信息",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1527729823207,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "browser-tab",
     "title": "浏览器 Tab 之间的交互",
     "introduction": "为满足一个奇葩的需求。",
@@ -869,6 +881,18 @@
     "todoList": []
   },
   {
+    "enName": "nginx",
+    "title": "Nginx 学习笔记",
+    "introduction": "要做点东西，做技术选型的时候看了一些前人的经验，结论是用 Nginx 比较合适，但是我没用过怎么办，学呗，来一起!",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1527729823287,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "node",
     "title": "node开发纪要",
     "introduction": "开发 node 程序有一些必须掌握的技巧，这里收集一些我遇到的问题和解决方案。",
@@ -1188,7 +1212,7 @@
   },
   {
     "enName": "vs-code",
-    "title": "Visual Studio Code 使用笔记",
+    "title": "VS Code 使用笔记",
     "introduction": "Visual Studio Code 大有后来居上超过 WebStrom 的趋势，他的插件卡法方式实在太吸引人了。总的来说 vs 还 没有 ws 功能强大，但是很快这些确实的功能会补上。",
     "tags": [],
     "isPublished": false,
@@ -1260,6 +1284,18 @@
     "todoList": []
   },
   {
+    "enName": "wd",
+    "title": "微信订阅号",
+    "introduction": "微信为互联网生态提供的 4 大基础设施：订阅号、服务号、小程序、企业微信。这一篇来了解一下订阅号的开发。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1527729823346,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "webpack",
     "title": "webpack",
     "introduction": "我们从简单到复杂通过一个一个的例子来学习 webpack，所有实例都可以在我的 github 上下载到源码。",
@@ -1298,6 +1334,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1525449421074,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "wx-action",
+    "title": "微信小程序实战篇",
+    "introduction": "记录一些微信小程序开发遇到的问题和解决方案。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1527729823353,
     "commentList": [],
     "todoList": []
   },

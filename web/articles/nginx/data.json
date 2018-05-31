@@ -1,0 +1,12 @@
+{
+  "enName": "nginx",
+  "title": "Nginx 学习笔记",
+  "introduction": "要做点东西，做技术选型的时候看了一些前人的经验，结论是用 Nginx 比较合适，但是我没用过怎么办，学呗，来一起!",
+  "tags": [],
+  "isPublished": false,
+  "state": "立项",
+  "type": "md",
+  "createDate": 1527729823287,
+  "commentList": [],
+  "todoList": []
+}
