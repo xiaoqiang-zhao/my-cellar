@@ -235,14 +235,178 @@ this.setData({
 
 上面显隐的控制基本已完成这里不赘述，加上标题和按钮，样式要和原生保持一致，我们依然以 wx.showModal 作为参考：
 
-首先是 wxml：
+首先是 js:
 
-````html
+````js
+Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+    // 标题 【必填字段】
+    title: {
+      type: String,
+      value: '提示'
+    },
+    // 是否展示
+    hidden: {
+      type: Boolean,
+      value: true
+    },
+    showCancel: {
+      type: Boolean,
+      value: true
+    },
+    cancelText: {
+      type: String,
+      value: '取消'
+    },
+    cancelColor: {
+      type: String,
+      value: '#000000'
+    },
+    showConfirm: {
+      type: Boolean,
+      value: true
+    },
+    confirmText: {
+      type: String,
+      value: '确定'
+    },
+    confirmColor: {
+      type: String,
+      value: '#3CC51F'
+    },
+    success: {
+      type: Function,
+      value: () => {}
+    },
+    fail: {
+      type: Function,
+      value: () => {}
+    },
+    complete: {
+      type: Function,
+      value: () => {}
+    }
+  },
 
+  /**
+   * 组件的初始数据
+   */
+  data: {
+
+  },
+
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    close() {
+      this.setData({
+        hidden: true
+      });
+    },
+    // 取消按钮事件
+    cancel() {
+      this.fail();
+      this.complete();
+      this.close();
+    },
+    // 确认按钮事件
+    confirm() {
+      if (this.success() === false) {
+        return;
+      }
+
+      this.complete();
+      this.close();
+    }
+  }
+});
 ````
 
-###
+然后是 wxml：
 
+````html
+<section class="mask" wx:if="{{!hidden}}"></section>
+<article class="dialog" wx:if="{{!hidden}}">
+  <header class="dialog-title">{{title}}</header>
+  <section class="dialog-body">
+    <slot/>
+  </section>
+  <footer class="dialog-bottom-btns" wx:if="{{showCancel||showConfirm}}">
+    <button plain="true"
+            wx:if="{{showCancel}}"
+            class="btn cancel-btn"
+            style="color: {{cancelColor}}"
+            bindtap="cancel">取消</button>
+    <button plain="true"
+            wx:if="{{showConfirm}}"
+            class="btn confirm-btn"
+            style="color: {{confirmColor}}"
+            bindtap="confirm">确定</button>
+  </footer>
+</article>
+````
+
+最后是 wxss
+
+````CSS
+.mask {  
+  width: 100%;  
+  height: 100%;  
+  position: fixed;  
+  top: 0;  
+  left: 0;  
+  z-index: 100;  
+  background: #000;  
+  opacity: 0.5;  
+  overflow: hidden;  
+}
+
+.dialog {
+  width: 650rpx;
+  overflow: hidden;
+  position: fixed;
+  top: 50%;
+  left: 0;
+  z-index: 101;
+  background: #FAFAFA;
+  margin: -150px 50rpx 0 50rpx;
+  border-radius: 3px;
+}
+
+.dialog .dialog-title {
+  display: block;
+  text-align: center;
+  font-size: 18px;
+  line-height: 4em;
+  font-weight: 600;
+}
+
+.dialog .dialog-body {
+  text-align: center;
+  /* background: #333; */
+}
+
+.dialog .dialog-bottom-btns {
+  display: flex;
+  border-top: 1rpx solid #dddbde;
+}
+
+.dialog .dialog-bottom-btns .cancel-btn,
+.dialog .dialog-bottom-btns .confirm-btn {
+  flex: 1;
+  border: none;
+  border-radius: 0;
+}
+
+/* 第二个按钮左边框 */
+.dialog .dialog-bottom-btns .btn:nth-child(2n) {
+   border-left: 1rpx solid #dddbde; 
+}
+````
 
 ## 坑
 
