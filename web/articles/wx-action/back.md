@@ -27,3 +27,10 @@ https://www.apple.com/cn/iphone-7/specs/
 https://www.jianshu.com/p/221bebfae266
 
 https://www.zhihu.com/question/25388683/answer/393230091
+
+## 草稿
+
+系统默认字段
+
+https://developers.weixin.qq.com/miniprogram/analysis/custom/#%E4%BA%8B%E4%BB%B6%E5%8F%8A%E5%85%B6%E5%AD%97%E6%AE%B5
+
