@@ -59,11 +59,16 @@
 }
 </code></pre>
 <p>更多内容可以参见官方文档：<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html" target="_blank">https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html</a></p>
-<h2 id="header-1-7">自定义弹框</h2>
+<h2 id="header-1-7">自定义组件 - 弹框</h2>
 <p>微信小程序提供的弹框太简单，<code>wx.showModal</code> 的功能和浏览器自带的 <code>confirm</code>差不多，承载不了输入点击等交互逻辑，微信小程序的前端部分没有 npm 机制，只能自己封装组件，所以有必要封装一个自定义弹框。</p>
 <p>先了解一下组件的相关内容，小程序的语法和 Vue 特别像，组件也和 Vue 比较像，所以组件和页面的逻辑基本一样，很庆幸小程序组件支持了 slot 特性，这让我们能做许多事情。下面我们将怎样一步步创建一个弹窗组件，如果你不想了解这部分内容那也没关系，直接跳过到下面的 API 部分直接查看用法。</p>
 <h3 id="header-1-7-1">创建组件</h3>
-<p>首先是新建目录，一般我们将组件放在 <code>components</code> 下，然后给这个组件起名叫 <code>dialog</code>，创建同名文件夹，如果你用的是小程序开发工具，直接在 <code>dialog</code> 文件夹上右击就可以看到创建组件的选项，点击后需要输入名称，我们直接输入 <code>index</code> 确定后就可以创建出 4 个文件：index.js、index.json、index.wxml、index.wxss。一个组件已经创建完成了，我们这时可以将其引入到页面中查看效果。</p>
+<p>首先是新建目录，一般我们将组件放在 <code>components</code> 下，然后给这个组件起名叫 <code>dialog</code>，创建同名文件夹，如果你用的是小程序开发工具，直接在 <code>dialog</code> 文件夹上右击就可以看到创建组件的选项，点击后需要输入名称，我们直接输入 <code>index</code> 确定后就可以创建出 4 个文件：index.js、index.json、index.wxml、index.wxss。在 index.wxml 中写入内容：</p>
+<pre><code class="lang-html">&lt;article&gt;
+  dialog
+&lt;/article&gt;
+</code></pre>
+<p>一个组件已经创建完成了，我们这时可以将其引入到页面中查看效果。</p>
 <p>怎么引入呢？首先需要在页面文件夹中添加一个 <code>index.json</code> 文件，在里面添加配置：</p>
 <pre><code class="lang-json">{
   &quot;usingComponents&quot;: {
@@ -72,7 +77,7 @@
 }
 </code></pre>
 <p>然后在页面中就可以直接使用标签 <code>dialog</code> 将组件引入到页面中了，效果如下：</p>
-<p>图：component-1.png</p>
+<p><img src="/articles/wx-action/img/component-1.png" alt="图片"></p>
 <h3 id="header-1-7-2">组件的 slot</h3>
 <p>然后我们来实现插入 slot 和组件与页面的事件交互两个功能，具体就是采用 slot 的方式放入一个按钮点击这个按钮让组件消失。</p>
 <p>现在组件的 xwml 文件中插入 slot 标签：</p>
@@ -111,6 +116,10 @@ openDialog() {
   });
 }
 </code></pre>
+<p>未打开弹框：</p>
+<p><img src="/articles/wx-action/img/component-2.png" alt="图片"></p>
+<p>打开弹框：</p>
+<p><img src="/articles/wx-action/img/component-3.png" alt="图片"></p>
 <p><strong>附注：</strong></p>
 <p>默认情况下，一个组件的 wxml 中只能有一个 slot。需要使用多个 slot 时，可以在组件 js 中声明启用。</p>
 <pre><code class="lang-js">Component({
@@ -163,12 +172,186 @@ methods: {
 <p>依然可以打开弹框，这一点也有别于 Vue，Vue 中如果值在赋值前和赋值后一样，那么不会产生影响，但在小程序中父组件修改数据是会影响子组件的。</p>
 <p>有了上面的知识储备终于可以实现我们的组件了，</p>
 <h3 id="header-1-7-4">父子组件数据交互实现</h3>
-<h2 id="header-1-8">#</h2>
-<h2 id="header-1-9">坑</h2>
-<h3 id="header-1-9-1">textarea-placeholder</h3>
+<p>上面显隐的控制基本已完成这里不赘述，加上标题和按钮，样式要和原生保持一致，我们依然以 wx.showModal 作为参考：</p>
+<p>首先是 js:</p>
+<pre><code class="lang-js">Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+    // 标题 【必填字段】
+    title: {
+      type: String,
+      value: &#39;提示&#39;
+    },
+    // 是否展示
+    hidden: {
+      type: Boolean,
+      value: true
+    },
+    showCancel: {
+      type: Boolean,
+      value: true
+    },
+    cancelText: {
+      type: String,
+      value: &#39;取消&#39;
+    },
+    cancelColor: {
+      type: String,
+      value: &#39;#000000&#39;
+    },
+    showConfirm: {
+      type: Boolean,
+      value: true
+    },
+    confirmText: {
+      type: String,
+      value: &#39;确定&#39;
+    },
+    confirmColor: {
+      type: String,
+      value: &#39;#3CC51F&#39;
+    },
+    success: {
+      type: Function,
+      value: () =&gt; {}
+    },
+    fail: {
+      type: Function,
+      value: () =&gt; {}
+    },
+    complete: {
+      type: Function,
+      value: () =&gt; {}
+    }
+  },
+
+  /**
+   * 组件的初始数据
+   */
+  data: {
+
+  },
+
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    close() {
+      this.setData({
+        hidden: true
+      });
+    },
+    // 取消按钮事件
+    cancel() {
+      this.fail();
+      this.complete();
+      this.close();
+    },
+    // 确认按钮事件
+    confirm() {
+      if (this.success() === false) {
+        return;
+      }
+
+      this.complete();
+      this.close();
+    }
+  }
+});
+</code></pre>
+<p>然后是 wxml：</p>
+<pre><code class="lang-html">&lt;section class=&quot;mask&quot; wx:if=&quot;{{!hidden}}&quot;&gt;&lt;/section&gt;
+&lt;article class=&quot;dialog&quot; wx:if=&quot;{{!hidden}}&quot;&gt;
+  &lt;header class=&quot;dialog-title&quot;&gt;{{title}}&lt;/header&gt;
+  &lt;section class=&quot;dialog-body&quot;&gt;
+    &lt;slot/&gt;
+  &lt;/section&gt;
+  &lt;footer class=&quot;dialog-bottom-btns&quot; wx:if=&quot;{{showCancel||showConfirm}}&quot;&gt;
+    &lt;button plain=&quot;true&quot;
+            wx:if=&quot;{{showCancel}}&quot;
+            class=&quot;btn cancel-btn&quot;
+            style=&quot;color: {{cancelColor}}&quot;
+            bindtap=&quot;cancel&quot;&gt;取消&lt;/button&gt;
+    &lt;button plain=&quot;true&quot;
+            wx:if=&quot;{{showConfirm}}&quot;
+            class=&quot;btn confirm-btn&quot;
+            style=&quot;color: {{confirmColor}}&quot;
+            bindtap=&quot;confirm&quot;&gt;确定&lt;/button&gt;
+  &lt;/footer&gt;
+&lt;/article&gt;
+</code></pre>
+<p>最后是 wxss</p>
+<pre><code class="lang-CSS">.mask {  
+  width: 100%;  
+  height: 100%;  
+  position: fixed;  
+  top: 0;  
+  left: 0;  
+  z-index: 100;  
+  background: #000;  
+  opacity: 0.5;  
+  overflow: hidden;  
+}
+
+.dialog {
+  width: 650rpx;
+  overflow: hidden;
+  position: fixed;
+  top: 50%;
+  left: 0;
+  z-index: 101;
+  background: #FAFAFA;
+  margin: -150px 50rpx 0 50rpx;
+  border-radius: 3px;
+}
+
+.dialog .dialog-title {
+  display: block;
+  text-align: center;
+  font-size: 18px;
+  line-height: 4em;
+  font-weight: 600;
+}
+
+.dialog .dialog-body {
+  text-align: center;
+  /* background: #333; */
+}
+
+.dialog .dialog-bottom-btns {
+  display: flex;
+  border-top: 1rpx solid #dddbde;
+}
+
+.dialog .dialog-bottom-btns .cancel-btn,
+.dialog .dialog-bottom-btns .confirm-btn {
+  flex: 1;
+  border: none;
+  border-radius: 0;
+}
+
+/* 第二个按钮左边框 */
+.dialog .dialog-bottom-btns .btn:nth-child(2n) {
+   border-left: 1rpx solid #dddbde; 
+}
+</code></pre>
+<h2 id="header-1-8">运营数据</h2>
+<p>小程序发出去总要区统计一些东西，来验证自己的产品思路对不对，从而做出调整。常规的统计微信天然支持，比如页面的到达停留市场离开等。对于用户信息不一定要获取真实的用户名，微信提供了脱敏的 openid 来标识用户。</p>
+<p>对于个性化的需求，比如要记录搜索按钮的使用，需要用到自定义分析，</p>
+<h2 id="header-1-9">业务上的注意点</h2>
+<p>如果有社交属性，需要有公司实体，个人版的小程序是无法通过审核的。</p>
+<blockquote>
+<p>你好，贵方小程序涉及提供交友服务，交友属个人主体小程序未开放类目，建议申请企业主体小程序。</p>
+</blockquote>
+<p>上面是做一款“过来人”小程序是通过个人申请的反馈，这款小程序主打的功能是如果你想了解一件事情，找一个这方面有经验的人来咨询了解一下，这可能就是微信说的“交友服务”。后来找了个公司实体的公众号，花了 300RMB 做了认证才审核通过的。</p>
+<p>第一次审核需要的时间稍微久一些，官网说是一周，我们是实际用了 2 天。之后更新小程序过审就比较快了，大概 2-6 小时。审核通过后需要发布小程序，发布后大概半小时才能看到更新。</p>
+<h2 id="header-1-10">坑</h2>
+<h3 id="header-1-10-1">textarea-placeholder</h3>
 <p>textarea 如果设置了行高就可能出现占位文字和输入文字不在一行的问题，试图通过布局样式解决，发现textarea 的 placeholder 的布局样式设置不起作用，包括 position、padding、margin 还有 line-height，从架构设计的角度看不可设置也能理解，但是行高只作用于输入文字却不作用于占位文字就不应该了，目测是微信小程序的 bug。</p>
 <p>最好的解决方案是不设置行高，如果非要设置行高那就需要通过事件监听用 js 切换样式了。</p>
-<h2 id="header-1-10">参考</h2>
+<h2 id="header-1-11">参考</h2>
 <p><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/wxml-wxss.html" target="_blank">微信小程序官方文档 - 自定义组件</a></p>
 <p><a href="https://blog.csdn.net/michael_ouyang/article/details/62430905" target="_blank">博客 - 微信小程序之自定义模态弹窗</a></p>
 
