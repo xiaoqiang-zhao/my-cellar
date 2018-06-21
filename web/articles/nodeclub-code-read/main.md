@@ -20,17 +20,18 @@
 
 然后从入口开始抓主干往下看，第一个关键点：
 
+````js
     require('./models');
-
+````
 MongoDB 的连接和 Schema 定义都在这个模块下，具体内容不展开，接着往下看，第二一个关键点：
-
+````js
     var webRouter = require('./web_router');
-
+````
 页面的路由和接口路由的定义都在这里，有些入口作为普通用户是看不到的，比如这个：
-
+````js
     // 把某用户设为达人
     router.post('/user/set_star', auth.adminRequired, user.toggleStar);
-
+````
 那么问题来了怎么成为管理员呢，接着看源码发现用 config.js 里面配置的 admin 用户名注册用户就成为了管理员，管理员可以是多个。然后在 `/user/:username` 页中就能看到 “设为达人” 的按钮了。
 
 大概的流程就这么多，剩下的就是技术点了，下面挑几个说说。
