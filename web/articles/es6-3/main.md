@@ -324,6 +324,7 @@ Promise是异步编程的一种解决方案，比传统的解决方案——回�
 
 返回一个新的 Promise 实例，该实例的状态为rejected。
 
+```js
     var p = Promise.reject('出错了');
     // 等同于
     var p = new Promise((resolve, reject) => reject('出错了'))
@@ -332,6 +333,7 @@ Promise是异步编程的一种解决方案，比传统的解决方案——回�
       console.log(s)
     });
     // 出错了
+```
 
 ### .finally()
 
@@ -341,6 +343,7 @@ Promise是异步编程的一种解决方案，比传统的解决方案——回�
 
 Generator 和 Promise 处理异步还是不够直观，借助一些辅助函数可以方便一点，这里略去这些辅助函数的原理和用法，直接进入 ES2017 标准提供的 Async 函数的使用方法。
 
+```js
     // 返回 Promise 实例的函数
     function p(value) {
         return new Promise(function (resolve, reject) {
@@ -363,6 +366,7 @@ Generator 和 Promise 处理异步还是不够直观，借助一些辅助函数�
     // 控制台输出结果:
     // p1:Sun Jan 29 2017 21:48:16 GMT+0800 (CST)
     // p2:Sun Jan 29 2017 21:48:18 GMT+0800 (CST)
+```
 
 使用 async 和 await 处理多个异步请求避免回调地狱要自然的多，另外返回的是一个 Promise 实例。
 

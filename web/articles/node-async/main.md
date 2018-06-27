@@ -140,7 +140,7 @@ baby.on('event-name', () => {
 baby.on('event-name', () => {
     setImmediate(() => {
         console.log('c');
-      });
+    });
 });
 baby.on('event-name', () => {
     console.log('b');
@@ -177,8 +177,8 @@ Promise 是异步编程的一种解决方案。从语法上说，Promise 是一�
 Promise 其实是一个状态机：
 
 - 对象的状态不受外界影响；
-- 只能从Pending变为Resolved和从Pending变为Rejected；
-- 就算改变已经发生了，你再对Promise对象添加回调函数，也会立即得到这个结果。
+- 只能从 Pending 变为 Resolved 或 Rejected；
+- 就算改变已经发生了，你再对 Promise 实例添加回调函数，也会立即得到这个结果。
 
 简单示例：
 
@@ -288,7 +288,7 @@ p1().then(value => {
     var p = Promise.resolve('Hello');
     
     p.then(function (s){
-      console.log(s)
+        console.log(s)
     });
     // Hello
 ```
@@ -297,11 +297,11 @@ p1().then(value => {
 
 ```js
     setTimeout(function () {
-      console.log('three');
+        console.log('three');
     }, 0);
     
     Promise.resolve().then(function () {
-      console.log('two');
+        console.log('two');
     });
     
     console.log('one');
@@ -406,10 +406,9 @@ asyncSetTimeout().catch((err) => {
 
 ```js
 async function myFunction() {
-  await somethingThatReturnsAPromise()
-  .catch(function (err) {
-    console.log(err);
-  });
+    await somethingThatReturnsAPromise().catch(function (err) {
+        console.log(err);
+    });
 }
 ```
 
