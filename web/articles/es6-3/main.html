@@ -280,41 +280,43 @@ console.log(&#39;one&#39;);
 </code></pre><p>需要注意的是，立即resolve的Promise对象，是在本轮“事件循环”（event loop）的结束时，而不是在下一轮“事件循环”的开始时。</p>
 <h3 id="header-1-2-7">.reject()</h3>
 <p>返回一个新的 Promise 实例，该实例的状态为rejected。</p>
-<pre><code>var p = Promise.reject(&#39;出错了&#39;);
-// 等同于
-var p = new Promise((resolve, reject) =&gt; reject(&#39;出错了&#39;))
+<pre><code class="lang-js">    var p = Promise.reject(&#39;出错了&#39;);
+    // 等同于
+    var p = new Promise((resolve, reject) =&gt; reject(&#39;出错了&#39;))
 
-p.then(null, function (s) {
-  console.log(s)
-});
-// 出错了
-</code></pre><h3 id="header-1-2-8">.finally()</h3>
+    p.then(null, function (s) {
+      console.log(s)
+    });
+    // 出错了
+</code></pre>
+<h3 id="header-1-2-8">.finally()</h3>
 <p>指定不管Promise对象最后状态如何，都会执行的操作。</p>
 <h2 id="header-1-3">异步操作和 Async 函数</h2>
 <p>Generator 和 Promise 处理异步还是不够直观，借助一些辅助函数可以方便一点，这里略去这些辅助函数的原理和用法，直接进入 ES2017 标准提供的 Async 函数的使用方法。</p>
-<pre><code>// 返回 Promise 实例的函数
-function p(value) {
-    return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-            var date = new Date();
-            resolve(value + &#39;:&#39; + date);
-        }, 2000);
-    });
-}
+<pre><code class="lang-js">    // 返回 Promise 实例的函数
+    function p(value) {
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                var date = new Date();
+                resolve(value + &#39;:&#39; + date);
+            }, 2000);
+        });
+    }
 
-var asyncSetTimeout = async function (){
-    var f1 = await p(&#39;p1&#39;);
-    var f2 = await p(&#39;p2&#39;);
-    console.log(f1);
-    console.log(f2);
-};
+    var asyncSetTimeout = async function (){
+        var f1 = await p(&#39;p1&#39;);
+        var f2 = await p(&#39;p2&#39;);
+        console.log(f1);
+        console.log(f2);
+    };
 
-asyncSetTimeout();
+    asyncSetTimeout();
 
-// 控制台输出结果:
-// p1:Sun Jan 29 2017 21:48:16 GMT+0800 (CST)
-// p2:Sun Jan 29 2017 21:48:18 GMT+0800 (CST)
-</code></pre><p>使用 async 和 await 处理多个异步请求避免回调地狱要自然的多，另外返回的是一个 Promise 实例。</p>
+    // 控制台输出结果:
+    // p1:Sun Jan 29 2017 21:48:16 GMT+0800 (CST)
+    // p2:Sun Jan 29 2017 21:48:18 GMT+0800 (CST)
+</code></pre>
+<p>使用 async 和 await 处理多个异步请求避免回调地狱要自然的多，另外返回的是一个 Promise 实例。</p>
 <h2 id="header-1-4">Class</h2>
 <p>需要补充 ES5 中的相关知识</p>
 <h2 id="header-1-5">Module</h2>

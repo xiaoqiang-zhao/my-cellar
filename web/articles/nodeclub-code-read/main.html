@@ -31,13 +31,16 @@
 </code></pre><p>先注册个用户，然后随便点点，发布个话题看看内容。需要注意的是注册用户后需要激活才能登录，为用户发送邮件需要在 config.js 中修改邮箱服务器的配置，也可以跳过这一步注册用户后直接修改数据库中 users collection 的 active 字段</p>
 <h2 id="header-1-3">看代码</h2>
 <p>然后从入口开始抓主干往下看，第一个关键点：</p>
-<pre><code>require(&#39;./models&#39;);
-</code></pre><p>MongoDB 的连接和 Schema 定义都在这个模块下，具体内容不展开，接着往下看，第二一个关键点：</p>
-<pre><code>var webRouter = require(&#39;./web_router&#39;);
-</code></pre><p>页面的路由和接口路由的定义都在这里，有些入口作为普通用户是看不到的，比如这个：</p>
-<pre><code>// 把某用户设为达人
-router.post(&#39;/user/set_star&#39;, auth.adminRequired, user.toggleStar);
-</code></pre><p>那么问题来了怎么成为管理员呢，接着看源码发现用 config.js 里面配置的 admin 用户名注册用户就成为了管理员，管理员可以是多个。然后在 <code>/user/:username</code> 页中就能看到 “设为达人” 的按钮了。</p>
+<pre><code class="lang-js">    require(&#39;./models&#39;);
+</code></pre>
+<p>MongoDB 的连接和 Schema 定义都在这个模块下，具体内容不展开，接着往下看，第二一个关键点：</p>
+<pre><code class="lang-js">    var webRouter = require(&#39;./web_router&#39;);
+</code></pre>
+<p>页面的路由和接口路由的定义都在这里，有些入口作为普通用户是看不到的，比如这个：</p>
+<pre><code class="lang-js">    // 把某用户设为达人
+    router.post(&#39;/user/set_star&#39;, auth.adminRequired, user.toggleStar);
+</code></pre>
+<p>那么问题来了怎么成为管理员呢，接着看源码发现用 config.js 里面配置的 admin 用户名注册用户就成为了管理员，管理员可以是多个。然后在 <code>/user/:username</code> 页中就能看到 “设为达人” 的按钮了。</p>
 <p>大概的流程就这么多，剩下的就是技术点了，下面挑几个说说。</p>
 <h2 id="header-1-4">数据存储和获取的流程是什么？</h2>
 <p>这是一个入门级的问题，下面我们看看这个项目是怎么处理的。</p>
