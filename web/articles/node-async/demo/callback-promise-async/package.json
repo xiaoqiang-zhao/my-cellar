@@ -1,0 +1,14 @@
+{
+  "name": "callback-promise-async",
+  "version": "1.0.0",
+  "description": "callback、promise、async 不同方式对同一功能的实现对比",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs-extra": "^6.0.1"
+  }
+}
