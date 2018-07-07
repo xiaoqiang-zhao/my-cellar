@@ -19,3 +19,16 @@
 ├── SSR 今生 之 首屏提速
 ├── SSR 今生 之 适用范围
 └── SSR 来世 之 未来走向
+
+## axios 的集成方式
+
+使用方式有两种，一种是作为 Vue 的插件来使用，另一种是直接作为包来使用。直接使用更加低耦合。
+
+是有一个点需要注意，服务端获取接口时路径需要写全才能 work：
+
+````js
+// The server-side needs a full url to works
+if (process.server) {
+    options.baseURL = `http://${process.env.HOST || 'localhost'}:${process.env.PORT || 4000}`;
+}
+````
