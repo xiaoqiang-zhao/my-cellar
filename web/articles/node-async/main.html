@@ -20,22 +20,22 @@
 <div>
     <h1 id="header-1">NodeJs 异步流程控制</h1>
 <blockquote>
-<p>NodeJs 的核心就是异步流程控制，也是学习和使用 NodeJs 绕不开的坎儿，本文主要介绍异步的三种方法: Callback、Promise、Async/Await</p>
+<p>NodeJs 的核心就是异步流程控制，也是学习和使用 NodeJs 绕不开的坎儿，本文主要介绍异步的三种方法: callback、promise、async/await</p>
 </blockquote>
 <h2 id="header-1-1">概述</h2>
-<p>NodeJs 的异步控制由 C++ 编写的 libuv 模块提供，libuv 提供两大功能: 事件循环(Event Loop) 和 线程池(Thread Pool)，这俩哥们儿把复杂的事做了(高并发，低延时)，交给用户的只是有点难用的 Callback 写法，好在随着社区的发展我们有了 Promise 和 Async/Await 方案，Callback 也不再那么难写了。也正是坦诚的将异步回调暴露出来，才有更好的流程控制方面的演进。</p>
+<p>NodeJs 的异步控制由 C++ 编写的 libuv 模块提供，libuv 提供两大功能: 事件循环(Event Loop) 和 线程池(Thread Pool)，这俩哥们儿把复杂的事做了(高并发，低延时)，交给用户的只是有点难用的 callback 写法，好在随着社区的发展我们有了 promise 和 async/await 方案，callback 也不再那么难写了。也正是坦诚的将异步回调暴露出来，才有更好的流程控制方面的演进。</p>
 <p><img src="/articles/node-async/img/nodejs-frame-work.jpg" alt="图"></p>
-<p>广义上说 Callback、Promise、Async/Await 这三种方法都是 Callback 的实现形式，为了表述方便本文中的 Callback 指狭义的 Callback，不包含 Promise 和 Async/Await。</p>
+<p>广义上说 callback、promise、async/await 这三种方法都是 callback 的实现形式，为了表述方便本文中的 callback 指狭义的 callback，不包含 promise 和 async/await。</p>
 <p>这 3 中方法的区别和要点：</p>
 <ul>
-<li>Callback: 在不涉及多个异步操作控制时简单好用，可以和 EventEmitter 配合使用；</li>
-<li>Promise: 众多开源库的接口使用，中流砥柱，必须会；</li>
-<li>Async/Await: 终极解决方案，但 NodeJs 版本需 &gt;=7。</li>
+<li>callback: 在不涉及多个异步操作控制时简单好用，可以和 EventEmitter 配合使用；</li>
+<li>promise: 众多开源库的接口使用，中流砥柱，必须会；</li>
+<li>async/await: 终极解决方案，但 NodeJs 版本需 &gt;=7。</li>
 </ul>
-<h2 id="header-1-2">Callback 和 EventEmitter</h2>
-<h3 id="header-1-2-1">Callback</h3>
-<p>Callback 是用的最多的，是绝大部分的 API 遵守的约定，而 EventEmitter 是辅助机制，通过继承EventEmitter 来解耦业务逻辑。</p>
-<p>NodeJs 社区中对 Callback 参数广泛约定为 error-first -- 错误优先的回调机制。但是你需要知道 Callback 不等同于异步，看下面的例子：</p>
+<h2 id="header-1-2">callback 和 EventEmitter</h2>
+<h3 id="header-1-2-1">callback</h3>
+<p>callback 是用的最多的，是绝大部分的 API 遵守的约定，而 EventEmitter 是辅助机制，通过继承EventEmitter 来解耦业务逻辑。</p>
+<p>NodeJs 社区中对 callback 参数广泛约定为 error-first -- 错误优先的回调机制。但是你需要知道 callback 不等同于异步，看下面的例子：</p>
 <pre><code class="lang-js">// 同步
 function fn(cb) {
     cb();
@@ -72,9 +72,9 @@ fs.access(__dirname + &#39;/../main.md&#39;, err =&gt; {
     }
 });
 </code></pre>
-<p>从上面示例中可以看出，fs 模块并没有使用 Promise 或 Async/Await，所以用 Callback 形式作为 API 依然是一种使用广泛的形式，直接使用可能会出现回调地狱的问题，虽然还没听说官方在什么时间会升级成为 Promise 或 Async/Await，但我们可以先找个马夹，比如 <code>fs-extra</code> 这个 npm 包就是极好的，将 fs 的 API 包装成了 Promise。曾经的回调地狱现在已经有了很好的解决方案，已经不是问题了。</p>
+<p>从上面示例中可以看出，fs 模块并没有使用 promise 或 async/await，所以用 callback 形式作为 API 依然是一种使用广泛的形式，直接使用可能会出现回调地狱的问题，虽然还没听说官方在什么时间会升级成为 promise 或 async/await，但我们可以先找个马夹，比如 <code>fs-extra</code> 这个 npm 包就是极好的，将 fs 的 API 包装成了 promise。曾经的回调地狱现在已经有了很好的解决方案，已经不是问题了。</p>
 <p><img src="/articles/node-async/img/callback-hell.png" alt="图"></p>
-<p>Callback 函数的作用域和 this 指向是面试中常见的题目。回调函数的作用域是函数定义时的作用域。如果直接使用函数，this 指向调用时的函数挂载点，若无挂载点时指向全局。使用箭头函数时 this 是定义函数时环境中的 this，用示例代码来说明一下：</p>
+<p>callback 函数的作用域和 this 指向是面试中常见的题目。回调函数的作用域是函数定义时的作用域。如果直接使用函数，this 指向调用时的函数挂载点，若无挂载点时指向全局。使用箭头函数时 this 是定义函数时环境中的 this，用示例代码来说明一下：</p>
 <pre><code class="lang-js">function f(cb) {
     cb();
 }
@@ -152,14 +152,14 @@ baby.on(&#39;event-name-once&#39;, () =&gt; {});
 </code></pre>
 <p>有了添加事件监听的方法，那么删除事件监听也是不可少的，那就是 “removeListener”，具体用法以及其他方法比如 “listenerCount”、“prependListener”、“removeAllListeners” 等请到查阅<a href="https://nodejs.org/docs/latest-v7.x/api/events.html" target="_blank">官方文档</a>。</p>
 <p>注：以上对应的 NodeJs 版本是 v7.x。</p>
-<h2 id="header-1-3">Promise</h2>
+<h2 id="header-1-3">promise</h2>
 <h3 id="header-1-3-1">概述</h3>
-<p>Promise 是异步编程的一种解决方案。从语法上说，Promise 是一个对象，从它可以获取异步操作的消息。Promise 提供统一的 API，各种异步操作都可以用同样的方法进行处理。</p>
-<p>Promise 其实是一个状态机：</p>
+<p>promise 是异步编程的一种解决方案。从语法上说，promise 是一个对象，从它可以获取异步操作的消息。promise 提供统一的 API，各种异步操作都可以用同样的方法进行处理。</p>
+<p>promise 其实是一个状态机：</p>
 <ul>
 <li>对象的状态不受外界影响；</li>
 <li>只能从 Pending 变为 Resolved 或 Rejected；</li>
-<li>就算改变已经发生了，你再对 Promise 实例添加回调函数，也会立即得到这个结果。</li>
+<li>就算改变已经发生了，你再对 promise 实例添加回调函数，也会立即得到这个结果。</li>
 </ul>
 <p>简单示例：</p>
 <pre><code class="lang-js">    function timeout(ms) {
@@ -181,7 +181,7 @@ baby.on(&#39;event-name-once&#39;, () =&gt; {});
     // 控制台输出：params-value
 </code></pre>
 <h3 id="header-1-3-2">.then(resolve, reject)</h3>
-<p>定义在 Promise 原型链上，它的作用是为 Promise 实例添加状态改变时的回调函数。可以链式调用，内部可以返回其他 Promise 实例，代码示例：</p>
+<p>定义在 promise 原型链上，它的作用是为 promise 实例添加状态改变时的回调函数。可以链式调用，内部可以返回其他 promise 实例，代码示例：</p>
 <pre><code class="lang-js">function p1() {
     return new Promise((resolve, reject) =&gt; {
         setTimeout(function () {
@@ -208,12 +208,12 @@ p1().then(function (value) {
 
 // 控制台结果：
 // p1
-// 第一个promise向第二个promise传入参数: p1
+// 第一个 promise 向第二个 promise 传入参数: p1
 // p2
 </code></pre>
 <p>正是因为 promise 实例状态改变后可以返回另一个 promise，才有效避免了回调地狱，但是也造成了另一个困扰，从逻辑上讲 <code>resolved/rejected</code> 状态又回到了 <code>pedding</code>，从其他语言转过来的人如果有思维惯性这一点理解起来是比较困难的。</p>
 <h3 id="header-1-3-3">.catch(callback)</h3>
-<p>用于指定发生错误时的回调函数，与 then 方法第二个参数 -- reject 回调函数调用逻辑相同。在写 Promise 实例生成器时应该捕获生成器本身的错误，resolve 应该交给 resolve 来处理，否则会造成错误难以跟踪的问题。接着上面的代码 catch 方法可以这样使用：</p>
+<p>用于指定发生错误时的回调函数，与 then 方法第二个参数 -- reject 回调函数调用逻辑相同。在写 promise 实例生成器时应该捕获生成器本身的错误，resolve 应该交给 resolve 来处理，否则会造成错误难以跟踪的问题。接着上面的代码 catch 方法可以这样使用：</p>
 <pre><code class="lang-js">p1().then(value =&gt; {
     console.log(value);
     return p2(value);
@@ -222,11 +222,11 @@ p1().then(function (value) {
 });
 </code></pre>
 <h3 id="header-1-3-4">.finally()</h3>
-<p>指定不管Promise对象最后状态如何，都会执行的操作。</p>
+<p>指定不管promise对象最后状态如何，都会执行的操作。</p>
 <h3 id="header-1-3-5">.resolve()</h3>
-<p>将现有对象转为 Promise 对象，resolve 方法的参数分成四种情况：</p>
-<p>1、参数是一个 Promise 实例，则原封不动的返回</p>
-<p>2、如果参数具有 then 方法，转化成 Promise 实例，并立即执行 then 方法。</p>
+<p>将现有对象转为 promise 对象，resolve 方法的参数分成四种情况：</p>
+<p>1、参数是一个 promise 实例，则原封不动的返回</p>
+<p>2、如果参数具有 then 方法，转化成 promise 实例，并立即执行 then 方法。</p>
 <pre><code class="lang-js">    var thenable = {
         then: function (resolve, reject) {
             setTimeout(function () {
@@ -240,7 +240,7 @@ p1().then(function (value) {
         console.log(value);
     });
 </code></pre>
-<p>3、不是具有then方法的对象，或根本就不是对象，则返回一个新的Promise对象，状态为Resolved。</p>
+<p>3、不是具有then方法的对象，或根本就不是对象，则返回一个新的promise对象，状态为Resolved。</p>
 <pre><code class="lang-js">    var p = Promise.resolve(&#39;Hello&#39;);
 
     p.then(function (s){
@@ -248,7 +248,7 @@ p1().then(function (value) {
     });
     // Hello
 </code></pre>
-<p>4、不带有任何参数，则直接返回一个 Resolved 状态的 Promise 对象。</p>
+<p>4、不带有任何参数，则直接返回一个 Resolved 状态的 promise 对象。</p>
 <pre><code class="lang-js">    setTimeout(function () {
         console.log(&#39;three&#39;);
     }, 0);
@@ -263,9 +263,9 @@ p1().then(function (value) {
     // two
     // three
 </code></pre>
-<p>需要注意的是，立即 resolve 的 Promise 实例，执行回调的时机是在本轮“事件循环”（event loop）的结束时，而不是在下一轮“事件循环”的开始时。</p>
+<p>需要注意的是，立即 resolve 的 promise 实例，执行回调的时机是在本轮“事件循环”（event loop）的结束时，而不是在下一轮“事件循环”的开始时。</p>
 <h3 id="header-1-3-6">.reject()</h3>
-<p>返回一个新的 Promise 实例，该实例的状态为rejected。</p>
+<p>返回一个新的 promise 实例，该实例的状态为rejected。</p>
 <pre><code class="lang-js">    var p = Promise.reject(&#39;出错了&#39;);
     // 等同于
     var p = new Promise((resolve, reject) =&gt; reject(&#39;出错了&#39;))
@@ -276,7 +276,7 @@ p1().then(function (value) {
     // 出错了
 </code></pre>
 <h3 id="header-1-3-7">.all([p1, p2, ...])</h3>
-<p>用于将多个 Promise 实例转换成一个新的 Promise 实例。参数如果不是 Promise 实例，就会先调用 resolve 方法，将参数转为 Promise 实例，再进一步处理。</p>
+<p>用于将多个 promise 实例转换成一个新的 promise 实例。参数如果不是 promise 实例，就会先调用 resolve 方法，将参数转为 promise 实例，再进一步处理。</p>
 <pre><code class="lang-js">function p1() {
     return new Promise((resolve, reject) =&gt; {
         setTimeout(function () {
@@ -298,51 +298,127 @@ Promise.all([p1(), p2()]).then(values =&gt; {
 });
 // 控制台输出结果: p1,p2
 </code></pre>
-<p>注意，在执行中只有作为参数的 Promise 实例全部转变为 Resolved 状态，返回值才会转变为 Resolved，如果其中一个状态装变为 Rejected ，那么后面的 promise 不会执行，并且直接调用 reject 或 catch。Promise 已经对 all 方法做了优化，会同时启动两个参数所对应的状态机，而不会等其中一个有返回值后再执行另外一个。</p>
+<p>注意，在执行中只有作为参数的 promise 实例全部转变为 Resolved 状态，返回值才会转变为 Resolved，如果其中一个状态装变为 Rejected ，那么后面的 promise 不会执行，并且直接调用 reject 或 catch。promise 已经对 all 方法做了优化，会同时启动两个参数所对应的状态机，而不会等其中一个有返回值后再执行另外一个。</p>
 <h3 id="header-1-3-8">.race()</h3>
-<p>同样是将多个 Promise 实例转换成一个新的 Promise 实例。</p>
+<p>同样是将多个 promise 实例转换成一个新的 promise 实例。</p>
 <pre><code class="lang-js">var p = Promise.race([p1, p2, p3]);
 </code></pre>
-<p>只要p1、p2、p3之中有一个实例率先改变状态，p的状态就跟着改变。那个率先改变的 Promise 实例的返回值，就传递给p的回调函数。</p>
-<h2 id="header-1-4">Async/Await</h2>
+<p>只要p1、p2、p3之中有一个实例率先改变状态，p的状态就跟着改变。那个率先改变的 promise 实例的返回值，就传递给p的回调函数。</p>
+<h2 id="header-1-4">async/await</h2>
 <p><img src="/articles/node-async/img/async-await.png" alt="图"></p>
-<p>Promise 解决了回调地狱的问题，但是异步和同步还是两种写法，并且异步处理不够直观。Async/Await 配合 Promise 可以更直观的编写异步处理代码，示例如下：</p>
-<pre><code class="lang-js">// 返回 Promise 实例的函数
-function p(value) {
-    return new Promise((resolve, reject) =&gt; {
-        setTimeout(() =&gt; {
-            var date = new Date();
-            resolve(value + &#39;:&#39; + date);
-            // reject(value + &#39;:&#39; + date);
-        }, 2000);
-    });
-}
+<h3 id="header-1-4-1">对比三种方案</h3>
+<p>废弃 Generator 后 async/await 被业界誉为异步的中级解决方案。可以用 async/await 解决的问题都可以被 promise 和 callback 解决，只是 async/await 更加易读更符合人的直观感受。async 函数返回 promise 对象，下面先来对比一下 callback、promise、async 不同方式对同一功能的实现：</p>
+<pre><code class="lang-js">
+const fs = require(&#39;fs&#39;);
+const fsExtra = require(&#39;fs-extra&#39;);
 
-var asyncSetTimeout = async function (){
-    var f1 = await p(&#39;p1&#39;);
-    var f2 = await p(&#39;p2&#39;);
-    console.log(f1);
-    console.log(f2);
-    return f2;
-};
+//## 判断一个文件夹是否存在 ##//
 
-asyncSetTimeout().catch((err) =&gt; {
-    console.log(&#39;reject&#39;, err);
+//--- callback 方式 ---//
+const path = __dirname + &#39;/node_modules&#39;;
+fs.access(path, err =&gt; {
+    if (err) {
+        console.log(&#39;callback:文件夹不存在&#39;);
+    }
+    else {
+        console.log(&#39;callback:文件存在&#39;);
+    }
 });
 
-// 控制台输出结果:
-// p1:Sun Jan 29 2017 21:48:16 GMT+0800 (CST)
-// p2:Sun Jan 29 2017 21:48:18 GMT+0800 (CST)
+//--- promise 方式 ---//
+fsExtra.access(path).then(() =&gt; {
+    console.log(&#39;promise:文件存在&#39;);
+}, err =&gt; {
+    console.log(&#39;promise:文件夹不存在&#39;);
+});
+
+//--- async/await 方式 ---//
+async function exists() {
+    return await fsExtra.access(path);
+}
+exists().then(() =&gt; {
+    console.log(&#39;async:文件存在&#39;);
+}, err =&gt; {
+    console.log(&#39;async:文件夹不存在&#39;);
+});
 </code></pre>
-<p>便捷是有代价的，promise 本来是花开两朵，但在 async 函数中就只能单表一只了，而且只能对 resolve 这一分支的逻辑做处理。如果想对 reject 这一逻辑做处理，那么可以借助 catch 来实现(但是 catch 的设计本意是捕获异常):</p>
-<pre><code class="lang-js">async function myFunction() {
-    await somethingThatReturnsAPromise().catch(function (err) {
-        console.log(err);
+<p>注：nodejs 原生模块 <code>fs</code> 后续的版本对 <code>exists</code> 方法已经弃用(弃用的原因官方大概是这么个意思：我们当初没想好写了这么个没用的 api，为什么没用呢，因为 nodejs 主打的是高并发，在服务器端一个文件或文件夹可能被多个人操作，当你的代码前脚判断文件夹还存在后脚想往里放文件的时候可能这时文件夹就被别人删掉了，所以拜托你们别再用了。官方推荐用 <code>stat</code> 或 <code>access</code> 来代替。)，我们这里用 <code>access</code> 来代替。</p>
+<h3 id="header-1-4-2">promise PK async</h3>
+<p>从上面的例子中可以看到，只有一个异步操作的时候三种方案其实没有明显的优劣，再处理多个异步的时候为了避免 callback 的回调地狱提出了 promise 方案，为了解决 promise 不够直观的问题提出了 async/await 方案。具体来说用 async 来声明一种特殊的函数，这种函数的返回值是 promise 对象，函数中用 await 来提取 promise resolve 回调函数的入参。下面来对比一下 promise 和 async 函数对多个异步的处理：</p>
+<pre><code class="lang-js">const fs = require(&#39;fs-extra&#39;);
+
+/**
+ * 判断文件夹 hello 是否存在
+ * 如果不存在就新建一个
+ * 然后向文件夹中添加一个文件 world
+ */
+
+// --- promise 方式 --- //
+const promisePath = __dirname + &#39;/promise-hello&#39;;
+fs.exists(promisePath).then(exists =&gt; {
+    if (exists) {
+        console.log(&#39;promise: hello文件夹存在&#39;);
+    }
+    else {
+        console.log(&#39;promise: hello文件夹不存在，新建一个&#39;);
+        return fs.mkdir(promisePath);
+    }
+}).then(() =&gt; {
+    console.log(&#39;promise: 开始新建文件 world.md&#39;);
+    return fs.createFile(promisePath + &#39;/world.md&#39;);
+}).catch(err =&gt; {
+    console.log(&#39;promise: 新建文件夹失败&#39;);
+}).then(() =&gt; {
+    console.log(&#39;promise: 文件 world.md 添加完成&#39;);
+});
+
+// --- async/await 方式 --- //
+const asyncPath = __dirname + &#39;/async-hello&#39;;
+async function task() {
+    if (await fs.exists(asyncPath)) {
+        console.log(&#39;async: 文件夹 hello 存在&#39;);
+    }
+    else {
+        console.log(&#39;async: hello 文件夹不存在，新建一个&#39;);
+        await fs.mkdir(asyncPath);
+    }
+    console.log(&#39;async: 开始新建文件 world.md&#39;);
+    return await fs.createFile(asyncPath + &#39;/world.md&#39;).then(() =&gt; {
+        console.log(&#39;async: 文件 world.md 添加完成&#39;);
     });
 }
+task();
+</code></pre>
+<p>注：虽然 nodejs 原生模块 <code>fs</code> 弃用了 <code>exists</code> 方法，但是第三方 <code>fs-extra</code> 模块却做了封装，我们这里直接使用。</p>
+<p>为了不相互影响 hello 文件夹分成 promise-hello 和 async-hello 两中情况，通过对比可以看到 promise 需要通过 then 来不断的写回调进去，而 async 函数就不需要，通过 await 关键字可以直接拿到异步执行结果，代码要简洁很多也更加易读。</p>
+<h3 id="header-1-4-3">错误处理</h3>
+<p>看上面 async 部分的代码是不是感觉少点什么，上面提到“用 await 来提取 promise resolve 回调函数的入参”，那 reject 哪里去了，丢了？嗯，是丢了。不过有两种方式可以找回来，我们再拿上面例子说事，如果你不关心具体哪一步出了问题，可以用一个 <code>try catch</code> 来处理：</p>
+<pre><code class="lang-js">async function task() {
+    try {
+        if (await !fs.exists(asyncPath)) {
+            await fs.mkdir(asyncPath);
+            return await fs.createFile(asyncPath + &#39;/world.md&#39;);
+        }
+    }
+    catch (e) {
+        console.log(&#39;async: 任务失败&#39;);
+    }
+}
+</code></pre>
+<p>如果需要关注具体数哪一步出了问题，可以给每个 promise 加上 catch。</p>
+<h3 id="header-1-4-4">顺序 &amp; 并行</h3>
+<p>async/await 在处理“后面的异步需要等前面的异步返回结果后再执行”这种情况更为顺畅，分支逻辑也更好控制。如果是多个异步并行执行，可以借助 Promise.all 来实现，也可以先执行异步函数并用临时变量存储返回值，然后在每个返回值前添加 await。</p>
+<pre><code class="lang-js">// 写法一: Promise.all
+let [foo, bar] = await Promise.all([getFoo(), getBar()]);
+
+// 写法二: 取巧
+let fooPromise = getFoo();
+let barPromise = getBar();
+let foo = await fooPromise;
+let bar = await barPromise;
 </code></pre>
 <h2 id="header-1-5">总结</h2>
-<p>根据场景选择 Callback、Promise、Async/Await，技术本身没有优劣，只有合适的才是最好的。</p>
+<p>根据场景选择 callback、promise、async/await，技术本身没有优劣，只有合适的才是最好的。</p>
 
 </div>
 </body>
