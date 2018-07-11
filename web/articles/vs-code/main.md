@@ -72,6 +72,16 @@ commit 比较方便，写完 message 按 Cmd + Enter 就直接提交了；
 
 唤出命令行：Shift + Cmd + C，不是唤出 VS Code 自带的工具，而是打开系统自带的命令行工具。
 
+## 命令行相关
+
+唤起命令行区域(Toggle Integrated Terminal)：Ctrl + `，唤起状态下同样的快捷键可以收起命令行区域。
+
+新建一个命令行区域(Create New Integrated Terminal)：Ctrl + Shift + `。
+
+切换到下一个命令行(Focus Next Terminal)：Ctrl + N，此快捷键没有被原生定义，需要手动添加。
+
+切换到上一个命令行(Focus Previous Terminal)：Ctrl + P，此快捷键没有被原生定义，需要手动添加。
+
 ## 插件
 
 ### emmet
