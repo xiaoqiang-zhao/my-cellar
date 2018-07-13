@@ -137,7 +137,10 @@ zip -r ./a.zip ./a/*
 tar -jxv -f a.tar.bz2 -C ./
 tar -zxv -f a.tar.gz -C ./
 # 解压 zip 包可以直接用 unzip 命令
+# 注意解压路径是当前的执行路径
 unzip 文件名.zip > /dev/null
+# 指定解压到某个目录
+unzip 文件名.zip -d the/path > /dev/null
 # 不解压也可以看目录
 tar -jtv -f a.tar.bz2
 ```
