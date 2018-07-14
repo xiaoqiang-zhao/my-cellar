@@ -371,6 +371,8 @@ var p = Promise.race([p1, p2, p3]);
 
 ![图](/articles/node-async/img/async-await.png)
 
+NodeJs 从7.6开始正式支持 async/await 语法，下面我们先结合前两种方案做一个对比。
+
 ### 对比三种方案
 
 废弃 Generator 后 async/await 被业界誉为异步的中级解决方案。可以用 async/await 解决的问题都可以被 promise 和 callback 解决，只是 async/await 更加易读更符合人的直观感受。async 函数返回 promise 对象，下面先来对比一下 callback、promise、async 不同方式对同一功能的实现：

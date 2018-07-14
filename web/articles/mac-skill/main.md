@@ -114,6 +114,3 @@ FireFox 的 HostAdmin 插件很好用，可以方便的切换 host 配置。
 ## 资料
 
 [16个OS X快捷键小技巧，至少应该了解一半](http://www.macx.cn/thread-2050934-1-1.html)
-
-
-

@@ -753,6 +753,13 @@ ps axjf
 ```bash
 lsof -i tcp:9999
 ```
+
+查看 Web 服务是否启动成功
+
+```bash
+telnet 10.0.250.3 8090
+```
+
 ## 参考
 
 《鸟哥的 Linux 私房菜》
