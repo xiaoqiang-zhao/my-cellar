@@ -120,6 +120,54 @@ js 做了分片，但是没有实现按需加载，一个页面出来之后所�
 
 SSR 需要部署 Node 服务器支持，初始化和运维需要这方面的人力投入。
 
+## 你可能遇到的坑
+
+### 启动 ip
+
+在正式部署的时候遇到一个坑，明明部署成功了却访问失败，用 `telnet ip port` 是不通的，但用 `telnet 127.0.0.1 port` 是通的，一番排查过后原因是 express 启动的时候指定ip 有问题，关键代码如下：
+
+```js
+// server/index.js
+import express from 'express';
+
+const host = process.env.HOST || '127.0.0.1';
+const app = express();
+app.listen(port, host);
+console.log('Server listening on ' + host + ':' + port);
+```
+
+那么就有两种方案了，一种是启动的时候带上 HOST 参数，一种是自动获取 HOST，我们采取第二种，引入库 `get-ip`，然后代码改为如下：
+
+```js
+// server/index.js
+import express from 'express';
+import getIp from 'get-ip';
+
+const host = getIp() || '127.0.0.1';
+const app = express();
+app.listen(port);
+console.log('Server listening on ' + host + ':' + port);
+```
+
+还有一处需要修改，在 `client/plugin/axios.js`，此文件配置全局数据请求接口的调用和预处理，其中如果在服务端调用需要写全 ip 和端口，所以会有下面这段代码：
+
+```js
+// The server-side needs a full url to works
+if (process.server) {
+    options.baseURL = `http://${process.env.HOST || 'localhost'}:${process.env.PORT || 4000}`;
+}
+```
+
+和上面一样，我们替换 HOST 的获取方式就可以，具体如下：
+
+```js
+// The server-side needs a full url to works
+if (process.server) {
+    const host = getIp() || '127.0.0.1';
+    options.baseURL = `http://${host}:${process.env.PORT || 8099}`;
+}
+```
+
 ## 参考
 
 [Nuxt官网](https://zh.nuxtjs.org/guide/async-data)
