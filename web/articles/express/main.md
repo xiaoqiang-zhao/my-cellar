@@ -30,32 +30,36 @@
 
 为了安全起见，用户是不能随便访问服务器上的任意目录的，但是我们的网站有一些文件(如：图片、样式、js代码文件)总要提供给客户访问，一般把这些需要开放给用户的文件放在一个特定的文件夹下：
 
-    app.use('/', express.static(__dirname + '/dist'));
+```js
+app.use('/', express.static(__dirname + '/dist'));
+```
 
 向上面这样配置完毕后就可以访问了，具体代码参见 Demo。
 
 如果我们想把某个链接，如 `/` 或 `/index`，指向一个 html 文件，可以在 `app.get` 中做些文章，完整配置如下：
 
-    app.get('/', (req, res, next) => {
-        let options = {
-            root: __dirname + '/dist/',
-            dotfiles: 'deny',
-            headers: {
-                'x-timestamp': Date.now(),
-                'x-sent': true
-            }
-        };
+```js
+app.get('/', (req, res, next) => {
+    let options = {
+        root: __dirname + '/dist/',
+        dotfiles: 'deny',
+        headers: {
+            'x-timestamp': Date.now(),
+            'x-sent': true
+        }
+    };
 
-        let fileName = 'index.html';
-        res.sendFile(fileName, options, function (err) {
-            if (err) {
-                next(err);
-            }
-            else {
-                console.log('Sent:', fileName);
-            }
-        });
+    let fileName = 'index.html';
+    res.sendFile(fileName, options, function (err) {
+        if (err) {
+            next(err);
+        }
+        else {
+            console.log('Sent:', fileName);
+        }
     });
+});
+```
 
 你可以运行 Demo 查看效果。
 
