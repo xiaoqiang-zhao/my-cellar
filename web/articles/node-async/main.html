@@ -306,6 +306,7 @@ Promise.all([p1(), p2()]).then(values =&gt; {
 <p>只要p1、p2、p3之中有一个实例率先改变状态，p的状态就跟着改变。那个率先改变的 promise 实例的返回值，就传递给p的回调函数。</p>
 <h2 id="header-1-4">async/await</h2>
 <p><img src="/articles/node-async/img/async-await.png" alt="图"></p>
+<p>NodeJs 从7.6开始正式支持 async/await 语法，下面我们先结合前两种方案做一个对比。</p>
 <h3 id="header-1-4-1">对比三种方案</h3>
 <p>废弃 Generator 后 async/await 被业界誉为异步的中级解决方案。可以用 async/await 解决的问题都可以被 promise 和 callback 解决，只是 async/await 更加易读更符合人的直观感受。async 函数返回 promise 对象，下面先来对比一下 callback、promise、async 不同方式对同一功能的实现：</p>
 <pre><code class="lang-js">

@@ -101,7 +101,41 @@ renderer.renderToString(app, (err, html) =&gt; {
 <h2 id="header-1-5">适用不适用</h2>
 <p>最后总结一下哪些场景适用哪些场景需要变通。对于首屏而言，如果对 SEO 有强需求，SSR 引入的复杂度对比其他方案是最小的。对于非首屏 SEO 的需求是能满足的，但是如果两个页面没有公共部分或公共部分很少的情况下速度要比多页慢一点，大概 40%，SSR 的一个附带优点是可以做专场动画，所以这一点需要根据业务场景做权衡。</p>
 <p>SSR 需要部署 Node 服务器支持，初始化和运维需要这方面的人力投入。</p>
-<h2 id="header-1-6">参考</h2>
+<h2 id="header-1-6">你可能遇到的坑</h2>
+<h3 id="header-1-6-1">启动 ip</h3>
+<p>在正式部署的时候遇到一个坑，明明部署成功了却访问失败，用 <code>telnet ip port</code> 是不通的，但用 <code>telnet 127.0.0.1 port</code> 是通的，一番排查过后原因是 express 启动的时候指定ip 有问题，关键代码如下：</p>
+<pre><code class="lang-js">// server/index.js
+import express from &#39;express&#39;;
+
+const host = process.env.HOST || &#39;127.0.0.1&#39;;
+const app = express();
+app.listen(port, host);
+console.log(&#39;Server listening on &#39; + host + &#39;:&#39; + port);
+</code></pre>
+<p>那么就有两种方案了，一种是启动的时候带上 HOST 参数，一种是自动获取 HOST，我们采取第二种，引入库 <code>get-ip</code>，然后代码改为如下：</p>
+<pre><code class="lang-js">// server/index.js
+import express from &#39;express&#39;;
+import getIp from &#39;get-ip&#39;;
+
+const host = getIp() || &#39;127.0.0.1&#39;;
+const app = express();
+app.listen(port);
+console.log(&#39;Server listening on &#39; + host + &#39;:&#39; + port);
+</code></pre>
+<p>还有一处需要修改，在 <code>client/plugin/axios.js</code>，此文件配置全局数据请求接口的调用和预处理，其中如果在服务端调用需要写全 ip 和端口，所以会有下面这段代码：</p>
+<pre><code class="lang-js">// The server-side needs a full url to works
+if (process.server) {
+    options.baseURL = `http://${process.env.HOST || &#39;localhost&#39;}:${process.env.PORT || 4000}`;
+}
+</code></pre>
+<p>和上面一样，我们替换 HOST 的获取方式就可以，具体如下：</p>
+<pre><code class="lang-js">// The server-side needs a full url to works
+if (process.server) {
+    const host = getIp() || &#39;127.0.0.1&#39;;
+    options.baseURL = `http://${host}:${process.env.PORT || 8099}`;
+}
+</code></pre>
+<h2 id="header-1-7">参考</h2>
 <p><a href="https://zh.nuxtjs.org/guide/async-data" target="_blank">Nuxt官网</a></p>
 <p><a href="https://github.com/nuxt-community/express-template" target="_blank">nuxt express template</a></p>
 <p><a href="https://github.com/nuxt-community/koa-template" target="_blank">nuxt koa template</a></p>

@@ -42,10 +42,11 @@ app.listen(3000, function () {
 </code></pre><p>然后 <code>node index</code> 就可以在浏览器访问了。</p>
 <h2 id="header-1-2">静态文件</h2>
 <p>为了安全起见，用户是不能随便访问服务器上的任意目录的，但是我们的网站有一些文件(如：图片、样式、js代码文件)总要提供给客户访问，一般把这些需要开放给用户的文件放在一个特定的文件夹下：</p>
-<pre><code>app.use(&#39;/&#39;, express.static(__dirname + &#39;/dist&#39;));
-</code></pre><p>向上面这样配置完毕后就可以访问了，具体代码参见 Demo。</p>
+<pre><code class="lang-js">app.use(&#39;/&#39;, express.static(__dirname + &#39;/dist&#39;));
+</code></pre>
+<p>向上面这样配置完毕后就可以访问了，具体代码参见 Demo。</p>
 <p>如果我们想把某个链接，如 <code>/</code> 或 <code>/index</code>，指向一个 html 文件，可以在 <code>app.get</code> 中做些文章，完整配置如下：</p>
-<pre><code>app.get(&#39;/&#39;, (req, res, next) =&gt; {
+<pre><code class="lang-js">app.get(&#39;/&#39;, (req, res, next) =&gt; {
     let options = {
         root: __dirname + &#39;/dist/&#39;,
         dotfiles: &#39;deny&#39;,
@@ -65,7 +66,8 @@ app.listen(3000, function () {
         }
     });
 });
-</code></pre><p>你可以运行 Demo 查看效果。</p>
+</code></pre>
+<p>你可以运行 Demo 查看效果。</p>
 <h2 id="header-1-3">路由</h2>
 <p>对路由进行管理会清晰一点，一般 Node 后台系统会这么做：</p>
 <pre><code>app.get(&#39;/aa&#39;, function (req, res) {
