@@ -122,6 +122,12 @@ ls
 bash aaa
 ```
 
+有些时候需要不同服务器之间需要相互传文件:
+
+```bash
+scp x.zip work@cp01-ipage.epc.baidu.com:~/
+```
+
 ### 打包压缩和解压：
 
 ```bash
