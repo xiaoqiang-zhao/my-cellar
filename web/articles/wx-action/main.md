@@ -4,9 +4,13 @@
 
 ## iconfont
 
-一个项目中免不了要有图标，但微信小程序不支持引入字体文件，需要通过工具将字体文件转成 base64 后直接写进样式文件，[参考文章](https://www.jianshu.com/p/221bebfae266)。
+一个项目中免不了要有图标，但微信小程序不支持引入字体文件，通过下面 3 部引入字体。
 
-转 base 64 工具：https://transfonter.org/
+1、从 iconfont 网站下载压缩包；
+
+2、将 iconfont.css 中的代码拷贝进 app.wxss；
+
+3、删除 eot 和 ttf 等引入，只留下 base64 方式，然后就可以正常使用了。
 
 ## 双向绑定
 
