@@ -74,7 +74,7 @@
         word-wrap: break-word;
     }
 
-## 超出截断
+## 单行文字超出截断
 
 不折行，超出部分截断，并以三个点结尾。`white-space` 是一个可以继承的属性（上层元素定义之后下层元素会自动继承），如果与 `word-wrap` 和 `word-break` 相遇，并且 `white-space: nowrap` 时，页面表现为不折行。
 
@@ -86,6 +86,17 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+
+## 多行文字超出截断
+
+```css
+.line-clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+}
+```
 
 ## 被激发元素上浮
 
