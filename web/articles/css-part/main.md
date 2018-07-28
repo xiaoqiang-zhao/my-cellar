@@ -98,6 +98,8 @@
 }
 ```
 
+line-clamp 属性还不是标准，还有一个 js 库可以考虑：https://github.com/josephschmitt/Clamp.js
+
 ## 被激发元素上浮
 
 鼠标hover、拖动等场景常遇到元素上浮使其不被覆盖的需求，通过z-index来实现，在一处定义可以避免不同模块之间相互覆盖。此CSS片段的命名是一种属性和表意的混合模式。因为直接命名“active”表意容易冲突，用属性模式的到的名会是“zi-2”丧失了良好的扩展性（如果要把2000提升到5000需要改页面）。另外如果业务逻辑中鼠标hover需要元素上浮可以直接往上加，
@@ -126,6 +128,74 @@
 这里补充 `white-space: normal;` 是因为其继承的特性，为了使程序更健壮，这一行在某些情况下的冗余是值得的。
 
 [word-wrap/word-break/white-space](http://www.cnblogs.com/charling/p/3615111.html)
+
+## 大图小字水平居中
+
+图片浮动，文字行高等于图片高度。
+
+```css
+.tag {
+    padding: 2px 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    line-height: 28px;
+    background: rgba(120, 120, 120, .3);
+}
+.tag::before {
+    margin-right: 5px;
+    font-size: 28px;
+    float: left;
+}
+```
+
+## 大字小图水平居中
+
+字体不管多大始终保持居中。
+
+```css
+.img-tag {
+    position: relative;
+    top: 10px;
+    left: 10px;
+    border-radius: 5px;
+    padding: 2px 10px 2px 2px;
+    background: rgba(120, 120, 120, .3);
+
+    font-size: 30px;
+}
+
+.img-tag::after {
+    content: "\e6d6";
+    position: absolute;
+    top: 50%;
+    margin-top: -0.5em;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    font-size: 10px;
+}
+```
+
+
+## 多段文字间隔
+
+多个标签之间间隔一个字符是常用的样式，字符 | 会因为字体的不同无法居中无法控制高度等问题，我们用伪元素画一个：
+
+```css
+.item {
+    display: inline-block;
+    font-size: 20px;
+    line-height: 1em;
+}
+.item:nth-of-type(n + 2)::before {
+    content: "\200B";
+    display: inline-block;
+    height: 0.15em;
+    width: 1px;
+    border-bottom: 0.7em solid #fff;
+    margin: 0 0.5em;
+}
+```
 
 ## 扩展阅读
 
