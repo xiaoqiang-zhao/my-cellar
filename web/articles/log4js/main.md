@@ -23,6 +23,24 @@ logger.fatal('Cheese was breeding ground for listeria.');
 
 This will result in one current log file (all-the-logs.log). Every hour this file will be compressed and renamed to all-the-logs.log.2017-04-30-08.gz (for example) and a new all-the-logs.log created.
 
+## 和 pm2 搭配
+
+I’m using PM2, but I’m not getting any logs!
+
+```shell
+pm2 install pm2-intercom
+```
+
+配置
+
+```js
+log4js.configure({
+  appenders: { out: { type: 'stdout'}},
+  categories: { default: { appenders: ['out'], level: 'info'}},
+  pm2: true,
+  pm2InstanceVar: 'INSTANCE_ID'
+});
+```
 ## 生产示例
 
 ```js
