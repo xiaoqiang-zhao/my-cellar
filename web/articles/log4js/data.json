@@ -1,0 +1,12 @@
+{
+  "enName": "log4js",
+  "title": "Log4js 使用备忘",
+  "introduction": "记录日志方便问题排查，可以查看系统运行中发生了什么。",
+  "tags": [],
+  "isPublished": false,
+  "state": "立项",
+  "type": "md",
+  "createDate": 1534032472277,
+  "commentList": [],
+  "todoList": []
+}

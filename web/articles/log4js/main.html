@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Log4js 使用备忘 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">Log4js 使用备忘</h1>
+<blockquote>
+<p>记录日志方便问题排查，可以查看系统运行中发生了什么。</p>
+</blockquote>
+<h2 id="header-1-1">概述</h2>
+<p>Apache 提供的多平台下多语言下日志书写扩展包</p>
+<p><a href="https://www.cnblogs.com/duhuo/p/5176154.html" target="_blank">https://www.cnblogs.com/duhuo/p/5176154.html</a></p>
+<p>3.0.3</p>
+<h2 id="header-1-2">级别</h2>
+<p>logger.trace(&#39;Entering cheese testing&#39;); 
+logger.debug(&#39;Got cheese.&#39;);
+logger.info(&#39;Cheese is Gouda.&#39;);
+logger.warn(&#39;Cheese is quite smelly.&#39;);
+logger.error(&#39;Cheese is too ripe!&#39;);
+logger.fatal(&#39;Cheese was breeding ground for listeria.&#39;);</p>
+<h2 id="header-1-3">dateFile</h2>
+<p>This will result in one current log file (all-the-logs.log). Every hour this file will be compressed and renamed to all-the-logs.log.2017-04-30-08.gz (for example) and a new all-the-logs.log created.</p>
+<h2 id="header-1-4">和 pm2 搭配</h2>
+<p>I’m using PM2, but I’m not getting any logs!</p>
+<pre><code class="lang-shell">pm2 install pm2-intercom
+</code></pre>
+<p>配置</p>
+<pre><code class="lang-js">log4js.configure({
+  appenders: { out: { type: &#39;stdout&#39;}},
+  categories: { default: { appenders: [&#39;out&#39;], level: &#39;info&#39;}},
+  pm2: true,
+  pm2InstanceVar: &#39;INSTANCE_ID&#39;
+});
+</code></pre>
+<h2 id="header-1-5">生产示例</h2>
+<pre><code class="lang-js">
+var log4js = require(&#39;log4js&#39;);
+log4js.configure({
+    appenders: {
+        &#39;demo-app-trace&#39;: {
+            // 直接写文件，适合日质量比较大的情况，日志文件超过某个数值就拆分新文件
+            type: &#39;file&#39;,
+            maxLogSize: 200, // bytes
+            backups: 3, // 最多留几个
+            filename: &#39;logs/demo-app-trace-log&#39;
+            // 当前存储在 demo-app-trace-log 文件中，
+            // 当文件大小超出限制时将原来的文件数字依次递增，如果文件总数超过设置那么移除文件号最大的文件 
+            // 然后 demo-app-trace-log 命名为 demo-app-trace-log.1
+            // 最后建文件 demo-app-trace-log 继续记录
+        },
+        &#39;demo-app-error&#39;: {
+            // 日期拆分日志，适合量较小的日志，比如日小与 100M
+            type: &#39;dateFile&#39;,
+            pattern: &#39;.yyyy-MM-dd&#39;, // 为了看效果方便可以按分钟 -hh-mm
+            filename: &#39;logs/demo-app-error-log&#39;
+            // 当前存储在 demo-app-error-log 文件中，
+            // 新的日期来临时将 demo-app-error-log 文件加时间重命名，然后新建 demo-app-error-log 文件
+        }
+    },
+    categories: {
+        default: {
+            appenders: [&#39;demo-app-trace&#39;],
+            level: &#39;trace&#39;
+        },
+        error: {
+            appenders: [&#39;demo-app-error&#39;],
+            level: &#39;error&#39;
+        }
+    }
+});
+
+const loggerTrace = log4js.getLogger();
+const loggerError = log4js.getLogger(&#39;error&#39;);
+
+// 为了方便直接演示
+// loggerTrace.trace(&#39;一些字符串-trace&#39;);
+// loggerError.error(&#39;一些字符串-error&#39;);
+
+// 作为工具输出
+export default {
+    trace(str) {
+        loggerTrace.trace(str);
+    },
+    error(str) {
+        loggerError.error(str);
+    }
+};
+</code></pre>
+<h2 id="header-1-6">参考</h2>
+<p><a href="https://log4js-node.github.io/log4js-node/" target="_blank">官网</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/22110802" target="_blank">Node.js 之 log4js 完全讲解 -- 寸志</a></p>
+
+</div>
+</body>
+</html>

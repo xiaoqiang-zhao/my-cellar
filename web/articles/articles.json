@@ -839,6 +839,18 @@
     "todoList": []
   },
   {
+    "enName": "log4js",
+    "title": "Log4js 使用备忘",
+    "introduction": "记录日志方便问题排查，可以查看系统运行中发生了什么。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1534032472277,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "mac-skill",
     "title": "Mac 的使用技巧",
     "introduction": "从 Windows 切换到 Mac 在操作上总有一些不一样，这里记录一下使用过程中的一些技巧。",
@@ -864,8 +876,8 @@
   },
   {
     "enName": "mongo-db",
-    "title": "MongDb 学习笔记",
-    "introduction": "早闻大名，开始学习，下面是学习过程留下的笔记，力图用最少的时间，了解 80% 的内容。这个笔记也是以书《MongDB in Action》为主线来进行，会加一些官网和博客中的内容，这一篇是 Redis 的姊妹篇。",
+    "title": "MongoDb 学习笔记",
+    "introduction": "早闻大名，开始学习，下面是学习过程留下的笔记，力图用最少的时间，了解 80% 的内容。这个笔记也是以书《MongoDB in Action》为主线来进行，会加一些官网和博客中的内容，这一篇是 Redis 的姊妹篇。",
     "tags": [
       "个人笔记",
       "服务器软件"
@@ -1101,9 +1113,12 @@
   },
   {
     "enName": "rem",
-    "title": "rem 技术方案",
-    "introduction": "未找到描述信息",
-    "tags": [],
+    "title": "一篇文章读懂 ppi dpr rem 栅格 响应式",
+    "introduction": "从原理上解释问题的成因，从问题引出解决方案，讲透ppi、dpr、rem、栅格、响应式等概念，知其然之气所以然。",
+    "tags": [
+      "技术点",
+      "解决方案"
+    ],
     "isPublished": false,
     "state": "立项",
     "type": "md",

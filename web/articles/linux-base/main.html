@@ -111,6 +111,9 @@ ls
 # 然后 bash aaa 与 bash sh01.sh 等价
 bash aaa
 </code></pre>
+<p>有些时候需要不同服务器之间需要相互传文件:</p>
+<pre><code class="lang-bash">scp x.zip work@cp01-ipage.epc.baidu.com:~/
+</code></pre>
 <h3 id="header-1-2-4">打包压缩和解压：</h3>
 <pre><code class="lang-bash"># 压缩，使用不同的参数采用相应的压缩算法
 tar -jcv -f a.tar.bz2    a
