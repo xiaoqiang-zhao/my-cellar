@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>React -- 第 1 天 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">React -- 第 1 天</h1>
+<blockquote>
+<p>从官网开始一步步学完 React，计划用时 3 天，第 1 天 -- 主要概念和其 Demo。</p>
+</blockquote>
+<h2 id="header-1-1">开始</h2>
+<p>这里假设你的前端基础比较扎实，对 Webpack 也比较熟，熟练掌握 Vue(这是我自己的情况，学的时候会和 Vue 做比较)。</p>
+<p>官网：<a href="https://reactjs.org/" target="_blank">https://reactjs.org/</a></p>
+<p>官网提供了两种学习模式：</p>
+<ul>
+<li>learn by doing: 边做边学</li>
+<li>learn concepts step by step: 一个概念一个概念的学</li>
+</ul>
+<p>我个人喜欢第二种，从核心概念开始(从 Hello world 一步步展开)，然后在看边做边学的示例项目就明快多了。第一个概念就是 <code>JSX</code>。</p>
+<h2 id="header-1-2">JSX</h2>
+<p>一种 JavaSript 的扩展语法。为什么是 JSX 这种形式？从软件设计角度来说 React 认为界面、数据、状态和渲染是一个组件内部的逻辑，所以理因内聚。</p>
+<p>代码还是跑起来才容易理解，在开始语法之前我们先引官方脚手架方便测试代码，后面单独拿出章节来研究 React 工程化。</p>
+<pre><code class="lang-shell">mkdir react-study-1
+npx create-react-app react-study-1
+cd react-study-1
+yarn
+yarn start
+</code></pre>
+<p>这样一个 React 工程就启动了。页面配置在 public 文件夹下，入口是 src/index.js，业务代码长下面这样：</p>
+<pre><code class="lang-js">import React, { Component } from &#39;react&#39;;
+import logo from &#39;./logo.svg&#39;;
+import &#39;./App.css&#39;;
+
+class App extends Component {
+  render() {
+    return (
+      &lt;div className=&quot;App&quot;&gt;
+        &lt;header className=&quot;App-header&quot;&gt;
+          &lt;img src={logo} className=&quot;App-logo&quot; alt=&quot;logo&quot; /&gt;
+          &lt;h1 className=&quot;App-title&quot;&gt;Welcome to React&lt;/h1&gt;
+        &lt;/header&gt;
+        &lt;p className=&quot;App-intro&quot;&gt;
+          To get started, edit &lt;code&gt;src/App.js&lt;/code&gt; and save to reload.
+        &lt;/p&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default App;
+</code></pre>
+<p>然后下面正式开始 JSX。</p>
+<p>数据和模板拼接后的渲染 Demo 1.1：</p>
+<pre><code class="lang-js">const name = &#39;Josh Perez&#39;;
+const element = &lt;h1&gt;Hello, {name}&lt;/h1&gt;;
+
+ReactDOM.render(
+  element,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>函数的使用 Demo 1.2：</p>
+<pre><code class="lang-js">function formatName(user) {
+  return user.firstName + &#39; &#39; + user.lastName;
+}
+
+const user = {
+  firstName: &#39;Harper&#39;,
+  lastName: &#39;Perez&#39;
+};
+
+const element = (
+  &lt;h1&gt;
+    Hello, {formatName(user)}!
+  &lt;/h1&gt;
+);
+
+ReactDOM.render(
+  element,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>通过数据逻辑来呈现不同的 Dom，Demo 1.3：</p>
+<pre><code class="lang-js">const user = {
+  firstName: &#39;Harper&#39;,
+  lastName: &#39;Perez&#39;
+};
+function formatName(user) {
+  return user.firstName + &#39; &#39; + user.lastName;
+}
+function getGreeting(user) {
+  if (user) {
+    return &lt;h1&gt;Hello, {formatName(user)}!&lt;/h1&gt;;
+  }
+  return &lt;h1&gt;Hello, Stranger.&lt;/h1&gt;;
+}
+ReactDOM.render(
+  getGreeting(user),
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>自定义属性，Demo 1.4：</p>
+<pre><code class="lang-js">const element = &lt;div tabIndex=&quot;0&quot;&gt;0&lt;/div&gt;;
+ReactDOM.render(
+  element,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>需要注意的是 React 会将驼峰命名的 Dom 属性全部小写化，输出的 Dom 是这样的：<code>&lt;div tabindex=&quot;0&quot;&gt;0&lt;/div&gt;</code>，所以写属性的时候你可以认为是不区分大小写的。</p>
+<p>对于自闭和标签，下面两种形式是等价的：</p>
+<pre><code class="lang-js">const element = &lt;img src={user.avatarUrl}&gt;&lt;/img&gt;;
+const element = &lt;img src={user.avatarUrl}/&gt;;
+</code></pre>
+<p>当然标签可以嵌套：</p>
+<pre><code class="lang-js">const element = (
+  &lt;div&gt;
+    &lt;h1&gt;Hello!&lt;/h1&gt;
+    &lt;h2&gt;Good to see you here.&lt;/h2&gt;
+  &lt;/div&gt;
+);
+</code></pre>
+<p>输出时 React 是做了防注入过滤的，Demo 1.5：</p>
+<pre><code class="lang-js">const title = &#39;123&lt;/br&gt;456&#39;;
+// This is safe:
+const element = &lt;h1&gt;{title}&lt;/h1&gt;;
+ReactDOM.render(
+  element,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>输出的是 <code>&lt;h1&gt;123&amp;lt;/br&amp;gt;456&lt;/h1&gt;</code>。</p>
+<p>样式属性 class 在 JSX 语法中要换成 className 才可以：</p>
+<pre><code class="lang-js">const element = (
+  &lt;h1 className=&quot;greeting hi&quot;&gt;
+    Hello, world!
+  &lt;/h1&gt;
+);
+ReactDOM.render(
+  element,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<h2 id="header-1-3">Rendering Elements(渲染元素)</h2>
+<p>元素是组件的原材料。</p>
+<pre><code class="lang-html">&lt;div id=&quot;root&quot;&gt;&lt;/div&gt;
+</code></pre>
+<p>我们称上面这个 Dom 节点为根节点，因为将来的一切组件都会挂在他下面。</p>
+<p>怎么将数据更新渲染到页面上呢，Demo 1.6：</p>
+<pre><code class="lang-js">function tick() {
+  const element = (
+    &lt;div&gt;
+      &lt;h1&gt;Hello, world!&lt;/h1&gt;
+      &lt;h2&gt;It is {new Date().toLocaleTimeString()}.&lt;/h2&gt;
+    &lt;/div&gt;
+  );
+  ReactDOM.render(element, document.getElementById(&#39;root&#39;));
+}
+
+setInterval(tick, 1000);
+</code></pre>
+<p>React 通过虚拟 Dom 技术做最小量的 Dom 重绘，当时间改变时只会更新部分文字节点。</p>
+<h2 id="header-1-4">Components and Props(组件和属性)</h2>
+<p>最简单的组件就是函数组件，Demo 2.1:</p>
+<pre><code class="lang-js">function Welcome(props) {
+  return &lt;h1&gt;Hello, {props.name}&lt;/h1&gt;;
+}
+
+const element = &lt;Welcome name=&quot;Sara&quot; /&gt;;
+ReactDOM.render(
+  element,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>组件可以被另一个组件引用并多次使用，Demo 2.2:</p>
+<pre><code class="lang-js">function Welcome(props) {
+  return &lt;h1&gt;Hello, {props.name}&lt;/h1&gt;;
+}
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;Welcome name=&quot;Sara&quot; /&gt;
+      &lt;Welcome name=&quot;Cahal&quot; /&gt;
+      &lt;Welcome name=&quot;Edite&quot; /&gt;
+    &lt;/div&gt;
+  );
+}
+
+ReactDOM.render(
+  &lt;App /&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>可以用这种方法把复杂的组件拆成多个简单组件，还有一点需要注意，属性 props 是只读的不可修改(当然也包括其下面的属性)。</p>
+<h2 id="header-1-5">关键词</h2>
+<p>React: 视图框架, Jsx 语法, 需要通过工具编译, 官方指定工具 Browser.js 将 JSX 语法转为 JavaScript 语法; 数据与视图绑定
+虚拟 Dom 在 PC 下是否有意义?</p>
+<p>Flux 与 Redux:
+<a href="http://www.tuicool.com/articles/3AFJNbj" target="_blank">http://www.tuicool.com/articles/3AFJNbj</a></p>
+<h2 id="header-1-6">看了这么多开始写代码吧</h2>
+<p>参见 demo</p>
+<h2 id="header-1-7">参考资料</h2>
+<p><a href="https://reactjs.org/" target="_blank">官方文档</a></p>
+<p><a href="http://mp.weixin.qq.com/s?__biz=MzI0ODA2ODU2NQ==&amp;mid=2651130035&amp;idx=1&amp;sn=627be0dce8d53b0b3b4bb72a18099761#rd" target="_blank">怎样理顺 React，Flux，Redux 这些概念的关系</a></p>
+<p><a href="http://mp.weixin.qq.com/s?__biz=MzI0ODA2ODU2NQ==&amp;mid=2651129590&amp;idx=1&amp;sn=59cddf60674781b357dab7f0995b7fc3&amp;scene=19#wechat_redirect" target="_blank">React移动Web极致优化 | 腾讯团队从0到1的经验总结</a></p>
+<p><a href="https://github.com/thx/rap2-delos" target="_blank">阿里开源项目</a></p>
+
+</div>
+</body>
+</html>

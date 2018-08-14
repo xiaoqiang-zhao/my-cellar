@@ -1023,18 +1023,6 @@
     "todoList": []
   },
   {
-    "enName": "react",
-    "title": "React",
-    "introduction": "",
-    "tags": [],
-    "isPublished": false,
-    "state": "立项",
-    "type": "md",
-    "createDate": 1474196030377,
-    "commentList": [],
-    "todoList": []
-  },
-  {
     "enName": "react-docs-getting-started",
     "title": "React 官方文档 - 入门教程",
     "introduction": "注意:\n\n如果你正在使用 ES2015, 你将要使用 `babel-preset-es2015` 包.",
@@ -1067,6 +1055,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1477315331214,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "react-study-1",
+    "title": "React -- 第 1 天",
+    "introduction": "从官网开始一步步学完 React，计划用时 3 天，第 1 天 -- 主要概念和其 Demo。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1534152243196,
     "commentList": [],
     "todoList": []
   },
