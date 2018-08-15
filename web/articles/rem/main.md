@@ -146,7 +146,9 @@ html {
 
 | vw | 6.1+ | 4.4+ |
 
-通过[腾讯数据分析](https://mta.qq.com/mta/data/device/os)来看，如果是面向大众的产品那 vw 还要再等等才能用，安卓 4.4 以下的系统占比 3% 左右。
+通过[腾讯数据分析](https://mta.qq.com/mta/data/device/os)来看，如果是面向大众的产品那 vw 还要再等等才能用，安卓 4.4 以下的系统占比为 3% 左右。
+
+再参考一下[百度的统计数据](https://mtj.baidu.com/data/mobile/device)，安卓 4.4 以下的系统占比为 2.6% 左右。
 
 ## 栅格化
 
