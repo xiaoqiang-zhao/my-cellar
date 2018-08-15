@@ -411,6 +411,14 @@ exists().then(() => {
 }, err => {
     console.log('async:文件夹不存在');
 });
+// 在函数中一般使用 await 关键字
+const exists = await exists();
+if (exists) {
+    console.log('async:文件存在');
+}
+else {
+    console.log('async:文件夹不存在');
+}
 ```
 
 注：nodejs 原生模块 `fs` 后续的版本对 `exists` 方法已经弃用(弃用的原因官方大概是这么个意思：我们当初没想好写了这么个没用的 api，为什么没用呢，因为 nodejs 主打的是高并发，在服务器端一个文件或文件夹可能被多个人操作，当你的代码前脚判断文件夹还存在后脚想往里放文件的时候可能这时文件夹就被别人删掉了，所以拜托你们别再用了。官方推荐用 `stat` 或 `access` 来代替。)，我们这里用 `access` 来代替。
@@ -471,7 +479,7 @@ task();
 
 ### 错误处理
 
-看上面 async 部分的代码是不是感觉少点什么，上面提到“用 await 来提取 promise resolve 回调函数的入参”，那 reject 哪里去了，丢了？嗯，是丢了。不过有两种方式可以找回来，我们再拿上面例子说事，如果你不关心具体哪一步出了问题，可以用一个 `try catch` 来处理：
+看上面 async 部分的代码是不是感觉少点什么，上面提到“用 await 来提取 promise resolve 回调函数的入参”，那 reject 哪里去了，丢了？嗯，是丢了(关于这一点你可以去看 Demo: async-reject.js)。不过有两种方式可以找回来，我们再拿上面例子说事，如果你不关心具体哪一步出了问题，可以用一个 `try catch` 来处理：
 
 ```js
 async function task() {
