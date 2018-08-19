@@ -1,10 +1,12 @@
-# React -- 第 2 天
+# React -- 第 2 天 -- 进阶指导
 
 > 从官网开始一步步学完 React，计划用时 3 天，第 2 天 -- 进阶指南。
 
 ## 易读易用性
 
 > Accessibility
+
+官方文档从这里开始：https://reactjs.org/docs/accessibility.html
 
 只有 html 属性和 data- 以及 aria- 才会显示在 Dom 中，其余的 key 或其他，是扩展性质的，便于向下级组件传递数据。aria 是 Accessible Rich Internet Applications 的缩写，下面 Demo 渲染出的 Dom 是有 aria 开头的属性的，Demo 5.1:
 
@@ -284,6 +286,88 @@ class ErrorBoundary extends React.Component {
 <ErrorBoundary>
   <MyWidget />
 </ErrorBoundary>
+```
+
+## 直接索引
+
+> Forwarding Refs
+
+直接索引 Dom，Demo 6.1
+```js
+const FancyButton = React.forwardRef((props, ref) => (
+  <button ref={ref} className="FancyButton">
+    {props.children}
+  </button>
+));
+
+// You can now get a ref directly to the DOM button:
+const ref = React.createRef();
+ReactDOM.render(<FancyButton ref={ref}>Click me!</FancyButton>, document.getElementById('root'));
+console.log(document.getElementsByTagName('button')[0] === ref.current);
+// true
+```
+
+React 组件的封装性决定了父组件是不能直接访问子组件的 Dom 的，但是有些情况需要操作，比如获得焦点。
+
+## 片段
+
+> Fragments，组件可以返回 Dom 片段，当有不在一个 Dom 节点下的时候可以用 React.Fragment 标签包裹起来。
+
+Demo 6.2
+```js
+class Columns extends React.Component {
+  render() {
+    return (
+      <React.Fragment>
+        <td>Hello</td>
+        <td>World</td>
+      </React.Fragment>
+    );
+  }
+}
+
+class Table extends React.Component {
+  render() {
+    return (
+      <table>
+        <tbody>
+          <tr>
+            <Columns />
+          </tr>
+        </tbody>
+      </table>
+    );
+  }
+}
+ReactDOM.render(<Table/>, document.getElementById('root'));
+```
+React.Fragment 标签可以简写，不会出现额外的标签：
+```js
+class Columns extends React.Component {
+  render() {
+    return (
+      <>
+        <td>Hello</td>
+        <td>World</td>
+      </>
+    );
+  }
+}
+```
+
+## 
+
+> 
+```js
+
+```
+
+```js
+
+```
+
+```js
+
 ```
 
 ```js
