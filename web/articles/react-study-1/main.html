@@ -3,7 +3,7 @@
 <head lang="zh-cn">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>React -- 第 1 天 - 龙则的个人站点</title>
+    <title>React -- 第 1 天 -- 基础概念 - 龙则的个人站点</title>
     <script>
         // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
         var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
@@ -18,7 +18,7 @@
     <h2> 精进自己，服务他人 </h2>
 </header>
 <div>
-    <h1 id="header-1">React -- 第 1 天</h1>
+    <h1 id="header-1">React -- 第 1 天 -- 基础概念</h1>
 <blockquote>
 <p>从官网开始一步步学完 React，计划用时 3 天，第 1 天 -- 主要概念和其 Demo。</p>
 </blockquote>
@@ -32,6 +32,7 @@
 </ul>
 <p>我个人喜欢第二种，从核心概念开始(从 Hello world 一步步展开)，然后在看边做边学的示例项目就明快多了。第一个概念就是 <code>JSX</code>。</p>
 <h2 id="header-1-2">JSX</h2>
+<p>官方文档从这里开始：<a href="https://reactjs.org/docs/introducing-jsx.html" target="_blank">https://reactjs.org/docs/introducing-jsx.html</a></p>
 <p>一种 JavaSript 的扩展语法。为什么是 JSX 这种形式？从软件设计角度来说 React 认为界面、数据、状态和渲染是一个组件内部的逻辑，所以理因内聚。</p>
 <p>代码还是跑起来才容易理解，在开始语法之前我们先引官方脚手架方便测试代码，后面单独拿出章节来研究 React 工程化。</p>
 <pre><code class="lang-shell">mkdir react-study-1
@@ -143,7 +144,7 @@ ReactDOM.render(
 );
 </code></pre>
 <p>输出的是 <code>&lt;h1&gt;123&amp;lt;/br&amp;gt;456&lt;/h1&gt;</code>。</p>
-<p>样式属性 class 在 JSX 语法中要换成 className 才可以：</p>
+<p>样式属性 class 在 JSX 语法中要换成 className 才可以，Demo 1.6：</p>
 <pre><code class="lang-js">const element = (
   &lt;h1 className=&quot;greeting hi&quot;&gt;
     Hello, world!
@@ -154,12 +155,15 @@ ReactDOM.render(
   document.getElementById(&#39;root&#39;)
 );
 </code></pre>
-<h2 id="header-1-3">Rendering Elements(渲染元素)</h2>
+<h2 id="header-1-3">渲染元素</h2>
+<blockquote>
+<p>Rendering Elements</p>
+</blockquote>
 <p>元素是组件的原材料。</p>
 <pre><code class="lang-html">&lt;div id=&quot;root&quot;&gt;&lt;/div&gt;
 </code></pre>
 <p>我们称上面这个 Dom 节点为根节点，因为将来的一切组件都会挂在他下面。</p>
-<p>怎么将数据更新渲染到页面上呢，Demo 1.6：</p>
+<p>怎么将数据更新渲染到页面上呢，Demo 1.7：</p>
 <pre><code class="lang-js">function tick() {
   const element = (
     &lt;div&gt;
@@ -173,7 +177,10 @@ ReactDOM.render(
 setInterval(tick, 1000);
 </code></pre>
 <p>React 通过虚拟 Dom 技术做最小量的 Dom 重绘，当时间改变时只会更新部分文字节点。</p>
-<h2 id="header-1-4">Components and Props(组件和属性)</h2>
+<h2 id="header-1-4">组件和属性</h2>
+<blockquote>
+<p>Components and Props</p>
+</blockquote>
 <p>最简单的组件就是函数组件，Demo 2.1:</p>
 <pre><code class="lang-js">function Welcome(props) {
   return &lt;h1&gt;Hello, {props.name}&lt;/h1&gt;;
@@ -206,18 +213,744 @@ ReactDOM.render(
 );
 </code></pre>
 <p>可以用这种方法把复杂的组件拆成多个简单组件，还有一点需要注意，属性 props 是只读的不可修改(当然也包括其下面的属性)。</p>
-<h2 id="header-1-5">关键词</h2>
-<p>React: 视图框架, Jsx 语法, 需要通过工具编译, 官方指定工具 Browser.js 将 JSX 语法转为 JavaScript 语法; 数据与视图绑定
-虚拟 Dom 在 PC 下是否有意义?</p>
-<p>Flux 与 Redux:
-<a href="http://www.tuicool.com/articles/3AFJNbj" target="_blank">http://www.tuicool.com/articles/3AFJNbj</a></p>
-<h2 id="header-1-6">看了这么多开始写代码吧</h2>
-<p>参见 demo</p>
-<h2 id="header-1-7">参考资料</h2>
+<h2 id="header-1-5">组件的状态和生命周期</h2>
+<blockquote>
+<p>State and Lifecycle</p>
+</blockquote>
+<p>首先将 function 组件转换成 class 组件，Demo 2.3：</p>
+<pre><code class="lang-js">class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};
+  }
+
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;Hello, world!&lt;/h1&gt;
+        &lt;h2&gt;It is {this.state.date.toLocaleTimeString()}.&lt;/h2&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+ReactDOM.render(
+  &lt;Clock /&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>想要让时钟动起来，优雅的动起来，就要讲到生命周期，组件在不同的阶段会触发一些钩子函数，比如组件第一次渲染被称为 “mounting” 阶段，渲染完成后触发的钩子函数是 “componentDidMount”，移除组件被称为 “unmounting” 移除之前触发的钩子函数是 “componentWillUnmount”，最后组件就可以写成这样</p>
+<pre><code class="lang-js">class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(
+      () =&gt; this.tick(),
+      1000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
+
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;Hello, world!&lt;/h1&gt;
+        &lt;h2&gt;It is {this.state.date.toLocaleTimeString()}.&lt;/h2&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+ReactDOM.render(
+  &lt;Clock /&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>设值 state 的时候需要用 this.setState 方法，不可以直接设置：</p>
+<pre><code class="lang-js">// Correct
+this.setState({comment: &#39;Hello&#39;});
+// Wrong
+this.state.comment = &#39;Hello&#39;;
+</code></pre>
+<p>如果新 state 是同名旧 state 加工而成，建议使用回调，否则可能失败</p>
+<pre><code class="lang-js">// Correct
+this.setState((prevState, props) =&gt; ({
+  counter: prevState.counter + props.increment
+}));
+// Wrong
+this.setState({
+  counter: this.state.counter + this.props.increment,
+});
+</code></pre>
+<p>state 更新时会自动 merge，对数组和对象都生效</p>
+<pre><code class="lang-js">constructor(props) {
+  super(props);
+  this.state = {
+    posts: [],
+    comments: []
+  };
+}
+componentDidMount() {
+  fetchPosts().then(response =&gt; {
+    this.setState({
+      posts: response.posts
+    });
+  });
+
+  fetchComments().then(response =&gt; {
+    this.setState({
+      comments: response.comments
+    });
+  });
+}
+</code></pre>
+<p>最后需要注意，数据流向是单项流动，只能父组件通过属性传递给子组件，子组件不可以直接改变父组件的属性。</p>
+<p>组件的生命周期是很重要的概念，我们把这一块学的彻底一点，组件的生命周期可分成三个状态：</p>
+<ul>
+<li>Mounting：已插入真实 DOM</li>
+<li>Updating：正在被重新渲染</li>
+<li>Unmounting：已移出真实 DOM</li>
+</ul>
+<p>生命周期的方法有：</p>
+<ul>
+<li>componentWillMount: 在渲染前调用,在客户端也在服务端。</li>
+<li>componentDidMount: 在第一次渲染后调用，只在客户端。之后组件已经生成了对应的DOM结构，可以通过this.getDOMNode()来进行访问。 如果你想和其他JavaScript框架一起使用，可以在这个方法中调用setTimeout, setInterval或者发送AJAX请求等操作(防止异步操作阻塞UI)。</li>
+<li>componentWillReceiveProps: 在组件接收到一个新的 prop (更新后)时被调用。这个方法在初始化render时不会被调用。</li>
+<li>shouldComponentUpdate: 返回一个布尔值。在组件接收到新的props或者state时被调用。在初始化时或者使用forceUpdate时不被调用。 可以在你确认不需要更新组件时使用。</li>
+<li>componentWillUpdate: 在组件接收到新的props或者state但还没有render时被调用。在初始化时不会被调用。</li>
+<li>componentDidUpdate: 在组件完成更新后立即调用。在初始化时不会被调用。</li>
+<li>componentWillUnmount: 在组件从 DOM 中移除的时候立刻被调用。</li>
+</ul>
+<h2 id="header-1-6">事件处理</h2>
+<blockquote>
+<p>Handling Events</p>
+</blockquote>
+<p>可以像零级事件模型那样绑事件，结合上面讲的 setState 看下面这个投票的例子，Demo 2.5</p>
+<pre><code class="lang-js">class Box extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      color: &#39;未投票&#39;,
+      total: 0
+    };
+  }
+
+  handleClick(color) {
+    this.setState({
+      color
+    });
+    this.setState((prevState) =&gt; ({
+      total: prevState.total + 1
+    }));
+  }
+
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;当前投票：{this.state.color}，投票总计：{this.state.total}&lt;/h1&gt;
+        &lt;div&gt;
+          &lt;button onClick={e =&gt; this.handleClick(&#39;红队&#39;, e)}&gt;红队&lt;/button&gt;
+          &lt;button onClick={this.handleClick.bind(this, &#39;绿队&#39;)}&gt;绿队&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+ReactDOM.render(
+  &lt;Box /&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>如果有参数需要直接传递，那么需要用箭头函数包装一下，否则绑定的就是执行结果；或者用 bind 关键字。</p>
+<h2 id="header-1-7">条件渲染</h2>
+<blockquote>
+<p>Conditional Rendering</p>
+</blockquote>
+<p>如果我们有两个组件，一个在登录后显示，一个在登录前显示，这就要用到判断，也就是条件渲染，Demo 3.1</p>
+<pre><code class="lang-js">function UserGreeting(props) {
+  return &lt;h1&gt;Welcome back!&lt;/h1&gt;;
+}
+
+function GuestGreeting(props) {
+  return &lt;h1&gt;Please sign up.&lt;/h1&gt;;
+}
+
+function Greeting(props) {
+  const isLoggedIn = props.isLoggedIn;
+  if (isLoggedIn) {
+    return &lt;UserGreeting /&gt;;
+  }
+  return &lt;GuestGreeting /&gt;;
+}
+
+ReactDOM.render(
+  // Try changing to isLoggedIn={true}:
+  &lt;Greeting isLoggedIn={false} /&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>组件之间的交互可以通过父组件向下传递，按钮改变登录状态，通过变量 isLoggedIn 通知呈现组件呈现不同的内容，Demo 3.2</p>
+<pre><code class="lang-js">function UserGreeting(props) {
+  return &lt;h1&gt;Welcome back!&lt;/h1&gt;;
+}
+
+function GuestGreeting(props) {
+  return &lt;h1&gt;Please sign up.&lt;/h1&gt;;
+}
+
+function Greeting(props) {
+  const isLoggedIn = props.isLoggedIn;
+  if (isLoggedIn) {
+    return &lt;UserGreeting /&gt;;
+  }
+  return &lt;GuestGreeting /&gt;;
+}
+
+function LoginButton(props) {
+  return (
+    &lt;button onClick={props.onClick}&gt;
+      Login
+    &lt;/button&gt;
+  );
+}
+
+function LogoutButton(props) {
+  return (
+    &lt;button onClick={props.onClick}&gt;
+      Logout
+    &lt;/button&gt;
+  );
+}
+class LoginControl extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleLoginClick = this.handleLoginClick.bind(this);
+    // this.handleLogoutClick = this.handleLogoutClick.bind(this);
+    this.state = {isLoggedIn: false};
+  }
+
+  handleLoginClick() {
+    this.setState({isLoggedIn: true});
+  }
+
+  handleLogoutClick() {
+    this.setState({isLoggedIn: false});
+  }
+
+  render() {
+    const isLoggedIn = this.state.isLoggedIn;
+    let button;
+    console.log(&#39;render&#39;)
+
+    if (isLoggedIn) {
+      button = &lt;LogoutButton onClick={this.handleLogoutClick.bind(this)} /&gt;;
+    } else {
+      button = &lt;LoginButton onClick={this.handleLoginClick} /&gt;
+    }
+
+    return (
+      &lt;div&gt;
+        &lt;Greeting isLoggedIn={isLoggedIn} /&gt;
+        {button}
+      &lt;/div&gt;
+    );
+  }
+}
+
+ReactDOM.render(
+  &lt;LoginControl /&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>如果事件被多次绑定可以在 constructor 中做一下转换，这样就不用在每一处元素上加 bind。另外每一轮 state 更新都会触发重新 render，render 中的变量并没有做只能解析。</p>
+<p>除了通过 js 控制元素切换展现，还可以直接在元素片段中控制</p>
+<pre><code class="lang-js">render() {
+  const isLoggedIn = this.state.isLoggedIn;
+  return (
+    &lt;div&gt;
+      {isLoggedIn ? (
+        &lt;LogoutButton onClick={this.handleLogoutClick} /&gt;
+      ) : (
+        &lt;LoginButton onClick={this.handleLoginClick} /&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+<p>还可以直接通过三元表达式判断：</p>
+<pre><code class="lang-js">render() {
+  const isLoggedIn = this.state.isLoggedIn;
+  return (
+    &lt;div&gt;
+      The user is &lt;b&gt;{isLoggedIn ? &#39;currently&#39; : &#39;not&#39;}&lt;/b&gt; logged in.
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+<p>在一些情况下，你可能不想让组件的 Dom 进入到浏览器 Dom 中，你可以直接返回 null，Demo 3.3</p>
+<pre><code class="lang-js">function WarningBanner(props) {
+  if (!props.warn) {
+    return null;
+  }
+
+  return (
+    &lt;div className=&quot;warning&quot;&gt;
+      Warning!
+    &lt;/div&gt;
+  );
+}
+
+class Page extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {showWarning: true};
+    this.handleToggleClick = this.handleToggleClick.bind(this);
+  }
+
+  handleToggleClick() {
+    this.setState(prevState =&gt; ({
+      showWarning: !prevState.showWarning
+    }));
+  }
+
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;WarningBanner warn={this.state.showWarning} /&gt;
+        &lt;button onClick={this.handleToggleClick}&gt;
+          {this.state.showWarning ? &#39;Hide&#39; : &#39;Show&#39;}
+        &lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+ReactDOM.render(
+  &lt;Page /&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<h2 id="header-1-8">列表的标识</h2>
+<blockquote>
+<p>Lists and Keys</p>
+</blockquote>
+<p>简易列表渲染，通过 map 返回一个新数组，Demo 3.4</p>
+<pre><code class="lang-js">const numbers = [1, 2, 3, 4, 5];
+const listItems = numbers.map((number) =&gt;
+  &lt;li&gt;{number*2}&lt;/li&gt;
+);
+ReactDOM.render(
+  &lt;ul&gt;{listItems}&lt;/ul&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>再看一个基础列表组件，Demo 3.5</p>
+<pre><code class="lang-js">function NumberList(props) {
+  const numbers = props.numbers;
+  const listItems = numbers.map((number) =&gt;
+    &lt;li&gt;{number*2}&lt;/li&gt;
+  );
+  return (
+    &lt;ul&gt;{listItems}&lt;/ul&gt;
+  );
+}
+
+const numbers = [1, 2, 3, 4, 5];
+ReactDOM.render(
+  &lt;NumberList numbers={numbers} /&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>上面的示例会报一个错误，我们需要加 key 来修正一下，key 使虚拟 Dom 和实体 Dom 对应更加高效，在 React 中是强制的。</p>
+<pre><code class="lang-js">&lt;li key={number.toString()}&gt;
+</code></pre>
+<p>当组件循环的时候，要加上 key，并且 key 的值在列表中一定要是唯一的，不唯一的字段不可以作为 key，Demo 3.6</p>
+<pre><code class="lang-js">function ListItem(props) {
+  // Correct! There is no need to specify the key here:
+  return &lt;li&gt;{props.value*2}&lt;/li&gt;;
+}
+
+function NumberList(props) {
+  const numbers = props.numbers;
+  const listItems = numbers.map((number) =&gt;
+    // Correct! Key should be specified inside the array.
+    &lt;ListItem key={number.toString()}
+              value={number} /&gt;
+
+  );
+  return (
+    &lt;ul&gt;
+      {listItems}
+    &lt;/ul&gt;
+  );
+}
+
+const numbers = [1, 2, 3, 4, 5];
+ReactDOM.render(
+  &lt;NumberList numbers={numbers} /&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<h2 id="header-1-9">表单</h2>
+<blockquote>
+<p>Forms</p>
+</blockquote>
+<p>对于表单值的改变并没有双向绑定，需要借助 onChange 来更新数据，Demo 3.7。</p>
+<pre><code class="lang-js">class NameForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: &#39;&#39;};
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    alert(&#39;A name was submitted: &#39; + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      &lt;form onSubmit={this.handleSubmit}&gt;
+        &lt;label&gt;
+          Name:
+          &lt;input type=&quot;text&quot; value={this.state.value} onChange={this.handleChange} /&gt;
+        &lt;/label&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;
+      &lt;/form&gt;
+    );
+  }
+}
+ReactDOM.render(
+  &lt;NameForm/&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>select 标签，在 React 中将原生 option 上的 selected 属性转移到了 select 节点的 value 上，Demo 3.8：</p>
+<pre><code class="lang-js">class FlavorForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: &#39;coconut&#39;};
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    alert(&#39;Your favorite flavor is: &#39; + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      &lt;form onSubmit={this.handleSubmit}&gt;
+        &lt;label&gt;
+          Pick your favorite flavor:
+          &lt;select value={this.state.value} onChange={this.handleChange}&gt;
+            &lt;option value=&quot;grapefruit&quot;&gt;Grapefruit&lt;/option&gt;
+            &lt;option value=&quot;lime&quot;&gt;Lime&lt;/option&gt;
+            &lt;option value=&quot;coconut&quot;&gt;Coconut&lt;/option&gt;
+            &lt;option value=&quot;mango&quot;&gt;Mango&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/label&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;
+      &lt;/form&gt;
+    );
+  }
+}
+ReactDOM.render(
+  &lt;FlavorForm/&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>checkbox 表单，这里有一个小技巧，多个表单项的 onChange 的 handler 可以是同一个，用 type 和 name 来做分流，Demo 3.9：</p>
+<pre><code class="lang-js">class Reservation extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isGoing: true,
+      numberOfGuests: 2
+    };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === &#39;checkbox&#39; ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  render() {
+    return (
+      &lt;form&gt;
+        &lt;label&gt;
+          Is going:
+          &lt;input
+            name=&quot;isGoing&quot;
+            type=&quot;checkbox&quot;
+            checked={this.state.isGoing}
+            onChange={this.handleInputChange} /&gt;
+        &lt;/label&gt;
+        &lt;br /&gt;
+        &lt;label&gt;
+          Number of guests:
+          &lt;input
+            name=&quot;numberOfGuests&quot;
+            type=&quot;number&quot;
+            value={this.state.numberOfGuests}
+            onChange={this.handleInputChange} /&gt;
+        &lt;/label&gt;
+      &lt;/form&gt;
+    );
+  }
+}
+ReactDOM.render(
+  &lt;Reservation/&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>如果没有 onChange 的支持，直接赋值的 Form 表单项是不可编辑的，但是值为 null 就成为了可编辑表单，Demo 3.10：</p>
+<pre><code class="lang-js">ReactDOM.render(
+  &lt;input value=&quot;hi&quot; /&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+setTimeout(function() {
+  ReactDOM.render(
+    &lt;input value={null} /&gt;, 
+    document.getElementById(&#39;root&#39;)
+  );
+}, 1000);
+</code></pre>
+<p>官方也意识到了写冗长的表单很乏味，表单的每一项都要 onChang 和 handler，官网推荐了一个库来解决这个问题 non-React。</p>
+<h2 id="header-1-10">状态提升</h2>
+<blockquote>
+<p>Lifting State Up</p>
+</blockquote>
+<p>使用 react 经常会遇到几个组件需要共用状态数据的情况。这种情况下，我们最好将这部分共享的状态提升至他们最近的父组件当中进行管理。下面是你给一个温度，在这个温度下水会不会开，Demo 4.1：</p>
+<pre><code class="lang-js">function BoilingVerdict(props) {
+  if (props.celsius &gt;= 100) {
+    return &lt;p&gt;水会烧开&lt;/p&gt;;
+  }
+  return &lt;p&gt;水不会烧开&lt;/p&gt;;
+}
+class Calculator extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.state = {temperature: &#39;&#39;};
+  }
+
+  handleChange(e) {
+    this.setState({temperature: e.target.value});
+  }
+
+  render() {
+    const temperature = this.state.temperature;
+    return (
+      &lt;fieldset&gt;
+        &lt;legend&gt;输入一个摄氏温度&lt;/legend&gt;
+        &lt;input
+          value={temperature}
+          onChange={this.handleChange} /&gt;
+
+        &lt;BoilingVerdict
+          celsius={parseFloat(temperature)} /&gt;
+
+      &lt;/fieldset&gt;
+    );
+  }
+}
+ReactDOM.render(&lt;Calculator /&gt;, document.getElementById(&#39;root&#39;));
+</code></pre>
+<p>上面例子其实是一个父组件影响子组件的一个例子，两个同级组件之间借助父组件相互影响才是这一章的重点，下面是一个温度转换的例子，摄氏温度和华氏温度转换，Demo 4.2：</p>
+<pre><code class="lang-js">function BoilingVerdict(props) {
+  if (props.celsius &gt;= 100) {
+    return &lt;p&gt;水会烧开&lt;/p&gt;;
+  }
+  return &lt;p&gt;水不会烧开&lt;/p&gt;;
+}
+const scaleNames = {
+  c: &#39;Celsius&#39;,
+  f: &#39;Fahrenheit&#39;
+};
+
+class TemperatureInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(e) {
+    this.props.onTemperatureChange(e.target.value);
+  }
+
+  render() {
+    const temperature = this.props.temperature;
+    const scale = this.props.scale;
+    return (
+      &lt;fieldset&gt;
+        &lt;legend&gt;在{scaleNames[scale]}:中输入温度数值&lt;/legend&gt;
+        &lt;input value={temperature}
+               onChange={this.handleChange} /&gt;
+      &lt;/fieldset&gt;
+    );
+  }
+}
+
+// 转换函数
+function toCelsius(fahrenheit) {
+  return (fahrenheit - 32) * 5 / 9;
+}
+function toFahrenheit(celsius) {
+  return (celsius * 9 / 5) + 32;
+}
+
+function tryConvert(temperature, convert) {
+  const input = parseFloat(temperature);
+  if (Number.isNaN(input)) {
+    return &#39;&#39;;
+  }
+  const output = convert(input);
+  const rounded = Math.round(output * 1000) / 1000;
+  return rounded.toString();
+}
+class Calculator extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
+    this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
+    this.state = {temperature: &#39;&#39;, scale: &#39;c&#39;};
+  }
+
+  handleCelsiusChange(temperature) {
+    this.setState({scale: &#39;c&#39;, temperature});
+  }
+
+  handleFahrenheitChange(temperature) {
+    this.setState({scale: &#39;f&#39;, temperature});
+  }
+
+  render() {
+    const scale = this.state.scale;
+    const temperature = this.state.temperature;
+    const celsius = scale === &#39;f&#39; ? tryConvert(temperature, toCelsius) : temperature;
+    const fahrenheit = scale === &#39;c&#39; ? tryConvert(temperature, toFahrenheit) : temperature;
+
+    return (
+      &lt;div&gt;
+        &lt;TemperatureInput
+          scale=&quot;c&quot;
+          temperature={celsius}
+          onTemperatureChange={this.handleCelsiusChange} /&gt;
+
+        &lt;TemperatureInput
+          scale=&quot;f&quot;
+          temperature={fahrenheit}
+          onTemperatureChange={this.handleFahrenheitChange} /&gt;
+
+        &lt;BoilingVerdict
+          celsius={parseFloat(celsius)} /&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+ReactDOM.render(&lt;Calculator /&gt;, document.getElementById(&#39;root&#39;));
+</code></pre>
+<h2 id="header-1-11">组合 vs 集成</h2>
+<blockquote>
+<p>Composition vs Inheritance</p>
+</blockquote>
+<p>React 具有强大的组合模型，我们建议使用组合而不是继承来复用组件之间的代码。其实和 Vue 的 slot 是一回事，下面先来个简单的，Demo 4.3</p>
+<pre><code class="lang-js">function FancyBorder(props) {
+  return (
+    &lt;div className={&#39;FancyBorder FancyBorder-&#39; + props.color}&gt;
+      {props.children}
+    &lt;/div&gt;
+  );
+}
+function WelcomeDialog() {
+  return (
+    &lt;FancyBorder color=&quot;blue&quot;&gt;
+      &lt;h1 className=&quot;Dialog-title&quot;&gt;
+        Welcome
+      &lt;/h1&gt;
+      &lt;p className=&quot;Dialog-message&quot;&gt;
+        Thank you for visiting our spacecraft!
+      &lt;/p&gt;
+    &lt;/FancyBorder&gt;
+  );
+}
+ReactDOM.render(&lt;WelcomeDialog /&gt;, document.getElementById(&#39;root&#39;));
+</code></pre>
+<p>一个组件的不同部分都允许被自定义，也就是组件的多个插槽，Demo 4.4：</p>
+<pre><code class="lang-js">function SplitPane(props) {
+  return (
+    &lt;div className=&quot;SplitPane&quot;&gt;
+      &lt;div className=&quot;SplitPane-left&quot;&gt;
+        {props.left}
+      &lt;/div&gt;
+      &lt;div className=&quot;SplitPane-right&quot;&gt;
+        {props.right}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+function Contacts() {
+  return (
+    &lt;div&gt;Contacts&lt;/div&gt;
+  );
+}
+function Chat() {
+  return (
+    &lt;div&gt;Chat&lt;/div&gt;
+  );
+}
+function App() {
+  return (
+    &lt;SplitPane
+      left={
+        &lt;Contacts /&gt;
+      }
+      right={
+        &lt;Chat /&gt;
+      } /&gt;
+  );
+}
+ReactDOM.render(&lt;App /&gt;, document.getElementById(&#39;root&#39;));
+</code></pre>
+<h2 id="header-1-12">参考资料</h2>
 <p><a href="https://reactjs.org/" target="_blank">官方文档</a></p>
 <p><a href="http://mp.weixin.qq.com/s?__biz=MzI0ODA2ODU2NQ==&amp;mid=2651130035&amp;idx=1&amp;sn=627be0dce8d53b0b3b4bb72a18099761#rd" target="_blank">怎样理顺 React，Flux，Redux 这些概念的关系</a></p>
 <p><a href="http://mp.weixin.qq.com/s?__biz=MzI0ODA2ODU2NQ==&amp;mid=2651129590&amp;idx=1&amp;sn=59cddf60674781b357dab7f0995b7fc3&amp;scene=19#wechat_redirect" target="_blank">React移动Web极致优化 | 腾讯团队从0到1的经验总结</a></p>
 <p><a href="https://github.com/thx/rap2-delos" target="_blank">阿里开源项目</a></p>
+<p><a href="http://www.tuicool.com/articles/3AFJNbj" target="_blank">Flux 与 Redux</a></p>
 
 </div>
 </body>

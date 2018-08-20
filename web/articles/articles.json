@@ -1023,50 +1023,26 @@
     "todoList": []
   },
   {
-    "enName": "react-docs-getting-started",
-    "title": "React 官方文档 - 入门教程",
-    "introduction": "注意:\n\n如果你正在使用 ES2015, 你将要使用 `babel-preset-es2015` 包.",
-    "tags": [],
-    "isPublished": false,
-    "state": "立项",
-    "type": "md",
-    "createDate": 1474197131441,
-    "commentList": [],
-    "todoList": []
-  },
-  {
-    "enName": "react-docs-thinking-in-react",
-    "title": "React 编程思想",
-    "introduction": "未找到描述信息",
-    "tags": [],
-    "isPublished": false,
-    "state": "立项",
-    "type": "md",
-    "createDate": 1477315331213,
-    "commentList": [],
-    "todoList": []
-  },
-  {
-    "enName": "react-docs-tutorial",
-    "title": "React 官方文档 - 实例指导",
-    "introduction": "我们将建立一个你可以放进博客的简单却真实的评论框，一个 Disqus、LiveFyre 或 Facebook comments 提供的实时评论的基础版本。",
-    "tags": [],
-    "isPublished": false,
-    "state": "立项",
-    "type": "md",
-    "createDate": 1477315331214,
-    "commentList": [],
-    "todoList": []
-  },
-  {
     "enName": "react-study-1",
-    "title": "React -- 第 1 天",
+    "title": "React -- 第 1 天 -- 基础概念",
     "introduction": "从官网开始一步步学完 React，计划用时 3 天，第 1 天 -- 主要概念和其 Demo。",
     "tags": [],
     "isPublished": false,
     "state": "立项",
     "type": "md",
     "createDate": 1534152243196,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "react-study-2",
+    "title": "React -- 第 2 天 -- 进阶指导",
+    "introduction": "从官网开始一步步学完 React，计划用时 3 天，第 2 天 -- 进阶指南。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1534730446196,
     "commentList": [],
     "todoList": []
   },

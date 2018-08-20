@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>React -- 第 2 天 -- 进阶指导 - 龙则的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 龙则的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">React -- 第 2 天 -- 进阶指导</h1>
+<blockquote>
+<p>从官网开始一步步学完 React，计划用时 3 天，第 2 天 -- 进阶指南。</p>
+</blockquote>
+<h2 id="header-1-1">易读易用性</h2>
+<blockquote>
+<p>Accessibility</p>
+</blockquote>
+<p>官方文档从这里开始：<a href="https://reactjs.org/docs/accessibility.html" target="_blank">https://reactjs.org/docs/accessibility.html</a></p>
+<p>只有 html 属性和 data- 以及 aria- 才会显示在 Dom 中，其余的 key 或其他，是扩展性质的，便于向下级组件传递数据。aria 是 Accessible Rich Internet Applications 的缩写，下面 Demo 渲染出的 Dom 是有 aria 开头的属性的，Demo 5.1:</p>
+<pre><code class="lang-js">class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onchangeHandler = this.onchangeHandler.bind(this);
+    this.state = {
+      labelText: &#39;labelText&#39;,
+      inputValue: &#39;inputValue&#39;
+    };
+  }
+
+  onchangeHandler(e) {
+    this.setState({
+      inputValue: e.target.value
+    });
+  }
+
+  render() {
+    return (&lt;input
+      type=&quot;text&quot;
+      aria-label={this.state.labelText}
+      aria-required=&quot;true&quot;
+      onChange={this.onchangeHandler}
+      value={this.state.inputValue}
+      name=&quot;name&quot;
+    /&gt;);
+  }
+}
+ReactDOM.render(
+  &lt;App/&gt;, 
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>标签语义化更好的表单，Demo 5.2:</p>
+<pre><code class="lang-js">class App extends React.Component {
+
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;label htmlFor=&quot;namedInput&quot;&gt;Name:&lt;/label&gt;
+        &lt;input id=&quot;namedInput&quot; type=&quot;text&quot; name=&quot;name&quot;/&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+ReactDOM.render(
+  &lt;App/&gt;, 
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>管理焦点，组件初始化完成 2 秒后 input 获得焦点，Demo 5.3:</p>
+<pre><code class="lang-js">function CustomTextInput(props) {
+  return (
+    &lt;div&gt;
+      &lt;input ref={props.inputRef} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.inputElement = React.createRef();
+
+    setTimeout(() =&gt; {
+      this.inputElement.current.focus();
+    }, 2000);
+  }
+  render() {
+    return (
+      &lt;CustomTextInput inputRef={this.inputElement} /&gt;
+    );
+  }
+}
+ReactDOM.render(
+  &lt;App/&gt;, 
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>下面是一个点击空白处关闭弹框的例子，Demo 5.4:</p>
+<pre><code class="lang-js">class OuterClickExample extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { isOpen: false };
+    this.toggleContainer = React.createRef();
+
+    this.onClickHandler = this.onClickHandler.bind(this);
+    this.onClickOutsideHandler = this.onClickOutsideHandler.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener(&#39;click&#39;, this.onClickOutsideHandler);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener(&#39;click&#39;, this.onClickOutsideHandler);
+  }
+
+  onClickHandler() {
+    this.setState(currentState =&gt; ({
+      isOpen: !currentState.isOpen
+    }));
+  }
+
+  onClickOutsideHandler(event) {
+    if (this.state.isOpen &amp;&amp; !this.toggleContainer.current.contains(event.target)) {
+      this.setState({ isOpen: false });
+    }
+  }
+
+  render() {
+    return (
+      &lt;div ref={this.toggleContainer}&gt;
+        &lt;button onClick={this.onClickHandler}&gt;Select an option&lt;/button&gt;
+        {this.state.isOpen ? (
+          &lt;ul&gt;
+            &lt;li&gt;Option 1&lt;/li&gt;
+            &lt;li&gt;Option 2&lt;/li&gt;
+            &lt;li&gt;Option 3&lt;/li&gt;
+          &lt;/ul&gt;
+        ) : null}
+      &lt;/div&gt;
+    );
+  }
+}
+ReactDOM.render(
+  &lt;OuterClickExample/&gt;, 
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<h2 id="header-1-2">代码分割</h2>
+<blockquote>
+<p>Code-Splitting</p>
+</blockquote>
+<p>大型项目不可能全部逻辑放在一个文件中对外输出，这时就需要代码分割了。我们用的是官方提供的项目生成工具 create-react-app，需要在生成的项目中添加两个依赖包：</p>
+<pre><code class="lang-shell">yarn add react-router-dom --dev
+yarn add react-loadable --dev
+</code></pre>
+<p>使用这种方式就可以将代码打包成多个 chunk，同事演示了路由的用法，运行 yarn build 可以查看打包结果，Demo 5.5</p>
+<pre><code class="lang-js">import { BrowserRouter as Router, Route, Link } from &quot;react-router-dom&quot;;
+import Loadable from &#39;react-loadable&#39;;
+
+const App = () =&gt; (
+  &lt;Router&gt;
+    &lt;div&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;Link to=&quot;/&quot;&gt;Home&lt;/Link&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+          &lt;Link to=&quot;/about&quot;&gt;About&lt;/Link&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;hr /&gt;
+
+      &lt;Route exact path=&quot;/&quot; component={Home} /&gt;
+      &lt;Route path=&quot;/about&quot; component={About} /&gt;
+    &lt;/div&gt;
+  &lt;/Router&gt;
+);
+
+const Loading = () =&gt; &lt;div&gt;Loading...&lt;/div&gt;;
+const Home = Loadable({
+  loader: () =&gt; import(&#39;./routes/Home.js&#39;),
+  loading: Loading,
+});
+
+const About = () =&gt; (
+  &lt;div&gt;
+    &lt;h2&gt;About&lt;/h2&gt;
+  &lt;/div&gt;
+);
+
+ReactDOM.render(
+  &lt;App/&gt;, 
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<p>补充示例 routes/Home.js 中的代码</p>
+<pre><code class="lang-js">import React, { Component}  from &#39;react&#39;;
+
+class Home extends Component {
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h2&gt;Home&lt;/h2&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default Home;
+</code></pre>
+<h2 id="header-1-3">上下文(Context)</h2>
+<p>为了解决组件跨层传递数据的问题，官方说组件之间的 top-down (parent to child) (也就是从上到下数据流)这在某些场景下是 cumbersome(笨重) 的。相当于全局变量，被用在 主题、用户 这类数据上。</p>
+<p>下面是从 App 组件，略过 Toolbar 组件直接将 theme 到 ThemedButton 组件，可以看到 Toolbar 组件对 theme 是无感的，Demo 5.6:</p>
+<pre><code class="lang-js">const ThemeContext = React.createContext(&#39;light&#39;);
+function Toolbar() {
+  return (
+    &lt;div&gt;
+      &lt;ThemedButton/&gt;
+    &lt;/div&gt;
+  );
+}
+function ThemedButton(props) {
+  return (
+    &lt;ThemeContext.Consumer&gt;
+      {theme =&gt;
+        &lt;div className={theme}&gt;{theme}&lt;/div&gt;
+      }
+    &lt;/ThemeContext.Consumer&gt;
+  );
+}
+class App extends React.Component {
+  render() {
+    return (
+      &lt;ThemeContext.Provider value=&quot;dark&quot;&gt;
+        &lt;Toolbar/&gt;
+      &lt;/ThemeContext.Provider&gt;
+    );
+  }
+}
+ReactDOM.render(
+  &lt;App/&gt;, 
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre>
+<h2 id="header-1-4">错误影响最小化</h2>
+<blockquote>
+<p>Error Boundaries</p>
+</blockquote>
+<p>错误的边界，其实就是把错误围起来，不让它跑到外面做坏事。</p>
+<pre><code class="lang-js">class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  componentDidCatch(error, info) {
+    // Display fallback UI
+    this.setState({ hasError: true });
+    // You can also log the error to an error reporting service
+    logErrorToMyService(error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return &lt;h1&gt;Something went wrong.&lt;/h1&gt;;
+    }
+    return this.props.children;
+  }
+}
+&lt;ErrorBoundary&gt;
+  &lt;MyWidget /&gt;
+&lt;/ErrorBoundary&gt;
+</code></pre>
+<h2 id="header-1-5">直接索引</h2>
+<blockquote>
+<p>Forwarding Refs</p>
+</blockquote>
+<p>直接索引 Dom，Demo 6.1</p>
+<pre><code class="lang-js">const FancyButton = React.forwardRef((props, ref) =&gt; (
+  &lt;button ref={ref} className=&quot;FancyButton&quot;&gt;
+    {props.children}
+  &lt;/button&gt;
+));
+
+// You can now get a ref directly to the DOM button:
+const ref = React.createRef();
+ReactDOM.render(&lt;FancyButton ref={ref}&gt;Click me!&lt;/FancyButton&gt;, document.getElementById(&#39;root&#39;));
+console.log(document.getElementsByTagName(&#39;button&#39;)[0] === ref.current);
+// true
+</code></pre>
+<p>React 组件的封装性决定了父组件是不能直接访问子组件的 Dom 的，但是有些情况需要操作，比如获得焦点。对比 Vue 直接返回组件对象，这个显然要原始一些。</p>
+<h2 id="header-1-6">片段</h2>
+<blockquote>
+<p>Fragments，组件可以返回 Dom 片段，当有不在一个 Dom 节点下的时候可以用 React.Fragment 标签包裹起来。</p>
+</blockquote>
+<p>Demo 6.2</p>
+<pre><code class="lang-js">class Columns extends React.Component {
+  render() {
+    return (
+      &lt;React.Fragment&gt;
+        &lt;td&gt;Hello&lt;/td&gt;
+        &lt;td&gt;World&lt;/td&gt;
+      &lt;/React.Fragment&gt;
+    );
+  }
+}
+
+class Table extends React.Component {
+  render() {
+    return (
+      &lt;table&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;
+            &lt;Columns /&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    );
+  }
+}
+ReactDOM.render(&lt;Table/&gt;, document.getElementById(&#39;root&#39;));
+</code></pre>
+<p>React.Fragment 标签可以简写，不会出现额外的标签：</p>
+<pre><code class="lang-js">class Columns extends React.Component {
+  render() {
+    return (
+      &lt;&gt;
+        &lt;td&gt;Hello&lt;/td&gt;
+        &lt;td&gt;World&lt;/td&gt;
+      &lt;/&gt;
+    );
+  }
+}
+</code></pre>
+<h2 id="header-1-7">整合其他库</h2>
+<blockquote>
+<p>Integrating with Other Libraries</p>
+</blockquote>
+<p>由于一些历史原因你可能有一些其他框架的代码，比如 jQuery、Backbone 等，为了复用这些代码看看怎么把他们集成到 React 工程中。你可以用一个空的 div，Demo 6.3</p>
+<pre><code class="lang-js">class SomePlugin extends React.Component {
+  componentDidMount() {
+    // 这里可以用 jQuery, 然后再做点什么
+    // this.$el = $(this.el);
+
+    // 也可以用原生的 js 来操作Dom
+    const H1 = document.createElement(&#39;h1&#39;);
+    H1.innerText = &#39;原生 JS 生成的标签&#39;;
+    console.log(this.el);
+    this.el.appendChild(H1);
+  }
+
+  render() {
+    return &lt;div ref={el =&gt; this.el = el}/&gt;;
+  }
+}
+ReactDOM.render(&lt;SomePlugin/&gt;, document.getElementById(&#39;root&#39;));
+</code></pre>
+<h2 id="header-1-8">深入理解 JSX</h2>
+<blockquote>
+<p>JSX In Depth</p>
+</blockquote>
+<p>JSX 提供的是一种语法糖</p>
+<pre><code class="lang-js">&lt;MyButton color=&quot;blue&quot; shadowSize={2}&gt;
+  Click Me
+&lt;/MyButton&gt;
+</code></pre>
+<p>上面的这种写法将被编译成下面这样</p>
+<pre><code class="lang-js">React.createElement(
+  MyButton,
+  {color: &#39;blue&#39;, shadowSize: 2},
+  &#39;Click Me&#39;
+)
+</code></pre>
+<p>关于 props 也有两种写法，他们是等价的：</p>
+<pre><code class="lang-js">function App() {
+  return &lt;Greeting firstName=&quot;Ben&quot; lastName=&quot;Hector&quot; /&gt;;
+}
+</code></pre>
+<p>👆等价👇</p>
+<pre><code class="lang-js">function App() {
+  const props = {firstName: &#39;Ben&#39;, lastName: &#39;Hector&#39;};
+  return &lt;Greeting {...props} /&gt;;
+}
+</code></pre>
+<pre><code class="lang-js">
+
+</code></pre>
+<pre><code class="lang-js">
+
+</code></pre>
+
+</div>
+</body>
+</html>

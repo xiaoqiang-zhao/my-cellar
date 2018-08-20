@@ -307,7 +307,7 @@ console.log(document.getElementsByTagName('button')[0] === ref.current);
 // true
 ```
 
-React 组件的封装性决定了父组件是不能直接访问子组件的 Dom 的，但是有些情况需要操作，比如获得焦点。
+React 组件的封装性决定了父组件是不能直接访问子组件的 Dom 的，但是有些情况需要操作，比如获得焦点。对比 Vue 直接返回组件对象，这个显然要原始一些。
 
 ## 片段
 
@@ -355,27 +355,62 @@ class Columns extends React.Component {
 }
 ```
 
-## 
+## 整合其他库
 
-> 
+> Integrating with Other Libraries
+
+由于一些历史原因你可能有一些其他框架的代码，比如 jQuery、Backbone 等，为了复用这些代码看看怎么把他们集成到 React 工程中。你可以用一个空的 div，Demo 6.3
 ```js
+class SomePlugin extends React.Component {
+  componentDidMount() {
+    // 这里可以用 jQuery, 然后再做点什么
+    // this.$el = $(this.el);
 
+    // 也可以用原生的 js 来操作Dom
+    const H1 = document.createElement('h1');
+    H1.innerText = '原生 JS 生成的标签';
+    console.log(this.el);
+    this.el.appendChild(H1);
+  }
+
+  render() {
+    return <div ref={el => this.el = el}/>;
+  }
+}
+ReactDOM.render(<SomePlugin/>, document.getElementById('root'));
 ```
 
-```js
+## 深入理解 JSX
 
+> JSX In Depth
+
+JSX 提供的是一种语法糖
+```js
+<MyButton color="blue" shadowSize={2}>
+  Click Me
+</MyButton>
+```
+上面的这种写法将被编译成下面这样
+```js
+React.createElement(
+  MyButton,
+  {color: 'blue', shadowSize: 2},
+  'Click Me'
+)
 ```
 
+关于 props 也有两种写法，他们是等价的：
 ```js
-
+function App() {
+  return <Greeting firstName="Ben" lastName="Hector" />;
+}
 ```
-
+👆等价👇
 ```js
-
-```
-
-```js
-
+function App() {
+  const props = {firstName: 'Ben', lastName: 'Hector'};
+  return <Greeting {...props} />;
+}
 ```
 
 ```js

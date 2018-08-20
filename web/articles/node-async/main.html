@@ -342,6 +342,14 @@ exists().then(() =&gt; {
 }, err =&gt; {
     console.log(&#39;async:文件夹不存在&#39;);
 });
+// 在函数中一般使用 await 关键字
+const exists = await exists();
+if (exists) {
+    console.log(&#39;async:文件存在&#39;);
+}
+else {
+    console.log(&#39;async:文件夹不存在&#39;);
+}
 </code></pre>
 <p>注：nodejs 原生模块 <code>fs</code> 后续的版本对 <code>exists</code> 方法已经弃用(弃用的原因官方大概是这么个意思：我们当初没想好写了这么个没用的 api，为什么没用呢，因为 nodejs 主打的是高并发，在服务器端一个文件或文件夹可能被多个人操作，当你的代码前脚判断文件夹还存在后脚想往里放文件的时候可能这时文件夹就被别人删掉了，所以拜托你们别再用了。官方推荐用 <code>stat</code> 或 <code>access</code> 来代替。)，我们这里用 <code>access</code> 来代替。</p>
 <h3 id="header-1-4-2">promise PK async</h3>
@@ -393,7 +401,7 @@ task();
 <p>注：虽然 nodejs 原生模块 <code>fs</code> 弃用了 <code>exists</code> 方法，但是第三方 <code>fs-extra</code> 模块却做了封装，我们这里直接使用。</p>
 <p>为了不相互影响 hello 文件夹分成 promise-hello 和 async-hello 两中情况，通过对比可以看到 promise 需要通过 then 来不断的写回调进去，而 async 函数就不需要，通过 await 关键字可以直接拿到异步执行结果，代码要简洁很多也更加易读。</p>
 <h3 id="header-1-4-3">错误处理</h3>
-<p>看上面 async 部分的代码是不是感觉少点什么，上面提到“用 await 来提取 promise resolve 回调函数的入参”，那 reject 哪里去了，丢了？嗯，是丢了。不过有两种方式可以找回来，我们再拿上面例子说事，如果你不关心具体哪一步出了问题，可以用一个 <code>try catch</code> 来处理：</p>
+<p>看上面 async 部分的代码是不是感觉少点什么，上面提到“用 await 来提取 promise resolve 回调函数的入参”，那 reject 哪里去了，丢了？嗯，是丢了(关于这一点你可以去看 Demo: async-reject.js)，reject 状态返回的是 undefined。不过有两种方式可以找回来，我们再拿上面例子说事，如果你不关心具体哪一步出了问题，可以用一个 <code>try catch</code> 来处理：</p>
 <pre><code class="lang-js">async function task() {
     try {
         if (await !fs.exists(asyncPath)) {
