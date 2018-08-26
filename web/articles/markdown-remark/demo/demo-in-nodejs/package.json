@@ -18,5 +18,9 @@
     ]
   },
   "author": "longze",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "remark-parse": "^5.0.0",
+    "unified": "^7.0.0"
+  }
 }

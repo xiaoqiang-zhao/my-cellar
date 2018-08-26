@@ -1,0 +1,134 @@
+{
+    "type": "root",
+    "children": [
+        {
+            "type": "heading",
+            "depth": 1,
+            "children": [{
+                "type": "text",
+                "value": "大标题",
+                "position": {
+                    "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                    },
+                    "end": {
+                        "line": 1,
+                        "column": 6,
+                        "offset": 5
+                    },
+                    "indent": []
+                }
+            }],
+            "position": {
+                "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                },
+                "end": {
+                    "line": 1,
+                    "column": 6,
+                    "offset": 5
+                },
+                "indent": []
+            }
+        },
+        {
+            "type": "blockquote",
+            "children": [{
+                "type": "paragraph",
+                "children": [{
+                    "type": "text",
+                    "value": "说明文字。",
+                    "position": {
+                        "start": {
+                            "line": 3,
+                            "column": 2,
+                            "offset": 8
+                        },
+                        "end": {
+                            "line": 3,
+                            "column": 7,
+                            "offset": 13
+                        },
+                        "indent": []
+                    }
+                }],
+                "position": {
+                    "start": {
+                        "line": 3,
+                        "column": 2,
+                        "offset": 8
+                    },
+                    "end": {
+                        "line": 3,
+                        "column": 7,
+                        "offset": 13
+                    },
+                    "indent": []
+                }
+            }],
+            "position": {
+                "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 7
+                },
+                "end": {
+                    "line": 3,
+                    "column": 7,
+                    "offset": 13
+                },
+                "indent": []
+            }
+        },
+        {
+            "type": "heading",
+            "depth": 2,
+            "children": [{
+                "type": "text",
+                "value": "二级标题",
+                "position": {
+                    "start": {
+                        "line": 5,
+                        "column": 4,
+                        "offset": 18
+                    },
+                    "end": {
+                        "line": 5,
+                        "column": 8,
+                        "offset": 22
+                    },
+                    "indent": []
+                }
+            }],
+            "position": {
+                "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 15
+                },
+                "end": {
+                    "line": 5,
+                    "column": 8,
+                    "offset": 22
+                },
+                "indent": []
+            }
+        }
+    ],
+    "position": {
+        "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+        },
+        "end": {
+            "line": 5,
+            "column": 8,
+            "offset": 22
+        }
+    }
+}

@@ -1,13 +1,58 @@
 # markdown 引擎 remark
 
-> 引言...
+> 以一己之力写出一个 markdown 生态。
 
-## 概述
+## 直接输出
 
-以一己之力写出一个 markdown 生态。
+直接输出时最基本的能力，支持的多种插件，表格、代码高亮、数学供述。CSS 是否提供，怎么自定义。
 
+我们需要几个包
+```js
+"remark": "^9.0.0",
+"remark-highlight.js": "^5.0.0",
+"remark-midas": "^5.0.0",
+"remark-parse": "^5.0.0",
+// 使用 github 样式
+"github-markdown-css": "^2.10.0",
+// 代码高亮样式
+"highlight.js": "^9.12.0",
+```
 
+，比如：
+```js
+import 'highlight.js/styles/solarized-light.css';
+```
 
+其他的包按常规引入就可以：
+```js
+import remark from 'remark';
+import midas from 'remark-midas';
+import html from 'remark-html';
+import highlight from 'remark-highlight.js';
+// md 样式
+import 'github-markdown-css/github-markdown.css';
+// 引入的时候可以选择代码风格
+import 'highlight.js/styles/solarized-light.css';
+```
+
+使用：
+```js
+remark()
+    .use([html, midas])
+    .use(highlight)
+    .process(this.mdText, (err, file) => {
+        // 输出
+        file.contents;
+    });
+```
+
+## 提取
+
+将解析的结构提取，如标题、描述、头图。
+
+## 加工
+
+在原有基础上加工输出。
 
 ## 参考
 
