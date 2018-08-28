@@ -784,6 +784,18 @@
     "todoList": []
   },
   {
+    "enName": "linear-gradient",
+    "title": "半透明背景",
+    "introduction": "用到了就学彻底。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1535334933439,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "linux",
     "title": "Linux 备忘笔记",
     "introduction": "前端很多人都不是计算机相关专业的科班出生，但是前端的环境越来越复杂，好多人脚手架出了问题无从下手查，需要部署服务器还需要后端帮忙，把工作中用到的一些技巧做整理，方便自查。",
@@ -865,7 +877,7 @@
   {
     "enName": "markdown-remark",
     "title": "markdown 引擎 remark",
-    "introduction": "引言...",
+    "introduction": "以一己之力写出一个 markdown 生态。",
     "tags": [],
     "isPublished": false,
     "state": "立项",
@@ -1043,6 +1055,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1534730446196,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "react-study-3",
+    "title": "React -- 第 3 天 -- 实战篇",
+    "introduction": "从官网开始一步步学完 React，计划用时 3 天，第 3 天 -- 实战篇。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1535334933487,
     "commentList": [],
     "todoList": []
   },

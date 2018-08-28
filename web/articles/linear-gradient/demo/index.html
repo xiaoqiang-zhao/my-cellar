@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>背景渐变</title>
+</head>
+<style>
+body {
+    position: relative;
+}
+.item {
+    position: absolute;
+    height: 10px;
+    width: 100%;
+    background: #999;
+}
+.demo {
+    display: inline-block;
+    position: relative;
+    z-index: 2;
+    width: 100px;
+    height: 100px;
+}
+.demo-1 {
+    background: linear-gradient(0deg, rgba(255, 0, 0), rgba(255, 0, 0, .5));
+}
+.demo-2 {
+    background: linear-gradient(45deg, rgba(255, 0, 0), rgba(255, 0, 0, .5));
+}
+.demo-3 {
+    background: linear-gradient(rgba(255, 0, 0), rgba(255, 0, 0, 0) 50%),
+                linear-gradient(to top, rgb(64, 33, 240), rgba(64, 33, 240, 0) 50%);
+}
+.demo-4 {
+    background: linear-gradient(0.15turn, rgb(64, 33, 240), rgba(64, 33, 240, 0) 50%);
+}
+</style>
+<body>
+
+<div class="demo demo-1"></div>
+<div class="demo demo-2"></div>
+<div class="demo demo-3"></div>
+<div class="demo demo-4"></div>
+
+<script>
+    // 画斑马线
+    for (var i = 0; i < 10; i++) {
+        let div = document.createElement('div');
+        div.className = 'item';
+        div.style.top = i * 20 + 'px';
+        document.body.appendChild(div);
+    }
+</script>
+</body>
+</html>

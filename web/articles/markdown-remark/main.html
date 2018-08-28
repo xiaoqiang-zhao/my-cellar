@@ -20,11 +20,47 @@
 <div>
     <h1 id="header-1">markdown 引擎 remark</h1>
 <blockquote>
-<p>引言...</p>
-</blockquote>
-<h2 id="header-1-1">概述</h2>
 <p>以一己之力写出一个 markdown 生态。</p>
-<h2 id="header-1-2">参考</h2>
+</blockquote>
+<h2 id="header-1-1">直接输出</h2>
+<p>直接输出时最基本的能力，支持的多种插件，表格、代码高亮、数学供述。CSS 是否提供，怎么自定义。</p>
+<p>我们需要几个包</p>
+<pre><code class="lang-js">&quot;remark&quot;: &quot;^9.0.0&quot;,
+&quot;remark-highlight.js&quot;: &quot;^5.0.0&quot;,
+&quot;remark-midas&quot;: &quot;^5.0.0&quot;,
+&quot;remark-parse&quot;: &quot;^5.0.0&quot;,
+// 使用 github 样式
+&quot;github-markdown-css&quot;: &quot;^2.10.0&quot;,
+// 代码高亮样式
+&quot;highlight.js&quot;: &quot;^9.12.0&quot;,
+</code></pre>
+<p>，比如：</p>
+<pre><code class="lang-js">import &#39;highlight.js/styles/solarized-light.css&#39;;
+</code></pre>
+<p>其他的包按常规引入就可以：</p>
+<pre><code class="lang-js">import remark from &#39;remark&#39;;
+import midas from &#39;remark-midas&#39;;
+import html from &#39;remark-html&#39;;
+import highlight from &#39;remark-highlight.js&#39;;
+// md 样式
+import &#39;github-markdown-css/github-markdown.css&#39;;
+// 引入的时候可以选择代码风格
+import &#39;highlight.js/styles/solarized-light.css&#39;;
+</code></pre>
+<p>使用：</p>
+<pre><code class="lang-js">remark()
+    .use([html, midas])
+    .use(highlight)
+    .process(this.mdText, (err, file) =&gt; {
+        // 输出
+        file.contents;
+    });
+</code></pre>
+<h2 id="header-1-2">提取</h2>
+<p>将解析的结构提取，如标题、描述、头图。</p>
+<h2 id="header-1-3">加工</h2>
+<p>在原有基础上加工输出。</p>
+<h2 id="header-1-4">参考</h2>
 <p><a href="https://github.com/remarkjs/remark" target="_blank">https://github.com/remarkjs/remark</a></p>
 <p>公司的高T原话：“js 玩 markdown 建议 remark，其他的都是早晚后悔 ”。</p>
 <p><a href="https://highlightjs.org/usage/" target="_blank">highlight</a></p>
