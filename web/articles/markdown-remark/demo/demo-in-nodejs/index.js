@@ -4,7 +4,7 @@ var html = require('remark-html');
 var report = require('vfile-reporter');
 
 var unified = require('unified');
-var markdown = require('remark-parse')
+var markdown = require('remark-parse');
 
 var mdText = `# 大标题
 

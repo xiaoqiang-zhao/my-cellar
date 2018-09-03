@@ -48,7 +48,51 @@ remark()
 
 ## 提取
 
-将解析的结构提取，如标题、描述、头图。
+```js
+import unified from 'unified';
+import markdown from 'remark-parse';
+
+/**
+ * 将 markdown 文本转换成简单对象(只有我们关心的标题、概述、markdown 内容，没有全部解析)
+ *
+ * @param {string} mdContent markdown 文本
+ * @return {Object} 文章简单对象
+ */
+fuction mdToObject(mdContent) {
+    const tree = unified()
+        .use(markdown)
+        .parse(mdContent);
+
+    // 标题
+    let title;
+    const firstChild = tree.children[0];
+    if (firstChild.type === 'heading'
+        && firstChild.depth === 1
+        && firstChild.children.length > 0
+    ) {
+        title = firstChild.children[0].value;
+    }
+
+    // 描述
+    let description;
+    const secondChild = tree.children[1];
+    if (secondChild
+        && secondChild.type === 'blockquote'
+        && secondChild.children.length > 0
+    ) {
+        // 取第一段
+        description = secondChild.children[0].children[0].value;
+    }
+
+    const article = {
+        title,
+        description,
+        mdContent
+    };
+
+    return article;
+}
+```
 
 ## 加工
 
