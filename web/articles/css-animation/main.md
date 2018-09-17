@@ -5,7 +5,7 @@
 ## 过渡 transition
 
 > CSS 动画有两种实现方式，其中较为简单的就是过渡 -- `transition`，在一定的时间区间内平滑地过渡。当通过 `hover` 等伪类、直接改 class 或样式值引起样式变化，`transition`可使样式平滑地过渡。
-[示例](/articles/css-animate/demo/transition-quick-start.html)
+[示例](/articles/css-animation/demo/transition-quick-start.html)
 
 ### 语法概述
 
@@ -22,7 +22,7 @@
 
 - all 默认值，全部可过渡的样式，在下面会给出哪些样式可过渡
 - none 不对任何样式进行过渡，当过渡还没完成时突然将过渡属性设为 `none`，过渡会直接跳到结尾，
-[示例](/articles/css-animate/demo/transition-property.html)
+[示例](/articles/css-animation/demo/transition-property.html)
 - 单独属性，并不是所有属性都可以过渡，只有属性具有中间点值才能具备过度效果，这里就不一一列举了，
 参见[这里](https://www.w3.org/TR/css3-transitions/#properties-from-css-)
 
@@ -38,7 +38,7 @@
 	transition: .5s;
 	transition: 500ms;
 
-[示例](/articles/css-animate/demo/transition-duration.html)
+[示例](/articles/css-animation/demo/transition-duration.html)
 
 ### 过渡函数
 
@@ -58,7 +58,7 @@
 
 为了简化，在CSS中将决定曲线位置的两点固化，也就是图中白色的两点，他们的坐标分别是(0,0)和(1,1)，留出两个点来供我们自定义曲线的弯曲状态，这两个点必须在[(0,0),(1,0),(1,1),(0,1)]这个范围内，所以定义弯曲状态的两个点的坐标的取值范围是零到一(包括零和一)，前两个值是红点的坐标，后两个值是蓝点的坐标。从图中可以看出“横轴是时间，纵轴是位置”，所以曲线越陡的部分速度越快。可以借助[cubic-bezier.com](http://cubic-bezier.com/)这一网站工具来体验曲线形状和生成坐标点。
 
-[关于过渡方式的示例](/articles/css-animate/demo/transition-timing-function.html)
+[关于过渡方式的示例](/articles/css-animation/demo/transition-timing-function.html)
 
 ### 过渡延迟开始时间
 
@@ -70,7 +70,7 @@
 
 ### 语法概述
 
-通过 `animation` 及其子属性定义动画，通过 `@keyframes` 定义关键帧。先看[快速开始示例](/articles/css-animate/demo/animation-quick-start.html)的样式代码：
+通过 `animation` 及其子属性定义动画，通过 `@keyframes` 定义关键帧。先看[快速开始示例](/articles/css-animation/demo/animation-quick-start.html)的样式代码：
 
 	div {
 		display: inline-block;
@@ -128,7 +128,7 @@
 `animation-direction`，动画播放方向，有两个值：
 
 - normal，默认值，动画每次循环都是向前播放；
-- alternate，动画会在奇数次数正常播放，而在偶数次数向后播放，当动画循环播放多次时，此属性可使动画连续不跳动，如[示例](/articles/css-animate/demo/animation-direction.html)。
+- alternate，动画会在奇数次数正常播放，而在偶数次数向后播放，当动画循环播放多次时，此属性可使动画连续不跳动，如[示例](/articles/css-animation/demo/animation-direction.html)。
 
 ### 动画播放状态
 
@@ -137,7 +137,7 @@
 - running，默认值，将停下来的动画继续开始；
 - paused，使动画暂停。
 
-[示例](/articles/css-animate/demo/animation-play-state.html)
+[示例](/articles/css-animation/demo/animation-play-state.html)
 
 ### 动画时间外属性
 
