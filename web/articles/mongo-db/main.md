@@ -16,15 +16,20 @@
 
 下载完成后我们把压缩包移动到和 Redis 同级目录 `/usr/local/` 下，然后解压。运行 MongoDB 还需要一个放数据的目录，默认是 /data/db，我们创建一下：
 
+```shell
     sudo mkdir -p /data/db
+```
 
 转目录：
 
+```shell
     cd mongodb-osx-x86_64-enterprise-3.4.10/bin
-
+```
 启动 MongoDB：
 
+```shell
     ./mongod
+```
 
 然后就可以看到重要的启动信息了：
 
@@ -32,6 +37,7 @@
 
 你可能会遇到这样一个问题，`/data/db` 这个目录的权限可能无法支持直接写操作，会报这样一个错 `Attempted to create a lock file on a read-only directory: /data/db`，然后 shutdown，加 sudo 是最简单快捷的处理方式，缺点是每次都要 sudo 然后再输密码，如果只是测试不考虑安全性，比较彻底的方式是改变此目录的权限：`chmod 777 data/db`。跳过此坑就可以再开一个命令行，转到 `mongodb-osx-x86_64-enterprise-3.4.10/bin` 下：
 
+```shell
     // 启动命令行，可以添加环境变量，这样就不用转目录和 ./ 开头了
     ./mongo
     // 获取当前数据库的名称，默认是 test
@@ -46,6 +52,7 @@
     db.users.find()
     // 关闭数据库链接
     db.shutdownServer()
+```
 
 三个数据库中 admin 对应管理员权限，最后的“关闭数据库链接”操作需要切换到 admin 才能进行(`use admin`)。其中的 mongo 是一个基于 JavaScript 的工具，会加载 Shell 并链接到 mongod 进程，mongod 进程使用一个自定义二进制协议从 Socket 上接收命令。命令行是要学一点的，因为有些机器可能就没有界面，不过有界面的时候也不用难为自己，介绍一个可视化数据库工具：[Robo 3T](https://robomongo.org/download)，很方便的就可以链接上，直接上一张图：
 
@@ -61,6 +68,7 @@
 
 先插入两条数据，下面是示例：
 
+```shell
     db.articles.insert({
         title: 'title1',
         author: 'longze',
@@ -78,10 +86,13 @@
             }
         ]
     })
+```
 
 然后看怎么找出来，我们查找 tag 包含 “tag2” 并且 vote_count 大于 10 的文章：
 
+```shell
     db.articles.find({'tags': 'tag2', 'vote_count': {'$gt': 10}})
+```
 
 你可以变换条件来看看这些查询是否符合你的预期。
 
@@ -105,6 +116,7 @@
 
 文档也是同样，向文档中插入数据，如果文档还不存在就直接创建一个：
 
+```shell
     db.users.insert({name: 'jack'})
     // 插入一个稍微复杂一点的，方便后面查询
     db.users.insert({
@@ -115,17 +127,20 @@
             sports: ['football']
         }
     })
+```
 
 ### 查询数据
 
 查询的姿势比较多，我们先开个头：
 
+```shell
     // 最简单的查文档全集
     db.users.find()
     // 查单一字段
     db.users.find({name: 'tony'})
     // 内嵌文档单一字段
     db.users.find({'favorites.movies': 'Game of Thrones'})
+```
 
 对于数字的查询会用到一些比较符号：
 
@@ -136,18 +151,23 @@
 
 比如我们查找成年用户(大于等于 18 岁):
 
+```shell
     db.users.find({age: {
         '$gte': 18
     }})
+```
 
 对于字符串，没有像 like 这样的语句，而是直接上正则，比如我们要找 name 以 t 开头的人：
 
+```shell
     db.users.find({
         name: /^t/i
     })
+```
 
 还有一个比较特殊的地方就是数组的搜索，上面用到的 `db.users.find({'favorites.movies': 'Game of Thrones'})` 是包含某一项，精确包含且只包含某一项或几项用下面命名：
 
+```shell
     // 先插入一条数据
     db.users.insert({
         name: 'tony',
@@ -159,9 +179,11 @@
     })
     // 精确查询
     db.users.find({'favorites.movies': ['Game of Thrones']})
+```
 
 范围条件任意元素匹配查询
 
+```shell
     // 先插入一条数据，
     // 其中 scores 表示其中成绩和期末成绩
     db.users.insert({
@@ -175,9 +197,11 @@
     })
     // 有没有不及格的
     db.users.find({'scores': {'$lt': 60}})
+```
 
 嵌套文档查询，比如有没有不及格的科目，直接用数组的键值就可以：
 
+```shell
     // 先准备数据
     db.users.insert({
         name: 'tony',
@@ -199,6 +223,7 @@
     })
     // 查询
     db.users.find({'courses.score': {'$lt': 60}})
+```
 
 另外还有 $elemMatch、$all、$size 等关键字就不一一讲了，参见这篇博文：http://blog.csdn.net/leshami/article/details/55049891
 。
@@ -207,16 +232,20 @@
 
 更新操作前半段是查询，后半段是更新，还有一点需要注意，MongoDB 的更新操作默认只会应用于匹配到的第一个文档，如果希望操作应用于匹配到的搜有文档，需要加参数。先看个简单的：
 
+```shell
     // 将 name 为 neo 的用户年龄设置成 19
     db.users.update({name: 'neo'}, {$set: {age: 19}})
     // neo 喜欢的电影应该包括 The Matrix(黑客帝国)
     db.users.update({name: 'neo'}, {$addToSet: {'favorites.movies': 'The Matrix'}})
+```
 
 `$set` 可以直接设置值；`$addToSet` 可以像数组中添加元素，并且保证不重复添加，与之类似的还有 `$push`，直接添加不判断是否重复；如果我们想删除某个字段，可以用 `$unset` 来做，需要注意的是被删除的字段需要写成键值对的形式，值是啥无所谓：
 
+```shell
     db.users.update({name: 'neo'}, {$unset: {'age': 0}})
     // 下面这样是不行滴
     db.users.update({name: 'neo'}, {$unset: 'age'})
+```
 
 当然还有其他的内容，这里就不一一列举了。
 
@@ -224,33 +253,45 @@
 
 删除数据是删除一条或多条完整的数据，上面的 `$unset` 是删除一条数据的某属性，这里可以复用搜索条件，简单理解就是查到什么删什么，比如我们要把 neo 删掉：
 
+```shell
     db.users.remove({name: 'neo'})
+```
 
 如果不加条件会删除集合里面的全部数据，还有一个操作是 `drop`，可以用来删除集合和集合上的全部索引，drop 函数不带参数：
 
+```shell
     db.users.drop()
+```
 
 ### 索引
 
 索引是用来提升查询速度的，在没有索引的时候我们要查一个集合需要遍历搜有元素，索引的作用是把所有元素先按照索引的规则排序，然后查的时候用二分法(多数数据库是这么干的，MongoDB也不例外)就快多了。索引在比较多的数据下才会起显著作用，我们先插入 20 万条数据，猜猜要用多长时间？
 
+```shell
     for (i = 0; i < 200000; i++) {
         db.t1.insert({number: i})
     }
     // 可以验证一下是不是插入了 20 万条
     db.t1.count()
+```
 
 大约用了 59秒，查询任意一条大约需要 90 毫秒，通过 `explain('executionStats')` 可以查看查询的一些细节，比如在 executionStats 下，executionTimeMillis 是查询时间、totalDocsExamined 是扫描了多少文档、totalKeysExamined 索引扫描了多少文档。
 
+```shell
     db.t1.find({number: 999}).explain('executionStats')
+```
 
 查看当前集合上有什么索引，id 是默认存在的索引：
 
+```shell
     db.t1.getIndexes()
+```
 
 我们加一个对 number 的索引试试，对 number 字段建立正序索引：
 
+```shell
     db.t1.ensureIndex({number: 1})
+```
 
 再执行上面命令就可以看到多了一个索引，再执行查询的时候发现查询时间下降到了 2 毫秒。
 
@@ -258,6 +299,7 @@
 
 先整理一下我们前面用过的一些管理命令：
 
+```shell
     // 启动数据库服务，可以带路径
     mongod -dbpath /data2/db
     // 显示系统上的数据库列表
@@ -270,33 +312,40 @@
     show collections
     // 关闭数据库链接
     db.shutdownServer()
-
+```
 
 还有一些其他的常用命令：
 
+```shell
     // 获取当前数据库信息
     db.stats()
     // 获取某集合的信息
     db.numbers.stats()
     // 持续添加中...
+```
 
 db 下还有很多方法，执行 `db.help()` 可以看到，粘贴前几个进来看看：
 
+```shell
     db.adminCommand(nameOrDocument) - switches to 'admin' db, and runs command [ just calls db.runCommand(...) ]
 	db.auth(username, password)
 	db.cloneDatabase(fromhost)
 	db.commandHelp(name) returns the help for the command
 	db.copyDatabase(fromdb, todb, fromhost)
 	db.createCollection(name, { size : ..., capped : ..., max : ... } )
+```
 
 同样，集合的方法也可以通过 `db.t1.help()` 拿到：
 
+```shell
     db.t1.find().help() - show DBCursor help
 	db.t1.bulkWrite( operations, <optional params> ) - bulk execute write operations, optional parameters are: w, wtimeout, j
 	db.t1.count( query = {}, <optional params> ) - count the number of documents that matches the query, optional parameters are: limit, skip, hint, maxTimeMS
+```
 
 如果你想查看某个方法的源码，那么去掉括号就是了：
 
+```shell
     db.t1.find
     // 下面是 find 方法的实现
     function (query, fields, limit, skip, batchSize, options) {
@@ -324,6 +373,7 @@ db 下还有很多方法，执行 `db.help()` 可以看到，粘贴前几个进�
 
         return cursor;
     }
+```
 
 ## 用在项目中
 
@@ -338,24 +388,28 @@ MongoDB 为各种语言提供了驱动，Node.js 的话首选 mongoose。mongoos
 
 mongooose中，有三个比较重要的概念，分别是 Schema、Model、Entity。它们的关系是：Schema 生成 Model，Model 实例化 Entity。Schema 主要用于定义 MongoDB 中Collection 里 document 的结构。比较清晰的写法像下面这样：
 
+```js
     var Schema = mongoose.Schema;
     const userSchema = new Schema({
         name: String
     });
     const User = mongoose.model('users', userSchema);
+```
 
 还有一个简化写法：
 
+```js
     const User = mongoose.model('users', {
         name: String
     });
+```
 
 model 方法将 Schema 编译为 Model，model 方法的第一个参数决定 Collection 的名称系，规则是这样的：
 
 - 如果不以数字和"s"结尾，全部转换为小写然后加 "s"；
 - 如果以数字和"s"结尾，直接作为 Collection 的名称。
 
-### Connect
+### Connect - 数据库连接
 
 首先需要安装：
 
@@ -363,6 +417,7 @@ model 方法将 Schema 编译为 Model，model 方法的第一个参数决定 Co
 
 其次我们要执行 `mongod` 命令把 MongoDB 启动起来，然后 Node.js 的连接代码是这样：
 
+```js
     const mongoose = require('mongoose');
     mongoose.Promise = require('bluebird');
 
@@ -373,17 +428,20 @@ model 方法将 Schema 编译为 Model，model 方法的第一个参数决定 Co
     }, err => {
         console.log('数据库链接失败:', err);
     });
+```
 
 我这里用的东西全是目前(2017.12.9)的最新版，MongoDB 3.6，mongoose 4.13，node 8.9，之所以写这些是因为“有坑！”。在官方文档中 `127.0.0.1` 位置放的是 `localhost`，这居然是 Node.js 的 bug。然后是 Promise，最新版的 mongoose 将 Promise 进行了抽离，如果不单独处理会有 Warning。
 
 在测试的时候可以跑完代码就断开数据库连接：
 
+```js
     // 断开数据库链接
     setTimeout(() => {
         mongoose.disconnect(function(){
             console.log("断开连接");
         })
     }, 2000);    
+```
 
 下面按照惯例我们来写一遍 CRUD。
 
@@ -449,6 +507,16 @@ model 方法将 Schema 编译为 Model，model 方法的第一个参数决定 Co
 
 [注意]文档的 remove 方法的回调函数不能省略，否则数据不会被删除，同上。
 
+## 一种实践方式
+
+数据处理写在一起可能会比较大，一般都采用分层的方式来处理，虽然写着有些繁琐，但是由于各层分工明确易于维护，这里介绍一种分层方式，这种分层方式参考了 Node.js 中文论坛的实现。
+
+- 论坛地址：https://cnodejs.org/
+- 源码地址：https://github.com/cnodejs/nodeclub
+
+首先是 models 层，负责数据库的链接、数据定义、集中对外输出。
+
+待续... 
 ## 附注
 
 Community Server， 社区版，比企业版少一些高级功能
