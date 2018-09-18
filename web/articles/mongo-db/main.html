@@ -3,7 +3,7 @@
 <head lang="zh-cn">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>MongoDb 学习笔记 - 龙则的个人站点</title>
+    <title>MongoDb 学习笔记 - 小强赵的个人站点</title>
     <script>
         // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
         var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
@@ -14,7 +14,7 @@
 </head>
 <body>
 <header>
-    <h1> 龙则的个人站点 </h1>
+    <h1> 小强赵的个人站点 </h1>
     <h2> 精进自己，服务他人 </h2>
 </header>
 <div>
@@ -29,55 +29,61 @@
 <h2 id="header-1-2">安装&amp;运行</h2>
 <p>在官网的 <a href="https://www.mongodb.com/downloads" target="_blank">downloads</a> 中有很多版本，我们选 Enterprise Server(企业版)，因为我们的最终目的是为了用在项目里。需要填一些信息，请放心大胆的填，随便写点什么就能过，也正是因为这样，ssh 无法直接验证成功，所以无法用 <code>wget</code> 来直接下载。</p>
 <p>下载完成后我们把压缩包移动到和 Redis 同级目录 <code>/usr/local/</code> 下，然后解压。运行 MongoDB 还需要一个放数据的目录，默认是 /data/db，我们创建一下：</p>
-<pre><code>sudo mkdir -p /data/db
-</code></pre><p>转目录：</p>
-<pre><code>cd mongodb-osx-x86_64-enterprise-3.4.10/bin
-</code></pre><p>启动 MongoDB：</p>
-<pre><code>./mongod
-</code></pre><p>然后就可以看到重要的启动信息了：</p>
+<pre><code class="lang-shell">    sudo mkdir -p /data/db
+</code></pre>
+<p>转目录：</p>
+<pre><code class="lang-shell">    cd mongodb-osx-x86_64-enterprise-3.4.10/bin
+</code></pre>
+<p>启动 MongoDB：</p>
+<pre><code class="lang-shell">    ./mongod
+</code></pre>
+<p>然后就可以看到重要的启动信息了：</p>
 <pre><code>MongoDB starting : pid=15390 port=27017
 </code></pre><p>你可能会遇到这样一个问题，<code>/data/db</code> 这个目录的权限可能无法支持直接写操作，会报这样一个错 <code>Attempted to create a lock file on a read-only directory: /data/db</code>，然后 shutdown，加 sudo 是最简单快捷的处理方式，缺点是每次都要 sudo 然后再输密码，如果只是测试不考虑安全性，比较彻底的方式是改变此目录的权限：<code>chmod 777 data/db</code>。跳过此坑就可以再开一个命令行，转到 <code>mongodb-osx-x86_64-enterprise-3.4.10/bin</code> 下：</p>
-<pre><code>// 启动命令行，可以添加环境变量，这样就不用转目录和 ./ 开头了
-./mongo
-// 获取当前数据库的名称，默认是 test
-db.getName()
-// 获取全部数据库的名称，
-// 默认有 admin local test 三个数据库，
-// 其中前两个是系统数据库
-show dbs
-// 创建users集合，向集合中插入一条document
-db.users.insert({&quot;name&quot;:&quot;name 1&quot;,age:21})
-// 查看插入的数据
-db.users.find()
-// 关闭数据库链接
-db.shutdownServer()
-</code></pre><p>三个数据库中 admin 对应管理员权限，最后的“关闭数据库链接”操作需要切换到 admin 才能进行(<code>use admin</code>)。其中的 mongo 是一个基于 JavaScript 的工具，会加载 Shell 并链接到 mongod 进程，mongod 进程使用一个自定义二进制协议从 Socket 上接收命令。命令行是要学一点的，因为有些机器可能就没有界面，不过有界面的时候也不用难为自己，介绍一个可视化数据库工具：<a href="https://robomongo.org/download" target="_blank">Robo 3T</a>，很方便的就可以链接上，直接上一张图：</p>
+<pre><code class="lang-shell">    // 启动命令行，可以添加环境变量，这样就不用转目录和 ./ 开头了
+    ./mongo
+    // 获取当前数据库的名称，默认是 test
+    db.getName()
+    // 获取全部数据库的名称，
+    // 默认有 admin local test 三个数据库，
+    // 其中前两个是系统数据库
+    show dbs
+    // 创建users集合，向集合中插入一条document
+    db.users.insert({&quot;name&quot;:&quot;name 1&quot;,age:21})
+    // 查看插入的数据
+    db.users.find()
+    // 关闭数据库链接
+    db.shutdownServer()
+</code></pre>
+<p>三个数据库中 admin 对应管理员权限，最后的“关闭数据库链接”操作需要切换到 admin 才能进行(<code>use admin</code>)。其中的 mongo 是一个基于 JavaScript 的工具，会加载 Shell 并链接到 mongod 进程，mongod 进程使用一个自定义二进制协议从 Socket 上接收命令。命令行是要学一点的，因为有些机器可能就没有界面，不过有界面的时候也不用难为自己，介绍一个可视化数据库工具：<a href="https://robomongo.org/download" target="_blank">Robo 3T</a>，很方便的就可以链接上，直接上一张图：</p>
 <p><img src="/articles/mongo-db/img/robo-3t.png" alt="Robo-3T"></p>
 <h2 id="header-1-3">主要特性</h2>
 <h3 id="header-1-3-1">文档模型</h3>
 <p>其实就是一个带 id 字段的大 json。数据采用嵌套而非表关联，每个文档能拥有不同的结果，属性可变。</p>
 <h3 id="header-1-3-2">查询</h3>
 <p>先插入两条数据，下面是示例：</p>
-<pre><code>db.articles.insert({
-    title: &#39;title1&#39;,
-    author: &#39;longze&#39;,
-    vote_count: 20,
-    content: &#39;内容1&#39;,
-    tags: [&#39;tag1&#39;, &#39;tag2&#39;, &#39;tag3&#39;],
-    comments: [
-        {
-            user: &#39;user1&#39;,
-            text: &#39;text1&#39;
-        },
-        {
-            user: &#39;user2&#39;,
-            text: &#39;text2&#39;
-        }
-    ]
-})
-</code></pre><p>然后看怎么找出来，我们查找 tag 包含 “tag2” 并且 vote_count 大于 10 的文章：</p>
-<pre><code>db.articles.find({&#39;tags&#39;: &#39;tag2&#39;, &#39;vote_count&#39;: {&#39;$gt&#39;: 10}})
-</code></pre><p>你可以变换条件来看看这些查询是否符合你的预期。</p>
+<pre><code class="lang-shell">    db.articles.insert({
+        title: &#39;title1&#39;,
+        author: &#39;longze&#39;,
+        vote_count: 20,
+        content: &#39;内容1&#39;,
+        tags: [&#39;tag1&#39;, &#39;tag2&#39;, &#39;tag3&#39;],
+        comments: [
+            {
+                user: &#39;user1&#39;,
+                text: &#39;text1&#39;
+            },
+            {
+                user: &#39;user2&#39;,
+                text: &#39;text2&#39;
+            }
+        ]
+    })
+</code></pre>
+<p>然后看怎么找出来，我们查找 tag 包含 “tag2” 并且 vote_count 大于 10 的文章：</p>
+<pre><code class="lang-shell">    db.articles.find({&#39;tags&#39;: &#39;tag2&#39;, &#39;vote_count&#39;: {&#39;$gt&#39;: 10}})
+</code></pre>
+<p>你可以变换条件来看看这些查询是否符合你的预期。</p>
 <h3 id="header-1-3-3">速度和持久性</h3>
 <p>写速度和持久性存在一种相反的关系，数据库设计者需要在速度和持久性中做出权衡。MongoDB 通过控制 Journaling 日志是否开启来控制选择速度和持久性，Journaling 默认是开启的。</p>
 <h3 id="header-1-3-4">分布式</h3>
@@ -88,25 +94,27 @@ db.shutdownServer()
 <pre><code>use mydb
 </code></pre><h3 id="header-1-4-2">插入数据</h3>
 <p>文档也是同样，向文档中插入数据，如果文档还不存在就直接创建一个：</p>
-<pre><code>db.users.insert({name: &#39;jack&#39;})
-// 插入一个稍微复杂一点的，方便后面查询
-db.users.insert({
-    name: &#39;tony&#39;,
-    age: 18,
-    favorites: {
-        movies: [&#39;Game of Thrones&#39;],
-        sports: [&#39;football&#39;]
-    }
-})
-</code></pre><h3 id="header-1-4-3">查询数据</h3>
+<pre><code class="lang-shell">    db.users.insert({name: &#39;jack&#39;})
+    // 插入一个稍微复杂一点的，方便后面查询
+    db.users.insert({
+        name: &#39;tony&#39;,
+        age: 18,
+        favorites: {
+            movies: [&#39;Game of Thrones&#39;],
+            sports: [&#39;football&#39;]
+        }
+    })
+</code></pre>
+<h3 id="header-1-4-3">查询数据</h3>
 <p>查询的姿势比较多，我们先开个头：</p>
-<pre><code>// 最简单的查文档全集
-db.users.find()
-// 查单一字段
-db.users.find({name: &#39;tony&#39;})
-// 内嵌文档单一字段
-db.users.find({&#39;favorites.movies&#39;: &#39;Game of Thrones&#39;})
-</code></pre><p>对于数字的查询会用到一些比较符号：</p>
+<pre><code class="lang-shell">    // 最简单的查文档全集
+    db.users.find()
+    // 查单一字段
+    db.users.find({name: &#39;tony&#39;})
+    // 内嵌文档单一字段
+    db.users.find({&#39;favorites.movies&#39;: &#39;Game of Thrones&#39;})
+</code></pre>
+<p>对于数字的查询会用到一些比较符号：</p>
 <ul>
 <li>(&gt;) 大于 - $gt；</li>
 <li>(&lt;) 小于 - $lt；</li>
@@ -114,153 +122,171 @@ db.users.find({&#39;favorites.movies&#39;: &#39;Game of Thrones&#39;})
 <li>(&lt;= ) 小于等于 - $lte；</li>
 </ul>
 <p>比如我们查找成年用户(大于等于 18 岁):</p>
-<pre><code>db.users.find({age: {
-    &#39;$gte&#39;: 18
-}})
-</code></pre><p>对于字符串，没有像 like 这样的语句，而是直接上正则，比如我们要找 name 以 t 开头的人：</p>
-<pre><code>db.users.find({
-    name: /^t/i
-})
-</code></pre><p>还有一个比较特殊的地方就是数组的搜索，上面用到的 <code>db.users.find({&#39;favorites.movies&#39;: &#39;Game of Thrones&#39;})</code> 是包含某一项，精确包含且只包含某一项或几项用下面命名：</p>
-<pre><code>// 先插入一条数据
-db.users.insert({
-    name: &#39;tony&#39;,
-    age: 18,
-    favorites: {
-        movies: [&#39;Game of Thrones&#39;, &#39;The hundred&#39;],
-        sports: [&#39;football&#39;]
-    }
-})
-// 精确查询
-db.users.find({&#39;favorites.movies&#39;: [&#39;Game of Thrones&#39;]})
-</code></pre><p>范围条件任意元素匹配查询</p>
-<pre><code>// 先插入一条数据，
-// 其中 scores 表示其中成绩和期末成绩
-db.users.insert({
-    name: &#39;tony&#39;,
-    age: 18,
-    scores: [59, 90],
-    favorites: {
-        movies: [&#39;Game of Thrones&#39;, &#39;The hundred&#39;],
-        sports: [&#39;football&#39;]
-    }
-})
-// 有没有不及格的
-db.users.find({&#39;scores&#39;: {&#39;$lt&#39;: 60}})
-</code></pre><p>嵌套文档查询，比如有没有不及格的科目，直接用数组的键值就可以：</p>
-<pre><code>// 先准备数据
-db.users.insert({
-    name: &#39;tony&#39;,
-    age: 18,
-    courses: [
-        {
-            name: &#39;mathematics&#39;,
-            score: 59
-        },
-        {
-            name: &#39;material&#39;,
-            score: 90
+<pre><code class="lang-shell">    db.users.find({age: {
+        &#39;$gte&#39;: 18
+    }})
+</code></pre>
+<p>对于字符串，没有像 like 这样的语句，而是直接上正则，比如我们要找 name 以 t 开头的人：</p>
+<pre><code class="lang-shell">    db.users.find({
+        name: /^t/i
+    })
+</code></pre>
+<p>还有一个比较特殊的地方就是数组的搜索，上面用到的 <code>db.users.find({&#39;favorites.movies&#39;: &#39;Game of Thrones&#39;})</code> 是包含某一项，精确包含且只包含某一项或几项用下面命名：</p>
+<pre><code class="lang-shell">    // 先插入一条数据
+    db.users.insert({
+        name: &#39;tony&#39;,
+        age: 18,
+        favorites: {
+            movies: [&#39;Game of Thrones&#39;, &#39;The hundred&#39;],
+            sports: [&#39;football&#39;]
         }
-    ],
-    favorites: {
-        movies: [&#39;Game of Thrones&#39;, &#39;The hundred&#39;],
-        sports: [&#39;football&#39;]
-    }
-})
-// 查询
-db.users.find({&#39;courses.score&#39;: {&#39;$lt&#39;: 60}})
-</code></pre><p>另外还有 $elemMatch、$all、$size 等关键字就不一一讲了，参见这篇博文：<a href="http://blog.csdn.net/leshami/article/details/55049891" target="_blank">http://blog.csdn.net/leshami/article/details/55049891</a>
+    })
+    // 精确查询
+    db.users.find({&#39;favorites.movies&#39;: [&#39;Game of Thrones&#39;]})
+</code></pre>
+<p>范围条件任意元素匹配查询</p>
+<pre><code class="lang-shell">    // 先插入一条数据，
+    // 其中 scores 表示其中成绩和期末成绩
+    db.users.insert({
+        name: &#39;tony&#39;,
+        age: 18,
+        scores: [59, 90],
+        favorites: {
+            movies: [&#39;Game of Thrones&#39;, &#39;The hundred&#39;],
+            sports: [&#39;football&#39;]
+        }
+    })
+    // 有没有不及格的
+    db.users.find({&#39;scores&#39;: {&#39;$lt&#39;: 60}})
+</code></pre>
+<p>嵌套文档查询，比如有没有不及格的科目，直接用数组的键值就可以：</p>
+<pre><code class="lang-shell">    // 先准备数据
+    db.users.insert({
+        name: &#39;tony&#39;,
+        age: 18,
+        courses: [
+            {
+                name: &#39;mathematics&#39;,
+                score: 59
+            },
+            {
+                name: &#39;material&#39;,
+                score: 90
+            }
+        ],
+        favorites: {
+            movies: [&#39;Game of Thrones&#39;, &#39;The hundred&#39;],
+            sports: [&#39;football&#39;]
+        }
+    })
+    // 查询
+    db.users.find({&#39;courses.score&#39;: {&#39;$lt&#39;: 60}})
+</code></pre>
+<p>另外还有 $elemMatch、$all、$size 等关键字就不一一讲了，参见这篇博文：<a href="http://blog.csdn.net/leshami/article/details/55049891" target="_blank">http://blog.csdn.net/leshami/article/details/55049891</a>
 。</p>
 <h3 id="header-1-4-4">更新数据</h3>
 <p>更新操作前半段是查询，后半段是更新，还有一点需要注意，MongoDB 的更新操作默认只会应用于匹配到的第一个文档，如果希望操作应用于匹配到的搜有文档，需要加参数。先看个简单的：</p>
-<pre><code>// 将 name 为 neo 的用户年龄设置成 19
-db.users.update({name: &#39;neo&#39;}, {$set: {age: 19}})
-// neo 喜欢的电影应该包括 The Matrix(黑客帝国)
-db.users.update({name: &#39;neo&#39;}, {$addToSet: {&#39;favorites.movies&#39;: &#39;The Matrix&#39;}})
-</code></pre><p><code>$set</code> 可以直接设置值；<code>$addToSet</code> 可以像数组中添加元素，并且保证不重复添加，与之类似的还有 <code>$push</code>，直接添加不判断是否重复；如果我们想删除某个字段，可以用 <code>$unset</code> 来做，需要注意的是被删除的字段需要写成键值对的形式，值是啥无所谓：</p>
-<pre><code>db.users.update({name: &#39;neo&#39;}, {$unset: {&#39;age&#39;: 0}})
-// 下面这样是不行滴
-db.users.update({name: &#39;neo&#39;}, {$unset: &#39;age&#39;})
-</code></pre><p>当然还有其他的内容，这里就不一一列举了。</p>
+<pre><code class="lang-shell">    // 将 name 为 neo 的用户年龄设置成 19
+    db.users.update({name: &#39;neo&#39;}, {$set: {age: 19}})
+    // neo 喜欢的电影应该包括 The Matrix(黑客帝国)
+    db.users.update({name: &#39;neo&#39;}, {$addToSet: {&#39;favorites.movies&#39;: &#39;The Matrix&#39;}})
+</code></pre>
+<p><code>$set</code> 可以直接设置值；<code>$addToSet</code> 可以像数组中添加元素，并且保证不重复添加，与之类似的还有 <code>$push</code>，直接添加不判断是否重复；如果我们想删除某个字段，可以用 <code>$unset</code> 来做，需要注意的是被删除的字段需要写成键值对的形式，值是啥无所谓：</p>
+<pre><code class="lang-shell">    db.users.update({name: &#39;neo&#39;}, {$unset: {&#39;age&#39;: 0}})
+    // 下面这样是不行滴
+    db.users.update({name: &#39;neo&#39;}, {$unset: &#39;age&#39;})
+</code></pre>
+<p>当然还有其他的内容，这里就不一一列举了。</p>
 <h3 id="header-1-4-5">删除数据</h3>
 <p>删除数据是删除一条或多条完整的数据，上面的 <code>$unset</code> 是删除一条数据的某属性，这里可以复用搜索条件，简单理解就是查到什么删什么，比如我们要把 neo 删掉：</p>
-<pre><code>db.users.remove({name: &#39;neo&#39;})
-</code></pre><p>如果不加条件会删除集合里面的全部数据，还有一个操作是 <code>drop</code>，可以用来删除集合和集合上的全部索引，drop 函数不带参数：</p>
-<pre><code>db.users.drop()
-</code></pre><h3 id="header-1-4-6">索引</h3>
+<pre><code class="lang-shell">    db.users.remove({name: &#39;neo&#39;})
+</code></pre>
+<p>如果不加条件会删除集合里面的全部数据，还有一个操作是 <code>drop</code>，可以用来删除集合和集合上的全部索引，drop 函数不带参数：</p>
+<pre><code class="lang-shell">    db.users.drop()
+</code></pre>
+<h3 id="header-1-4-6">索引</h3>
 <p>索引是用来提升查询速度的，在没有索引的时候我们要查一个集合需要遍历搜有元素，索引的作用是把所有元素先按照索引的规则排序，然后查的时候用二分法(多数数据库是这么干的，MongoDB也不例外)就快多了。索引在比较多的数据下才会起显著作用，我们先插入 20 万条数据，猜猜要用多长时间？</p>
-<pre><code>for (i = 0; i &lt; 200000; i++) {
-    db.t1.insert({number: i})
-}
-// 可以验证一下是不是插入了 20 万条
-db.t1.count()
-</code></pre><p>大约用了 59秒，查询任意一条大约需要 90 毫秒，通过 <code>explain(&#39;executionStats&#39;)</code> 可以查看查询的一些细节，比如在 executionStats 下，executionTimeMillis 是查询时间、totalDocsExamined 是扫描了多少文档、totalKeysExamined 索引扫描了多少文档。</p>
-<pre><code>db.t1.find({number: 999}).explain(&#39;executionStats&#39;)
-</code></pre><p>查看当前集合上有什么索引，id 是默认存在的索引：</p>
-<pre><code>db.t1.getIndexes()
-</code></pre><p>我们加一个对 number 的索引试试，对 number 字段建立正序索引：</p>
-<pre><code>db.t1.ensureIndex({number: 1})
-</code></pre><p>再执行上面命令就可以看到多了一个索引，再执行查询的时候发现查询时间下降到了 2 毫秒。</p>
+<pre><code class="lang-shell">    for (i = 0; i &lt; 200000; i++) {
+        db.t1.insert({number: i})
+    }
+    // 可以验证一下是不是插入了 20 万条
+    db.t1.count()
+</code></pre>
+<p>大约用了 59秒，查询任意一条大约需要 90 毫秒，通过 <code>explain(&#39;executionStats&#39;)</code> 可以查看查询的一些细节，比如在 executionStats 下，executionTimeMillis 是查询时间、totalDocsExamined 是扫描了多少文档、totalKeysExamined 索引扫描了多少文档。</p>
+<pre><code class="lang-shell">    db.t1.find({number: 999}).explain(&#39;executionStats&#39;)
+</code></pre>
+<p>查看当前集合上有什么索引，id 是默认存在的索引：</p>
+<pre><code class="lang-shell">    db.t1.getIndexes()
+</code></pre>
+<p>我们加一个对 number 的索引试试，对 number 字段建立正序索引：</p>
+<pre><code class="lang-shell">    db.t1.ensureIndex({number: 1})
+</code></pre>
+<p>再执行上面命令就可以看到多了一个索引，再执行查询的时候发现查询时间下降到了 2 毫秒。</p>
 <h3 id="header-1-4-7">基本管理</h3>
 <p>先整理一下我们前面用过的一些管理命令：</p>
-<pre><code>// 启动数据库服务，可以带路径
-mongod -dbpath /data2/db
-// 显示系统上的数据库列表
-show dbs
-// 获取当前数据库名称
-db.getName()
-// 切换数据库
-use test
-// 查看数据库中的集合
-show collections
-// 关闭数据库链接
-db.shutdownServer()
-</code></pre><p>还有一些其他的常用命令：</p>
-<pre><code>// 获取当前数据库信息
-db.stats()
-// 获取某集合的信息
-db.numbers.stats()
-// 持续添加中...
-</code></pre><p>db 下还有很多方法，执行 <code>db.help()</code> 可以看到，粘贴前几个进来看看：</p>
-<pre><code>db.adminCommand(nameOrDocument) - switches to &#39;admin&#39; db, and runs command [ just calls db.runCommand(...) ]
-db.auth(username, password)
-db.cloneDatabase(fromhost)
-db.commandHelp(name) returns the help for the command
-db.copyDatabase(fromdb, todb, fromhost)
-db.createCollection(name, { size : ..., capped : ..., max : ... } )
-</code></pre><p>同样，集合的方法也可以通过 <code>db.t1.help()</code> 拿到：</p>
-<pre><code>db.t1.find().help() - show DBCursor help
-db.t1.bulkWrite( operations, &lt;optional params&gt; ) - bulk execute write operations, optional parameters are: w, wtimeout, j
-db.t1.count( query = {}, &lt;optional params&gt; ) - count the number of documents that matches the query, optional parameters are: limit, skip, hint, maxTimeMS
-</code></pre><p>如果你想查看某个方法的源码，那么去掉括号就是了：</p>
-<pre><code>db.t1.find
-// 下面是 find 方法的实现
-function (query, fields, limit, skip, batchSize, options) {
-    var cursor = new DBQuery(this._mongo,
-        this._db,
-        this,
-        this._fullName,
-        this._massageObject(query),
-        fields,
-        limit,
-        skip,
-        batchSize,
-        options || this.getQueryOptions());
+<pre><code class="lang-shell">    // 启动数据库服务，可以带路径
+    mongod -dbpath /data2/db
+    // 显示系统上的数据库列表
+    show dbs
+    // 获取当前数据库名称
+    db.getName()
+    // 切换数据库
+    use test
+    // 查看数据库中的集合
+    show collections
+    // 关闭数据库链接
+    db.shutdownServer()
+</code></pre>
+<p>还有一些其他的常用命令：</p>
+<pre><code class="lang-shell">    // 获取当前数据库信息
+    db.stats()
+    // 获取某集合的信息
+    db.numbers.stats()
+    // 持续添加中...
+</code></pre>
+<p>db 下还有很多方法，执行 <code>db.help()</code> 可以看到，粘贴前几个进来看看：</p>
+<pre><code class="lang-shell">    db.adminCommand(nameOrDocument) - switches to &#39;admin&#39; db, and runs command [ just calls db.runCommand(...) ]
+    db.auth(username, password)
+    db.cloneDatabase(fromhost)
+    db.commandHelp(name) returns the help for the command
+    db.copyDatabase(fromdb, todb, fromhost)
+    db.createCollection(name, { size : ..., capped : ..., max : ... } )
+</code></pre>
+<p>同样，集合的方法也可以通过 <code>db.t1.help()</code> 拿到：</p>
+<pre><code class="lang-shell">    db.t1.find().help() - show DBCursor help
+    db.t1.bulkWrite( operations, &lt;optional params&gt; ) - bulk execute write operations, optional parameters are: w, wtimeout, j
+    db.t1.count( query = {}, &lt;optional params&gt; ) - count the number of documents that matches the query, optional parameters are: limit, skip, hint, maxTimeMS
+</code></pre>
+<p>如果你想查看某个方法的源码，那么去掉括号就是了：</p>
+<pre><code class="lang-shell">    db.t1.find
+    // 下面是 find 方法的实现
+    function (query, fields, limit, skip, batchSize, options) {
+        var cursor = new DBQuery(this._mongo,
+            this._db,
+            this,
+            this._fullName,
+            this._massageObject(query),
+            fields,
+            limit,
+            skip,
+            batchSize,
+            options || this.getQueryOptions());
 
-    var connObj = this.getMongo();
-    var readPrefMode = connObj.getReadPrefMode();
-    if (readPrefMode != null) {
-        cursor.readPref(readPrefMode, connObj.getReadPrefTagSet());
+        var connObj = this.getMongo();
+        var readPrefMode = connObj.getReadPrefMode();
+        if (readPrefMode != null) {
+            cursor.readPref(readPrefMode, connObj.getReadPrefTagSet());
+        }
+
+        var rc = connObj.getReadConcern();
+        if (rc) {
+            cursor.readConcern(rc);
+        }
+
+        return cursor;
     }
-
-    var rc = connObj.getReadConcern();
-    if (rc) {
-        cursor.readConcern(rc);
-    }
-
-    return cursor;
-}
-</code></pre><h2 id="header-1-5">用在项目中</h2>
+</code></pre>
+<h2 id="header-1-5">用在项目中</h2>
 <h3 id="header-1-5-1">概述</h3>
 <p>MongoDB 为各种语言提供了驱动，Node.js 的话首选 mongoose。mongoose 是 NodeJS 的驱动，不能作为其他语言的驱动。Mongoose有两个特点：</p>
 <ul>
@@ -269,43 +295,47 @@ function (query, fields, limit, skip, batchSize, options) {
 </ul>
 <p><img src="/articles/mongo-db/img/mongoose.png" alt="mongoose"></p>
 <p>mongooose中，有三个比较重要的概念，分别是 Schema、Model、Entity。它们的关系是：Schema 生成 Model，Model 实例化 Entity。Schema 主要用于定义 MongoDB 中Collection 里 document 的结构。比较清晰的写法像下面这样：</p>
-<pre><code>var Schema = mongoose.Schema;
-const userSchema = new Schema({
-    name: String
-});
-const User = mongoose.model(&#39;users&#39;, userSchema);
-</code></pre><p>还有一个简化写法：</p>
-<pre><code>const User = mongoose.model(&#39;users&#39;, {
-    name: String
-});
-</code></pre><p>model 方法将 Schema 编译为 Model，model 方法的第一个参数决定 Collection 的名称系，规则是这样的：</p>
+<pre><code class="lang-js">    var Schema = mongoose.Schema;
+    const userSchema = new Schema({
+        name: String
+    });
+    const User = mongoose.model(&#39;users&#39;, userSchema);
+</code></pre>
+<p>还有一个简化写法：</p>
+<pre><code class="lang-js">    const User = mongoose.model(&#39;users&#39;, {
+        name: String
+    });
+</code></pre>
+<p>model 方法将 Schema 编译为 Model，model 方法的第一个参数决定 Collection 的名称系，规则是这样的：</p>
 <ul>
 <li>如果不以数字和&quot;s&quot;结尾，全部转换为小写然后加 &quot;s&quot;；</li>
 <li>如果以数字和&quot;s&quot;结尾，直接作为 Collection 的名称。</li>
 </ul>
-<h3 id="header-1-5-2">Connect</h3>
+<h3 id="header-1-5-2">Connect - 数据库连接</h3>
 <p>首先需要安装：</p>
 <pre><code>npm install mongoose
 </code></pre><p>其次我们要执行 <code>mongod</code> 命令把 MongoDB 启动起来，然后 Node.js 的连接代码是这样：</p>
-<pre><code>const mongoose = require(&#39;mongoose&#39;);
-mongoose.Promise = require(&#39;bluebird&#39;);
+<pre><code class="lang-js">    const mongoose = require(&#39;mongoose&#39;);
+    mongoose.Promise = require(&#39;bluebird&#39;);
 
-mongoose.connect(&#39;mongodb://127.0.0.1/mydb&#39;, {
-    useMongoClient: true
-}).then(() =&gt; {
-    console.log(&#39;数据库链接成功&#39;);
-}, err =&gt; {
-    console.log(&#39;数据库链接失败:&#39;, err);
-});
-</code></pre><p>我这里用的东西全是目前(2017.12.9)的最新版，MongoDB 3.6，mongoose 4.13，node 8.9，之所以写这些是因为“有坑！”。在官方文档中 <code>127.0.0.1</code> 位置放的是 <code>localhost</code>，这居然是 Node.js 的 bug。然后是 Promise，最新版的 mongoose 将 Promise 进行了抽离，如果不单独处理会有 Warning。</p>
+    mongoose.connect(&#39;mongodb://127.0.0.1/mydb&#39;, {
+        useMongoClient: true
+    }).then(() =&gt; {
+        console.log(&#39;数据库链接成功&#39;);
+    }, err =&gt; {
+        console.log(&#39;数据库链接失败:&#39;, err);
+    });
+</code></pre>
+<p>我这里用的东西全是目前(2017.12.9)的最新版，MongoDB 3.6，mongoose 4.13，node 8.9，之所以写这些是因为“有坑！”。在官方文档中 <code>127.0.0.1</code> 位置放的是 <code>localhost</code>，这居然是 Node.js 的 bug。然后是 Promise，最新版的 mongoose 将 Promise 进行了抽离，如果不单独处理会有 Warning。</p>
 <p>在测试的时候可以跑完代码就断开数据库连接：</p>
-<pre><code>// 断开数据库链接
-setTimeout(() =&gt; {
-    mongoose.disconnect(function(){
-        console.log(&quot;断开连接&quot;);
-    })
-}, 2000);    
-</code></pre><p>下面按照惯例我们来写一遍 CRUD。</p>
+<pre><code class="lang-js">    // 断开数据库链接
+    setTimeout(() =&gt; {
+        mongoose.disconnect(function(){
+            console.log(&quot;断开连接&quot;);
+        })
+    }, 2000);
+</code></pre>
+<p>下面按照惯例我们来写一遍 CRUD。</p>
 <h3 id="header-1-5-3">Create</h3>
 <pre><code>var User = mongoose.model(&#39;User&#39;, {
     name: String
@@ -354,10 +384,18 @@ User.find({
     name: &#39;aaa&#39;
 }).exec();
 </code></pre><p>[注意]文档的 remove 方法的回调函数不能省略，否则数据不会被删除，同上。</p>
-<h2 id="header-1-6">附注</h2>
+<h2 id="header-1-6">一种实践方式</h2>
+<p>数据处理写在一起可能会比较大，一般都采用分层的方式来处理，虽然写着有些繁琐，但是由于各层分工明确易于维护，这里介绍一种分层方式，这种分层方式参考了 Node.js 中文论坛的实现。</p>
+<ul>
+<li>论坛地址：<a href="https://cnodejs.org/" target="_blank">https://cnodejs.org/</a></li>
+<li>源码地址：<a href="https://github.com/cnodejs/nodeclub" target="_blank">https://github.com/cnodejs/nodeclub</a></li>
+</ul>
+<p>首先是 models 层，负责数据库的链接、数据定义、集中对外输出。</p>
+<p>待续... </p>
+<h2 id="header-1-7">附注</h2>
 <p>Community Server， 社区版，比企业版少一些高级功能</p>
 <p>Enterprise Server， 企业版，功能最全，免费</p>
-<h2 id="header-1-7">扩展阅读</h2>
+<h2 id="header-1-8">扩展阅读</h2>
 <p><a href="https://blog.csdn.net/lydiacheung/article/details/52797956" target="_blank">让node.js高效操作mongodb</a></p>
 
 </div>

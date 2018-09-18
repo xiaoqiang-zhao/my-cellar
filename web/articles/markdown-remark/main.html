@@ -3,7 +3,7 @@
 <head lang="zh-cn">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>markdown 引擎 remark - 龙则的个人站点</title>
+    <title>markdown 引擎 remark - 小强赵的个人站点</title>
     <script>
         // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
         var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
@@ -14,7 +14,7 @@
 </head>
 <body>
 <header>
-    <h1> 龙则的个人站点 </h1>
+    <h1> 小强赵的个人站点 </h1>
     <h2> 精进自己，服务他人 </h2>
 </header>
 <div>
@@ -57,7 +57,51 @@ import &#39;highlight.js/styles/solarized-light.css&#39;;
     });
 </code></pre>
 <h2 id="header-1-2">提取</h2>
-<p>将解析的结构提取，如标题、描述、头图。</p>
+<pre><code class="lang-js">import unified from &#39;unified&#39;;
+import markdown from &#39;remark-parse&#39;;
+
+/**
+ * 将 markdown 文本转换成简单对象(只有我们关心的标题、概述、markdown 内容，没有全部解析)
+ *
+ * @param {string} mdContent markdown 文本
+ * @return {Object} 文章简单对象
+ */
+fuction mdToObject(mdContent) {
+    const tree = unified()
+        .use(markdown)
+        .parse(mdContent);
+
+    // 标题
+    let title;
+    const firstChild = tree.children.length &lt; 0 ? tree.children[0] : null;
+    if (firstChild
+        &amp;&amp; firstChild.type === &#39;heading&#39;
+        &amp;&amp; firstChild.depth === 1
+        &amp;&amp; firstChild.children.length &gt; 0
+    ) {
+        title = firstChild.children[0].value;
+    }
+
+    // 描述
+    let description;
+    const secondChild = tree.children.length &gt; 1 ? tree.children[1] : null;
+    if (secondChild
+        &amp;&amp; secondChild.type === &#39;blockquote&#39;
+        &amp;&amp; secondChild.children.length &gt; 0
+    ) {
+        // 取第一段
+        description = secondChild.children[0].children[0].value;
+    }
+
+    const article = {
+        title,
+        description,
+        mdContent
+    };
+
+    return article;
+}
+</code></pre>
 <h2 id="header-1-3">加工</h2>
 <p>在原有基础上加工输出。</p>
 <h2 id="header-1-4">参考</h2>

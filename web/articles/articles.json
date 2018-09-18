@@ -122,7 +122,7 @@
   {
     "enName": "blog",
     "title": "小强赵博客开发记要",
-    "introduction": "未找到描述信息",
+    "introduction": "直接在 github 上开个项目，像提交代码一样提交文章。",
     "tags": [],
     "isPublished": false,
     "state": "立项",
@@ -785,7 +785,7 @@
   },
   {
     "enName": "linear-gradient",
-    "title": "半透明背景",
+    "title": "CSS3 渐变",
     "introduction": "用到了就学彻底。",
     "tags": [],
     "isPublished": false,

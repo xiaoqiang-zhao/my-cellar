@@ -3,7 +3,7 @@
 <head lang="zh-cn">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>CSS 动画(一) - 龙则的个人站点</title>
+    <title>CSS 动画(一) - 小强赵的个人站点</title>
     <script>
         // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
         var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
@@ -14,7 +14,7 @@
 </head>
 <body>
 <header>
-    <h1> 龙则的个人站点 </h1>
+    <h1> 小强赵的个人站点 </h1>
     <h2> 精进自己，服务他人 </h2>
 </header>
 <div>
@@ -25,7 +25,7 @@
 <h2 id="header-1-1">过渡 transition</h2>
 <blockquote>
 <p>CSS 动画有两种实现方式，其中较为简单的就是过渡 -- <code>transition</code>，在一定的时间区间内平滑地过渡。当通过 <code>hover</code> 等伪类、直接改 class 或样式值引起样式变化，<code>transition</code>可使样式平滑地过渡。
-<a href="/articles/css-animate/demo/transition-quick-start.html" target="_blank">示例</a></p>
+<a href="/articles/css-animation/demo/transition-quick-start.html" target="_blank">示例</a></p>
 </blockquote>
 <h3 id="header-1-1-1">语法概述</h3>
 <p>语法：</p>
@@ -38,7 +38,7 @@ transition: [过渡属性] 过渡持续时间 [动画函数] [过渡延迟时间
 <ul>
 <li>all 默认值，全部可过渡的样式，在下面会给出哪些样式可过渡</li>
 <li>none 不对任何样式进行过渡，当过渡还没完成时突然将过渡属性设为 <code>none</code>，过渡会直接跳到结尾，
-<a href="/articles/css-animate/demo/transition-property.html" target="_blank">示例</a></li>
+<a href="/articles/css-animation/demo/transition-property.html" target="_blank">示例</a></li>
 <li>单独属性，并不是所有属性都可以过渡，只有属性具有中间点值才能具备过度效果，这里就不一一列举了，
 参见<a href="https://www.w3.org/TR/css3-transitions/#properties-from-css-" target="_blank">这里</a></li>
 </ul>
@@ -49,7 +49,7 @@ transition: [过渡属性] 过渡持续时间 [动画函数] [过渡延迟时间
 <pre><code>transition: 0.5s;
 transition: .5s;
 transition: 500ms;
-</code></pre><p><a href="/articles/css-animate/demo/transition-duration.html" target="_blank">示例</a></p>
+</code></pre><p><a href="/articles/css-animation/demo/transition-duration.html" target="_blank">示例</a></p>
 <h3 id="header-1-1-4">过渡函数</h3>
 <p><code>transition-timing-function</code> 用来指定变化速度，有如下值可供选择：</p>
 <ul>
@@ -64,7 +64,7 @@ transition: 500ms;
 <p>需要对 <code>cubic-bezier</code> 函数的四个参数做一个简单的说明，速度变化采用三次贝塞尔曲线来描述，一条贝塞尔曲线需要四个点来描述如下图：</p>
 <p><img src="img/bezier.png" alt="image"> </p>
 <p>为了简化，在CSS中将决定曲线位置的两点固化，也就是图中白色的两点，他们的坐标分别是(0,0)和(1,1)，留出两个点来供我们自定义曲线的弯曲状态，这两个点必须在[(0,0),(1,0),(1,1),(0,1)]这个范围内，所以定义弯曲状态的两个点的坐标的取值范围是零到一(包括零和一)，前两个值是红点的坐标，后两个值是蓝点的坐标。从图中可以看出“横轴是时间，纵轴是位置”，所以曲线越陡的部分速度越快。可以借助<a href="http://cubic-bezier.com/" target="_blank">cubic-bezier.com</a>这一网站工具来体验曲线形状和生成坐标点。</p>
-<p><a href="/articles/css-animate/demo/transition-timing-function.html" target="_blank">关于过渡方式的示例</a></p>
+<p><a href="/articles/css-animation/demo/transition-timing-function.html" target="_blank">关于过渡方式的示例</a></p>
 <h3 id="header-1-1-5">过渡延迟开始时间</h3>
 <p><code>transition-delay</code> 动画延迟开始的时间，设置上和 <code>transition-duration</code> 相同，不同的地方是可以设置负数，这对于组合动画非常有用。</p>
 <h2 id="header-1-2">动画 animation</h2>
@@ -72,7 +72,7 @@ transition: 500ms;
 <p>使用 transition 属性只能通过指定属性的初始状态和结束状态，然后在两个状态之间进行平滑过渡的方式来实现动画。而 animation 可以通过关键帧的定义实现更为复杂细腻的动画。</p>
 </blockquote>
 <h3 id="header-1-2-1">语法概述</h3>
-<p>通过 <code>animation</code> 及其子属性定义动画，通过 <code>@keyframes</code> 定义关键帧。先看<a href="/articles/css-animate/demo/animation-quick-start.html" target="_blank">快速开始示例</a>的样式代码：</p>
+<p>通过 <code>animation</code> 及其子属性定义动画，通过 <code>@keyframes</code> 定义关键帧。先看<a href="/articles/css-animation/demo/animation-quick-start.html" target="_blank">快速开始示例</a>的样式代码：</p>
 <pre><code>div {
     display: inline-block;
     margin: 100px;
@@ -116,7 +116,7 @@ div:hover {
 <p><code>animation-direction</code>，动画播放方向，有两个值：</p>
 <ul>
 <li>normal，默认值，动画每次循环都是向前播放；</li>
-<li>alternate，动画会在奇数次数正常播放，而在偶数次数向后播放，当动画循环播放多次时，此属性可使动画连续不跳动，如<a href="/articles/css-animate/demo/animation-direction.html" target="_blank">示例</a>。</li>
+<li>alternate，动画会在奇数次数正常播放，而在偶数次数向后播放，当动画循环播放多次时，此属性可使动画连续不跳动，如<a href="/articles/css-animation/demo/animation-direction.html" target="_blank">示例</a>。</li>
 </ul>
 <h3 id="header-1-2-8">动画播放状态</h3>
 <p><code>animation-play-state</code>，动画播放状态，有两个值：</p>
@@ -124,7 +124,7 @@ div:hover {
 <li>running，默认值，将停下来的动画继续开始；</li>
 <li>paused，使动画暂停。</li>
 </ul>
-<p><a href="/articles/css-animate/demo/animation-play-state.html" target="_blank">示例</a></p>
+<p><a href="/articles/css-animation/demo/animation-play-state.html" target="_blank">示例</a></p>
 <h3 id="header-1-2-9">动画时间外属性</h3>
 <p><code>animation-fill-model</code>，有四个值：</p>
 <ul>
