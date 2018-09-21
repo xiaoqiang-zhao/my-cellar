@@ -1,9 +1,5 @@
-# 运行说明
+# 说明
 
-直接在控制台输出：
-```shell
-node index.js < example.md
-```
+这是一个比较复杂的插件，如果需要升入研究插件的编写技巧可以读读源码。
 
-输出到文件
-node index.js < example.md > example.html
+https://www.npmjs.com/package/remark-attr
