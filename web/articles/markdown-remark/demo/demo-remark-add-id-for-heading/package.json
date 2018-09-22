@@ -1,0 +1,17 @@
+{
+  "name": "demo-remark-add-id-for-heading",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "rehype-stringify": "^4.0.0",
+    "remark-parse": "^5.0.0",
+    "remark-rehype": "^3.0.1",
+    "unified": "^7.0.0"
+  }
+}
