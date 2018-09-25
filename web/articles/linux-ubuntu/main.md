@@ -38,7 +38,7 @@ sudo dpkg -i google-chrome*; sudo apt-get -f install
 # 安装 git
 sudo apt-get install git
 # 设置用户名和邮箱
-git config --global user.name 'longze'
+git config --global user.name 'xiaoqiang-zhao'
 git config --global user.email 'email@example.com'
 # ssh 为了不用每次提交都输用户名和密码，最好将 ssh 配上：
 # https://help.github.com/articles/connecting-to-github-with-ssh/
@@ -46,7 +46,7 @@ git config --global user.email 'email@example.com'
 # 克隆远程仓库
 # Github获取远程库时，有 ssh 方式和 https 方式
 # 两个方式的url地址不同，认证方式也不同，使用 ssh 时保存密钥对以后可以不再输入帐号密码，而 https 却不能。
-git clone git@github.com:longze/my-cellar.git
+git clone git@github.com:xiaoqiang-zhao/my-cellar.git
 ```
 
 然后是 IDE，写代码，我用的是 VS Code: 

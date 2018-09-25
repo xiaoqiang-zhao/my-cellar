@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div>
+    面试题：
+</div>
+<script>
+function countItem (arr) {
+    return arr.reduce((previousValue, currentItem) => {
+        if (previousValue[currentItem] === undefined) {
+            previousValue[currentItem] = 1;
+        }
+        else {
+            previousValue[currentItem]++;
+        }
+
+        return previousValue;
+    }, {});
+}
+countItem(['a', 'b', 'a', 'c', 'b', 'b']);
+
+</script>
+</body>
+</html>

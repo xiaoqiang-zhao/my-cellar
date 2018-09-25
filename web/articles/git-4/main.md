@@ -13,9 +13,9 @@
 
 	// 在项目页面可以找到 git 的链接，如本博客的git链接如下
 	// 一些企业的内部 git，或者国内的一些 git 站点也都有该功能，大同小异而已 
-	https://github.com/longze/my-cellar.git
+	https://github.com/xiaoqiang-zhao/my-cellar.git
 	// 然后克隆到本地
-	git clone https://github.com/longze/my-cellar.git
+	git clone https://github.com/xiaoqiang-zhao/my-cellar.git
 	// 初始化此目录
 	git init
 
@@ -51,7 +51,7 @@
 	// 提交
 	git commit -m "提交的描述信息"
 	// 添加远程仓库(忘了不添加会有什么问题，下次用的时候记录一下)
-	git remote add origin https://github.com/longze/git-test.git
+	git remote add origin https://github.com/xiaoqiang-zhao/git-test.git
 	// 推送
     git push -u origin master
 	
@@ -207,7 +207,7 @@ IDE 的配置文件通常是隐藏文件，不易直接可视化操作，这是�
 
 2、删除文件：
 
-	rm longze.iml modules.xml encodings.xml workspace.xml codeStyleSettings.xml
+	rm xiaoqiang-zhao.iml modules.xml encodings.xml workspace.xml codeStyleSettings.xml
 
 3、返回上层文件夹，并删除隐藏文件夹(如果文件夹中还有其他文件再从第一部开始将其删除)：
 

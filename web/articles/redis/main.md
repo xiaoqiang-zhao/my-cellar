@@ -89,7 +89,7 @@ Redis 的适用场景是快速写入和读取结构简单的数据。
 存储多个键值之间的映射。
 
     // 添加/更新 键值对到散列
-    hset my-hash name longze
+    hset my-hash name xiaoqiang-zhao
     // 获取所有键值对
     hgetall my-hash
     // 删除键值对

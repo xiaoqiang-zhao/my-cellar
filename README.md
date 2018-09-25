@@ -4,7 +4,7 @@
 
 ## 概述
 
-一些未完成未发布的文章也被包含在这个项目中，这个项目是内容和博客生成工具的一个结合体。生成博客的工具是我的另一个开源项目 [cellar](https://github.com/longze/cellar)，关于这个工具的介绍请移步 [cellar](https://github.com/longze/cellar)，那里有很详细的使用文档和技术文档。你可以将本项目下载到本地，然后快速启动本博客：
+一些未完成未发布的文章也被包含在这个项目中，这个项目是内容和博客生成工具的一个结合体。生成博客的工具是我的另一个开源项目 [cellar](https://github.com/xiaoqiang-zhao/cellar)，关于这个工具的介绍请移步 [cellar](https://github.com/xiaoqiang-zhao/cellar)，那里有很详细的使用文档和技术文档。你可以将本项目下载到本地，然后快速启动本博客：
 
 	// 安装本项目依赖的 node 模块
 	npm install

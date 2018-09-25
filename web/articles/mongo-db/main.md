@@ -71,7 +71,7 @@
 ```shell
     db.articles.insert({
         title: 'title1',
-        author: 'longze',
+        author: 'xiaoqiang-zhao',
         vote_count: 20,
         content: '内容1',
         tags: ['tag1', 'tag2', 'tag3'],

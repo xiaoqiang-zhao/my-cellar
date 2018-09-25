@@ -282,7 +282,7 @@ vs code 需要加配置：
     articles/:id
 
 但是在脚手架 Mock 功能上这是很通用的需求，其中最核心的功能需求是不需要每新加一个接口都要改配置文件，直接添加文件就好了，这也是一种思路的体现 -- 流程优于配置。所以决定先造个轮子: 
-[express-auto-path-router](https://github.com/longze/express-auto-path-router)。
+[express-auto-path-router](https://github.com/xiaoqiang-zhao/express-auto-path-router)。
 怎么开发中间件这里就不展开了，解决的主要问题就是省略路由配置文件，路由和功能的对应采用一种逻辑关系，规则如下：
 
     GET /a -> /GET/a/index.js
@@ -335,7 +335,7 @@ vs code 需要加配置：
         app.use(proxyMiddleware(options.filter || context, options))
       })
     }
-    // https://github.com/longze/express-auto-path-router
+    // https://github.com/xiaoqiang-zhao/express-auto-path-router
     else if (config.dev.dataType === 'mock') {
       app.use(expressAutoPathRouter(config.dev.mockTable.rootPath))
     }

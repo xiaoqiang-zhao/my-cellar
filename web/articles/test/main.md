@@ -164,7 +164,7 @@ module.exports = {
 module.exports = {
     'Blog test': function (client) {
         client
-            .url('https://longze.github.io/#!/')
+            .url('https://xiaoqiang-zhao.github.io/#!/')
             .assert.containsText('.main-title', '龙则的个人站点')
             .end();
     }

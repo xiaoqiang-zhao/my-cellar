@@ -393,7 +393,7 @@ for (var chart of string){}
 
 字符串遍历接口
 
-	for (var chart of 'longze') {
+	for (var chart of 'xiaoqiang-zhao') {
       console.log(chart)
     }
 
@@ -419,8 +419,8 @@ ES7提供了字符串实例的at方法，可以识别Unicode编号大于0xFFFF�
 
 searchString 被包含的字符串片段，position 开始检查的点(从零算起)。
 
-	'longze'.includes('long');     // true
-	'longze'.includes('long', 1);  // false
+	'xiaoqiang-zhao'.includes('long');     // true
+	'xiaoqiang-zhao'.includes('long', 1);  // false
 
 ### startsWith
 
@@ -430,8 +430,8 @@ searchString 被包含的字符串片段，position 开始检查的点(从零算
 
 searchString 被检测开始的字符串片段，position 开始检查的点(从零算起)。
 
-	'longze'.startsWith('ong');     // false
-	'longze'.startsWith('ong', 1);  // true
+	'xiaoqiang-zhao'.startsWith('ong');     // false
+	'xiaoqiang-zhao'.startsWith('ong', 1);  // true
 
 ### endsWith
 
@@ -441,7 +441,7 @@ searchString 被检测开始的字符串片段，position 开始检查的点(从
 
 searchString 被检测结尾的字符串片段，position 开始向前检查的点，定位参考依旧是从字符串的左边的第一个字符作为零开始算起。
 
-	'longze'.endsWith('ong', 4);  // true
+	'xiaoqiang-zhao'.endsWith('ong', 4);  // true
 
 ### repeat
 
@@ -458,16 +458,16 @@ count 是重复次数。
 - 如果是字符串，则会先转换成数字。
 
 
-	'longze'.repeat(1);    // "longze"
-	'longze'.repeat('2');  // "longzelongze"
-	'longze'.repeat('a');  // ""
+	'xiaoqiang-zhao'.repeat(1);    // "xiaoqiang-zhao"
+	'xiaoqiang-zhao'.repeat('2');  // "xiaoqiang-zhaoxiaoqiang-zhao"
+	'xiaoqiang-zhao'.repeat('a');  // ""
 
 ### 模板字符串
 	
 模板字符串（template strings），它为JavaScript提供了简单的字符串插值功能。
 	
-	var name = 'longze'; 
-	var a = `用户 ${name}.`;  // "用户 longze."
+	var name = 'xiaoqiang-zhao'; 
+	var a = `用户 ${name}.`;  // "用户 xiaoqiang-zhao."
     
 模板字符串不能代替Mustache和Nunjucks，一部分原因是在模板字符串没有内建的循环或条件语句语法。从现有规范来看也并没有提及将来会以什么样的形式来原生支持智能模板，所以模板引擎该用的还得继续用。
 	
