@@ -6,7 +6,7 @@
 
 var config = {
     // 公开网站的路径（下面表示和 cellar 同级的 longze 文件夹）
-    publicSitePath: '/../../longze',
+    publicSitePath: '/../../xiaoqiang-zhao',
 
     /**** 下面为开发配置 ****/
     encoding: 'utf-8',

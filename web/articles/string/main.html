@@ -246,7 +246,7 @@ var a = &#39;abc&#39;; a.concat(&#39;d&#39;);          // a的值依然是abc
 </code></pre><h3 id="header-1-4-2">for...of</h3>
 <p>for (var chart of string){}</p>
 <p>字符串遍历接口</p>
-<pre><code>for (var chart of &#39;longze&#39;) {
+<pre><code>for (var chart of &#39;xiaoqiang-zhao&#39;) {
   console.log(chart)
 }
 </code></pre><h3 id="header-1-4-3">at</h3>
@@ -261,19 +261,19 @@ var a = &#39;abc&#39;; a.concat(&#39;d&#39;);          // a的值依然是abc
 <p>.includes(searchString[, position])</p>
 <p>当前字符串是否包含另一个字符串片段。</p>
 <p>searchString 被包含的字符串片段，position 开始检查的点(从零算起)。</p>
-<pre><code>&#39;longze&#39;.includes(&#39;long&#39;);     // true
-&#39;longze&#39;.includes(&#39;long&#39;, 1);  // false
+<pre><code>&#39;xiaoqiang-zhao&#39;.includes(&#39;long&#39;);     // true
+&#39;xiaoqiang-zhao&#39;.includes(&#39;long&#39;, 1);  // false
 </code></pre><h3 id="header-1-4-5">startsWith</h3>
 <p>.startsWith(searchString[, position])</p>
 <p>当前字符串以另一个字符串片段开始。</p>
 <p>searchString 被检测开始的字符串片段，position 开始检查的点(从零算起)。</p>
-<pre><code>&#39;longze&#39;.startsWith(&#39;ong&#39;);     // false
-&#39;longze&#39;.startsWith(&#39;ong&#39;, 1);  // true
+<pre><code>&#39;xiaoqiang-zhao&#39;.startsWith(&#39;ong&#39;);     // false
+&#39;xiaoqiang-zhao&#39;.startsWith(&#39;ong&#39;, 1);  // true
 </code></pre><h3 id="header-1-4-6">endsWith</h3>
 <p>.endsWith(searchString[, position])</p>
 <p>当前字符串是否已另一个字符串结尾。</p>
 <p>searchString 被检测结尾的字符串片段，position 开始向前检查的点，定位参考依旧是从字符串的左边的第一个字符作为零开始算起。</p>
-<pre><code>&#39;longze&#39;.endsWith(&#39;ong&#39;, 4);  // true
+<pre><code>&#39;xiaoqiang-zhao&#39;.endsWith(&#39;ong&#39;, 4);  // true
 </code></pre><h3 id="header-1-4-7">repeat</h3>
 <p>.repeat(count)</p>
 <p>返回一个新字符串，表示将原字符串重复n次。</p>
@@ -285,13 +285,13 @@ var a = &#39;abc&#39;; a.concat(&#39;d&#39;);          // a的值依然是abc
 <li>如果是，则NaN等同于0；</li>
 <li>如果是字符串，则会先转换成数字。</li>
 </ul>
-<pre><code>&#39;longze&#39;.repeat(1);    // &quot;longze&quot;
-&#39;longze&#39;.repeat(&#39;2&#39;);  // &quot;longzelongze&quot;
-&#39;longze&#39;.repeat(&#39;a&#39;);  // &quot;&quot;
+<pre><code>&#39;xiaoqiang-zhao&#39;.repeat(1);    // &quot;xiaoqiang-zhao&quot;
+&#39;xiaoqiang-zhao&#39;.repeat(&#39;2&#39;);  // &quot;xiaoqiang-zhaoxiaoqiang-zhao&quot;
+&#39;xiaoqiang-zhao&#39;.repeat(&#39;a&#39;);  // &quot;&quot;
 </code></pre><h3 id="header-1-4-8">模板字符串</h3>
 <p>模板字符串（template strings），它为JavaScript提供了简单的字符串插值功能。</p>
-<pre><code>var name = &#39;longze&#39;; 
-var a = `用户 ${name}.`;  // &quot;用户 longze.&quot;
+<pre><code>var name = &#39;xiaoqiang-zhao&#39;; 
+var a = `用户 ${name}.`;  // &quot;用户 xiaoqiang-zhao.&quot;
 </code></pre><p>模板字符串不能代替Mustache和Nunjucks，一部分原因是在模板字符串没有内建的循环或条件语句语法。从现有规范来看也并没有提及将来会以什么样的形式来原生支持智能模板，所以模板引擎该用的还得继续用。</p>
 <h2 id="header-1-5">参考</h2>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank">https://developer.mozilla.org/String</a></p>

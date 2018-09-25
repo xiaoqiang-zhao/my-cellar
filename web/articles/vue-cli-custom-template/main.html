@@ -243,7 +243,7 @@ app.use(history({
 <p>找了很久没找到一个 start 数较高的自动路由中间件(根据访问路径直接读取相同路径模块并返回结果)，可能因为这种包对于后台开发来说太鸡肋，像下面这种路由需要将 id 写死：</p>
 <pre><code>articles/:id
 </code></pre><p>但是在脚手架 Mock 功能上这是很通用的需求，其中最核心的功能需求是不需要每新加一个接口都要改配置文件，直接添加文件就好了，这也是一种思路的体现 -- 流程优于配置。所以决定先造个轮子: 
-<a href="https://github.com/longze/express-auto-path-router" target="_blank">express-auto-path-router</a>。
+<a href="https://github.com/xiaoqiang-zhao/express-auto-path-router" target="_blank">express-auto-path-router</a>。
 怎么开发中间件这里就不展开了，解决的主要问题就是省略路由配置文件，路由和功能的对应采用一种逻辑关系，规则如下：</p>
 <pre><code>GET /a -&gt; /GET/a/index.js
 POST /a -&gt; /POST/a/index.js
@@ -287,7 +287,7 @@ Object.keys(config.dev.proxyTable).forEach(function (context) {
     app.use(proxyMiddleware(options.filter || context, options))
   })
 }
-// https://github.com/longze/express-auto-path-router
+// https://github.com/xiaoqiang-zhao/express-auto-path-router
 else if (config.dev.dataType === &#39;mock&#39;) {
   app.use(expressAutoPathRouter(config.dev.mockTable.rootPath))
 }

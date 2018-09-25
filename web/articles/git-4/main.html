@@ -29,9 +29,9 @@
 <p>然而，无论是哪种情况，都得先在<code>github</code>新建一个项目的仓库。登录<code>github</code>后，找到<code>Repositories</code>这个Tab，然后点击<code>new</code>来新建一个项目仓库(更详细的介绍查看<a href="http://www.jianshu.com/p/df7ce9f3a5cb" target="_blank">这里</a>)。你本地还需要安装 git，这里也不详述，不了解的进<a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137396287703354d8c6c01c904c7d9ff056ae23da865a000/" target="_blank">此传送门</a>。准备好这些就可以把代码克隆到本地了：</p>
 <pre><code>// 在项目页面可以找到 git 的链接，如本博客的git链接如下
 // 一些企业的内部 git，或者国内的一些 git 站点也都有该功能，大同小异而已 
-https://github.com/longze/my-cellar.git
+https://github.com/xiaoqiang-zhao/my-cellar.git
 // 然后克隆到本地
-git clone https://github.com/longze/my-cellar.git
+git clone https://github.com/xiaoqiang-zhao/my-cellar.git
 // 初始化此目录
 git init
 </code></pre><p>这样你就可以开始写代码了，如果你是第二种情况直接将原来的代码拷贝到当前项目是最简单的方式。</p>
@@ -60,7 +60,7 @@ git add 文件名
 // 提交
 git commit -m &quot;提交的描述信息&quot;
 // 添加远程仓库(忘了不添加会有什么问题，下次用的时候记录一下)
-git remote add origin https://github.com/longze/git-test.git
+git remote add origin https://github.com/xiaoqiang-zhao/git-test.git
 // 推送
 git push -u origin master
 </code></pre><h2 id="header-1-2">创建开发分支(其实这里可以理解为开发时的主干)</h2>
@@ -157,7 +157,7 @@ remotes/y/master
 <p>1、到达项目文件夹下，进入 IDE 的隐藏文件夹，这里以 WebStorm 为例，命令如下：</p>
 <pre><code>cd .idea
 </code></pre><p>2、删除文件：</p>
-<pre><code>rm longze.iml modules.xml encodings.xml workspace.xml codeStyleSettings.xml
+<pre><code>rm xiaoqiang-zhao.iml modules.xml encodings.xml workspace.xml codeStyleSettings.xml
 </code></pre><p>3、返回上层文件夹，并删除隐藏文件夹(如果文件夹中还有其他文件再从第一部开始将其删除)：</p>
 <pre><code>cd ..
 rmdir .idea
