@@ -647,6 +647,43 @@ function countItem (arr) {
 countItem(['a', 'b', 'a', 'c', 'b', 'b']);
 ```
 
+### 矩阵转置
+
+问题描述：转置矩阵
+
+```js
+function transposition (arr) {
+    // 写入你的代码
+}
+transposition([
+    [1, 2, 3],
+    [4, 5, 6]
+]);
+
+// 输出
+var result = [
+    [1, 4],
+    [2, 5],
+    [3, 6]
+];
+```
+
+参考答案
+```js
+function transposition (arr) {
+    return arr.reduce((result, currentItem, m) => {
+        currentItem.forEach((element, n) => {
+            if (result[n] === undefined) {
+                result[n] = [];
+            }
+            result[n][m] = element;
+        });
+
+        return result;
+    }, []);
+}
+```
+
 ## 参考
 
 常规部分的参考来自 

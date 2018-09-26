@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div>
+    面试题：转置
+</div>
+<script>
+function transposition (arr) {
+    return arr.reduce((result, currentItem, m) => {
+        currentItem.forEach((element, n) => {
+            if (result[n] === undefined) {
+                result[n] = [];
+            }
+            result[n][m] = element;
+        });
+
+        return result;
+    }, []);
+}
+transposition([
+    [1, 2, 3],
+    [4, 5, 6]
+]);
+
+// 输出
+var result = [
+    [1, 4],
+    [2, 5],
+    [3, 6]
+];
+
+</script>
+</body>
+</html>
