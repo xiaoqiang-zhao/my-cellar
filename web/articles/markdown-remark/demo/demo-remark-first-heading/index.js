@@ -21,3 +21,30 @@ unified()
   .process(testFile, (err, file) => {
     console.log(String(file))
   });
+
+// 下面是 remark-first-heading 的源码
+
+'use strict';
+
+var toString = require('mdast-util-to-string');
+
+module.exports = function attacher() {
+  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  return function transformer(root) {
+    var heading = {
+      type: 'heading',
+      depth: 1,
+      children: [{ type: 'text', value: options.heading }]
+    };
+
+    var first = root.children[0];
+    if (first && first.type === 'heading') {
+      if (toString(first) !== options.heading) {
+        root.children[0] = heading;
+      }
+    } else {
+      root.children.unshift(heading);
+    }
+  };
+};

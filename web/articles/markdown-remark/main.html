@@ -20,11 +20,11 @@
 <div>
     <h1 id="header-1">markdown 引擎 remark</h1>
 <blockquote>
-<p>以一己之力写出一个 markdown 生态。</p>
+<p>不只是一个工具，更是一个生态。</p>
 </blockquote>
 <h2 id="header-1-1">直接输出</h2>
-<p>直接输出时最基本的能力，支持的多种插件，表格、代码高亮、数学供述。CSS 是否提供，怎么自定义。</p>
-<p>我们需要几个包</p>
+<p>所有 md 转化工具的原理就是将文本装换成最语义化的 html 标签和内嵌文本输出，然后再引入一个 CSS 来定义样式，不同的 CSS 有不同的风格，github 风格以其代码托管平台知名度有很高的江湖地位，这里我以它为例，当然你可以找其他风格的 md 样式库，甚至还可以自定义，代码高亮不较复杂，一般有单独的插件和样式来定义，这里选了社区使用较为广泛的 highlight.js。</p>
+<p>基本的输出我们需要几个包：</p>
 <pre><code class="lang-js">&quot;remark&quot;: &quot;^9.0.0&quot;,
 &quot;remark-highlight.js&quot;: &quot;^5.0.0&quot;,
 &quot;remark-midas&quot;: &quot;^5.0.0&quot;,
@@ -33,9 +33,6 @@
 &quot;github-markdown-css&quot;: &quot;^2.10.0&quot;,
 // 代码高亮样式
 &quot;highlight.js&quot;: &quot;^9.12.0&quot;,
-</code></pre>
-<p>，比如：</p>
-<pre><code class="lang-js">import &#39;highlight.js/styles/solarized-light.css&#39;;
 </code></pre>
 <p>其他的包按常规引入就可以：</p>
 <pre><code class="lang-js">import remark from &#39;remark&#39;;
@@ -57,6 +54,7 @@ import &#39;highlight.js/styles/solarized-light.css&#39;;
     });
 </code></pre>
 <h2 id="header-1-2">提取</h2>
+<p>我们可能需要从 markdown 一坨文档中提取一些内容，比如标题、概述、头图等，详细操作请看下面：</p>
 <pre><code class="lang-js">import unified from &#39;unified&#39;;
 import markdown from &#39;remark-parse&#39;;
 
@@ -103,7 +101,19 @@ fuction mdToObject(mdContent) {
 }
 </code></pre>
 <h2 id="header-1-3">加工</h2>
+<p>remark 是一个生态，但是一个怎样的生态的呢？要讲清楚有点困难，各位看客也有点耐心，我先给个概要然后再一个个的细讲：</p>
+<ul>
+<li>第一层：unified，将 markdown 文档转成语法树；</li>
+<li>第二层：将 markdown 语法树转成 html 语法树；</li>
+<li>第三层：将 html 语法树转成虚拟文件或输出。</li>
+</ul>
+<p>先说第一层，remark生态是在 <a href="https://github.com/unifiedjs/unified" target="_blank">unified</a> 的基础上建立。unified 的定位是通过语法树加工文本的工具库，工作机制是小内核多插件，具体功能都由插件来完成。比如通过 remark 插件生成 markdown 抽象语法树，通过 rehype 生成 html 抽象语法树。remark 和 unified 的关系是：remark 是 unified 的插件，remark 使用 unified 的内核功能，但是 unified 并不是为了 remark 存在或定制。unified 还可以用来做文本格式化和文本格式校验，甚至在线编辑器。</p>
 <p>在原有基础上加工输出。</p>
+<p>You should pick a name prefixed by &#39;remark-&#39;, such as remark-lint.</p>
+<p>if the thing you create cannot be given to remark().use(), it isn’t a “plugin”. Don’t use the remark- prefix as that could confuse users. </p>
+<p>If it works with the HAST tree, use &#39;mdast-util-&#39;</p>
+<p>if it works with any Unist tree, use unist-util-</p>
+<p>if it works with virtual files, use vfile-.</p>
 <h2 id="header-1-4">参考</h2>
 <p><a href="https://github.com/remarkjs/remark" target="_blank">https://github.com/remarkjs/remark</a></p>
 <p>公司的高T原话：“js 玩 markdown 建议 remark，其他的都是早晚后悔 ”。</p>

@@ -32,4 +32,3 @@ unified()
     .process(testFile, (err, file) => {
         console.log(String(file))
     });
-    

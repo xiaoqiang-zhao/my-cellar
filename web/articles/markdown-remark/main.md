@@ -1,6 +1,6 @@
 # markdown 引擎 remark
 
-> 以一己之力写出一个 markdown 生态。
+> 不只是一个工具，更是一个生态。
 
 ## 直接输出
 
@@ -94,7 +94,146 @@ fuction mdToObject(mdContent) {
 
 ## 加工
 
-在原有基础上加工输出。
+remark 是一个生态，但是一个怎样的生态的呢？要讲清楚有点困难，各位看客也有点耐心，我先给个概要然后再一个个的细讲：
+
+- 第一层：unified，将 markdown 文档转成语法树；
+- 第二层：将 markdown 语法树转成 html 语法树；
+- 第三层：将 html 语法树转成虚拟文件或输出。
+
+先说第一层，remark生态是在 [unified](https://github.com/unifiedjs/unified) 的基础上建立。unified 的定位是通过语法树加工文本的工具库，工作机制是小内核多插件，具体功能都由插件来完成。比如通过 remark 插件生成 markdown 抽象语法树，通过 rehype 生成 html 抽象语法树。remark 和 unified 的关系是：remark 是 unified 的插件，remark 使用 unified 的内核功能，但是 unified 并不是为了 remark 存在或定制。unified 还可以用来做文本格式化和文本格式校验，甚至在线编辑器。
+
+比如 `remark-first-heading` 这个插件的作用就是给没有大标题的 markdown 语法树添加一个大标题语法树对象，源码如下：
+
+```js
+'use strict';
+
+var toString = require('mdast-util-to-string');
+
+module.exports = function attacher() {
+  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  return function transformer(root) {
+    var heading = {
+      type: 'heading',
+      depth: 1,
+      children: [{ type: 'text', value: options.heading }]
+    };
+
+    var first = root.children[0];
+    if (first && first.type === 'heading') {
+      if (toString(first) !== options.heading) {
+        root.children[0] = heading;
+      }
+    } else {
+      root.children.unshift(heading);
+    }
+  };
+};
+```
+
+在这一段中你可以改变 markdown 语法树，改变之后就会输出到第二层。
+
+第二层的转换是不可控的黑箱，但是我们可以对转换完成的 html 语法树做二次修改，比如我们打算给每个由 heading(markdown 语法树标题节点)转换成的 h(html 语法树节点，对应的标签是 h1-h6)加一个 id，这个 id 的值就是内容，我们可以这样做：
+
+```js
+/**
+ * 为 heading 添加 id 插件
+ */
+
+/**
+ * 是否是 markdown 的语法分析器
+ *
+ * @param {Object} parser 分析器
+ * @return {boolean} 是否是 markdown 的语法分析器
+ */
+function isRemarkParser(parser) {
+    return Boolean(
+        parser
+        && parser.prototype
+        && parser.prototype.inlineTokenizers
+        && parser.prototype.inlineTokenizers.link
+        && parser.prototype.inlineTokenizers.link.locator
+    );
+}
+
+function tokenizeGenerator(oldParser) {
+    function token(eat, value, silent) {
+        // This we call the old tokenize
+        const self = this;
+        let eaten = oldParser.call(self, eat, value, silent);
+
+        if (!eaten || !eaten.position) {
+            return undefined;
+        }
+
+        const id = eaten.children[0].value;
+        // 如果担心两行标题文字完全相同的问题，
+        // 可以加用行号 eaten.position.start.line;
+        if (eaten.data) {
+            eaten.data.hProperties.id = id;
+        }
+        else {
+            eaten.data = {
+                hProperties: {
+                    id
+                }
+            };
+        }
+        return eaten;
+    }
+
+    // Return the new tokenizer function
+    return token;
+}
+
+/**
+ * 入口函数
+ */
+function remarkAddIdForHeading() {
+    const parser = this.Parser;
+
+    if (!isRemarkParser(parser)) {
+        throw new Error('Missing markdown parser. (npm install remark-parse)');
+    }
+
+    const tokenizersBlock = parser.prototype.blockTokenizers;
+
+    // replace the old tokenizer by the new one
+    const oldElem = tokenizersBlock.atxHeading;
+    tokenizersBlock.atxHeading = tokenizeGenerator(oldElem);
+}
+
+module.exports = remarkAddIdForHeading;
+```
+
+这样我么就能控制标签的属性了，最后进入第三层将 html 语法树转变成 html 字符串片段。代码如下：
+
+```js
+var unified = require('unified');
+var remarkParse = require('remark-parse');
+var stringify = require('rehype-stringify');
+var remark2rehype = require('remark-rehype');
+var remarkAddIdForHeading = require('./plugin');
+
+const testFile = `
+# Hello World
+
+> 说明。
+
+## Install
+
+A **example**.`;
+
+unified()
+    .use(remarkParse)
+    .use(remarkAddIdForHeading)
+    .use(remark2rehype)
+    .use(stringify)
+    .process(testFile, (err, file) => {
+        console.log(String(file))
+    });
+
+```
 
 ## 参考
 
