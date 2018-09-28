@@ -1,6 +1,6 @@
 # NodeJs 异步流程控制
 
-> NodeJs 的核心就是异步流程控制，也是学习和使用 NodeJs 绕不开的坎儿，本文主要介绍异步的三种方法: callback、promise、async/await
+> NodeJs 的核心就是异步流程控制，也是学习和使用 NodeJs 绕不开的坎儿，本文主要介绍异步的三种方法: callback、promise、async/await。
 
 ## 概述
 
@@ -183,26 +183,26 @@ promise 其实是一个状态机：
 简单示例：
 
 ```js
-    function timeout(ms) {
-      return new Promise((resolve, reject) => {
-        setTimeout(resolve, ms, 'params-value');
-      });
-    }
-    
-    var promise = timeout(100);
-    promise.then(value => {
-      console.log(value);
+function timeout(ms) {
+    return new Promise((resolve, reject) => {
+    setTimeout(resolve, ms, 'params-value');
     });
-    // 控制台输出：params-value
+}
+
+var promise = timeout(100);
+promise.then(value => {
+    console.log(value);
+});
+// 控制台输出：params-value
 ```
 
 上面代码执行后，单独执行下面代码也输出同样的结果：
 
 ```js
-    promise.then(value => {
-      console.log(value);
-    });
-    // 控制台输出：params-value
+promise.then(value => {
+    console.log(value);
+});
+// 控制台输出：params-value
 ```
 
 ### .then(resolve, reject)
@@ -375,7 +375,7 @@ NodeJs 从7.6开始正式支持 async/await 语法，下面我们先结合前两
 
 ### 对比三种方案
 
-废弃 Generator 后 async/await 被业界誉为异步的中级解决方案。可以用 async/await 解决的问题都可以被 promise 和 callback 解决，只是 async/await 更加易读更符合人的直观感受。async 函数返回 promise 对象，下面先来对比一下 callback、promise、async 不同方式对同一功能的实现：
+废弃 Generator 后 async/await 被业界誉为异步的终级解决方案。可以用 async/await 解决的问题都可以被 promise 和 callback 解决，只是 async/await 更加易读更符合人的直观感受。async 函数返回 promise 对象，下面先来对比一下 callback、promise、async 不同方式对同一功能的实现：
 
 ```js
 
@@ -479,7 +479,7 @@ task();
 
 ### 错误处理
 
-看上面 async 部分的代码是不是感觉少点什么，上面提到“用 await 来提取 promise resolve 回调函数的入参”，那 reject 哪里去了，丢了？嗯，是丢了(关于这一点你可以去看 Demo: async-reject.js)，reject 状态返回的是 undefined。不过有两种方式可以找回来，我们再拿上面例子说事，如果你不关心具体哪一步出了问题，可以用一个 `try catch` 来处理：
+看上面 async 部分的代码是不是感觉少点什么，上面提到“用 await 来提取 promise resolve 回调函数的入参”，那 reject 哪里去了，丢了？嗯，是丢了(关于这一点你可以去看 [demo: async-reject.js](https://github.com/xiaoqiang-zhao/my-cellar/blob/master/web/articles/node-async/demo/async-reject.js))，reject 状态返回的是 undefined。不过有两种方式可以找回来，我们再拿上面例子说事，如果你不关心具体哪一步出了问题，可以用一个 `try catch` 来处理：
 
 ```js
 async function task() {
