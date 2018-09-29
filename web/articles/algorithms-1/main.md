@@ -64,34 +64,36 @@
 解决：最后被分割而成的数组长度为0和1时直接返回，为2时排序；(为3时继续分解)
 
 合并：无(由于数组是址引用，每次都是原址排序，所以不需要单独的合并操作)。
-	
-	// 快速排序核心代码
-	function quickSort(array, from, to) {
-        // 参数容错，可使初始化不用做特殊处理
-        from = from || 0;
-        to = to === undefined ? (array.length - 1) : to;
-        // to || (array.length - 1); 此种写法对 to=0 的情况会出问题
-    
-        if (from < to) {
-    
-            var markIndex = from - 1;  // 标记位
-            var spaceItem = array[to]; // 默认最后一个
-    
-            // 找出分水岭的位置，并把大小数分列两侧
-            for (var i = from; i <= to; i++) {
-                if (array[i] <= spaceItem) {
-                    markIndex++;
-                    var temp = array[markIndex];
-                    array[markIndex] = array[i];
-                    array[i] = temp;
-                }
+
+```js
+// 快速排序核心代码
+function quickSort(array, from, to) {
+    // 参数容错，可使初始化不用做特殊处理
+    from = from || 0;
+    to = to === undefined ? (array.length - 1) : to;
+    // to || (array.length - 1); 此种写法对 to=0 的情况会出问题
+
+    if (from < to) {
+
+        var markIndex = from - 1;  // 标记位
+        var spaceItem = array[to]; // 默认最后一个
+
+        // 找出分水岭的位置，并把大小数分列两侧
+        for (var i = from; i <= to; i++) {
+            if (array[i] <= spaceItem) {
+                markIndex++;
+                var temp = array[markIndex];
+                array[markIndex] = array[i];
+                array[i] = temp;
             }
-    
-            arguments.callee(array, from, markIndex - 1);
-            arguments.callee(array, markIndex + 1, to);
         }
-        return array;
+
+        arguments.callee(array, from, markIndex - 1);
+        arguments.callee(array, markIndex + 1, to);
     }
+    return array;
+}
+```
 
 在具体实现上我们采用一种`驱赶贪吃蛇`的策略来分解问题，`markIndex`作为贪吃蛇左起点的标记位，初始化时贪吃蛇没有长度，所以将标记位标记为`from - 1`(最开始时是-1，子问题也满足逻辑)；把数组(或数组的片段)最后一个元素当做分割元素`spaceItem`；然后从左到右遍历数组(或数组的片段)，如果当前数小于或等于`spaceItem`，那么将当前数和贪吃蛇的左边第一个数互换位置，使贪吃蛇向右移动一位，相应的`markIndex`也加1，如果当前数大于`spaceItem`，那么贪吃蛇向右涨一位。补充一下如果数组(或数组的片段)第一个元素小于`spaceItem`，会原位交换(`markIndex==i==0`)，这本身是没有意义的，但是如果加判断来消除这个逻辑分支，会带来两个问题，1、代码变复杂了，2、多数情况是非原位交换，每次都判断反而计算量更大。
 
@@ -111,27 +113,29 @@
 	G <-- F <-- E <───┘
 
 描述节点的部分数据如下：
- 
-	[
-        {
-            "resourceId": "sid-E312C067",   // 节点标识
-            "stencil": {
-                "id": "start"
-            },
-            "outgoing": [
-                {"resourceId": "sid-6A757572"}
-            ]
+
+```json
+[
+    {
+        "resourceId": "sid-E312C067",   // 节点标识
+        "stencil": {
+            "id": "start"
         },
-        {
-            "resourceId": "sid-6A757572",
-            "stencil": {
-                "id": "bind"
-            },
-            "outgoing": [
-                {"resourceId": "sid-C92FBDAE"}
-            ]
-        }
-    ]    
+        "outgoing": [
+            {"resourceId": "sid-6A757572"}
+        ]
+    },
+    {
+        "resourceId": "sid-6A757572",
+        "stencil": {
+            "id": "bind"
+        },
+        "outgoing": [
+            {"resourceId": "sid-C92FBDAE"}
+        ]
+    }
+]
+```
 
 第一个例子是较为简单的判断是否有依赖关系，下面是算法描述：
 
@@ -155,33 +159,35 @@
 
 功能说明和实现描述：如上图这个示例的功能就是将数据已表格形式来展现，数据展示上表头配置优先，如果表头中未配置数据列那么数据不展示未配置列，不支持自适应宽度，每个子列(最末端的才生效)设置固定宽度，最后返回表格的 html 字符串，表头配置代码和调用方法如下：
 
-	// 表头配置方法
-	[
-        {
-            key: 'shopName',
-            title: '公司名称',
-            width: 200
-        },
-        {
-            key: 'plan',
-            title: '装修方案',
-            children: [
-                {
-                    key: 'commonPlan',
-                    title: '平装方案',
-                    width: 230,
-                    isWrap: true
-                },
-                {
-                    key: 'exquisitePlan',
-                    title: '精装方案',
-                    width: 230,
-                    isWrap: true
-                }
-            ]
-        }
-    ]
-	var html = objectToTable(seniorData, seniorDataHead);
+```js
+// 表头配置方法
+[
+    {
+        key: 'shopName',
+        title: '公司名称',
+        width: 200
+    },
+    {
+        key: 'plan',
+        title: '装修方案',
+        children: [
+            {
+                key: 'commonPlan',
+                title: '平装方案',
+                width: 230,
+                isWrap: true
+            },
+            {
+                key: 'exquisitePlan',
+                title: '精装方案',
+                width: 230,
+                isWrap: true
+            }
+        ]
+    }
+]
+var html = objectToTable(seniorData, seniorDataHead);
+```
 
 在实现上表格是由 `div` 拼接而成，拼接被分成两部分：第一部使用递归遍历表头的设置，生成各列的宽度，其实主要是将子列的宽度累加得到父列的宽度，顺便将表头的 html 生成出来；第二部分使用前一步生成的表头设置再结合数据生成表格数据部分。
 在样式上采用 `flex` 弹性布局来处理容器等高内容项不等高的均分问题。
@@ -189,31 +195,37 @@
 表头部分算法描述：
 
 开始之前：表头的配置要求是一个数组，为了逻辑上的归并和特殊处理最外层，我们将用户传入的表头设置加工成如下格式：
-	
-	{
-        key: '$root',
-        children: tableHeadConfig
-    }
-    
+
+```js
+{
+    key: '$root',
+    children: tableHeadConfig
+}
+```
+
 分解：如果当前字段的配置有 `children`，表示当前字段有子字段，需要表头嵌套，然后遍历 `children` 并将其每一个子项作为下一个子项的传入参数。
 
 解决：如果当前字段的配置没有 `children`，那么说明已经到了最底层，拼接当前所需的 html 片段并处理当前列的宽度(读取用户配置或者采用默认设置)，以对象的形式返回这两个值，格式如下：
 
-    var result = {
-		html: '...',
-		width: 130
-	};	
+```js
+var result = {
+    html: '...',
+    width: 130
+};
+```
 
 合并：累加遍历 `children` 得到的每一个 `result.width` 作为当前列的宽度，生成一个叶子节点作为嵌套列的头；再用一个`class`为`row`的容器盛放`result.html`字符串拼接结果，作为嵌套列的分列；最后用一个`class`为`column`容器盛放嵌套列的头和分列。
 
 表体部分算法描述：
   	
 开始之前：数据要求是一个数组，为了逻辑上的归并和特殊处理最外层，我们将用户传入的数据加工成如下格式：
-	
-	{
-		'$root': data
-	}
-    
+
+```js
+{
+    '$root': data
+}
+```
+
 分解：由于表头配置优先，所以分解依然是按照表头设置的数据来层层分解，不同的是分解到每一列时需要找相对应的数据，如果没有找到对应数据需要补一个空数据占位并且不再向下分解当前列。
 
 解决：到达表头的叶子节点后，展现数据的html片段的拼接方式要根据数据类型来确定，如果数据类型是数组，就要按多行呈现的方式来拼接，如果是非数组的数字或字符串那么直接输出叶子节点的拼接结果即可。
@@ -240,28 +252,30 @@
 
 手动反转一个数组
 
-    function reverse(array) {
-    
-        if (Array.isArray(array)) {
-            var length = array.length - 1;               // 1
-            array.some(function (item, index) {          // n/2
-                // 交换顺序
-                if (index < length - index) {            // 1
-                    var t = array[index];                // 1
-                    array[index] = array[length - index];// 1
-                    array[length - index] = t;           // 1
-                }
-                // 结束循环
-                else {
-                    return true;
-                }
-            });
-        }
-        return array;
+```js
+function reverse(array) {
+
+    if (Array.isArray(array)) {
+        var length = array.length - 1;               // 1
+        array.some(function (item, index) {          // n/2
+            // 交换顺序
+            if (index < length - index) {            // 1
+                var t = array[index];                // 1
+                array[index] = array[length - index];// 1
+                array[length - index] = t;           // 1
+            }
+            // 结束循环
+            else {
+                return true;
+            }
+        });
     }
-    
-    // 整体运算量: 1 + (1 + 1 + 1 + 1)n/2 = 2n + 1
-    // 所以复杂度为:O(n)  
+    return array;
+}
+
+// 整体运算量: 1 + (1 + 1 + 1 + 1)n/2 = 2n + 1
+// 所以复杂度为:O(n)
+```
 
 在列举其他复杂度的例子之前，我们有必要再引入两个概念: "最坏情况时间复杂度" 和 "期望时间复杂度"。"最坏情况时间复杂度"是处理固定数量的数据时最多运算多少次，比如排序给的是逆序的数据，还有你希望查询的数据在查到最后一个时才出现; "期望时间复杂度"(其中的"期望"是统计学中的一个概念大体相当于平均概率)是处理固定数量的数据时平均运算的次数，上面数组反转的例子"最坏情况时间复杂度" 和 "期望时间复杂度"是完全相同的，对于大多数算法这两个指标通常是相同的，在评估计算量时可能需要区别这两种时间复杂度，但将系数取出后得到的时间复杂度表达式通常是相同的(有一些算法的最坏情况时间复杂度和期望时间复杂度是不同的，比如快速排序)。设计符合期望时间复杂度的测试数据和计算其复杂度需要一些概率基础。
 
@@ -269,25 +283,29 @@
 
 插入排序
 
-    // 核心代码,期望时间复杂度
-	for (var i = 1; i < array.length; i++) {
-		var key = array[i];
-		var j = i - 1;
-		while (j >= 0 && array[j] > key) {      // 平均概率下,在中部找到自己的位置
-		                                        // 1/2 + 2/2 + ... + j/2 + (n-1)/2
-		                                        // = (1 + 2 + 3 + ... + n - 1) / 2
-		                                        // 最坏情况只要把最后的除2去掉就可以
-			array[j + 1] = array[j];
-			j--;
-		}
-		array[j + 1] = key;
-	}
+```js
+// 核心代码,期望时间复杂度
+for (var i = 1; i < array.length; i++) {
+    var key = array[i];
+    var j = i - 1;
+    while (j >= 0 && array[j] > key) {    // 平均概率下,在中部找到自己的位置
+                                          // 1/2 + 2/2 + ... + j/2 + (n-1)/2
+                                          // = (1 + 2 + 3 + ... + n - 1) / 2
+                                          // 最坏情况只要把最后的除2去掉就可以
+        array[j + 1] = array[j];
+        j--;
+    }
+    array[j + 1] = key;
+}
+```
 
 等差数列的求和公式: n×a1 + n×(n-1)×d/2，代入到上面得
 
-    (1 + 2 + 3 + ... + n - 1) / 2
-    = [(n - 1) + (n - 1)×(n - 2)×1/2]/2
-    = (n^2 - n)/4
+```js
+(1 + 2 + 3 + ... + n - 1) / 2
+= [(n - 1) + (n - 1)×(n - 2)×1/2]/2
+= (n^2 - n)/4
+```
 
 所以插值排序的期望计算量可以简单表示成为: `(n^2 - n)/4`，最坏情况计算量需要乘2: `(n^2 - n)/2`，那么插值排序的时间复杂度就可以表示为: `O(n^2)`。
 
