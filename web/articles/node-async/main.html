@@ -20,7 +20,7 @@
 <div>
     <h1 id="header-1">NodeJs 异步流程控制</h1>
 <blockquote>
-<p>NodeJs 的核心就是异步流程控制，也是学习和使用 NodeJs 绕不开的坎儿，本文主要介绍异步的三种方法: callback、promise、async/await</p>
+<p>NodeJs 的核心就是异步流程控制，也是学习和使用 NodeJs 绕不开的坎儿，本文主要介绍异步的三种方法: callback、promise、async/await。</p>
 </blockquote>
 <h2 id="header-1-1">概述</h2>
 <p>NodeJs 的异步控制由 C++ 编写的 libuv 模块提供，libuv 提供两大功能: 事件循环(Event Loop) 和 线程池(Thread Pool)，这俩哥们儿把复杂的事做了(高并发，低延时)，交给用户的只是有点难用的 callback 写法，好在随着社区的发展我们有了 promise 和 async/await 方案，callback 也不再那么难写了。也正是坦诚的将异步回调暴露出来，才有更好的流程控制方面的演进。</p>
@@ -162,23 +162,23 @@ baby.on(&#39;event-name-once&#39;, () =&gt; {});
 <li>就算改变已经发生了，你再对 promise 实例添加回调函数，也会立即得到这个结果。</li>
 </ul>
 <p>简单示例：</p>
-<pre><code class="lang-js">    function timeout(ms) {
-      return new Promise((resolve, reject) =&gt; {
-        setTimeout(resolve, ms, &#39;params-value&#39;);
-      });
-    }
-
-    var promise = timeout(100);
-    promise.then(value =&gt; {
-      console.log(value);
+<pre><code class="lang-js">function timeout(ms) {
+    return new Promise((resolve, reject) =&gt; {
+    setTimeout(resolve, ms, &#39;params-value&#39;);
     });
-    // 控制台输出：params-value
+}
+
+var promise = timeout(100);
+promise.then(value =&gt; {
+    console.log(value);
+});
+// 控制台输出：params-value
 </code></pre>
 <p>上面代码执行后，单独执行下面代码也输出同样的结果：</p>
-<pre><code class="lang-js">    promise.then(value =&gt; {
-      console.log(value);
-    });
-    // 控制台输出：params-value
+<pre><code class="lang-js">promise.then(value =&gt; {
+    console.log(value);
+});
+// 控制台输出：params-value
 </code></pre>
 <h3 id="header-1-3-2">.then(resolve, reject)</h3>
 <p>定义在 promise 原型链上，它的作用是为 promise 实例添加状态改变时的回调函数。可以链式调用，内部可以返回其他 promise 实例，代码示例：</p>
@@ -308,7 +308,7 @@ Promise.all([p1(), p2()]).then(values =&gt; {
 <p><img src="/articles/node-async/img/async-await.png" alt="图"></p>
 <p>NodeJs 从7.6开始正式支持 async/await 语法，下面我们先结合前两种方案做一个对比。</p>
 <h3 id="header-1-4-1">对比三种方案</h3>
-<p>废弃 Generator 后 async/await 被业界誉为异步的中级解决方案。可以用 async/await 解决的问题都可以被 promise 和 callback 解决，只是 async/await 更加易读更符合人的直观感受。async 函数返回 promise 对象，下面先来对比一下 callback、promise、async 不同方式对同一功能的实现：</p>
+<p>废弃 Generator 后 async/await 被业界誉为异步的终级解决方案。可以用 async/await 解决的问题都可以被 promise 和 callback 解决，只是 async/await 更加易读更符合人的直观感受。async 函数返回 promise 对象，下面先来对比一下 callback、promise、async 不同方式对同一功能的实现：</p>
 <pre><code class="lang-js">
 const fs = require(&#39;fs&#39;);
 const fsExtra = require(&#39;fs-extra&#39;);
@@ -401,7 +401,7 @@ task();
 <p>注：虽然 nodejs 原生模块 <code>fs</code> 弃用了 <code>exists</code> 方法，但是第三方 <code>fs-extra</code> 模块却做了封装，我们这里直接使用。</p>
 <p>为了不相互影响 hello 文件夹分成 promise-hello 和 async-hello 两中情况，通过对比可以看到 promise 需要通过 then 来不断的写回调进去，而 async 函数就不需要，通过 await 关键字可以直接拿到异步执行结果，代码要简洁很多也更加易读。</p>
 <h3 id="header-1-4-3">错误处理</h3>
-<p>看上面 async 部分的代码是不是感觉少点什么，上面提到“用 await 来提取 promise resolve 回调函数的入参”，那 reject 哪里去了，丢了？嗯，是丢了(关于这一点你可以去看 Demo: async-reject.js)，reject 状态返回的是 undefined。不过有两种方式可以找回来，我们再拿上面例子说事，如果你不关心具体哪一步出了问题，可以用一个 <code>try catch</code> 来处理：</p>
+<p>看上面 async 部分的代码是不是感觉少点什么，上面提到“用 await 来提取 promise resolve 回调函数的入参”，那 reject 哪里去了，丢了？嗯，是丢了(关于这一点你可以去看 <a href="https://github.com/xiaoqiang-zhao/my-cellar/blob/master/web/articles/node-async/demo/async-reject.js" target="_blank">demo: async-reject.js</a>)，reject 状态返回的是 undefined。不过有两种方式可以找回来，我们再拿上面例子说事，如果你不关心具体哪一步出了问题，可以用一个 <code>try catch</code> 来处理：</p>
 <pre><code class="lang-js">async function task() {
     try {
         if (await !fs.exists(asyncPath)) {

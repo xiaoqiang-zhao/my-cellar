@@ -23,10 +23,10 @@
 <p>为满足一个奇葩的需求。</p>
 </blockquote>
 <h2 id="header-1-1">场景介绍</h2>
-<p>一个页面需要打开另一个页面，并且两个页面之间还需要通信。我们将前一个为了方便叙述我们将前一个页面称为副业面后一个页面称为子页面，父页面需要知道子页面是否关闭(换句话就是子页面关闭的时候需要通知父页面)，以方便父页面根据子页面的状态来做一下操作(比如是打开子页面还是和已经打开的子页面进行交互)。</p>
+<p>一个页面需要打开另一个页面，并且两个页面之间还需要通信。我们将前一个为了方便叙述我们将前一个页面称为父页面后一个页面称为子页面，父页面需要知道子页面是否关闭(换句话就是子页面关闭的时候需要通知父页面)，以方便父页面根据子页面的状态来做一下操作(比如是打开子页面还是和已经打开的子页面进行交互)。</p>
 <h2 id="header-1-2">关键代码</h2>
 <p>父页面 <code>p.html</code></p>
-<pre><code>&lt;!DOCTYPE html&gt;
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
     &lt;meta charset=&quot;UTF-8&quot;&gt;
@@ -62,8 +62,9 @@
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</code></pre><p>子页面 <code>c.html</code></p>
-<pre><code>&lt;!DOCTYPE html&gt;
+</code></pre>
+<p>子页面 <code>c.html</code></p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
     &lt;meta charset=&quot;UTF-8&quot;&gt;
@@ -89,16 +90,19 @@
 
 &lt;/body&gt;
 &lt;/html&gt;
-</code></pre><h2 id="header-1-3">原理简介</h2>
-<p>父页面定义一个全局变量来存储子页面的打开状态，<code>window.open</code>方法执行后会将子页面的<code>window</code>返回，方便我们来记录子页面的打开情况，并且为调用子页面的方法停工便利。</p>
-<pre><code>window.childrenWindow = window.open(&#39;./c.html&#39;);
-</code></pre><p>然后就可以监听子元素的 <code>onload</code> 事件，事件触发时调用子页面的初始化函数，在父页面监听而不在子页面中监听的好处是可以将父页面中的信息作为参数传递给子页面。</p>
-<pre><code>window.childrenWindow.onload = function () {
+</code></pre>
+<h2 id="header-1-3">原理简介</h2>
+<p>父页面定义一个全局变量来存储子页面的打开状态，<code>window.open</code>方法执行后会将子页面的<code>window</code>返回，方便我们来记录子页面的打开情况，并且为调用子页面的方法提供便利。</p>
+<pre><code class="lang-js">window.childrenWindow = window.open(&#39;./c.html&#39;);
+</code></pre>
+<p>然后就可以监听子元素的 <code>onload</code> 事件，事件触发时调用子页面的初始化函数，在父页面监听而不在子页面中监听的好处是可以将父页面中的信息作为参数传递给子页面。</p>
+<pre><code class="lang-js">window.childrenWindow.onload = function () {
     window.childrenWindow.initChildrenPage(text, function (body) {
         var a = &#39;&#39;;
     });
 }
-</code></pre><p>子页面通信父页面通过 <code>window.opener</code> 来拿到父页面的 <code>window</code> 对象并调用父页面的全局方法。</p>
+</code></pre>
+<p>子页面通信父页面通过 <code>window.opener</code> 来拿到父页面的 <code>window</code> 对象并调用父页面的全局方法。</p>
 <h2 id="header-1-4">不完美的地方</h2>
 <ul>
 <li>全局变量满天飞，注意覆盖；</li>

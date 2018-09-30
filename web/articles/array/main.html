@@ -473,6 +473,37 @@ countItem([&#39;a&#39;, &#39;b&#39;, &#39;a&#39;, &#39;c&#39;, &#39;b&#39;, &#39
 }
 countItem([&#39;a&#39;, &#39;b&#39;, &#39;a&#39;, &#39;c&#39;, &#39;b&#39;, &#39;b&#39;]);
 </code></pre>
+<h3 id="header-1-5-2">矩阵转置</h3>
+<p>问题描述：转置矩阵</p>
+<pre><code class="lang-js">function transposition (arr) {
+    // 写入你的代码
+}
+transposition([
+    [1, 2, 3],
+    [4, 5, 6]
+]);
+
+// 输出
+var result = [
+    [1, 4],
+    [2, 5],
+    [3, 6]
+];
+</code></pre>
+<p>参考答案</p>
+<pre><code class="lang-js">function transposition (arr) {
+    return arr.reduce((result, currentItem, m) =&gt; {
+        currentItem.forEach((element, n) =&gt; {
+            if (result[n] === undefined) {
+                result[n] = [];
+            }
+            result[n][m] = element;
+        });
+
+        return result;
+    }, []);
+}
+</code></pre>
 <h2 id="header-1-6">参考</h2>
 <p>常规部分的参考来自 
 <a href="http://www.w3school.com.cn/jsref/jsref_obj_array.asp" target="_blank">w3school的array部分</a>。</p>

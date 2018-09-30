@@ -145,7 +145,7 @@ forver扩展资料: [http://blog.fens.me/nodejs-server-forever/](http://blog.fen
 
 ### pm2
 
-```bash
+```shell
 # 开启进程守护
 pm2 start server --name my-server-name
 

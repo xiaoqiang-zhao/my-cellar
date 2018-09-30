@@ -79,7 +79,6 @@ sudo n latest
 
 快速启动应用：Win + A，没有像 Windows 下那样的“我的程序”，更像 Mac 的 Spotlight。
 
-
 ## 一些奇怪的问题
 
 ### 分辨率
