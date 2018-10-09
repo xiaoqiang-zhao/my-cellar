@@ -507,6 +507,28 @@ model 方法将 Schema 编译为 Model，model 方法的第一个参数决定 Co
 
 [注意]文档的 remove 方法的回调函数不能省略，否则数据不会被删除，同上。
 
+### 后台启动
+
+在 package.json 中配置脚本：
+
+```json
+"scripts": {
+"db": "sudo mongod --config ./mongod.conf"
+},
+```
+
+mongod.conf 文件配置内容：
+
+```js
+port=27017  
+dbpath=/data/db  
+logpath=./logs/mongodb.log  
+logappend=true  
+fork=true
+```
+
+启动数据库的时候执行 `npm run db`。
+
 ## 一种实践方式
 
 数据处理写在一起可能会比较大，一般都采用分层的方式来处理，虽然写着有些繁琐，但是由于各层分工明确易于维护，这里介绍一种分层方式，这种分层方式参考了 Node.js 中文论坛的实现。
