@@ -10,37 +10,47 @@
 
 这是最常用的一个功能，比如下面判断某字符串是否全部由数字组成。
 
-    /^\d+$/.test('0123');   // true
-    /^\d+$/.test('123.');   // false
+```js
+/^\d+$/.test('0123');   // true
+/^\d+$/.test('0123.');   // false
+```
 
 ### 内容替换
 
 这个也比较常用，比如下面将字符串中的数字替换成#号。
 
-    '1a2b3c'.replace(/\d/g, '#');   // "#a#b#c"
-
-还有一些更灵活的字符串替换用法。
-
-    'a11,a12'.replace(/[a-zA-Z]+(\d+)/g, function (matchStr, $1) {
-        return $1;
-    });  // 运行结果：11,12
+```js
+'1a2b3c'.replace(/\d/g, '#');   // "#a#b#c"
+```
 
 ### 提取内容
 
 字符串的 `match` 方法可以将匹配到的字符串片段复制到数据中并返回。
 
+```js
     '<div><span>aa</span><span>bb</span></div>'.match(/<span>.*?<\/span>/g);
     // ["<span>aa</span>", "<span>bb</span>"]
+```
+
+还有一些更灵活的字符串替换用法，提取特定模式下的部分字符串。
+
+```js
+'a11,a12'.replace(/[a-zA-Z]+(\d+)/g, (matchStr, $1) => {
+    return $1;
+});  // 运行结果：11,12
+```
 
 ### 确定位置
 
 用下面两种方法可以获得被匹配字符串片段的起始和终止位置。
 
-    var regexp = /<span>.*?<\/span>/g;
-    regexp.exec('<div><span>aa</span><span>bb</span></div>');
-    // 运行结果是 ["<span>aa</span>"] ,regexp.lastIndex的值是 20(从1数起，第一个span结尾>的位置)
-    '<div><span>aa</span><span>bb</span></div>'.search(regexp);
-    // 5 （从0数起，第一个span的<的位置）
+```js
+var regexp = /<span>.*?<\/span>/g;
+regexp.exec('<div><span>aa</span><span>bb</span></div>');
+// 运行结果是 ["<span>aa</span>"] ,regexp.lastIndex的值是 20(从1数起，第一个span结尾>的位置)
+'<div><span>aa</span><span>bb</span></div>'.search(regexp);
+// 5 （从0数起，第一个span的<的位置）
+```
 
 ### 分割字符串
 
@@ -48,8 +58,10 @@
 比如用空格来分割字符串，如果有两个连续的空格出来的结果可能不是我们期待的，
 这时就要用正则来处理，如下例：
 
-    'a  b c'.split(' ');    // ["a", "", "b", "c"]
-    'a  b c'.split(/ +/);   // ["a", "b", "c"]
+```js
+'a  b c'.split(' ');    // ["a", "", "b", "c"]
+'a  b c'.split(/ +/);   // ["a", "b", "c"]
+```
 
 ## 解析语法与技巧
 
@@ -59,24 +71,28 @@
 
 两种方式等价，注意字符转译，代码如下：
 
-    new RegExp('\\d', 'g')
-    /\d/g
+```js
+new RegExp('\\d', 'g')
+/\d/g
+```
 
 在系统中我们经常需要接收一个正则配置字符串然后返回一个正则，这时你可能需要这样一个函数：
 
-    function createRegExpObject(text) {
-        var matchedText = text.match(/^\/(.*?)\/([gmiy]*)$/);
-        var reg;
-        if (!matchedText || !matchedText[1]) {
-            return null;
-        }
-        try {
-            reg = new RegExp(matchedText[1], matchedText[2] || '');
-        } catch (e) {
-            reg = null;
-        }
-        return reg;
+```js
+function createRegExpObject(text) {
+    var matchedText = text.match(/^\/(.*?)\/([gmiy]*)$/);
+    var reg;
+    if (!matchedText || !matchedText[1]) {
+        return null;
     }
+    try {
+        reg = new RegExp(matchedText[1], matchedText[2] || '');
+    } catch (e) {
+        reg = null;
+    }
+    return reg;
+}
+```
 
 ### 简写字符与常用语法
 
@@ -102,27 +118,31 @@
 
 当不使用 `^` 与 `$`约束时，正则匹配的是局部，否则匹配全部。看下面两个示例：
 
-    // 示例一：判断字符串中是否有数字
-    /\d/.test('a');    // false
-    /\d/.test('a1a');  // true
+```js
+// 示例一：判断字符串中是否有数字
+/\d/.test('a');    // false
+/\d/.test('a1a');  // true
 
-    // 示例二：判断字符串是否由数字组成
-    /^\d+$/.test('a1a');    // false
-    /^\d+$/.test('123');    // true
+// 示例二：判断字符串是否由数字组成
+/^\d+$/.test('a1a');    // false
+/^\d+$/.test('123');    // true
+```
 
 细心的你可能注意到了示例二中的正则多了一个加号，对于这个加号在下一节中有详解。
 
 另外 `.` 与 `[\s\S]` 在正则中是非常有用，常被用来任意字符，区别主要在换行上，如下面例子：
 
-	var str = '' 
-			+ '<p>\np1你好\n</p>'
-			+ '<p>p2</p>';
-	var regexp1 = /<p>.*?<\/p>/gi;
-	var regexp2 = /<p>[\s\S]*?<\/p>/gi;
-	str.match(regexp1);
-	// 结果：["<p>p2</p>"]
-	str.match(regexp2);
-	// 结果：["<p>\np1你好\n</p>", "<p>p2</p>"]
+```js
+var str = '' 
+        + '<p>\np1你好\n</p>'
+        + '<p>p2</p>';
+var regexp1 = /<p>.*?<\/p>/gi;
+var regexp2 = /<p>[\s\S]*?<\/p>/gi;
+str.match(regexp1);
+// 结果：["<p>p2</p>"]
+str.match(regexp2);
+// 结果：["<p>\np1你好\n</p>", "<p>p2</p>"]
+```
 
 ### 重复与修饰符
 
@@ -140,9 +160,11 @@
 
 再来一个：“判断字符串中是否有3个连续数字”。
 
-    /\d{3}/.test('-123a-');    // true
-    /\d{3}/.test('-12a3-');    // false
-    /\d{3}/.test('-1234-');    // true
+```js
+/\d{3}/.test('-123a-');    // true
+/\d{3}/.test('-12a3-');    // false
+/\d{3}/.test('-1234-');    // true
+```
 
 虽然上面都满足了需求，但是最后一个好像有点问题（按照逻辑是讲得通的，4个数字连续当然3个肯定连续），那有没有办法把4个及4个以上连续这种情况排除在外呢？请接着往后看。
 
@@ -156,8 +178,10 @@
 
 `$` ：匹配字符串的结尾；在多行检索中匹配一行的结尾
 
-    /^\d+$/.test('0123');   // true
-    /^\d+$/.test('123.');   // false
+```js
+/^\d+$/.test('0123');   // true
+/^\d+$/.test('123.');   // false
+```
 
 上面提到多行检索，下面介绍一下修饰符：
 
@@ -169,53 +193,67 @@
 
 多行匹配模式不太好理解，我们紧接着上面的例子给出解释：
 
-    /^\d+$/m.test('123.\n123');     // true
-    // \n是换行符，上面的正则在第一行（\n前面的部分）没有找到匹配的字符串就接着在第二行（\n后面的部分）找
-    // 并且找到了可以匹配的字符串，所以返回true
-    /^\d+$/.test('123.\n123');     // false
+```js
+/^\d+$/m.test('123.\n123');     // true
+// \n是换行符，上面的正则在第一行（\n前面的部分）没有找到匹配的字符串就接着在第二行（\n后面的部分）找
+// 并且找到了可以匹配的字符串，所以返回true
+/^\d+$/.test('123.\n123');     // false
+```
 
 注：不同的系统和环境可能产生不同的换行，如果需要处理来自较多环境的字符串，可先用下面的方法做格式统一。
 
-	str.replace(/\r\n|\r|\u2424/g, '\n');
-	
+```js
+str.replace(/\r\n|\r|\u2424/g, '\n');
+```
+
 ### 贪婪
 
 字符串的 `match` 方法：将匹配到的一个或多个字符串片段放入数组中并返回，如果没有匹配项返回 `null`。
 
-    '<div><span>aa</span><span>bb</span></div>'.match(/<span>.*?<\/span>/g);
-    // ["<span>aa</span>", "<span>bb</span>"]
+```js
+'<div><span>aa</span><span>bb</span></div>'.match(/<span>.*?<\/span>/g);
+// ["<span>aa</span>", "<span>bb</span>"]
+```
 
 对于正则的`exec` 方法，如果正则有修饰符 `g`(全局匹配)，每次提取一部分，然后改变 `lastIndex` 的值，下次继续从 `lastIndex` 的地方开始，没有匹配到或者匹配结束返回`null`，并将 `lastIndex` 的值置为0。如果正则无修饰符 `g`(全局匹配)，`exec` 方法只提取匹配到的第一段并返回(没有匹配到返回 `null`)，此时特别注意： `lastIndex` 的值恒定为0。
 
-    var regexp = /<span>.*?<\/span>/g; // 此时 regexp.lastIndex; 的值为0
-    regexp.exec('<div><span>aa</span><span>bb</span></div>');
-    // ["<span>aa</span>"]
-    // 此时 regexp.lastIndex 的值是 20
+```js
+var regexp = /<span>.*?<\/span>/g; // 此时 regexp.lastIndex; 的值为0
+regexp.exec('<div><span>aa</span><span>bb</span></div>');
+// ["<span>aa</span>"]
+// 此时 regexp.lastIndex 的值是 20
 
-    regexp.exec('<div><span>aa</span><span>bb</span></div>');
-    // ["<span>bb</span>"]
-    // 此时 regexp.lastIndex 的值是 35
+regexp.exec('<div><span>aa</span><span>bb</span></div>');
+// ["<span>bb</span>"]
+// 此时 regexp.lastIndex 的值是 35
 
-    regexp.exec('<div><span>aa</span><span>bb</span></div>');
-    // null
-    // 此时 regexp.lastIndex 的值是 0
+regexp.exec('<div><span>aa</span><span>bb</span></div>');
+// null
+// 此时 regexp.lastIndex 的值是 0
+```
 
 贪婪匹配是尽可能多的匹配（不加问号），非贪婪匹配是尽可能少的匹配（加问号），看下面的例子
 
-    // 贪婪匹配
-    '<div><span>aa</span><span>bb</span></div>'.match(/<span>.*<\/span>/g);
-    // ["<span>aa</span><span>bb</span>"]
-    // 非贪婪匹配
-    '<div><span>aa</span><span>bb</span></div>'.match(/<span>.*?<\/span>/g);
-    // ["<span>aa</span>", "<span>bb</span>"]
+```js
+// 贪婪匹配
+'<div><span>aa</span><span>bb</span></div>'.match(/<span>.*<\/span>/g);
+// ["<span>aa</span><span>bb</span>"]
+// 非贪婪匹配
+'<div><span>aa</span><span>bb</span></div>'.match(/<span>.*?<\/span>/g);
+// ["<span>aa</span>", "<span>bb</span>"]
+```
 
 非贪婪匹配有一个容易让人误解的地方，就是“尽可能少的匹配”是基于正则原理的“尽可能少”。先看下面例子：
 
-    'aaab'.match(/a+?b/);   // ["aaab"]
+```js
+'aaab'.match(/a+?b/);   // ["aaab"]
+```
 
 我们解释一下这种现象：“尽可能少的匹配”可以被理解成只匹配 "ab"，但是正则是从左到右的匹配，“a+”匹配1到多个“a”再组合一个“b”，于是就得到了上面结果。在这种“非贪婪 + 固定匹配”模式的匹配中非贪婪部分会呈现出贪婪性，所以上面的正则与下面的正则结果相同。
 
-    'aaab'.match(/a+b/);    // ["aaab"]
+```js
+'aaab'.match(/a+b/);    // ["aaab"]
+```
 
 ### 断言
 
@@ -239,14 +277,18 @@ Require that the following characters do not match the pattern p.
 
 上面的断言是对写在其之前的正则的约束，即向后约束，也就是要求后面必须有什么（或没什么），如下面正则中括号内的部分是对 `bed` 做约束，即 `bad` 之后必须是 `room` 才能形成匹配。
 
-    'bedding'.match(/.+(?=room)/g);    // null
-    'bedroom'.match(/.+(?=room)/g);    // ["bed"]
-    'washroom'.match(/.+(?=room)/g);   // ["wash"]
+```js
+'bedding'.match(/.+(?=room)/g);    // null
+'bedroom'.match(/.+(?=room)/g);    // ["bed"]
+'washroom'.match(/.+(?=room)/g);   // ["wash"]
+```
 
 下面是只有 `bad` 之后不是 `room` 才能形成匹配
 
-    'bedding'.match(/bed(?!room)/g);    // ["bed"]
-    'bedroom'.match(/bed(?!room)/g);    // null
+```js
+'bedding'.match(/bed(?!room)/g);    // ["bed"]
+'bedroom'.match(/bed(?!room)/g);    // null
+```
 
 再补充一点，js不支持向前约束的语法 `?<=` 和 `?<!` ，在 ES6中也没发现对此语法的改进，所以在未来很长一段时间内 js 的正则不会有向前约束。
 先说一个只适合部分情况的解决方案吧（这种情况虽然局部但是比较常用）:
@@ -254,42 +296,50 @@ Require that the following characters do not match the pattern p.
 这种方案只能提取一个匹配，并且不能加修饰符 `g`，如下面的例子是实现“提取提取字母后的数字”。
 如果提取到结果数组的 `length` 是2，取最后一个就是要提取的数字了。
 
-    'a11,a12'.match(/[a-zA-Z]+(\d+)/);  //["a11", "11"]
-    '11,12'.match(/[a-zA-Z]+(\d+)/);    // null
-    'a11,a12'.match(/[a-zA-Z]+(\d+)/g); // ["a11", "a12"]
+```js
+'a11,a12'.match(/[a-zA-Z]+(\d+)/);  //["a11", "11"]
+'11,12'.match(/[a-zA-Z]+(\d+)/);    // null
+'a11,a12'.match(/[a-zA-Z]+(\d+)/g); // ["a11", "a12"]
+```
 
 提取示例：
 
-    var result = 'a11,a12'.match(/[a-zA-Z]+(\d+)/);    // 如没找到，赋值 null
-    if (result && result.length === 2) {
-        result = result[1];                            // 如找到，赋值字符串
-    }
+```js
+var result = 'a11,a12'.match(/[a-zA-Z]+(\d+)/);    // 如没找到，赋值 null
+if (result && result.length === 2) {
+    result = result[1];                            // 如找到，赋值字符串
+}
+```
 
 ### 选择、分组和引用
 
 选择最容易理解，就是条件“或”的意思，语法上采用 `|` （竖线），如下示例，正则匹配“字母或数字”
 
-    'a1b2c345#-!d67'.match(/\d+|[a-zA-Z]+/g);   // ["a", "1", "b", "2", "c", "345", "d", "67"]
-    // 语法解释：匹配多个数字 或 多个字母
-    // 在从左向右的匹配中“数字”和“字母”都是贪婪匹配
+```js
+'a1b2c345#-!d67'.match(/\d+|[a-zA-Z]+/g);
+// ["a", "1", "b", "2", "c", "345", "d", "67"]
+// 语法解释：匹配多个数字 或 多个字母
+// 在从左向右的匹配中“数字”和“字母”都是贪婪匹配
+```
 
 分组使正则更为强大，可以处理复杂的“条件”和“重复”等逻辑，
 
-    'a1b2c345#-!d67'.match(/(\d+|[a-zA-Z]+)+/g);    // ["a1b2c345", "d67"]
-    // 语法解释：匹配由数字 和 字母组成的字符串片段
+```js
+'a1b2c345#-!d67'.match(/(\d+|[a-zA-Z]+)+/g);
+// ["a1b2c345", "d67"]
+// 语法解释：匹配由数字 和 字母组成的字符串片段
+```
 
-引用是一个妙用无穷的语法，由括号的使用引起，在正则中使用的格式是 `\数字`，
-在字符串的 `replace` 方法中以参数的形式出现，引用从1算起，以左括号作为计数参照；
-引用的是前面模式匹配到的文本的引用；
-另外用 `(?:` 代替左括号时次对括号不计入引用序列。
-上面这段话不好理解，下面用示例来解释：
+引用是一个妙用无穷的语法，由括号的使用引起，在正则中使用的格式是 `\数字`，在字符串的 `replace` 方法中以参数的形式出现，引用从1算起，以左括号作为计数参照；引用的是前面模式匹配到的文本的引用；另外用 `(?:` 代替左括号时次对括号不计入引用序列。上面这段话不好理解，下面用示例来解释：
 
 先看一个“匹配最内层引号（单引号和双引号）及其中内容”的正则：
 
-    '"a\'b\'123"'.match(/(['"])[^'"]*\1/g);    //["'b'"]
+```js
+'"a\'b\'123"'.match(/(['"])[^'"]*\1/g);
+//["'b'"]
+```
 
-首先说明一下字符串中的 `\'` 是应为字符串是以单引号创建的，
-直接使用单引号会引起语法错误，所以需要用转译的形式引入，并且 `\'` 是一个字符。
+首先说明一下字符串中的 `\'` 是应为字符串是以单引号创建的，直接使用单引号会引起语法错误，所以需要用转译的形式引入，并且 `\'` 是一个字符。
 
 然后是过程：
 
@@ -297,25 +347,21 @@ Require that the following characters do not match the pattern p.
 
 第二步到 `a` 符合正则中第二个中括号（匹配非引号）与其重复限制符 `*`的匹配逻辑；
 
-第三步第二个中括号依然在起作用，这时单引号不符合中括号的模式要求，所以中括号的匹配范围结束，
-`\1`的匹配开始（明星登场了），将上面那句话放进来“引用的是前面模式匹配到的文本的引用”，
-也就是第一步匹配到的是双引号，所以此时是用单引号匹配双引号，匹配失败，跳出此次匹配；
-（`*`是匹配0到多个，所以第二个中括号匹配完 `a` 继续尝试匹配单引号）
+第三步第二个中括号依然在起作用，这时单引号不符合中括号的模式要求，所以中括号的匹配范围结束，`\1`的匹配开始（明星登场了），将上面那句话放进来“引用的是前面模式匹配到的文本的引用”，也就是第一步匹配到的是双引号，所以此时是用单引号匹配双引号，匹配失败，跳出此次匹配；（`*`是匹配0到多个，所以第二个中括号匹配完 `a` 继续尝试匹配单引号）
 
 第四步从 `a` 开始，遇到第一个中括号就匹配失败，跳出再继续；
 
-第五步第一个单引号与第一个中括号匹配成功，继续向前，
-`b` 与第二个中括号匹配，继续向前，
-第二个单引号与中括号匹配失败，中括号范围结束，第二个单引号继续向前匹配，
-此时的 `\1` 是前面匹配到的单引号，所以单引号匹配单引号，成功，返回字符串 `'b'`；
+第五步第一个单引号与第一个中括号匹配成功，继续向前，`b` 与第二个中括号匹配，继续向前，第二个单引号与中括号匹配失败，中括号范围结束，第二个单引号继续向前匹配，此时的 `\1` 是前面匹配到的单引号，所以单引号匹配单引号，成功，返回字符串 `'b'`；
 
 第六步从 `b`开始匹配，之后的都会失败，不再叙述。
 
 再看一个引用在字符串替换中的例子：
 
-    'a11,a12'.replace(/([a-zA-Z]+)(\d+)/g, function (matchStr, $1, $2) {
-        return $2 + $1;
-    });// "11a,12a"
+```js
+'a11,a12'.replace(/([a-zA-Z]+)(\d+)/g, function (matchStr, $1, $2) {
+    return $2 + $1;
+});// "11a,12a"
+```
 
 上面是匹配字母和数字的有序单一组合
 （像前面一段是字母后面一段是数字并且没有其他类型字符参与的 这种情况），
