@@ -4,21 +4,26 @@
 
 ## 创建String的两种方法
 
-    var str1 = '';
-    var str2 = new String();
+```js
+var str1 = '';
+var str2 = new String();
+```
 
 两种创建方法创建出来的字符串会有这样的差别:
 
-    typeof str1;  // "string"
-    typeof str2;  // "object"
+```js
+typeof str1;  // "string"
+typeof str2;  // "object"
+```
 
 有的编码规范中甚至明确表示禁止用第二种方式来创建字符串
 （因为第二种相对于第一种确实没有任何优势），
 但是如果是写js库或者框架就需要用另一种方式来判断是否是字符串类型了：
 
-    Object.prototype.toString.call(str1) ;  // "[object String]"
-    Object.prototype.toString.call(str2);   // "[object String]"
-
+```js
+Object.prototype.toString.call(str1) ;  // "[object String]"
+Object.prototype.toString.call(str2);   // "[object String]"
+```
 ## ES3 下的方法和属性
 
 ### length
@@ -27,8 +32,9 @@
 
 字符串的一个重要的只读属性
 
-    'abc'.length;    // 3
-
+```js
+'abc'.length;    // 3
+```
 ### replace
 
 .replace(regexp/substr, replacement)
@@ -40,9 +46,11 @@ regexp/substr
 
 replacement	必需。一个字符串值。规定了替换文本或生成替换文本的函数。
 
-    'a,b,c'.replace(',', '-');    // "a-b,c"
-    'a,b,c'.replace(/,/, '-');    // "a-b,c"
-    'a,b,c'.replace(/,/g, '-');   // "a-b-c"
+```js
+'a,b,c'.replace(',', '-');    // "a-b,c"
+'a,b,c'.replace(/,/, '-');    // "a-b,c"
+'a,b,c'.replace(/,/g, '-');   // "a-b-c"
+```
 
 正则的解释在这里就不展开了，请看[另外一份文档RegExp](../regexp/main.md)
 
@@ -56,7 +64,9 @@ separator	必需。字符串或正则表达式，用该参数分割字符串。
 
 howmany	可选。该参数可指定返回的数组的最大长度。如果设置了该参数，返回的子串不会多于这个参数指定的数组。如果没有设置该参数，整个字符串都会被分割，不考虑它的长度。
 
-    ',a1a,b2b,c3c'.split(',', 2);    // ["", "a1a"]
+```js
+',a1a,b2b,c3c'.split(',', 2);    // ["", "a1a"]
+```
 
 ### slice
 
@@ -72,12 +82,13 @@ end	紧接着要抽取的片段的结尾的下标。
 若未指定此参数，则要提取的子串包括 start 到原字符串结尾的字符串。
 如果该参数是负数，那么它规定的是从字符串的尾部开始算起的位置。
 
-    'abc'.slice(1, 2);      // "b"
-    'abc'.slice(2, 1);      // ""
-    'abc'.slice(1);         // "bc"
-    'abc'.slice(-2, -1);    // "b"
-    'abc'.slice(-1);        // "c"
-
+```js
+'abc'.slice(1, 2);      // "b"
+'abc'.slice(2, 1);      // ""
+'abc'.slice(1);         // "bc"
+'abc'.slice(-2, -1);    // "b"
+'abc'.slice(-1);        // "c"
+```
 ### substring
 
 .substring(start,stop)
@@ -89,11 +100,13 @@ start	必需。一个非负的整数，规定要提取的子串的起始位置�
 stop    可选。一个非负的整数，比要提取的子串的最后一个字符在被提取字符串中的位置多 1。
 如果省略该参数，那么返回的子串会一直到字符串的结尾。
 
-    'abc'.slice(1, 2);        // "b"
-    'abc'.substring(1, 2);    // "b"
-    'abc'.substring(2, 1);    // "b"
+```js
+'abc'.slice(1, 2);        // "b"
+'abc'.substring(1, 2);    // "b"
+'abc'.substring(2, 1);    // "b"
+```
 
-start大于stop依然可以提取到字符串。start没有负数。
+start 大于 stop 依然可以提取到字符串。start没有负数。
 
 ### substr
 
@@ -107,33 +120,36 @@ start	必需。要抽取的子串的起始下标。
 length	可选。子串中的字符数。必须是数值。
 如果省略了该参数，那么返回从开始位置到结尾的字串
 
-    'abc'.substr(2, 1);    // "c"
-
+```js
+'abc'.substr(2, 1);    // "c"
+```
 ### match
 
 .match(searchvalue/regexp)
 
 在字符串内检索指定的字符串片段或正则匹配，另外如果参数不是正则会将参数转换成正则再继续，所以如果你只想匹配字符串，请注意转译的问题，参看下面代码的第5条。
 
-    'abc'.match('a');               // ["a"]
-    'abc'.match('a-c');             // null
-    'abc'.match('[a-c]');           // ["a"]
-    '[a-c]bd'.match('[a-c]');       // ["a"]   
-    '[a-c]bd'.match('\\[a\\-c\\]'); // ["[a-c]"]  第5条
-    'abc'.match('/[a-c]/g');        // null
-    'abc'.match(/[a-c]/g);          // ["a", "b", "c"]
-
+```js
+'abc'.match('a');               // ["a"]
+'abc'.match('a-c');             // null
+'abc'.match('[a-c]');           // ["a"]
+'[a-c]bd'.match('[a-c]');       // ["a"]   
+'[a-c]bd'.match('\\[a\\-c\\]'); // ["[a-c]"]  第5条
+'abc'.match('/[a-c]/g');        // null
+'abc'.match(/[a-c]/g);          // ["a", "b", "c"]
+```
 ### search
 
 .search(stringObject/regexp)
 
 检索字符串中指定的子字符串，并返回位置，匹配方式和需要注意的点同上面的 `match`。另外如果你的目的就是获取字符串的位置，用下面的 `indexOf` 是一个更好的选择。
 
-    'abc'.search(/[a-c]/g);    // 0
-    'abc'.search('a');         // 0
-    'abc'.search('[a-c]');     // 0
-    'abc'.search('d');         // -1
-
+```js
+'abc'.search(/[a-c]/g);    // 0
+'abc'.search('a');         // 0
+'abc'.search('[a-c]');     // 0
+'abc'.search('d');         // -1
+```
 ### indexOf
 
 .indexOf(searchvalue,fromindex)
@@ -142,9 +158,10 @@ searchvalue	必需。规定需检索的字符串值。
 
 fromindex	可选的整数参数。规定在字符串中开始检索的位置。它的合法取值是 0 到 stringObject.length - 1。如省略该参数，则将从字符串的首字符开始检索。
 
-    'abc'.indexOf('b', 0);    // 1
-    'abc'.indexOf('b', 1);    // 1
-
+```js
+'abc'.indexOf('b', 0);    // 1
+'abc'.indexOf('b', 1);    // 1
+```
 可以用第二个参数提高性能，fromindex 为非正整数时视为零。
 
 ### lastIndexOf
@@ -168,14 +185,15 @@ index	必需。表示字符串中某个位置的数字，即字符在字符串�
 注意：字符串中第一个字符的下标是 0。
 如果参数 index 不在 0 与 string.length 之间，该方法将返回一个空字符串。
 
-    'abc'.charAt(2);      // "c"
-    'abc'.charAt(1);      // "b"
-    'abc'.charAt(5);      // ""
-    // 字符串或参数为空或undefined或null或false都会被视为0
-    'abc'.charAt('b');    // "a"
-    'abc'.charAt();       // "a"
-    'abc'.charAt(true);   // "b" ，true会被转为1
-
+```js
+'abc'.charAt(2);      // "c"
+'abc'.charAt(1);      // "b"
+'abc'.charAt(5);      // ""
+// 字符串或参数为空或undefined或null或false都会被视为0
+'abc'.charAt('b');    // "a"
+'abc'.charAt();       // "a"
+'abc'.charAt(true);   // "b" ，true会被转为1
+```
 ### charCodeAt
 
 .charCodeAt(index)
@@ -184,9 +202,11 @@ index	必需。表示字符串中某个位置的数字，即字符在字符串�
 
 index	必需。表示字符串中某个位置的数字，即字符在字符串中的下标。
 
-    'a\na'.charCodeAt(0);    //97
-    'a\na'.charCodeAt(1);    //10
-    'a\na'.charCodeAt(2);    //97
+```js
+'a\na'.charCodeAt(0);    //97
+'a\na'.charCodeAt(1);    //10
+'a\na'.charCodeAt(2);    //97
+```
 
 转义字符会被当做一个字符来处理
 
@@ -196,8 +216,10 @@ index	必需。表示字符串中某个位置的数字，即字符在字符串�
 
 返回一个新的字符串，将所有大写字符全部被转换为了小写字符。
 
-    var a = 'AbC';
-    var b = a.toLowerCase(); // a的值为AbC，b的值为abc
+```js
+var a = 'AbC';
+var b = a.toLowerCase(); // a的值为AbC，b的值为abc
+```
 
 另外还有个方法 `.toLocaleLowerCase()` 按照本地方式把字符串转换为小写。
 只有几种语言（如土耳其语）具有地方特有的大小写映射，所有该方法的返回值通常与 `.toLowerCase()` 一样。
@@ -208,8 +230,10 @@ index	必需。表示字符串中某个位置的数字，即字符在字符串�
 
 返回一个新的字符串，将所有小写字符全部被转换为了大写字符。
 
-    var a = 'AbC';
-    var b = a.toUpperCase(); // a的值任为AbC，b的值为ABC
+```js
+var a = 'AbC';
+var b = a.toUpperCase(); // a的值任为AbC，b的值为ABC
+```
 
 另外还有个方法 `.toLocaleUpperCase()` 按照本地方式把字符串转换为大写。
 只有几种语言（如土耳其语）具有地方特有的大小写映射，所有该方法的返回值通常与 `.toUpperCase()` 一样。
@@ -222,8 +246,10 @@ index	必需。表示字符串中某个位置的数字，即字符在字符串�
 
 stringX	必需。将被连接为一个字符串的一个或多个字符串对象。
 
-    'abc'.concat('d', new String('e'));    // "abcde"
-    var a = 'abc'; a.concat('d');          // a的值依然是abc
+```js
+'abc'.concat('d', new String('e'));    // "abcde"
+var a = 'abc'; a.concat('d');          // a的值依然是abc
+```
 
 ### fromCharCode
 
@@ -231,8 +257,9 @@ String.fromCharCode(numX, ..., numX)
 
 接受一个指定的 Unicode 值，然后返回一个字符串。
 
-    String.fromCharCode(97, 98, 99);    // "abc"
-
+```js
+String.fromCharCode(97, 98, 99);    // "abc"
+```
 ### localeCompare
 
 .localeCompare(target)
@@ -241,10 +268,12 @@ String.fromCharCode(numX, ..., numX)
 
 （ECMAscript 标准并没有规定如何进行本地特定的比较操作，它只规定该函数采用底层操作系统提供的排序规则。）
 
-    'b'.localeCompare('a');    // 1
-    'b'.localeCompare('b');    // 0
-    'b'.localeCompare('c');    // -1
-    'b'.localeCompare('B');    // -1
+```js
+'b'.localeCompare('a');    // 1
+'b'.localeCompare('b');    // 0
+'b'.localeCompare('c');    // -1
+'b'.localeCompare('B');    // -1
+```
 
 ## 转为特定html的几个方法
 
@@ -256,8 +285,12 @@ String.fromCharCode(numX, ..., numX)
 
 添加a标签，参数为链接地址
 
-    'abc'.link('#name');             // "<a href="#name">abc</a>"
-    'abc'.link('http://baidu.com');  // "<a href="http://baidu.com">abc</a>"
+```js
+'abc'.link('#name');
+// "<a href="#name">abc</a>"
+'abc'.link('http://baidu.com');
+// "<a href="http://baidu.com">abc</a>"
+```
 
 ### anchor
 
@@ -265,8 +298,12 @@ String.fromCharCode(numX, ..., numX)
 
 添加a标签，通过a标签的name生成锚点
 
-    'abc'.anchor('anchorName');    // "<a name="anchorName">abc</a>"
-    'abc'.anchor();                // "<a name="undefined">abc</a>"
+```js
+'abc'.anchor('anchorName');
+// "<a name="anchorName">abc</a>"
+'abc'.anchor();
+// "<a name="undefined">abc</a>"
+```
 
 关于锚点的使用在这里简述：
 
@@ -277,12 +314,15 @@ String.fromCharCode(numX, ..., numX)
 
 怎样跳到锚点？像下面这样定义，当用户点击时就会跳到锚点。
 
-    <a href="#anchorName">点击跳到锚点“abc”</a>
+```html
+<a href="#anchorName">点击跳到锚点“abc”</a>
+```
 
 用js跳到锚点的方法
 
-    location.hash = 'anchorName';
-
+```js
+location.hash = 'anchorName';
+```
 
 ### italics
 
@@ -290,7 +330,9 @@ String.fromCharCode(numX, ..., numX)
 
 添加i标签，转为斜体
 
-    'abc'.italics();    // "<i>abc</i>"
+```js
+'abc'.italics();    // "<i>abc</i>"
+```
 
 ### strike
 
@@ -298,7 +340,9 @@ String.fromCharCode(numX, ..., numX)
 
 添加strike标签，为文字添加删除线
 
-    'abc'.strike();    // "<strike>abc</strike>"
+```js
+'abc'.strike();    // "<strike>abc</strike>"
+```
 
 ### big
 
@@ -306,15 +350,18 @@ String.fromCharCode(numX, ..., numX)
 
 添加big标签，相当于font-size:larger;
 
-    'abc'.big();    // <big>abc</big>
-
+```js
+'abc'.big();    // <big>abc</big>
+```
 ### small
 
 .small()
 
 添加small标签，缩小文字大小
 
-    'abc'.small();    // "<small>abc</small>"
+```js
+'abc'.small();    // "<small>abc</small>"
+```
 
 ### bold
 
@@ -322,8 +369,9 @@ String.fromCharCode(numX, ..., numX)
 
 添加b标签，加粗文字
 
-    'abc'.bold();    // "<b>abc</b>"
-
+```js
+'abc'.bold();    // "<b>abc</b>"
+```
 ### fontcolor
 
 .fontcolor()
@@ -339,10 +387,11 @@ String.fromCharCode(numX, ..., numX)
 
 添加font标签，定义文字大小
 
-    'abc'.fontsize('14');      // "<font size="14">abc</font>"
-    'abc'.fontsize('14px');    // "<font size="14px">abc</font>"
-    'abc'.fontsize('14em');    // "<font size="14em">abc</font>"
-
+```js
+'abc'.fontsize('14');      // "<font size="14">abc</font>"
+'abc'.fontsize('14px');    // "<font size="14px">abc</font>"
+'abc'.fontsize('14em');    // "<font size="14em">abc</font>"
+```
 
 ### fixed
 
@@ -359,7 +408,9 @@ String.fromCharCode(numX, ..., numX)
 添加blink标签，使字体闪动。
 但是由于blink标签没有别列入规范，浏览器兼容性也无法保证，所以不建议使用
 
-    'abc'.blink();    //"<blink>abc</blink>"
+```js
+'abc'.blink();    //"<blink>abc</blink>"
+```
 
 ### sup
 
@@ -367,7 +418,9 @@ String.fromCharCode(numX, ..., numX)
 
 添加sup标签，把字符串显示为上标。
 
-    'abc'.sup();    //<sup>abc</sup>
+```js
+'abc'.sup();    //<sup>abc</sup>
+```
 
 ### sub
 
@@ -375,7 +428,9 @@ String.fromCharCode(numX, ..., numX)
 
 添加sup标签，把字符串显示为下标。
 
-    'abc'.sub();    //<sub>abc</sub>
+```js
+'abc'.sub();    //<sub>abc</sub>
+```
 
 ## ES6 中的方法
 
@@ -385,32 +440,37 @@ String.fromCharCode(numX, ..., numX)
 
 消除字符串两边的空格、换行和制表符
 
-	' \n  foo \t '.trim();    // "foo"
-
+```js
+' \n  foo \t '.trim();    // "foo"
+```
 ### for...of 
 
 for (var chart of string){}
 
 字符串遍历接口
 
-	for (var chart of 'xiaoqiang-zhao') {
-      console.log(chart)
-    }
-
+```js
+for (var chart of 'xiaoqiang-zhao') {
+    console.log(chart)
+}
+```
 ### at
 
 .at(num)
 
 ES5对字符串对象提供charAt方法，返回字符串给定位置的字符。该方法不能识别码点大于0xFFFF的字符。
 
-	'abc'.charAt(0) // "a"
-    '𠮷'.charAt(0) // "\uD842"
+```js
+'abc'.charAt(0) // "a"
+'𠮷'.charAt(0) // "\uD842"
+```
 
 ES7提供了字符串实例的at方法，可以识别Unicode编号大于0xFFFF的字符，返回正确的字符。Chrome浏览器已经支持该方法。
 
-	'abc'.at(0) // "a"
-    '𠮷'.at(0) // "𠮷"
-
+```js
+'abc'.at(0) // "a"
+'𠮷'.at(0) // "𠮷"
+```
 ### includes
 
 .includes(searchString[, position])
@@ -419,9 +479,10 @@ ES7提供了字符串实例的at方法，可以识别Unicode编号大于0xFFFF�
 
 searchString 被包含的字符串片段，position 开始检查的点(从零算起)。
 
-	'xiaoqiang-zhao'.includes('long');     // true
-	'xiaoqiang-zhao'.includes('long', 1);  // false
-
+```js
+'xiaoqiang-zhao'.includes('xiao');     // true
+'xiaoqiang-zhao'.includes('xiao', 1);  // false
+```
 ### startsWith
 
 .startsWith(searchString[, position])
@@ -430,9 +491,10 @@ searchString 被包含的字符串片段，position 开始检查的点(从零算
 
 searchString 被检测开始的字符串片段，position 开始检查的点(从零算起)。
 
-	'xiaoqiang-zhao'.startsWith('ong');     // false
-	'xiaoqiang-zhao'.startsWith('ong', 1);  // true
-
+```js
+'xiaoqiang-zhao'.startsWith('xiao');     // false
+'xiaoqiang-zhao'.startsWith('xiao', 1);  // true
+```
 ### endsWith
 
 .endsWith(searchString[, position])
@@ -441,8 +503,9 @@ searchString 被检测开始的字符串片段，position 开始检查的点(从
 
 searchString 被检测结尾的字符串片段，position 开始向前检查的点，定位参考依旧是从字符串的左边的第一个字符作为零开始算起。
 
-	'xiaoqiang-zhao'.endsWith('ong', 4);  // true
-
+```js
+'xiaoqiang-zhao'.endsWith('xiao', 4);  // true
+```
 ### repeat
 
 .repeat(count)
@@ -457,19 +520,24 @@ count 是重复次数。
 - 如果是，则NaN等同于0；
 - 如果是字符串，则会先转换成数字。
 
-
-	'xiaoqiang-zhao'.repeat(1);    // "xiaoqiang-zhao"
-	'xiaoqiang-zhao'.repeat('2');  // "xiaoqiang-zhaoxiaoqiang-zhao"
-	'xiaoqiang-zhao'.repeat('a');  // ""
-
+```js
+	'xiaoqiang-zhao'.repeat(1);
+    // "xiaoqiang-zhao"
+	'xiaoqiang-zhao'.repeat('2');
+    // "xiaoqiang-zhaoxiaoqiang-zhao"
+	'xiaoqiang-zhao'.repeat('a');
+    // ""
+```
 ### 模板字符串
 	
 模板字符串（template strings），它为JavaScript提供了简单的字符串插值功能。
-	
-	var name = 'xiaoqiang-zhao'; 
-	var a = `用户 ${name}.`;  // "用户 xiaoqiang-zhao."
-    
-模板字符串不能代替Mustache和Nunjucks，一部分原因是在模板字符串没有内建的循环或条件语句语法。从现有规范来看也并没有提及将来会以什么样的形式来原生支持智能模板，所以模板引擎该用的还得继续用。
+
+```js
+var name = 'xiaoqiang-zhao'; 
+var a = `用户 ${name}.`;  // "用户 xiaoqiang-zhao."
+```
+
+模板字符串不能代替 Mustache 和 Nunjucks，一部分原因是在模板字符串没有内建的循环或条件语句语法。从现有规范来看也并没有提及将来会以什么样的形式来原生支持智能模板，所以模板引擎该用的还得继续用。
 	
 ## 参考
 
