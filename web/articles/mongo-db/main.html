@@ -384,6 +384,20 @@ User.find({
     name: &#39;aaa&#39;
 }).exec();
 </code></pre><p>[注意]文档的 remove 方法的回调函数不能省略，否则数据不会被删除，同上。</p>
+<h3 id="header-1-5-7">后台启动</h3>
+<p>在 package.json 中配置脚本：</p>
+<pre><code class="lang-json">&quot;scripts&quot;: {
+&quot;db&quot;: &quot;sudo mongod --config ./mongod.conf&quot;
+},
+</code></pre>
+<p>mongod.conf 文件配置内容：</p>
+<pre><code class="lang-js">port=27017  
+dbpath=/data/db  
+logpath=./logs/mongodb.log  
+logappend=true  
+fork=true
+</code></pre>
+<p>启动数据库的时候执行 <code>npm run db</code>。</p>
 <h2 id="header-1-6">一种实践方式</h2>
 <p>数据处理写在一起可能会比较大，一般都采用分层的方式来处理，虽然写着有些繁琐，但是由于各层分工明确易于维护，这里介绍一种分层方式，这种分层方式参考了 Node.js 中文论坛的实现。</p>
 <ul>
