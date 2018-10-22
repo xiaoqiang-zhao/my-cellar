@@ -56,7 +56,7 @@
   {
     "enName": "a-word-or-two",
     "title": "记录自己的和别人的只言片语",
-    "introduction": "记录一些简短的东西，这些东西作为单独的一篇内容太单薄，但是放弃又太可惜，这里收录在这里。",
+    "introduction": "记录一些简短的东西，这些东西作为单独的一篇内容太单薄，但是放弃又太可惜，收录在这里。",
     "tags": [
       "个人笔记"
     ],
@@ -250,7 +250,7 @@
   },
   {
     "enName": "css-animation",
-    "title": "CSS 动画(一)",
+    "title": "CSS 动画",
     "introduction": "目前我对于 CSS 动画还是一个菜鸟，从不会到熟练总需要一个过程，本篇从语法开始，记录我的学习，算是一份技术点备忘录吧。",
     "tags": [
       "个人笔记",
@@ -458,50 +458,14 @@
     "todoList": []
   },
   {
-    "enName": "git-1",
-    "title": "Git(一) 简易概念",
-    "introduction": "Git，全宇宙最火的分布版本控制系统，开发人员必备技能。",
-    "tags": [
-      "辅助软件",
-      "工程",
-      "个人笔记"
-    ],
-    "isPublished": true,
-    "state": "完结",
-    "type": "md",
-    "createDate": 1461740224886,
-    "commentList": [],
-    "todoList": []
-  },
-  {
-    "enName": "git-2",
-    "title": "Git(二) GitHub网站和WebStorm上的一些操作",
-    "introduction": "如果你不想敲命令，使用 IDE 和 GitHub 网站也能完成大部分操作。",
-    "tags": [
-      "辅助软件",
-      "工程",
-      "个人笔记"
-    ],
-    "isPublished": true,
-    "state": "完结",
-    "type": "md",
-    "createDate": 1461740224887,
-    "commentList": [],
-    "todoList": []
-  },
-  {
-    "enName": "git-3",
-    "title": "Git(三) 命令备忘",
+    "enName": "git",
+    "title": "Git 命令备忘",
     "introduction": "可视化工具只是命令行的一个子集，可视化能做的命令行都能做，但是到目前为止还没有一个可视化工具实现了全部命令行，这里收集常用的命令，同时添加一些我的使用经验。",
-    "tags": [
-      "辅助软件",
-      "工程",
-      "个人笔记"
-    ],
-    "isPublished": true,
-    "state": "公示持续集成中",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
     "type": "md",
-    "createDate": 1461740224888,
+    "createDate": 1540172772220,
     "commentList": [],
     "todoList": []
   },
@@ -1168,8 +1132,8 @@
   },
   {
     "enName": "semantic-versioning",
-    "title": "语义化版本 2.0.0",
-    "introduction": "版本管理是软件开发和发布中一个非常重要部分，混乱的版本会大大的缩短一个软件的寿命。我终于有幸看到这篇文章来讲述“语义化版本控制的规范”，作者是 Gravatars 创办者兼 GitHub 共同创办者 Tom Preston-Werner，这些规则是根据（但不局限于）已经被各种封闭、开放源码软件所广泛使用的惯例所设计，为叙述方便，下面以作者作为第一人称来叙述这套规范。",
+    "title": "语义化版本",
+    "introduction": "版本管理是软件开发和发布中一个非常重要部分，混乱的版本会大大的缩短一个软件的寿命。我终于有幸看到这篇文章来讲述“语义化版本控制的规范”，作者是Tom Preston-Werner(Gravatars 创办者, GitHub 共同创办者)，这些规则是根据（但不局限于）已经被各种封闭、开放源码软件所广泛使用的惯例所设计，为叙述方便，下面以作者作为第一人称来叙述这套规范。",
     "tags": [
       "工程",
       "规范",
@@ -1323,7 +1287,7 @@
   {
     "enName": "w3c-recommendation",
     "title": "W3C 标准成熟过程中的里程点",
-    "introduction": "CSS 和 JS 都处在一个快速发展的阶段，不断有新属性加进来，要想知道那些可用那些还得等等再用，就需要这个属性在标准中的进行到哪一步了还有浏览器支持情况怎么样，这篇文章介绍一个特性成为标准都有那几步，各步又是什么意思。",
+    "introduction": "CSS 和 JS 都处在一个快速发展的阶段，不断有新特性加进来，想要知道哪些可用哪些还得等等再用，就需要知道这个特性在标准中的进行到哪一步了还有浏览器支持情况怎么样，这篇文章介绍一个特性成为标准都有哪几步，各步又是什么意思。",
     "tags": [
       "个人笔记"
     ],
