@@ -83,7 +83,7 @@ git push -u origin dev
 // -u 是建立分支追踪，以后就可以直接用下面命令了，而不需要指定要 push 哪个分支
 git push
 // 删除远程分支
-git push origin :branch_to_delete
+git push origin :branch_name_to_delete
 ```
 
 ### git branch 
