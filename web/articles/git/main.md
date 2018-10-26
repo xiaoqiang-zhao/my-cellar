@@ -1,16 +1,12 @@
-# Git 命令备忘
+# Git 使用备忘
 
 > 可视化工具只是命令行的一个子集，可视化能做的命令行都能做，但是到目前为止还没有一个可视化工具实现了全部命令行，这里收集常用的命令，同时添加一些我的使用经验。
 
-## 命令备忘
-
-全部命令在[官方文档](https://git-scm.com/docs/)查到，这里翻译和记录一些常用命令。
-
-### git clone
+## git clone
 
 `git clone 项目地址`，克隆一个项目到本地。
 
-### git status
+## git status
 
 `git status`，查看哪些文件被改变了，需要在被 git 托管的文件夹下使用。下面是几个一级标题对应的含义：
 
@@ -22,7 +18,7 @@
 - new file: 新添加的文件;
 - deleted: 删除文件
 	
-### git add
+## git add
 	
 `git add dir/files`，添加托管文件，因为新建文件不会自动被 git 托管，所以需要手动添加
 
@@ -31,14 +27,14 @@
 git add .
 ```
 
-### git rm
+## git rm
 
 ```shell
 // 移除托管文件
 git rm --cached 文件名
 ```
 
-### git commit
+## git commit
 
 ```shell
 // 提交到本地的一个版本 ---- https://git-scm.com/docs/git-commit
@@ -68,14 +64,14 @@ git reset --hard commit_id
 
 如果已经提交到了远程建议不要尝试各种撤销，建议提交一个新版本修正所犯错误。
 
-### git log	
+## git log	
 
 ```shell
 // 查看 commit日志
 git log
 ```
 
-### git push
+## git push
 
 ```shell
 // 将当前分支的修改推送到远程分支 dev
@@ -86,7 +82,7 @@ git push
 git push origin :branch_name_to_delete
 ```
 
-### git branch 
+## git branch 
 
 `git branch` 列出本地分支；
 
@@ -106,7 +102,7 @@ git push origin :branch_name_to_delete
 有时远程分支明明已经没有了可是在本地 `git branch -a` 的时候还能看到，这是怎么回事？
 因为 .git/refs/remotes/origin 文件夹下有缓存文件，手动删除一下就可以。还有一个地方可能有缓存 .git/packed-ref 文件中。
 
-### git config
+## git config
 
 ```shell
 // 获取配置信息
@@ -126,7 +122,7 @@ git config --global alias.ci commit
 git ci -m "提交描述"
 ```
 
-### git checkout
+## git checkout
 
 `git checkout -b 本地分支名 origin/远程分知名`，将远程分支检出到本地作为新的本地分支，并且切换到新分支，参数 `-b` 指定是新建分支 `new branch` 而不是分只切换；
 	
@@ -136,7 +132,7 @@ git ci -m "提交描述"
 
 HEAD 是 checkout 的灵魂。
 
-### git fetch
+## git fetch
 
 `git fetch`，将远程分支列表映射到本地，主要的应用场景是别人新建了远程分支但是我们本地无法看到，执行该命令可以将远程的分支映射到本地方便检出。如果只想映射某一个分支(这个分支的名称当然需要其他人告诉你)，可以使用下面命令：
 
@@ -153,7 +149,7 @@ git fetch origin 远程分知名
 ```shell
 git fetch -p
 ```
-### git merge
+## git merge
 
 将其他分支的代码合并到当前所在分支，
 
@@ -166,7 +162,7 @@ git merge feature/z
 
 这里需要注意一点，被合并的远程分支需要先将改动映射到本地 `git fetch origin 远程分知名`，否则不能拿到最新修改。这个`fetch`命令的优势是可以不检出本地分支，更不需要切换到被合并分支的本地分支。另外 `fetch` 不改变本地代码，但是已经将修改同步到了本地仓库，这个便捷来自于 git 的差异更新机制。
 
-### git pull
+## git pull
 
 拉取远程分支并合并到当前分支
 
@@ -195,3 +191,5 @@ git pull
 [创建 git 项目](http://www.jianshu.com/p/df7ce9f3a5cb)
 
 [git checkout 命令详解](http://www.tuicool.com/articles/A3Mn6f)
+
+全部命令在[官方文档](https://git-scm.com/docs/)查到，这里翻译和记录一些常用命令。
