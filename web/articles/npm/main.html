@@ -34,16 +34,20 @@
 <p><code>test</code> 自动化测试文件。</p>
 <h2 id="header-1-2">安装一个依赖包</h2>
 <p>自动把模块和版本号添加到dependencies部分。</p>
-<pre><code>npm install module-name --save 
-</code></pre><p>自动把模块和版本号添加到devDependencies部分。</p>
-<pre><code>npm install module-name --save-dev
-</code></pre><p><code>npm install</code>默认会安转两种依赖相当于<code>npm install --production</code> + <code>npm install --dev</code>，如果你只是单纯的使用这个包而不需要进行一些改动测试之类的可以使用前一个，如果想进一步了解。</p>
+<pre><code class="lang-shell">npm install module-name --save
+</code></pre>
+<p>自动把模块和版本号添加到devDependencies部分。</p>
+<pre><code class="lang-shell">npm install module-name --save-dev
+</code></pre>
+<p><code>npm install</code>默认会安转两种依赖相当于<code>npm install --production</code> + <code>npm install --dev</code>，如果你只是单纯的使用这个包而不需要进行一些改动测试之类的可以使用前一个，如果想进一步了解。</p>
 <p>另外，如果想全局安装可以加参数 <code>-g</code>，像这样：<code>npm install -g &lt;package-name&gt;</code>。</p>
 <p>还可以从指定路径安装需要的包：</p>
-<pre><code>npm --registry=https://registry.npm.taobao.org install cnpm -g
-</code></pre><p>如果装错了你可以不用管，但是如果有一点小洁癖的话可以卸载掉，加<code>-save</code>同样会将<code>package.json</code> 中的配置移除掉：</p>
-<pre><code>npm uninstall module-name --save
-</code></pre><h3 id="header-1-2-1">依赖包版本的控制</h3>
+<pre><code class="lang-shell">npm --registry=https://registry.npm.taobao.org install cnpm -g
+</code></pre>
+<p>如果装错了你可以不用管，但是如果有一点小洁癖的话可以卸载掉，加<code>--save</code>同样会将<code>package.json</code> 中的配置移除掉：</p>
+<pre><code class="lang-shell">npm uninstall module-name --save
+</code></pre>
+<h3 id="header-1-2-1">依赖包版本的控制</h3>
 <p>如果我们没有精力去实时关注依赖包的更新，或者依赖包是一个不稳定版本，API 还处在一个快速迭代的时期，那么我们最好依赖一个特定的版本。根据自己的需求来指定版本依赖方式，下面是来自官方文档的部分译文。</p>
 <p>Dependencies 用一个包名的简单哈希来描述包的版本范围(译者注：简单地说就是键值对&quot;vue&quot;: &quot;^2.1.4&quot;)。版本范围通过一个字符串来设置，该字符串可以有一个或多个间隔描述符。依赖包还可以通过源码或 git 的 URL来指定。 </p>
 <p>注意不要将测试工具和打包转换等工具的依赖放到 Dependencies 中。</p>
@@ -54,26 +58,28 @@
 </ul>
 <p><a href="https://github.com/npm/npm/blob/2e3776bf5676bc24fec6239a3420f377fe98acde/doc/files/package.json.md#dependencies" target="_blank">语法规则原文</a></p>
 <p>Git URLs 可以是下面格式：</p>
-<pre><code>git://github.com/user/project.git#commit-ish
+<pre><code class="lang-shell">git://github.com/user/project.git#commit-ish
 git+ssh://user@hostname:project.git#commit-ish
 git+ssh://user@hostname/project.git#commit-ish
 git+http://user@hostname/project/blah.git#commit-ish
 git+https://user@hostname/project/blah.git#commit-ish
-</code></pre><h2 id="header-1-3">dependencies 和 devDependencies</h2>
+</code></pre>
+<h2 id="header-1-3">dependencies 和 devDependencies</h2>
 <p>简单的说 dependencies 是生产环境依赖的包，上线的时候需要将 dependencies 下的包打包；而 devDependencies 是开发这个包时需要的一些依赖，也就是说脱离了这个包的开发 devDependencies 可以被忽略。如果其他包引用了当前包，devDependencies 下的依赖是不会被安装的，dependencies 下的依赖 npm 会和其他包的依赖进行全集计算，使安装的包尽可能少。</p>
 <p>如果写的是某个库的或框架的插件，还有一种 dependencies 类型是 peerDependencies，应该在 peerDependencies 中写一份，再在 devDependencies 写一份。具体的原因参考<a href="https://cnodejs.org/topic/5819624a1a9a7d9909531395" target="_blank">开发组件库时 Vue 应该放哪儿</a></p>
 <h2 id="header-1-4">安装依赖</h2>
 <p>一个项目的依赖包一般是不被提交的，这就需要在将项目克隆到本地后手动安转依赖</p>
-<pre><code>npm install
-</code></pre><h2 id="header-1-5">常用命令</h2>
+<pre><code class="lang-shell">npm install
+</code></pre>
+<h2 id="header-1-5">常用命令</h2>
 <p><code>npm init</code>: 初始化 package.json 文件，根据提示输入一些关键信息就可以将文件初始化完成。</p>
 <p><code>npm ls -g</code>: 查看所有全局安装的模块。如果你不想看到那么多层的依赖，那就加个参数吧：<code>sudo npm ls -g --depth 0</code>。</p>
-<p><code>npm prune</code>: 如果你的node_modules目录中已经安装了一个package，但是package.json中并没有对该package做依赖，那么这个package就应该被删除。这时如果执行npm ls命令则指示有一个 “npm ERR! extraneous: ...”。为了清理代码，你需要执行npm prune。</p>
+<p><code>npm prune</code>: 如果你的 node_modules 目录中已经安装了一个 package，但是package.json 中并没有对该 package 做依赖，那么这个 package 就应该被删除。这时如果执行npm ls命令则指示有一个 “npm ERR! extraneous: ...”。为了清理代码，你需要执行npm prune。</p>
 <p><code>npm uninstall &lt;package-name&gt;</code>: 卸载包。</p>
 <p><code>npm root -g</code>: 查看全局安装路径。</p>
 <h2 id="header-1-6">多版本 node 管理</h2>
 <p>在维护一些老项目的时候，一些工具依赖于某一版本的 node 才能运行起来，这就需要在不同的版本之间来回切换，这时你需要一个多版本管理工具 <code>n</code>，没错这个工具的名字就这么简短，只有一个字母，下面是使用方法：</p>
-<pre><code>// 安装多版本管理工具
+<pre><code class="lang-shell">// 安装多版本管理工具
 sudo npm install -g n
 // 安装6.0.0版本的 node
 n 6.0.0
@@ -81,10 +87,12 @@ n 6.0.0
 n
 // 移除某一版本
 n rm 6.0.0
-</code></pre><p>另外你可以直接打开文件夹查看 node 的版本，也可以直接删除某一版本的 node(因为经常会出现安装失败的情况所以需要删除后重装)</p>
-<pre><code>/usr/local/n/versions/node
-</code></pre><p>node 版本的偶数版是稳定版，使用 <code>n ls</code> 可以查看全部发布过的 node 版本，下面是一些关键的版本：</p>
-<pre><code>0.0.1    // 里程碑的起点
+</code></pre>
+<p>另外你可以直接打开文件夹查看 node 的版本，也可以直接删除某一版本的 node(因为经常会出现安装失败的情况所以需要删除后重装)</p>
+<pre><code class="lang-shell">/usr/local/n/versions/node
+</code></pre>
+<p>node 版本的偶数版是稳定版，使用 <code>n ls</code> 可以查看全部发布过的 node 版本，下面是一些关键的版本：</p>
+<pre><code class="lang-shell">0.0.1    // 里程碑的起点
 0.1.104  // 0.1 版本的最后一个版本
 0.12.12  // 这一版本的工具很多，很多没有持续维护的工具都对此版本有强依赖
 4.0.0    // node 和 io 合并直接跳到 io 的下一个非兼容版本
@@ -93,7 +101,8 @@ n rm 6.0.0
 6.0.0
 7.0.0
 8.0.0
-</code></pre><p>关于版本管理，可以查看我的另一篇博客 <a href="/index.html#!/articles/semantic-versioning" target="_blank">语义化版本 2.0.0</a>。</p>
+</code></pre>
+<p>关于版本管理，可以查看我的另一篇博客 <a href="/index.html#!/articles/semantic-versioning" target="_blank">语义化版本</a>。</p>
 <h2 id="header-1-7">常见问题</h2>
 <h3 id="header-1-7-1">缺 package.json 文件</h3>
 <p><code>npm ERR! registry error parsing json</code> 填写了 <code>--save</code> 或者 <code>--save-dev</code> 参数但是当前位置没有 package.json 文件，需要先执行 <code>npm init</code>；</p>
@@ -118,31 +127,39 @@ n rm 6.0.0
 <p>ES6 与 CommonJs 的引用略有不同，具体参考我的另一篇学习笔记<a href="/index.html#!/articles/es6-3" target="_blank"> ES6 学习笔记 - Part 3</a>。</p>
 <h3 id="header-1-7-5">permission denied</h3>
 <p><code>Error: EACCES: permission denied</code> 这段报错也是较为常见的，尤其是一些不太出名的需要全局安装的包，在执行的时候可能会报这个错，直译就是“许可被拒绝”，也就是文件权限的问题，最简单粗暴的方法就是把 node_modules 的权限改成 777，污染小一点的方案是改单个工具的文件所属。比如我遇到的问题是公司全家桶 yog2，可以这样</p>
-<pre><code>sudo chown -R $USER /usr/local/lib/node_modules/yog2
-</code></pre><p>再补充一下前端工具经常用的的路径：</p>
-<pre><code>// node 全局命令的入口
+<pre><code class="lang-shell">sudo chown -R $USER /usr/local/lib/node_modules/yog2
+</code></pre>
+<p>再补充一下前端工具经常用的的路径：</p>
+<pre><code class="lang-shell">// node 全局命令的入口
 /usr/local/bin
 // 全局 node_modules路径
 /usr/local/lib/node_modules
-</code></pre><h2 id="header-1-8">发布一个包</h2>
+</code></pre>
+<h2 id="header-1-8">发布一个包</h2>
 <p>首先去 <a href="https://www.npmjs.com/" target="_blank">npm 官网</a>注册账户;</p>
 <p>然后登录</p>
-<pre><code>npm login
-</code></pre><p>最后发布</p>
+<pre><code class="lang-shell">npm login
+</code></pre>
+<p>最后发布</p>
 <pre><code>sudo npm publish
-</code></pre><p>实测我开发的一个中间件 <code>koa-auto-path-router</code> 从发布到可以搜到只需要 3 分钟(8:35 - 8:38)。如果要发布新版本记得手动修改 package.json 中的版本号。发布后在项目中的更新命令：</p>
-<pre><code>npm update &lt;package name&gt;
-</code></pre><p>删除一个包</p>
-<pre><code>npm --force unpublish 包名
-</code></pre><p>查看其它配置:</p>
-<pre><code>npm config ls -l
+</code></pre><p>实测我开发的一个中间件 <code>koa-auto-path-router</code> 从发布到可以搜到只需要 3 分钟。如果要发布新版本记得手动修改 package.json 中的版本号。发布后在项目中的更新命令：</p>
+<pre><code class="lang-shell">npm update &lt;package name&gt;
+</code></pre>
+<p>删除一个包</p>
+<pre><code class="lang-shell">npm --force unpublish 包名
+</code></pre>
+<p>查看其它配置:</p>
+<pre><code class="lang-shell">npm config ls -l
 // 查看当前用户
 npm whoami
-</code></pre><p>退出登录</p>
-<pre><code>npm logout
-</code></pre><p>有一次发布包的时候遇到个小问题，报错信息如下：</p>
-<pre><code>npm ERR! you must verify your email before publishing a new package: https://www.npmjs.com/email-edit :
-</code></pre><p>首先包中配置的邮箱要和 npm 账户中的邮箱要匹配，如果邮箱改变了需要重新验证，npm 会发验证邮件到邮箱，你需要点一下。有段时间翻墙有点问题，发现配 gmail 私活 publish 不上去，后来换成 163 邮箱就上去了。</p>
+</code></pre>
+<p>退出登录</p>
+<pre><code class="lang-shell">    npm logout
+</code></pre>
+<p>有一次发布包的时候遇到个小问题，报错信息如下：</p>
+<pre><code class="lang-shell">    npm ERR! you must verify your email before publishing a new package: https://www.npmjs.com/email-edit :
+</code></pre>
+<p>首先包中配置的邮箱要和 npm 账户中的邮箱要匹配，如果邮箱改变了需要重新验证，npm 会发验证邮件到邮箱，你需要点一下。有段时间翻墙有点问题，发现配 gmail 死活 publish 不上去，后来换成 163 邮箱就上去了。</p>
 <h2 id="header-1-9">收集常用的包</h2>
 <h3 id="header-1-9-1">浏览器端、客户端</h3>
 <ul>
