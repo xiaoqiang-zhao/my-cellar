@@ -22,7 +22,7 @@ NPM 是一个包管理平台，它对包做了一些规范，一些重要文件�
 
 `test` 自动化测试文件。
 
-## 安装一个依赖包
+## 安装依赖包
 
 自动把模块和版本号添加到dependencies部分。
 
@@ -52,7 +52,7 @@ npm --registry=https://registry.npm.taobao.org install cnpm -g
 npm uninstall module-name --save
 ```
 
-### 依赖包版本的控制
+## 依赖包版本的控制
 
 如果我们没有精力去实时关注依赖包的更新，或者依赖包是一个不稳定版本，API 还处在一个快速迭代的时期，那么我们最好依赖一个特定的版本。根据自己的需求来指定版本依赖方式，下面是来自官方文档的部分译文。
 
@@ -82,17 +82,11 @@ git+https://user@hostname/project/blah.git#commit-ish
 
 如果写的是某个库的或框架的插件，还有一种 dependencies 类型是 peerDependencies，应该在 peerDependencies 中写一份，再在 devDependencies 写一份。具体的原因参考[开发组件库时 Vue 应该放哪儿](https://cnodejs.org/topic/5819624a1a9a7d9909531395)
 
-## 安装依赖
-
-一个项目的依赖包一般是不被提交的，这就需要在将项目克隆到本地后手动安转依赖
-
-```shell
-npm install
-```
-
 ## 常用命令
 
 `npm init`: 初始化 package.json 文件，根据提示输入一些关键信息就可以将文件初始化完成。
+
+`npm install`: 安装依赖包。
 
 `npm ls -g`: 查看所有全局安装的模块。如果你不想看到那么多层的依赖，那就加个参数吧：`sudo npm ls -g --depth 0`。
 
@@ -101,6 +95,8 @@ npm install
 `npm uninstall <package-name>`: 卸载包。
 
 `npm root -g`: 查看全局安装路径。
+
+`npm link`: 将当前包链接到全局，方便地对当前包进行调试和测试。
 
 ## 多版本 node 管理
 
