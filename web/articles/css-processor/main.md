@@ -18,15 +18,17 @@ lessc less.less less.css
 工程化工具需要根据自己项目的工程化选型来决定，webpack，gulp，fis 等工程化工具对 less 的集成和扩展就不展开了。这里只提供 webpack 的示例：
 
 ```shell
-	// 加载器安装
-	npm install less-loader less
-	// 加载器配置
-	loaders: [
-		{
-			test: /\.less$/,
-			loader: "style!css!less"
-		}
-	]
+// 加载器安装
+npm install less-loader less
+// 加载器配置
+```
+```json
+loaders: [
+	{
+		test: /\.less$/,
+		loader: "style!css!less"
+	}
+]
 ```
 
 ### 语法
@@ -60,19 +62,21 @@ stylus -w style.styl -o style.css
 工程化工具 webpack：
 
 ```shell
-	// 在当前位置安装解析器
-	sudo npm install stylus --save
-	// 加载器安装
-	npm install stylus-loader --save
-	// 加载器配置
-	module: {
-        loaders: [
-            { 
-                test: /\.styl$/, 
-                loader: 'style-loader!css-loader!stylus-loader' 
-            }
-        ]
-    }
+// 在当前位置安装解析器
+sudo npm install stylus --save
+// 加载器安装
+npm install stylus-loader --save
+```
+```json
+// 加载器配置
+module: {
+	loaders: [
+		{ 
+			test: /\.styl$/, 
+			loader: 'style-loader!css-loader!stylus-loader' 
+		}
+	]
+}
 ```
 
 ### 语法
