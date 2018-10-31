@@ -8,13 +8,16 @@
 
 对于代码，一个东西理解的正不正确没有比把代码跑一下验证一下来的更直接了。这里的学习期提供一个简单的命令行工具，可以一键编译 less(更多的工具可以在[这里](http://lesscss.cn/usage/)找到)：
 
-	// 全局安装 Less 解析工具
-	npm install less -g
-	// 解析less文件 less.less 输出为css文件less.css
-	lessc less.less less.css
-	
+```shell
+// 全局安装 Less 解析工具
+npm install less -g
+// 解析less文件 less.less 输出为css文件less.css
+lessc less.less less.css
+```	
+
 工程化工具需要根据自己项目的工程化选型来决定，webpack，gulp，fis 等工程化工具对 less 的集成和扩展就不展开了。这里只提供 webpack 的示例：
 
+```shell
 	// 加载器安装
 	npm install less-loader less
 	// 加载器配置
@@ -24,6 +27,7 @@
 			loader: "style!css!less"
 		}
 	]
+```
 
 ### 语法
  
@@ -46,13 +50,16 @@
 
 命令行工具：
 
-	// 全局安装 stylus 解析工具
-	npm install stylus -g
-	// 解析为 css，-w 可以监听文件改变自动解析
-	stylus -w style.styl -o style.css
+```shell
+// 全局安装 stylus 解析工具
+npm install stylus -g
+// 解析为 css，-w 可以监听文件改变自动解析
+stylus -w style.styl -o style.css
+```
 
 工程化工具 webpack：
-	
+
+```shell
 	// 在当前位置安装解析器
 	sudo npm install stylus --save
 	// 加载器安装
@@ -66,7 +73,8 @@
             }
         ]
     }
-	
+```
+
 ### 语法
 
 [张鑫旭翻译的中文文档](http://www.zhangxinxu.com/jq/stylus/css-style.php)
