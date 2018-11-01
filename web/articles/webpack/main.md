@@ -12,41 +12,49 @@
 
 NodeJs 的安装就不多说了，webpack 的全局安装命令如下：
 
-	npm install webpack -g
+```shell
+npm install webpack -g
+```
 
 准备配置文件 `webpack.config.js`
 
-	module.exports = {
-        entry: {
-            main: './a.js'
-        },
-    
-        output: {
-            path: './dist/',
-            publicPath: '/js/',
-            filename: '[name].js'
-        }
-    };
+```js
+module.exports = {
+	entry: {
+		main: './a.js'
+	},
+
+	output: {
+		path: './dist/',
+		publicPath: '/js/',
+		filename: '[name].js'
+	}
+};
+```
 
 入口模块 a.js，依赖模块b.js
 
-	// a.js
-	var b = require('./b');
-    var text = 'hello ' + b.text;
-    document.getElementsByTagName('body')[0].innerHTML = text;
-    exports.model = {
-        text: text
-    };
-    
-    // b.js
-    module.exports = {
-        text: 'world.'
-    };
+```js
+// a.js
+var b = require('./b');
+var text = 'hello ' + b.text;
+document.getElementsByTagName('body')[0].innerHTML = text;
+exports.model = {
+	text: text
+};
+
+// b.js
+module.exports = {
+	text: 'world.'
+};
+```
 
 上面所有文件放在同一目录下面，在此目录下运行下面任一命令
 
-	webpack           // 合并文件  
-	webpack --watch   // 监听变动并自动打包
+```shell
+webpack           // 合并文件  
+webpack --watch   // 监听变动并自动打包
+```
 
 就生成的 main.js 可被页面直接使用，具体代码可以到当前文章的 `./demo/quick-start/` 中查看。
 
@@ -58,14 +66,18 @@ webpack 兼容 AMD 和 CMD 以及 CommonJs 规范，官方建议使用 CommonJS 
 
 先说说source maps，source maps 是将合并后的文件拆分成源文件以方便调试的一种技术，在合并文件的末尾看到下面这样的一行声明，就表示当前文件是合并而来，而合并后的文件通过"main.js.map"重新拆解开来，不打开开发者工具时不会加载 .map 文件也不会拆解，声明也被当做普通的注释来处理，打开开发者工具后需要刷新才可以拆解文件(也就是是否拆解在加载资源时决定)可以在拆解后的文件上打断点调试，当前的 Chrome,FireFox,Safari,IE11 已经支持。
 
-	//# sourceMappingURL=main.js.map
+```js
+//# sourceMappingURL=main.js.map
+```
 
 顺便介绍一下 webpack 的参数，	
 
-	webpack           // 不加参数，合并文件  
-	webpack -p        // 压缩混淆脚本
-	webpack --watch   // 监听变动并自动打包
-	webpack -d        // 生成和并文件和map拆解文件
+```shell
+webpack           // 不加参数，合并文件  
+webpack -p        // 压缩混淆脚本
+webpack --watch   // 监听变动并自动打包
+webpack -d        // 生成合并文件 和 map拆解文件
+```
 
 可以用上面 `./demo/quick-start/` 中的代码做实验。补充说明一下，这篇文章提到的所有示例的依赖都已经在 `package.json` 定义好了，开始之前需要在 demo 文件夹下执行 `sudo npm install` 来安装这些依赖，否则示例可能跑不起来。
 
@@ -79,20 +91,26 @@ webpack 兼容 AMD 和 CMD 以及 CommonJs 规范，官方建议使用 CommonJS 
 
 使用 html-loader 插件可以使 html 片段转化成字符串模块，模块安装命令如下：
 
-	npm install html-loader --save
+```shell
+npm install html-loader --save
+```
 
 html 模块示例如下：
-	
-	// b.html
-	<div>
-        Hello world.
-    </div>
+
+```html
+// b.html
+<div>
+	Hello world.
+</div>
+```
 
 使用示例：
-	
-	// a.js
-	var b = require('./b.tpl');
-    document.getElementById('container').innerHTML = b;
+
+```js
+// a.js
+var b = require('./b.tpl');
+document.getElementById('container').innerHTML = b;
+```
 
 配置示例代码较长请自行到 `./demo/html/webpack.config.js` 中查看。
 
@@ -102,116 +120,139 @@ html 模块示例如下：
 
 需要两个插件:css-loader将 css 作为模块加载进来，style-loader 将样式写进页面。
 
-	 npm install style-loader css-loader --save
+```shell
+npm install style-loader css-loader --save
+```
 
 IE8 及以下有一个 Style 个数超过32后面的不识别的 bug，在生成的 js 文件中可以看到对低版本的 IE 做了判断。下面是配置文件部分代码：
 
-	// webpack.config.js
-	module: {
-		loaders: [
-			{
-				test: /\.css$/,
-				loader: "style-loader!css-loader"
-			}
-		]
-	}
+```js
+// webpack.config.js
+module: {
+	loaders: [
+		{
+			test: /\.css$/,
+			loader: "style-loader!css-loader"
+		}
+	]
+}
+```
 
 在 js 模块中直接 require 就可以在当前页面创建 style 标签并将 css 文件的内容添加到其中。
-	
-	require('./css-1.css');
+
+```js
+require('./css-1.css');
+```
 
 对于CSS 预处理器，可以查看我的[另一篇博文](/#!/articles/css-pre-processor)。
 
 ## 有了CSS怎么能没有装饰图
 
 使用 url-loader 加载器可以直接将图片文件转成 base64内容打包到 CSS 中，加载器安装：
-	
-	 npm install url-loader
+
+```shell
+npm install url-loader
+```
 
 CSS 的写法和普通的一样，部分配置代码如下：
 
-	
-	loaders: [
-		{
-			test: /\.png$/,
-			loader: "url-loader?limit=100000"
-		}
-	]
+```js
+loaders: [
+	{
+		test: /\.png$/,
+		loader: "url-loader?limit=100000"
+	}
+]
+```
 
 ## 分模块加载
 
 如果模块较多，将所有的代码都打包到一起体积会很大，为了解决这个问题就需要将各模块单独打包方便按需加载模块。这种按需加载的写法如下：
 
-	// CommonJs
-	require.ensure(['./b'], function (require) {
-		var m = require('./b');
-		console.log('3' + m.text);
-	});
-	
-	// AMD
-	require.ensure(['./b'], function (b) {
-		console.log('3' + b.text);
-	});
+```js
+// CommonJs
+require.ensure(['./b'], function (require) {
+	var m = require('./b');
+	console.log('3' + m.text);
+});
+
+// AMD
+require.ensure(['./b'], function (b) {
+	console.log('3' + b.text);
+});
+```
 
 推荐明确使用 `ensure` 来表示异步加载模块，但是在逻辑中的 `require` 也会被视为异步加载模块，会被单独打包：
+
+```js
+var a = document.getElementById('app').innerHTML;
+if (a === '') {
+	require(['./b'], function (b) {
 	
-	var a = document.getElementById('app').innerHTML;
-    if (a === '') {
-        require(['./b'], function (b) {
-        
-        });
-    }
+	});
+}
+```
 
 但是如果变形为：
-	
-	var a = document.getElementById('app').innerHTML;
-	if (a === '') {
-		var b = require('./b');
-	}
+
+```js
+var a = document.getElementById('app').innerHTML;
+if (a === '') {
+	var b = require('./b');
+}
+```
 
 就不会单独打包了，通过参数形式来决定行为(参数为数组时执行多文件打包异步加载，参数为字符串时执行单文件打包一次性加载)。另外在存在分模块打包的时候，配置的时候需要注意 `publicPath` 配置项：
 
-	output: {
-		path: './dist/',        // 将生成的文件放到此路径下
-		publicPath: './dist/',  // 异步加载的模块的请求路径，默认是 webpack.config.js 所在的路径
-		filename: '[hash].js'
-	}
+```json
+output: {
+	path: './dist/',        // 将生成的文件放到此路径下
+	publicPath: './dist/',  // 异步加载的模块的请求路径，默认是 webpack.config.js 所在的路径
+	filename: '[hash].js'
+}
+```
 
 那么为什么生成路径和请求路径一定要分两个参数呢，他们不应该是统一的吗？
 
 ES6 分片，异步模块引入，一般在前端路由中配置：
 
-	{
-		path: '/home',
-		name: 'home',
-		component() {
-			return System.import('@/pages/home');
-		}
+```json
+{
+	path: '/home',
+	name: 'home',
+	component() {
+		return System.import('@/pages/home');
 	}
+}
+```
 
 ## 被集成
 
 一个好的工具最好能集成其他工具或插件，也最好能被其他程序集成。webpack 就是这样一个工具，可以方便的集成加载器插件，也提供了被 node 作为独立模块使用的接口：
+
+```js
+var webpack = require('webpack');
+var webpackConfig = require('./webpack-config');
+webpack(webpackConfig, function (err, stats) { 
+	// webpack 打包完成后会进入此回调函数
 	
-	var webpack = require('webpack');
-	var webpackConfig = require('./webpack-config');
-	webpack(webpackConfig, function (err, stats) { 
-		// webpack 打包完成后会进入此回调函数
-		
-		// 文件哈希
-		stats.hash;
-	});
+	// 文件哈希
+	stats.hash;
+});
+```
 
 下面是调试时用到的参数，可以通过自定义参数来判断是开发环境还是生成环境
-	
-	webpackConfig.devtool = 'sourcemap';
-	webpackConfig.optimize = {
-		// 是否压缩
-		minimize: false
-	};
-	webpackConfig.output.filename = 'debug.js';
-	webpackConfig.output.sourceMapFilename = 'debug.map';
-	webpackConfig.watch = true; // 是否监听改变
+
+```js
+webpackConfig.devtool = 'sourcemap';
+webpackConfig.optimize = {
+	// 是否压缩
+	minimize: false
+};
+webpackConfig.output.filename = 'debug.js';
+webpackConfig.output.sourceMapFilename = 'debug.map';
+webpackConfig.watch = true; // 是否监听改变
+```
 
 利用 watch 可以结合web容器和 websocket 做一些 livereload 的事情。
 	
