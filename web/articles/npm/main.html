@@ -32,7 +32,7 @@
 <p><code>src</code> 如果是浏览器端的包，源码会放在这里；</p>
 <p><code>dist</code> 存放浏览器端包的压缩代码，方便直接被下载使用，在模块化和自动构建盛行的今天可省略；</p>
 <p><code>test</code> 自动化测试文件。</p>
-<h2 id="header-1-2">安装一个依赖包</h2>
+<h2 id="header-1-2">安装依赖包</h2>
 <p>自动把模块和版本号添加到dependencies部分。</p>
 <pre><code class="lang-shell">npm install module-name --save
 </code></pre>
@@ -47,7 +47,7 @@
 <p>如果装错了你可以不用管，但是如果有一点小洁癖的话可以卸载掉，加<code>--save</code>同样会将<code>package.json</code> 中的配置移除掉：</p>
 <pre><code class="lang-shell">npm uninstall module-name --save
 </code></pre>
-<h3 id="header-1-2-1">依赖包版本的控制</h3>
+<h2 id="header-1-3">依赖包版本的控制</h2>
 <p>如果我们没有精力去实时关注依赖包的更新，或者依赖包是一个不稳定版本，API 还处在一个快速迭代的时期，那么我们最好依赖一个特定的版本。根据自己的需求来指定版本依赖方式，下面是来自官方文档的部分译文。</p>
 <p>Dependencies 用一个包名的简单哈希来描述包的版本范围(译者注：简单地说就是键值对&quot;vue&quot;: &quot;^2.1.4&quot;)。版本范围通过一个字符串来设置，该字符串可以有一个或多个间隔描述符。依赖包还可以通过源码或 git 的 URL来指定。 </p>
 <p>注意不要将测试工具和打包转换等工具的依赖放到 Dependencies 中。</p>
@@ -64,19 +64,17 @@ git+ssh://user@hostname/project.git#commit-ish
 git+http://user@hostname/project/blah.git#commit-ish
 git+https://user@hostname/project/blah.git#commit-ish
 </code></pre>
-<h2 id="header-1-3">dependencies 和 devDependencies</h2>
+<h2 id="header-1-4">dependencies 和 devDependencies</h2>
 <p>简单的说 dependencies 是生产环境依赖的包，上线的时候需要将 dependencies 下的包打包；而 devDependencies 是开发这个包时需要的一些依赖，也就是说脱离了这个包的开发 devDependencies 可以被忽略。如果其他包引用了当前包，devDependencies 下的依赖是不会被安装的，dependencies 下的依赖 npm 会和其他包的依赖进行全集计算，使安装的包尽可能少。</p>
 <p>如果写的是某个库的或框架的插件，还有一种 dependencies 类型是 peerDependencies，应该在 peerDependencies 中写一份，再在 devDependencies 写一份。具体的原因参考<a href="https://cnodejs.org/topic/5819624a1a9a7d9909531395" target="_blank">开发组件库时 Vue 应该放哪儿</a></p>
-<h2 id="header-1-4">安装依赖</h2>
-<p>一个项目的依赖包一般是不被提交的，这就需要在将项目克隆到本地后手动安转依赖</p>
-<pre><code class="lang-shell">npm install
-</code></pre>
 <h2 id="header-1-5">常用命令</h2>
 <p><code>npm init</code>: 初始化 package.json 文件，根据提示输入一些关键信息就可以将文件初始化完成。</p>
+<p><code>npm install</code>: 安装依赖包。</p>
 <p><code>npm ls -g</code>: 查看所有全局安装的模块。如果你不想看到那么多层的依赖，那就加个参数吧：<code>sudo npm ls -g --depth 0</code>。</p>
 <p><code>npm prune</code>: 如果你的 node_modules 目录中已经安装了一个 package，但是package.json 中并没有对该 package 做依赖，那么这个 package 就应该被删除。这时如果执行npm ls命令则指示有一个 “npm ERR! extraneous: ...”。为了清理代码，你需要执行npm prune。</p>
 <p><code>npm uninstall &lt;package-name&gt;</code>: 卸载包。</p>
 <p><code>npm root -g</code>: 查看全局安装路径。</p>
+<p><code>npm link</code>: 将当前包链接到全局，方便地对当前包进行调试和测试。</p>
 <h2 id="header-1-6">多版本 node 管理</h2>
 <p>在维护一些老项目的时候，一些工具依赖于某一版本的 node 才能运行起来，这就需要在不同的版本之间来回切换，这时你需要一个多版本管理工具 <code>n</code>，没错这个工具的名字就这么简短，只有一个字母，下面是使用方法：</p>
 <pre><code class="lang-shell">// 安装多版本管理工具

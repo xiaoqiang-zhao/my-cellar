@@ -25,21 +25,24 @@
 <h2 id="header-1-1">Less</h2>
 <h3 id="header-1-1-1">环境</h3>
 <p>对于代码，一个东西理解的正不正确没有比把代码跑一下验证一下来的更直接了。这里的学习期提供一个简单的命令行工具，可以一键编译 less(更多的工具可以在<a href="http://lesscss.cn/usage/" target="_blank">这里</a>找到)：</p>
-<pre><code>// 全局安装 Less 解析工具
+<pre><code class="lang-shell">// 全局安装 Less 解析工具
 npm install less -g
 // 解析less文件 less.less 输出为css文件less.css
 lessc less.less less.css
-</code></pre><p>工程化工具需要根据自己项目的工程化选型来决定，webpack，gulp，fis 等工程化工具对 less 的集成和扩展就不展开了。这里只提供 webpack 的示例：</p>
-<pre><code>// 加载器安装
+</code></pre>
+<p>工程化工具需要根据自己项目的工程化选型来决定，webpack，gulp，fis 等工程化工具对 less 的集成和扩展就不展开了。这里只提供 webpack 的示例：</p>
+<pre><code class="lang-shell">// 加载器安装
 npm install less-loader less
 // 加载器配置
-loaders: [
+</code></pre>
+<pre><code class="lang-json">loaders: [
     {
         test: /\.less$/,
         loader: &quot;style!css!less&quot;
     }
 ]
-</code></pre><h3 id="header-1-1-2">语法</h3>
+</code></pre>
+<h3 id="header-1-1-2">语法</h3>
 <p><a href="http://www.css88.com/doc/less/features/" target="_blank">中文语法文档</a></p>
 <p><a href="http://lesscss.org/features/" target="_blank">英文原版文档</a></p>
 <h3 id="header-1-1-3">辅助工具</h3>
@@ -49,16 +52,18 @@ loaders: [
 <h2 id="header-1-2">Stylus</h2>
 <h3 id="header-1-2-1">环境</h3>
 <p>命令行工具：</p>
-<pre><code>// 全局安装 stylus 解析工具
+<pre><code class="lang-shell">// 全局安装 stylus 解析工具
 npm install stylus -g
 // 解析为 css，-w 可以监听文件改变自动解析
 stylus -w style.styl -o style.css
-</code></pre><p>工程化工具 webpack：</p>
-<pre><code>// 在当前位置安装解析器
+</code></pre>
+<p>工程化工具 webpack：</p>
+<pre><code class="lang-shell">// 在当前位置安装解析器
 sudo npm install stylus --save
 // 加载器安装
 npm install stylus-loader --save
-// 加载器配置
+</code></pre>
+<pre><code class="lang-json">// 加载器配置
 module: {
     loaders: [
         { 
@@ -67,7 +72,8 @@ module: {
         }
     ]
 }
-</code></pre><h3 id="header-1-2-2">语法</h3>
+</code></pre>
+<h3 id="header-1-2-2">语法</h3>
 <p><a href="http://www.zhangxinxu.com/jq/stylus/css-style.php" target="_blank">张鑫旭翻译的中文文档</a></p>
 <p><a href="http://stylus-lang.com/docs/selectors.html" target="_blank">原版英文文档</a></p>
 <h3 id="header-1-2-3">辅助工具</h3>
