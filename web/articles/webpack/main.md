@@ -255,7 +255,14 @@ webpackConfig.watch = true; // 是否监听改变
 ```
 
 利用 watch 可以结合web容器和 websocket 做一些 livereload 的事情。
-	
+
+## 编外
+
+- learn by doing: 边做边学
+- learn concepts step by step: 一个概念一个概念的学
+
+每个人喜欢的学习方式是不同的，参考 React 的文档给出了两种常见的方式，相应的文档也是两种，这篇文章偏向第一种。
+
 ## 参考资料
 
 [webpack 官网](https://webpack.github.io/)
