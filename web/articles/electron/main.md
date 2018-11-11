@@ -29,3 +29,9 @@ mainWindow.webContents.openDevTools();
 ## 参考
 
 [github-electron-cn-docs](https://github.com/amhoho/electron-cn-docs)
+
+[使用electron构建跨平台Node.js桌面应用经验分享](https://www.zhangxinxu.com/wordpress/2017/05/electron-node-js-desktop-application-experience/)
+
+[如何实现electron的在线升级热更新功能](https://www.zhangxinxu.com/wordpress/2017/06/how-electron-online-update-hot-fix/)
+
+[electron-vue](https://simulatedgreg.gitbooks.io/electron-vue/content/cn/)
