@@ -1,4 +1,4 @@
-# electron
+# electron --  备忘材料
 
 > 学习大全
 
@@ -25,6 +25,7 @@ mainWindow.webContents.openDevTools();
 ### 怎么打包发布安装包
 
 突然发现可以跳过前面几步直接用现成的解决方案
+[electron-vue](https://simulatedgreg.gitbooks.io/electron-vue/content/cn/)。
 
 ### 怎么更新客户端
 
