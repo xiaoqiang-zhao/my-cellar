@@ -2,6 +2,12 @@
 
 > 挖到宝贝了
 
+## 初始化
+
+```shell
+vue init simulatedgreg/electron-vue my-project
+```
+
 ## 构建方式的选择
 
 electron-packager
@@ -13,3 +19,5 @@ electron-builder
 ## 参考
 
 [electron-vue](https://simulatedgreg.gitbooks.io/electron-vue/content/cn/)
+
+[npm run build 的坑](https://segmentfault.com/a/1190000012899824)
