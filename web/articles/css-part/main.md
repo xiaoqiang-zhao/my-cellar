@@ -1,11 +1,10 @@
-# 常用 CSS 片段收集
+# CSS Widget
 
-> 提供简写和非简写两种方式，有点小洁癖的可以采用了简写的方式，多人协作的长期项目建议采用非简写简明知意。另外简写容易造成冲突，按字母顺序排列样式能在一定层度上减少这种冲突，所以下面的样式都是按字母顺序排列的，另外简写的一般规则是 “属性-属性值-修饰”，表意的CSS片段取首字母缩写。可以更具自己的项目定制此文件的部分或全部，无需任何许可。一些实例：[DEMO](demo/demo.html)，也可下载[dem/css.css](demo/css.css)直接使用。
+> 零零总总写前端 5 年多了，几乎任何业务项目都需要用到一些样式片段，功能复杂的已经被抽象成了组件库，还有一些只有几行十几行的样式片段却在不断的重复编码，决定花时间整理一些这个类型的片段，利人利己。
 
-## 清除浮动
+## 辅助功能
 
-这是一个很不错的解决方案，兼容IE6与现代浏览器，理论部分查看：
-[那些年我们一起清除过的浮动](http://www.iyunlu.com/view/css-xhtml/55.html)
+### 清除浮动
 
 ```css
 /* 清除浮动 */
@@ -22,68 +21,13 @@
 }
 ```
 
-## 可点击
+这可能是兼容性最好副作用最小的一种方案了。理论部分可以看看“一丝冰凉”的这篇文章：
+[那些年我们一起清除过的浮动](http://www.iyunlu.com/view/css-xhtml/55.html)
 
-其实就是鼠标以上后形状变成手型。
+### 单行文字超出截断
 
+兼容 IE8 及以上：
 ```css
-/* 可点击 */
-.c-p,
-.cursor-pointer {
-    cursor: pointer;
-}
-```
-  
-## 数据为空
-   
-只写一个空的div就可以实现数据为空的页面提示。
-
-```css
-/* 数据为空,只兼容到IE8及以上 */
-.d-e,
-.data-empty {
-    font-size: 14px;
-    text-align: center;
-    color: #a8a8a8;
-    padding: 5px 0;
-}
-.d-e:after,
-.data-empty:after {
-    content: "数据为空";
-}
-```
-
-## 隐藏
-
-隐藏元素推荐使用class来操作，这样便于显示时还原display的值，另外加上body来提高优先级使适用范围更广泛。
-
-```css
-/* 隐藏 */
-body .hide {
-    display: none;
-}
-```
-
-## 不被内容撑大的table
-
-常用的 table 形式，不被撑大，内容优先自动折行。
-
-```css
-/* 不被撑大的table */
-.t-f,
-.table-fixed {
-    table-layout: fixed;
-    word-wrap: break-word;
-}
-```
-
-## 单行文字超出截断
-
-不折行，超出部分截断，并以三个点结尾。`white-space` 是一个可以继承的属性（上层元素定义之后下层元素会自动继承），如果与 `word-wrap` 和 `word-break` 相遇，并且 `white-space: nowrap` 时，页面表现为不折行。
-
-```css
-/* 超长截断,只兼容到IE8及以上 */
-.to-e,
 .text-overflow-ellipsis,
 .ellipsis {
     overflow: hidden;
@@ -91,9 +35,9 @@ body .hide {
     white-space: nowrap;
 }
 ```
+### 多行文字超出截断【移动】
 
-## 多行文字超出截断
-
+移动端方案，只兼容 webkit 内核的浏览器：
 ```css
 .line-clamp {
     display: -webkit-box;
@@ -103,101 +47,95 @@ body .hide {
 }
 ```
 
-line-clamp 属性还不是标准，还有一个 js 库可以考虑：https://github.com/josephschmitt/Clamp.js
- 
-## 自动折行
+-webkit-line-clamp 是一个不规范的属性，它没有出现在 CSS 规范草案中。也就是说只有 webkit 内核的浏览器才支持这个属性，像 Firefox, IE 浏览器统统都不支持这个属性，浏览器兼容性不好。
 
-一般块式容器汉字和英文默认都会自动折行，只有url这种连续的英文字母片段需要设置折行，word-wrap单词结束折行，word-break不管单词是否结束到容器末尾立即折行。值得注意的是word-wrap也可以对连续英文字符串折行，所以实践中首选word-wrap。
+使用场景：多用于移动端页面，因为移动设备浏览器更多是基于 webkit 内核。
 
-```css
-    /* 自动折行 */
-    .ww-bw,
-    .word-wrap-break-word {
-        word-wrap: break-word;
-        white-space: normal;
-    }
-```css
-
-- word-wrap: break-word; 内容将在边界内换行。如果需要，单词内部允许断行。
-
-- word-break: keep-all; 只能在半角空格或连字符处换行，无法对某些链接地址进行换行。
-
-这里补充 `white-space: normal;` 是因为其继承的特性，为了使程序更健壮，这一行在某些情况下的冗余是值得的。
-
-[word-wrap/word-break/white-space](http://www.cnblogs.com/charling/p/3615111.html)
-
-## 大图小字水平居中
-
-图片浮动，文字行高等于图片高度。
+### 多行文字超出截断【PC】
 
 ```css
-.tag {
+ .wrap {
+    // box-sizing: content-box;
+    height: 40px;
+    line-height: 20px;
+    overflow: hidden;
+}
+.wrap .text {
+    float: right;
+    margin-left: -5px;
+    width: 100%;
+    word-break: break-all;
+}
+.wrap::before {
+    float: left;
+    width: 5px;
+    content: '';
+    height: 100%;
+}
+.wrap::after {
+    float: right;
+    content: "...";
+    height: 20px;
+    line-height: 20px;
+    /* 为三个省略号的宽度 */
+    width: 3em;
+    /* 使盒子不占位置 */
+    margin-left: -3em;
+    /* 移动省略号位置 */
+    position: relative;
+    left: 100%;
+    top: -20px;
+    padding-right: 5px;
+    // background: #2479cc;
+    background: linear-gradient(to right, rgba(255,255,255,.1) 10%, #fff, #fff);
+    text-align: right;
+}
+```
+真是一个无比巧妙的方案，原理部分参见这篇文章：[https://github.com/happylindz/blog/issues/12](https://github.com/happylindz/blog/issues/12)。
+
+
+这里的多行是需要通过高度和行高配合实现的，省略号的背景默认是白色如果容器是其他背景色需要手动重置。如果你需要边框需要手动设置伪元素的高度，或者使用 outline 来代替 border。
+
+```css
+.wrap::before {
+    height: 40px;
+}
+```
+
+line-clamp 属性还不是标准，还有一个 js 库可以考虑：[https://github.com/josephschmitt/Clamp.js](https://github.com/josephschmitt/Clamp.js)
+
+## 独立样式
+
+### 大图小字
+
+支持 IE8+，如果文字可能隐藏搭配清除浮动更稳定。
+
+```css
+.img-text-container {
     padding: 2px 10px;
     border-radius: 5px;
     font-size: 16px;
     line-height: 28px;
     background: rgba(120, 120, 120, .3);
 }
-.tag::before {
+.img-text-container::before,
+.img-text-container img {
     margin-right: 5px;
     font-size: 28px;
     float: left;
 }
 ```
 
-## 大字小图水平居中
+图片采用浮动是比较稳定，还有一个附带的好处是避免换行产生的不稳定间距。
 
-字体不管多大始终保持居中。
+### 小图大字
 
-```css
-.img-tag {
-    position: relative;
-    top: 10px;
-    left: 10px;
-    border-radius: 5px;
-    padding: 2px 10px 2px 2px;
-    background: rgba(120, 120, 120, .3);
+### 数据为空&暂无权限
 
-    font-size: 30px;
-}
+### 文字间隔
 
-.img-tag::after {
-    content: "\e6d6";
-    position: absolute;
-    top: 50%;
-    margin-top: -0.5em;
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    font-size: 10px;
-}
-```
+## 布局
+
+### 信息单元样式一
 
 
-## 多段文字间隔
-
-多个标签之间间隔一个字符是常用的样式，字符 | 会因为字体的不同无法居中无法控制高度等问题，我们用伪元素画一个：
-
-```css
-.item {
-    display: inline-block;
-    font-size: 20px;
-    line-height: 1em;
-}
-.item:nth-of-type(n + 2)::before {
-    content: "\200B";
-    display: inline-block;
-    height: 0.15em;
-    width: 1px;
-    border-bottom: 0.7em solid #fff;
-    margin: 0 0.5em;
-}
-```
-
-## todo
-
-写个示例页面...
-
-## 扩展阅读
-
-[60个有用CSS代码片段](https://segmentfault.com/a/1190000002773955)
