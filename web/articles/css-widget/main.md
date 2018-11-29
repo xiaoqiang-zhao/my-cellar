@@ -165,6 +165,25 @@ line-clamp 属性还不是标准，还有一个 js 库可以考虑：[https://gi
 
 ### 文字间隔
 
+多个标签之间间隔一个字符是常用的样式，字符 | 会因为字体的不同无法居中无法控制高度等问题，我们用伪元素画一个：
+
+```css
+.space-item {
+    display: inline-block;
+    line-height: 1em;
+}
+.space-item:nth-of-type(n + 2)::before {
+    content: "\200B";
+    display: inline-block;
+    height: 0.15em;
+    width: 1px;
+    border-bottom: 0.7em solid #f00;
+    margin: 0 0.5em;
+}
+```
+
+这段代码的的第一个妙处在于用 `border-bottom` 画间距线，而用高度作为上间距(用 padding 会有问题)；第二个妙处在于用了关系选择器，不需要手动去指定哪一个有间隔符。
+
 ### 数据为空&暂无权限
 
 ## 布局
