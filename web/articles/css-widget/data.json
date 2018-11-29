@@ -1,12 +1,12 @@
 {
-  "enName": "css-widget",
-  "title": "CSS 小组件",
-  "introduction": "这些年用过的一些小组件，整理收集在此。class命名很接地气，坏处就是容易冲突，如果和其他样式库公用注意冲突的问题。\n一些实例：[DEMO](/articles/css-widget/demo/demo.html)，也可下载[dem/css.css](demo/css.css)直接使用。",
+  "enName": "css-part",
+  "title": "常用 CSS 片段收集",
+  "introduction": "提供简写和非简写两种方式，有点小洁癖的可以采用了简写的方式，多人协作的长期项目建议采用非简写简明知意。另外简写容易造成冲突，按字母顺序排列样式能在一定层度上减少这种冲突，所以下面的样式都是按字母顺序排列的，另外简写的一般规则是 “属性-属性值-修饰”，表意的CSS片段取首字母缩写。可以更具自己的项目定制此文件的部分或全部，无需任何许可。一些实例：[DEMO](demo/demo.html)，也可下载[dem/css.css](demo/css.css)直接使用。",
   "tags": [],
   "isPublished": false,
   "state": "立项",
   "type": "md",
-  "createDate": 1459739951048,
+  "createDate": 1462684808390,
   "commentList": [],
   "todoList": []
 }

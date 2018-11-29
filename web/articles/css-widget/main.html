@@ -3,7 +3,7 @@
 <head lang="zh-cn">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>CSS 小组件 - 小强赵的个人站点</title>
+    <title>常用 CSS 片段收集 - 小强赵的个人站点</title>
     <script>
         // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
         var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
@@ -18,32 +18,165 @@
     <h2> 精进自己，服务他人 </h2>
 </header>
 <div>
-    <h1 id="header-1">CSS 小组件</h1>
+    <h1 id="header-1">常用 CSS 片段收集</h1>
 <blockquote>
-<p>这些年用过的一些小组件，整理收集在此。class命名很接地气，坏处就是容易冲突，如果和其他样式库公用注意冲突的问题。
-一些实例：<a href="/articles/css-widget/demo/demo.html" target="_blank">DEMO</a>，也可下载<a href="demo/css.css" target="_blank">dem/css.css</a>直接使用。</p>
+<p>提供简写和非简写两种方式，有点小洁癖的可以采用了简写的方式，多人协作的长期项目建议采用非简写简明知意。另外简写容易造成冲突，按字母顺序排列样式能在一定层度上减少这种冲突，所以下面的样式都是按字母顺序排列的，另外简写的一般规则是 “属性-属性值-修饰”，表意的CSS片段取首字母缩写。可以更具自己的项目定制此文件的部分或全部，无需任何许可。一些实例：<a href="demo/demo.html" target="_blank">DEMO</a>，也可下载<a href="demo/css.css" target="_blank">dem/css.css</a>直接使用。</p>
 </blockquote>
-<h2 id="header-1-1">CSS 样式一致化</h2>
-<p>有了这个东西可以减少我们很多工作量。</p>
-<p><a href="https://www.zhihu.com/question/20094066" target="_blank">https://www.zhihu.com/question/20094066</a></p>
-<p>normalize.css 适合大项目和移动项目，reset.css 适合小项目或 Demo。</p>
-<p><a href="http://jerryzou.com/posts/aboutNormalizeCss/" target="_blank">http://jerryzou.com/posts/aboutNormalizeCss/</a></p>
-<h2 id="header-1-2">文字按钮</h2>
-<p>一个看着干净简单的按钮，在动作上又够精致，鼠标移上、按下、抬起以及不可用都有样式响应，另外还有风骚的小动画。在技术上，由于 <code>active</code> 这一动态伪类只有在 链接 和 按钮 上才能响应，所以此样式的元素用在 <code>a</code>、<code>button</code>、<code>input type=&quot;button&quot;</code> 上才能充分展示按钮的丰富。下面是三种按钮的定义方法：</p>
-<pre><code>&lt;button class=&quot;button&quot;&gt;button按钮&lt;/button&gt;
-&lt;input type=&quot;button&quot; value=&quot;input按钮&quot; class=&quot;button&quot;/&gt;
-&lt;a class=&quot;button&quot;&gt;a按钮&lt;/a&gt;
-</code></pre><p>注：伪类定义的顺序上遵循爱恨原则LoVe/HAte,也就是link--visited--hover--active。</p>
-<h2 id="header-1-3">加减号按钮</h2>
-<p>用伪类 <code>before</code> 和 <code>after</code> 做为内部元素来画加减号按钮，简单优雅，使用如下：</p>
-<pre><code>&lt;button class=&quot;button icon-plus&quot;&gt;&lt;/button&gt;
-&lt;button class=&quot;button icon-minus&quot;&gt;&lt;/button&gt;
-&lt;a class=&quot;button icon-plus&quot;&gt;&lt;/a&gt;
-&lt;a class=&quot;button icon-minus&quot;&gt;&lt;/a&gt;
-</code></pre><h2 id="header-1-4">输入框</h2>
-<p>只做了样式上的修饰，用法如下：</p>
-<pre><code>&lt;input type=&quot;text&quot; class=&quot;input-text&quot;/&gt;
-</code></pre><h2 id="header-1-5">下拉框</h2>
+<h2 id="header-1-1">清除浮动</h2>
+<p>这是一个很不错的解决方案，兼容IE6与现代浏览器，理论部分查看：
+<a href="http://www.iyunlu.com/view/css-xhtml/55.html" target="_blank">那些年我们一起清除过的浮动</a></p>
+<pre><code class="lang-css">/* 清除浮动 */
+.c-f,
+.clear-float {
+    zoom: 1; /* 兼容IE7及以下 */
+}
+.c-f:after,
+.clear-float:after {
+    content: &quot;\200B&quot;;
+    display: block;
+    height: 0;
+    clear: both;
+}
+</code></pre>
+<h2 id="header-1-2">可点击</h2>
+<p>其实就是鼠标以上后形状变成手型。</p>
+<pre><code class="lang-css">/* 可点击 */
+.c-p,
+.cursor-pointer {
+    cursor: pointer;
+}
+</code></pre>
+<h2 id="header-1-3">数据为空</h2>
+<p>只写一个空的div就可以实现数据为空的页面提示。</p>
+<pre><code class="lang-css">/* 数据为空,只兼容到IE8及以上 */
+.d-e,
+.data-empty {
+    font-size: 14px;
+    text-align: center;
+    color: #a8a8a8;
+    padding: 5px 0;
+}
+.d-e:after,
+.data-empty:after {
+    content: &quot;数据为空&quot;;
+}
+</code></pre>
+<h2 id="header-1-4">隐藏</h2>
+<p>隐藏元素推荐使用class来操作，这样便于显示时还原display的值，另外加上body来提高优先级使适用范围更广泛。</p>
+<pre><code class="lang-css">/* 隐藏 */
+body .hide {
+    display: none;
+}
+</code></pre>
+<h2 id="header-1-5">不被内容撑大的table</h2>
+<p>常用的 table 形式，不被撑大，内容优先自动折行。</p>
+<pre><code class="lang-css">/* 不被撑大的table */
+.t-f,
+.table-fixed {
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+</code></pre>
+<h2 id="header-1-6">单行文字超出截断</h2>
+<p>不折行，超出部分截断，并以三个点结尾。<code>white-space</code> 是一个可以继承的属性（上层元素定义之后下层元素会自动继承），如果与 <code>word-wrap</code> 和 <code>word-break</code> 相遇，并且 <code>white-space: nowrap</code> 时，页面表现为不折行。</p>
+<pre><code class="lang-css">/* 超长截断,只兼容到IE8及以上 */
+.to-e,
+.text-overflow-ellipsis,
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+</code></pre>
+<h2 id="header-1-7">多行文字超出截断</h2>
+<pre><code class="lang-css">.line-clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+}
+</code></pre>
+<p>line-clamp 属性还不是标准，还有一个 js 库可以考虑：<a href="https://github.com/josephschmitt/Clamp.js" target="_blank">https://github.com/josephschmitt/Clamp.js</a></p>
+<h2 id="header-1-8">自动折行</h2>
+<p>一般块式容器汉字和英文默认都会自动折行，只有url这种连续的英文字母片段需要设置折行，word-wrap单词结束折行，word-break不管单词是否结束到容器末尾立即折行。值得注意的是word-wrap也可以对连续英文字符串折行，所以实践中首选word-wrap。</p>
+<pre><code class="lang-css">    /* 自动折行 */
+    .ww-bw,
+    .word-wrap-break-word {
+        word-wrap: break-word;
+        white-space: normal;
+    }
+```css
+
+- word-wrap: break-word; 内容将在边界内换行。如果需要，单词内部允许断行。
+
+- word-break: keep-all; 只能在半角空格或连字符处换行，无法对某些链接地址进行换行。
+
+这里补充 `white-space: normal;` 是因为其继承的特性，为了使程序更健壮，这一行在某些情况下的冗余是值得的。
+
+[word-wrap/word-break/white-space](http://www.cnblogs.com/charling/p/3615111.html)
+
+## 大图小字水平居中
+
+图片浮动，文字行高等于图片高度。
+
+```css
+.tag {
+    padding: 2px 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    line-height: 28px;
+    background: rgba(120, 120, 120, .3);
+}
+.tag::before {
+    margin-right: 5px;
+    font-size: 28px;
+    float: left;
+}
+</code></pre>
+<h2 id="header-1-9">大字小图水平居中</h2>
+<p>字体不管多大始终保持居中。</p>
+<pre><code class="lang-css">.img-tag {
+    position: relative;
+    top: 10px;
+    left: 10px;
+    border-radius: 5px;
+    padding: 2px 10px 2px 2px;
+    background: rgba(120, 120, 120, .3);
+
+    font-size: 30px;
+}
+
+.img-tag::after {
+    content: &quot;\e6d6&quot;;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.5em;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    font-size: 10px;
+}
+</code></pre>
+<h2 id="header-1-10">多段文字间隔</h2>
+<p>多个标签之间间隔一个字符是常用的样式，字符 | 会因为字体的不同无法居中无法控制高度等问题，我们用伪元素画一个：</p>
+<pre><code class="lang-css">.item {
+    display: inline-block;
+    font-size: 20px;
+    line-height: 1em;
+}
+.item:nth-of-type(n + 2)::before {
+    content: &quot;\200B&quot;;
+    display: inline-block;
+    height: 0.15em;
+    width: 1px;
+    border-bottom: 0.7em solid #fff;
+    margin: 0 0.5em;
+}
+</code></pre>
+<h2 id="header-1-11">todo</h2>
+<p>写个示例页面...</p>
+<h2 id="header-1-12">扩展阅读</h2>
+<p><a href="https://segmentfault.com/a/1190000002773955" target="_blank">60个有用CSS代码片段</a></p>
 
 </div>
 </body>
