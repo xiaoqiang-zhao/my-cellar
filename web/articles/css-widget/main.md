@@ -165,6 +165,8 @@ line-clamp 属性还不是标准，还有一个 js 库可以考虑：[https://gi
 
 ### 文字间隔
 
+支持 IE8+
+
 多个标签之间间隔一个字符是常用的样式，字符 | 会因为字体的不同无法居中无法控制高度等问题，我们用伪元素画一个：
 
 ```css
@@ -185,6 +187,57 @@ line-clamp 属性还不是标准，还有一个 js 库可以考虑：[https://gi
 这段代码的的第一个妙处在于用 `border-bottom` 画间距线，而用高度作为上间距(用 padding 会有问题)；第二个妙处在于用了关系选择器，不需要手动去指定哪一个有间隔符。
 
 ### 数据为空&暂无权限
+
+支持 IE8+
+
+```css
+.no-right,
+.data-empty {
+    text-align: center;
+    padding: 50px 0;
+    color: #555;
+}
+.icon-no-right:before,
+.icon-empty:before {
+    display: block;
+    margin: 0 auto;
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+```
+
+常用样式，需要引入相应的 iconfont 图标。
+
+### 加载中
+
+兼容IE9+
+
+从网站 [http://tobiasahlin.com/spinkit/](http://tobiasahlin.com/spinkit/) 中摘取的一个样式。使用简单，只有一个元素。
+
+```css
+.loading {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    margin: 100px auto;
+}
+.loading::before,
+.loading::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #333;
+    opacity: .6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: sk-bounce 2.0s infinite ease-in-out;
+}
+.loading::after {
+    animation-delay: -1.0s;
+}
+```
 
 ## 布局
 
