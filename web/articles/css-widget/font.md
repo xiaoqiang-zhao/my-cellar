@@ -28,3 +28,16 @@ Tahoma是种非常圆滑的字体。 Tahoma是英文Windows操作系统的默认
 
 腾讯网(https://xw.qq.com/?f=qqcom): font-family: sans-serif;
 
+## 扩展
+
+衬线字体，意思是在字的笔画开始、结束的地方有额外的装饰，而且笔画的粗细会有所不同。
+
+无衬线体是无衬线字体，没有这些额外的装饰，而且笔画的粗细差不多。
+
+## 窜一个
+
+font: 14px/1.5 Helvetica "PingFang SC", tahoma, arial, sans-serif;
+
+- 如果是对设计感有需求的网站或App，用 Helvetica 和 "PingFang SC" 打头是不错的选择；
+- 如果是中规中矩的网站或App，用 tahoma 做主打，arial 和 sans-serif 娄底是不错的选择；
+- 微软雅黑是收费字体，Mac 也提供，如果是 PC 可以考虑用微软雅黑，如果有 Android 场景那就不要用了。

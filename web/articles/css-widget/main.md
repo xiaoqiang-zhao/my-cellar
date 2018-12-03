@@ -243,4 +243,13 @@ line-clamp 属性还不是标准，还有一个 js 库可以考虑：[https://gi
 
 ### 信息单元样式一
 
+## 补充
+
+### 字体
+
+font: 14px/1.5 Helvetica "PingFang SC", tahoma, arial, sans-serif;
+
+- 如果是对设计感有需求的网站或App，用 Helvetica 和 "PingFang SC" 打头是不错的选择；
+- 如果是中规中矩的网站或App，用 tahoma 做主打，arial 和 sans-serif 娄底是不错的选择；
+- 微软雅黑是收费字体，Mac 也提供，如果是 PC 可以考虑用微软雅黑，如果有 Android 场景那就不要用了。
 
