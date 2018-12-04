@@ -4,6 +4,26 @@
 
 ## 辅助功能
 
+### 字体
+
+Helvetica，无衬线字，字母 I l，可能是设计师最爱的字体，Realist风格，简洁现代的线条，非常受到追捧。在Mac下面被认为是最佳的网页字体，在Windows下显示很糟糕。
+
+苹方 PingFang SC，无衬线，字母 I l，美观大于实用。
+
+大河马 tahoma，无衬线，字母 I l，中英文混排推荐，XP 时代的微软默认字体，字体界的老炮。
+
+sans-serif，无衬线，字母 I l，大河马的备胎。
+
+微软雅黑 Microsoft Yahei，无衬线，字母 I l，Windows7+ 时代的微软默认字体，同样字号情况下微软雅黑的字要大一点。
+
+```css
+font: 14px/1.5 Helvetica "PingFang SC", tahoma, arial, sans-serif;
+```
+
+- 如果是对设计感有需求的网站或App，用 Helvetica 和 "PingFang SC" 打头是不错的选择；
+- 如果是中规中矩的网站或App，用 tahoma 做主打，arial 和 sans-serif 娄底是不错的选择；
+- 微软雅黑是收费字体，Mac 也提供，如果是 PC 可以考虑用微软雅黑，如果有 Android 场景那就不要用了。
+
 ### 清除浮动
 
 ```css
@@ -54,8 +74,7 @@
 ### 多行文字超出截断【PC】
 
 ```css
- .wrap {
-    // box-sizing: content-box;
+.wrap {
     height: 40px;
     line-height: 20px;
     overflow: hidden;
@@ -70,7 +89,7 @@
     float: left;
     width: 5px;
     content: '';
-    height: 100%;
+    height: 40px;
 }
 .wrap::after {
     float: right;
@@ -86,9 +105,6 @@
     left: 100%;
     top: -20px;
     padding-right: 5px;
-    // background: #2479cc;
-    background: linear-gradient(to right, rgba(255,255,255,.1) 10%, #fff, #fff);
-    text-align: right;
 }
 ```
 真是一个无比巧妙的方案，原理部分参见这篇文章：[https://github.com/happylindz/blog/issues/12](https://github.com/happylindz/blog/issues/12)。
@@ -165,8 +181,6 @@ line-clamp 属性还不是标准，还有一个 js 库可以考虑：[https://gi
 
 ### 文字间隔
 
-支持 IE8+
-
 多个标签之间间隔一个字符是常用的样式，字符 | 会因为字体的不同无法居中无法控制高度等问题，我们用伪元素画一个：
 
 ```css
@@ -238,18 +252,3 @@ line-clamp 属性还不是标准，还有一个 js 库可以考虑：[https://gi
     animation-delay: -1.0s;
 }
 ```
-
-## 布局
-
-### 信息单元样式一
-
-## 补充
-
-### 字体
-
-font: 14px/1.5 Helvetica "PingFang SC", tahoma, arial, sans-serif;
-
-- 如果是对设计感有需求的网站或App，用 Helvetica 和 "PingFang SC" 打头是不错的选择；
-- 如果是中规中矩的网站或App，用 tahoma 做主打，arial 和 sans-serif 娄底是不错的选择；
-- 微软雅黑是收费字体，Mac 也提供，如果是 PC 可以考虑用微软雅黑，如果有 Android 场景那就不要用了。
-

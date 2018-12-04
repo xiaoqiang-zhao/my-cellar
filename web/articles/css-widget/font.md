@@ -34,7 +34,17 @@ Tahoma是种非常圆滑的字体。 Tahoma是英文Windows操作系统的默认
 
 无衬线体是无衬线字体，没有这些额外的装饰，而且笔画的粗细差不多。
 
-## 窜一个
+## 总结
+
+Helvetica，无衬线字，字母 I l，可能是设计师最爱的字体，Realist风格，简洁现代的线条，非常受到追捧。在Mac下面被认为是最佳的网页字体，在Windows下显示很糟糕。
+
+苹方 PingFang SC，无衬线，字母 I l，美观大于实用。
+
+大河马 tahoma，无衬线，字母 I l，中英文混排推荐，XP 时代的微软默认字体，字体界的老炮。
+
+sans-serif，无衬线，字母 I l，大河马的备胎。
+
+微软雅黑 Microsoft Yahei，无衬线，字母 I l，Windows7+ 时代的微软默认字体，同样字号情况下微软雅黑的字要大一点。
 
 font: 14px/1.5 Helvetica "PingFang SC", tahoma, arial, sans-serif;
 
