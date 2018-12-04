@@ -102,43 +102,89 @@
 H5的布局相关的标签一共有8个：
 `header` `article` `footer` `aside` `nav` `main` `section` `div`，
 前五个比较通用，可以用在页面的整体布局上也可以用在局部的页面块中，下面是页面布局的两个示例：
-    
-    <body>
-        <header> 头部</header>
+
+```html
+<body>
+    <header> 头部</header>
+    <aside> 侧栏</aside>
+    <main> 主体</main>
+    <footer> 尾部</footer>
+</body>
+<!-- 或者如果在布局上需要将aside和main包起来，一定要用 div -->
+<body>
+    <header> 头部</header>
+    <div>
         <aside> 侧栏</aside>
         <main> 主体</main>
-        <footer> 尾部</footer>
-    </body>
-    <!-- 或者如果在布局上需要将aside和main包起来，一定要用 div -->
-    <body>
-        <header> 头部</header>
-        <div>
-            <aside> 侧栏</aside>
-            <main> 主体</main>
-        </div>
-        <footer> 尾部</footer>
-    </body>
+    </div>
+    <footer> 尾部</footer>
+</body>
+```
 
 在页面局部中 `header` 和 `footer` 被希望放在 `article` 中，`nav` 放在 `header` 也是不错的选择，比如页面的 Tab 部分用这两个标签配合实现就有很好的语义化。
 
-    <article class="con-tab"> <!-- Tab容器 -->
-        <header>
-            <nav>
-                <button>tab title 1</button>
-                <button>tab title 2</button>
-            </nav>
-        </header>
-        <div class="con-content">
-            <article>tab content 1</article>
-            <article>tab content 2</article>
-        </div>
-    </article>
+```html
+<article class="con-tab"> <!-- Tab容器 -->
+    <header>
+        <nav>
+            <button>tab title 1</button>
+            <button>tab title 2</button>
+        </nav>
+    </header>
+    <div class="con-content">
+        <article>tab content 1</article>
+        <article>tab content 2</article>
+    </div>
+</article>
+```
 
 `main` 一个页面中只能有一个所以只能用在大的页面布局中，`section` 希望其中有 heading (`h1` - `h6`) 来识别它本身，而heading中只能放字符串不推荐放其他元素，所以`section` 的使用场景也不多。所以更多的场景是使用`article` 和 `div`，`article` 表示一个独立的结构能完整的呈现一个内容，`div`是无明确含义的标签，修饰性的 dom 结构用此标签比较好，所以一个比较通用的场景就是用 `article` 来框定一个功能或内容块，然后细节由 `div`来表达。
 
-## 与table相关的标签
+有一个比较蛋疼的事，有了 `header` 和 `footer` 却找不到中间用什么元素合适。
+
+## table及其相关的标签
+
+先上一段比较全的代码：
+
+```html
+<table>
+    <caption>表格标题</caption>
+    <colgroup>
+        <col span="2" class="columns" style="background-color:red">
+    </colgroup>
+    <thead>
+        <tr>
+            <th>列 1 头</th>
+            <th>列 2 头</th>
+            <th>列 3 头</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>列 1 内容</td>
+            <td>列 2 内容</td>
+            <td>列 3 内容</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td>列 1 尾</td>
+            <td>列 2 尾</td>
+            <td>列 3 尾</td>
+        </tr>
+    </tfoot>
+</table>
+```
+
+有用的标签：`table`、`thead`、`tbody`、`tr`、`th`、`td`，一共只有 6 个需要了解。
+
+`colgroup` 和 `col` 完全可以用样式取代，`tfoot` 使用场景很罕见也可以忽略。
 
 ## 与表单相关的标签
+
+提交数据的元素
+
+`form`、`input`、`select`、`option`、`textarea`、`button` 还有一个 `label` 也放在这里吧，实现表单元素辅助功能。
 
 ## 修饰文字的标签
 
