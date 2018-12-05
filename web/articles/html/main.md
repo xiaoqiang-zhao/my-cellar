@@ -188,11 +188,11 @@ H5的布局相关的标签一共有8个：
 
 ## 特定内容标签
 
-文本：`span` 普通文本，`b` 加粗文本，`em` 标记需要用户着重阅读的内容，`strong` 表示十分重要的内容，`mark` 突出显示的文字(例如显示搜索引擎搜索后关键词)，`small` 文本的字体变小一号，`i` 区分普通文本的一系列文本，`del` 删除文本，`dfn` 引用，`a` 链接，`address` 地址，`time` 时间，`data` 指定内容和机器可读的翻译联系在一起，`kbd` 定义需要用户用键盘输入的内容，`p` 段落，`blockquote` 块级引用，`cite` 作品的引用，`code` 计算机代码片段，`output` 计算或用户操作的结果，`samp` 标识计算机程序输出，`h1-h6` 头，`sub` 下角标，`sup` 上角标，`var` 定义变量，`q` 表示一个封闭的并且是短的行内引用的文本。
+文本：`span` 普通文本，`b` 加粗文本，`em` 标记需要用户着重阅读的内容，`strong` 表示十分重要的内容，`mark` 突出显示的文字(例如显示搜索引擎搜索后关键词)，`small` 文本的字体变小一号，`i` 区分普通文本的一系列文本，`del` 删除文本，`dfn` 引用，`a` 链接，`address` 地址，`time` 时间，`data` 指定内容和机器可读的翻译联系在一起，`kbd` 定义需要用户用键盘输入的内容，`p` 段落，`blockquote` 块级引用，`cite` 作品的引用，`code` 计算机代码片段，`output` 计算或用户操作的结果，`samp` 标识计算机程序输出，`h1-h6` 头，`sub` 下角标，`sup` 上角标，`var` 定义变量，`q` 表示一个封闭的并且是短的行内引用的文本。(共 30 个)
 
-富媒体：`img` 图片，`audio` 音频，`video` 视屏，`source` 为 audio 和 video 指定源，`track` 为 audio 和 video 指定字幕，`canvas` 画布，`embed` 将外部内容嵌入文档中的指定位置，`iframe` 引入其他页面作为页面部分内容，`meter` 已知范围的标量值或者分数值，`progress` 一项任务的完成进度。
+富媒体：`img` 图片，`audio` 音频，`video` 视屏，`source` 为 audio 和 video 指定源，`track` 为 audio 和 video 指定字幕，`canvas` 画布，`embed` 将外部内容嵌入文档中的指定位置，`iframe` 引入其他页面作为页面部分内容，`meter` 已知范围的标量值或者分数值，`progress` 一项任务的完成进度。(共 10 个)
 
-特定形式数据：`ul` 无序列表容器，`ol` 有序列表容器，`li` 列表元素(用在ul、li、menu 元素中)；`dl` 术语定义以及描述列表容器，`dt` 术语，`dd` 术语描述；`details` 和 `summary` 配合实现概述直接展示和详情展开收起切换；`figure` 定义独立的引用单元，当这部分删除时不会影响到主体，`figcaption` 来为其关联一个标题(作为它的第一个或者最后一个子元素)，`ruby` `rp` ` rt` 三个元素配合展示东亚文字注音或字符注释。
+特定形式数据：`ul` 无序列表容器，`ol` 有序列表容器，`li` 列表元素(用在ul、li、menu 元素中)；`dl` 术语定义以及描述列表容器，`dt` 术语，`dd` 术语描述；`details` 和 `summary` 配合实现概述直接展示和详情展开收起切换；`figure` 定义独立的引用单元，当这部分删除时不会影响到主体，`figcaption` 来为其关联一个标题(作为它的第一个或者最后一个子元素)，`ruby` `rp` ` rt` 三个元素配合展示东亚文字注音或字符注释。(共 13 个)
 
 ## 格式标签
 
@@ -206,17 +206,22 @@ H5的布局相关的标签一共有8个：
 
 ## 功能性标签
 
-`html` 和 `body`
+`html` 和 `body` 对应页面和内容的主要容器，有一点需要注意，这两个容器是内容自适应的，它们并不会默认填满可视窗口，但是他们的背景却会填满可视窗口(如果设置了的话)，这是这个元素特殊的地方。可以用 `min-height: 100vh;` 样式来修补这个不一致。
 
-`head`
+`head` 页面的头。
 
-`meta` 和 `title`
+`meta` 和 `title` 设置页面，可以设置页面编码和移动端高清屏适配：
 
-`link` 和 `style`
+```html
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+```
 
-`script`
+`link` 和 `style` 样式引入和定义。
 
-`noscript`
+`script` 脚本引入标签
+
+`noscript` 无脚本时呈现内部内容，可以用来做 SEO。
 
 ## 可用样式替换的标签
 
