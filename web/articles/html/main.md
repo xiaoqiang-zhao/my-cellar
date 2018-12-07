@@ -26,32 +26,36 @@
 
 `footer` 元素表示最近一个章节内容或者根节点（sectioning root ）元素的页脚。一个页脚通常包含该章节作者、版权数据或者与文档相关的链接等信息。在表格为主体的页面片段中可以这样，用来盛放分页内容或者加载中等信息：
 
-    <section>
-        <header>搜索条件区</header>
-        <table>表格主体区，这里省去内部很多元素</table>
-        <footer>
-            加载中...
-        </footer>
-    </section>
-    <!-- 或者 -->
-    <section>
-        <header>搜索条件区</header>
-        <table>表格主体区，这里省去内部很多元素</table>
-        <footer>
-            <button>上一页</button><button>下一页</button>
-        </footer>
-    </section>
+```html
+<section>
+    <header>搜索条件区</header>
+    <table>表格主体区，这里省去内部很多元素</table>
+    <footer>
+        加载中...
+    </footer>
+</section>
+<!-- 或者 -->
+<section>
+    <header>搜索条件区</header>
+    <table>表格主体区，这里省去内部很多元素</table>
+    <footer>
+        <button>上一页</button><button>下一页</button>
+    </footer>
+</section>
+```
 
 还可以放在 `article` 中作为其尾部：
- 
-    <article class="user_review">
-        <p>Way too scary for me.</p>
-        <footer>
-            <p>
-                Posted on <time datetime="2015-05-16 19:00">May 16</time> by Lisa.
-            </p>
-        </footer>
-    </article>
+
+```html
+<article class="user_review">
+    <p>Way too scary for me.</p>
+    <footer>
+        <p>
+            Posted on <time datetime="2015-05-16 19:00">May 16</time> by Lisa.
+        </p>
+    </footer>
+</article>
+```
 
 [更多解释](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/footer)
 

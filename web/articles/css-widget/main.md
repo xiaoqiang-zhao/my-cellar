@@ -48,6 +48,7 @@ font: 14px/1.5 Helvetica "PingFang SC", tahoma, arial, sans-serif;
 
 兼容 IE8 及以上：
 ```css
+/* 单行文字超出截断 */
 .text-overflow-ellipsis,
 .ellipsis {
     overflow: hidden;
@@ -59,6 +60,7 @@ font: 14px/1.5 Helvetica "PingFang SC", tahoma, arial, sans-serif;
 
 移动端方案，只兼容 webkit 内核的浏览器：
 ```css
+/* 多行文字超出截断【移动端】 */
 .line-clamp {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -71,9 +73,10 @@ font: 14px/1.5 Helvetica "PingFang SC", tahoma, arial, sans-serif;
 
 使用场景：多用于移动端页面，因为移动设备浏览器更多是基于 webkit 内核。
 
-### 多行文字超出截断【PC】
+### 多行文字超出截断【PC端】
 
 ```css
+/* 多行文字超出截断【PC端】 */
 .wrap {
     height: 40px;
     line-height: 20px;
@@ -127,6 +130,7 @@ line-clamp 属性还不是标准，还有一个 js 库可以考虑：[https://gi
 支持 IE8+
 
 ```css
+/* 大图小字 */
 .img-text-container {
     font-size: 16px;
     line-height: 40px;
@@ -150,6 +154,7 @@ line-clamp 属性还不是标准，还有一个 js 库可以考虑：[https://gi
 支持 IE8+
 
 ```css
+/* 小图大字 */
 .icon-text-container {
     font-size: 16px;
     line-height: 1em;
@@ -184,6 +189,7 @@ line-clamp 属性还不是标准，还有一个 js 库可以考虑：[https://gi
 多个标签之间间隔一个字符是常用的样式，字符 | 会因为字体的不同无法居中无法控制高度等问题，我们用伪元素画一个：
 
 ```css
+/* 文字间隔 */
 .space-item {
     display: inline-block;
     line-height: 1em;
@@ -191,10 +197,10 @@ line-clamp 属性还不是标准，还有一个 js 库可以考虑：[https://gi
 .space-item:nth-of-type(n + 2)::before {
     content: "\200B";
     display: inline-block;
-    height: 0.15em;
+    height: .15em;
     width: 1px;
-    border-bottom: 0.7em solid #f00;
-    margin: 0 0.5em;
+    border-bottom: .7em solid #f00;
+    margin: 0 .5em;
 }
 ```
 
@@ -205,6 +211,7 @@ line-clamp 属性还不是标准，还有一个 js 库可以考虑：[https://gi
 支持 IE8+
 
 ```css
+/* 数据为空&暂无权限 */
 .no-right,
 .data-empty {
     text-align: center;
@@ -229,6 +236,7 @@ line-clamp 属性还不是标准，还有一个 js 库可以考虑：[https://gi
 从网站 [http://tobiasahlin.com/spinkit/](http://tobiasahlin.com/spinkit/) 中摘取的一个样式。使用简单，只有一个元素。
 
 ```css
+/* 加载中 */
 .loading {
     width: 40px;
     height: 40px;
