@@ -6,7 +6,9 @@
 
 页面中的每一个元素在成像上都是一个长方形，而这个长方形的宽和高又受到位置相关属性的影响(如一个块元素被浮动那么可能其在宽度上不会填充满父元素)，所以我更倾向于将定位浮动等影响位置的相关属性也算在盒模型中。在 W3C 标准浏览器下：
 
-	元素的实际宽度 = width + padding + borderWidth 
+```css
+元素的实际宽度 = width + padding + borderWidth 
+```
 
 高度同理。
 
@@ -24,64 +26,69 @@
 
 对应 [Demo链接](/articles/css-box-model/demo/x-scroll.html)，全部的 CSS 代码：
 
-	html {
-		background: #23CC41;
-	}
-	body {
-		margin: 0;
-		text-align: center;
-	}
-	header {
-		background: #cc9;
-		line-height: 4em;
-	}
-	.main {
-		line-height: 200px;
-		margin: 5px;
-		background: #333;
-		color: #fff;
-	}
-	.main div {
-		position: absolute;
-		display: inline-block;
-		padding: 5px;
-		line-height: 3em;
-		background: #6B6969;
-	}
-	.main .right {
-		right: -20px;
-	}
-	.main .left {
-		left: -20px;
-	}
-	.main .bottom {
-		bottom: -20px;
-	}	
-
+```css
+html {
+	background: #23CC41;
+}
+body {
+	margin: 0;
+	text-align: center;
+}
+header {
+	background: #cc9;
+	line-height: 4em;
+}
+.main {
+	line-height: 200px;
+	margin: 5px;
+	background: #333;
+	color: #fff;
+}
+.main div {
+	position: absolute;
+	display: inline-block;
+	padding: 5px;
+	line-height: 3em;
+	background: #6B6969;
+}
+.main .right {
+	right: -20px;
+}
+.main .left {
+	left: -20px;
+}
+.main .bottom {
+	bottom: -20px;
+}
+```
 关键 DOM 部分代码
 
-	<body>
-        <header>
-            header
-        </header>
-        <div class="main">
-            main
-            <div class="left"> left </div>
-            <div class="right"> right </div>
-            <!--<div class="top"> top </div>-->
-            <div class="bottom"> bottom </div>
-        </div>
-        <div class="footer">
-            footer
-        </div>
-    </body>
+```html
+<body>
+	<header>
+		header
+	</header>
+	<div class="main">
+		main
+		<div class="left"> left </div>
+		<div class="right"> right </div>
+		<!--<div class="top"> top </div>-->
+		<div class="bottom"> bottom </div>
+	</div>
+	<div class="footer">
+		footer
+	</div>
+</body>
+```
 
 `html` 是一个很特别的元素，当它的内部元素由于不折行或者绝对定位发生溢出时，其宽度属性对背景和超出隐藏属性表现为溢出后的宽度，但对内部的 `body` 元素的宽度表现为 window 的宽度。补充一点固定定位不会产生溢出：
 
-	{
-		position: fixed;
-		right: -50px;
-	}
+```css
+{
+	position: fixed;
+	right: -50px;
+}
+```
 
 这样定义的元素不会产生横向滚动条，上面 Demo 中的 Right 块采取绝对定位 `position: absolute;` 会使浏览器产生横向滚动条，这一点在做“回到顶部”这类页面组件动画时很有用。
 
@@ -89,18 +96,30 @@
 
 在页面中提高度，不管是一个元素的高度，还是整个页面的高度，就不得不提到三种溢出方式：定位溢出，负外边距溢出，外边距底部溢出(由于字符串的不折行溢出不会影响其他元素的布局，所以这里暂时将其忽略)。这里的溢出指子元素在呈现上没有被父元素完全包围，如“定位溢出”的关键代码如下：
 
+```css
+{
 	position: absolute;
 	bottom: -50px;
+}
+```
 
 由于绝对定位的关系，子元素的一部分必然会父元素从下部伸出，由于绝对定位已经脱离了文档流所以直接计算比较困难。
 
 “负边距溢出”的关键代码如下：
 
+```css
+{
 	margin-bottom: -50px;
+}
+```
 
 “外边距底部溢出”的关键代码如下：
 
+```css
+{
 	margin-bottom: 50px;
+}
+```
 
 在容器没有设置 `overflow: hidden;` 或者边框时外边距才会底部溢出(其他方向不溢出)。
 
@@ -121,18 +140,20 @@
 
 `html` 的高度默认情况下不会与 window 的高度相同，也就是在高度上 `html` 不会将 window 填充满，所以在处理“版权信息”这种模块时可以这样处理：
 
-	html {
-        position: relative;
-        box-sizing: border-box;
-        min-height: 100%;
-        padding-bottom: 30px; /* 与 footer 的高度要相同 */
-    }
-    .footer {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        line-height: 30px;
-    }
+```css
+html {
+	position: relative;
+	box-sizing: border-box;
+	min-height: 100%;
+	padding-bottom: 30px; /* 与 footer 的高度要相同 */
+}
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	line-height: 30px;
+}
+```
 
 页面内容不满一屏时“版权信息”在最下面，页面内容超过一屏时滚动条滑到最底部显示“版权信息”，详细代码和展示参见 Demo：
 [内容小于一屏](/articles/css-box-model/demo/footer.html)，
@@ -181,47 +202,51 @@ flex 定义在弹性布局子项的元素上，属性值有两组：
 
 在容器空间充足的时候有这样的例子：
 
-	.con {
-		display: -webkit-flex;
-		display: flex;
-	}
-	.con1 {
-		width: 1000px;
-		margin-bottom: 2px;
-	}
-	.con > .item {
-		background: #cc9;
-		padding: 1em 0;
-		line-height: 1.5em;
-		text-align: center;
-		color: white;
-	}
-	.con > .item:nth-child(1),
-	.con > .item:nth-child(3) {
-		background: #40a070;
-	}
-	.con > .item:nth-child(1) {
-		-webkit-flex: 1 1 300px;
-		flex: 1 1 300px;
-		/*等价于 flex: 1 300px; 但是 IE10 对这样的简写解析会有问题*/
-	}
-	.con > .item:nth-child(2) {
-		-webkit-flex: 2 1 300px;
-		flex: 2 1 300px;
-	}
-	.con > .item:nth-child(3) {
-		-webkit-flex: 1 2 300px;
-		flex: 1 2 300px;
-		background: #40a070;
-	}
+```css
+.con {
+	display: -webkit-flex;
+	display: flex;
+}
+.con1 {
+	width: 1000px;
+	margin-bottom: 2px;
+}
+.con > .item {
+	background: #cc9;
+	padding: 1em 0;
+	line-height: 1.5em;
+	text-align: center;
+	color: white;
+}
+.con > .item:nth-child(1),
+.con > .item:nth-child(3) {
+	background: #40a070;
+}
+.con > .item:nth-child(1) {
+	-webkit-flex: 1 1 300px;
+	flex: 1 1 300px;
+	/*等价于 flex: 1 300px; 但是 IE10 对这样的简写解析会有问题*/
+}
+.con > .item:nth-child(2) {
+	-webkit-flex: 2 1 300px;
+	flex: 2 1 300px;
+}
+.con > .item:nth-child(3) {
+	-webkit-flex: 1 2 300px;
+	flex: 1 2 300px;
+	background: #40a070;
+}
+```
 
 容器宽度 1000，先为三个子项各分配 300，剩余 100，按 flex 的第一个值给出的 1:2:1 分配，实际表现为25:50:25，所以最后三个元素的宽度分别为 (300+25)，(300+50)，(300+25) = 325，350，325.
 
 当空间不够时(其余代码和上面一样)：
 
-	.con2 {
-		width: 800px;
-	}
+```css
+.con2 {
+	width: 800px;
+}
+```
 
 容器宽度 800，每个子项 300 缺 100，按 flex 的第二个值给出的分配比例1:1:2，实际表现为25:25:50，所以最后三个元素的宽度分别为 (300-25)，(300-25)，(300-50) = 275，275，250.
 
