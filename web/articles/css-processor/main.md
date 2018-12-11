@@ -100,6 +100,70 @@ module: {
 
 [using postcss together with sass stylus or less](http://webdesign.tutsplus.com/tutorials/using-postcss-together-with-sass-stylus-or-less--cms-24591)
 
+## 你需要掌握的点
+
+以 Less 为例，你最起码要知道下面这几条语法和套路。
+
+### 变量
+
+```css
+@nice-blue: #5B83AD;
+@light-blue: @nice-blue + #111;
+
+#header {
+  color: @light-blue;
+}
+```
+
+变量是存在作用域的，和 js 类似。
+
+### mixins
+
+```css
+.bordered {
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+}
+#menu a {
+  color: #111;
+  .bordered;
+}
+```
+混合的作用在大多数场景中可以被组合替代。
+
+### 函数
+
+```css
+@base: #f04615;
+@width: 0.5;
+
+.class {
+  width: percentage(@width); // returns `50%`
+  color: saturate(@base, 5%);
+  background-color: spin(lighten(@base, 25%), 8);
+}
+```
+
+用来做单位转换等工作。
+
+### 推荐书写顺序
+
+```css
+@import "est/all.less";
+
+@default-text-color: #333;
+
+.page {
+    width: 960px;
+    margin: 0 auto;
+}
+```
+
+按这种顺序书写更易读：
+- 1、@import
+- 2、变量声明
+- 3、样式声明
+
 ## 扩展资料
 
 [再谈 CSS 预处理器](http://efe.baidu.com/blog/revisiting-css-preprocessors/)
