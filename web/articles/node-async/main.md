@@ -497,7 +497,7 @@ async function task() {
 
 如果需要关注具体数哪一步出了问题，可以给每个 promise 加上 catch。
 
-### 顺序 & 并行
+### 顺序 VS 并行
 
 async/await 在处理“后面的异步需要等前面的异步返回结果后再执行”这种情况更为顺畅，分支逻辑也更好控制。如果是多个异步并行执行，可以借助 Promise.all 来实现，也可以先执行异步函数并用临时变量存储返回值，然后在每个返回值前添加 await。
 
@@ -511,6 +511,28 @@ let barPromise = getBar();
 let foo = await fooPromise;
 let bar = await barPromise;
 ```
+
+## 宏任务 VS 微任务
+
+先看下面一段代码：
+
+```js
+console.log('1');
+
+setTimeout(function() {
+  console.log('2');
+}, 0);
+
+Promise.resolve().then(function() {
+  console.log('3');
+}).then(function() {
+  console.log('4');
+});
+
+console.log('5');
+```
+
+执行结果是 `1 5 3 4 2`，我们称 `3 4` 的任务为微任务，`2` 是宏任务。Promise 的引入使事件池中的任务分成了这两种，先判断微任务是否可执行，如果可执行立即执行，再判断宏任务是否可执行。
 
 ## 总结
 
