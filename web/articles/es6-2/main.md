@@ -362,23 +362,6 @@ const proxy = new Proxy(target, handler);
 proxy.getDate() // 1
 ```
 
-下面是有问题的代码：
-```js
-const target = new Date('2015-01-01');
-const handler = {
-  get(target, key, receiver) {
-    if (key === 'getMonth') {
-      // 重点在下面
-      return target.getMonth.bind(target) + 1;
-    }
-    return Reflect.get(target, key, receiver);
-  }
-};
-const proxy = new Proxy(target, handler);
-
-proxy.getMonth() // 1
-```
-
 ## Reflect
 
 设计意图：
@@ -402,84 +385,90 @@ Iterator的作用有三个：
 
 一些数据结构原生部署了 Symbol.iterator 属性，比如 Array；另一些没有部署，比如 Object。我们可以为 Object 手动部署 Symbol.iterator 属性，也可以复写 Array 的 Symbol.iterator 属性：
 
-    var obj = {};
-    for (let i of obj) {
-      console.log(i);
-    }
-    // 上面这段代码是会报错的：obj[Symbol.iterator] is not a function
-    
-    // 如果我们这样改写：
-    var count = 0;
-    var doneCount = 5;
-    var obj = {
-      [Symbol.iterator]: () => {
+```js
+var obj = {};
+for (let i of obj) {
+  console.log(i);
+}
+// 上面这段代码是会报错的：obj[Symbol.iterator] is not a function
+
+// 如果我们这样改写：
+var count = 0;
+var doneCount = 5;
+var obj = {
+  [Symbol.iterator]: () => {
+    return {
+      next: function () {
         return {
-          next: function () {
-            return {
-              value: count++,
-              done: count === doneCount
-            };
-          }
+          value: count++,
+          done: count === doneCount
         };
       }
     };
-    for (let i of obj) {
-        console.log(i);
-    }
-    // 就可以输出结果：0  1  2  3
+  }
+};
+for (let i of obj) {
+    console.log(i);
+}
+// 就可以输出结果：0  1  2  3
+```
 
 为什么是 "0  1  2  3" 而不是 "0  1  2  3  4"，这个和 value 与 done 属性的顺序还有关，规范中没有给出相关解释。写代打是将 done 写在前面更容易理解。复写 Array 实例的方法如下面所示：
 
-    // 如果我们这样改写：
-    var count = 0;
-    var doneCount = 5;
-    var arr = [];
-    arr[Symbol.iterator] = function () {
+```js
+// 如果我们这样改写：
+var count = 0;
+var doneCount = 5;
+var arr = [];
+arr[Symbol.iterator] = function () {
+  return {
+    next: function () {
       return {
-        next: function () {
-          return {
-            done: count === doneCount,
-            value: count++
-          };
-        }
+        done: count === doneCount,
+        value: count++
       };
-    };
-    for (let i of arr) {
-        console.log(i);
     }
-    // 就可以输出结果：0  1  2  3  4
+  };
+};
+for (let i of arr) {
+    console.log(i);
+}
+// 就可以输出结果：0  1  2  3  4
+```
 
 除了 next 方法还有一个 return 方法(方法名就叫"return")，在"遍历异常退出、有 break 或 continue 的人为退出或跳跃" 这 2 中情况下便利器都会调用 return 方法，另外 return 方法的返回值必须是一个对象。
 
-    // 如果我们这样改写：
-    var count = 0;
-    var doneCount = 5;
-    var arr = [];
-    arr[Symbol.iterator] = function () {
+```js
+// 如果我们这样改写：
+var count = 0;
+var doneCount = 5;
+var arr = [];
+arr[Symbol.iterator] = function () {
+  return {
+    next: function () {
       return {
-        next: function () {
-          return {
-            done: count === doneCount,
-            value: count++
-          };
-        },
-        return: function () {
-          console.log('调用return方法, count:' + count);
-          return {
-            done: true
-          };
-        }
+        done: count === doneCount,
+        value: count++
       };
-    };
-    for (let i of arr) {
-      console.log(i);
-      if (count === 2) {
-        // throw new Error();   // 调用return方法, count:2
-        // break;               // 调用return方法, count:2
-      }
-      continue;                 // 调用return方法, count:6
+    },
+    return: function () {
+      console.log('调用return方法, count:' + count);
+      return {
+        done: true
+      };
     }
-        
+  };
+};
+for (let i of arr) {
+  console.log(i);
+  if (count === 2) {
+    // throw new Error();   // 调用return方法, count:2
+    // break;               // 调用return方法, count:2
+  }
+  continue;                 // 调用return方法, count:6
+}
+```
+
 调用Iterator接口的场合:
 
 - 解构赋值
@@ -487,3 +476,7 @@ Iterator的作用有三个：
 - yield
 - for...of
 - 特定数据类型的特定方法：Array.from() Map(), Set(), WeakMap(), WeakSet(), Promise.all(), Promise.race()
+
+## 扩展阅读
+
+[for..in 和 for..of](https://www.zhangxinxu.com/wordpress/2018/08/for-in-es6-for-of/)
