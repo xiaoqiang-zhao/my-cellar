@@ -21,3 +21,7 @@ Access-Control-Allow-Origin:http:*
 Access-Control-Allow-Origin:http://www.baidu.com
 
 Access-Control-Allow-Methods:POST
+
+## 参考
+
+https://juejin.im/post/5afad7f16fb9a07abf72ac30
