@@ -87,3 +87,114 @@ locaStorage 的作用域限定在文档源级别的（意思就是同源的才�
 
 ## sessionStorage
 
+sessionStorage 是 web 存储机制的另一大对象，与 locaStorage 不同的是如果用户关闭当前会话页或浏览器存储在其中的数据就会被清除。
+
+基本用法和优缺点和 locaStorage 大同小异，这里不再赘述。
+
+## IndexedDB
+
+### 概述
+
+用于存储更大量的结构化数据，并提供索引功能以实现高性能查找。它一般用于保存大量用户数据并要求数据之间有搜索需要的场景，当网络断开时，用户就可以做一些离线的操作。它较之 SQL 更为方便，不需要写一些特定的语法对数据进行操作，数据格式是 JSON。
+
+### 代码
+
+使用IndexedDB在浏览器端存储数据会比上述的其他方法更为复杂。首先，我们需要创建数据库，并指定这个数据库的版本号：
+
+```js
+// 注意数据库的版本号只能是整数
+const request = IndexedDB.open(databasename, version);
+```
+
+然后我们需要生成处理函数，需要注意的是 onupgradeneeded 是我们唯一可以修改数据库结构的地方。在这里面，我们可以创建和删除对象存储空间以及构建和删除索引。 
+
+```js
+request.onerror = function() {
+	// 创建数据库失败时的回调函数
+}
+request.onsuccess = function() {
+	// 创建数据库成功时的回调函数
+}
+request.onupgradeneededd = function(e) {
+	// 当数据库改变时的回调函数
+}
+```
+
+然后我们就可以建立对象存储空间了，对象存储空间仅调用 `createObjectStore()` 就可以创建。这个方法使用存储空间的名称，和一个对象参数。即便这个参数对象是可选的，它还是非常重要的，因为它可以让我们定义重要的可选属性和完善你希望创建的对象存储空间的类型。
+
+```js
+request.onupgradeneeded = function(event) {
+	const db = event.target.result
+	const objectStore = db.createObjectStore('name', { keyPath:'id' })
+}
+```
+
+对象的存储空间我们已经建立好了，接下来我们就可以进行一系列操作了，比如添加数据：
+
+```js
+addData: function(db, storename, data) {
+	const store = db.transaction(storename, 'readwrite').objectStore(storename);
+	for(let i = 0; i < data.length; i++) {
+		const request = store.add(data[i])
+		request.onerror = function() {
+			console.error('添加数据失败');
+		}
+		request.onsuccess = function() {
+			console.log('添加数据成功');
+		}
+	}
+}
+```
+
+如果我们想要修改数据，语法与添加数据差不多，因为重复添加已存在的数据会更新原本的数据，但还是有细小的差别：
+
+```js
+putData: function(db, storename, data) {
+	const store = store = db.transaction(storename, 'readwrite').objectStore(storename)
+	for(let i = 0; i < data.length; i++) {
+		const request = store.put(data[i])
+		request.onerror = function() {
+			console.error('修改数据失败')
+		}
+		request.onsuccess = function() {
+			console.log('修改数据成功')
+		}
+	}
+}
+```
+
+获取数据：
+
+```js
+getDataByKey: function(db, storename, key) {
+	const store = store = db.transaction(storename, 'readwrite').objectStore(storename)
+	const request = store.get(key)
+	request.onerror = function() {
+		console.error('获取数据失败')
+	}
+	request.onsuccess = function(e) {
+		const result = e.target.result
+		console.log(result)
+	}
+}
+```
+
+删除数据：
+
+```js
+deleteDate: function(db, storename, key) {
+	const store = store = db.transaction(storename, 'readwrite').objectStore(storename)
+	store.delete(key)
+	console.log('已删除存储空间' + storename + '中的' + key + '纪录')
+}
+```
+
+关闭数据库：
+
+```js
+db.close();
+```
+
+## 参考
+
+[掘金](https://juejin.im/post/5aeaf545518825673b61ddc8)
