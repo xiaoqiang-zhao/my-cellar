@@ -95,6 +95,42 @@ axios.interceptors.response.use(function (response) {
     return Promise.reject(error);
 });
 ```
+
+## vue-router 登录控制
+
+后台系统中大多数页面都是登录后才能访问的，这里做了全局的拦截，只有登录后才能访问。
+
+```js
+router.beforeEach(function (to, from, next) {
+    // // 未找到匹配页面
+    const isLogined = utiles.getCurrentUser() !== null;
+    const noLoginedPagesPath = [
+        '/login',
+        '/register',
+        '/reset-pwd'
+    ];
+    // 登录状态下默认到 “患者建档页”
+    if (isLogined) {
+        if (to.path === '/' || noLoginedPagesPath.indexOf(to.path) !== -1) {
+            next({
+                replace: true,
+                // 登录后默认首页
+                path: '/create-patient-record'
+            });
+        }
+    }
+    // 非登陆状态下，noLoginedPagesPath 以外的一面只能到登陆页
+    else if (noLoginedPagesPath.indexOf(to.path) === -1) {
+        next({
+            path: '/login'
+        });
+    }
+    else {
+        next();
+    }
+});
+```
+
 ## 404 页面
 
 如果地址做了修改没有匹配到相应的页面模块，默认会出空白页面，这时我们需要有一个像传统多页面网站那样的 404 页面，可以添加这么一段检测路由匹配的代码：
@@ -110,7 +146,7 @@ router.beforeEach(function (to, from, next) {
             }
         });
     }
-}
+});
 ```
 404 页面和普通的页面没有什么区别，这里简单示意一下：
 
