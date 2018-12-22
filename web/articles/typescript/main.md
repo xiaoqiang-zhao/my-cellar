@@ -25,11 +25,11 @@ Angular 也从 2.0 开始采用 TS 编写，三大 MVVM 框架有两个用 ts �
 
 后面的学习 Demo 都在开源项目 [typescript-study](https://github.com/xiaoqiang-zhao/typescript-study) 中编写。文件目录结构也简单明了：
 
-${typescript-study}
-├── build 构建和启动开发环境
-└── src   源码
-    ├── main.js 入口文件
-    └── ts      ts demo 源码
+    ${typescript-study}
+    ├── build 构建和启动开发环境
+    └── src   源码
+        ├── main.js   入口文件
+        └── ts-demo   ts demo 源码
 
 demo 源码和 ts 官方文档一一对应。
 
