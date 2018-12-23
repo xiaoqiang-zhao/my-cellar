@@ -133,6 +133,138 @@ let someValue: any = "this is a string";
 let strLength: number = (someValue as string).length;
 ```
 
+## 变量声明
+
+这一段主要讲的 let const 以及解构和 ES6 基本相同，这里就不再歪歪一遍了。
+
+## 接口约束
+
+```js
+function printLabel(labelledObj: { label: string }) {
+  console.log(labelledObj.label);
+}
+
+let myObj = { size: 10, label: "Size 10 Object" };
+printLabel(myObj);
+```
+
+上面代码中 printLabel 函数要求入参书一个含有 label 属性的对象(只约束必要参数，多出其他属性是可以的)，如果要把这个约束抽象出来，那就是“接口约束”:
+
+```js
+interface LabelledValue {
+  label: string;
+}
+
+function printLabel(labelledObj: LabelledValue) {
+  console.log(labelledObj.label);
+}
+
+let myObj = {size: 10, label: "Size 10 Object"};
+printLabel(myObj);
+```
+
+除了必须属性，还可以设置可选属性：
+
+```js
+interface SquareConfig {
+  color?: string;
+  width?: number;
+}
+
+function createSquare(config: SquareConfig): {color: string; area: number} {
+  let newSquare = {color: "white", area: 100};
+  if (config.color) {
+    newSquare.color = config.color;
+  }
+  if (config.width) {
+    newSquare.area = config.width * config.width;
+  }
+  return newSquare;
+}
+
+let mySquare = createSquare({color: "black"});
+```
+
+`{color: string; area: number}` 这一段是定义函数的返回值。
+
+只读对象，一些对象属性只能在对象刚刚创建的时候修改其值。 你可以在属性名前用 readonly来指定只读属性:
+
+```js
+interface Point {
+    readonly x: number;
+    readonly y: number;
+}
+```
+
+你可以通过赋值一个对象字面量来构造一个Point。 赋值后， x和y再也不能被改变了。
+
+```js
+let p1: Point = { x: 10, y: 20 };
+p1.x = 5; // error!
+```
+
+只读数组，ReadonlyArray<T>类型，它与Array<T>相似，只是把所有可变方法去掉了，因此可以确保数组创建后再也不能被修改：
+
+```js
+let a: number[] = [1, 2, 3, 4];
+let ro: ReadonlyArray<number> = a;
+ro[0] = 12; // error!
+ro.push(5); // error!
+ro.length = 100; // error!
+a = ro; // error!
+```
+
+readonly vs const，最简单判断该用 readonly 还是 const 的方法是看要把它做为变量使用还是做为一个属性。 做为变量使用的话用 const，若做为属性则使用 readonly。
+
+额外的属性检查：
+
+```js
+interface SquareConfig {
+    color?: string;
+    width?: number;
+}
+
+function createSquare(config: SquareConfig): { color: string; area: number } {
+    // ...
+}
+
+let mySquare = createSquare({ colour: "red", width: 100 });
+// error: 'colour' not expected in type 'SquareConfig'
+```
+
+注意传入 createSquare 的参数拼写为 colour 而不是 color。 在 JavaScript 里，这会默默地失败。虽然绕过去的方式有很多，但是推荐将函数入参定义完整。
+
+函数类型，定义函数入参和出参的接口：
+
+```js
+interface SearchFunc {
+  (source: string, subString: string): boolean;
+}
+```
+
+我们可以这样使用，函数的参数名不需要与接口里定义的名字相匹配：
+
+```js
+let mySearch: SearchFunc;
+mySearch = function(src: string, sub: string): boolean {
+  let result = src.search(sub);
+  return result > -1;
+}
+```
+
+可索引的类型，可以定义返回数组中某一数据类型项：
+
+```js
+interface StringArray {
+  [index: number]: string;
+}
+
+let myArray: StringArray;
+myArray = ["Bob", "Fred"];
+
+let myStr: string = myArray[0];
+```
+
 ## 参考
 
 [官网](http://www.typescriptlang.org/)
