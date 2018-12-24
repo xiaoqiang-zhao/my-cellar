@@ -265,6 +265,114 @@ myArray = ["Bob", "Fred"];
 let myStr: string = myArray[0];
 ```
 
+强制一个类区符合某种规则：
+
+```js
+interface ClockInterface {
+    currentTime: Date;
+    setTime(d: Date);
+}
+class Clock implements ClockInterface {
+    currentTime: Date;
+    setTime(d: Date) {
+        this.currentTime = d;
+    }
+    constructor(h: number, m: number) {
+        // ...
+    }
+}
+const clockNow = new Cloce
+```
+
+继承接口，和类一样，接口也可以相互继承。 这让我们能够从一个接口里复制成员到另一个接口里，可以更灵活地将接口分割到可重用的模块里。
+
+```js
+interface Shape {
+    color: string;
+}
+
+interface Square extends Shape {
+    sideLength: number;
+}
+
+let square = <Square>{};
+square.color = "blue";
+square.sideLength = 10;
+```
+
+一个接口可以继承多个接口，创建出多个接口的合成接口。
+
+```js
+interface Shape {
+    color: string;
+}
+
+interface PenStroke {
+    penWidth: number;
+}
+
+interface Square extends Shape, PenStroke {
+    sideLength: number;
+}
+
+let square = <Square>{};
+square.color = "blue";
+square.sideLength = 10;
+square.penWidth = 5.0;
+```
+
+混合类型，先前我们提过，接口能够描述 JavaScript 里丰富的类型。 因为JavaScript其动态灵活的特点，有时你会希望一个对象可以同时具有上面提到的多种类型。
+
+```js
+interface Counter {
+    (start: number): string;
+    interval: number;
+    reset(): void;
+}
+
+function getCounter(): Counter {
+    let counter = <Counter>function (start: number) {
+        return 'str';
+    };
+    counter.interval = 123;
+    counter.reset = function () { };
+    return counter;
+}
+
+let c = getCounter();
+c(10);
+c.reset();
+c.interval = 5.0;
+console.log('c:', c);
+```
+
+接口继承类，当接口继承了类，类的属性也被接口继承，基于接口定义一个新的类时被继承的类的属性需要被重新实现：
+
+```js
+class Control {
+    private state: any;
+}
+
+interface SelectableControl extends Control {
+    select(): void;
+}
+
+class Button extends Control implements SelectableControl {
+    select() { }
+}
+
+class TextBox extends Control {
+    select() { }
+}
+
+// 错误：“Image”类型缺少“state”属性。
+class Image implements SelectableControl {
+    select() { }
+}
+```
+
+当接口 SelectableControl 集成了 Control 时，用 SelectableControl 直接约束 Image 时需要重新定义 Control 的私有属性 state。
+
 ## 参考
 
 [官网](http://www.typescriptlang.org/)
