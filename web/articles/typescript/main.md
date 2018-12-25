@@ -373,6 +373,46 @@ class Image implements SelectableControl {
 
 当接口 SelectableControl 集成了 Control 时，用 SelectableControl 直接约束 Image 时需要重新定义 Control 的私有属性 state。
 
+## 类
+
+类的声明和使用：
+
+```js
+class Greeter {
+    greeting: string;
+    constructor(message: string) {
+        this.greeting = message;
+    }
+    greet() {
+        return "Hello, " + this.greeting;
+    }
+}
+
+let greeter = new Greeter("world");
+```
+
+类的继承：
+
+```js
+class Animal {
+    move(distanceInMeters: number = 0) {
+        console.log(`Animal moved ${distanceInMeters}m.`);
+    }
+}
+
+class Dog extends Animal {
+    bark() {
+        console.log('Woof! Woof!');
+    }
+}
+
+const dog = new Dog();
+dog.bark();
+dog.move(10);
+dog.bark();
+```
+
+
 ## 参考
 
 [官网](http://www.typescriptlang.org/)
