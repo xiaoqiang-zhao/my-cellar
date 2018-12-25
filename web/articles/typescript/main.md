@@ -412,6 +412,99 @@ dog.move(10);
 dog.bark();
 ```
 
+公共私有与受保护的修饰符，在 ts 里成员都默认为公共(public)，与公共相对的就是私有(private)，当成员被标记成 private 时，它就不能在声明它的类的外部访问。
+
+```js
+class Animal {
+    public move(distanceInMeters: number) {
+        console.log(`${this.name} moved ${distanceInMeters}m.`);
+    };
+    private name: string;
+    constructor(theName: string) { this.name = theName; }
+}
+
+new Animal("Cat").name; // 错误: 'name' 是私有的.
+```
+
+受保护属性(protected)，protected 修饰符与 private 修饰符的行为很相似，但有一点不同， protected成员在派生类中仍然可以访问。
+
+```js
+class Person {
+    protected name: string;
+    constructor(name: string) { this.name = name; }
+}
+
+class Employee extends Person {
+    private department: string;
+
+    constructor(name: string, department: string) {
+        super(name)
+        this.department = department;
+    }
+
+    public getElevatorPitch() {
+        return `Hello, my name is ${this.name} and I work in ${this.department}.`;
+    }
+}
+
+let howard = new Employee("Howard", "Sales");
+console.log(howard.getElevatorPitch());
+```
+
+你可以使用 readonly 关键字将属性设置为只读的。只读属性必须在声明时或构造函数里被初始化。
+
+```js
+class Octopus {
+    readonly name: string;
+    readonly numberOfLegs: number = 8;
+    constructor (theName: string) {
+        this.name = theName;
+    }
+}
+let dad = new Octopus("Man with the 8 strong legs");
+dad.name = "Man with the 3-piece suit"; // 错误! name 是只读的.
+```
+
+存取器，存取器要求你将编译器设置为输出ECMAScript 5或更高。 不支持降级到ECMAScript 3。 
+
+```js
+class Employee {
+    private _fullName: string;
+
+    get fullName(): string {
+        return this._fullName;
+    }
+
+    set fullName(newName: string) {
+        this._fullName = newName;
+    }
+}
+```
+
+静态属性，存在于类本身上面而不是类的实例上。
+
+```js
+class Grid {
+    static origin = {x: 0, y: 0};
+    calculateDistanceFromOrigin(point: {x: number; y: number;}) {
+        let xDist = (point.x - Grid.origin.x);
+        let yDist = (point.y - Grid.origin.y);
+        return Math.sqrt(xDist * xDist + yDist * yDist) / this.scale;
+    }
+    constructor (public scale: number) { }
+}
+```
+
+抽象类，做为其它派生类的基类使用，抽象类中的抽象方法不包含具体实现并且必须在派生类中实现。 
+
+```js
+abstract class Animal {
+    abstract makeSound(): void;
+    move(): void {
+        console.log('roaming the earch...');
+    }
+}
+```
 
 ## 参考
 
