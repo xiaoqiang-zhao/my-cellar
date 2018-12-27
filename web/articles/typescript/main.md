@@ -506,6 +506,62 @@ abstract class Animal {
 }
 ```
 
+## 函数
+
+为函数定义类型，指定入参的类型和返回值类型：
+
+```js
+function add(x: number, y: number): number {
+    return x + y;
+}
+```
+
+可选参数和默认参数：
+
+```js
+function buildName(firstName: string, lastName?: string) {
+    if (lastName)
+        return firstName + " " + lastName;
+    else
+        return firstName;
+}
+function buildName(firstName: string, lastName = "Smith") {
+    return firstName + " " + lastName;
+}
+```
+
+剩余参数，某些场景下你需要同时操作多个参数，或者你并不知道会有多少参数传递进来。 在JavaScript里，你可以使用 arguments来访问所有传入的参数。在TypeScript里，你可以把所有参数收集到一个变量里：
+
+```js
+function buildName(firstName: string, ...restOfName: string[]) {
+  return firstName + " " + restOfName.join(" ");
+}
+
+let employeeName = buildName("Joseph", "Samuel", "Lucas", "MacKinzie");
+```
+
+重载，JavaScript本身是个动态语言。 JavaScript里函数根据传入不同的参数而返回不同类型的数据是很常见的。
+
+```js
+let suits = ["hearts", "spades", "clubs", "diamonds"];
+
+function pickCard(x: {suit: string; card: number; }[]): number;
+function pickCard(x: number): {suit: string; card: number; };
+function pickCard(x): any {
+    // Check to see if we're working with an object/array
+    // if so, they gave us the deck and we'll pick the card
+    if (typeof x == "object") {
+        let pickedCard = Math.floor(Math.random() * x.length);
+        return pickedCard;
+    }
+    // Otherwise just let them pick the card
+    else if (typeof x == "number") {
+        let pickedSuit = Math.floor(x / 13);
+        return { suit: suits[pickedSuit], card: x % 13 };
+    }
+}
+```
+
 ## 参考
 
 [官网](http://www.typescriptlang.org/)
