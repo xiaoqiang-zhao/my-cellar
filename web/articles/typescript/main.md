@@ -593,6 +593,70 @@ function loggingIdentity<T>(arg: Array<T>): Array<T> {
 }
 ```
 
+## 枚举
+
+使用枚举我们可以定义一些带名字的常量。 使用枚举可以清晰地表达意图或创建一组有区别的用例。 TypeScript支持数字的和基于字符串的枚举。
+
+```js
+enum Direction {
+    Up = 1,
+    Down,
+    Left,
+    Right
+}
+```
+
+Up使用初始化为 1。 其余的成员会从 1开始自动增长。 换句话说， Direction.Up的值为 1， Down为 2， Left为 3， Right为 4。
+
+不使用初始化器:
+
+```js
+enum Direction {
+    Up,
+    Down,
+    Left,
+    Right,
+}
+```
+
+Up的值为 0， Down的值为 1等等。 当我们不在乎成员的值的时候，这种自增长的行为是很有用处的，但是要注意每个枚举成员的值都是不同的。
+
+枚举的使用：
+
+```js
+enum Response {
+    No = 0,
+    Yes = 1,
+}
+
+function respond(recipient: string, message: Response): void {
+    // ...
+}
+
+respond("Princess Caroline", Response.Yes)
+```
+
+字符串枚举:
+
+```js
+enum Direction {
+    Up = "UP",
+    Down = "DOWN",
+    Left = "LEFT",
+    Right = "RIGHT",
+}
+```
+
+除了创建一个以属性名做为对象成员的对象之外，数字枚举成员还具有了反向映射，从枚举值到枚举名字。 例如，在下面的例子中：
+
+```js
+enum Enum {
+    A
+}
+let a = Enum.A;
+let nameOfA = Enum[a]; // "A"
+```
+
 ## 参考
 
 [官网](http://www.typescriptlang.org/)
