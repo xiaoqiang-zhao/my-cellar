@@ -657,6 +657,16 @@ let a = Enum.A;
 let nameOfA = Enum[a]; // "A"
 ```
 
+## 类型推论
+
+除了主动声明变量类型，变量初始化赋值时会根据值得类型确定变量类型：
+
+```js
+let num = 3;
+num = 'a'; // 有语法问题
+```
+
+
 ## 参考
 
 [官网](http://www.typescriptlang.org/)
