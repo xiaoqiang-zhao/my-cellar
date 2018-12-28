@@ -562,6 +562,37 @@ function pickCard(x): any {
 }
 ```
 
+## 泛型
+
+一种约束，一种方法使返回值的类型与传入参数的类型是相同的。
+
+```js
+function identity<T>(arg: T): T {
+    return arg;
+}
+```
+
+使用时可以指定参数类型(当让这就同时指定了返回值类型)：
+
+```js
+let output = identity<string>("myString");
+```
+
+还可以不指定参数类型：
+
+```js
+let output = identity("myString");
+```
+
+引伸用法是使用泛型变量，返回数组并且数组元素的类型与入参类型一致：
+
+```js
+function loggingIdentity<T>(arg: Array<T>): Array<T> {
+    console.log(arg.length);
+    return arg;
+}
+```
+
 ## 参考
 
 [官网](http://www.typescriptlang.org/)
