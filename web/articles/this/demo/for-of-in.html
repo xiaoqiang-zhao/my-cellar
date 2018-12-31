@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head lang="zh-cn">
+        <meta charset="UTF-8">
+        <script>
+            function A() {
+                this.aa = 11;
+            }
+            A.prototype = {
+                a: 1
+            };
+
+            const a = new A();
+            console.log('---- for in ----');
+            for (let key in a) {
+                console.log(key);
+            }
+
+            console.log('---- for in, hasOwnProperty ----');
+            for (let key in a) {
+                if (a.hasOwnProperty(key)) {
+                    console.log(key);
+                }
+            }
+
+            console.log('---- for of ----');
+            for (let key of Object.keys(a)) {
+                console.log(key);
+            }
+        </script>
+    </head>
+    <body>
+        请在控制台查看
+    </body>
+</html>
