@@ -700,7 +700,92 @@ x = y; // Error
 
 ## 高级类型
 
-可以把现有的多种类型叠加到一起成为一种类型，它包含了所需的所有类型的特性。 
+交叉类型：可以把现有的多种类型叠加到一起成为一种类型，它包含了所需的所有类型的特性。 
+
+```js
+function extend<T, U>(first: T, second: U): T & U {
+    let result = <T & U>{};
+    for (let id in first) {
+        (<any>result)[id] = (<any>first)[id];
+    }
+    for (let id in second) {
+        if (!result.hasOwnProperty(id)) {
+            (<any>result)[id] = (<any>second)[id];
+        }
+    }
+    return result;
+}
+
+class Person {
+    constructor(public name: string) { }
+}
+interface Loggable {
+    log(): void;
+}
+class ConsoleLogger implements Loggable {
+    log() {
+        // ...
+    }
+}
+var jim = extend(new Person("Jim"), new ConsoleLogger());
+var n = jim.name;
+jim.log();
+```
+
+联合类型：指定参数的可选类型，原生类型声明如下：
+
+```js
+function padLeft(value: string, padding: string | number) {
+    // ...
+}
+```
+
+如果一个值是联合类型，我们只能访问此联合类型的所有类型里共有的成员：
+
+```js
+interface Bird {
+    fly();
+    layEggs();
+}
+
+interface Fish {
+    swim();
+    layEggs();
+}
+
+function getSmallPet(): Fish | Bird {
+    // ...
+}
+
+let pet = getSmallPet();
+pet.layEggs(); // okay
+pet.swim();    // errors
+```
+
+null和 undefined，默认情况下，类型检查器认为 null 与 undefined 可以赋值给任何类型，这也意味着，你阻止不了将它们赋值给其它类型，就算是你想要阻止这种情况也不行。 null 的发明者 Tony Hoare 称它为 价值亿万美金的错误。--strictNullChecks标记可以解决此错误：当你声明一个变量时，它不会自动地包含 null或 undefined。 你可以使用联合类型明确的包含它们：
+
+```js
+let s = "foo";
+s = null; // 错误, 'null'不能赋值给'string'
+let sn: string | null = "bar";
+sn = null; // 可以
+
+sn = undefined; // error, 'undefined'不能赋值给'string | null'
+```
+
+注意，按照JavaScript的语义，TypeScript会把 null和 undefined区别对待。 string | null， string | undefined和 string | undefined | null是不同的类型。
+
+使用了 --strictNullChecks，可选参数会被自动地加上 | undefined:
+
+```js
+function f(x: number, y?: number) {
+    return x + (y || 0);
+}
+f(1, 2);
+f(1);
+f(1, undefined);
+f(1, null); // error, 'null' is not assignable to 'number | undefined'
+```
 
 ## 参考
 
