@@ -6,6 +6,8 @@
 
 ## prototype
 
+原型上的方法在 for of 中不会被遍历出来:
+
 ```js
 function A() {
     this.aa = 11;
@@ -19,6 +21,7 @@ const a = new A();
 for (let key of Object.keys(a)) {
     console.log(key);
 }
+//输出: aa
 ```
 
 ## scope
