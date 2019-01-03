@@ -29,12 +29,13 @@
 </blockquote>
 <h3 id="header-1-1-1">语法概述</h3>
 <p>语法：</p>
-<pre><code>transition: [transition-property] transition-duration [transition-timing-function] [transition-delay]
+<pre><code class="lang-css">transition: [transition-property] transition-duration [transition-timing-function] [transition-delay]
 // 也就是：
 transition: [过渡属性] 过渡持续时间 [动画函数] [过渡延迟时间]
 // 多组设置用逗号间隔
-</code></pre><h3 id="header-1-1-2">过渡样式</h3>
-<p><code>transition-property</code> </p>
+</code></pre>
+<h3 id="header-1-1-2">过渡样式</h3>
+<p><code>transition-property</code></p>
 <ul>
 <li>all 默认值，全部可过渡的样式，在下面会给出哪些样式可过渡</li>
 <li>none 不对任何样式进行过渡，当过渡还没完成时突然将过渡属性设为 <code>none</code>，过渡会直接跳到结尾，
@@ -46,10 +47,13 @@ transition: [过渡属性] 过渡持续时间 [动画函数] [过渡延迟时间
 <p>浏览器支持情况：IE10+，Firefox，Chrome，Safari。</p>
 <h3 id="header-1-1-3">过渡持续时间</h3>
 <p><code>transition-duration</code> 单位为s(秒)或ms(毫秒)，默认值是0，当属性值为零时看不到过渡效果，所以过渡时间是动画事实上的不可缺属性。可以像下面这样使用此属性：</p>
-<pre><code>transition: 0.5s;
-transition: .5s;
-transition: 500ms;
-</code></pre><p><a href="/articles/css-animation/demo/transition-duration.html" target="_blank">示例</a></p>
+<pre><code class="lang-css">{
+    transition: 0.5s;
+    transition: .5s;
+    transition: 500ms;
+}
+</code></pre>
+<p><a href="/articles/css-animation/demo/transition-duration.html" target="_blank">示例</a></p>
 <h3 id="header-1-1-4">过渡函数</h3>
 <p><code>transition-timing-function</code> 用来指定变化速度，有如下值可供选择：</p>
 <ul>
@@ -73,7 +77,7 @@ transition: 500ms;
 </blockquote>
 <h3 id="header-1-2-1">语法概述</h3>
 <p>通过 <code>animation</code> 及其子属性定义动画，通过 <code>@keyframes</code> 定义关键帧。先看<a href="/articles/css-animation/demo/animation-quick-start.html" target="_blank">快速开始示例</a>的样式代码：</p>
-<pre><code>div {
+<pre><code class="lang-css">div {
     display: inline-block;
     margin: 100px;
     padding: 20px;
@@ -90,15 +94,17 @@ div:hover {
         border-radius: 100px;
     }
 }
-</code></pre><p>通过上面的代码就可以实现一个 CSS3 的简单动画。<code>animation</code> 共有 8 个子属性，<code>@keyframes</code> 相对简单，先给出语法形式，后面一一详述：</p>
-<pre><code>animation: [animation-name] animation-duration [animation-timing-function] [animation-delay] [animation-iteration-count] [animation-direction] [animation-play-state] [animation-fill-mode]
+</code></pre>
+<p>通过上面的代码就可以实现一个 CSS3 的简单动画。<code>animation</code> 共有 8 个子属性，<code>@keyframes</code> 相对简单，先给出语法形式，后面一一详述：</p>
+<pre><code class="lang-css">animation: [animation-name] animation-duration [animation-timing-function] [animation-delay] [animation-iteration-count] [animation-direction] [animation-play-state] [animation-fill-mode]
 // 多组用逗号间隔
 @keyframes animation-name {
     from { }
     percent { }
     to { }
 }
-</code></pre><h3 id="header-1-2-2">动画名称</h3>
+</code></pre>
+<h3 id="header-1-2-2">动画名称</h3>
 <p><code>animation-name</code> 动画名称，方便通过关键帧定义动画细节，有两个值：</p>
 <ul>
 <li>IDENT 是由 <code>@keyframes</code> 创建的动画名称，如果和 <code>@keyframes</code> 中的 IDENT 不一致将不能实现任何动画；</li>
@@ -135,16 +141,20 @@ div:hover {
 </ul>
 <h3 id="header-1-2-10">关键帧</h3>
 <p>关键帧用来进一步定义动画的过渡效果，可以指定动画在不同阶段的关键帧，以百分比的形似来描述动画阶段。</p>
-<pre><code>@keyframes animation-name {
+<pre><code class="lang-css">@keyframes animation-name {
     from { }
     percent { }
     to { }
 }
-</code></pre><p><code>form</code> 和 <code>to</code>可以用 0% 和 100% 代替，也可以多个百分比公用一个关键帧，如下：</p>
-<pre><code>@keyframes animation-name {
+</code></pre>
+<p><code>form</code> 和 <code>to</code>可以用 0% 和 100% 代替，也可以多个百分比公用一个关键帧，如下：</p>
+<pre><code class="lang-css">@keyframes animation-name {
     10%, 20% { }
 }
-</code></pre><h2 id="header-1-3">参考网站</h2>
+</code></pre>
+<h2 id="header-1-3">动画频率</h2>
+<p>每秒 30 帧流畅，60 帧完美。</p>
+<h2 id="header-1-4">参考网站</h2>
 <p><a href="http://www.php100.com/html/webkaifa/DIV_CSS/2012/1029/11403.html" target="_blank">CSS3中的Transition属性详解</a></p>
 <p><a href="http://vadimsva.github.io/waitMe/" target="_blank">CSS 实现的加载动画</a></p>
 

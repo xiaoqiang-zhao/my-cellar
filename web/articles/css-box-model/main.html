@@ -24,8 +24,9 @@
 </blockquote>
 <h2 id="header-1-1">基本概念</h2>
 <p>页面中的每一个元素在成像上都是一个长方形，而这个长方形的宽和高又受到位置相关属性的影响(如一个块元素被浮动那么可能其在宽度上不会填充满父元素)，所以我更倾向于将定位浮动等影响位置的相关属性也算在盒模型中。在 W3C 标准浏览器下：</p>
-<pre><code>元素的实际宽度 = width + padding + borderWidth 
-</code></pre><p>高度同理。</p>
+<pre><code class="lang-css">元素的实际宽度 = width + padding + borderWidth
+</code></pre>
+<p>高度同理。</p>
 <h2 id="header-1-2">需要注意的三点</h2>
 <h3 id="header-1-2-1">部分 form 元素</h3>
 <p>元素的实际宽度计算方式大多数遵循标准，但是 <code>input:submit,reset,button</code> 和 <code>select</code> 的计算方式不遵循标准，对其设置 <code>border</code> 和 <code>padding</code> 时他们只会向内延伸。而且高度设置在 chrome 上无效，所以一般会通过对 <code>button</code> 来重新定义样式结合 js 实现 <code>input:submit,reset,button</code>；<code>select</code> 通过样式修饰很难做浏览器兼容，所以项目中如果需要自定义 <code>select</code> 的样式，一般自己写一个组件来替换。</p>
@@ -33,7 +34,7 @@
 <p>最外层的盒子是 window，iframe 和 App 的网页容器(下文提到的 window 代表这三个小家伙)，这个盒子在一些渲染行为上会不同于普通元素。首先这是一个不可能被溢出的容器，其次非溢出的子元素的宽度不受溢出元素影响。先看一张图：</p>
 <p><img src="img/box-model.png" alt="image">     </p>
 <p>对应 <a href="/articles/css-box-model/demo/x-scroll.html" target="_blank">Demo链接</a>，全部的 CSS 代码：</p>
-<pre><code>html {
+<pre><code class="lang-css">html {
     background: #23CC41;
 }
 body {
@@ -65,9 +66,10 @@ header {
 }
 .main .bottom {
     bottom: -20px;
-}    
-</code></pre><p>关键 DOM 部分代码</p>
-<pre><code>&lt;body&gt;
+}
+</code></pre>
+<p>关键 DOM 部分代码</p>
+<pre><code class="lang-html">&lt;body&gt;
     &lt;header&gt;
         header
     &lt;/header&gt;
@@ -82,22 +84,33 @@ header {
         footer
     &lt;/div&gt;
 &lt;/body&gt;
-</code></pre><p><code>html</code> 是一个很特别的元素，当它的内部元素由于不折行或者绝对定位发生溢出时，其宽度属性对背景和超出隐藏属性表现为溢出后的宽度，但对内部的 <code>body</code> 元素的宽度表现为 window 的宽度。补充一点固定定位不会产生溢出：</p>
-<pre><code>{
+</code></pre>
+<p><code>html</code> 是一个很特别的元素，当它的内部元素由于不折行或者绝对定位发生溢出时，其宽度属性对背景和超出隐藏属性表现为溢出后的宽度，但对内部的 <code>body</code> 元素的宽度表现为 window 的宽度。补充一点固定定位不会产生溢出：</p>
+<pre><code class="lang-css">{
     position: fixed;
     right: -50px;
 }
-</code></pre><p>这样定义的元素不会产生横向滚动条，上面 Demo 中的 Right 块采取绝对定位 <code>position: absolute;</code> 会使浏览器产生横向滚动条，这一点在做“回到顶部”这类页面组件动画时很有用。</p>
+</code></pre>
+<p>这样定义的元素不会产生横向滚动条，上面 Demo 中的 Right 块采取绝对定位 <code>position: absolute;</code> 会使浏览器产生横向滚动条，这一点在做“回到顶部”这类页面组件动画时很有用。</p>
 <h3 id="header-1-2-3">页面高度</h3>
 <p>在页面中提高度，不管是一个元素的高度，还是整个页面的高度，就不得不提到三种溢出方式：定位溢出，负外边距溢出，外边距底部溢出(由于字符串的不折行溢出不会影响其他元素的布局，所以这里暂时将其忽略)。这里的溢出指子元素在呈现上没有被父元素完全包围，如“定位溢出”的关键代码如下：</p>
-<pre><code>position: absolute;
-bottom: -50px;
-</code></pre><p>由于绝对定位的关系，子元素的一部分必然会父元素从下部伸出，由于绝对定位已经脱离了文档流所以直接计算比较困难。</p>
+<pre><code class="lang-css">{
+    position: absolute;
+    bottom: -50px;
+}
+</code></pre>
+<p>由于绝对定位的关系，子元素的一部分必然会父元素从下部伸出，由于绝对定位已经脱离了文档流所以直接计算比较困难。</p>
 <p>“负边距溢出”的关键代码如下：</p>
-<pre><code>margin-bottom: -50px;
-</code></pre><p>“外边距底部溢出”的关键代码如下：</p>
-<pre><code>margin-bottom: 50px;
-</code></pre><p>在容器没有设置 <code>overflow: hidden;</code> 或者边框时外边距才会底部溢出(其他方向不溢出)。</p>
+<pre><code class="lang-css">{
+    margin-bottom: -50px;
+}
+</code></pre>
+<p>“外边距底部溢出”的关键代码如下：</p>
+<pre><code class="lang-css">{
+    margin-bottom: 50px;
+}
+</code></pre>
+<p>在容器没有设置 <code>overflow: hidden;</code> 或者边框时外边距才会底部溢出(其他方向不溢出)。</p>
 <p>好了交代完溢出的三种类型，来说说这三种溢出对页面高度的影响。从非技术角度看页面的高度就是我们看到的页面全部内容的高度，页面上的所有可见元素都放在 <code>body</code> 中，那 body 的高度就是页面高度吗？未必，别忘了还有溢出。经过实际测试<code>document.body.scrollHeight</code> 这一属性在IE8+，chrome，firefox 浏览器中对无溢出和“负边距溢出”有效，可以获取到准确的页面高度，但是对其他两种溢出高度的度量结果比实际高度会少溢出的那一部分高度。还有一个获取高度的方法：</p>
 <pre><code>document.documentElement.scrollHeight
 </code></pre><p>可以正确处理三种溢出。其实 <code>documentElement</code> 就是 <code>html</code> 元素，还可以通过 <code>document.getElementsByTagName(&#39;html&#39;)[0]</code> 获取。 这个方案对于 Firefox 还有一个问题，在 iframe 高度比 html 的高度大时，这个方法取出来的高度是 iframe 的高度，要梳理清楚这个问题需要做的工作很多，要搞明白 clientHeight、offsetHeight 和 scrollHeight 在不同浏览器的实际表现，文档类型不同还会对实际表现产生影响，所以最好不要产生溢出。</p>
@@ -108,7 +121,7 @@ bottom: -50px;
 <h2 id="header-1-3">实例</h2>
 <h3 id="header-1-3-1">footer</h3>
 <p><code>html</code> 的高度默认情况下不会与 window 的高度相同，也就是在高度上 <code>html</code> 不会将 window 填充满，所以在处理“版权信息”这种模块时可以这样处理：</p>
-<pre><code>html {
+<pre><code class="lang-css">html {
     position: relative;
     box-sizing: border-box;
     min-height: 100%;
@@ -120,7 +133,8 @@ bottom: -50px;
     width: 100%;
     line-height: 30px;
 }
-</code></pre><p>页面内容不满一屏时“版权信息”在最下面，页面内容超过一屏时滚动条滑到最底部显示“版权信息”，详细代码和展示参见 Demo：
+</code></pre>
+<p>页面内容不满一屏时“版权信息”在最下面，页面内容超过一屏时滚动条滑到最底部显示“版权信息”，详细代码和展示参见 Demo：
 <a href="/articles/css-box-model/demo/footer.html" target="_blank">内容小于一屏</a>，
 <a href="/articles/css-box-model/demo/footer2.html" target="_blank">内容大于一屏</a></p>
 <h2 id="header-1-4">弹性盒模型</h2>
@@ -150,7 +164,7 @@ bottom: -50px;
 <p>这三个分属性和 <code>flex: none;</code> 有覆盖作用，同组样式中定义在后面的覆盖前面的，不同组中按 CSS 优先级的规则处理覆盖。从性能上考虑，建议优先使用这个属性，而不是单独写三个分离的属性，因为浏览器会推算相关值。</p>
 <p>那个<a href="/articles/css-box-model/demo/flex.html" target="_blank">示例</a>说明一下：</p>
 <p>在容器空间充足的时候有这样的例子：</p>
-<pre><code>.con {
+<pre><code class="lang-css">.con {
     display: -webkit-flex;
     display: flex;
 }
@@ -183,12 +197,14 @@ bottom: -50px;
     flex: 1 2 300px;
     background: #40a070;
 }
-</code></pre><p>容器宽度 1000，先为三个子项各分配 300，剩余 100，按 flex 的第一个值给出的 1:2:1 分配，实际表现为25:50:25，所以最后三个元素的宽度分别为 (300+25)，(300+50)，(300+25) = 325，350，325.</p>
+</code></pre>
+<p>容器宽度 1000，先为三个子项各分配 300，剩余 100，按 flex 的第一个值给出的 1:2:1 分配，实际表现为25:50:25，所以最后三个元素的宽度分别为 (300+25)，(300+50)，(300+25) = 325，350，325.</p>
 <p>当空间不够时(其余代码和上面一样)：</p>
-<pre><code>.con2 {
+<pre><code class="lang-css">.con2 {
     width: 800px;
 }
-</code></pre><p>容器宽度 800，每个子项 300 缺 100，按 flex 的第二个值给出的分配比例1:1:2，实际表现为25:25:50，所以最后三个元素的宽度分别为 (300-25)，(300-25)，(300-50) = 275，275，250.</p>
+</code></pre>
+<p>容器宽度 800，每个子项 300 缺 100，按 flex 的第二个值给出的分配比例1:1:2，实际表现为25:25:50，所以最后三个元素的宽度分别为 (300-25)，(300-25)，(300-50) = 275，275，250.</p>
 <h3 id="header-1-4-4">order</h3>
 <p>弹性盒模型最核心的东西已经介绍完了，剩下的就是花式变换了，我们先将子项的最后一个属性 <code>order</code> 介绍完。</p>
 <p><code>order</code> 定义子项的排列顺序。数值越小，排列越靠前，默认为0，支持负数。<a href="/articles/css-box-model/demo/order.html" target="_blank">示例</a>，关键代码：</p>

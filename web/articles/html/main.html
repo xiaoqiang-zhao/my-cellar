@@ -34,7 +34,7 @@
 <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/article" target="_blank">更多解释</a></p>
 <h3 id="header-1-2-3">footer</h3>
 <p><code>footer</code> 元素表示最近一个章节内容或者根节点（sectioning root ）元素的页脚。一个页脚通常包含该章节作者、版权数据或者与文档相关的链接等信息。在表格为主体的页面片段中可以这样，用来盛放分页内容或者加载中等信息：</p>
-<pre><code>&lt;section&gt;
+<pre><code class="lang-html">&lt;section&gt;
     &lt;header&gt;搜索条件区&lt;/header&gt;
     &lt;table&gt;表格主体区，这里省去内部很多元素&lt;/table&gt;
     &lt;footer&gt;
@@ -49,8 +49,9 @@
         &lt;button&gt;上一页&lt;/button&gt;&lt;button&gt;下一页&lt;/button&gt;
     &lt;/footer&gt;
 &lt;/section&gt;
-</code></pre><p>还可以放在 <code>article</code> 中作为其尾部：</p>
-<pre><code>&lt;article class=&quot;user_review&quot;&gt;
+</code></pre>
+<p>还可以放在 <code>article</code> 中作为其尾部：</p>
+<pre><code class="lang-html">&lt;article class=&quot;user_review&quot;&gt;
     &lt;p&gt;Way too scary for me.&lt;/p&gt;
     &lt;footer&gt;
         &lt;p&gt;
@@ -58,7 +59,8 @@
         &lt;/p&gt;
     &lt;/footer&gt;
 &lt;/article&gt;
-</code></pre><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/footer" target="_blank">更多解释</a></p>
+</code></pre>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/footer" target="_blank">更多解释</a></p>
 <h3 id="header-1-2-4">aside</h3>
 <p><code>aside</code> 元素中连接到页面中其他部分的内容，被认为是独立于该内容的一部分并且可以被单独的拆分出来而不会使整体受影响。其通常表现为侧边栏或者被插入在该内容里。他们通常包含在工具条，例如来自词汇表的定义。也可能有其他类型的信息，例如相关的广告、笔者的传记、web 应用程序、个人资料信息，或在博客上的相关链接。</p>
 <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/aside" target="_blank">更多解释</a></p>
@@ -90,7 +92,7 @@
 <p>H5的布局相关的标签一共有8个：
 <code>header</code> <code>article</code> <code>footer</code> <code>aside</code> <code>nav</code> <code>main</code> <code>section</code> <code>div</code>，
 前五个比较通用，可以用在页面的整体布局上也可以用在局部的页面块中，下面是页面布局的两个示例：</p>
-<pre><code>&lt;body&gt;
+<pre><code class="lang-html">&lt;body&gt;
     &lt;header&gt; 头部&lt;/header&gt;
     &lt;aside&gt; 侧栏&lt;/aside&gt;
     &lt;main&gt; 主体&lt;/main&gt;
@@ -105,8 +107,9 @@
     &lt;/div&gt;
     &lt;footer&gt; 尾部&lt;/footer&gt;
 &lt;/body&gt;
-</code></pre><p>在页面局部中 <code>header</code> 和 <code>footer</code> 被希望放在 <code>article</code> 中，<code>nav</code> 放在 <code>header</code> 也是不错的选择，比如页面的 Tab 部分用这两个标签配合实现就有很好的语义化。</p>
-<pre><code>&lt;article class=&quot;con-tab&quot;&gt; &lt;!-- Tab容器 --&gt;
+</code></pre>
+<p>在页面局部中 <code>header</code> 和 <code>footer</code> 被希望放在 <code>article</code> 中，<code>nav</code> 放在 <code>header</code> 也是不错的选择，比如页面的 Tab 部分用这两个标签配合实现就有很好的语义化。</p>
+<pre><code class="lang-html">&lt;article class=&quot;con-tab&quot;&gt; &lt;!-- Tab容器 --&gt;
     &lt;header&gt;
         &lt;nav&gt;
             &lt;button&gt;tab title 1&lt;/button&gt;
@@ -118,18 +121,72 @@
         &lt;article&gt;tab content 2&lt;/article&gt;
     &lt;/div&gt;
 &lt;/article&gt;
-</code></pre><p><code>main</code> 一个页面中只能有一个所以只能用在大的页面布局中，<code>section</code> 希望其中有 heading (<code>h1</code> - <code>h6</code>) 来识别它本身，而heading中只能放字符串不推荐放其他元素，所以<code>section</code> 的使用场景也不多。所以更多的场景是使用<code>article</code> 和 <code>div</code>，<code>article</code> 表示一个独立的结构能完整的呈现一个内容，<code>div</code>是无明确含义的标签，修饰性的 dom 结构用此标签比较好，所以一个比较通用的场景就是用 <code>article</code> 来框定一个功能或内容块，然后细节由 <code>div</code>来表达。</p>
-<h2 id="header-1-3">与table相关的标签</h2>
+</code></pre>
+<p><code>main</code> 一个页面中只能有一个所以只能用在大的页面布局中，<code>section</code> 希望其中有 heading (<code>h1</code> - <code>h6</code>) 来识别它本身，而heading中只能放字符串不推荐放其他元素，所以<code>section</code> 的使用场景也不多。所以更多的场景是使用<code>article</code> 和 <code>div</code>，<code>article</code> 表示一个独立的结构能完整的呈现一个内容，<code>div</code>是无明确含义的标签，修饰性的 dom 结构用此标签比较好，所以一个比较通用的场景就是用 <code>article</code> 来框定一个功能或内容块，然后细节由 <code>div</code>来表达。</p>
+<p>有一个比较蛋疼的事，有了 <code>header</code> 和 <code>footer</code> 却找不到合适的元素来承载中间部分。</p>
+<h2 id="header-1-3">table及其相关的标签</h2>
+<p>先上一段比较全的代码：</p>
+<pre><code class="lang-html">&lt;table&gt;
+    &lt;caption&gt;表格标题&lt;/caption&gt;
+    &lt;colgroup&gt;
+        &lt;col span=&quot;2&quot; class=&quot;columns&quot; style=&quot;background-color:red&quot;&gt;
+    &lt;/colgroup&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;列 1 头&lt;/th&gt;
+            &lt;th&gt;列 2 头&lt;/th&gt;
+            &lt;th&gt;列 3 头&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;列 1 内容&lt;/td&gt;
+            &lt;td&gt;列 2 内容&lt;/td&gt;
+            &lt;td&gt;列 3 内容&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;td&gt;列 1 尾&lt;/td&gt;
+            &lt;td&gt;列 2 尾&lt;/td&gt;
+            &lt;td&gt;列 3 尾&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+&lt;/table&gt;
+</code></pre>
+<p>有用的标签：<code>table</code>、<code>thead</code>、<code>tbody</code>、<code>tr</code>、<code>th</code>、<code>td</code>，一共只有 6 个需要了解。</p>
+<p><code>colgroup</code> 和 <code>col</code> 完全可以用样式取代，<code>tfoot</code> 使用场景很罕见也可以忽略。</p>
 <h2 id="header-1-4">与表单相关的标签</h2>
-<h2 id="header-1-5">修饰文字的标签</h2>
-<h2 id="header-1-6">body 之外</h2>
-<h2 id="header-1-7">过时的和未来的</h2>
-<p>有些标签已经不被推荐使用，这里罗列一下：</p>
-<p>有些标签被推荐但是还没有被浏览器广泛支持，如下：</p>
-<ul>
-<li>summary，一个实验中的标签，目前只有部分Chrome支持</li>
-</ul>
-<h2 id="header-1-8">参考网站</h2>
+<p>提交数据的元素</p>
+<p><code>form</code>、<code>input</code>、<code>select</code>、<code>datalist</code> 可输入选择框、<code>option</code>、<code>optgroup</code> 对 option 元素分组，<code>textarea</code>、<code>button</code>、<code>fildset</code> 对表单中的控制元素进行分组(<code>legend</code> 定义分组标题)， 还有一个 <code>label</code> 也放在这里吧，实现表单元素辅助功能，一共 11 个元素。</p>
+<h2 id="header-1-5">特定内容标签</h2>
+<p>文本：<code>span</code> 普通文本，<code>b</code> 加粗文本，<code>em</code> 标记需要用户着重阅读的内容，<code>strong</code> 表示十分重要的内容，<code>mark</code> 突出显示的文字(例如显示搜索引擎搜索后关键词)，<code>small</code> 文本的字体变小一号，<code>i</code> 区分普通文本的一系列文本，<code>del</code> 删除文本，<code>dfn</code> 引用，<code>a</code> 链接，<code>address</code> 地址，<code>time</code> 时间，<code>data</code> 指定内容和机器可读的翻译联系在一起，<code>kbd</code> 定义需要用户用键盘输入的内容，<code>p</code> 段落，<code>blockquote</code> 块级引用，<code>cite</code> 作品的引用，<code>code</code> 计算机代码片段，<code>output</code> 计算或用户操作的结果，<code>samp</code> 标识计算机程序输出，<code>h1-h6</code> 头，<code>sub</code> 下角标，<code>sup</code> 上角标，<code>var</code> 定义变量，<code>q</code> 表示一个封闭的并且是短的行内引用的文本。(共 30 个)</p>
+<p>富媒体：<code>img</code> 图片，<code>audio</code> 音频，<code>video</code> 视屏，<code>source</code> 为 audio 和 video 指定源，<code>track</code> 为 audio 和 video 指定字幕，<code>canvas</code> 画布，<code>embed</code> 将外部内容嵌入文档中的指定位置，<code>iframe</code> 引入其他页面作为页面部分内容，<code>meter</code> 已知范围的标量值或者分数值，<code>progress</code> 一项任务的完成进度。(共 10 个)</p>
+<p>特定形式数据：<code>ul</code> 无序列表容器，<code>ol</code> 有序列表容器，<code>li</code> 列表元素(用在ul、li、menu 元素中)；<code>dl</code> 术语定义以及描述列表容器，<code>dt</code> 术语，<code>dd</code> 术语描述；<code>details</code> 和 <code>summary</code> 配合实现概述直接展示和详情展开收起切换；<code>figure</code> 定义独立的引用单元，当这部分删除时不会影响到主体，<code>figcaption</code> 来为其关联一个标题(作为它的第一个或者最后一个子元素)，<code>ruby</code> <code>rp</code> <code>rt</code> 三个元素配合展示东亚文字注音或字符注释。(共 13 个)</p>
+<h2 id="header-1-6">格式标签</h2>
+<p><code>hr</code> 一个水平，现在它仍能在可视化浏览器中表现为水平线，但目前被定义为语义上的，而不是表现层面上。</p>
+<p><code>br</code> 换行。</p>
+<p><code>pre</code> 按照原文件中的编排，以等宽字体的形式展现出来，文本中的空白符（比如空格和换行符）都会显示出来。</p>
+<p><code>wbr</code> 一个文本中的位置，其中浏览器可以选择来换行，虽然它的换行规则可能不会在这里换行。</p>
+<h2 id="header-1-7">功能性标签</h2>
+<p><code>html</code> 和 <code>body</code> 对应页面和内容的主要容器，有一点需要注意，这两个容器是内容自适应的，它们并不会默认填满可视窗口，但是他们的背景却会填满可视窗口(如果设置了的话)，这是这个元素特殊的地方。可以用 <code>min-height: 100vh;</code> 样式来修补这个不一致。</p>
+<p><code>head</code> 页面的头。</p>
+<p><code>meta</code> 和 <code>title</code> 设置页面，可以设置页面编码和移动端高清屏适配：</p>
+<pre><code class="lang-html">&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no&quot;&gt;
+</code></pre>
+<p><code>link</code> 和 <code>style</code> 样式引入和定义。</p>
+<p><code>script</code> 脚本引入标签</p>
+<p><code>noscript</code> 无脚本时呈现内部内容，可以用来做 SEO。</p>
+<h2 id="header-1-8">可用样式替换的标签</h2>
+<p><code>abbr</code> 缩进，可以用样式 <code>text-indent: 2em</code> 代替。</p>
+<p><code>dbo</code> 使字符按给定的方向排列，可以用样式 <code>writing-mode</code> 代替。</p>
+<h2 id="header-1-9">已经很少使用的标签</h2>
+<p><code>map</code> 和 <code>area</code> 配合实现图片热区，很少被用在项目中了。</p>
+<p><code>base</code> 指定用于一个文档中包含的所有相对URL的基本URL，使用场景基本消失了。</p>
+<p><code>bdi</code> 是 Bidirectional Isolate 的缩写，直译为双向隔离，有很好的语义化，在页面大部分内容是硬编码只有少部分是从数据库或其他地方引入时用此标签标记能有很好的区分效果，当前的页面大部分是从数据库中读取，也就丧失的独特性，从而没有必要来标识了。</p>
+<p><code>ins</code> 定义已经被插入文档中的文本。</p>
+<h2 id="header-1-10">参考网站</h2>
 <p><a href="http://www.w3chtml.com/html5/ref/tag-list.html" target="_blank">标签列表 - 中文版</a></p>
 <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element" target="_blank">标签列表 - 英文版</a></p>
 <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/HTML/Content_categories" target="_blank">标签分类</a></p>

@@ -1,0 +1,12 @@
+{
+  "enName": "this-prototype-scope",
+  "title": "this、prototype、scope",
+  "introduction": "学习如何在 js 里正确使用 this 就好比一场成年礼；原型是 js 实现继承等关系的重要基础；scope 则是闭包基础。",
+  "tags": [],
+  "isPublished": false,
+  "state": "立项",
+  "type": "md",
+  "createDate": 1546522102065,
+  "commentList": [],
+  "todoList": []
+}

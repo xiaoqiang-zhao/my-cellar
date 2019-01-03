@@ -68,6 +68,18 @@
     "todoList": []
   },
   {
+    "enName": "ajax",
+    "title": "原生 Ajax 写法",
+    "introduction": "纯收集",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1546522101894,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "algorithms-1",
     "title": "当算法与前端相遇",
     "introduction": "前端需要了解算法吗？读了几章《算法导论》，结合一下项目实践试着以前端的视角来窥视一下算法的世界。",
@@ -291,30 +303,6 @@
     "todoList": []
   },
   {
-    "enName": "css-media",
-    "title": "媒体查询和响应式布局",
-    "introduction": "太重要了",
-    "tags": [],
-    "isPublished": false,
-    "state": "立项",
-    "type": "md",
-    "createDate": 1456831990104,
-    "commentList": [],
-    "todoList": []
-  },
-  {
-    "enName": "css-part",
-    "title": "常用 CSS 片段收集",
-    "introduction": "提供简写和非简写两种方式，有点小洁癖的可以采用了简写的方式，多人协作的长期项目建议采用非简写简明知意。另外简写容易造成冲突，按字母顺序排列样式能在一定层度上减少这种冲突，所以下面的样式都是按字母顺序排列的，另外简写的一般规则是 “属性-属性值-修饰”，表意的CSS片段取首字母缩写。可以更具自己的项目定制此文件的部分或全部，无需任何许可。一些实例：[DEMO](demo/demo.html)，也可下载[dem/css.css](demo/css.css)直接使用。",
-    "tags": [],
-    "isPublished": false,
-    "state": "立项",
-    "type": "md",
-    "createDate": 1462684808390,
-    "commentList": [],
-    "todoList": []
-  },
-  {
     "enName": "css-processor",
     "title": "CSS 预处理器",
     "introduction": "随着前端工程越来越大，CSS 本身的限制严重影响了开发的速度的工程化管理能力，所以在大型应中使用 CSS 预处理器带来的好处相当明显，这篇文章旨在快速的学完 CSS 预处理器。",
@@ -330,14 +318,26 @@
     "todoList": []
   },
   {
-    "enName": "css-widget",
-    "title": "CSS 小组件",
-    "introduction": "这些年用过的一些小组件，整理收集在此。class命名很接地气，坏处就是容易冲突，如果和其他样式库公用注意冲突的问题。\n一些实例：[DEMO](/articles/css-widget/demo/demo.html)，也可下载[dem/css.css](demo/css.css)直接使用。",
+    "enName": "css-selector",
+    "title": "CSS 选择器",
+    "introduction": "CSS 入门基础。",
     "tags": [],
     "isPublished": false,
     "state": "立项",
     "type": "md",
-    "createDate": 1459739951048,
+    "createDate": 1546522101934,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "css-widget",
+    "title": "CSS Widget",
+    "introduction": "零零总总写前端 5 年多了，几乎任何业务项目都需要用到一些样式片段，功能复杂的已经被抽象成了组件库，还有一些只有几行十几行的样式片段却在不断的重复编码，决定花时间整理一些这个类型的片段，利人利己。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1462684808390,
     "commentList": [],
     "todoList": []
   },
@@ -350,6 +350,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1458133200528,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "data-in-browser",
+    "title": "浏览器中的数据存储",
+    "introduction": "整理备忘。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1546522101940,
     "commentList": [],
     "todoList": []
   },
@@ -368,9 +380,57 @@
     "todoList": []
   },
   {
+    "enName": "docker",
+    "title": "Docker",
+    "introduction": "必备技能。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1546522101943,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "dom",
+    "title": "Dom 常用操作",
+    "introduction": "补充基础知识。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1546522101944,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "electron",
+    "title": "electron",
+    "introduction": "学习大全",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1546522101945,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "electron-vue",
+    "title": "electron-vue 使用备忘",
+    "introduction": "挖到宝贝了",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1546522101947,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "es6-1",
     "title": "ES6 学习笔记 - Part 1",
-    "introduction": "未找到描述信息",
+    "introduction": "系统学习 ES6 笔记第一部分(共三部分)。",
     "tags": [],
     "isPublished": false,
     "state": "立项",
@@ -382,7 +442,7 @@
   {
     "enName": "es6-2",
     "title": "ES6 学习笔记 - Part 2",
-    "introduction": "未找到描述信息",
+    "introduction": "系统学习 ES6 笔记第二部分(共三部分)。",
     "tags": [],
     "isPublished": false,
     "state": "立项",
@@ -1188,6 +1248,18 @@
     "todoList": []
   },
   {
+    "enName": "this-prototype-scope",
+    "title": "this、prototype、scope",
+    "introduction": "学习如何在 js 里正确使用 this 就好比一场成年礼；原型是 js 实现继承等关系的重要基础；scope 则是闭包基础。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1546522102065,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "tool",
     "title": "工具篇",
     "introduction": "工欲善其事必先利其器，开发解决某些问题时用恰当的工具能事半功倍。这篇文章介绍一些解决特定问题的工具。",
@@ -1196,6 +1268,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1510919038934,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "typescript",
+    "title": "TypeScript",
+    "introduction": "Angular 和 Vue 都拥抱了 TypeScript，可见在大型项目中需要这样一种更强的语言。为了便于阅读源码和编写大型应用，系统的学习一下 TypeScript，这篇是跟着官网学的的学习笔记，副可运行 Demo 加深理解。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1546522102067,
     "commentList": [],
     "todoList": []
   },

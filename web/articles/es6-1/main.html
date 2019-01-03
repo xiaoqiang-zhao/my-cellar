@@ -19,6 +19,9 @@
 </header>
 <div>
     <h1 id="header-1">ES6 学习笔记 - Part 1</h1>
+<blockquote>
+<p>系统学习 ES6 笔记第一部分(共三部分)。</p>
+</blockquote>
 <h2 id="header-1-1">ECMAScript 6简介</h2>
 <p>ECMAScript的起源：1996年11月，JavaScript的创造者Netscape公司，决定将JavaScript提交给国际标准化组织ECMA，希望这种语言能够成为国际标准。次年，ECMA发布262号标准文件（ECMA-262）的第一版，规定了浏览器脚本语言的标准，并将这种语言称为ECMAScript，这个版本就是1.0版。</p>
 <p>之后经理的浏览器大战，IE胜出成为事实的标准，ECMAScript 名存实亡，类似于三国时期的汉帝。随着Chrome的强势崛起，IE市场份额的萎缩，厂商之间出现了一种平衡关系，谁不准守规范就有出局的风险，再加上开发者对浏览器兼容性的抱怨，浏览器标准化终于迎来了一个好机会。其实 ECMAScript 一直在前进，一直在出新的版本，只是标准没有被厂商严格执行，2015年的 ECMAScript 6.0 这一版本遇上了这样一个好机会，标准被各大厂商争相实现。</p>
@@ -27,183 +30,194 @@
 <p>工具的支持略过，学习时可以用这个<a href="https://babeljs.io/repl" target="_blank">在线工具</a>。</p>
 <h2 id="header-1-2">let 和 const 命令</h2>
 <p>let，代码块作用域变量；const，代码块作用域常量。</p>
-<p>不存在变量提成，但是目前的降级工具还是将他们翻译成 var。</p>
+<p>不存在变量提升，但是目前的降级工具还是将他们翻译成 var。</p>
 <p>temporal dead zone，暂时性死区：</p>
-<pre><code>var tmp = 123;
+<pre><code class="lang-js">var tmp = 123;
 
 if (true) {
-  tmp = &#39;abc&#39;; // ReferenceError
-  let tmp;
+    tmp = &#39;abc&#39;; // ReferenceError
+let tmp;
 }
-</code></pre><p><code>typeof something</code> 不再是一个绝对安全的操作(之前 <code>typeof something.something</code> 也不是绝对安全操作)。</p>
+</code></pre>
+<p><code>typeof something</code> 不再是一个绝对安全的操作(之前 <code>typeof something.something</code> 也不是绝对安全操作)。</p>
 <p>不允许重复声明。</p>
 <p>块级作用域，块级作用域可以替代立即执行函数。</p>
 <p>ES5规定，函数只能在顶层作用域和函数作用域之中声明，不能在块级作用域声明，但是浏览器没有遵守这个规定。不过，“严格模式”下还是会报错。</p>
-<pre><code>// ES5严格模式
+<pre><code class="lang-js">// ES5严格模式
 &#39;use strict&#39;;
 if (true) {
-  function f() {}
+    function f() {}
 }
 // 报错
-</code></pre><p>const 只对值类型数据有用，数组和对象的元素和属性依然可以被修改，如果想锁数组和对象，需要借助 freeze 方法。</p>
+</code></pre>
+<p>const 只对值类型数据有用，数组和对象的元素和属性依然可以被修改，如果想锁数组和对象，需要借助 freeze 方法。</p>
 <p>注：数组的 freeze 待查证。</p>
 <p>ES5只有两种声明变量的方法：var 命令和 function 命令。ES6除了添加 let 和 const 命令，后面章节还会提到，另外两种声明变量的方法：import 命令和 class 命令。所以，ES6一共有6种声明变量的方法。</p>
 <h2 id="header-1-3">变量的解构赋值</h2>
 <p>一行语句为多个变量赋值：</p>
-<pre><code>// 数组形式
+<pre><code class="lang-js">// 数组形式
 var [x, y = &#39;b&#39;] = [&#39;a&#39;, undefined];
 // x=&#39;a&#39;, y=&#39;b&#39;
 
 // 对象形式
 var {x, y = &#39;b&#39;} = {x: &#39;a&#39;, y: undefined};
-</code></pre><p>对于表达式，用到的时候才执行：</p>
-<pre><code>let [x = f()] = [1];
-// 函数 f 不会被执行
-</code></pre><p>别名策略，将后面对象的 foo 属性赋值给 baz 变量</p>
-<pre><code>var { foo: baz } = { foo: &quot;aaa&quot;, bar: &quot;bbb&quot; };
-</code></pre><p>对象的解构赋值，可以很方便地将现有对象的方法，赋值到某个变量</p>
-<pre><code>let { log, sin, cos } = Math;
-</code></pre><p>函数的参数解构，主要的作用大概是局部参数的打平，默认值等与数组和对象的用法相同</p>
-<pre><code>function add([x, y = 0]){
-  return x + y;
+</code></pre>
+<p>对于表达式，用到的时候才执行：</p>
+<pre><code class="lang-js">// 函数 f 不会被执行
+let [x = f()] = [1];
+// 函数 f 会被执行
+let [x = f()] = [];
+</code></pre>
+<p>别名策略，将后面对象的 foo 属性赋值给 baz 变量</p>
+<pre><code class="lang-js">var { foo: baz } = { foo: &quot;aaa&quot;, bar: &quot;bbb&quot; };
+// baz=&#39;aaa&#39;
+</code></pre>
+<p>对象的解构赋值，可以很方便地将现有对象的方法，赋值到某个变量</p>
+<pre><code class="lang-js">let { log, sin, cos } = Math;
+</code></pre>
+<p>函数的参数解构，主要的作用大概是局部参数的打平，默认值等与数组和对象的用法相同</p>
+<pre><code class="lang-js">function add([x, y = 0]){
+    return x + y;
 }
 
 add([1, 2]); // 3
 add([1]);    // 1
-</code></pre><h2 id="header-1-4">字符串的扩展</h2>
+</code></pre>
+<h2 id="header-1-4">字符串的扩展</h2>
 <p>遍历字符串</p>
-<pre><code>for (let codePoint of &#39;foo&#39;) {
-  console.log(codePoint)
+<pre><code class="lang-js">for (let codePoint of &#39;foo&#39;) {
+    console.log(codePoint)
 }
 // &quot;f&quot;
 // &quot;o&quot;
 // &quot;o&quot;
-</code></pre><p>新加了方法 includes, startsWith, endsWith 用来补充 indexOf 的不足，使操作更方便。这三个方法都支持第二个参数，表示开始搜索的位置。</p>
-<pre><code>var s = &#39;Hello world!&#39;;
+</code></pre>
+<p>新加了方法 includes, startsWith, endsWith 用来补充 indexOf 的不足，使操作更方便。这三个方法都支持第二个参数，表示开始搜索的位置。</p>
+<pre><code class="lang-js">var s = &#39;Hello world!&#39;;
 
 s.startsWith(&#39;world&#39;, 6); // true
 s.includes(&#39;Hello&#39;, 1);   // false
-</code></pre><p>endsWith 的行为与其他两个方法有所不同，它针对前n个字符</p>
-<pre><code>s.endsWith(&#39;Hello&#39;, 5);   // true
-</code></pre><p>repeat 方法返回一个新字符串，表示将原字符串重复n次。</p>
-<pre><code>&#39;x&#39;.repeat(3) // &quot;xxx&quot;
-</code></pre><p>padStart，padEnd 字符串补全长度功能    </p>
-<pre><code>&#39;abc&#39;.padStart(10, &#39;0123456789&#39;);  // &#39;0123456abc&#39;
+</code></pre>
+<p>endsWith 的行为与其他两个方法有所不同，它针对前n个字符</p>
+<pre><code class="lang-js">s.endsWith(&#39;Hello&#39;, 5);   // true
+</code></pre>
+<p>repeat 方法返回一个新字符串，表示将原字符串重复n次。</p>
+<pre><code class="lang-js">&#39;x&#39;.repeat(3) // &quot;xxx&quot;
+</code></pre>
+<p>padStart，padEnd 字符串补全长度功能    </p>
+<pre><code class="lang-js">&#39;abc&#39;.padStart(10, &#39;0123456789&#39;);  // &#39;0123456abc&#39;
 &#39;abc&#39;.endStart(10, &#39;0123456789&#39;);  // &#39;abc0123456&#39;
-</code></pre><p>模板字符串，换行、变量、运算、字符串拼接，模板嵌套不易读</p>
-<pre><code>var [name, a, b] = [&#39;jack&#39;, 1, 2];
+</code></pre>
+<p>模板字符串，换行、变量、运算、字符串拼接，模板嵌套不易读</p>
+<pre><code class="lang-js">var [name, a, b] = [&#39;jack&#39;, 1, 2];
 `&lt;div&gt;
-  ${name}
-  ${a + b}
-  ${name + &#39;-&#39; + a}
+    ${name}
+    ${a + b}
+    ${name + &#39;-&#39; + a}
 &lt;/div&gt;`
-</code></pre><h2 id="header-1-5">正则的扩展</h2>
-<p>初始化函数更强悍</p>
-<pre><code>var regex = new RegExp(/xyz/i);
-// 等价于
-var regex = /xyz/i;
-</code></pre><p>添加 u 修饰符，识别大于 <code>0xFFFF</code> 的 Unicode 字符</p>
-<p>flags 和 sticky 属性，y 修饰符。</p>
-<h2 id="header-1-6">数值的扩展</h2>
+</code></pre>
+<h2 id="header-1-5">数值的扩展</h2>
 <p>二进制和八进制的新写法，字母大小写都可以：</p>
-<pre><code>0b1001 === 9   // true
+<pre><code class="lang-js">0b1001 === 9   // true
 0o11 === 9     // true
-</code></pre><p>将全局方法 parseInt 和 parseFloat 移到 Number 下。</p>
+</code></pre>
+<p>将全局方法 parseInt 和 parseFloat 移到 Number 下。</p>
 <p>添加新函数 isFinite，isNaN，isInteger，isSafeInteger</p>
 <p>isInteger 是否为整数：</p>
-<pre><code>Number.isInteger(1);   // true
+<pre><code class="lang-js">Number.isInteger(1);   // true
 Number.isInteger(1.0); // true
-</code></pre><p>添加一个属性 EPSILON，表示极小值。</p>
+</code></pre>
+<p>添加一个属性 EPSILON，表示极小值。</p>
 <p>isSafeInteger 判断整数范围在-2^53到2^53之间（不含两个端点），超过这个范围，无法精确表示这个值。</p>
-<h2 id="header-1-7">数组的扩展</h2>
-<p>添加方法 form 将类数组转变成数组。</p>
-<p>添加方法 copyWithin，将指定位置的成员复制到其他位置（会覆盖原有成员），它接受三个参数。</p>
-<ul>
-<li>target（必需）：从该位置开始替换数据。</li>
-<li>start（可选）：从该位置开始读取数据，默认为0。如果为负值，表示倒数。</li>
-<li>end（可选）：到该位置前停止读取数据，默认等于数组长度。如果为负值，表示倒数。</li>
-</ul>
-<p>添加方法 find 和 findIndex，用于查找元素。</p>
-<p>添加 fill 方法，填充已有数组，接受3个参数：填充值，起始位置，结束位置。</p>
-<p>又添加3个遍历方法 entries，keys 和 values。</p>
-<p>添加方法 includes。</p>
-<p>注：indexOf方法有两个缺点，一是不够语义化，它的含义是找到参数值的第一个出现位置，所以要去比较是否不等于-1，表达起来不够直观。二是，它内部使用严格相当运算符（===）进行判断，这会导致对NaN的误判。</p>
-<p>空位，要尽量避免。</p>
-<h2 id="header-1-8">函数的扩展</h2>
+<h2 id="header-1-6">函数的扩展</h2>
 <p>函数参数的默认值：</p>
-<pre><code>function log(x, y = &#39;World&#39;) {
-  console.log(x, y);
+<pre><code class="lang-js">function log(x, y = &#39;World&#39;) {
+    console.log(x, y);
 }
 
 log(&#39;Hello&#39;) // Hello World
 log(&#39;Hello&#39;, &#39;China&#39;) // Hello China
-</code></pre><p>与解构赋值默认值结合使用</p>
-<pre><code>function foo({x, y = 5}) {
-  console.log(x, y);
+</code></pre>
+<p>与解构赋值默认值结合使用</p>
+<pre><code class="lang-js">function foo({x, y = 5}) {
+    console.log(x, y);
 }
 
 foo({x: 1}) // 1, 5
 foo() // TypeError: Cannot read property &#39;x&#39; of undefined
-</code></pre><p>双重默认值的用法</p>
-<pre><code>function fetch(url, { method = &#39;GET&#39; } = {}) {
-  console.log(method);
+</code></pre>
+<p>双重默认值的用法</p>
+<pre><code class="lang-js">function fetch(url, { method = &#39;GET&#39; } = {}) {
+    console.log(method);
 }
 
 fetch(&#39;http://example.com&#39;);
 // &quot;GET&quot;
 fetch(&#39;http://example.com&#39;, {method: &#39;POST&#39;});
 // &quot;POST&quot;
-</code></pre><p>双重默认值的两种写法及区别</p>
-<pre><code>// 写法一
+</code></pre>
+<p>双重默认值的两种写法及区别：</p>
+<pre><code class="lang-js">// 写法一
 function m1({x = 0, y = 0} = {}) {
-  return [x, y];
+    return [x, y];
 }
 
 // 写法二
 function m2({x, y} = { x: 0, y: 0 }) {
-  return [x, y];
+    return [x, y];
 }
-</code></pre><p>函数的length属性，等于函数的参数个数减去指定了默认值的参数个数，rest参数也不会计入length属性。</p>
-<pre><code>(function(...args) {}).length // 0
-</code></pre><p>指定参数为必填参数的技巧：</p>
-<pre><code>function throwIfMissing() {
-  throw new Error(&#39;Missing parameter&#39;);
+</code></pre>
+<p>如果有很所参数下面一种方式会更易读：</p>
+<pre><code class="lang-js">const config = {...defaultConfig, ...customConfig};
+</code></pre>
+<p>函数的 length 属性，等于函数的参数个数减去指定了默认值的参数个数，rest 参数也不会计入 length 属性。</p>
+<pre><code class="lang-js">(function(...args) {}).length // 0
+</code></pre>
+<p>指定参数为必填参数的技巧：</p>
+<pre><code class="lang-js">function throwIfMissing(key) {
+    throw new Error(`Missing must parameter: ${key}`);
 }
 
-function foo(mustBeProvided = throwIfMissing()) {
-  return mustBeProvided;
+function foo(mustBeProvided = throwIfMissing(&#39;mustBeProvided&#39;)) {
+    return mustBeProvided;
 }
 
-foo()
+foo();
 // Error: Missing parameter
-</code></pre><p>rest参数（形式为“...变量名”），用于获取函数的多余参数，这样就不需要使用arguments对象了。rest参数搭配的变量是一个数组，该变量将多余的参数放入数组中。使用 of 来遍历：</p>
-<pre><code>function add(...values) {
-  let sum = 0;
+</code></pre>
+<p>rest参数（形式为“...变量名”），用于获取函数的多余参数，这样就不需要使用arguments对象了。rest参数搭配的变量是一个数组，该变量将多余的参数放入数组中。使用 of 来遍历：</p>
+<pre><code class="lang-js">function add(...values) {
+    let sum = 0;
 
-  for (var val of values) {
-    sum += val;
-  }
+    for (var val of values) {
+        sum += val;
+    }
 
-  return sum;
+    return sum;
 }
 
 add(2, 5, 3) // 10
-</code></pre><p>扩展运算符（spread）是三个点（...）。它好比rest参数的逆运算，将一个数组转为用逗号分隔的参数序列。</p>
-<pre><code>console.log(...[1, 2, 3])
-</code></pre><p>扩展运算符提供了数组合并的新写法。</p>
-<pre><code>// ES5
+</code></pre>
+<p>扩展运算符（spread）是三个点（...）。它好比rest参数的逆运算，将一个数组转为用逗号分隔的参数序列。</p>
+<pre><code class="lang-js">console.log(...[1, 2, 3])
+</code></pre>
+<p>扩展运算符提供了数组合并的新写法。</p>
+<pre><code class="lang-js">// ES5
 [1, 2].concat(more)
 // ES6
 [1, 2, ...more]
-</code></pre><p>扩展运算符还可以将字符串转为真正的数组。</p>
-<pre><code>[...&#39;hello&#39;]
+</code></pre>
+<p>扩展运算符还可以将字符串转为真正的数组。</p>
+<pre><code class="lang-js">[...&#39;hello&#39;]
 // [ &quot;h&quot;, &quot;e&quot;, &quot;l&quot;, &quot;l&quot;, &quot;o&quot; ]
-</code></pre><p>扩展运算符还可以将类数组(Iterator) 转换成数组</p>
-<pre><code>var nodeList = document.querySelectorAll(&#39;div&#39;);
+</code></pre>
+<p>扩展运算符还可以将类数组(Iterator) 转换成数组</p>
+<pre><code class="lang-js">var nodeList = document.querySelectorAll(&#39;div&#39;);
 var array = [...nodeList];
-</code></pre><p>Map和Set结构，Generator函数 ??? </p>
+</code></pre>
+<p>Map和Set结构，Generator函数 ??? </p>
 <p>函数的name属性，返回该函数的函数名。</p>
-<pre><code>function foo() {}
+<pre><code class="lang-js">function foo() {}
 foo.name // &quot;foo&quot;
 
 var f = function () {};
@@ -213,40 +227,45 @@ f.name // &quot;&quot;
 
 // ES6
 f.name // &quot;f&quot;
-</code></pre><p>箭头函数，使得表达更加简洁。</p>
-<pre><code>// 平方
+</code></pre>
+<p>箭头函数，使得表达更加简洁。</p>
+<pre><code class="lang-js">// 平方
 const square = n =&gt; n * n;
-</code></pre><p>由于大括号被解释为代码块，所以如果箭头函数直接返回一个对象，必须在对象外面加上括号。</p>
-<pre><code>var getTempItem = id =&gt; ({ id: id, name: &quot;Temp&quot; });
-</code></pre><p>箭头函数的一个用处是简化回调函数。</p>
-<pre><code>[1,2,3].map(x =&gt; x * x);
-</code></pre><p>箭头函数有几个使用注意点。</p>
+</code></pre>
+<p>由于大括号被解释为代码块，所以如果箭头函数直接返回一个对象，必须在对象外面加上括号。</p>
+<pre><code class="lang-js">var getTempItem = id =&gt; ({ id: id, name: &quot;Temp&quot; });
+</code></pre>
+<p>箭头函数的一个用处是简化回调函数。</p>
+<pre><code class="lang-js">[1,2,3].map(x =&gt; x * x);
+</code></pre>
+<p>箭头函数有几个使用注意点。</p>
 <p>（1）函数体内的this对象，就是定义时所在的对象，而不是使用时所在的对象。</p>
 <p>（2）不可以当作构造函数，也就是说，不可以使用new命令，否则会抛出一个错误。</p>
 <p>（3）不可以使用arguments对象，该对象在函数体内不存在。如果要用，可以用Rest参数代替。</p>
 <p>（4）不可以使用yield命令，因此箭头函数不能用作Generator函数。</p>
 <p>关于 this 的两个例子：</p>
 <p>例一：</p>
-<pre><code>function foo() {
-  setTimeout(() =&gt; {
-    console.log(&#39;id:&#39;, this.id);
-  }, 100);
+<pre><code class="lang-js">function foo() {
+    setTimeout(() =&gt; {
+        console.log(&#39;id:&#39;, this.id);
+    }, 100);
 }
 
 var id = 21;
 
 foo.call({ id: 42 });
 // id: 42
-</code></pre><p>例二：</p>
-<pre><code>function Timer() {
-  this.s1 = 0;
-  this.s2 = 0;
-  // 箭头函数
-  setInterval(() =&gt; this.s1++, 1000);
-  // 普通函数
-  setInterval(function () {
-    this.s2++;
-  }, 1000);
+</code></pre>
+<p>例二：</p>
+<pre><code class="lang-js">function Timer() {
+    this.s1 = 0;
+    this.s2 = 0;
+    // 箭头函数
+    setInterval(() =&gt; this.s1++, 1000);
+    // 普通函数
+    setInterval(function () {
+        this.s2++;
+    }, 1000);
 }
 
 var timer = new Timer();
@@ -255,51 +274,57 @@ setTimeout(() =&gt; console.log(&#39;s1: &#39;, timer.s1), 3100);
 setTimeout(() =&gt; console.log(&#39;s2: &#39;, timer.s2), 3100);
 // s1: 3
 // s2: 0
-</code></pre><p>绑定 this</p>
-<pre><code>foo::bar;
+</code></pre>
+<p>绑定 this</p>
+<pre><code class="lang-js">foo::bar;
 // 等同于
 bar.bind(foo);
-</code></pre><p>尾调用，尾调用（Tail Call）是函数式编程的一个重要概念，本身非常简单，一句话就能说清楚，就是指某个函数的最后一步是调用另一个函数。</p>
-<pre><code>function f(x){
-  return g(x);
+</code></pre>
+<p>尾调用，尾调用（Tail Call）是函数式编程的一个重要概念，本身非常简单，一句话就能说清楚，就是指某个函数的最后一步是调用另一个函数。</p>
+<pre><code class="lang-js">function f(x){
+    return g(x);
 }
-</code></pre><p>用尾调用优化性能，简单地说如果对下一个函数的调用写在中间，那么就需要先&quot;保护现场&quot;，等下一个函数执行完毕之后继续执行当前函数剩余的语句，而把下一个函数的调用写在末尾，js 的引擎就能尽早放下对执行现场的控制从而优化性能。以下三种情况，都不属于尾调用。</p>
-<pre><code>// 情况一
+</code></pre>
+<p>用尾调用优化性能，简单地说如果对下一个函数的调用写在中间，那么就需要先&quot;保护现场&quot;，等下一个函数执行完毕之后继续执行当前函数剩余的语句，而把下一个函数的调用写在末尾，js 的引擎就能尽早放下对执行现场的控制从而优化性能。以下三种情况，都不属于尾调用。</p>
+<pre><code class="lang-js">// 情况一
 function f(x){
-  let y = g(x);
-  return y;
+    let y = g(x);
+    return y;
 }
 
 // 情况二
 function f(x){
-  return g(x) + 1;
+    return g(x) + 1;
 }
 
 // 情况三
 function f(x){
-  g(x);
+    g(x);
 }
-</code></pre><p>尾递归，函数调用自身，称为递归。如果尾调用自身，就称为尾递归。下面是用尾递归优化求阶乘函数前后的代码：</p>
-<pre><code>function factorial(n) {
-  if (n === 1) return 1;
-  return n * factorial(n - 1);
+</code></pre>
+<p>尾递归，函数调用自身，称为递归。如果尾调用自身，就称为尾递归。下面是用尾递归优化求阶乘函数前后的代码：</p>
+<pre><code class="lang-js">function factorial(n) {
+    if (n === 1) return 1;
+    return n * factorial(n - 1);
 }
 
 function factorial(n, total = 1) {
-  if (n === 1) return total;
-  return factorial(n - 1, n * total);
+    if (n === 1) return total;
+    return factorial(n - 1, n * total);
 }
-</code></pre><p>尾递归节省内存的效果非常明显，如果是非尾递归的 fibonacci 递归方法</p>
-<pre><code>function Fibonacci (n) {
-  if ( n &lt;= 1 ) {return 1};
+</code></pre>
+<p>尾递归节省内存的效果非常明显，如果是非尾递归的 fibonacci 递归方法</p>
+<pre><code class="lang-js">function Fibonacci (n) {
+    if ( n &lt;= 1 ) {return 1};
 
-  return Fibonacci(n - 1) + Fibonacci(n - 2);
+    return Fibonacci(n - 1) + Fibonacci(n - 2);
 }
 
 Fibonacci(10);  // 89
 Fibonacci(500); // 浏览器直接卡死
-</code></pre><p>如果采用尾递归优化</p>
-<pre><code>function Fibonacci (n, ac1 = 1, ac2 = 1) {
+</code></pre>
+<p>如果采用尾递归优化</p>
+<pre><code class="lang-js">function Fibonacci (n, ac1 = 1, ac2 = 1) {
     if (n &lt;= 1) {
         return ac2;
     }
@@ -307,41 +332,46 @@ Fibonacci(500); // 浏览器直接卡死
     return Fibonacci(n -1, ca2, ca1 + ca2);
 }
 Fibonacci(500); // 2.2559151616193602e+104
-</code></pre><p>ES6的尾调用优化只在严格模式下开启，正常模式是无效的。这是因为在正常模式下，函数内部有变量 arguments，可以跟踪函数的调用栈。</p>
+</code></pre>
+<p>ES6的尾调用优化只在严格模式下开启，正常模式是无效的。这是因为在正常模式下，函数内部有变量 arguments，可以跟踪函数的调用栈。</p>
 <p>函数参数的尾逗号，ECMAScript 2017将允许函数定义和调用的最后一个参数有尾逗号（trailing comma）。</p>
-<pre><code>function clownsEverywhere(
-  param1,
-  param2,
+<pre><code class="lang-js">function clownsEverywhere(
+    param1,
+    param2,
 ) { /* ... */ }
 
 clownsEverywhere(
-  &#39;foo&#39;,
-  &#39;bar&#39;,
+    &#39;foo&#39;,
+    &#39;bar&#39;,
 );
-</code></pre><h2 id="header-1-9">对象的扩展</h2>
+</code></pre>
+<h2 id="header-1-7">对象的扩展</h2>
 <p>属性和方法的简洁表示法:</p>
-<pre><code>var foo = &#39;bar&#39;;
+<pre><code class="lang-js">var foo = &#39;bar&#39;;
 function f () {}
 var baz = {foo, f, f2 () {}};
 
 // 等同于
 var baz = {foo: foo, f: f, f2: function () {}};
-</code></pre><p>属性名表达式：</p>
-<pre><code>let propKey = &#39;foo&#39;;
+</code></pre>
+<p>属性名表达式：</p>
+<pre><code class="lang-js">let propKey = &#39;foo&#39;;
 
 let obj = {
-  [propKey]: true,
-  [&#39;a&#39; + &#39;bc&#39;]: 123
+    [propKey]: true,
+    [&#39;a&#39; + &#39;bc&#39;]: 123
 };
-</code></pre><p>Object.assign 方法，同名属性后面的覆盖前面的：</p>
-<pre><code>var target = { a: 1 };
+</code></pre>
+<p>Object.assign 方法，同名属性后面的覆盖前面的：</p>
+<pre><code class="lang-js">var target = { a: 1 };
 
 var source1 = { b: 2 };
 var source2 = { c: 3 };
 
 Object.assign(target, source1, source2);
 target // {a:1, b:2, c:3}
-</code></pre><p>注意，Object.assign 方法实行的是浅拷贝，而不是深拷贝。</p>
+</code></pre>
+<p>注意，Object.assign 方法实行的是浅拷贝，而不是深拷贝。</p>
 
 </div>
 </body>

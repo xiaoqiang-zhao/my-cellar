@@ -84,7 +84,56 @@ module: {
 <h2 id="header-1-4">PostStylus</h2>
 <p><a href="https://github.com/seaneking/poststylus" target="_blank">poststylus github</a></p>
 <p><a href="http://webdesign.tutsplus.com/tutorials/using-postcss-together-with-sass-stylus-or-less--cms-24591" target="_blank">using postcss together with sass stylus or less</a></p>
-<h2 id="header-1-5">扩展资料</h2>
+<h2 id="header-1-5">你需要掌握的点</h2>
+<p>以 Less 为例，你最起码要知道下面这几条语法和套路。</p>
+<h3 id="header-1-5-1">变量</h3>
+<pre><code class="lang-css">@nice-blue: #5B83AD;
+@light-blue: @nice-blue + #111;
+
+#header {
+  color: @light-blue;
+}
+</code></pre>
+<p>变量是存在作用域的，和 js 类似。</p>
+<h3 id="header-1-5-2">mixins</h3>
+<pre><code class="lang-css">.bordered {
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+}
+#menu a {
+  color: #111;
+  .bordered;
+}
+</code></pre>
+<p>混合的作用在大多数场景中可以被组合替代。</p>
+<h3 id="header-1-5-3">函数</h3>
+<pre><code class="lang-css">@base: #f04615;
+@width: 0.5;
+
+.class {
+  width: percentage(@width); // returns `50%`
+  color: saturate(@base, 5%);
+  background-color: spin(lighten(@base, 25%), 8);
+}
+</code></pre>
+<p>用来做单位转换等工作。</p>
+<h3 id="header-1-5-4">推荐书写顺序</h3>
+<pre><code class="lang-css">@import &quot;est/all.less&quot;;
+
+@default-text-color: #333;
+
+.page {
+    width: 960px;
+    margin: 0 auto;
+}
+</code></pre>
+<p>按这种顺序书写更易读：</p>
+<ul>
+<li>1、@import</li>
+<li>2、变量声明</li>
+<li>3、样式声明</li>
+</ul>
+<h2 id="header-1-6">扩展资料</h2>
 <p><a href="http://efe.baidu.com/blog/revisiting-css-preprocessors/" target="_blank">再谈 CSS 预处理器</a></p>
 <p><a href="http://zhaolei.info/2014/01/04/css-preprocessor-and-postprocessor/" target="_blank">CSS 预处理器与 CSS 后处理器</a></p>
 

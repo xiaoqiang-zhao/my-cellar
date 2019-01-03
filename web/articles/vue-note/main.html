@@ -24,13 +24,14 @@
 </blockquote>
 <h2 id="header-1-1">全局的 Ajax 错误拦截</h2>
 <p>在业务代码中每个异步请求都需要有一个处理请求失败的回调函数，向下面这样：</p>
-<pre><code>this.$http.get(url).then((res) =&gt; {
+<pre><code class="lang-js">this.$http.get(url).then((res) =&gt; {
     // 成功的逻辑
 }, (res) =&gt; {
     // 失败的逻辑
 });
-</code></pre><p>对于失败的逻辑，代码几乎都一致 -- 弹个框提示数据请求失败，这样的代码写多了就像能不能不每次写，研究了一下还真有，而且实现并不麻烦，先把代码扔出来：</p>
-<pre><code>import Vue from &#39;vue&#39;;
+</code></pre>
+<p>对于失败的逻辑，代码几乎都一致 -- 弹个框提示数据请求失败，这样的代码写多了就像能不能不每次写，研究了一下还真有，而且实现并不麻烦，先把代码扔出来：</p>
+<pre><code class="lang-js">import Vue from &#39;vue&#39;;
 import VueResource from &#39;vue-resource&#39;;
 Vue.use(VueResource);
 Vue.http.interceptors.push((request, next) =&gt; {
@@ -75,7 +76,8 @@ Vue.http.interceptors.push((request, next) =&gt; {
         return response;
     });
 });
-</code></pre><p>VueResource 提供了 interceptors 接口，我们可以注入自己的逻辑，回调函数会在请求前被执行，请求完成后会执行 next 函数。值得注意的是这个系统级别的拦截，业务代码无法控制其中的逻辑，除非你在里面加一下特殊的业务逻辑判断，但我认为那是比较糟糕的实现。</p>
+</code></pre>
+<p>VueResource 提供了 interceptors 接口，我们可以注入自己的逻辑，回调函数会在请求前被执行，请求完成后会执行 next 函数。值得注意的是这个系统级别的拦截，业务代码无法控制其中的逻辑，除非你在里面加一下特殊的业务逻辑判断，但我认为那是比较糟糕的实现。</p>
 <h2 id="header-1-2">axios</h2>
 <p>刚做完上面的分享，发现 vue-resource 被官网弃坑了，真是感慨前端的技术迭代速度真是快。</p>
 <p>具体为什么弃坑请查阅这篇文章：<a href="https://medium.com/the-vue-point/retiring-vue-resource-871a82880af4" target="_blank">Retiring vue-resource</a>。我简单翻译了给出的 3 条理由：</p>
@@ -85,7 +87,7 @@ Vue.http.interceptors.push((request, next) =&gt; {
 <li>我们可以把用在 vue-resource 上的时间花在更有意义的事情上。</li>
 </ul>
 <p>axios 也有 interceptors，只是将请求前和完成后分成了 request 和 response，用法大同小异：</p>
-<pre><code>axios.interceptors.request.use(function (config) {
+<pre><code class="lang-js">axios.interceptors.request.use(function (config) {
     // Do something before request is sent
     return config;
 }, function (error) {
@@ -100,9 +102,41 @@ axios.interceptors.response.use(function (response) {
     // Do something with response error
     return Promise.reject(error);
 });
-</code></pre><h2 id="header-1-3">404 页面</h2>
+</code></pre>
+<h2 id="header-1-3">vue-router 登录控制</h2>
+<p>后台系统中大多数页面都是登录后才能访问的，这里做了全局的拦截，只有登录后才能访问。</p>
+<pre><code class="lang-js">router.beforeEach(function (to, from, next) {
+    // // 未找到匹配页面
+    const isLogined = utiles.getCurrentUser() !== null;
+    const noLoginedPagesPath = [
+        &#39;/login&#39;,
+        &#39;/register&#39;,
+        &#39;/reset-pwd&#39;
+    ];
+    // 登录状态下默认到 “患者建档页”
+    if (isLogined) {
+        if (to.path === &#39;/&#39; || noLoginedPagesPath.indexOf(to.path) !== -1) {
+            next({
+                replace: true,
+                // 登录后默认首页
+                path: &#39;/create-patient-record&#39;
+            });
+        }
+    }
+    // 非登陆状态下，noLoginedPagesPath 以外的一面只能到登陆页
+    else if (noLoginedPagesPath.indexOf(to.path) === -1) {
+        next({
+            path: &#39;/login&#39;
+        });
+    }
+    else {
+        next();
+    }
+});
+</code></pre>
+<h2 id="header-1-4">404 页面</h2>
 <p>如果地址做了修改没有匹配到相应的页面模块，默认会出空白页面，这时我们需要有一个像传统多页面网站那样的 404 页面，可以添加这么一段检测路由匹配的代码：</p>
-<pre><code>router.beforeEach(function (to, from, next) {
+<pre><code class="lang-js">router.beforeEach(function (to, from, next) {
     // 未找到匹配页面
     if (to.matched.length === 0) {
         next({
@@ -112,9 +146,10 @@ axios.interceptors.response.use(function (response) {
             }
         });
     }
-}
-</code></pre><p>404 页面和普通的页面没有什么区别，这里简单示意一下：</p>
-<pre><code>&lt;template&gt;
+});
+</code></pre>
+<p>404 页面和普通的页面没有什么区别，这里简单示意一下：</p>
+<pre><code class="lang-js">&lt;template&gt;
     &lt;div class=&quot;page-404&quot;&gt;
         未找到匹配的页面模块:{{fromPath}}
     &lt;/div&gt;
@@ -129,6 +164,24 @@ axios.interceptors.response.use(function (response) {
     }
 &lt;/script&gt;
 </code></pre>
+<h2 id="header-1-5">技巧</h2>
+<h3 id="header-1-5-1">组件的原生技能</h3>
+<p>样式类(class)不需要编码实现，只要引用时添加就会出现在组件最外层的标签上，同时还会引入运行时环境的 scope 到组件最外层的标签上。</p>
+<p>简单两个属性实现 v-model：</p>
+<pre><code class="lang-html">&lt;div class=&quot;input-x&quot;&gt;
+    &lt;input 
+        type=&quot;text&quot;
+        v-bind:value=&quot;value&quot;
+        @input=&quot;$emit(&#39;input&#39;, $event.target.value)&quot;&gt;
+&lt;/div&gt;
+</code></pre>
+<h3 id="header-1-5-2">定制组件样式</h3>
+<p>覆盖引入组件内部Dom节点样式由两种方式：</p>
+<ul>
+<li>1、写单独的样式文件，然后引入；</li>
+<li>2、单独添加一个不带 scoped 属性的 style 标签。</li>
+</ul>
+
 </div>
 </body>
 </html>

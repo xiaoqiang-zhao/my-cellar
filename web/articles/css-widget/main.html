@@ -3,7 +3,7 @@
 <head lang="zh-cn">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>常用 CSS 片段收集 - 小强赵的个人站点</title>
+    <title>CSS Widget - 小强赵的个人站点</title>
     <script>
         // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
         var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
@@ -18,13 +18,25 @@
     <h2> 精进自己，服务他人 </h2>
 </header>
 <div>
-    <h1 id="header-1">常用 CSS 片段收集</h1>
+    <h1 id="header-1">CSS Widget</h1>
 <blockquote>
-<p>提供简写和非简写两种方式，有点小洁癖的可以采用了简写的方式，多人协作的长期项目建议采用非简写简明知意。另外简写容易造成冲突，按字母顺序排列样式能在一定层度上减少这种冲突，所以下面的样式都是按字母顺序排列的，另外简写的一般规则是 “属性-属性值-修饰”，表意的CSS片段取首字母缩写。可以更具自己的项目定制此文件的部分或全部，无需任何许可。一些实例：<a href="demo/demo.html" target="_blank">DEMO</a>，也可下载<a href="demo/css.css" target="_blank">dem/css.css</a>直接使用。</p>
+<p>零零总总写前端 5 年多了，几乎任何业务项目都需要用到一些样式片段，功能复杂的已经被抽象成了组件库，还有一些只有几行十几行的样式片段却在不断的重复编码，决定花时间整理一些这个类型的片段，利人利己。</p>
 </blockquote>
-<h2 id="header-1-1">清除浮动</h2>
-<p>这是一个很不错的解决方案，兼容IE6与现代浏览器，理论部分查看：
-<a href="http://www.iyunlu.com/view/css-xhtml/55.html" target="_blank">那些年我们一起清除过的浮动</a></p>
+<h2 id="header-1-1">辅助功能</h2>
+<h3 id="header-1-1-1">字体</h3>
+<p>Helvetica，无衬线字，字母 I l，可能是设计师最爱的字体，Realist风格，简洁现代的线条，非常受到追捧。在Mac下面被认为是最佳的网页字体，在Windows下显示很糟糕。</p>
+<p>苹方 PingFang SC，无衬线，字母 I l，美观大于实用。</p>
+<p>大河马 tahoma，无衬线，字母 I l，中英文混排推荐，XP 时代的微软默认字体，字体界的老炮。</p>
+<p>sans-serif，无衬线，字母 I l，大河马的备胎。</p>
+<p>微软雅黑 Microsoft Yahei，无衬线，字母 I l，Windows7+ 时代的微软默认字体，同样字号情况下微软雅黑的字要大一点。</p>
+<pre><code class="lang-css">font: 14px/1.5 Helvetica &quot;PingFang SC&quot;, tahoma, arial, sans-serif;
+</code></pre>
+<ul>
+<li>如果是对设计感有需求的网站或App，用 Helvetica 和 &quot;PingFang SC&quot; 打头是不错的选择；</li>
+<li>如果是中规中矩的网站或App，用 tahoma 做主打，arial 和 sans-serif 娄底是不错的选择；</li>
+<li>微软雅黑是收费字体，Mac 也提供，如果是 PC 可以考虑用微软雅黑，如果有 Android 场景那就不要用了。</li>
+</ul>
+<h3 id="header-1-1-2">清除浮动</h3>
 <pre><code class="lang-css">/* 清除浮动 */
 .c-f,
 .clear-float {
@@ -38,49 +50,11 @@
     clear: both;
 }
 </code></pre>
-<h2 id="header-1-2">可点击</h2>
-<p>其实就是鼠标以上后形状变成手型。</p>
-<pre><code class="lang-css">/* 可点击 */
-.c-p,
-.cursor-pointer {
-    cursor: pointer;
-}
-</code></pre>
-<h2 id="header-1-3">数据为空</h2>
-<p>只写一个空的div就可以实现数据为空的页面提示。</p>
-<pre><code class="lang-css">/* 数据为空,只兼容到IE8及以上 */
-.d-e,
-.data-empty {
-    font-size: 14px;
-    text-align: center;
-    color: #a8a8a8;
-    padding: 5px 0;
-}
-.d-e:after,
-.data-empty:after {
-    content: &quot;数据为空&quot;;
-}
-</code></pre>
-<h2 id="header-1-4">隐藏</h2>
-<p>隐藏元素推荐使用class来操作，这样便于显示时还原display的值，另外加上body来提高优先级使适用范围更广泛。</p>
-<pre><code class="lang-css">/* 隐藏 */
-body .hide {
-    display: none;
-}
-</code></pre>
-<h2 id="header-1-5">不被内容撑大的table</h2>
-<p>常用的 table 形式，不被撑大，内容优先自动折行。</p>
-<pre><code class="lang-css">/* 不被撑大的table */
-.t-f,
-.table-fixed {
-    table-layout: fixed;
-    word-wrap: break-word;
-}
-</code></pre>
-<h2 id="header-1-6">单行文字超出截断</h2>
-<p>不折行，超出部分截断，并以三个点结尾。<code>white-space</code> 是一个可以继承的属性（上层元素定义之后下层元素会自动继承），如果与 <code>word-wrap</code> 和 <code>word-break</code> 相遇，并且 <code>white-space: nowrap</code> 时，页面表现为不折行。</p>
-<pre><code class="lang-css">/* 超长截断,只兼容到IE8及以上 */
-.to-e,
+<p>这可能是兼容性最好副作用最小的一种方案了。理论部分可以看看“一丝冰凉”的这篇文章：
+<a href="http://www.iyunlu.com/view/css-xhtml/55.html" target="_blank">那些年我们一起清除过的浮动</a></p>
+<h3 id="header-1-1-3">单行文字超出截断</h3>
+<p>兼容 IE8 及以上：</p>
+<pre><code class="lang-css">/* 单行文字超出截断 */
 .text-overflow-ellipsis,
 .ellipsis {
     overflow: hidden;
@@ -88,95 +62,174 @@ body .hide {
     white-space: nowrap;
 }
 </code></pre>
-<h2 id="header-1-7">多行文字超出截断</h2>
-<pre><code class="lang-css">.line-clamp {
+<h3 id="header-1-1-4">多行文字超出截断【移动】</h3>
+<p>移动端方案，只兼容 webkit 内核的浏览器：</p>
+<pre><code class="lang-css">/* 多行文字超出截断【移动端】 */
+.line-clamp {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
     -webkit-line-clamp: 3;
 }
 </code></pre>
-<p>line-clamp 属性还不是标准，还有一个 js 库可以考虑：<a href="https://github.com/josephschmitt/Clamp.js" target="_blank">https://github.com/josephschmitt/Clamp.js</a></p>
-<h2 id="header-1-8">自动折行</h2>
-<p>一般块式容器汉字和英文默认都会自动折行，只有url这种连续的英文字母片段需要设置折行，word-wrap单词结束折行，word-break不管单词是否结束到容器末尾立即折行。值得注意的是word-wrap也可以对连续英文字符串折行，所以实践中首选word-wrap。</p>
-<pre><code class="lang-css">    /* 自动折行 */
-    .ww-bw,
-    .word-wrap-break-word {
-        word-wrap: break-word;
-        white-space: normal;
-    }
-```css
-
-- word-wrap: break-word; 内容将在边界内换行。如果需要，单词内部允许断行。
-
-- word-break: keep-all; 只能在半角空格或连字符处换行，无法对某些链接地址进行换行。
-
-这里补充 `white-space: normal;` 是因为其继承的特性，为了使程序更健壮，这一行在某些情况下的冗余是值得的。
-
-[word-wrap/word-break/white-space](http://www.cnblogs.com/charling/p/3615111.html)
-
-## 大图小字水平居中
-
-图片浮动，文字行高等于图片高度。
-
-```css
-.tag {
-    padding: 2px 10px;
-    border-radius: 5px;
-    font-size: 16px;
-    line-height: 28px;
-    background: rgba(120, 120, 120, .3);
+<p>-webkit-line-clamp 是一个不规范的属性，它没有出现在 CSS 规范草案中。也就是说只有 webkit 内核的浏览器才支持这个属性，像 Firefox, IE 浏览器统统都不支持这个属性，浏览器兼容性不好。</p>
+<p>使用场景：多用于移动端页面，因为移动设备浏览器更多是基于 webkit 内核。</p>
+<h3 id="header-1-1-5">多行文字超出截断【PC端】</h3>
+<pre><code class="lang-css">/* 多行文字超出截断【PC端】 */
+.wrap {
+    height: 40px;
+    line-height: 20px;
+    overflow: hidden;
 }
-.tag::before {
-    margin-right: 5px;
-    font-size: 28px;
+.wrap .text {
+    float: right;
+    margin-left: -5px;
+    width: 100%;
+    word-break: break-all;
+}
+.wrap::before {
     float: left;
+    width: 5px;
+    content: &#39;&#39;;
+    height: 40px;
 }
-</code></pre>
-<h2 id="header-1-9">大字小图水平居中</h2>
-<p>字体不管多大始终保持居中。</p>
-<pre><code class="lang-css">.img-tag {
+.wrap::after {
+    float: right;
+    content: &quot;...&quot;;
+    height: 20px;
+    line-height: 20px;
+    /* 为三个省略号的宽度 */
+    width: 3em;
+    /* 使盒子不占位置 */
+    margin-left: -3em;
+    /* 移动省略号位置 */
     position: relative;
-    top: 10px;
-    left: 10px;
-    border-radius: 5px;
-    padding: 2px 10px 2px 2px;
-    background: rgba(120, 120, 120, .3);
-
-    font-size: 30px;
-}
-
-.img-tag::after {
-    content: &quot;\e6d6&quot;;
-    position: absolute;
-    top: 50%;
-    margin-top: -0.5em;
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    font-size: 10px;
+    left: 100%;
+    top: -20px;
+    padding-right: 5px;
 }
 </code></pre>
-<h2 id="header-1-10">多段文字间隔</h2>
-<p>多个标签之间间隔一个字符是常用的样式，字符 | 会因为字体的不同无法居中无法控制高度等问题，我们用伪元素画一个：</p>
-<pre><code class="lang-css">.item {
-    display: inline-block;
-    font-size: 20px;
+<p>真是一个无比巧妙的方案，原理部分参见这篇文章：<a href="https://github.com/happylindz/blog/issues/12" target="_blank">https://github.com/happylindz/blog/issues/12</a>。</p>
+<p>这里的多行是需要通过高度和行高配合实现的，省略号的背景默认是白色如果容器是其他背景色需要手动重置。如果你需要边框需要手动设置伪元素的高度，或者使用 outline 来代替 border。</p>
+<pre><code class="lang-css">.wrap::before {
+    height: 40px;
+}
+</code></pre>
+<p>line-clamp 属性还不是标准，还有一个 js 库可以考虑：<a href="https://github.com/josephschmitt/Clamp.js" target="_blank">https://github.com/josephschmitt/Clamp.js</a></p>
+<h2 id="header-1-2">独立样式</h2>
+<h3 id="header-1-2-1">大图小字</h3>
+<p>支持 IE8+</p>
+<pre><code class="lang-css">/* 大图小字 */
+.img-text-container {
+    font-size: 16px;
+    line-height: 40px;
+}
+.img-text-container img,
+.img-text-container::before {
+    font-family: &quot;iconfont&quot;;
+    margin-right: 5px;
+    font-size: 40px;
+    height: 40px;
+    vertical-align: top;
+}
+</code></pre>
+<p>将图片或图标的 <code>vertical-align</code> 设置成 <code>top</code> 是关键。需要注意的有两点：</p>
+<ul>
+<li>1、图和字中间会有间隔，采用浮动方案可消除间距同时带来浮动产生副作用；</li>
+<li>2、文字的行高需要和图的高度一致。</li>
+</ul>
+<h3 id="header-1-2-2">小图大字</h3>
+<p>支持 IE8+</p>
+<pre><code class="lang-css">/* 小图大字 */
+.icon-text-container {
+    font-size: 16px;
     line-height: 1em;
 }
-.item:nth-of-type(n + 2)::before {
-    content: &quot;\200B&quot;;
+.icon-text-container img {
     display: inline-block;
-    height: 0.15em;
-    width: 1px;
-    border-bottom: 0.7em solid #fff;
-    margin: 0 0.5em;
+    height: 14px;
+    margin-right: 5px;
+    // 高度的一半
+    margin-bottom: -7px;
+    vertical-align: 32%;
+}
+.icon-text-container::before {
+    display: inline-block;
+    font-family: &quot;iconfont&quot;;
+    font-size: 14px;
+    color: #555;
+    vertical-align: top;
 }
 </code></pre>
-<h2 id="header-1-11">todo</h2>
-<p>写个示例页面...</p>
-<h2 id="header-1-12">扩展阅读</h2>
-<p><a href="https://segmentfault.com/a/1190000002773955" target="_blank">60个有用CSS代码片段</a></p>
+<p>多用于装饰性的小图标。这里的关键在于 <code>vertical-align: 32%;</code> 这个设置，之母 x 的高度占整个行高的一半，如果 <code>vertical-align</code> 的值是百分数，那么相对值就是行高，参考点就是字母 x 的下边沿，字母 x 的高度刚好占到行高的一半，所以 <code>25%</code> 的相对值设置会使图片的下边沿正好在字母 x 的垂直中线上，字母 x 位于一行偏下一点，上下的距离比实际测量大概是 16:9，然后 (16-9)/(16+9) 刚好是 28%，再取一半的一半刚好是 7%，于是 25% + 7% = 32%。</p>
+<p>对于图片同样有两点需要注意：</p>
+<ul>
+<li>1、容器行高必须是一倍字号，如果需要间距通过 <code>padding</code> 设置；</li>
+<li>2、图片的 <code>margin-bottom</code> 必须是图片高度的一半取负。</li>
+</ul>
+<p>对图标要简单很多，只要自动继承容器的单倍行高然后这是 <code>vertical-align: top</code> 就可以了。</p>
+<h3 id="header-1-2-3">文字间隔</h3>
+<p>多个标签之间间隔一个字符是常用的样式，字符 | 会因为字体的不同无法居中无法控制高度等问题，我们用伪元素画一个：</p>
+<pre><code class="lang-css">/* 文字间隔 */
+.space-item {
+    display: inline-block;
+    line-height: 1em;
+}
+.space-item:nth-of-type(n + 2)::before {
+    content: &quot;\200B&quot;;
+    display: inline-block;
+    height: .15em;
+    width: 1px;
+    border-bottom: .7em solid #f00;
+    margin: 0 .5em;
+}
+</code></pre>
+<p>这段代码的的第一个妙处在于用 <code>border-bottom</code> 画间距线，而用高度作为上间距(用 padding 会有问题)；第二个妙处在于用了关系选择器，不需要手动去指定哪一个有间隔符。</p>
+<h3 id="header-1-2-4">数据为空&amp;暂无权限</h3>
+<p>支持 IE8+</p>
+<pre><code class="lang-css">/* 数据为空&amp;暂无权限 */
+.no-right,
+.data-empty {
+    text-align: center;
+    padding: 50px 0;
+    color: #555;
+}
+.icon-no-right:before,
+.icon-empty:before {
+    display: block;
+    margin: 0 auto;
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+</code></pre>
+<p>常用样式，需要引入相应的 iconfont 图标。</p>
+<h3 id="header-1-2-5">加载中</h3>
+<p>兼容IE9+</p>
+<p>从网站 <a href="http://tobiasahlin.com/spinkit/" target="_blank">http://tobiasahlin.com/spinkit/</a> 中摘取的一个样式。使用简单，只有一个元素。</p>
+<pre><code class="lang-css">/* 加载中 */
+.loading {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    margin: 100px auto;
+}
+.loading::before,
+.loading::after {
+    content: &#39;&#39;;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #333;
+    opacity: .6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: sk-bounce 2.0s infinite ease-in-out;
+}
+.loading::after {
+    animation-delay: -1.0s;
+}
+</code></pre>
 
 </div>
 </body>
