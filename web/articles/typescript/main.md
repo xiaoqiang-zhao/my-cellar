@@ -787,6 +787,12 @@ f(1, undefined);
 f(1, null); // error, 'null' is not assignable to 'number | undefined'
 ```
 
+## 总结
+
+ts 对于 js 来说是一种强约束，在项目中使用会增加设计和编码的成本，你需要花更多的时间来思考怎样抽象以及怎么满足其他代码的约束；另一方面正因为强约束代码的可预期性会得到提高，至于维护成本直接取决于前期的约束设计是否合理。
+
+比如让你设计一个表单验证器，用原生 js 和 ts 分别实现一下做个对比。
+
 ## 参考
 
 [官网](http://www.typescriptlang.org/)
