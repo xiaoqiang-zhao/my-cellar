@@ -1,22 +1,60 @@
 # 浏览器缓存
 
-> 前端性能优化必备技能。
+> 前端缓存问题排查和性能优化必备技能。
 
-## A
+## 基本认识
+
+浏览器缓存分为强缓存和协商缓存，下面是浏览器加载资源的优先级逻辑：
+
+ - 浏览器在加载资源时，先根据这个资源的 http header 判断它是否命中强缓存，如果命中，浏览器直接从自己的缓存中读取资源(不会发请求到服务器)；
+ - 当强缓存没有命中的时候，浏览器一定会发送一个请求到服务器，通过服务器端依据资源的 http header 验证这个资源是否命中协商缓存，如果协商缓存命中，服务器会将这个请求返回，但是不会返回这个资源的数据，而是告诉客户端可以直接从缓存中加载这个资源，于是浏览器就又会从自己的缓存中去加载这个资源；
+ - 当协商缓存也没有命中的时候，浏览器直接从服务器加载资源数据。
+
+## 查看资源是哪种缓存
+
+强缓存对应的网络描述是 “status: 200, size: from cache”。
+
+协商缓存对应的网络描述是 “status: 304”。
+
+## 缓存管理思路
+
+首页采用协商缓存，每次发新版时前一个版本缓存失效。
+
+资源采用 md5 文件指纹，使用强缓存。
+
+## 缓存管理
+
+服务器端只能发起缓存声明，执行在浏览器端，浏览器端可以无视服务端的声明。
+
+### 强缓存管理
+
+Expires 是 http1.0 提出的一个表示资源过期时间的 header，它描述的是一个绝对时间，由服务器返回，用 GMT 格式的字符串表示，如：Expires:Thu, 31 Dec 2037 23:55:55 GMT。
+
+Expires 是较老的强缓存管理 header，由于它是服务器返回的一个绝对时间，在服务器时间与客户端时间相差较大时，缓存管理容易出现问题，比如随意修改下客户端时间，就能影响缓存命中的结果。所以在 http1.1 的时候，提出了一个新的 header，就是 Cache-Control。
+
+Cache-Control 设置一个相对时间，在配置缓存的时候，以秒为单位，用数值表示，如：Cache-Control:max-age=315360000。
+
+如果想要设置不缓存，Expires 设为 -1(为了更好的兼容性通常还添加一个头 Pramga: no-cache 来兼容老浏览器)，Cache-Control 设为 no-cache。
+
+### 协商缓存管理
+
+
+
+### 浏览器端
 
 ## 面试题
 
 来自头条：请列举出三种禁止浏览器缓存的头字段，并写出相应的设置值。
 
-response.setDateHeader("Expires",-1);
-response.setHeader("Cache-Control","no-cache"); 
-response.setHeader("Pragma","no-cache"); 
+Expires: -1, Cache-Control: no-cache, Pragma: no-cache
 
-https://blog.csdn.net/zyw23zyw23/article/details/70991549
-
-https://blog.csdn.net/u014034854/article/details/50374709
+这种题一般只是个引子，如果答的出肯定会问缓存策略。这个题的知识点是好的，但是问的有些刁钻，就算以前学习过一年半载的不写也会忘记，到是缓存策略会比较硬核一些，答的出缓存策略再用这个题问一下兼容性的技术细节会比较合适。
 
 ## 参考
 
 https://www.cnblogs.com/lyzg/p/5125934.html
+
+https://blog.csdn.net/zyw23zyw23/article/details/70991549
+
+https://blog.csdn.net/u014034854/article/details/50374709
 
