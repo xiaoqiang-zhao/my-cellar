@@ -610,7 +610,11 @@ f(1);
 f(1, undefined);
 f(1, null); // error, &#39;null&#39; is not assignable to &#39;number | undefined&#39;
 </code></pre>
-<h2 id="header-1-13">参考</h2>
+<h2 id="header-1-13">总结</h2>
+<p>ts 对于 js 来说是一种强约束，在项目中使用会增加设计和编码的成本，你需要花更多的时间来思考怎样抽象以及怎么满足其他代码的约束；另一方面正因为强约束代码的可预期性会得到提高，至于维护成本直接取决于前期的约束设计是否合理，ts 的强约束是一把双刃剑，合理的约束让项目稳定健壮，不合理的约束会让人觉得处处受限。</p>
+<p>比如让你设计一个表单验证器，用原生 js 和 ts 分别实现一下做个对比。</p>
+<p>最后说一句话：强大的人喜欢驾驭那些一般人难以驾驭的技术以彰显自己的强大，警惕为了彰显而彰显。</p>
+<h2 id="header-1-14">参考</h2>
 <p><a href="http://www.typescriptlang.org/" target="_blank">官网</a></p>
 <p><a href="https://www.zhihu.com/question/46397274" target="_blank">Vue 2.0 为什么选用 Flow 进行静态代码检查而不是直接使用 TypeScript？</a></p>
 <p><a href="https://webpack.js.org/guides/typescript/" target="_blank">webpack - typescript/</a></p>
