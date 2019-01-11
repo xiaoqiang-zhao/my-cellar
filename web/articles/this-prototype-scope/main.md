@@ -119,6 +119,8 @@ for (let key in a) {
 
 ## scope
 
+函数内部的作用域就是函数定义时的作用域加函数内部域。
+
 ## 参考
 
 https://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/
