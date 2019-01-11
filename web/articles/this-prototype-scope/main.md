@@ -108,7 +108,13 @@ const a = new A();
 for (let key of Object.keys(a)) {
     console.log(key);
 }
-//输出: aa
+// 输出: aa
+
+// for in 会遍历出更多
+for (let key in a) {
+    console.log(key);
+}
+// 输出: aa a
 ```
 
 ## scope
