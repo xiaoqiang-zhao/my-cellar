@@ -344,10 +344,21 @@ target.m() // false
 proxy.m()  // true
 ```
 
-下面代码中，getDate 方法只能在 Date 对象实例上面拿到，如果 this 不是 Date 对象实例就会报错。这时 this 绑定原始对象，就可以解决这个问题。
+下面代码中，getDate 方法只能在 Date 对象实例上面拿到，如果 this 不是 Date 对象实例就会报错。
 
 ```js
-const target = new Date('2015-01-01');
+const target = new Date();
+const handler = {};
+const proxy = new Proxy(target, handler);
+
+proxy.getDate();
+// TypeError: this is not a Date object.
+```
+
+这时 this 绑定原始对象，就可以解决这个问题。
+
+```js
+const target = new Date('2019-01-01');
 const handler = {
   get(target, prop) {
     if (prop === 'getDate') {
