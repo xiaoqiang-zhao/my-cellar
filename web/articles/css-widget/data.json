@@ -1,12 +1,12 @@
 {
-  "enName": "css-widget",
-  "title": "CSS 小组件",
-  "introduction": "这些年用过的一些小组件，整理收集在此。class命名很接地气，坏处就是容易冲突，如果和其他样式库公用注意冲突的问题。\n一些实例：[DEMO](/articles/css-widget/demo/demo.html)，也可下载[dem/css.css](demo/css.css)直接使用。",
+  "enName": "css-part",
+  "title": "CSS Widget",
+  "introduction": "零零总总写前端 5 年多了，几乎任何业务项目都需要用到一些样式片段，功能复杂的已经被抽象成了组件库，还有一些只有几行十几行的样式片段却在不断的重复编码，决定花时间整理一些这个类型的片段，利人利己。",
   "tags": [],
   "isPublished": false,
   "state": "立项",
   "type": "md",
-  "createDate": 1459739951048,
+  "createDate": 1462684808390,
   "commentList": [],
   "todoList": []
 }

@@ -415,7 +415,7 @@ task();
 }
 </code></pre>
 <p>如果需要关注具体数哪一步出了问题，可以给每个 promise 加上 catch。</p>
-<h3 id="header-1-4-4">顺序 &amp; 并行</h3>
+<h3 id="header-1-4-4">顺序 VS 并行</h3>
 <p>async/await 在处理“后面的异步需要等前面的异步返回结果后再执行”这种情况更为顺畅，分支逻辑也更好控制。如果是多个异步并行执行，可以借助 Promise.all 来实现，也可以先执行异步函数并用临时变量存储返回值，然后在每个返回值前添加 await。</p>
 <pre><code class="lang-js">// 写法一: Promise.all
 let [foo, bar] = await Promise.all([getFoo(), getBar()]);
@@ -426,7 +426,24 @@ let barPromise = getBar();
 let foo = await fooPromise;
 let bar = await barPromise;
 </code></pre>
-<h2 id="header-1-5">总结</h2>
+<h2 id="header-1-5">宏任务 VS 微任务</h2>
+<p>先看下面一段代码：</p>
+<pre><code class="lang-js">console.log(&#39;1&#39;);
+
+setTimeout(function() {
+  console.log(&#39;2&#39;);
+}, 0);
+
+Promise.resolve().then(function() {
+  console.log(&#39;3&#39;);
+}).then(function() {
+  console.log(&#39;4&#39;);
+});
+
+console.log(&#39;5&#39;);
+</code></pre>
+<p>执行结果是 <code>1 5 3 4 2</code>，我们称 <code>3 4</code> 的任务为微任务，<code>2</code> 是宏任务。Promise 的引入使事件池中的任务分成了这两种，先判断微任务是否可执行，如果可执行立即执行，再判断宏任务是否可执行。</p>
+<h2 id="header-1-6">总结</h2>
 <p>根据场景选择 callback、promise、async/await，技术本身没有优劣，只有合适的才是最好的。</p>
 
 </div>

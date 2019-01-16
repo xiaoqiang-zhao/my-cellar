@@ -104,7 +104,7 @@ function createRegExpObject(text) {
 
 `\s` ：任何 Unicode 空白符，可用来匹配空格，Tab，回车
 
-`\S` ：大写的对应其补集
+`\S` ：上一条的补集
 
 `.` ：除换行外的其他字符
 

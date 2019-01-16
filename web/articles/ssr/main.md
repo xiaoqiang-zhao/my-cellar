@@ -185,3 +185,5 @@ if (process.server) {
 [美团点评点餐 Nuxt.js 实战](https://juejin.im/post/598aabe96fb9a03c335a8dde)
 
 [React服务器端渲染（SSR）实例](https://blog.csdn.net/shuzipai/article/details/78258936)
+
+[Vue SSR不可不知的问题 -- 转转](https://mp.weixin.qq.com/s/rx_t9m6OQzy-0dtNnNJwgQ)

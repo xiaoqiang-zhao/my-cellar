@@ -1,4 +1,4 @@
-# CSS 动画(一)
+# CSS 动画
 
 > 目前我对于 CSS 动画还是一个菜鸟，从不会到熟练总需要一个过程，本篇从语法开始，记录我的学习，算是一份技术点备忘录吧。
 
@@ -11,14 +11,16 @@
 
 语法：
 
-	transition: [transition-property] transition-duration [transition-timing-function] [transition-delay]
-	// 也就是：
-	transition: [过渡属性] 过渡持续时间 [动画函数] [过渡延迟时间]
-	// 多组设置用逗号间隔
-	
+```css
+transition: [transition-property] transition-duration [transition-timing-function] [transition-delay]
+// 也就是：
+transition: [过渡属性] 过渡持续时间 [动画函数] [过渡延迟时间]
+// 多组设置用逗号间隔
+```
+
 ### 过渡样式
 
-`transition-property` 
+`transition-property`
 
 - all 默认值，全部可过渡的样式，在下面会给出哪些样式可过渡
 - none 不对任何样式进行过渡，当过渡还没完成时突然将过渡属性设为 `none`，过渡会直接跳到结尾，
@@ -34,10 +36,13 @@
 
 `transition-duration` 单位为s(秒)或ms(毫秒)，默认值是0，当属性值为零时看不到过渡效果，所以过渡时间是动画事实上的不可缺属性。可以像下面这样使用此属性：
 
+```css
+{
 	transition: 0.5s;
 	transition: .5s;
 	transition: 500ms;
-
+}
+```
 [示例](/articles/css-animation/demo/transition-duration.html)
 
 ### 过渡函数
@@ -72,34 +77,37 @@
 
 通过 `animation` 及其子属性定义动画，通过 `@keyframes` 定义关键帧。先看[快速开始示例](/articles/css-animation/demo/animation-quick-start.html)的样式代码：
 
-	div {
-		display: inline-block;
-		margin: 100px;
-		padding: 20px;
-		border-radius: 20px;
-		background: #B2EFB2;
+```css
+div {
+	display: inline-block;
+	margin: 100px;
+	padding: 20px;
+	border-radius: 20px;
+	background: #B2EFB2;
+}
+div:hover {
+	animation: animation-name 1s 4 alternate;
+}
+@keyframes animation-name {
+	100% {
+		margin: 0;
+		padding: 100px;
+		border-radius: 100px;
 	}
-	div:hover {
-		animation: animation-name 1s 4 alternate;
-	}
-	@keyframes animation-name {
-		100% {
-			margin: 0;
-			padding: 100px;
-			border-radius: 100px;
-		}
-	}
+}
+```
 
 通过上面的代码就可以实现一个 CSS3 的简单动画。`animation` 共有 8 个子属性，`@keyframes` 相对简单，先给出语法形式，后面一一详述：
 
-	animation: [animation-name] animation-duration [animation-timing-function] [animation-delay] [animation-iteration-count] [animation-direction] [animation-play-state] [animation-fill-mode]
-	// 多组用逗号间隔
-	@keyframes animation-name {
-		from { }
-		percent { }
-		to { }
-	}
-
+```css
+animation: [animation-name] animation-duration [animation-timing-function] [animation-delay] [animation-iteration-count] [animation-direction] [animation-play-state] [animation-fill-mode]
+// 多组用逗号间隔
+@keyframes animation-name {
+	from { }
+	percent { }
+	to { }
+}
+```
 ### 动画名称
 
 `animation-name` 动画名称，方便通过关键帧定义动画细节，有两个值：
@@ -109,7 +117,7 @@
 
 ### 动画播放时间
 
-`animation-duration` 动画播放时间，默认值为 0，单位是秒，当设为 0 或者负数时没有任何动画，所以播放时间是事实上的比备属性。
+`animation-duration` 动画播放时间，默认值为 0，单位是秒，当设为 0 或者负数时没有任何动画，所以播放时间是事实上的必备属性。
 
 ### 动画播放方式
 
@@ -152,17 +160,25 @@
 
 关键帧用来进一步定义动画的过渡效果，可以指定动画在不同阶段的关键帧，以百分比的形似来描述动画阶段。
 
-	@keyframes animation-name {
-		from { }
-		percent { }
-		to { }
-	}
+```css
+@keyframes animation-name {
+	from { }
+	percent { }
+	to { }
+}
+```
 
 `form` 和 `to`可以用 0% 和 100% 代替，也可以多个百分比公用一个关键帧，如下：
 
-	@keyframes animation-name {
-		10%, 20% { }
-	}
+```css
+@keyframes animation-name {
+	10%, 20% { }
+}
+```
+
+## 动画频率
+
+每秒 30 帧流畅，60 帧完美。
 
 ## 参考网站
 

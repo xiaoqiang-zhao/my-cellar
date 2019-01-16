@@ -1,6 +1,10 @@
-# node开发纪要
+# NodeJs 必备基础
 
-> 开发 node 程序有一些必须掌握的技巧，这里收集一些我遇到的问题和解决方案。
+> 开发 NodeJs 程序有一些必须掌握的技巧，这里总结用到的基础知识，收集一些我遇到的问题和解决方案。
+
+## 概述
+
+## 文件操作
 
 ## 版本控制
 
@@ -27,8 +31,9 @@
 
 	n 6.2.0
 
-[node.js版本管理工具n无效的原理和解决方法](http://www.jb51.net/article/98153.htm)
+[node.js版本管理工具 n 无效的原理和解决方法](http://www.jb51.net/article/98153.htm)
 
+todo：原理， Linux 部分...
 ## 调试环境
 
 ### inspector
@@ -162,3 +167,9 @@ pm2 delete api
 # 重启进程
 pm2 restart api
 ```
+
+## 参考和扩展
+
+https://juejin.im/post/5ac0e1fc6fb9a028b411345f
+
+https://juejin.im/post/5ac22344f265da238155ccde

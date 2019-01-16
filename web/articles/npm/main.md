@@ -22,15 +22,19 @@ NPM 是一个包管理平台，它对包做了一些规范，一些重要文件�
 
 `test` 自动化测试文件。
 
-## 安装一个依赖包
+## 安装依赖包
 
 自动把模块和版本号添加到dependencies部分。
- 
-	npm install module-name --save 
+
+```shell
+npm install module-name --save 
+```
 
 自动把模块和版本号添加到devDependencies部分。
 
-	npm install module-name --save-dev
+```shell
+npm install module-name --save-dev
+```
 
 `npm install`默认会安转两种依赖相当于`npm install --production` + `npm install --dev`，如果你只是单纯的使用这个包而不需要进行一些改动测试之类的可以使用前一个，如果想进一步了解。
 
@@ -38,13 +42,17 @@ NPM 是一个包管理平台，它对包做了一些规范，一些重要文件�
 
 还可以从指定路径安装需要的包：
 
-	npm --registry=https://registry.npm.taobao.org install cnpm -g
+```shell
+npm --registry=https://registry.npm.taobao.org install cnpm -g
+```
 
-如果装错了你可以不用管，但是如果有一点小洁癖的话可以卸载掉，加`-save`同样会将`package.json` 中的配置移除掉：
+如果装错了你可以不用管，但是如果有一点小洁癖的话可以卸载掉，加`--save`同样会将`package.json` 中的配置移除掉：
 
-	npm uninstall module-name --save
+```shell
+npm uninstall module-name --save
+```
 
-### 依赖包版本的控制
+## 依赖包版本的控制
 
 如果我们没有精力去实时关注依赖包的更新，或者依赖包是一个不稳定版本，API 还处在一个快速迭代的时期，那么我们最好依赖一个特定的版本。根据自己的需求来指定版本依赖方式，下面是来自官方文档的部分译文。
 
@@ -60,11 +68,13 @@ Dependencies 用一个包名的简单哈希来描述包的版本范围(译者注
 
 Git URLs 可以是下面格式：
 
-    git://github.com/user/project.git#commit-ish
-    git+ssh://user@hostname:project.git#commit-ish
-    git+ssh://user@hostname/project.git#commit-ish
-    git+http://user@hostname/project/blah.git#commit-ish
-    git+https://user@hostname/project/blah.git#commit-ish
+```shell
+git://github.com/user/project.git#commit-ish
+git+ssh://user@hostname:project.git#commit-ish
+git+ssh://user@hostname/project.git#commit-ish
+git+http://user@hostname/project/blah.git#commit-ish
+git+https://user@hostname/project/blah.git#commit-ish
+```
 
 ## dependencies 和 devDependencies
 
@@ -72,54 +82,58 @@ Git URLs 可以是下面格式：
 
 如果写的是某个库的或框架的插件，还有一种 dependencies 类型是 peerDependencies，应该在 peerDependencies 中写一份，再在 devDependencies 写一份。具体的原因参考[开发组件库时 Vue 应该放哪儿](https://cnodejs.org/topic/5819624a1a9a7d9909531395)
 
-## 安装依赖
-
-一个项目的依赖包一般是不被提交的，这就需要在将项目克隆到本地后手动安转依赖
-
-	npm install
-
 ## 常用命令
 
 `npm init`: 初始化 package.json 文件，根据提示输入一些关键信息就可以将文件初始化完成。
 
+`npm install`: 安装依赖包。
+
 `npm ls -g`: 查看所有全局安装的模块。如果你不想看到那么多层的依赖，那就加个参数吧：`sudo npm ls -g --depth 0`。
 
-`npm prune`: 如果你的node_modules目录中已经安装了一个package，但是package.json中并没有对该package做依赖，那么这个package就应该被删除。这时如果执行npm ls命令则指示有一个 “npm ERR! extraneous: ...”。为了清理代码，你需要执行npm prune。
+`npm prune`: 如果你的 node_modules 目录中已经安装了一个 package，但是package.json 中并没有对该 package 做依赖，那么这个 package 就应该被删除。这时如果执行npm ls命令则指示有一个 “npm ERR! extraneous: ...”。为了清理代码，你需要执行npm prune。
 
 `npm uninstall <package-name>`: 卸载包。
 
 `npm root -g`: 查看全局安装路径。
 
+`npm link`: 将当前包链接到全局，方便地对当前包进行调试和测试。
+
 ## 多版本 node 管理
 
 在维护一些老项目的时候，一些工具依赖于某一版本的 node 才能运行起来，这就需要在不同的版本之间来回切换，这时你需要一个多版本管理工具 `n`，没错这个工具的名字就这么简短，只有一个字母，下面是使用方法：
 
-	// 安装多版本管理工具
-	sudo npm install -g n
-	// 安装6.0.0版本的 node
-	n 6.0.0
-	// 查看和切换 node 版本，上下键选版本，回车确定
-	n
-	// 移除某一版本
-	n rm 6.0.0
+```shell
+// 安装多版本管理工具
+sudo npm install -g n
+// 安装6.0.0版本的 node
+n 6.0.0
+// 查看和切换 node 版本，上下键选版本，回车确定
+n
+// 移除某一版本
+n rm 6.0.0
+```
 
 另外你可以直接打开文件夹查看 node 的版本，也可以直接删除某一版本的 node(因为经常会出现安装失败的情况所以需要删除后重装)
-	
-	/usr/local/n/versions/node
+
+```shell
+/usr/local/n/versions/node
+```
 
 node 版本的偶数版是稳定版，使用 `n ls` 可以查看全部发布过的 node 版本，下面是一些关键的版本：
 
-	0.0.1    // 里程碑的起点
-    0.1.104  // 0.1 版本的最后一个版本
-    0.12.12  // 这一版本的工具很多，很多没有持续维护的工具都对此版本有强依赖
-    4.0.0    // node 和 io 合并直接跳到 io 的下一个非兼容版本
-    4.4.4
-    5.11.0
-    6.0.0
-    7.0.0
-    8.0.0
+```shell
+0.0.1    // 里程碑的起点
+0.1.104  // 0.1 版本的最后一个版本
+0.12.12  // 这一版本的工具很多，很多没有持续维护的工具都对此版本有强依赖
+4.0.0    // node 和 io 合并直接跳到 io 的下一个非兼容版本
+4.4.4
+5.11.0
+6.0.0
+7.0.0
+8.0.0
+```
 
-关于版本管理，可以查看我的另一篇博客 [语义化版本 2.0.0](/index.html#!/articles/semantic-versioning)。
+关于版本管理，可以查看我的另一篇博客 [语义化版本](/index.html#!/articles/semantic-versioning)。
 
 ## 常见问题
 
@@ -156,14 +170,18 @@ ES6 与 CommonJs 的引用略有不同，具体参考我的另一篇学习笔记
 
 `Error: EACCES: permission denied` 这段报错也是较为常见的，尤其是一些不太出名的需要全局安装的包，在执行的时候可能会报这个错，直译就是“许可被拒绝”，也就是文件权限的问题，最简单粗暴的方法就是把 node_modules 的权限改成 777，污染小一点的方案是改单个工具的文件所属。比如我遇到的问题是公司全家桶 yog2，可以这样
 
-    sudo chown -R $USER /usr/local/lib/node_modules/yog2
+```shell
+sudo chown -R $USER /usr/local/lib/node_modules/yog2
+```
 
 再补充一下前端工具经常用的的路径：
 
-    // node 全局命令的入口
-    /usr/local/bin
-    // 全局 node_modules路径
-    /usr/local/lib/node_modules
+```shell
+// node 全局命令的入口
+/usr/local/bin
+// 全局 node_modules路径
+/usr/local/lib/node_modules
+```
 
 ## 发布一个包
 
@@ -171,35 +189,49 @@ ES6 与 CommonJs 的引用略有不同，具体参考我的另一篇学习笔记
     
 然后登录
 
-    npm login
+```shell
+npm login
+```
 
 最后发布
 
-    sudo npm publish
+```
+sudo npm publish
+```
 
-实测我开发的一个中间件 `koa-auto-path-router` 从发布到可以搜到只需要 3 分钟(8:35 - 8:38)。如果要发布新版本记得手动修改 package.json 中的版本号。发布后在项目中的更新命令：
+实测我开发的一个中间件 `koa-auto-path-router` 从发布到可以搜到只需要 3 分钟。如果要发布新版本记得手动修改 package.json 中的版本号。发布后在项目中的更新命令：
 
-    npm update <package name>
+```shell
+npm update <package name>
+```
 
 删除一个包
 
-    npm --force unpublish 包名
+```shell
+npm --force unpublish 包名
+```
 
 查看其它配置:
 
-    npm config ls -l
-    // 查看当前用户
-    npm whoami
+```shell
+npm config ls -l
+// 查看当前用户
+npm whoami
+```
 
 退出登录
 
+```shell
     npm logout
+```
 
 有一次发布包的时候遇到个小问题，报错信息如下：
 
+```shell
     npm ERR! you must verify your email before publishing a new package: https://www.npmjs.com/email-edit :
+```
 
-首先包中配置的邮箱要和 npm 账户中的邮箱要匹配，如果邮箱改变了需要重新验证，npm 会发验证邮件到邮箱，你需要点一下。有段时间翻墙有点问题，发现配 gmail 私活 publish 不上去，后来换成 163 邮箱就上去了。
+首先包中配置的邮箱要和 npm 账户中的邮箱要匹配，如果邮箱改变了需要重新验证，npm 会发验证邮件到邮箱，你需要点一下。有段时间翻墙有点问题，发现配 gmail 死活 publish 不上去，后来换成 163 邮箱就上去了。
 
 ## 收集常用的包
 

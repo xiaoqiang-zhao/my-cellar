@@ -56,7 +56,7 @@
   {
     "enName": "a-word-or-two",
     "title": "记录自己的和别人的只言片语",
-    "introduction": "记录一些简短的东西，这些东西作为单独的一篇内容太单薄，但是放弃又太可惜，这里收录在这里。",
+    "introduction": "记录一些简短的东西，这些东西作为单独的一篇内容太单薄，但是放弃又太可惜，收录在这里。",
     "tags": [
       "个人笔记"
     ],
@@ -64,6 +64,18 @@
     "state": "自我持续集成中",
     "type": "md",
     "createDate": 1459731839766,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "ajax",
+    "title": "原生 Ajax 写法",
+    "introduction": "纯收集",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1546522101894,
     "commentList": [],
     "todoList": []
   },
@@ -140,6 +152,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1527729823207,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "browser-cache",
+    "title": "浏览器缓存",
+    "introduction": "前端缓存问题排查和性能优化必备技能。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1547039548454,
     "commentList": [],
     "todoList": []
   },
@@ -250,7 +274,7 @@
   },
   {
     "enName": "css-animation",
-    "title": "CSS 动画(一)",
+    "title": "CSS 动画",
     "introduction": "目前我对于 CSS 动画还是一个菜鸟，从不会到熟练总需要一个过程，本篇从语法开始，记录我的学习，算是一份技术点备忘录吧。",
     "tags": [
       "个人笔记",
@@ -291,30 +315,6 @@
     "todoList": []
   },
   {
-    "enName": "css-media",
-    "title": "媒体查询和响应式布局",
-    "introduction": "太重要了",
-    "tags": [],
-    "isPublished": false,
-    "state": "立项",
-    "type": "md",
-    "createDate": 1456831990104,
-    "commentList": [],
-    "todoList": []
-  },
-  {
-    "enName": "css-part",
-    "title": "常用 CSS 片段收集",
-    "introduction": "提供简写和非简写两种方式，有点小洁癖的可以采用了简写的方式，多人协作的长期项目建议采用非简写简明知意。另外简写容易造成冲突，按字母顺序排列样式能在一定层度上减少这种冲突，所以下面的样式都是按字母顺序排列的，另外简写的一般规则是 “属性-属性值-修饰”，表意的CSS片段取首字母缩写。可以更具自己的项目定制此文件的部分或全部，无需任何许可。一些实例：[DEMO](demo/demo.html)，也可下载[dem/css.css](demo/css.css)直接使用。",
-    "tags": [],
-    "isPublished": false,
-    "state": "立项",
-    "type": "md",
-    "createDate": 1462684808390,
-    "commentList": [],
-    "todoList": []
-  },
-  {
     "enName": "css-processor",
     "title": "CSS 预处理器",
     "introduction": "随着前端工程越来越大，CSS 本身的限制严重影响了开发的速度的工程化管理能力，所以在大型应中使用 CSS 预处理器带来的好处相当明显，这篇文章旨在快速的学完 CSS 预处理器。",
@@ -330,14 +330,26 @@
     "todoList": []
   },
   {
-    "enName": "css-widget",
-    "title": "CSS 小组件",
-    "introduction": "这些年用过的一些小组件，整理收集在此。class命名很接地气，坏处就是容易冲突，如果和其他样式库公用注意冲突的问题。\n一些实例：[DEMO](/articles/css-widget/demo/demo.html)，也可下载[dem/css.css](demo/css.css)直接使用。",
+    "enName": "css-selector",
+    "title": "CSS 选择器",
+    "introduction": "CSS 入门基础。",
     "tags": [],
     "isPublished": false,
     "state": "立项",
     "type": "md",
-    "createDate": 1459739951048,
+    "createDate": 1546522101934,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "css-widget",
+    "title": "CSS Widget",
+    "introduction": "零零总总写前端 5 年多了，几乎任何业务项目都需要用到一些样式片段，功能复杂的已经被抽象成了组件库，还有一些只有几行十几行的样式片段却在不断的重复编码，决定花时间整理一些这个类型的片段，利人利己。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1462684808390,
     "commentList": [],
     "todoList": []
   },
@@ -350,6 +362,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1458133200528,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "data-in-browser",
+    "title": "浏览器中的数据存储",
+    "introduction": "整理备忘。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1546522101940,
     "commentList": [],
     "todoList": []
   },
@@ -368,9 +392,57 @@
     "todoList": []
   },
   {
+    "enName": "docker",
+    "title": "Docker",
+    "introduction": "必备技能。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1546522101943,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "dom",
+    "title": "Dom 常用操作",
+    "introduction": "补充基础知识。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1546522101944,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "electron",
+    "title": "electron",
+    "introduction": "学习大全",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1546522101945,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "electron-vue",
+    "title": "electron-vue 使用备忘",
+    "introduction": "挖到宝贝了",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1546522101947,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "es6-1",
     "title": "ES6 学习笔记 - Part 1",
-    "introduction": "未找到描述信息",
+    "introduction": "系统学习 ES6 笔记第一部分(共三部分)。",
     "tags": [],
     "isPublished": false,
     "state": "立项",
@@ -382,7 +454,7 @@
   {
     "enName": "es6-2",
     "title": "ES6 学习笔记 - Part 2",
-    "introduction": "未找到描述信息",
+    "introduction": "系统学习 ES6 笔记第二部分(共三部分)。",
     "tags": [],
     "isPublished": false,
     "state": "立项",
@@ -458,67 +530,17 @@
     "todoList": []
   },
   {
-    "enName": "git-1",
-    "title": "Git(一) 简易概念",
-    "introduction": "Git，全宇宙最火的分布版本控制系统，开发人员必备技能。",
-    "tags": [
-      "辅助软件",
-      "工程",
-      "个人笔记"
-    ],
-    "isPublished": true,
-    "state": "完结",
-    "type": "md",
-    "createDate": 1461740224886,
-    "commentList": [],
-    "todoList": []
-  },
-  {
-    "enName": "git-2",
-    "title": "Git(二) GitHub网站和WebStorm上的一些操作",
-    "introduction": "如果你不想敲命令，使用 IDE 和 GitHub 网站也能完成大部分操作。",
-    "tags": [
-      "辅助软件",
-      "工程",
-      "个人笔记"
-    ],
-    "isPublished": true,
-    "state": "完结",
-    "type": "md",
-    "createDate": 1461740224887,
-    "commentList": [],
-    "todoList": []
-  },
-  {
-    "enName": "git-3",
-    "title": "Git(三) 命令备忘",
+    "enName": "git",
+    "title": "Git 使用备忘",
     "introduction": "可视化工具只是命令行的一个子集，可视化能做的命令行都能做，但是到目前为止还没有一个可视化工具实现了全部命令行，这里收集常用的命令，同时添加一些我的使用经验。",
     "tags": [
-      "辅助软件",
       "工程",
       "个人笔记"
     ],
     "isPublished": true,
     "state": "公示持续集成中",
     "type": "md",
-    "createDate": 1461740224888,
-    "commentList": [],
-    "todoList": []
-  },
-  {
-    "enName": "git-4",
-    "title": "Git(四) 一个多人协作方式",
-    "introduction": "Git 提供了基本的功能，开发流程还需要根据人员和业务做定制，这里介绍一个常用的多人协作方式，以及用到的工具。最后列出一些经常遇到的问题和对应的解决方案。",
-    "tags": [
-      "辅助软件",
-      "工程",
-      "个人笔记",
-      "推荐"
-    ],
-    "isPublished": true,
-    "state": "公示持续集成中",
-    "type": "md",
-    "createDate": 1461740224889,
+    "createDate": 1540172772220,
     "commentList": [],
     "todoList": []
   },
@@ -942,8 +964,8 @@
   },
   {
     "enName": "nginx",
-    "title": "Nginx 学习笔记",
-    "introduction": "要做点东西，做技术选型的时候看了一些前人的经验，结论是用 Nginx 比较合适，但是我没用过怎么办，学呗，来一起!",
+    "title": "Nginx 使用备忘",
+    "introduction": "用 Nginx 做代理或前端静态文件服务器是大前端的一个技能，其优点是比 NodeJs 服务更加稳定和简单，Nginx 可以单独使用也可以和 NodeJs 搭配使用解决负载均衡等问题。",
     "tags": [],
     "isPublished": false,
     "state": "立项",
@@ -954,8 +976,8 @@
   },
   {
     "enName": "node",
-    "title": "node开发纪要",
-    "introduction": "开发 node 程序有一些必须掌握的技巧，这里收集一些我遇到的问题和解决方案。",
+    "title": "NodeJs 必备基础",
+    "introduction": "开发 NodeJs 程序有一些必须掌握的技巧，这里总结用到的基础知识，收集一些我遇到的问题和解决方案。",
     "tags": [
       "基础",
       "个人笔记"
@@ -1168,8 +1190,8 @@
   },
   {
     "enName": "semantic-versioning",
-    "title": "语义化版本 2.0.0",
-    "introduction": "版本管理是软件开发和发布中一个非常重要部分，混乱的版本会大大的缩短一个软件的寿命。我终于有幸看到这篇文章来讲述“语义化版本控制的规范”，作者是 Gravatars 创办者兼 GitHub 共同创办者 Tom Preston-Werner，这些规则是根据（但不局限于）已经被各种封闭、开放源码软件所广泛使用的惯例所设计，为叙述方便，下面以作者作为第一人称来叙述这套规范。",
+    "title": "语义化版本",
+    "introduction": "版本管理是软件开发和发布中一个非常重要部分，混乱的版本会大大的缩短一个软件的寿命。我终于有幸看到这篇文章来讲述“语义化版本控制的规范”，作者是Tom Preston-Werner(Gravatars 创办者, GitHub 共同创办者)，这些规则是根据（但不局限于）已经被各种封闭、开放源码软件所广泛使用的惯例所设计，为叙述方便，下面以作者作为第一人称来叙述这套规范。",
     "tags": [
       "工程",
       "规范",
@@ -1238,6 +1260,18 @@
     "todoList": []
   },
   {
+    "enName": "this-prototype-scope",
+    "title": "this、prototype、scope",
+    "introduction": "学习如何在 js 里正确使用 this 就好比一场成年礼；原型是 js 实现继承等关系的重要基础；scope 则是闭包基础。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1546522102065,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "tool",
     "title": "工具篇",
     "introduction": "工欲善其事必先利其器，开发解决某些问题时用恰当的工具能事半功倍。这篇文章介绍一些解决特定问题的工具。",
@@ -1246,6 +1280,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1510919038934,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "typescript",
+    "title": "TypeScript",
+    "introduction": "Angular 和 Vue 都拥抱了 TypeScript，可见在大型项目中需要这样一种更强的语言。为了便于阅读源码和编写大型应用，系统的学习一下 TypeScript，这篇是跟着官网学的的学习笔记，副可运行 Demo 加深理解。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1546522102067,
     "commentList": [],
     "todoList": []
   },
@@ -1323,7 +1369,7 @@
   {
     "enName": "w3c-recommendation",
     "title": "W3C 标准成熟过程中的里程点",
-    "introduction": "CSS 和 JS 都处在一个快速发展的阶段，不断有新属性加进来，要想知道那些可用那些还得等等再用，就需要这个属性在标准中的进行到哪一步了还有浏览器支持情况怎么样，这篇文章介绍一个特性成为标准都有那几步，各步又是什么意思。",
+    "introduction": "CSS 和 JS 都处在一个快速发展的阶段，不断有新特性加进来，想要知道哪些可用哪些还得等等再用，就需要知道这个特性在标准中的进行到哪一步了还有浏览器支持情况怎么样，这篇文章介绍一个特性成为标准都有哪几步，各步又是什么意思。",
     "tags": [
       "个人笔记"
     ],

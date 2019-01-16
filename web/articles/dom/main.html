@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Dom 常用操作 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">Dom 常用操作</h1>
+<blockquote>
+<p>补充基础知识。</p>
+</blockquote>
+<h2 id="header-1-1">获取节点</h2>
+<pre><code class="lang-js">// 因为ID值在html中唯一，所以此方法只能获取一个节点元素
+document.getElementById()
+// 根据标签获取特点标签元素集合
+document.getElementsByTagName()
+// 根据class值获取元素集合
+document.getElementsByClassName()
+
+// 选择器语法获取符合条件的第一个元素，IE8以下不支持此语法
+document.querySelector()
+// 选择器语法选择符合条件的所有元素集合，IE8以下不支持此语法
+document.querySelectorAll()
+
+// 获取元素下的所有直属子节点，只读属性，实时变化
+element.children
+// 获取元素下第一个子节点
+element.firstElementChild
+// 获取元素下最后一个子节点
+element.lastElementChild
+// 获取元素最近的一层父元素
+element.parentElement
+</code></pre>
+<h2 id="header-1-2">创建元素和添加其属性</h2>
+<pre><code class="lang-js">// 创建指定标签的节点
+const element = document.createElement(&#39;tag_name&#39;)
+// 更新元素内容，可以包含html标签
+element.innerHTML = &#39;&#39;
+// 更新元素文本内容，不支持html标签
+element.innerText = &#39;&#39;
+
+// 更新元素样式属性值，property需要更改为驼峰命名
+element.style.property = &#39;&#39;
+// 更新元素的class名称
+element.className = &#39;&#39;
+// 设置标签的属性值
+element.setAttribute(&#39;property_name&#39;,&#39;value&#39;)
+</code></pre>
+<h2 id="header-1-3">插入到文档中</h2>
+<pre><code class="lang-js">// 添加节点为最后一个子节点
+element.appendChild(element)
+// 在父元素的指定子节点前面添加子节点
+element.insertBefore(newElement, referenceElement)
+</code></pre>
+<h2 id="header-1-4">从文档中删除</h2>
+<pre><code class="lang-js">// 拿到待删除节点:
+var self = document.getElementById(&#39;to-be-removed&#39;);
+// 拿到父节点:
+var parent = self.parentElement;
+// 删除:
+var removed = parent.removeChild(self);
+</code></pre>
+<h2 id="header-1-5">表单操作</h2>
+<pre><code class="lang-js">// 获取text,password,hidden,select类型input的值
+input_element.value
+// 获取多选框的选项是否勾选，返回值为true / false
+input_element.checked
+
+// 设置text,password,hidden,select类型input的值
+input_element.value = &#39;new_value&#39;
+// 设置多选框选项是否选择
+input_element.checked = true / false
+</code></pre>
+
+</div>
+</body>
+</html>

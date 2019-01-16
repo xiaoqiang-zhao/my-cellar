@@ -27,9 +27,10 @@
 <p>那么能处理什么问题？主要是资源合并和依赖管理。</p>
 <h2 id="header-1-2">2分钟跑起来</h2>
 <p>NodeJs 的安装就不多说了，webpack 的全局安装命令如下：</p>
-<pre><code>npm install webpack -g
-</code></pre><p>准备配置文件 <code>webpack.config.js</code></p>
-<pre><code>module.exports = {
+<pre><code class="lang-shell">npm install webpack -g
+</code></pre>
+<p>准备配置文件 <code>webpack.config.js</code></p>
+<pre><code class="lang-js">module.exports = {
     entry: {
         main: &#39;./a.js&#39;
     },
@@ -40,8 +41,9 @@
         filename: &#39;[name].js&#39;
     }
 };
-</code></pre><p>入口模块 a.js，依赖模块b.js</p>
-<pre><code>// a.js
+</code></pre>
+<p>入口模块 a.js，依赖模块b.js</p>
+<pre><code class="lang-js">// a.js
 var b = require(&#39;./b&#39;);
 var text = &#39;hello &#39; + b.text;
 document.getElementsByTagName(&#39;body&#39;)[0].innerHTML = text;
@@ -53,43 +55,51 @@ exports.model = {
 module.exports = {
     text: &#39;world.&#39;
 };
-</code></pre><p>上面所有文件放在同一目录下面，在此目录下运行下面任一命令</p>
-<pre><code>webpack           // 合并文件  
+</code></pre>
+<p>上面所有文件放在同一目录下面，在此目录下运行下面任一命令</p>
+<pre><code class="lang-shell">webpack           // 合并文件  
 webpack --watch   // 监听变动并自动打包
-</code></pre><p>就生成的 main.js 可被页面直接使用，具体代码可以到当前文章的 <code>./demo/quick-start/</code> 中查看。</p>
+</code></pre>
+<p>就生成的 main.js 可被页面直接使用，具体代码可以到当前文章的 <code>./demo/quick-start/</code> 中查看。</p>
 <h2 id="header-1-3">简单解释几句</h2>
 <p>webpack 兼容 AMD 和 CMD 以及 CommonJs 规范，官方建议使用 CommonJS 的规范来组织模块关系。如果对前面的三个规范还不了解可以看我的另一篇文章<a href="/#!/articles/js-module" target="_blank">js 模块化</a>。webpack 也可算是预编译类的模块管理工具，所有的资源都被打包放在一起统一加载，虽然有一些技巧可以打出多个包或提取多个包之间的公用模块，但这种 all in one 的思想需要注意，用空间换时间带来不可避免的问题是加载用户可能用不到的资源(即非按需加载)，从而造成初始化时间变长移动端流量浪费等问题。在 http/2 场景下使用此方案做做整站打包的话劣势就会更加明显，所以面对当前国内的网络环境和大多数应用场景一个较为推荐的方案是使用 webpack 做与业务无关的组件打包，用 AMD 或 CMD 做业务的拆分打包(为了按需加载)，前端资源库单独引用或打包后整体引用。好了扯远了，我们继续 webpack。</p>
 <h2 id="header-1-4">调试</h2>
 <p>先说说source maps，source maps 是将合并后的文件拆分成源文件以方便调试的一种技术，在合并文件的末尾看到下面这样的一行声明，就表示当前文件是合并而来，而合并后的文件通过&quot;main.js.map&quot;重新拆解开来，不打开开发者工具时不会加载 .map 文件也不会拆解，声明也被当做普通的注释来处理，打开开发者工具后需要刷新才可以拆解文件(也就是是否拆解在加载资源时决定)可以在拆解后的文件上打断点调试，当前的 Chrome,FireFox,Safari,IE11 已经支持。</p>
-<pre><code>//# sourceMappingURL=main.js.map
-</code></pre><p>顺便介绍一下 webpack 的参数，    </p>
-<pre><code>webpack           // 不加参数，合并文件  
+<pre><code class="lang-js">//# sourceMappingURL=main.js.map
+</code></pre>
+<p>顺便介绍一下 webpack 的参数，    </p>
+<pre><code class="lang-shell">webpack           // 不加参数，合并文件  
 webpack -p        // 压缩混淆脚本
 webpack --watch   // 监听变动并自动打包
-webpack -d        // 生成和并文件和map拆解文件
-</code></pre><p>可以用上面 <code>./demo/quick-start/</code> 中的代码做实验。补充说明一下，这篇文章提到的所有示例的依赖都已经在 <code>package.json</code> 定义好了，开始之前需要在 demo 文件夹下执行 <code>sudo npm install</code> 来安装这些依赖，否则示例可能跑不起来。</p>
+webpack -d        // 生成合并文件 和 map拆解文件
+</code></pre>
+<p>可以用上面 <code>./demo/quick-start/</code> 中的代码做实验。补充说明一下，这篇文章提到的所有示例的依赖都已经在 <code>package.json</code> 定义好了，开始之前需要在 demo 文件夹下执行 <code>sudo npm install</code> 来安装这些依赖，否则示例可能跑不起来。</p>
 <p><a href="https://developer.chrome.com/devtools/docs/javascript-debugging#source-maps" target="_blank">chrome source Maps官方资料</a></p>
 <h2 id="header-1-5">webpack 插件</h2>
 <p><a href="http://webpack.github.io/docs/using-loaders.html" target="_blank">加载器使用文档</a>    </p>
 <h2 id="header-1-6">拒绝 js 中拼 html 片段</h2>
 <p>使用 html-loader 插件可以使 html 片段转化成字符串模块，模块安装命令如下：</p>
-<pre><code>npm install html-loader --save
-</code></pre><p>html 模块示例如下：</p>
-<pre><code>// b.html
+<pre><code class="lang-shell">npm install html-loader --save
+</code></pre>
+<p>html 模块示例如下：</p>
+<pre><code class="lang-html">// b.html
 &lt;div&gt;
     Hello world.
 &lt;/div&gt;
-</code></pre><p>使用示例：</p>
-<pre><code>// a.js
+</code></pre>
+<p>使用示例：</p>
+<pre><code class="lang-js">// a.js
 var b = require(&#39;./b.tpl&#39;);
 document.getElementById(&#39;container&#39;).innerHTML = b;
-</code></pre><p>配置示例代码较长请自行到 <code>./demo/html/webpack.config.js</code> 中查看。</p>
+</code></pre>
+<p>配置示例代码较长请自行到 <code>./demo/html/webpack.config.js</code> 中查看。</p>
 <p>在实际项目中不结合数据的 html 片段是很少的，所以项目中一般会将 html 片段作为模板并以扩展名为 <code>.tpl</code> 作为结尾来标识，webpack 的作用是将模板加载进来，但是加载进来的格式是字符数串，和数据的融合需要借助模板引擎，如jQuery的插件 <code>tmpl</code> 或者独立模板引擎 <code>mustache</code>，来自腾讯的 <code>artTemplate</code> 也是不错的选择，如果使用 MVVM 的框架(如 vue)则自带此功能。需要注意的是模板引擎的不同语法也可能不同。</p>
 <h2 id="header-1-7">CSS也玩起来</h2>
 <p>需要两个插件:css-loader将 css 作为模块加载进来，style-loader 将样式写进页面。</p>
-<pre><code> npm install style-loader css-loader --save
-</code></pre><p>IE8 及以下有一个 Style 个数超过32后面的不识别的 bug，在生成的 js 文件中可以看到对低版本的 IE 做了判断。下面是配置文件部分代码：</p>
-<pre><code>// webpack.config.js
+<pre><code class="lang-shell">npm install style-loader css-loader --save
+</code></pre>
+<p>IE8 及以下有一个 Style 个数超过32后面的不识别的 bug，在生成的 js 文件中可以看到对低版本的 IE 做了判断。下面是配置文件部分代码：</p>
+<pre><code class="lang-js">// webpack.config.js
 module: {
     loaders: [
         {
@@ -98,22 +108,26 @@ module: {
         }
     ]
 }
-</code></pre><p>在 js 模块中直接 require 就可以在当前页面创建 style 标签并将 css 文件的内容添加到其中。</p>
-<pre><code>require(&#39;./css-1.css&#39;);
-</code></pre><p>对于CSS 预处理器，可以查看我的<a href="/#!/articles/css-pre-processor" target="_blank">另一篇博文</a>。</p>
+</code></pre>
+<p>在 js 模块中直接 require 就可以在当前页面创建 style 标签并将 css 文件的内容添加到其中。</p>
+<pre><code class="lang-js">require(&#39;./css-1.css&#39;);
+</code></pre>
+<p>对于CSS 预处理器，可以查看我的<a href="/#!/articles/css-pre-processor" target="_blank">另一篇博文</a>。</p>
 <h2 id="header-1-8">有了CSS怎么能没有装饰图</h2>
 <p>使用 url-loader 加载器可以直接将图片文件转成 base64内容打包到 CSS 中，加载器安装：</p>
-<pre><code> npm install url-loader
-</code></pre><p>CSS 的写法和普通的一样，部分配置代码如下：</p>
-<pre><code>loaders: [
+<pre><code class="lang-shell">npm install url-loader
+</code></pre>
+<p>CSS 的写法和普通的一样，部分配置代码如下：</p>
+<pre><code class="lang-js">loaders: [
     {
         test: /\.png$/,
         loader: &quot;url-loader?limit=100000&quot;
     }
 ]
-</code></pre><h2 id="header-1-9">分模块加载</h2>
+</code></pre>
+<h2 id="header-1-9">分模块加载</h2>
 <p>如果模块较多，将所有的代码都打包到一起体积会很大，为了解决这个问题就需要将各模块单独打包方便按需加载模块。这种按需加载的写法如下：</p>
-<pre><code>// CommonJs
+<pre><code class="lang-js">// CommonJs
 require.ensure([&#39;./b&#39;], function (require) {
     var m = require(&#39;./b&#39;);
     console.log(&#39;3&#39; + m.text);
@@ -123,36 +137,41 @@ require.ensure([&#39;./b&#39;], function (require) {
 require.ensure([&#39;./b&#39;], function (b) {
     console.log(&#39;3&#39; + b.text);
 });
-</code></pre><p>推荐明确使用 <code>ensure</code> 来表示异步加载模块，但是在逻辑中的 <code>require</code> 也会被视为异步加载模块，会被单独打包：</p>
-<pre><code>var a = document.getElementById(&#39;app&#39;).innerHTML;
+</code></pre>
+<p>推荐明确使用 <code>ensure</code> 来表示异步加载模块，但是在逻辑中的 <code>require</code> 也会被视为异步加载模块，会被单独打包：</p>
+<pre><code class="lang-js">var a = document.getElementById(&#39;app&#39;).innerHTML;
 if (a === &#39;&#39;) {
     require([&#39;./b&#39;], function (b) {
 
     });
 }
-</code></pre><p>但是如果变形为：</p>
-<pre><code>var a = document.getElementById(&#39;app&#39;).innerHTML;
+</code></pre>
+<p>但是如果变形为：</p>
+<pre><code class="lang-js">var a = document.getElementById(&#39;app&#39;).innerHTML;
 if (a === &#39;&#39;) {
     var b = require(&#39;./b&#39;);
 }
-</code></pre><p>就不会单独打包了，通过参数形式来决定行为(参数为数组时执行多文件打包异步加载，参数为字符串时执行单文件打包一次性加载)。另外在存在分模块打包的时候，配置的时候需要注意 <code>publicPath</code> 配置项：</p>
-<pre><code>output: {
+</code></pre>
+<p>就不会单独打包了，通过参数形式来决定行为(参数为数组时执行多文件打包异步加载，参数为字符串时执行单文件打包一次性加载)。另外在存在分模块打包的时候，配置的时候需要注意 <code>publicPath</code> 配置项：</p>
+<pre><code class="lang-json">output: {
     path: &#39;./dist/&#39;,        // 将生成的文件放到此路径下
     publicPath: &#39;./dist/&#39;,  // 异步加载的模块的请求路径，默认是 webpack.config.js 所在的路径
     filename: &#39;[hash].js&#39;
 }
-</code></pre><p>那么为什么生成路径和请求路径一定要分两个参数呢，他们不应该是统一的吗？</p>
+</code></pre>
+<p>那么为什么生成路径和请求路径一定要分两个参数呢，他们不应该是统一的吗？</p>
 <p>ES6 分片，异步模块引入，一般在前端路由中配置：</p>
-<pre><code>{
+<pre><code class="lang-json">{
     path: &#39;/home&#39;,
     name: &#39;home&#39;,
     component() {
         return System.import(&#39;@/pages/home&#39;);
     }
 }
-</code></pre><h2 id="header-1-10">被集成</h2>
+</code></pre>
+<h2 id="header-1-10">被集成</h2>
 <p>一个好的工具最好能集成其他工具或插件，也最好能被其他程序集成。webpack 就是这样一个工具，可以方便的集成加载器插件，也提供了被 node 作为独立模块使用的接口：</p>
-<pre><code>var webpack = require(&#39;webpack&#39;);
+<pre><code class="lang-js">var webpack = require(&#39;webpack&#39;);
 var webpackConfig = require(&#39;./webpack-config&#39;);
 webpack(webpackConfig, function (err, stats) { 
     // webpack 打包完成后会进入此回调函数
@@ -160,8 +179,9 @@ webpack(webpackConfig, function (err, stats) {
     // 文件哈希
     stats.hash;
 });
-</code></pre><p>下面是调试时用到的参数，可以通过自定义参数来判断是开发环境还是生成环境</p>
-<pre><code>webpackConfig.devtool = &#39;sourcemap&#39;;
+</code></pre>
+<p>下面是调试时用到的参数，可以通过自定义参数来判断是开发环境还是生成环境</p>
+<pre><code class="lang-js">webpackConfig.devtool = &#39;sourcemap&#39;;
 webpackConfig.optimize = {
     // 是否压缩
     minimize: false
@@ -169,8 +189,15 @@ webpackConfig.optimize = {
 webpackConfig.output.filename = &#39;debug.js&#39;;
 webpackConfig.output.sourceMapFilename = &#39;debug.map&#39;;
 webpackConfig.watch = true; // 是否监听改变
-</code></pre><p>利用 watch 可以结合web容器和 websocket 做一些 livereload 的事情。</p>
-<h2 id="header-1-11">参考资料</h2>
+</code></pre>
+<p>利用 watch 可以结合web容器和 websocket 做一些 livereload 的事情。</p>
+<h2 id="header-1-11">编外</h2>
+<ul>
+<li>learn by doing: 边做边学</li>
+<li>learn concepts step by step: 一个概念一个概念的学</li>
+</ul>
+<p>每个人喜欢的学习方式是不同的，参考 React 的文档给出了两种常见的方式，相应的文档也是两种，这篇文章偏向第一种。</p>
+<h2 id="header-1-12">参考资料</h2>
 <p><a href="https://webpack.github.io/" target="_blank">webpack 官网</a></p>
 <p><a href="https://github.com/webpack/webpack" target="_blank">webpack GitHub</a></p>
 <p><a href="http://webpack.github.io/docs/using-loaders.html" target="_blank">加载器的使用方法</a></p>

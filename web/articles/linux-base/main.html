@@ -563,6 +563,11 @@ ctrl + z
 # 让暂停的后台进程启动
 bg %1
 </code></pre>
+<p>一般没有进程守护的进程如果终端关闭或连接的 ssh 断开后都会终止，如果不想让进程终止可以使用 nohup 和 &amp; 配合实现：</p>
+<pre><code class="lang-shell">nohup 进程 &amp;
+# 终止的时候用下面命令找 pid
+ps aux | grep node
+</code></pre>
 <p>还有一种情况，我们用 vim 编辑的时候有时需要从其他地方看点信息，这时就可以将当前的 vi 编辑放进后台：</p>
 <pre><code class="lang-shell"># 编辑某文件
 vi ~/sh01.sh

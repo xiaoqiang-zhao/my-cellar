@@ -19,3 +19,20 @@ Tab    插入子节点
 ![image](img/fe-skill-tree.png) 
 
 [xmind 源文件](/articles/xmind/img/fe-skill-tree.xmind)
+
+## 扩展资源
+
+[developer-roadmap](https://github.com/kamranahmedse/developer-roadmap)
+
+[百度脑图可以插入链接](http://naotu.baidu.com/home)
+
+## 2018 年前端技能树
+
+等级：
+ - 1、被人带着干活儿需要掌握的技能；
+ - 2、带人干活儿需要掌握的技能，团队中必须有人会其中的一项或几项；
+ - 3、某个领域的专家，软实力：领导力、影响力等。
+
+绿色图标表示进度，播放按钮表示下一步要开始研究和整理的。
+
+每一部分知识都会有至少一篇文章来呈现具体细节。

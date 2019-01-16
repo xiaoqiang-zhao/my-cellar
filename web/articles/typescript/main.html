@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>TypeScript - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">TypeScript</h1>
+<blockquote>
+<p>Angular 和 Vue 都拥抱了 TypeScript，可见在大型项目中需要这样一种更强的语言。为了便于阅读源码和编写大型应用，系统的学习一下 TypeScript，这篇是跟着官网学的的学习笔记，副可运行 Demo 加深理解。</p>
+</blockquote>
+<h2 id="header-1-1">写在前面</h2>
+<p>注：以下 TypeScript 简写为 ts。</p>
+<p>2018 年 Vue 3.0 用 ts 重写，你多少能嗅到一些行业的变化，变化的本质是对工程上成本和收益的思考。2.0 选用 Flow 进行静态代码检查，3.0 直接使用 ts 重写，Flow 的投入显然能 cover 其本身带来成本。ts 相对于 Flow 在成本方面是较高的，毕竟 ts 是一门语言而 Flow 只是个工具，在收益方面 ts 带来的是整个编程体验的提升，搭配 VSCode 可以做更多的智能提示和校验。</p>
+<p>Angular 也从 2.0 开始采用 TS 编写，三大 MVVM 框架有两个用 ts 编写，是时候入坑了。</p>
+<p>我们大体的学习路径是这样：</p>
+<ul>
+<li>1、先用 webpack 配置一个简单的工程，这个工程能实时编译 ts 到 js；</li>
+<li>2、从官网上学习语法，在上面工程中编写 Demo 加深理解；</li>
+<li>3、结合框架和场景学习 ts 应用。</li>
+</ul>
+<h2 id="header-1-2">纯 ts 工程构建</h2>
+<p>本来打算直接从 webpack 官网考几段配置就把工程搭建起来，但是遇到了各种奇奇怪怪的问题折腾了一下午没搞定，后来转变思路从 vue-cli 脚手架入手，采用减法的形式得到了一个极简脚手架。</p>
+<p>为了纪念这段折腾，我 release 了一个版本，有兴趣的可以去看看：<a href="https://github.com/xiaoqiang-zhao/typescript-study/releases/tag/0.1" target="_blank">https://github.com/xiaoqiang-zhao/typescript-study/releases/tag/0.1</a></p>
+<p>然后从 webpack 官网找到 <a href="https://webpack.js.org/guides/typescript/" target="_blank">webpack-typescript</a> 配置，添加了 loader 等一些配置，升级了 webpack 版本(需要 4.0 以上)，到此为止环境终于跑起来了：<a href="https://github.com/xiaoqiang-zhao/typescript-study/releases/tag/0.2" target="_blank">https://github.com/xiaoqiang-zhao/typescript-study/releases/tag/0.2</a></p>
+<p>后面的学习 Demo 都在开源项目 <a href="https://github.com/xiaoqiang-zhao/typescript-study" target="_blank">typescript-study</a> 中编写。文件目录结构也简单明了：</p>
+<pre><code>${typescript-study}
+├── build 构建和启动开发环境
+└── src   源码
+    ├── main.js   入口文件
+    └── ts-demo   ts demo 源码
+</code></pre><p>demo 源码和 ts 官方文档一一对应。</p>
+<h2 id="header-1-3">基础数据类型</h2>
+<p>因为 ts 是 js 的超集，所以 js 有的数据类型 ts 都有，ts 在声明变量的时候更为严格，赋值的时候也只能赋和声明时相同类型的数据，以布尔值为例：</p>
+<pre><code class="lang-js">let isDone: boolean = false;
+isDone = true; // 可行
+isDone = 1; // 报错
+</code></pre>
+<p>下面是其他两种基础数据类型的声明方式：</p>
+<pre><code class="lang-js">let num: number = 0;
+let str: string = &#39;&#39;;
+</code></pre>
+<p>数组的声明方式有两种，下面是声明元素是数字的一维数组的两种方式：</p>
+<pre><code class="lang-js">// 数据类型后接 []
+let arr1: number[] = [1, 2, 3];
+// 泛型方式
+let arr2: Array&lt;number&gt; = [1, 2, 3];
+</code></pre>
+<p>对应二维数组的声明是下面这样：</p>
+<pre><code class="lang-js">let arr3: number[][] = [[1], [2]];;
+let arr4: Array&lt;Array&lt;number&gt;&gt; = [[1], [2]];
+</code></pre>
+<p>新添了一种数组类型 Tuple，中文翻译为元组，定义一种确定长度并每个元素是确定某种数据类型的数组：</p>
+<pre><code class="lang-js">let tuple: [number, string] = [0, &#39;name&#39;];
+tuple = [&#39;name&#39;, 0]; // 报错
+</code></pre>
+<p>新添数据类型 enum，中文翻译为枚举，默认情况下，从 0 开始为元素编号。</p>
+<pre><code class="lang-js">enum Color {Red, Green, Blue};
+let c: Color = Color.Green;
+// c 的值是 1
+</code></pre>
+<p>你也可以手动的指定成员的数值。例如，我们将上面的例子改成</p>
+<pre><code class="lang-js">// 从 1 开始编号
+enum Color2 {Red = 1, Green, Blue};
+let c2: Color2 = Color2.Green;
+// c2 的值是 2
+
+// 每一个都手动赋值
+enum Color3 {Red = 1, Green = 2, Blue = 4};
+</code></pre>
+<p>如果仅仅是这样定义常量就可以了，枚举还有一项神奇的能力，那就是通过值反查键：</p>
+<pre><code class="lang-js">enum Color4 {Red = 1, Green, Blue}
+let colorName: string = Color4[2];
+// colorName 的值是 Green
+</code></pre>
+<p>如果你还想用回 js 那种自由的感觉，或者在某些特殊的场合声明时不能确定数据类型，那么你可以用 Any 数据类型：</p>
+<pre><code class="lang-js">let notSure: any = 4;
+notSure = &quot;maybe a string instead&quot;;
+notSure = false;
+</code></pre>
+<p>void 空类型，一般作为无返回值函数的定义：</p>
+<pre><code class="lang-js">function warnUser(): void {
+    console.log(&quot;This is my warning message&quot;);
+}
+</code></pre>
+<p>神奇的 never 类型，个人觉得没啥用。</p>
+<p>最后补充一个用法“断言”，通过类型断言这种方式可以告诉编译器，“相信我，我知道自己在干什么”。类型断言有两种形式。</p>
+<pre><code class="lang-js">// “尖括号”语法：
+let someValue: any = &quot;this is a string&quot;;
+let strLength: number = (&lt;string&gt;someValue).length;
+</code></pre>
+<pre><code class="lang-js">// as语法
+let someValue: any = &quot;this is a string&quot;;
+let strLength: number = (someValue as string).length;
+</code></pre>
+<h2 id="header-1-4">变量声明</h2>
+<p>这一段主要讲的 let const 以及解构和 ES6 基本相同，这里就不再歪歪一遍了。</p>
+<h2 id="header-1-5">接口约束</h2>
+<pre><code class="lang-js">function printLabel(labelledObj: { label: string }) {
+  console.log(labelledObj.label);
+}
+
+let myObj = { size: 10, label: &quot;Size 10 Object&quot; };
+printLabel(myObj);
+</code></pre>
+<p>上面代码中 printLabel 函数要求入参书一个含有 label 属性的对象(只约束必要参数，多出其他属性是可以的)，如果要把这个约束抽象出来，那就是“接口约束”:</p>
+<pre><code class="lang-js">interface LabelledValue {
+  label: string;
+}
+
+function printLabel(labelledObj: LabelledValue) {
+  console.log(labelledObj.label);
+}
+
+let myObj = {size: 10, label: &quot;Size 10 Object&quot;};
+printLabel(myObj);
+</code></pre>
+<p>除了必须属性，还可以设置可选属性：</p>
+<pre><code class="lang-js">interface SquareConfig {
+  color?: string;
+  width?: number;
+}
+
+function createSquare(config: SquareConfig): {color: string; area: number} {
+  let newSquare = {color: &quot;white&quot;, area: 100};
+  if (config.color) {
+    newSquare.color = config.color;
+  }
+  if (config.width) {
+    newSquare.area = config.width * config.width;
+  }
+  return newSquare;
+}
+
+let mySquare = createSquare({color: &quot;black&quot;});
+</code></pre>
+<p><code>{color: string; area: number}</code> 这一段是定义函数的返回值。</p>
+<p>只读对象，一些对象属性只能在对象刚刚创建的时候修改其值。 你可以在属性名前用 readonly来指定只读属性:</p>
+<pre><code class="lang-js">interface Point {
+    readonly x: number;
+    readonly y: number;
+}
+</code></pre>
+<p>你可以通过赋值一个对象字面量来构造一个Point。 赋值后， x和y再也不能被改变了。</p>
+<pre><code class="lang-js">let p1: Point = { x: 10, y: 20 };
+p1.x = 5; // error!
+</code></pre>
+<p>只读数组，ReadonlyArray<T>类型，它与Array<T>相似，只是把所有可变方法去掉了，因此可以确保数组创建后再也不能被修改：</p>
+<pre><code class="lang-js">let a: number[] = [1, 2, 3, 4];
+let ro: ReadonlyArray&lt;number&gt; = a;
+ro[0] = 12; // error!
+ro.push(5); // error!
+ro.length = 100; // error!
+a = ro; // error!
+</code></pre>
+<p>readonly vs const，最简单判断该用 readonly 还是 const 的方法是看要把它做为变量使用还是做为一个属性。 做为变量使用的话用 const，若做为属性则使用 readonly。</p>
+<p>额外的属性检查：</p>
+<pre><code class="lang-js">interface SquareConfig {
+    color?: string;
+    width?: number;
+}
+
+function createSquare(config: SquareConfig): { color: string; area: number } {
+    // ...
+}
+
+let mySquare = createSquare({ colour: &quot;red&quot;, width: 100 });
+// error: &#39;colour&#39; not expected in type &#39;SquareConfig&#39;
+</code></pre>
+<p>注意传入 createSquare 的参数拼写为 colour 而不是 color。 在 JavaScript 里，这会默默地失败。虽然绕过去的方式有很多，但是推荐将函数入参定义完整。</p>
+<p>函数类型，定义函数入参和出参的接口：</p>
+<pre><code class="lang-js">interface SearchFunc {
+  (source: string, subString: string): boolean;
+}
+</code></pre>
+<p>我们可以这样使用，函数的参数名不需要与接口里定义的名字相匹配：</p>
+<pre><code class="lang-js">let mySearch: SearchFunc;
+mySearch = function(src: string, sub: string): boolean {
+  let result = src.search(sub);
+  return result &gt; -1;
+}
+</code></pre>
+<p>可索引的类型，可以定义返回数组中某一数据类型项：</p>
+<pre><code class="lang-js">interface StringArray {
+  [index: number]: string;
+}
+
+let myArray: StringArray;
+myArray = [&quot;Bob&quot;, &quot;Fred&quot;];
+
+let myStr: string = myArray[0];
+</code></pre>
+<p>强制一个类区符合某种规则：</p>
+<pre><code class="lang-js">interface ClockInterface {
+    currentTime: Date;
+    setTime(d: Date);
+}
+class Clock implements ClockInterface {
+    currentTime: Date;
+    setTime(d: Date) {
+        this.currentTime = d;
+    }
+    constructor(h: number, m: number) {
+        // ...
+    }
+}
+const clockNow = new Cloce
+</code></pre>
+<p>继承接口，和类一样，接口也可以相互继承。 这让我们能够从一个接口里复制成员到另一个接口里，可以更灵活地将接口分割到可重用的模块里。</p>
+<pre><code class="lang-js">interface Shape {
+    color: string;
+}
+
+interface Square extends Shape {
+    sideLength: number;
+}
+
+let square = &lt;Square&gt;{};
+square.color = &quot;blue&quot;;
+square.sideLength = 10;
+</code></pre>
+<p>一个接口可以继承多个接口，创建出多个接口的合成接口。</p>
+<pre><code class="lang-js">interface Shape {
+    color: string;
+}
+
+interface PenStroke {
+    penWidth: number;
+}
+
+interface Square extends Shape, PenStroke {
+    sideLength: number;
+}
+
+let square = &lt;Square&gt;{};
+square.color = &quot;blue&quot;;
+square.sideLength = 10;
+square.penWidth = 5.0;
+</code></pre>
+<p>混合类型，先前我们提过，接口能够描述 JavaScript 里丰富的类型。 因为JavaScript其动态灵活的特点，有时你会希望一个对象可以同时具有上面提到的多种类型。</p>
+<pre><code class="lang-js">interface Counter {
+    (start: number): string;
+    interval: number;
+    reset(): void;
+}
+
+function getCounter(): Counter {
+    let counter = &lt;Counter&gt;function (start: number) {
+        return &#39;str&#39;;
+    };
+    counter.interval = 123;
+    counter.reset = function () { };
+    return counter;
+}
+
+let c = getCounter();
+c(10);
+c.reset();
+c.interval = 5.0;
+console.log(&#39;c:&#39;, c);
+</code></pre>
+<p>接口继承类，当接口继承了类，类的属性也被接口继承，基于接口定义一个新的类时被继承的类的属性需要被重新实现：</p>
+<pre><code class="lang-js">class Control {
+    private state: any;
+}
+
+interface SelectableControl extends Control {
+    select(): void;
+}
+
+class Button extends Control implements SelectableControl {
+    select() { }
+}
+
+class TextBox extends Control {
+    select() { }
+}
+
+// 错误：“Image”类型缺少“state”属性。
+class Image implements SelectableControl {
+    select() { }
+}
+</code></pre>
+<p>当接口 SelectableControl 集成了 Control 时，用 SelectableControl 直接约束 Image 时需要重新定义 Control 的私有属性 state。</p>
+<h2 id="header-1-6">类</h2>
+<p>类的声明和使用：</p>
+<pre><code class="lang-js">class Greeter {
+    greeting: string;
+    constructor(message: string) {
+        this.greeting = message;
+    }
+    greet() {
+        return &quot;Hello, &quot; + this.greeting;
+    }
+}
+
+let greeter = new Greeter(&quot;world&quot;);
+</code></pre>
+<p>类的继承：</p>
+<pre><code class="lang-js">class Animal {
+    move(distanceInMeters: number = 0) {
+        console.log(`Animal moved ${distanceInMeters}m.`);
+    }
+}
+
+class Dog extends Animal {
+    bark() {
+        console.log(&#39;Woof! Woof!&#39;);
+    }
+}
+
+const dog = new Dog();
+dog.bark();
+dog.move(10);
+dog.bark();
+</code></pre>
+<p>公共私有与受保护的修饰符，在 ts 里成员都默认为公共(public)，与公共相对的就是私有(private)，当成员被标记成 private 时，它就不能在声明它的类的外部访问。</p>
+<pre><code class="lang-js">class Animal {
+    public move(distanceInMeters: number) {
+        console.log(`${this.name} moved ${distanceInMeters}m.`);
+    };
+    private name: string;
+    constructor(theName: string) { this.name = theName; }
+}
+
+new Animal(&quot;Cat&quot;).name; // 错误: &#39;name&#39; 是私有的.
+</code></pre>
+<p>受保护属性(protected)，protected 修饰符与 private 修饰符的行为很相似，但有一点不同， protected成员在派生类中仍然可以访问。</p>
+<pre><code class="lang-js">class Person {
+    protected name: string;
+    constructor(name: string) { this.name = name; }
+}
+
+class Employee extends Person {
+    private department: string;
+
+    constructor(name: string, department: string) {
+        super(name)
+        this.department = department;
+    }
+
+    public getElevatorPitch() {
+        return `Hello, my name is ${this.name} and I work in ${this.department}.`;
+    }
+}
+
+let howard = new Employee(&quot;Howard&quot;, &quot;Sales&quot;);
+console.log(howard.getElevatorPitch());
+</code></pre>
+<p>你可以使用 readonly 关键字将属性设置为只读的。只读属性必须在声明时或构造函数里被初始化。</p>
+<pre><code class="lang-js">class Octopus {
+    readonly name: string;
+    readonly numberOfLegs: number = 8;
+    constructor (theName: string) {
+        this.name = theName;
+    }
+}
+let dad = new Octopus(&quot;Man with the 8 strong legs&quot;);
+dad.name = &quot;Man with the 3-piece suit&quot;; // 错误! name 是只读的.
+</code></pre>
+<p>存取器，存取器要求你将编译器设置为输出ECMAScript 5或更高。 不支持降级到ECMAScript 3。 </p>
+<pre><code class="lang-js">class Employee {
+    private _fullName: string;
+
+    get fullName(): string {
+        return this._fullName;
+    }
+
+    set fullName(newName: string) {
+        this._fullName = newName;
+    }
+}
+</code></pre>
+<p>静态属性，存在于类本身上面而不是类的实例上。</p>
+<pre><code class="lang-js">class Grid {
+    static origin = {x: 0, y: 0};
+    calculateDistanceFromOrigin(point: {x: number; y: number;}) {
+        let xDist = (point.x - Grid.origin.x);
+        let yDist = (point.y - Grid.origin.y);
+        return Math.sqrt(xDist * xDist + yDist * yDist) / this.scale;
+    }
+    constructor (public scale: number) { }
+}
+</code></pre>
+<p>抽象类，做为其它派生类的基类使用，抽象类中的抽象方法不包含具体实现并且必须在派生类中实现。 </p>
+<pre><code class="lang-js">abstract class Animal {
+    abstract makeSound(): void;
+    move(): void {
+        console.log(&#39;roaming the earch...&#39;);
+    }
+}
+</code></pre>
+<h2 id="header-1-7">函数</h2>
+<p>为函数定义类型，指定入参的类型和返回值类型：</p>
+<pre><code class="lang-js">function add(x: number, y: number): number {
+    return x + y;
+}
+</code></pre>
+<p>可选参数和默认参数：</p>
+<pre><code class="lang-js">function buildName(firstName: string, lastName?: string) {
+    if (lastName)
+        return firstName + &quot; &quot; + lastName;
+    else
+        return firstName;
+}
+function buildName(firstName: string, lastName = &quot;Smith&quot;) {
+    return firstName + &quot; &quot; + lastName;
+}
+</code></pre>
+<p>剩余参数，某些场景下你需要同时操作多个参数，或者你并不知道会有多少参数传递进来。 在JavaScript里，你可以使用 arguments来访问所有传入的参数。在TypeScript里，你可以把所有参数收集到一个变量里：</p>
+<pre><code class="lang-js">function buildName(firstName: string, ...restOfName: string[]) {
+  return firstName + &quot; &quot; + restOfName.join(&quot; &quot;);
+}
+
+let employeeName = buildName(&quot;Joseph&quot;, &quot;Samuel&quot;, &quot;Lucas&quot;, &quot;MacKinzie&quot;);
+</code></pre>
+<p>重载，JavaScript本身是个动态语言。 JavaScript里函数根据传入不同的参数而返回不同类型的数据是很常见的。</p>
+<pre><code class="lang-js">let suits = [&quot;hearts&quot;, &quot;spades&quot;, &quot;clubs&quot;, &quot;diamonds&quot;];
+
+function pickCard(x: {suit: string; card: number; }[]): number;
+function pickCard(x: number): {suit: string; card: number; };
+function pickCard(x): any {
+    // Check to see if we&#39;re working with an object/array
+    // if so, they gave us the deck and we&#39;ll pick the card
+    if (typeof x == &quot;object&quot;) {
+        let pickedCard = Math.floor(Math.random() * x.length);
+        return pickedCard;
+    }
+    // Otherwise just let them pick the card
+    else if (typeof x == &quot;number&quot;) {
+        let pickedSuit = Math.floor(x / 13);
+        return { suit: suits[pickedSuit], card: x % 13 };
+    }
+}
+</code></pre>
+<h2 id="header-1-8">泛型</h2>
+<p>一种约束，一种方法使返回值的类型与传入参数的类型是相同的。</p>
+<pre><code class="lang-js">function identity&lt;T&gt;(arg: T): T {
+    return arg;
+}
+</code></pre>
+<p>使用时可以指定参数类型(当让这就同时指定了返回值类型)：</p>
+<pre><code class="lang-js">let output = identity&lt;string&gt;(&quot;myString&quot;);
+</code></pre>
+<p>还可以不指定参数类型：</p>
+<pre><code class="lang-js">let output = identity(&quot;myString&quot;);
+</code></pre>
+<p>引伸用法是使用泛型变量，返回数组并且数组元素的类型与入参类型一致：</p>
+<pre><code class="lang-js">function loggingIdentity&lt;T&gt;(arg: Array&lt;T&gt;): Array&lt;T&gt; {
+    console.log(arg.length);
+    return arg;
+}
+</code></pre>
+<h2 id="header-1-9">枚举</h2>
+<p>使用枚举我们可以定义一些带名字的常量。 使用枚举可以清晰地表达意图或创建一组有区别的用例。 TypeScript支持数字的和基于字符串的枚举。</p>
+<pre><code class="lang-js">enum Direction {
+    Up = 1,
+    Down,
+    Left,
+    Right
+}
+</code></pre>
+<p>Up使用初始化为 1。 其余的成员会从 1开始自动增长。 换句话说， Direction.Up的值为 1， Down为 2， Left为 3， Right为 4。</p>
+<p>不使用初始化器:</p>
+<pre><code class="lang-js">enum Direction {
+    Up,
+    Down,
+    Left,
+    Right,
+}
+</code></pre>
+<p>Up的值为 0， Down的值为 1等等。 当我们不在乎成员的值的时候，这种自增长的行为是很有用处的，但是要注意每个枚举成员的值都是不同的。</p>
+<p>枚举的使用：</p>
+<pre><code class="lang-js">enum Response {
+    No = 0,
+    Yes = 1,
+}
+
+function respond(recipient: string, message: Response): void {
+    // ...
+}
+
+respond(&quot;Princess Caroline&quot;, Response.Yes)
+</code></pre>
+<p>字符串枚举:</p>
+<pre><code class="lang-js">enum Direction {
+    Up = &quot;UP&quot;,
+    Down = &quot;DOWN&quot;,
+    Left = &quot;LEFT&quot;,
+    Right = &quot;RIGHT&quot;,
+}
+</code></pre>
+<p>除了创建一个以属性名做为对象成员的对象之外，数字枚举成员还具有了反向映射，从枚举值到枚举名字。 例如，在下面的例子中：</p>
+<pre><code class="lang-js">enum Enum {
+    A
+}
+let a = Enum.A;
+let nameOfA = Enum[a]; // &quot;A&quot;
+</code></pre>
+<h2 id="header-1-10">类型推论</h2>
+<p>除了主动声明变量类型，变量初始化赋值时会根据值得类型确定变量类型：</p>
+<pre><code class="lang-js">let num = 3;
+num = &#39;a&#39;; // 有语法问题
+</code></pre>
+<h2 id="header-1-11">类型兼容</h2>
+<p>在基于名义类型的类型系统中，数据类型的兼容性或等价性是通过明确的声明和/或类型的名称来决定的。这与结构性类型系统不同，它是基于类型的组成结构，且不要求明确地声明。</p>
+<pre><code class="lang-js">interface Named {
+    name: string;
+}
+
+class Person {
+    name: string;
+}
+
+let p: Named;
+// OK, because of structural typing
+p = new Person();
+</code></pre>
+<p>在使用基于名义类型的语言，比如 C# 或 Java 中，这段代码会报错，因为 Person 类没有明确说明其实现了 Named 接口。</p>
+<p>TypeScript 的结构性子类型是根据 JavaScript 代码的典型写法来设计的。 因为 JavaScript 里广泛地使用匿名对象，例如函数表达式和对象字面量，所以使用结构类型系统来描述这些类型比使用名义类型系统更好。</p>
+<p>函数的兼容：</p>
+<pre><code class="lang-js">let x = (a: number) =&gt; 0;
+let y = (b: number, s: string) =&gt; 0;
+
+y = x; // OK
+x = y; // Error
+</code></pre>
+<h2 id="header-1-12">高级类型</h2>
+<p>交叉类型：可以把现有的多种类型叠加到一起成为一种类型，它包含了所需的所有类型的特性。 </p>
+<pre><code class="lang-js">function extend&lt;T, U&gt;(first: T, second: U): T &amp; U {
+    let result = &lt;T &amp; U&gt;{};
+    for (let id in first) {
+        (&lt;any&gt;result)[id] = (&lt;any&gt;first)[id];
+    }
+    for (let id in second) {
+        if (!result.hasOwnProperty(id)) {
+            (&lt;any&gt;result)[id] = (&lt;any&gt;second)[id];
+        }
+    }
+    return result;
+}
+
+class Person {
+    constructor(public name: string) { }
+}
+interface Loggable {
+    log(): void;
+}
+class ConsoleLogger implements Loggable {
+    log() {
+        // ...
+    }
+}
+var jim = extend(new Person(&quot;Jim&quot;), new ConsoleLogger());
+var n = jim.name;
+jim.log();
+</code></pre>
+<p>联合类型：指定参数的可选类型，原生类型声明如下：</p>
+<pre><code class="lang-js">function padLeft(value: string, padding: string | number) {
+    // ...
+}
+</code></pre>
+<p>如果一个值是联合类型，我们只能访问此联合类型的所有类型里共有的成员：</p>
+<pre><code class="lang-js">interface Bird {
+    fly();
+    layEggs();
+}
+
+interface Fish {
+    swim();
+    layEggs();
+}
+
+function getSmallPet(): Fish | Bird {
+    // ...
+}
+
+let pet = getSmallPet();
+pet.layEggs(); // okay
+pet.swim();    // errors
+</code></pre>
+<p>null和 undefined，默认情况下，类型检查器认为 null 与 undefined 可以赋值给任何类型，这也意味着，你阻止不了将它们赋值给其它类型，就算是你想要阻止这种情况也不行。 null 的发明者 Tony Hoare 称它为 价值亿万美金的错误。--strictNullChecks标记可以解决此错误：当你声明一个变量时，它不会自动地包含 null或 undefined。 你可以使用联合类型明确的包含它们：</p>
+<pre><code class="lang-js">let s = &quot;foo&quot;;
+s = null; // 错误, &#39;null&#39;不能赋值给&#39;string&#39;
+let sn: string | null = &quot;bar&quot;;
+sn = null; // 可以
+
+sn = undefined; // error, &#39;undefined&#39;不能赋值给&#39;string | null&#39;
+</code></pre>
+<p>注意，按照JavaScript的语义，TypeScript会把 null和 undefined区别对待。 string | null， string | undefined和 string | undefined | null是不同的类型。</p>
+<p>使用了 --strictNullChecks，可选参数会被自动地加上 | undefined:</p>
+<pre><code class="lang-js">function f(x: number, y?: number) {
+    return x + (y || 0);
+}
+f(1, 2);
+f(1);
+f(1, undefined);
+f(1, null); // error, &#39;null&#39; is not assignable to &#39;number | undefined&#39;
+</code></pre>
+<h2 id="header-1-13">总结</h2>
+<p>ts 对于 js 来说是一种强约束，在项目中使用会增加设计和编码的成本，你需要花更多的时间来思考怎样抽象以及怎么满足其他代码的约束；另一方面正因为强约束代码的可预期性会得到提高，至于维护成本直接取决于前期的约束设计是否合理，ts 的强约束是一把双刃剑，合理的约束让项目稳定健壮，不合理的约束会让人觉得处处受限。</p>
+<p>比如让你设计一个表单验证器，用原生 js 和 ts 分别实现一下做个对比。</p>
+<p>最后说一句话：强大的人喜欢驾驭那些一般人难以驾驭的技术以彰显自己的强大，警惕为了彰显而彰显。</p>
+<h2 id="header-1-14">参考</h2>
+<p><a href="http://www.typescriptlang.org/" target="_blank">官网</a></p>
+<p><a href="https://www.zhihu.com/question/46397274" target="_blank">Vue 2.0 为什么选用 Flow 进行静态代码检查而不是直接使用 TypeScript？</a></p>
+<p><a href="https://webpack.js.org/guides/typescript/" target="_blank">webpack - typescript/</a></p>
+
+</div>
+</body>
+</html>
