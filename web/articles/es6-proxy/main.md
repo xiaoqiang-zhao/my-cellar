@@ -160,6 +160,20 @@ const proxy = new Proxy(jane, {});
 proxy.name // undefined
 ```
 
+也要防止滥用 bind，普通属性是可以直接在 proxy 实例上获取的：
+
+```js
+const persion = {
+    name: 'xiaoqiang-zhao',
+    getName() {
+        return this.name;
+    }
+}
+const persionProxy = new Proxy(persion, {});
+persionProxy.getName();
+persionProxy.name;
+```
+
 ## Reflect
 
 设计意图：
