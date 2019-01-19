@@ -177,34 +177,34 @@ Promise是异步编程的一种解决方案，比传统的解决方案——回�
 定义在 Promise 原型链上，它的作用是为Promise实例添加状态改变时的回调函数。可以链式调用，内部可以返回其他 Promise 实例，代码示例：
 
 ```js
-    function p1() {
-        return new Promise(function (resolve, reject) {
-            setTimeout(function () {
-                resolve('p1');
-            }, 2000);
-        });
-    }
-    
-    function p2(value) {
-        console.log('第一个promise向第二个promise传入参数: ' + value);
-        return new Promise(function (resolve, reject) {
-            setTimeout(function () {
-                resolve('p2');
-            }, 1000);
-        });
-    }
-    
-    p1().then(function (value) {
-        console.log(value);
-        return p2(value);
-    }).then(function (value) {
-        console.log(value);
+function p1() {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve('p1');
+        }, 2000);
     });
+}
 
-    // 控制台结果：
-    // p1
-    // 第一个promise向第二个promise传入参数: p1
-    // p2
+function p2(value) {
+    console.log('第一个promise向第二个promise传入参数: ' + value);
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve('p2');
+        }, 1000);
+    });
+}
+
+p1().then(function (value) {
+    console.log(value);
+    return p2(value);
+}).then(function (value) {
+    console.log(value);
+});
+
+// 控制台结果：
+// p1
+// 第一个promise向第二个promise传入参数: p1
+// p2
 ```
 
 ### .catch(callback)
@@ -239,27 +239,27 @@ Promise是异步编程的一种解决方案，比传统的解决方案——回�
 用于将多个Promise实例，包装成一个新的Promise实例。Promise对象的实例，如果不是，就会先调用 resolve 方法，将参数转为Promise实例，再进一步处理。
 
 ```js
-    function p1() {
-        return new Promise(function (resolve, reject) {
-            setTimeout(function () {
-                resolve('p1');
-            }, 2000);
-        });
-    }
-    
-    function p2() {
-        return new Promise(function (resolve, reject) {
-            setTimeout(function () {
-                resolve('p2');
-            }, 1000);
-        });
-    }
-    
-    Promise.all([p1(), p2()]).then(function (values) {
-       console.log(values[0] + ',' + values[1]);
+function p1() {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve('p1');
+        }, 2000);
     });
-    
-    // 控制台输出结果: p1,p2
+}
+
+function p2() {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve('p2');
+        }, 1000);
+    });
+}
+
+Promise.all([p1(), p2()]).then(function (values) {
+    console.log(values[0] + ',' + values[1]);
+});
+
+// 控制台输出结果: p1,p2
 ```
 
 注意，只有作为参数的 Promise 实例全部转变为 Resolved 状态，返回值才会转变为 Resolved，如果其中一个状态装变为 Rejected ，那么后面的 promise 不会执行，并且直接调用 reject 或 catch。
@@ -388,112 +388,137 @@ JS需要一个模块管理器来支持大型复杂的项目，于是有了模块
 
 一个常量：
 
-    // 声明一个模块 a.js，并提供对外引用
-    var str = 'string';
-    export default str;
-    
-    // 可以向下面这样引用
-    import a from './a';  // a 的值就是 "string"
-    
+```js
+// 声明一个模块 a.js，并提供对外引用
+var str = 'string';
+export default str;
+
+// 可以向下面这样引用
+import a from './a';  // a 的值就是 "string"
+```
+
 一个函数：
-    
-    // 声明一个模块 a.js，并提供对外引用
-    function fun () {
-        // do something
-        console.log('function fun in module a');
-    }
-    
-    // 可以向下面这样引用
-    import a from './a';  // a 的值就是 fun 函数
-    a();  // 控制台输出 "function fun in module a"
+
+```js
+// 声明一个模块 a.js，并提供对外引用
+function fun () {
+    // do something
+    console.log('function fun in module a');
+}
+export default fn;
+
+// 可以向下面这样引用
+import a from './a';  // a 的值就是 fun 函数
+a();  // 控制台输出 "function fun in module a"
+```
 
 个人推荐定义和对外引用分离书写，这样显得逻辑更清晰，像上面示例代码那样，但是在语法上还可以何在一起书写，代码更简洁，像下面这样(引用方式不变，这里代码略去):
 
-    // 对外引用字符串
-    export default 'string';
-    // 对外引用对象
-    export default {
-        attr: 'Attribution'
-    };
-    // 对外引用函数
-    export default function () {
-        console.log('function fun in module a');
-    };
-    
+```js
+// 对外引用字符串
+export default 'string';
+// 对外引用对象
+export default {
+    attr: 'Attribution'
+};
+// 对外引用函数
+export default function () {
+    console.log('function fun in module a');
+};
+```
+
 经典用法二：一个模块对外输出多个引用
 
 分离写法：
 
-    // 声明一个模块 a.js，并提供对外引用
-    var str = 'string';
-    function fun () {
-        console.log('function fun in module a');
-    }
-    export {str, fun};
-    
-    // 可以向下面这样引用
-    import {str, fun} from './a';
-    console.log(str);   // "string"
-    fun();              // "function fun in module a"
+```js
+// 声明一个模块 a.js，并提供对外引用
+var str = 'string';
+function fun () {
+    console.log('function fun in module a');
+}
+export {str, fun};
+
+// 可以向下面这样引用
+import {str, fun} from './a';
+console.log(str);   // "string"
+fun();              // "function fun in module a"
+```
 
 简略写法：
 
-    // 声明一个模块 a.js，并提供对外引用
-    export var str = 'string';
-    export function fun () {
-        console.log('function fun in module a');
-    }
-    export let object = {
-        // ...
-    };
+```js
+// 声明一个模块 a.js，并提供对外引用
+export var str = 'string';
+export function fun () {
+    console.log('function fun in module a');
+}
+export let object = {
+    // ...
+};
+```
 
 补充说明一下，对外引用 `export default` 与普通 `export` 可以同时使用：
 
-    var str = 'string';
-    function fun () {
-        console.log('function fun in module a');
-    }
-    export {str, fun};
-    export default {str, fun};
+```js
+var str = 'string';
+function fun () {
+    console.log('function fun in module a');
+}
+export {str, fun};
+export default {str, fun};
+```
 
 引用时可以单独只使用 default 的对外输出：
 
-    import a from './a';
-    a.fun();      // "function fun in module a"
+```js
+import a from './a';
+a.fun();      // "function fun in module a"
+```
 
 也可以像下面这样混合使用。
 
-    import {default as a, str, fun, object} from './a';
-    console.log(a.fun === fun);   // true
+```js
+import {default as a, str, fun} from './a';
+console.log(a.fun === fun);   // true
+```
 
 你还可能遇到一种情况，如果两个模块都有 fun 方法怎么办？这里提供两个解决方案：
 
 使用 as 关键字指定别名，可以这样写：
 
-    import {fun as moduleAFun} from './a';
-    moduleAFun();
-    
+```js
+import {fun as moduleAFun} from './a';
+moduleAFun();
+```
+
 将模块 a 直接整体使用，可以这样写：
 
-    import * as a from './a';
-    a.fun();
+```js
+import * as a from './a';
+a.fun();
+```
 
 ### export 与 import 的复合写法
 
 示例：
 
-    export { foo, bar } from 'my_module';
-    
-    // 等同于
-    import { foo, bar } from 'my_module';
-    export { foo, bar };
-    
-    // 整体输出
-    export * from 'my_module';
+```js
+export { foo, bar } from 'my_module';
+
+// 等同于
+import { foo, bar } from 'my_module';
+export { foo, bar };
+
+// 整体输出
+export * from 'my_module';
+```
 
 整体输出可以用于模块之间的继承，如果需要改变名称可以参考下面示例：
 
-    export { area as circleArea } from 'circle';
+```js
+export { area as circleArea } from 'circle';
+```
 
 ### ES6模块加载的实质
 
@@ -501,52 +526,62 @@ ES6模块加载的机制，与CommonJS模块完全不同。CommonJS模块输出�
 
 先看一个例子，index.js 中引用两个模块 a.js 和 b.js，并且分别调用两个模块的 log 方法：
 
-    // index.js
-    import a from './a';
-    import b from './b';
-    
-    a.log();
-    b.log();
-    
+```js
+// index.js
+import a from './a';
+import b from './b';
+
+a.log();
+b.log();
+```
+
 a.js，该模块与 b.js 都引用了 x.js 模块，在该模块中先输出 x.js 模块的 str 属性，然后调用 x.js 模块下的 object.changeStr 方法改变 x.js 模块中的内部变量并输出：
 
-    import {object, str} from './x';
-    
-    function log () {
-        console.log('1、' + str);
-        console.log('2、change str in module a:' + object.changeStr());
-    };
-    
-    export default {log};
-    
+```js
+import {object, str} from './x';
+
+function log () {
+    console.log('1、' + str);
+    console.log('2、change str in module a:' + object.changeStr());
+};
+
+export default {log};
+```
+
 b.js，同样引用 x.js 模块，但是模块中只有一个 log 方法对外调用，log 方法的作用就是输出 x.js 模块的 str 属性：
 
-    import {object, str} from './x'
-    
-    function log () {
-        console.log('3、' + str);
-    };
-    
-    export default {log};
+```js
+import {object, str} from './x'
+
+function log () {
+    console.log('3、' + str);
+};
+
+export default {log};
+```
 
 x.js，该模块中 object.changeStr 方法改变内部变量 str，具体的说就是添加字符串 "++"： 
 
-    var str = 'String';
-    var object = {
-        attr: 'Attribution',
-        changeStr: function () {
-            str += '++';
-            return str;
-        }
-    };
-    
-    export {object, str};
+```js
+var str = 'String';
+var object = {
+    attr: 'Attribution',
+    changeStr: function () {
+        str += '++';
+        return str;
+    }
+};
+
+export {object, str};
+```
 
 最后控制台输出的结果是：
 
-    1、String
-    2、change str in module a:String++
-    3、String++
+```js
+1、String
+2、change str in module a:String++
+3、String++
+```
 
 可以看到当 a.js 模块通过调用 x.js 的方法改变了 x.js 模块的内部变量会引起 b.js 中 x.js 模块的字符串属性的改变，这就是 ES6 模块管理的值引用。
 
@@ -554,7 +589,7 @@ x.js，该模块中 object.changeStr 方法改变内部变量 str，具体的说
 
 Node 对 ES6 模块的处理比较麻烦，因为它有自己的 CommonJS 模块格式，与 ES6 模块格式是不兼容的。目前的解决方案是，将两者分开，ES6 模块和 CommonJS 采用各自的加载方案。
  
- 在静态分析阶段，一个模块脚本只要有一行import或export语句，Node 就会认为该脚本为 ES6 模块，否则就为 CommonJS 模块。如果不输出任何接口，但是希望被 Node 认为是 ES6 模块，可以在脚本中加一行语句。
+在静态分析阶段，一个模块脚本只要有一行 import 或 export 语句，Node 就会认为该脚本为 ES6 模块，否则就为 CommonJS 模块。如果不输出任何接口，但是希望被 Node 认为是 ES6 模块，可以在脚本中加一行语句。
 
 如何不指定绝对路径，Node 加载 ES6 模块会依次寻找以下脚本：
 
@@ -568,7 +603,7 @@ import './foo';
 
 ### import 命令加载 CommonJS 模块
 
-Node 采用 CommonJS 模块格式，模块的输出都定义在module.exports这个属性上面。在 Node 环境中，使用import命令加载 CommonJS 模块，Node 会自动将module.exports属性，当作模块的默认输出，即等同于export default。示例：
+Node 采用 CommonJS 模块格式，模块的输出都定义在 module.exports 这个属性上面。在 Node 环境中，使用import命令加载 CommonJS 模块，Node 会自动将module.exports 属性，当作模块的默认输出，即等同于 export default。示例：
 
 ```js
 // a.js
@@ -588,14 +623,14 @@ CommonJS 模块的输出缓存机制，在 ES6 加载方式下依然有效。
 
 ```js
 module.exports = 123;
-setTimeout(_ => module.exports = null);
+setTimeout(() => module.exports = null);
 ```
 
-上面代码中，对于加载上面脚本，module.exports 将一直是 123，而不会变成 null。
+上面代码中，module.exports 将一直是 123，而不会变成 null。
 
 ### require 命令加载 ES6 模块
 
-采用require命令加载 ES6 模块时，ES6 模块的所有输出接口，会成为输入对象的属性。
+采用 require 命令加载 ES6 模块时，ES6 模块的所有输出接口，会成为输入对象的属性。
 
 ```js
 // es.js
