@@ -172,3 +172,36 @@ const es_namespace = require('./es');
 console.log(es_namespace.default);
 // {bar:'my-default'}
 ```
+
+## 按需加载 PK 预加载
+
+按须加载就是在用户触发引入某模块的时候加载此模块的资源(包括代码和图片等)，预加载就是在不影响当前模块渲染的同时提前加载其他模块，当打开其他模块的时候就可以直接使用预加载的资源。
+
+当页面非常多的时候，预加载可能需要很长时间，给浏览器带来的计算量也会增加。个人觉得按需加载有更广阔的适应场景，预加载属于剑走偏锋，在特定场景下比预加载效果好(比如年终的支付宝账单统计H5页，网易云音乐听歌统计H5页)。三大 MVVM 的纯前端 SPA 脚手架默认提供的都是按需加载方案，Vue 的 SSR 方案 Nuxt 加载策略默认是预加载，从中可以看出预加载预加载正式成为一种需要被思考的方案。
+
+在底层上，按需加载用的是 webpack 的 thunk 特性：
+
+```js
+console.log("this is a.js");
+const btn = document.querySelector("#btn");
+btn.onclick = ()=>{
+    import('./b').then(function(module){
+        const b = module.default;
+        b();
+    });
+}
+```
+
+预加载是这样：
+
+```js
+console.log("this is a.js");
+const btn = document.querySelector("#btn");
+const b = import('./b');
+btn.onclick = ()=>{
+    b.then(function(module){
+        const b = module.default;
+        b();
+    });
+}
+```
