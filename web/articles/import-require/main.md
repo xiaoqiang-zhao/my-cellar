@@ -184,12 +184,12 @@ console.log(es_namespace.default);
 ```js
 console.log("this is a.js");
 const btn = document.querySelector("#btn");
-btn.onclick = ()=>{
+btn.onclick = ()=> {
     import('./b').then(function(module){
         const b = module.default;
         b();
     });
-}
+};
 ```
 
 预加载是这样：
@@ -198,10 +198,15 @@ btn.onclick = ()=>{
 console.log("this is a.js");
 const btn = document.querySelector("#btn");
 const b = import('./b');
-btn.onclick = ()=>{
+btn.onclick = ()=> {
     b.then(function(module){
         const b = module.default;
         b();
     });
-}
+};
 ```
+
+## 参考
+
+Node中没搞明白require和import，你会被坑的很惨
+http://imweb.io/topic/582293894067ce9726778be9
