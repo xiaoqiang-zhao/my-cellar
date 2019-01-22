@@ -34,6 +34,7 @@
 [node.js版本管理工具 n 无效的原理和解决方法](http://www.jb51.net/article/98153.htm)
 
 todo：原理， Linux 部分...
+
 ## 调试环境
 
 ### inspector
