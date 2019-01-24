@@ -13,3 +13,13 @@
 ## canvas
 
 无需网络直接生成打印，支持页面的局部打印，最推荐。
+
+```js
+import html2canvas from 'html2canvas';
+
+const dom = document.getElementById('app');
+html2canvas(dom).then(canvas => {
+    const container = document.getElementById('body');
+    container.appendChild(canvas);
+});
+```
