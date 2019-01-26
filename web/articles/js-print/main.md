@@ -4,7 +4,20 @@
 
 ## iframe 方案
 
-页眉有网站的 title 和 当前日期，页脚有当前的网站地址。无法局部打印。
+默认情况下页眉有网站的 title 和 当前日期，可以通过设置打印页面的样式来实现隐藏页眉：
+
+```html
+<style media="print">
+    @page {
+        size: auto;
+        margin: 0;
+    }
+</style>
+```
+
+页脚有当前的网站地址。
+
+无法局部打印。
 
 ```js
 const iframe = document.createElement('iframe');
