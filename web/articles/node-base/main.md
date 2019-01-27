@@ -29,3 +29,40 @@ Node.js 从 5.0 开始一直遵循着半年一个大版本的发布周期，每�
 ## 版本检测
 
 NodeJs 版本是一切功能的依赖，如果你想做一个供大家使用的工具而不是自己的玩具，那就需要做好版本检测。
+
+一般的做法是首先在 package.json 中配置最低版本依赖项：
+
+```json
+{
+  "engines": {
+    "node": ">=10.0.0"
+  }
+}
+```
+
+配置了依赖并不会直接产生提示，一般会搭配一个 `checkVersion` 来实现：
+
+```js
+const chalk = require('chalk')
+const packageConfig = require('./package.json')
+
+function check (done) {
+  // Parse version number from strings such as 'v4.2.0' or `>=4.0.0'
+  function parseVersionNumber (versionString) {
+    return parseFloat(versionString.replace(/[^\d\.]/g, ''))
+  }
+
+  // Ensure minimum supported node version is used
+  var minNodeVersion = parseVersionNumber(packageConfig.engines.node)
+  var currentNodeVersion = parseVersionNumber(process.version)
+  if (minNodeVersion > currentNodeVersion) {
+    return console.log(chalk.red(
+      '  You must upgrade node to >=' + minNodeVersion + '.x to use'
+    ))
+  }
+
+  done()
+}
+
+module.exports = check
+```
