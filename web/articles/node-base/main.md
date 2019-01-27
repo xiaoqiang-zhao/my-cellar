@@ -66,3 +66,26 @@ function check (done) {
 
 module.exports = check
 ```
+
+以上代码摘录自 vue-cli 开源工具，最后再推荐一个成熟的 npm 包 `check-node-version`，用法如下：
+
+```js
+const check = require("check-node-version")
+const packageConfig = require('./package.json')
+
+check({
+  node: packageConfig.engines.node
+},(error, results) => {
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  if (results.isSatisfied) {
+    console.log("All is well.");
+  }
+  else {
+    console.log("You must upgrade node to " + packageConfig.engines.node + "to use");
+  }
+})
+```
