@@ -104,6 +104,12 @@ check(
 
 ## 理解异步
 
+从其他语言转过的开发者对异步不太了解，就算是前端开发者接触 NodeJs 会发现这里的异步要比前端更复杂。
+
+你需要掌握 callback、promise、async/await 的相关知识，还要掌握 MacroTask 和 MicroTask。
+
+之前写过一篇 node-async，这里就不展开了。
+
 ## 操作本地文件
 
 ## 获取远程数据

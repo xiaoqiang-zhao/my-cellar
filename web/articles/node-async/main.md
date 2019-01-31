@@ -537,3 +537,7 @@ console.log('5');
 ## 总结
 
 根据场景选择 callback、promise、async/await，技术本身没有优劣，只有合适的才是最好的。
+
+## 扩展和参考
+
+https://zhuanlan.zhihu.com/p/55511602
