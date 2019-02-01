@@ -112,6 +112,23 @@ check(
 
 ## 操作本地文件
 
+node 10 添加了 Promise 的试验性支持.
+
+```js
+const fsPromises = require('fs').promises;
+try {
+  // const result = await fsPromises.rename('/tmp/hello', '/tmp/world');
+  console.log(result);
+}
+catch(e) {
+  console.log('error');
+}
+```
+
+node --experimental-modules rename
+
 ## 获取远程数据
 
 ## 提供 Web 服务
+
+## 参考
