@@ -112,7 +112,7 @@ check(
 
 ## 操作本地文件
 
-node 10 添加了 Promise 的试验性支持.
+node 10 添加了 Promise 的试验性支持，启动 node 进程的时候需要加参数 `node --experimental-modules rename`：
 
 ```js
 const fsPromises = require('fs').promises;
@@ -125,7 +125,7 @@ catch(e) {
 }
 ```
 
-node --experimental-modules rename
+下面我们介绍文件相关的操作，Promise 将来会成为主流，所以我们以 Promise 为主展开介绍。
 
 ## 获取远程数据
 
