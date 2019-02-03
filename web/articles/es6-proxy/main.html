@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>ES6 Proxy - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">ES6 Proxy</h1>
+<blockquote>
+<p>Proxy 在日常的编码中鲜有用到，但是确实最近大热的 MVVM 原理的一部分，所以单独拿出来说说，为阅读 MVVM 源码做好基础知识准备。Proxy 用于修改某些操作的默认行为，等同于在语言层面做出修改，所以属于一种“元编程”（meta programming），即对编程语言进行编程，也是进阶大神的必备工具。</p>
+</blockquote>
+<h2 id="header-1-1">Proxy 重载</h2>
+<pre><code class="lang-js">const obj = new Proxy({}, {
+  get: function (target, key, receiver) {
+    console.log(`getting ${key}!`);
+    return Reflect.get(target, key, receiver);
+  },
+  set: function (target, key, value, receiver) {
+    console.log(`setting ${key}!`);
+    return Reflect.set(target, key, value, receiver);
+  }
+});
+
+obj.count = 1
+//  setting count!
+++obj.count
+//  getting count!
+//  setting count!
+//  2
+</code></pre>
+<p>上面代码说明，Proxy 实际上重载（overload）了点运算符，即用自己的定义覆盖了语言的原始定义。Reflect 存放一些明显属于语言内部的方法。生成 Proxy 实例的标准范式是：</p>
+<pre><code class="lang-js">const proxy = new Proxy(target, handler);
+</code></pre>
+<p>所有的不同都在 handler 的写法上，注意，要使得 Proxy 起作用，必须针对 Proxy 实例进行操作，而不是针对目标对象进行操作。另外同一个拦截器函数，可以设置拦截多个操作。</p>
+<pre><code class="lang-js">const handler = {
+  get: function(target, name) {
+    if (name === &#39;prototype&#39;) {
+      return Object.prototype;
+    }
+    return &#39;Hello, &#39; + name;
+  },
+
+  apply: function(target, thisBinding, args) {
+    return args[0];
+  },
+
+  construct: function(target, args) {
+    return {value: args[1]};
+  }
+};
+
+const fproxy = new Proxy(function(x, y) {
+  return x + y;
+}, handler);
+
+fproxy(1, 2) // 1
+new fproxy(1,2) // {value: 2}
+fproxy.prototype === Object.prototype // true
+fproxy.foo // &quot;Hello, foo&quot;
+</code></pre>
+<p>下面是 Proxy 支持的13个拦截操作：</p>
+<ul>
+<li>get(target, propKey, receiver)</li>
+<li>set(target, propKey, value, receiver)</li>
+<li>has(target, propKey)，拦截 <code>propKey in proxy</code> 的操作，返回一个布尔值。</li>
+<li>deleteProperty(target, propKey)</li>
+<li>ownKeys(target)</li>
+<li>getOwnPropertyDescriptor(target, propKey)</li>
+<li>defineProperty(target, propKey, propDesc)</li>
+<li>preventExtensions(target)</li>
+<li>getPrototypeOf(target)</li>
+<li>isExtensible(target)</li>
+<li>setPrototypeOf(target, proto)</li>
+<li>apply(target, object, args)</li>
+<li>construct(target, args)</li>
+</ul>
+<h2 id="header-1-2">Proxy 覆盖</h2>
+<p>上面的方式是夹带私货，就是在原有方法的前面执行一些与当前方法返回值无关的操作，如果想执行与当前函数返回值有关，甚至直接改写当前函数返回值逻辑就需要一些技巧。如果 get 代理的是方法，那么返回值应该是函数，下面看一例。</p>
+<p>我们知道 Date 的 getMonth 返回月份 (0 ~ 11)。</p>
+<pre><code class="lang-js">const target = new Date(&#39;2019-01-01&#39;);
+target.getMonth(); // 输出 0
+</code></pre>
+<p>不知道语言当初为何要这样设计，如果我们想修正，让 getMonth 方法返回的月份是 1 ~ 12。</p>
+<pre><code class="lang-js">const handler = {
+  get(target, prop) {
+    if (prop === &#39;getMonth&#39;) {
+      // 重点在下面
+      return function() {
+        return target.getMonth() + 1;
+      };
+    }
+    return Reflect.get(target, prop);
+  }
+};
+const proxy = new Proxy(target, handler);
+
+proxy.getMonth();
+</code></pre>
+<h2 id="header-1-3">Proxy 的 this</h2>
+<p>虽然 Proxy 可以代理针对目标对象的访问，但它不是目标对象的透明代理，即不做任何拦截的情况下，也无法保证与目标对象的行为一致。主要原因就是在 Proxy 代理的情况下，目标对象内部的 this 关键字会指向 Proxy 代理。</p>
+<p>下面代码中，getDate 方法只能在 Date 对象实例上面拿到，如果 this 不是 Date 对象实例就会报错。</p>
+<pre><code class="lang-js">const target = new Date();
+const handler = {};
+const proxy = new Proxy(target, handler);
+
+proxy.getDate();
+// TypeError: this is not a Date object.
+</code></pre>
+<p>这时 this 绑定原始对象，就可以解决这个问题。</p>
+<pre><code class="lang-js">const target = new Date(&#39;2019-01-01&#39;);
+const handler = {
+  get(target, prop) {
+    if (prop === &#39;getDate&#39;) {
+      // 重点在下面
+      return target.getDate.bind(target);
+    }
+    return Reflect.get(target, prop);
+  }
+};
+const proxy = new Proxy(target, handler);
+
+proxy.getDate() // 1
+</code></pre>
+<p>如果你不了解 Date 内部是怎么处理的，下面例子可以更好的理解这一点：</p>
+<pre><code class="lang-js">const _name = new WeakMap();
+
+class Person {
+  constructor(name) {
+    _name.set(this, name);
+  }
+  get name() {
+    return _name.get(this);
+  }
+}
+
+const jane = new Person(&#39;Jane&#39;);
+jane.name // &#39;Jane&#39;
+
+const proxy = new Proxy(jane, {});
+proxy.name // undefined
+</code></pre>
+<p>也要防止滥用 bind，普通属性是可以直接在 proxy 实例上获取的：</p>
+<pre><code class="lang-js">const persion = {
+    name: &#39;xiaoqiang-zhao&#39;,
+    getName() {
+        return this.name;
+    }
+}
+const persionProxy = new Proxy(persion, {});
+persionProxy.getName();
+persionProxy.name;
+</code></pre>
+<h2 id="header-1-4">Reflect</h2>
+<p>设计意图：</p>
+<ul>
+<li>将 Object 对象的一些明显属于语言内部的方法放到 Reflect 对象上。</li>
+<li>修改某些 Object 方法的返回结果，让其变得更合理。</li>
+<li>让 Object 操作都变成函数行为。</li>
+<li>为 Proxy 代理提供方便。</li>
+</ul>
+<p>13个静态方法与上面的 Proxy 的静态方法一一对应。</p>
+
+</div>
+</body>
+</html>

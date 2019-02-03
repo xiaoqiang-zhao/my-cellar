@@ -285,8 +285,16 @@ const proxy = new Proxy(target, handler);
 target.m() // false
 proxy.m()  // true
 </code></pre>
-<p>下面代码中，getDate 方法只能在 Date 对象实例上面拿到，如果 this 不是 Date 对象实例就会报错。这时 this 绑定原始对象，就可以解决这个问题。</p>
-<pre><code class="lang-js">const target = new Date(&#39;2015-01-01&#39;);
+<p>下面代码中，getDate 方法只能在 Date 对象实例上面拿到，如果 this 不是 Date 对象实例就会报错。</p>
+<pre><code class="lang-js">const target = new Date();
+const handler = {};
+const proxy = new Proxy(target, handler);
+
+proxy.getDate();
+// TypeError: this is not a Date object.
+</code></pre>
+<p>这时 this 绑定原始对象，就可以解决这个问题。</p>
+<pre><code class="lang-js">const target = new Date(&#39;2019-01-01&#39;);
 const handler = {
   get(target, prop) {
     if (prop === &#39;getDate&#39;) {

@@ -1,0 +1,12 @@
+{
+  "enName": "es6-proxy",
+  "title": "ES6 Proxy",
+  "introduction": "Proxy 在日常的编码中鲜有用到，但是确实最近大热的 MVVM 原理的一部分，所以单独拿出来说说，为阅读 MVVM 源码做好基础知识准备。Proxy 用于修改某些操作的默认行为，等同于在语言层面做出修改，所以属于一种“元编程”（meta programming），即对编程语言进行编程，也是进阶大神的必备工具。",
+  "tags": [],
+  "isPublished": false,
+  "state": "立项",
+  "type": "md",
+  "createDate": 1549208176723,
+  "commentList": [],
+  "todoList": []
+}

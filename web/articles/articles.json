@@ -183,6 +183,18 @@
     "todoList": []
   },
   {
+    "enName": "canvas",
+    "title": "Canvas 基础和应用",
+    "introduction": "重要特性",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1549208176658,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "cellar",
     "title": "cellar 技术文档",
     "introduction": "我觉的一个博客系统最起码要具备三个功能：写文章，展示文章，管理文章；还有三个加分点：良好的SEO，结构清晰可二次开发，免费。cellar 恰好具备这六点，让我从技术角度为你娓娓道来。",
@@ -476,6 +488,18 @@
     "todoList": []
   },
   {
+    "enName": "es6-proxy",
+    "title": "ES6 Proxy",
+    "introduction": "Proxy 在日常的编码中鲜有用到，但是确实最近大热的 MVVM 原理的一部分，所以单独拿出来说说，为阅读 MVVM 源码做好基础知识准备。Proxy 用于修改某些操作的默认行为，等同于在语言层面做出修改，所以属于一种“元编程”（meta programming），即对编程语言进行编程，也是进阶大神的必备工具。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1549208176723,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "express",
     "title": "Express",
     "introduction": "了解完 Koa，需要了解一下适用范围更广泛的 Express，也为改造脚手架做准备。",
@@ -611,6 +635,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1499134708139,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "import-require",
+    "title": "import 与 require",
+    "introduction": "ES6 已经逐渐普及了，Node 9.0 开始原生支持 import，浏览器端在 webpack 的帮助下也可以无障碍使用 import 了。在这个过渡的时期你可能需要了解一些他们的不同，ES6 是 2015 年发布，到现在的 2019 年已经 4 年过去了 require 的一些坑已经不需要了解了，重点可以放在 import 的特性上。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1549208176763,
     "commentList": [],
     "todoList": []
   },
@@ -783,6 +819,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1453361367225,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "js-print",
+    "title": "js 打印页面",
+    "introduction": "工程上的实践。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1549208176783,
     "commentList": [],
     "todoList": []
   },
@@ -975,21 +1023,6 @@
     "todoList": []
   },
   {
-    "enName": "node",
-    "title": "NodeJs 必备基础",
-    "introduction": "开发 NodeJs 程序有一些必须掌握的技巧，这里总结用到的基础知识，收集一些我遇到的问题和解决方案。",
-    "tags": [
-      "基础",
-      "个人笔记"
-    ],
-    "isPublished": true,
-    "state": "公示集成",
-    "type": "md",
-    "createDate": 1464314346073,
-    "commentList": [],
-    "todoList": []
-  },
-  {
     "enName": "node-async",
     "title": "NodeJs 异步流程控制",
     "introduction": "NodeJs 的核心就是异步流程控制，也是学习和使用 NodeJs 绕不开的坎儿，本文主要介绍异步的三种方法: callback、promise、async/await。",
@@ -1001,6 +1034,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1518151610128,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "node-base",
+    "title": "NodeJs 基础",
+    "introduction": "NodeJs 在 2019 年初的当前主要有这么几个应用场景：承担 Web Server 的部分或全部数据处理，开发 cli 工具(前端工程化的工具是主要方向)，借助 Electron 开发客户端。开发这些需要一些基础的知识储备，这里结合我自己的经验回顾和整理一下。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1549208176808,
     "commentList": [],
     "todoList": []
   },
@@ -1202,6 +1247,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1460254890796,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "ski",
+    "title": "滑雪",
+    "introduction": "对，你没看错，就是滑雪。滑雪也是我的一个爱好，今年滑雪有人开始喊我大神了，膨胀了，骄傲了...这篇文章主要讲一讲滑雪的一些体会，道和术都有。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1549208176827,
     "commentList": [],
     "todoList": []
   },
@@ -1437,7 +1494,7 @@
   {
     "enName": "wx",
     "title": "微信小程序开发记要",
-    "introduction": "要实验一中商业模式，需要小程序来支持，这里记录从零开始的关键步骤。",
+    "introduction": "要实验一种商业模式，需要小程序来支持，这里记录从零开始的关键步骤。",
     "tags": [],
     "isPublished": false,
     "state": "立项",

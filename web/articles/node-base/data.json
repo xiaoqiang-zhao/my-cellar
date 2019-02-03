@@ -1,0 +1,12 @@
+{
+  "enName": "node-base",
+  "title": "NodeJs 基础",
+  "introduction": "NodeJs 在 2019 年初的当前主要有这么几个应用场景：承担 Web Server 的部分或全部数据处理，开发 cli 工具(前端工程化的工具是主要方向)，借助 Electron 开发客户端。开发这些需要一些基础的知识储备，这里结合我自己的经验回顾和整理一下。",
+  "tags": [],
+  "isPublished": false,
+  "state": "立项",
+  "type": "md",
+  "createDate": 1549208176808,
+  "commentList": [],
+  "todoList": []
+}

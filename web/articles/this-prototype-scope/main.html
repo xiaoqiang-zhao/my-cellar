@@ -23,6 +23,78 @@
 <p>学习如何在 js 里正确使用 this 就好比一场成年礼；原型是 js 实现继承等关系的重要基础；scope 则是闭包基础。</p>
 </blockquote>
 <h2 id="header-1-1">this</h2>
+<p>对象中的方法：</p>
+<pre><code class="lang-js">const obj = {
+    a: {
+        fn(){
+            // this
+        }
+    },
+    fn() {
+        // this
+    }
+}
+
+obj.a.fn(); // this 指向 a
+obj.fn();   // this 指向 obj
+
+const f = obj.a.fn;
+f() // this 指向 window, 严格模式下为 undefined
+</code></pre>
+<p>构造函数中的 this: </p>
+<pre><code class="lang-js">function Obj(name) {
+    this.name = name;
+}
+</code></pre>
+<p>箭头函数中的 this，两个 this 都指向定义 obj 环境中的 this:</p>
+<pre><code class="lang-js">const obj = {
+    a: {
+        fn: () =&gt; {
+            // this
+        }
+    },
+    fn: () =&gt; {
+        // this
+    }
+}
+</code></pre>
+<p>改变 this 指向可以用 call/apply/bind。</p>
+<p>call 和 apple 都是在调用的时候改变 this 指向，区别在于参数的传入形似不同。</p>
+<pre><code class="lang-js">const obj = {
+    fn(param) {
+        // this
+        console.log(this.name, param);
+    }
+}
+obj.fn.call({
+    name: &#39;xiaoqiang-zhao&#39;
+}, &#39;111&#39;);
+obj.fn.apply({
+    name: &#39;xiaoqiang-zhao&#39;
+}, [&#39;111&#39;]);
+</code></pre>
+<p>bind 的不同是可以永久改变 this 指向:</p>
+<pre><code class="lang-js">const obj = {
+    fn(param) {
+        // this
+        console.log(this.name, param);
+    }
+}
+
+obj.fn.bind({
+    name: &#39;xiaoqiang-zhao&#39;
+})(&#39;333&#39;);
+// 输出: xiaoqiang-zhao 333
+
+obj.fn(&#39;444&#39;);
+// 输出 undefined 444
+
+const f = obj.fn.bind({
+    name: &#39;xiaoqiang-zhao&#39;
+});
+f(&#39;555&#39;);
+// 输出 xiaoqiang-zhao 555
+</code></pre>
 <h2 id="header-1-2">prototype</h2>
 <p>原型上的方法在 for of 中不会被遍历出来:</p>
 <pre><code class="lang-js">function A() {
@@ -37,9 +109,16 @@ const a = new A();
 for (let key of Object.keys(a)) {
     console.log(key);
 }
-//输出: aa
+// 输出: aa
+
+// for in 会遍历出更多
+for (let key in a) {
+    console.log(key);
+}
+// 输出: aa a
 </code></pre>
 <h2 id="header-1-3">scope</h2>
+<p>函数内部的作用域就是函数定义时的作用域加函数内部域。</p>
 <h2 id="header-1-4">参考</h2>
 <p><a href="https://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/" target="_blank">https://yehudakatz.com/2011/08/11/understanding-javascript-function-invocation-and-this/</a></p>
 <p><a href="http://www.henanbuct.com/" target="_blank">http://www.henanbuct.com/</a></p>

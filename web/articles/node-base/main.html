@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>NodeJs 基础 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">NodeJs 基础</h1>
+<blockquote>
+<p>NodeJs 在 2019 年初的当前主要有这么几个应用场景：承担 Web Server 的部分或全部数据处理，开发 cli 工具(前端工程化的工具是主要方向)，借助 Electron 开发客户端。开发这些需要一些基础的知识储备，这里结合我自己的经验回顾和整理一下。</p>
+</blockquote>
+<h2 id="header-1-1">概述</h2>
+<p>Node.js 不是一门语言也不是框架，它只是基于 Google V8 引擎的 JavaScript 运行时环境。</p>
+<p>当前的工具链在这调试方面已经支持的非常完善了，在 vscode 中可以直接运行并调试。</p>
+<h2 id="header-1-2">版本</h2>
+<p>Node.js 诞生于 2009 年，由 Joyent 的员工 <a href="https://github.com/ry" target="_blank">Ryan Dahl</a> 开发而成。在 2015 年由于 Node 贡献者对 es6 新特性集成问题的分歧，促成了 2015 年 NodeJS 基金会的成立，NodeJS 基金会的创始成员包括 Google、Joyent、IBM、Paypal、微软、Fidelity 和 Linux 基金会。此后，Node.js 基金会发展非常好。</p>
+<p>Node.js 从 5.0 开始一直遵循着半年一个大版本的发布周期，每年 4 月左右发布一个主版本号为偶数的 LTS（Long-Term-Support）版本，每年 10 月左右发布一个主版本号为奇数的非 LTS 版本。</p>
+<p>每年 10 月的奇数版本发布后，同年 4 月发布的偶数版本进入 LTS 阶段，为期一年半。期间除非 Release 工作组同意，不再添加新特性，只对现有功能进行完善，变更内容仅限于：</p>
+<ul>
+<li>修复 Bug</li>
+<li>安全性升级</li>
+<li>npm 升级（主版本号不变）</li>
+<li>相关文档的更新</li>
+<li>性能优化（基本不会影响已有的应用程序）</li>
+<li>会引入大量繁琐恶心的代码（对已有应用程序的影响很低），但是对未来做向下兼容补丁有利的变更</li>
+</ul>
+<p>最后还有 1 年半的维护期，期间除非是非常严重的 Bug 或安全性问题，不再有改动，对文档的修改也需要授权才可以。LTS 版本的生命周期共计 3 年，之后不再维护。</p>
+<p>下面是一个简单的版本和时间对应关系：</p>
+<ul>
+<li>2015 node 4 5</li>
+<li>2016 node 6 7</li>
+<li>2017 node 8 9</li>
+<li>2018 node 10 11</li>
+</ul>
+<p>如果你要用 async/await 需要的版本是 node 8+，如果要用 import 那么需要的版本是 node 10+。</p>
+<h2 id="header-1-3">版本检测</h2>
+<p>NodeJs 版本是一切功能的依赖，如果你想做一个供大家使用的工具而不是自己的玩具，那就需要做好版本检测。</p>
+<p>一般的做法是首先在 package.json 中配置最低版本依赖项：</p>
+<pre><code class="lang-json">{
+  &quot;engines&quot;: {
+    &quot;node&quot;: &quot;&gt;=10.0.0&quot;
+  }
+}
+</code></pre>
+<p>配置了依赖并不会直接产生提示，一般会搭配一个 <code>checkVersion</code> 来实现：</p>
+<pre><code class="lang-js">const chalk = require(&quot;chalk&quot;);
+const packageConfig = require(&quot;./package.json&quot;);
+
+function check(done) {
+  // Parse version number from strings such as &#39;v4.2.0&#39; or `&gt;=4.0.0&#39;
+  function parseVersionNumber(versionString) {
+    return parseFloat(versionString.replace(/[^\d\.]/g, &quot;&quot;));
+  }
+
+  // Ensure minimum supported node version is used
+  var minNodeVersion = parseVersionNumber(packageConfig.engines.node);
+  var currentNodeVersion = parseVersionNumber(process.version);
+  if (minNodeVersion &gt; currentNodeVersion) {
+    return console.log(
+      chalk.red(&quot;  You must upgrade node to &gt;=&quot; + minNodeVersion + &quot;.x to use&quot;)
+    );
+  }
+
+  done();
+}
+
+module.exports = check;
+</code></pre>
+<p>以上代码摘录自 vue-cli 开源工具，最后再推荐一个成熟的 npm 包 <code>check-node-version</code>，用法如下：</p>
+<pre><code class="lang-js">const check = require(&quot;check-node-version&quot;);
+const packageConfig = require(&quot;./package.json&quot;);
+
+check(
+  {
+    node: packageConfig.engines.node
+  },
+  (error, results) =&gt; {
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    if (results.isSatisfied) {
+      console.log(&quot;All is well.&quot;);
+    } else {
+      console.log(
+        &quot;You must upgrade node to &quot; + packageConfig.engines.node + &quot;to use&quot;
+      );
+    }
+  }
+);
+</code></pre>
+<h2 id="header-1-4">理解异步</h2>
+<p>从其他语言转过的开发者对异步不太了解，就算是前端开发者接触 NodeJs 会发现这里的异步要比前端更复杂。</p>
+<p>你需要掌握 callback、promise、async/await 的相关知识，还要掌握 MacroTask 和 MicroTask。</p>
+<p>之前写过一篇 node-async，这里就不展开了。</p>
+<h2 id="header-1-5">操作本地文件</h2>
+<p>node 10 添加了 Promise 的试验性支持，启动 node 进程的时候需要加参数 <code>node --experimental-modules rename</code>：</p>
+<pre><code class="lang-js">const fsPromises = require(&#39;fs&#39;).promises;
+try {
+  // const result = await fsPromises.rename(&#39;/tmp/hello&#39;, &#39;/tmp/world&#39;);
+  console.log(result);
+}
+catch(e) {
+  console.log(&#39;error&#39;);
+}
+</code></pre>
+<p>下面我们介绍文件相关的操作，Promise 将来会成为主流，所以我们以 Promise 为主展开介绍。</p>
+<h2 id="header-1-6">获取远程数据</h2>
+<h2 id="header-1-7">提供 Web 服务</h2>
+<h2 id="header-1-8">参考</h2>
+
+</div>
+</body>
+</html>

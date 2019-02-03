@@ -162,34 +162,34 @@ promise.then(value =&gt; {
 // 控制台输出：done
 </code></pre><h3 id="header-1-2-2">.then(resolve, reject)</h3>
 <p>定义在 Promise 原型链上，它的作用是为Promise实例添加状态改变时的回调函数。可以链式调用，内部可以返回其他 Promise 实例，代码示例：</p>
-<pre><code class="lang-js">    function p1() {
-        return new Promise(function (resolve, reject) {
-            setTimeout(function () {
-                resolve(&#39;p1&#39;);
-            }, 2000);
-        });
-    }
-
-    function p2(value) {
-        console.log(&#39;第一个promise向第二个promise传入参数: &#39; + value);
-        return new Promise(function (resolve, reject) {
-            setTimeout(function () {
-                resolve(&#39;p2&#39;);
-            }, 1000);
-        });
-    }
-
-    p1().then(function (value) {
-        console.log(value);
-        return p2(value);
-    }).then(function (value) {
-        console.log(value);
+<pre><code class="lang-js">function p1() {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve(&#39;p1&#39;);
+        }, 2000);
     });
+}
 
-    // 控制台结果：
-    // p1
-    // 第一个promise向第二个promise传入参数: p1
-    // p2
+function p2(value) {
+    console.log(&#39;第一个promise向第二个promise传入参数: &#39; + value);
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve(&#39;p2&#39;);
+        }, 1000);
+    });
+}
+
+p1().then(function (value) {
+    console.log(value);
+    return p2(value);
+}).then(function (value) {
+    console.log(value);
+});
+
+// 控制台结果：
+// p1
+// 第一个promise向第二个promise传入参数: p1
+// p2
 </code></pre>
 <h3 id="header-1-2-3">.catch(callback)</h3>
 <p>用于指定发生错误时的回调函数，与 then 方法第二个参数 -- reject 回调函数调用逻辑相同。在写 Promise 实例生成器时应该捕获生成器本身的错误，resolve 应该交给 resolve 来处理，否则会造成错误难以跟踪的问题。接着上面的代码 catch 方法可以这样使用：</p>
@@ -213,27 +213,27 @@ promise.then(value =&gt; {
 </code></pre>
 <h3 id="header-1-2-4">.all([p1, p2, ...])</h3>
 <p>用于将多个Promise实例，包装成一个新的Promise实例。Promise对象的实例，如果不是，就会先调用 resolve 方法，将参数转为Promise实例，再进一步处理。</p>
-<pre><code class="lang-js">    function p1() {
-        return new Promise(function (resolve, reject) {
-            setTimeout(function () {
-                resolve(&#39;p1&#39;);
-            }, 2000);
-        });
-    }
-
-    function p2() {
-        return new Promise(function (resolve, reject) {
-            setTimeout(function () {
-                resolve(&#39;p2&#39;);
-            }, 1000);
-        });
-    }
-
-    Promise.all([p1(), p2()]).then(function (values) {
-       console.log(values[0] + &#39;,&#39; + values[1]);
+<pre><code class="lang-js">function p1() {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve(&#39;p1&#39;);
+        }, 2000);
     });
+}
 
-    // 控制台输出结果: p1,p2
+function p2() {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve(&#39;p2&#39;);
+        }, 1000);
+    });
+}
+
+Promise.all([p1(), p2()]).then(function (values) {
+    console.log(values[0] + &#39;,&#39; + values[1]);
+});
+
+// 控制台输出结果: p1,p2
 </code></pre>
 <p>注意，只有作为参数的 Promise 实例全部转变为 Resolved 状态，返回值才会转变为 Resolved，如果其中一个状态装变为 Rejected ，那么后面的 promise 不会执行，并且直接调用 reject 或 catch。</p>
 <h3 id="header-1-2-5">.race()</h3>
@@ -326,24 +326,27 @@ console.log(&#39;one&#39;);
 <h3 id="header-1-5-1">经典用法</h3>
 <p>经典用法一：模块功能单一，只输出一个函数或一个常量，使用 default 关键字</p>
 <p>一个常量：</p>
-<pre><code>// 声明一个模块 a.js，并提供对外引用
+<pre><code class="lang-js">// 声明一个模块 a.js，并提供对外引用
 var str = &#39;string&#39;;
 export default str;
 
 // 可以向下面这样引用
 import a from &#39;./a&#39;;  // a 的值就是 &quot;string&quot;
-</code></pre><p>一个函数：</p>
-<pre><code>// 声明一个模块 a.js，并提供对外引用
+</code></pre>
+<p>一个函数：</p>
+<pre><code class="lang-js">// 声明一个模块 a.js，并提供对外引用
 function fun () {
     // do something
     console.log(&#39;function fun in module a&#39;);
 }
+export default fn;
 
 // 可以向下面这样引用
 import a from &#39;./a&#39;;  // a 的值就是 fun 函数
 a();  // 控制台输出 &quot;function fun in module a&quot;
-</code></pre><p>个人推荐定义和对外引用分离书写，这样显得逻辑更清晰，像上面示例代码那样，但是在语法上还可以何在一起书写，代码更简洁，像下面这样(引用方式不变，这里代码略去):</p>
-<pre><code>// 对外引用字符串
+</code></pre>
+<p>个人推荐定义和对外引用分离书写，这样显得逻辑更清晰，像上面示例代码那样，但是在语法上还可以何在一起书写，代码更简洁，像下面这样(引用方式不变，这里代码略去):</p>
+<pre><code class="lang-js">// 对外引用字符串
 export default &#39;string&#39;;
 // 对外引用对象
 export default {
@@ -353,9 +356,10 @@ export default {
 export default function () {
     console.log(&#39;function fun in module a&#39;);
 };
-</code></pre><p>经典用法二：一个模块对外输出多个引用</p>
+</code></pre>
+<p>经典用法二：一个模块对外输出多个引用</p>
 <p>分离写法：</p>
-<pre><code>// 声明一个模块 a.js，并提供对外引用
+<pre><code class="lang-js">// 声明一个模块 a.js，并提供对外引用
 var str = &#39;string&#39;;
 function fun () {
     console.log(&#39;function fun in module a&#39;);
@@ -366,8 +370,9 @@ export {str, fun};
 import {str, fun} from &#39;./a&#39;;
 console.log(str);   // &quot;string&quot;
 fun();              // &quot;function fun in module a&quot;
-</code></pre><p>简略写法：</p>
-<pre><code>// 声明一个模块 a.js，并提供对外引用
+</code></pre>
+<p>简略写法：</p>
+<pre><code class="lang-js">// 声明一个模块 a.js，并提供对外引用
 export var str = &#39;string&#39;;
 export function fun () {
     console.log(&#39;function fun in module a&#39;);
@@ -375,29 +380,35 @@ export function fun () {
 export let object = {
     // ...
 };
-</code></pre><p>补充说明一下，对外引用 <code>export default</code> 与普通 <code>export</code> 可以同时使用：</p>
-<pre><code>var str = &#39;string&#39;;
+</code></pre>
+<p>补充说明一下，对外引用 <code>export default</code> 与普通 <code>export</code> 可以同时使用：</p>
+<pre><code class="lang-js">var str = &#39;string&#39;;
 function fun () {
     console.log(&#39;function fun in module a&#39;);
 }
 export {str, fun};
 export default {str, fun};
-</code></pre><p>引用时可以单独只使用 default 的对外输出：</p>
-<pre><code>import a from &#39;./a&#39;;
+</code></pre>
+<p>引用时可以单独只使用 default 的对外输出：</p>
+<pre><code class="lang-js">import a from &#39;./a&#39;;
 a.fun();      // &quot;function fun in module a&quot;
-</code></pre><p>也可以像下面这样混合使用。</p>
-<pre><code>import {default as a, str, fun, object} from &#39;./a&#39;;
+</code></pre>
+<p>也可以像下面这样混合使用。</p>
+<pre><code class="lang-js">import {default as a, str, fun} from &#39;./a&#39;;
 console.log(a.fun === fun);   // true
-</code></pre><p>你还可能遇到一种情况，如果两个模块都有 fun 方法怎么办？这里提供两个解决方案：</p>
+</code></pre>
+<p>你还可能遇到一种情况，如果两个模块都有 fun 方法怎么办？这里提供两个解决方案：</p>
 <p>使用 as 关键字指定别名，可以这样写：</p>
-<pre><code>import {fun as moduleAFun} from &#39;./a&#39;;
+<pre><code class="lang-js">import {fun as moduleAFun} from &#39;./a&#39;;
 moduleAFun();
-</code></pre><p>将模块 a 直接整体使用，可以这样写：</p>
-<pre><code>import * as a from &#39;./a&#39;;
+</code></pre>
+<p>将模块 a 直接整体使用，可以这样写：</p>
+<pre><code class="lang-js">import * as a from &#39;./a&#39;;
 a.fun();
-</code></pre><h3 id="header-1-5-2">export 与 import 的复合写法</h3>
+</code></pre>
+<h3 id="header-1-5-2">export 与 import 的复合写法</h3>
 <p>示例：</p>
-<pre><code>export { foo, bar } from &#39;my_module&#39;;
+<pre><code class="lang-js">export { foo, bar } from &#39;my_module&#39;;
 
 // 等同于
 import { foo, bar } from &#39;my_module&#39;;
@@ -405,19 +416,22 @@ export { foo, bar };
 
 // 整体输出
 export * from &#39;my_module&#39;;
-</code></pre><p>整体输出可以用于模块之间的继承，如果需要改变名称可以参考下面示例：</p>
-<pre><code>export { area as circleArea } from &#39;circle&#39;;
-</code></pre><h3 id="header-1-5-3">ES6模块加载的实质</h3>
+</code></pre>
+<p>整体输出可以用于模块之间的继承，如果需要改变名称可以参考下面示例：</p>
+<pre><code class="lang-js">export { area as circleArea } from &#39;circle&#39;;
+</code></pre>
+<h3 id="header-1-5-3">ES6模块加载的实质</h3>
 <p>ES6模块加载的机制，与CommonJS模块完全不同。CommonJS模块输出的是一个值的拷贝，而ES6模块输出的是值的引用。</p>
 <p>先看一个例子，index.js 中引用两个模块 a.js 和 b.js，并且分别调用两个模块的 log 方法：</p>
-<pre><code>// index.js
+<pre><code class="lang-js">// index.js
 import a from &#39;./a&#39;;
 import b from &#39;./b&#39;;
 
 a.log();
 b.log();
-</code></pre><p>a.js，该模块与 b.js 都引用了 x.js 模块，在该模块中先输出 x.js 模块的 str 属性，然后调用 x.js 模块下的 object.changeStr 方法改变 x.js 模块中的内部变量并输出：</p>
-<pre><code>import {object, str} from &#39;./x&#39;;
+</code></pre>
+<p>a.js，该模块与 b.js 都引用了 x.js 模块，在该模块中先输出 x.js 模块的 str 属性，然后调用 x.js 模块下的 object.changeStr 方法改变 x.js 模块中的内部变量并输出：</p>
+<pre><code class="lang-js">import {object, str} from &#39;./x&#39;;
 
 function log () {
     console.log(&#39;1、&#39; + str);
@@ -425,16 +439,18 @@ function log () {
 };
 
 export default {log};
-</code></pre><p>b.js，同样引用 x.js 模块，但是模块中只有一个 log 方法对外调用，log 方法的作用就是输出 x.js 模块的 str 属性：</p>
-<pre><code>import {object, str} from &#39;./x&#39;
+</code></pre>
+<p>b.js，同样引用 x.js 模块，但是模块中只有一个 log 方法对外调用，log 方法的作用就是输出 x.js 模块的 str 属性：</p>
+<pre><code class="lang-js">import {object, str} from &#39;./x&#39;
 
 function log () {
     console.log(&#39;3、&#39; + str);
 };
 
 export default {log};
-</code></pre><p>x.js，该模块中 object.changeStr 方法改变内部变量 str，具体的说就是添加字符串 &quot;++&quot;： </p>
-<pre><code>var str = &#39;String&#39;;
+</code></pre>
+<p>x.js，该模块中 object.changeStr 方法改变内部变量 str，具体的说就是添加字符串 &quot;++&quot;： </p>
+<pre><code class="lang-js">var str = &#39;String&#39;;
 var object = {
     attr: &#39;Attribution&#39;,
     changeStr: function () {
@@ -444,40 +460,45 @@ var object = {
 };
 
 export {object, str};
-</code></pre><p>最后控制台输出的结果是：</p>
-<pre><code>1、String
+</code></pre>
+<p>最后控制台输出的结果是：</p>
+<pre><code class="lang-js">1、String
 2、change str in module a:String++
 3、String++
-</code></pre><p>可以看到当 a.js 模块通过调用 x.js 的方法改变了 x.js 模块的内部变量会引起 b.js 中 x.js 模块的字符串属性的改变，这就是 ES6 模块管理的值引用。</p>
+</code></pre>
+<p>可以看到当 a.js 模块通过调用 x.js 的方法改变了 x.js 模块的内部变量会引起 b.js 中 x.js 模块的字符串属性的改变，这就是 ES6 模块管理的值引用。</p>
 <h3 id="header-1-5-4">Node 的加载处理</h3>
 <p>Node 对 ES6 模块的处理比较麻烦，因为它有自己的 CommonJS 模块格式，与 ES6 模块格式是不兼容的。目前的解决方案是，将两者分开，ES6 模块和 CommonJS 采用各自的加载方案。</p>
-<p> 在静态分析阶段，一个模块脚本只要有一行import或export语句，Node 就会认为该脚本为 ES6 模块，否则就为 CommonJS 模块。如果不输出任何接口，但是希望被 Node 认为是 ES6 模块，可以在脚本中加一行语句。</p>
+<p>在静态分析阶段，一个模块脚本只要有一行 import 或 export 语句，Node 就会认为该脚本为 ES6 模块，否则就为 CommonJS 模块。如果不输出任何接口，但是希望被 Node 认为是 ES6 模块，可以在脚本中加一行语句。</p>
 <p>如何不指定绝对路径，Node 加载 ES6 模块会依次寻找以下脚本：</p>
-<pre><code>import &#39;./foo&#39;;
+<pre><code class="lang-js">import &#39;./foo&#39;;
 // 依次寻找
 //   ./foo.js
 //   ./foo/package.json
 //   ./foo/index.js
-</code></pre><h3 id="header-1-5-5">import 命令加载 CommonJS 模块</h3>
-<p>Node 采用 CommonJS 模块格式，模块的输出都定义在module.exports这个属性上面。在 Node 环境中，使用import命令加载 CommonJS 模块，Node 会自动将module.exports属性，当作模块的默认输出，即等同于export default。示例：</p>
-<pre><code>// a.js
+</code></pre>
+<h3 id="header-1-5-5">import 命令加载 CommonJS 模块</h3>
+<p>Node 采用 CommonJS 模块格式，模块的输出都定义在 module.exports 这个属性上面。在 Node 环境中，使用import命令加载 CommonJS 模块，Node 会自动将module.exports 属性，当作模块的默认输出，即等同于 export default。示例：</p>
+<pre><code class="lang-js">// a.js
 module.exports = {
-  foo: &#39;hello&#39;,
-  bar: &#39;world&#39;
+    foo: &#39;hello&#39;,
+    bar: &#39;world&#39;
 };
 
 // 等同于
 export default {
-  foo: &#39;hello&#39;,
-  bar: &#39;world&#39;
+    foo: &#39;hello&#39;,
+    bar: &#39;world&#39;
 };
-</code></pre><p>CommonJS 模块的输出缓存机制，在 ES6 加载方式下依然有效。</p>
-<pre><code>module.exports = 123;
-setTimeout(_ =&gt; module.exports = null);
-</code></pre><p>上面代码中，对于加载上面脚本，module.exports 将一直是 123，而不会变成 null。</p>
+</code></pre>
+<p>CommonJS 模块的输出缓存机制，在 ES6 加载方式下依然有效。</p>
+<pre><code class="lang-js">module.exports = 123;
+setTimeout(() =&gt; module.exports = null);
+</code></pre>
+<p>上面代码中，module.exports 将一直是 123，而不会变成 null。</p>
 <h3 id="header-1-5-6">require 命令加载 ES6 模块</h3>
-<p>采用require命令加载 ES6 模块时，ES6 模块的所有输出接口，会成为输入对象的属性。</p>
-<pre><code>// es.js
+<p>采用 require 命令加载 ES6 模块时，ES6 模块的所有输出接口，会成为输入对象的属性。</p>
+<pre><code class="lang-js">// es.js
 let foo = {bar:&#39;my-default&#39;};
 export default foo;
 foo = null;
@@ -487,6 +508,7 @@ const es_namespace = require(&#39;./es&#39;);
 console.log(es_namespace.default);
 // {bar:&#39;my-default&#39;}
 </code></pre>
+
 </div>
 </body>
 </html>

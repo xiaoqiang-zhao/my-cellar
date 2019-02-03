@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>import 与 require - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">import 与 require</h1>
+<blockquote>
+<p>ES6 已经逐渐普及了，Node 9.0 开始原生支持 import，浏览器端在 webpack 的帮助下也可以无障碍使用 import 了。在这个过渡的时期你可能需要了解一些他们的不同，ES6 是 2015 年发布，到现在的 2019 年已经 4 年过去了 require 的一些坑已经不需要了解了，重点可以放在 import 的特性上。</p>
+</blockquote>
+<h2 id="header-1-1">import 经典用法</h2>
+<p>经典用法一：模块功能单一，只输出一个函数或一个常量，使用 default 关键字</p>
+<p>一个常量：</p>
+<pre><code class="lang-js">// 声明一个模块 a.js，并提供对外引用
+var str = &#39;string&#39;;
+export default str;
+
+// 可以向下面这样引用
+import a from &#39;./a&#39;;  // a 的值就是 &quot;string&quot;
+</code></pre>
+<p>经典用法二：一个模块对外输出多个引用</p>
+<pre><code class="lang-js">// 声明一个模块 a.js，并提供对外引用
+var str = &#39;string&#39;;
+function fun () {
+    console.log(&#39;function fun in module a&#39;);
+}
+export {str, fun};
+
+// 可以向下面这样引用
+import {str, fun} from &#39;./a&#39;;
+console.log(str);   // &quot;string&quot;
+fun();              // &quot;function fun in module a&quot;
+</code></pre>
+<p>经典用法三：一个模块对外输出一个功能集合</p>
+<pre><code class="lang-js">// 声明一个模块 a.js，并提供对外引用
+var str = &#39;string&#39;;
+function fun () {
+    console.log(&#39;function fun in module a&#39;);
+}
+export default {str, fun};
+
+// 可以向下面这样引用
+import a from &#39;./a&#39;;
+console.log(a.str);   // &quot;string&quot;
+a.fun();              // &quot;function fun in module a&quot;
+</code></pre>
+<h2 id="header-1-2">ES6模块加载的实质</h2>
+<p>ES6模块加载的机制，与CommonJS模块完全不同。CommonJS模块输出的是一个值的拷贝，而ES6模块输出的是值的引用。</p>
+<p>先看一个例子，index.js 中引用两个模块 a.js 和 b.js，并且分别调用两个模块的 log 方法：</p>
+<pre><code class="lang-js">// index.js
+import a from &#39;./a&#39;;
+import b from &#39;./b&#39;;
+
+a.log();
+b.log();
+</code></pre>
+<p>a.js，该模块与 b.js 都引用了 x.js 模块，在该模块中先输出 x.js 模块的 str 属性，然后调用 x.js 模块下的 object.changeStr 方法改变 x.js 模块中的内部变量并输出：</p>
+<pre><code class="lang-js">import {object, str} from &#39;./x&#39;;
+
+function log () {
+    console.log(&#39;1、&#39; + str);
+    console.log(&#39;2、change str in module a:&#39; + object.changeStr());
+};
+
+export default {log};
+</code></pre>
+<p>b.js，同样引用 x.js 模块，但是模块中只有一个 log 方法对外调用，log 方法的作用就是输出 x.js 模块的 str 属性：</p>
+<pre><code class="lang-js">import {object, str} from &#39;./x&#39;
+
+function log () {
+    console.log(&#39;3、&#39; + str);
+};
+
+export default {log};
+</code></pre>
+<p>x.js，该模块中 object.changeStr 方法改变内部变量 str，具体的说就是添加字符串 &quot;++&quot;： </p>
+<pre><code class="lang-js">var str = &#39;String&#39;;
+var object = {
+    attr: &#39;Attribution&#39;,
+    changeStr: function () {
+                A                   a           Z           AFG+= &#39;++&#39;;
+        return str;
+    }
+};
+
+export {object, str};
+</code></pre>
+<p>最后控制台输出的结果是：</p>
+<pre><code class="lang-js">1、String
+2、change str in module a:String++
+3、String++
+</code></pre>
+<p>可以看到当 a.js 模块通过调用 x.js 的方法改变了 x.js 模块的内部变量会引起 b.js 中 x.js 模块的字符串属性的改变，这就是 ES6 模块管理的值引用。</p>
+<h2 id="header-1-3">Node 的加载处理</h2>
+<p>Node 对 ES6 模块的处理比较麻烦，因为它有自己的 CommonJS 模块格式，与 ES6 模块格式是不兼容的。目前的解决方案是，将两者分开，ES6 模块和 CommonJS 采用各自的加载方案。</p>
+<p>在静态分析阶段，一个模块脚本只要有一行 import 或 export 语句，Node 就会认为该脚本为 ES6 模块，否则就为 CommonJS 模块。如果不输出任何接口，但是希望被 Node 认为是 ES6 模块，可以在脚本中加一行语句。</p>
+<p>如何不指定绝对路径，Node 加载 ES6 模块会依次寻找以下脚本：</p>
+<pre><code class="lang-js">import &#39;./foo&#39;;
+// 依次寻找
+//   ./foo.js
+//   ./foo/package.json
+//   ./foo/index.js
+</code></pre>
+<h2 id="header-1-4">import 命令加载 CommonJS 模块</h2>
+<p>Node 采用 CommonJS 模块格式，模块的输出都定义在 module.exports 这个属性上面。在 Node 环境中，使用import命令加载 CommonJS 模块，Node 会自动将module.exports 属性，当作模块的默认输出，即等同于 export default。示例：</p>
+<pre><code class="lang-js">// a.js
+module.exports = {
+    foo: &#39;hello&#39;,
+    bar: &#39;world&#39;
+};
+
+// 等同于
+export default {
+    foo: &#39;hello&#39;,
+    bar: &#39;world&#39;
+};
+</code></pre>
+<p>CommonJS 模块的输出缓存机制，在 ES6 加载方式下依然有效。</p>
+<pre><code class="lang-js">module.exports = 123;
+setTimeout(() =&gt; module.exports = null);
+</code></pre>
+<p>上面代码中，module.exports 将一直是 123，而不会变成 null。</p>
+<h2 id="header-1-5">require 命令加载 ES6 模块</h2>
+<p>采用 require 命令加载 ES6 模块时，ES6 模块的所有输出接口，会成为输入对象的属性。</p>
+<pre><code class="lang-js">// es.js
+let foo = {bar:&#39;my-default&#39;};
+export default foo;
+foo = null;
+
+// cjs.js
+const es_namespace = require(&#39;./es&#39;);
+console.log(es_namespace.default);
+// {bar:&#39;my-default&#39;}
+</code></pre>
+<h2 id="header-1-6">按需加载 PK 预加载</h2>
+<p>按须加载就是在用户触发引入某模块的时候加载此模块的资源(包括代码和图片等)，预加载就是在不影响当前模块渲染的同时提前加载其他模块，当打开其他模块的时候就可以直接使用预加载的资源。</p>
+<p>当页面非常多的时候，预加载可能需要很长时间，给浏览器带来的计算量也会增加。个人觉得按需加载有更广阔的适应场景，预加载属于剑走偏锋，在特定场景下比预加载效果好(比如年终的支付宝账单统计H5页，网易云音乐听歌统计H5页)。三大 MVVM 的纯前端 SPA 脚手架默认提供的都是按需加载方案，Vue 的 SSR 方案 Nuxt 加载策略默认是预加载，从中可以看出预加载预加载正式成为一种需要被思考的方案。</p>
+<p>在底层上，按需加载用的是 webpack 的 thunk 特性：</p>
+<pre><code class="lang-js">console.log(&quot;this is a.js&quot;);
+const btn = document.querySelector(&quot;#btn&quot;);
+btn.onclick = ()=&gt; {
+    import(&#39;./b&#39;).then(function(module){
+        const b = module.default;
+        b();
+    });
+};
+</code></pre>
+<p>预加载是这样：</p>
+<pre><code class="lang-js">console.log(&quot;this is a.js&quot;);
+const btn = document.querySelector(&quot;#btn&quot;);
+const b = import(&#39;./b&#39;);
+btn.onclick = ()=&gt; {
+    b.then(function(module){
+        const b = module.default;
+        b();
+    });
+};
+</code></pre>
+<h2 id="header-1-7">参考</h2>
+<p>Node中没搞明白require和import，你会被坑的很惨
+<a href="http://imweb.io/topic/582293894067ce9726778be9" target="_blank">http://imweb.io/topic/582293894067ce9726778be9</a></p>
+
+</div>
+</body>
+</html>

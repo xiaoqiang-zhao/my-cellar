@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>js 打印页面 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">js 打印页面</h1>
+<blockquote>
+<p>工程上的实践。</p>
+</blockquote>
+<h2 id="header-1-1">iframe 方案</h2>
+<p>默认情况下页眉有网站的 title 和 当前日期，可以通过设置打印页面的样式来实现隐藏页眉：</p>
+<pre><code class="lang-html">&lt;style media=&quot;print&quot;&gt;
+    @page {
+        size: auto;
+        margin: 0;
+    }
+&lt;/style&gt;
+</code></pre>
+<p>页脚有当前的网站地址。</p>
+<p>无法局部打印。</p>
+<pre><code class="lang-js">const iframe = document.createElement(&#39;iframe&#39;);
+iframe.src = &#39;/#/report&#39;;
+document.getElementById(&#39;report-iframe-container&#39;).append(iframe);
+// 等待加载图片等资源
+setTimeout(() =&gt; {
+    iframe.contentWindow.print();
+}, 2000);
+</code></pre>
+<h2 id="header-1-2">pdf 方案</h2>
+<p>需要借助服务端生成 pdf，无法直接使用工程化页面的样式，优点是可以兼顾下载。</p>
+<h2 id="header-1-3">canvas</h2>
+<p>无需网络直接生成打印，支持页面的局部打印，最推荐。</p>
+<pre><code class="lang-js">import html2canvas from &#39;html2canvas&#39;;
+
+const dom = document.getElementById(&#39;app&#39;);
+html2canvas(dom).then(canvas =&gt; {
+    const container = document.getElementById(&#39;body&#39;);
+    container.appendChild(canvas);
+});
+</code></pre>
+
+</div>
+</body>
+</html>
