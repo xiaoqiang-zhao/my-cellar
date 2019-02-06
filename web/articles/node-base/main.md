@@ -115,10 +115,14 @@ check(
 node 10 添加了 Promise 的试验性支持，启动 node 进程的时候需要加参数 `node --experimental-modules rename`：
 
 ```js
-const fsPromises = require('fs').promises;
+import fs from 'fs';
+const fsPromises = fs.promises;
+
 try {
-  // const result = await fsPromises.rename('/tmp/hello', '/tmp/world');
-  console.log(result);
+  const result = fsPromises.rename('./a.js', './b.js');
+  result.then(error => {
+    console.log('-- success --');
+  });
 }
 catch(e) {
   console.log('error');
