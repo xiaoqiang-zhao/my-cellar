@@ -139,6 +139,19 @@ Promise 将来会成为主流，所以我们以 Promise 为主展开介绍。
 
 文件修改，一次性写入，流式写入
 
+向文件中添加内容，当文件不存在时先新建后添加：
+
+```js
+import fs from 'fs';
+const fsPromises = fs.promises;
+
+fsPromises.appendFile('a.md', 'my string', {
+  encoding: 'utf8'
+}).then(data => {
+  console.log('内容添加成功');
+});
+```
+
 删除
 
 很重要的提前检测和路径
