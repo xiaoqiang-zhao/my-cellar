@@ -156,8 +156,16 @@ fsPromises.appendFile('a.md', 'my string', {
 
 很重要的提前检测和路径
 
-权限修改
+修改文件属性，读写权限和执行权限 `chmod`
 
+```js
+import fs from 'fs';
+const fsPromises = fs.promises;
+
+fsPromises.chmod('./a.js', 777).then(() => {
+  console.log('权限修改完成');
+});
+```
 ## 获取远程数据
 
 ## 提供 Web 服务
