@@ -137,7 +137,26 @@ Promise 将来会成为主流，所以我们以 Promise 为主展开介绍。
 
 文件和文件夹重命名
 
-文件修改，一次性写入，流式写入
+读写较小文件时选择方法 `readFile` 和 `writeFile` 是很好的方案，能一次性完成读写：
+
+```js
+import fs from 'fs';
+const fsPromises = fs.promises;
+
+fsPromises.readFile('./readFile-demo.txt', {
+  encoding: 'utf-8'
+}).then(content => {
+  return fsPromisess.writeFile('./readFile-demo-2.txt', content, {
+    encoding: 'utf-8'
+  });
+}).then(() => {
+  console.log('读写完成');
+}, error => {
+  console.log('-- error --', error);
+});
+```
+
+如果文件较大就要考虑流式读写，度的速度一般比写的快还要控制“写任务”堆积造成内存爆满。
 
 向文件中添加内容，当文件不存在时先新建后添加：
 
@@ -156,7 +175,7 @@ fsPromises.appendFile('a.md', 'my string', {
 
 很重要的提前检测和路径
 
-修改文件属性，读写权限和执行权限 `chmod`
+修改文件属性，读写权限和执行权限 `chmod`:
 
 ```js
 import fs from 'fs';
@@ -166,6 +185,9 @@ fsPromises.chmod('./a.js', 777).then(() => {
   console.log('权限修改完成');
 });
 ```
+
+同理还有修改文件所有者和用户分组的命令 `chown`。
+
 ## 获取远程数据
 
 ## 提供 Web 服务
