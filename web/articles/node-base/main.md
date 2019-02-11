@@ -156,7 +156,7 @@ fsPromises.readFile('./readFile-demo.txt', {
 });
 ```
 
-如果文件较大就要考虑流式读写，度的速度一般比写的快还要控制“写任务”堆积造成内存爆满。
+注意 writeFile 时文件不存在时会自动创建，文件存在时写入会覆盖原有内容。
 
 向文件中添加内容，当文件不存在时先新建后添加：
 
@@ -169,6 +169,12 @@ fsPromises.appendFile('a.md', 'my string', {
 }).then(data => {
   console.log('内容添加成功');
 });
+```
+
+如果文件较大就要考虑流式读写，读的速度一般比写的快还要控制“写任务”堆积造成内存爆满。NodeJs 中关于流的操作被封装到了 Stream 模块中，这个模块也被多个核心模块所引用，另外所有的 Stream(流)都是 EventEmitter 的实例。
+
+```js
+
 ```
 
 删除
@@ -193,3 +199,6 @@ fsPromises.chmod('./a.js', 777).then(() => {
 ## 提供 Web 服务
 
 ## 参考
+
+(NodeJs中的stream（流）- 基础篇
+)[https://juejin.im/post/5a75d037f265da4e9e303773]
