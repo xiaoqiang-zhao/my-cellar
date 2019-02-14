@@ -52,7 +52,7 @@ rs.on('end', () => {
 ```js
 import fs from 'fs';
 // 创建一个可读流（生产者）
-const rs = fs.createReadStream('./app-trace-log', {
+const rs = fs.createReadStream('./app-log', {
     encoding: 'utf-8'
 });
 const spaceStr = '\n';
