@@ -106,7 +106,7 @@ check(
 
 从其他语言转过的开发者对异步不太了解，就算是前端开发者接触 NodeJs 会发现这里的异步要比前端更复杂。
 
-你需要掌握 callback、promise、async/await 的相关知识，还要掌握 MacroTask 和 MicroTask。
+你需要掌握 callback、promise、async/await 的相关知识，还要掌握 MacroTask(宏任务) 和 MicroTask(微任务)。
 
 之前写过一篇 node-async，这里就不展开了。
 
@@ -173,9 +173,38 @@ fsPromises.appendFile('a.md', 'my string', {
 
 如果文件较大就要考虑流式读写，读的速度一般比写的快还要控制“写任务”堆积造成内存爆满。NodeJs 中关于流的操作被封装到了 Stream 模块中，这个模块也被多个核心模块所引用，另外所有的 Stream(流)都是 EventEmitter 的实例。
 
-```js
+可读流的两种模式：flowing 和 paused
 
+- 在 flowing 模式下，可读流自动从系统底层读取数据，并通过 EventEmitter 接口的事件尽快将数据提供给应用，暖气模型。
+- 在 paused 模式下，必须显式调用 stream.read()方法来从流中读取数据片段，水龙头模型。
+
+所有初始工作模式为paused的Readable流，可以通过下面三种途径切换为flowing模式：
+
+- 监听'data'事件。
+- 调用stream.resume()方法。
+- 调用stream.pipe()方法将数据发送到Writable。
+
+```js
+import fs from 'fs';
+// 创建一个可读流（生产者）
+let rs = fs.createReadStream('./1.txt');
+let count = 0;
+rs.on('data', chunk => {
+  console.log(count++, chunk);
+});
+ws.on('end', () => {
+  console.lgo('end');
+});
 ```
+
+2.options
+
+- flags打开文件的操作, 默认为'r'
+- mode 权限位 0o666
+- encoding默认为null
+- start开始读取的索引位置
+- end结束读取的索引位置(包括结束位置)
+- highWaterMark读取缓存区默认的大小64kb
 
 删除
 
