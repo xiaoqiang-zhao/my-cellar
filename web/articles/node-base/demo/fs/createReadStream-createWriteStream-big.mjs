@@ -19,9 +19,12 @@ const ws = fs.createWriteStream('./rw-log1', {
 printMemoryUsage();
 
 rs.on('data', chunk => {
-  ws.write(chunk, () => {
-    // console.log('一次写入完成');
-  });
+  // 制造大文件，1G 重复 14 次
+  // for (var i = 0; i < 14; i++) {
+    ws.write(chunk, () => {
+      // console.log('一次写入完成');
+    });
+  // }
 });
 
 rs.on('end', () => {

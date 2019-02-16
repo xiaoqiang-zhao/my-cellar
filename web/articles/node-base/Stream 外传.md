@@ -99,7 +99,7 @@ rs.on('end', () => {
 
 ## 流式写入
 
-如果是百兆以下的小文件，直接采用流式读写嵌套的形式就可以在几秒内完成，消耗的内存在峰值是也不超过 50M。
+如果是百兆以下的小文件，直接采用流式读写嵌套的形式就可以在几秒内完成，消耗的内存在峰值是也不超过 50M。(NodeJs 基本运行占内存约 20M)
 
 ```js
 import fs from 'fs';
@@ -123,7 +123,37 @@ rs.on('end', () => {
 });
 ```
 
-如果是 1G 以上的大文件，由于写入速度跟不上读取速度，内存使用量会暴增，有可能导致数据丢失。正常的情况应该是，写完一段再读取下一段，如果没有写完的话，就让读取流先暂停，等写完再继续。
+在 Mac Pro 上实测 1G 文件的流式拷贝内存暂用 100M 左右，堆占用 20M 左右，完成时间在 20s 左右。下面是按秒监控内容和堆的日志，可以看出内存使用量的增加：
+
+```js
+rss=21.09MB, heapTotal=9.20MB, heapUsed=4.20MB
+rss=34.25MB, heapTotal=14.20MB, heapUsed=4.44MB
+rss=39.57MB, heapTotal=15.70MB, heapUsed=7.84MB
+rss=40.06MB, heapTotal=15.70MB, heapUsed=6.39MB
+rss=40.44MB, heapTotal=15.70MB, heapUsed=4.46MB
+rss=42.25MB, heapTotal=15.70MB, heapUsed=6.00MB
+rss=43.63MB, heapTotal=15.70MB, heapUsed=7.48MB
+rss=43.79MB, heapTotal=15.70MB, heapUsed=4.66MB
+rss=43.79MB, heapTotal=15.70MB, heapUsed=5.94MB
+rss=43.85MB, heapTotal=15.70MB, heapUsed=7.47MB
+rss=44.22MB, heapTotal=15.70MB, heapUsed=5.93MB
+rss=55.36MB, heapTotal=23.70MB, heapUsed=9.15MB
+rss=56.11MB, heapTotal=23.70MB, heapUsed=5.34MB
+rss=56.18MB, heapTotal=23.70MB, heapUsed=7.10MB
+rss=56.32MB, heapTotal=23.70MB, heapUsed=11.73MB
+rss=56.45MB, heapTotal=23.70MB, heapUsed=7.65MB
+rss=56.46MB, heapTotal=23.70MB, heapUsed=11.33MB
+rss=56.46MB, heapTotal=23.70MB, heapUsed=8.37MB
+rss=56.58MB, heapTotal=23.70MB, heapUsed=5.04MB
+rss=56.58MB, heapTotal=23.70MB, heapUsed=7.97MB
+rss=56.58MB, heapTotal=23.70MB, heapUsed=6.11MB
+rss=56.63MB, heapTotal=23.70MB, heapUsed=9.06MB
+```
+
+如果是 10G 以上的大文件，由于写入速度跟不上读取速度，内存使用量会暴增，有可能导致数据丢失。我们有两种思路来解决这个问题：
+
+- 1. 写完一段再读取下一段，如果没有写完的话，就让读取流先暂停，等写完再继续。优点是稳，缺点是慢。
+- 2. 当内存使用量超过 m 时暂停读取，当内存使用小于 n 时开始读取，n < m。优点是块，缺点是不稳定，当其他任务耗内存时也可能引起读写任务的暂停。
 
 ## 几个工具函数
 
