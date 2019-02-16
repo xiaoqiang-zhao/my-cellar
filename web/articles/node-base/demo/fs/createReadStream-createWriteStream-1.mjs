@@ -8,7 +8,7 @@ import fs from 'fs';
 const start = new Date().getTime();
 
 // 创建一个可读流（生产者）
-const rs = fs.createReadStream('./rw-log', {
+const rs = fs.createReadStream('./rw-log1', {
   encoding: 'utf-8'
 });
 
@@ -45,4 +45,4 @@ function printMemoryUsage () {
 // heapTotal 和 heapUsed 代表V8的内存使用情况
 
 // 100 毫秒记录一次内存
-setInterval(printMemoryUsage, 100);
+setInterval(printMemoryUsage, 1000);

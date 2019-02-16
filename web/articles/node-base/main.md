@@ -231,3 +231,5 @@ fsPromises.chmod('./a.js', 777).then(() => {
 
 (NodeJs中的stream（流）- 基础篇
 )[https://juejin.im/post/5a75d037f265da4e9e303773]
+
+(在Node.js中读写大文件)[https://blog.csdn.net/yhhwatl/article/details/53311214]

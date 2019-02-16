@@ -8,7 +8,7 @@ import fs from 'fs';
 const start = new Date().getTime();
 
 // 创建一个可读流（生产者）
-const rs = fs.createReadStream('./rw-log', {
+const rs = fs.createReadStream('./rw-log1', {
   encoding: 'utf-8'
 });
 
@@ -19,18 +19,31 @@ const ws = fs.createWriteStream('./rw-log2', {
 printMemoryUsage();
 
 rs.on('data', chunk => {
+  // 如果没有写完，暂停读取流
+  // if (ws.write(chunk) === false) {
+  //   rs.pause();
+  // }
   ws.write(chunk, () => {
-    // 写完成开始读取
+    rs.resume();
+    // console.log('开始');
   });
-  // 暂停读取
+  rs.pause();
+  // console.log('数据流--');
 });
 
 rs.on('end', () => {
-  printMemoryUsage();
   ws.end('完成');
   console.log('--3--', new Date().getTime() - start);
   // const start = new Date().getTime();
 });
+
+// 缓冲区清空触发drain事件 这时再继续读取
+// ws.on('drain', function() {
+  // setTimeout(() => {
+  // }, 20);
+  // rs.resume();
+  // console.log('???');
+// });
 
 ws.on('close', () => {
   console.log('------------ close -----------', new Date().getTime() - start);
@@ -47,4 +60,4 @@ function printMemoryUsage () {
 // heapTotal 和 heapUsed 代表V8的内存使用情况
 
 // 100 毫秒记录一次内存
-setInterval(printMemoryUsage, 100);
+setInterval(printMemoryUsage, 1000);

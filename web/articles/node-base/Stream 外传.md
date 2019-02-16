@@ -127,25 +127,7 @@ rs.on('end', () => {
 
 ```js
 rss=21.09MB, heapTotal=9.20MB, heapUsed=4.20MB
-rss=34.25MB, heapTotal=14.20MB, heapUsed=4.44MB
-rss=39.57MB, heapTotal=15.70MB, heapUsed=7.84MB
-rss=40.06MB, heapTotal=15.70MB, heapUsed=6.39MB
-rss=40.44MB, heapTotal=15.70MB, heapUsed=4.46MB
-rss=42.25MB, heapTotal=15.70MB, heapUsed=6.00MB
-rss=43.63MB, heapTotal=15.70MB, heapUsed=7.48MB
-rss=43.79MB, heapTotal=15.70MB, heapUsed=4.66MB
-rss=43.79MB, heapTotal=15.70MB, heapUsed=5.94MB
-rss=43.85MB, heapTotal=15.70MB, heapUsed=7.47MB
-rss=44.22MB, heapTotal=15.70MB, heapUsed=5.93MB
-rss=55.36MB, heapTotal=23.70MB, heapUsed=9.15MB
-rss=56.11MB, heapTotal=23.70MB, heapUsed=5.34MB
-rss=56.18MB, heapTotal=23.70MB, heapUsed=7.10MB
-rss=56.32MB, heapTotal=23.70MB, heapUsed=11.73MB
-rss=56.45MB, heapTotal=23.70MB, heapUsed=7.65MB
-rss=56.46MB, heapTotal=23.70MB, heapUsed=11.33MB
-rss=56.46MB, heapTotal=23.70MB, heapUsed=8.37MB
-rss=56.58MB, heapTotal=23.70MB, heapUsed=5.04MB
-rss=56.58MB, heapTotal=23.70MB, heapUsed=7.97MB
+...
 rss=56.58MB, heapTotal=23.70MB, heapUsed=6.11MB
 rss=56.63MB, heapTotal=23.70MB, heapUsed=9.06MB
 ```
@@ -154,6 +136,28 @@ rss=56.63MB, heapTotal=23.70MB, heapUsed=9.06MB
 
 - 1. 写完一段再读取下一段，如果没有写完的话，就让读取流先暂停，等写完再继续。优点是稳，缺点是慢。
 - 2. 当内存使用量超过 m 时暂停读取，当内存使用小于 n 时开始读取，n < m。优点是块，缺点是不稳定，当其他任务耗内存时也可能引起读写任务的暂停。
+
+通过用方案一优化流式处理 10G 的文件，内存使用率稳定在 90M 以下:
+
+```js
+rss=21.19MB, heapTotal=9.20MB, heapUsed=4.20MB
+...
+rss=88.82MB, heapTotal=40.20MB, heapUsed=15.32MB
+rss=89.95MB, heapTotal=40.20MB, heapUsed=20.43MB
+```
+
+如果不优化，内存一路飙升到 158M:
+
+```js
+rss=21.23MB, heapTotal=9.20MB, heapUsed=4.20MB
+...
+rss=208.14MB, heapTotal=40.20MB, heapUsed=16.77MB
+...
+rss=113.86MB, heapTotal=23.70MB, heapUsed=7.77MB
+rss=113.90MB, heapTotal=23.70MB, heapUsed=9.52MB
+```
+
+有趣的是内存在达到峰值后会缓慢的下降，最后稳定在 200M 左右。这可能是堆积的写任物随着读任务的停止达到了顶峰，之后每写一次释放一部分内存。
 
 ## 几个工具函数
 

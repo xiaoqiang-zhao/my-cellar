@@ -5,7 +5,7 @@
 import fs from 'fs';
 
 // 创建一个可读流（生产者）
-const rs = fs.createReadStream('./rw-log', {
+const rs = fs.createReadStream('./rw-log1', {
   encoding: 'utf-8'
 });
 
