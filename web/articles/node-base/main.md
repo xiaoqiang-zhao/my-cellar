@@ -131,13 +131,9 @@ catch(e) {
 
 Promise 将来会成为主流，所以我们以 Promise 为主展开介绍。
 
-在技术上，单独采用了 FileHandle 作为文件的封装。
+首先重塑一个认知，当我们本地直接操作文件夹的时候需要先判断是否存在然后再写入或删除，但是这种在高并发业务场景是有问题的。一个文件现在存在，但当你对它操作的时候可能其他异步任务刚好在写入或者已经删除了，所以 fs 模块移除了 `exists` 添加了 `access`。`access` 检查文件是否可用，包括文件是否存在、文件是否正在写入。
 
-文件和文件夹新建
-
-文件和文件夹重命名
-
-读写较小文件时选择方法 `readFile` 和 `writeFile` 是很好的方案，能一次性完成读写：
+读写较小文件时选择方法 `readFile` 和 `writeFile` 是很好的方案，能一次性完成读写，注意 writeFile 时文件不存在时会自动创建，文件存在时写入会覆盖原有内容：
 
 ```js
 import fs from 'fs';
@@ -156,9 +152,7 @@ fsPromises.readFile('./readFile-demo.txt', {
 });
 ```
 
-注意 writeFile 时文件不存在时会自动创建，文件存在时写入会覆盖原有内容。
-
-向文件中添加内容，当文件不存在时先新建后添加：
+如果文件较大就要考虑流式读写，读的速度一般比写的快还要控制“写任务”堆积造成内存爆满。还可以直接向文件中添加内容，当文件不存在时先新建后添加：
 
 ```js
 import fs from 'fs';
@@ -170,43 +164,6 @@ fsPromises.appendFile('a.md', 'my string', {
   console.log('内容添加成功');
 });
 ```
-
-如果文件较大就要考虑流式读写，读的速度一般比写的快还要控制“写任务”堆积造成内存爆满。NodeJs 中关于流的操作被封装到了 Stream 模块中，这个模块也被多个核心模块所引用，另外所有的 Stream(流)都是 EventEmitter 的实例。
-
-可读流的两种模式：flowing 和 paused
-
-- 在 flowing 模式下，可读流自动从系统底层读取数据，并通过 EventEmitter 接口的事件尽快将数据提供给应用，暖气模型。
-- 在 paused 模式下，必须显式调用 stream.read()方法来从流中读取数据片段，水龙头模型。
-
-所有初始工作模式为paused的Readable流，可以通过下面三种途径切换为flowing模式：
-
-- 监听'data'事件。
-- 调用stream.resume()方法。
-- 调用stream.pipe()方法将数据发送到Writable。
-
-```js
-import fs from 'fs';
-// 创建一个可读流（生产者）
-let rs = fs.createReadStream('./1.txt');
-let count = 0;
-rs.on('data', chunk => {
-  console.log(count++, chunk);
-});
-ws.on('end', () => {
-  console.lgo('end');
-});
-```
-
-2.options
-
-- flags打开文件的操作, 默认为'r'
-- mode 权限位 0o666
-- encoding默认为null
-- start开始读取的索引位置
-- end结束读取的索引位置(包括结束位置)
-- highWaterMark读取缓存区默认的大小64kb
-
-删除
 
 很重要的提前检测和路径
 
