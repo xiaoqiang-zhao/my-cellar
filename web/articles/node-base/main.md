@@ -110,6 +110,44 @@ check(
 
 之前写过一篇 node-async，这里就不展开了。
 
+## 事件
+
+上面的模块引入用了 `require`，其实我们可以超前一点，把 `import` 用起来，文件扩展名从 js 升级为 mjs，启动 node 进程时添加 experimental-modules 参数，如 `node --experimental-modules rename`。
+
+浏览器端的事件我们最熟悉的 click、hover、scroll 都是浏览器宿主提供的，也有一些框架提供的事件，比如 Vue 中的声明周期钩子 created、mounted、destroy 等。在 node 中事件都由原生模块 `events` 提供，下面是一个入门示例：
+
+```js
+import EventEmitter from 'events';
+class MyEmitter extends EventEmitter {};
+
+const myEmitter = new MyEmitter();
+myEmitter.on('eventName', () => {
+  console.log('an event occurred!');
+});
+
+myEmitter.emit('eventName');
+```
+
+组件内部触发事件是更常用的写法，示例如下：
+
+```js
+import EventEmitter from 'events';
+
+class MyEmitter extends EventEmitter {
+  constructor() {
+    super();
+    setTimeout(() => {
+      this.emit('eventName', 'params Value');
+    }, 1000)
+  }
+};
+
+const myEmitter = new MyEmitter();
+myEmitter.on('eventName', (params) => {
+  console.log('event params:', params);
+});
+```
+
 ## 操作本地文件
 
 node 10 添加了 Promise 的试验性支持，启动 node 进程的时候需要加参数 `node --experimental-modules rename`：
@@ -131,7 +169,7 @@ catch(e) {
 
 Promise 将来会成为主流，所以我们以 Promise 为主展开介绍。
 
-首先重塑一个认知，当我们本地直接操作文件夹的时候需要先判断是否存在然后再写入或删除，但是这种在高并发业务场景是有问题的。一个文件现在存在，但当你对它操作的时候可能其他异步任务刚好在写入或者已经删除了，所以 fs 模块移除了 `exists` 添加了 `access`。`access` 检查文件是否可用，包括文件是否存在、文件是否正在写入。
+首先重塑一个认知，当我们本地直接操作文件夹的时候需要先判断是否存在然后再写入或删除，但是这种在高并发业务场景是有问题的。一个文件现在存在，但当你对它操作的时候可能其他异步任务刚好在写入或者已经删除了，所以 fs 模块移除了 `exists` 添加了 `access`。`access` 检查文件是否可用，包括文件是否存在和文件是否正在写入。我们在设计文件内容结构的时候可能需要转变思路，比如“在文件首次被创建的时候要在开头中加一些特殊的内容”，向“不管是首次还是非首次向文件中添加的内容时同构的”。再举个业务中的例子，比如我们写日志，每个月的一个日志文件，我们可以获取当前的年月数据，以此为文件名用 `appendFile` 向其中添加日志。
 
 读写较小文件时选择方法 `readFile` 和 `writeFile` 是很好的方案，能一次性完成读写，注意 writeFile 时文件不存在时会自动创建，文件存在时写入会覆盖原有内容：
 
@@ -182,7 +220,11 @@ fsPromises.chmod('./a.js', 777).then(() => {
 
 ## 获取远程数据
 
+跨系统间调用，cli 工具的远程数据支持
+
 ## 提供 Web 服务
+
+https
 
 ## 参考
 
