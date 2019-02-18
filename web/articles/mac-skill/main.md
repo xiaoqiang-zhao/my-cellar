@@ -42,13 +42,13 @@
 > 一个应用，一个常用的快捷键
 
 - 在Finder的任何位置，选中这里所有的图片，进入全屏幻灯片模式 Com + Option + Y 
-- QQ 的Swiftly，当你想搜一个东西的时候不需要去找浏览器，然后打开百度，最后输入你想找的东西；敲两下 Com 键直接搜索。QQ默认的搜索引擎是Google，可以在QQ的偏好设置下设置默认搜索引擎和输入法
 
 ## 配置
 
-- F1 到 F12 是功能键，默认状态下只有按着左下角的fn键才是原始功能，如果想倒过来需勾选 “系统偏好设置/键盘/将F1、F2等键用作标准功能键”
-
+- F1 到 F12 是功能键，默认状态下只有按着左下角的fn键才是原始功能，如果想倒过来需勾选 “系统偏好设置/键盘/将F1、F2等键用作标准功能键”。
 - 快速找到并启动程序：Cmd + Space，这需要在 System Preferences/Keyboard/Shortcuts 下 将 Spotlight 选中，如果搜索出现卡顿可以在 System Preferences/Spotlight 中配置检索项，减少需要检索的内容会提升速度。
+- 修改锁屏时间：Energy Save(节能)/Battery(电池)/Turn display off after(几分钟后关闭显示)。锁屏后马上需要输入密码。
+- 有的时候我们在思考问题，事件有点久突然锁屏了，这是可以设置在锁屏后多久需要输入密码唤醒，比如 5 秒: System Preferences > Security & Privacy > General。
 
 ## 命令行
 
