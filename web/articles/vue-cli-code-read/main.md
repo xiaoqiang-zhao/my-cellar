@@ -58,64 +58,78 @@
 
 用法：
 
-    $ vue init <template-name> <project-name>
+```shell
+$ vue init <template-name> <project-name>
+```
 
 template-name 首先可以从官方提供的 6 套模板中选一套，也可以自定义一套模板，放在你的 github 上：
 
-    $ vue init <username/repo> <project-name>
+```
+$ vue init <username/repo> <project-name>
+```
 
 如果你不想开源你的模板，还可可以放在本地：
 
-    $ vue init <~/fs/path/to-custom-template> <project-name>
+```shell
+$ vue init <~/fs/path/to-custom-template> <project-name>
+```
 
 上面这些就是 `vue init` 命令实现的功能，下面我们通过源码分析一下这些功能是怎么实现的。
 
 首先是一段参数的定义 Usage，然后是一段帮助文档 Help，这些都不是重点我们直接跳过。从 Settings 开始进入重点，首先是处理模板和项目路径这两个输入值，然后判断项目路径是否存在，如果存在给出提示，并询问是否继续，代码就是下面这一段：
 
-    if (exists(to)) {
-        inquirer.prompt([{
-            type: 'confirm',
-            message: inPlace
-                    ? 'Generate project in current directory?'
-                    : 'Target directory exists. Continue?',
-            name: 'ok'
-        }], function (answers) {
-            if (answers.ok) {
-                run()
-            }
-        })
-    } else {
-        run()
-    }
+```js
+if (exists(to)) {
+    inquirer.prompt([{
+        type: 'confirm',
+        message: inPlace
+                ? 'Generate project in current directory?'
+                : 'Target directory exists. Continue?',
+        name: 'ok'
+    }], function (answers) {
+        if (answers.ok) {
+            run()
+        }
+    })
+} else {
+    run()
+}
+```
 
 然后判断模板的类型，如果是本地模板那么直接复制，这部分逻辑在上面用到的 run 函数中：
 
-    function run () {
-        // check if template is local
-        if (isLocalPath(template)) {
-            ...
-        }
-        else {
-            ...
-        }
+```js
+function run () {
+    // check if template is local
+    if (isLocalPath(template)) {
+        ...
     }
+    else {
+        ...
+    }
+}
+```
 
 而 isLocalPath 函数就来自 lib 文件夹下的一个自定义模块中。如果不是本地模板那就是远程模板，进入到 else 分支中。进入到 else 后做的第一件事就是检验 Node 版本：
 
-    checkVersion(function () {
-        // ...
-    })
+```js
+checkVersion(function () {
+    // ...
+})
+```
 
 因为如果 Node 版本不够高，官方的模板根本跑不起来，看到这里还是佩服作者的，如果只把文件给你下载到本地其实他的本质工作已经做完了，但是你跑不起来会报错，如果是小白用户卡在这里可能就过不去了。回调函数中放的是版本检测没问后才执行的代码。
 
 经过上面一个检测 Node 版本的小插曲后我们回到正题，本地模板的对立面就是远程模板，远程模板又分两种，上面提到过，一种官方模板，一种自定义模板，区分他们的方式也很简单，就是看输入值是否有斜杠：
 
-    if (!hasSlash) {
-        // 官方模板逻辑
-    }
-    else {
-        // 自定义模板逻辑
-    }
+```js
+if (!hasSlash) {
+    // 官方模板逻辑
+}
+else {
+    // 自定义模板逻辑
+}
+```
 
 下载官方模板前，对是否包含 “#” 和 “-2.0” 两个字符串做了判断，来识别是 vue 1.0 还是 vue 2.0。直接从远程下载内容到本地，这里面有个东西挺好玩 -- `ora`，命令行中的 loading。还有一个 `download-git-repo`，用来下载 github repository。这两个库在写一些工具的时候很有用。
 
@@ -139,9 +153,11 @@ template-name 首先可以从官方提供的 6 套模板中选一套，也可以
 
 这些操作在 lib/generate.js 中，关键代码摘录如下：
 
-    metalsmith.use(askQuestions(opts.prompts))
-        .use(filterFiles(opts.filters))
-        .use(renderTemplateFiles(opts.skipInterpolation))
+```js
+metalsmith.use(askQuestions(opts.prompts))
+    .use(filterFiles(opts.filters))
+    .use(renderTemplateFiles(opts.skipInterpolation))
+```
 
 渲染模板用的是 consolidate.handlebars，consolidate 是 TJ 大神开发的集成模板引擎，支持很多模板引擎：
 
@@ -186,10 +202,12 @@ template-name 首先可以从官方提供的 6 套模板中选一套，也可以
 
 也就是在一些复杂的项目中，不同类型的文件可以使用不同的模板，而 handlebars 是一个比较简单的模板引擎，用法大概是这样：
 
-    var render = require('consolidate').handlebars.render
-    render(fileStr, data, function (err, res) {
-        // ...
-    })
+```js
+var render = require('consolidate').handlebars.render
+render(fileStr, data, function (err, res) {
+    // ...
+})
+```
 
 ## 整理用到的库
 
