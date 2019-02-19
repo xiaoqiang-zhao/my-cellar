@@ -220,7 +220,32 @@ fsPromises.chmod('./a.js', 777).then(() => {
 
 ## 获取远程数据
 
-跨系统间调用，cli 工具的远程数据支持
+使用第三方库 `request` 可以跨系统间调用，可以从 github 和豆瓣这些第三方网站提供的在线 api 提供数据：
+
+比如可以用豆瓣的开放 API 通过 ISBN 搜索图书信息:
+
+```js
+const request = require('request');
+
+module.exports = function (req, response) {
+  request({
+    url: 'http://api.douban.com/book/subject/isbn/9787508658339',
+    method: 'GET'
+  }, function (err, res, body) {
+    // xml 形式的数据
+  });
+};
+```
+
+cli 工具可能需要从远程 git 拉取仓库，第三方模块 `download-git-repo` 可以提供此功能:
+
+```js
+const download from 'download-git-repo';
+
+download('bitbucket:flipxfx/download-git-repo-fixture#my-branch', 'test/tmp', { clone: true }, function (err) {
+  console.log(err ? 'Error' : 'Success')
+});
+```
 
 ## 提供 Web 服务
 
