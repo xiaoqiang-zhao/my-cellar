@@ -218,6 +218,25 @@ fsPromises.chmod('./a.js', 777).then(() => {
 
 同理还有修改文件所有者和用户分组的命令 `chown`。
 
+## 路径相关操作
+
+node 提供了全局变量 __filename 和 __dirname，分别表示当前执行文件的 “文件路径+文件名” 和 “文件所在路径”，如果开启了 `experimental-modules` 模式这两个全局变量暂不可用，可以用下面的方案代替：
+
+```js
+import path from 'path';
+const __filename = new URL(import.meta.url).pathname;
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+```
+
+不同模块对相对路径的定义时不一样的，require(import) 的相对路径指的是当前执行文件的路径，fs 和 path 的相对路径是启动脚本的路径。当前执行文件的所在路径可以用 `__dirname` 获取，脚本启动路径可以用 `process.cwd()` 获取。两种路径的转换可以借助 path 的 resolve 方法：
+
+```js
+import path from 'path';
+const cwdPath = process.cwd();
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+path.resolve(__dirname, cwdPath); // 等价于 path.resolve(__dirname, './')
+```
+
 ## 获取远程数据
 
 使用第三方库 `request` 可以跨系统间调用，可以从 github 和豆瓣这些第三方网站提供的在线 api 提供数据：
@@ -249,7 +268,7 @@ download('bitbucket:flipxfx/download-git-repo-fixture#my-branch', 'test/tmp', { 
 
 ## 提供 Web 服务
 
-https
+http/2 和 https 的关系
 
 ## 参考
 
