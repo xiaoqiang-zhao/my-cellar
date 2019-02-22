@@ -268,7 +268,13 @@ download('bitbucket:flipxfx/download-git-repo-fixture#my-branch', 'test/tmp', { 
 
 ## 提供 Web 服务
 
-http/2 和 https 的关系
+用 NodeJS 提供 Web 服务在方案上有 3 个层次的选择：纯原生、Express/Koa、Egg。纯原生一般在学习和研究的层面使用，功能简单，很多基础需要自己开发。Express 和 Koa 封装了路由和插件扩展支持等基础功能，在中小项目中使用较为常见。Egg 企业级应用，封转了权限鉴定等企业级功能，大型项目推荐使用，Egg 2.x 基于 Koa 2.x，框架底层以及所有内置插件都使用 async function 编写。
+
+https 提供安全升级，有效的防止运营商劫持；http2 提供网站资源加速。这两项都可以在 Koa 和 Egg 上。
+
+百度、淘宝、京东都用了。
+
+使用 Koa2 启动 https 服务：
 
 ## 参考
 
@@ -276,3 +282,9 @@ http/2 和 https 的关系
 )[https://juejin.im/post/5a75d037f265da4e9e303773]
 
 (在Node.js中读写大文件)[https://blog.csdn.net/yhhwatl/article/details/53311214]
+
+(简单比较 http https http2)[https://juejin.im/post/5a77fe396fb9a063317c2e71]
+
+(HTTP2 详解)[https://www.jianshu.com/p/e57ca4fec26f]
+
+(KOA2 提供HTTPS安全服务)[https://blog.csdn.net/ErErFei/article/details/73875795]
