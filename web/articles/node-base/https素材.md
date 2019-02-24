@@ -51,11 +51,13 @@ app.use(ctx => {
  
 // SSL options
 var options = {
-  key: fs.readFileSync('server.key'),
-  cert: fs.readFileSync('server.crt')
+  key: fs.readFileSync('./ssl/privkey.pem'),
+  cert: fs.readFileSync('./ssl/server.pem')
 }
  
 // start the server
 http.createServer(app.callback()).listen(8080);
 https.createServer(options, app.callback()).listen(8081);
 ```
+
+用上面的生成测试证书是可以的，访问 http 网站会自动重定向到 https。
