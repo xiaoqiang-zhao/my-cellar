@@ -1,3 +1,7 @@
+/**
+ * @file 用 fastify 框架实现 https + http2
+ */
+
 'use strict'
 
 const fs = require('fs')
@@ -32,28 +36,3 @@ fastify.get('/', function (request, reply) {
 })
 
 fastify.listen(3000)
-
-
-
-
-// const http2 = require('http2');
-// const fs = require('fs');
-
-// const server = http2.createSecureServer({
-//   key: fs.readFileSync('./ssl/privkey.pem'),
-//   cert: fs.readFileSync('./ssl/server.pem')
-// });
-// server.on('error', (err) => console.error(err));
-
-// server.on('stream', (stream, headers) => {
-//   // stream is a Duplex
-//   stream.respond({
-//     'content-type': 'text/html',
-//     ':status': 200
-//   });
-//   stream.end('<h1>Hello World</h1>');
-// });
-
-// const port = 8443;
-// server.listen(port);
-// console.log('启动成功，127.0.0.1:', port);
