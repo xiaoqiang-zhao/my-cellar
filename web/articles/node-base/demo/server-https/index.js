@@ -1,20 +1,5 @@
-const Koa = require('koa');
-const http = require('http');
 const https = require('https');
 const fs = require('fs');
-const { default: enforceHttps } = require('koa-sslify');
- 
-const app = new Koa();
- 
-// Force HTTPS using default resolver
-app.use(enforceHttps({
-  port: 8081
-}));
- 
-// index page
-app.use(ctx => {
-  ctx.body = "hello world, from xiaoqiang-zhao. " + ctx.request.url;
-});
  
 // SSL options
 var options = {
@@ -22,7 +7,16 @@ var options = {
   cert: fs.readFileSync('./ssl/server.pem')
 }
  
-// start the server
-http.createServer(app.callback()).listen(8080);
-https.createServer(options, app.callback()).listen(8081);
+const port = 8081;
+https.createServer(options, (request, response) => {
+  const encoding = 'utf-8';
 
+  response.writeHead(200, {
+    'Content-Type': 'application/javascript; charset=utf-8;'
+  });
+
+  response.write('{"a": "a"}', encoding);
+  response.end();
+}).listen(port);
+
+console.log('启动成功，127.0.0.1:', port);
