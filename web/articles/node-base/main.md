@@ -276,6 +276,8 @@ https 提供安全升级，有效的防止运营商劫持；http2 提供网站�
 
 ### 启动 https
 
+启用 https 可以防止中间人攻击，想了解和 http 区别的可以去看一下这组漫画：[漫画：什么是 HTTPS 协议？](https://zhuanlan.zhihu.com/p/57142784)
+
 原生启动：
 
 ```js
@@ -304,6 +306,105 @@ console.log('启动成功，127.0.0.1:', port);
 ```
 
 使用 Koa2 启动 https 服务：
+
+```js
+const Koa = require('koa');
+const http = require('http');
+const https = require('https');
+const fs = require('fs');
+const { default: enforceHttps } = require('koa-sslify');
+ 
+const app = new Koa();
+ 
+// Force HTTPS using default resolver
+app.use(enforceHttps({
+  port: 8081
+}));
+ 
+// index page
+app.use(ctx => {
+  ctx.body = "hello world, from xiaoqiang-zhao. " + ctx.request.url;
+});
+ 
+// SSL options
+var options = {
+  key: fs.readFileSync('./ssl/privkey.pem'),
+  cert: fs.readFileSync('./ssl/server.pem')
+}
+ 
+// start the server
+http.createServer(app.callback()).listen(8080);
+https.createServer(options, app.callback()).listen(8081);
+```
+
+### http2
+
+http2 的主要作用是提高资源的加载速度，浏览器强制 http2 建立在 https 上，所以获取证书并且让服务器支持 https 是必须的先决条件。需要了解更多可以去读这篇博文: (HTTP2 详解)[https://www.jianshu.com/p/e57ca4fec26f]。
+
+原生 NodeJs 启动 http2:
+
+```js
+const http2 = require('http2');
+const fs = require('fs');
+
+// SSL options
+var httpsOptions = {
+  key: fs.readFileSync('./ssl/privkey.pem'),
+  cert: fs.readFileSync('./ssl/server.pem')
+};
+
+const server = http2.createSecureServer(httpsOptions, (request, response) => {
+  const encoding = 'utf-8';
+
+  response.writeHead(200, {
+    'Content-Type': 'application/javascript; charset=utf-8;'
+  });
+
+  response.write('{"a": "a"}', encoding);
+  response.end();
+});
+
+const port = 8443;
+server.listen(port);
+console.log('启动成功，127.0.0.1:', port);
+```
+
+顺便介绍一个新框架 fastify 的 http2 实现:
+
+```js
+const fs = require('fs')
+const path = require('path')
+const fastify = require('fastify')({
+  http2: true,
+  https: {
+    key: fs.readFileSync('./ssl/privkey.pem'),
+    cert: fs.readFileSync('./ssl/server.pem')
+  }
+})
+
+fastify.get('/', function (request, reply) {
+  reply
+    .code(200)
+    .type('text/html')
+    .send(`
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset=utf-8>
+  <meta http-equiv=X-UA-Compatible content="IE=edge">
+  <meta name=viewport content="width=device-width,initial-scale=1">
+  <title>Fastify Demo</title>
+  <meta name=description content="Fast and low overhead web framework, for Node.js">
+</head>
+<body>
+    Fastify Demo for https and http/2
+</body>
+</html>
+`);
+})
+
+fastify.listen(3000)
+```
 
 ## 参考
 
