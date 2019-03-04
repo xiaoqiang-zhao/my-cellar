@@ -42,43 +42,49 @@
 
 所谓的“支持 template”，就是下面这种形式：
 
+```js
+export default {
+    name: 'hello',
+    template: '<h1>{{msg}}</h1>',
+    data() {
+        return {
+            msg: 'Welcome to Your Vue.js App'
+        }
+    }
+}
+```
+
+两种模式对下面写法都是支持的：
+
+```js
+<template src="./index.tpl"></template>
+<!-- 或者直接在 template 中写模板-->
+<script>
     export default {
-        name: 'hello',
-        template: '<h1>{{msg}}</h1>',
+    name: 'hello',
         data() {
             return {
                 msg: 'Welcome to Your Vue.js App'
             }
         }
     }
-
-两种模式对下面写法都是支持的：
-
-    <template src="./index.tpl"></template>
-    <!-- 或者直接在 template 中写模板-->
-    <script>
-        export default {
-        name: 'hello',
-            data() {
-                return {
-                    msg: 'Welcome to Your Vue.js App'
-                }
-            }
-        }
-    </script>
+</script>
+```
 
 然后我们再探一下因 -- 知其所以然，模板转化成 html 并绑定事件有一个必不可少的步骤，那就是将模板转换成函数，这一步称为编译，数据和 html 标签的融合并输出 Dom 结构就是在编译后产生的函数中进行的，如果在打包的过程中完成编译，并将编译产生的函数打入代码中，那么发布出来的代码就没有必要包含这部分功能了，这部分功能压缩后所占的体积就是上面提到的 6KB。
 
 还有另外一个问题，这个开关是在哪里控制的？
 在 build/webpack.base.conf.js 中：
 
-    resolve: {
-        extensions: ['.js', '.vue', '.json'],
-        alias: {
-            'vue$': 'vue/dist/vue.esm.js',
-            '@': resolve('src')
-        }
+```js
+resolve: {
+    extensions: ['.js', '.vue', '.json'],
+    alias: {
+        'vue$': 'vue/dist/vue.esm.js',
+        '@': resolve('src')
     }
+}
+```
 
 默认是不提供 Compiler 功能的，如果我们需要，把 vue 的引用指向 vue 代码包中的另一个文件 -- vue.esm.js，这个文件包含了 Compiler 功能。可以看到添加时很简单的，所以我们这里去掉 Compiler 功能的支持，万一有需要可以手动加回来。
 
@@ -116,12 +122,14 @@ vs code 需要加配置：
 
 另外可以看到，编码规范的选择让模板显得异常臃肿：
 
-    export default {
-      name: 'app'{{#router}}{{#if_eq lintConfig "airbnb"}},{{/if_eq}}{{else}},
-      components: {
-        Hello{{#if_eq lint Config "airbnb"}},{{/if_eq}}
-      }{{#if_eq lintConfig "airbnb"}},{{/if_eq}}{{/router}}
-    }{{#if_eq lintConfig "airbnb"}};{{/if_eq}}
+```js
+export default {
+    name: 'app'{{#router}}{{#if_eq lintConfig "airbnb"}},{{/if_eq}}{{else}},
+    components: {
+    Hello{{#if_eq lint Config "airbnb"}},{{/if_eq}}
+    }{{#if_eq lintConfig "airbnb"}},{{/if_eq}}{{/router}}
+}{{#if_eq lintConfig "airbnb"}};{{/if_eq}}
+```
 
 为了一个逗号和行尾的封号写了很多的判断，对于一个团队来说定制一种编码规范改一下模板的成本会更小。如果想要初始化一些公用功能进去，这样判断需要大面积存在，特别不利于模板的二次定制，所以我们会选择一种在开源届使用广泛的规范来作为唯一的规范，这种规范我准备选择 standard，具体原因和编码规范的详细内容查看我的另一篇文章[前端编码规范](/#!/articles/fe-code-style)。
 
@@ -133,41 +141,47 @@ vs code 需要加配置：
 
 关于这个选项的描述上面已经讲过了，策略是去掉询问，直接用 `Runtime-only` 方案。首先删除配置：
 
-    // meta.js
-    "build": {
-      "type": "list",
-      "message": "Vue build",
-      "choices": [
-        {
-          "name": "Runtime + Compiler: recommended for most users",
-          "value": "standalone",
-          "short": "standalone"
-        },
-        {
-          "name": "Runtime-only: about 6KB lighter min+gzip, but templates (or any Vue-specific HTML) are ONLY allowed in .vue files - render functions are required elsewhere",
-          "value": "runtime",
-          "short": "runtime"
-        }
-      ]
+```js
+// meta.js
+"build": {
+    "type": "list",
+    "message": "Vue build",
+    "choices": [
+    {
+        "name": "Runtime + Compiler: recommended for most users",
+        "value": "standalone",
+        "short": "standalone"
     },
+    {
+        "name": "Runtime-only: about 6KB lighter min+gzip, but templates (or any Vue-specific HTML) are ONLY allowed in .vue files - render functions are required elsewhere",
+        "value": "runtime",
+        "short": "runtime"
+    }
+    ]
+},
+```
 
 然后修改 template/src/main.js
 
-    // 去掉这部分的判断和里面的内容
-    {{#if_eq build "standalone"}}
-    // 去掉 template 的定义和判断，直接用 render 函数，
-    // 简单的说就是改成下面这样
-    new Vue({
-        el: '#app',
-        router,
-        render: h => h(App)
-    });
+```js
+// 去掉这部分的判断和里面的内容
+{{#if_eq build "standalone"}}
+// 去掉 template 的定义和判断，直接用 render 函数，
+// 简单的说就是改成下面这样
+new Vue({
+    el: '#app',
+    router,
+    render: h => h(App)
+});
+```
 
 最后去掉 template/build/webpack.base.conf.js 中的下面这部分判断：
 
-    {{#if_eq build "standalone"}}
-    'vue$': 'vue/dist/vue.esm.js',
-    {{/if_eq}}
+```js
+{{#if_eq build "standalone"}}
+'vue$': 'vue/dist/vue.esm.js',
+{{/if_eq}}
+```
 
 ### router
 
@@ -175,11 +189,13 @@ vs code 需要加配置：
 
 首先删除下面的配置，使不再询问是否安装router：
 
-    // meta.js，
-    "router": {
-      "type": "confirm",
-      "message": "Install vue-router?"
-    },
+```js
+// meta.js，
+"router": {
+    "type": "confirm",
+    "message": "Install vue-router?"
+},
+```
 
 然后去掉过滤的设置，使其恒定不过滤：
 

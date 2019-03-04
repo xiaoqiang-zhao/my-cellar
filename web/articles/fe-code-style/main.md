@@ -36,7 +36,7 @@ https://github.com/standard/standard
 vue 组件的编码规范：
 https://github.com/pablohpsilva/vuejs-component-style-guide
 
-官方风格指南：
+vue 官方风格指南：
 https://cn.vuejs.org/v2/style-guide/index.html
 
 vue 源码的编码规范：
