@@ -24,12 +24,10 @@ Your account does not have permission to create Developer ID Application certifi
 
 https://developer.apple.com/support/developer-id/
 
-一种是走开发者账号，用这种方式的优点是开发出的包可以上 App Store，缺点是需要花钱，每年 688 RMB。还有一种是用 Apple ID 生成证书，打出的包通过文件的形式发行。
+有两种打包方式，一种是走开发者账号，用这种方式的优点是开发出的包可以上 App Store，缺点是需要花钱，每年 688 RMB。另一种是用 Apple ID 生成证书，打出的包通过文件的形式发行。
 
-用了苹果的app store的账号
-自己生成了签名
-和证书
-win的用的公司的签名平台 certificates
+Mac: 用苹果的 app store 账号自己生成签名和证书
+Windows: 的用的公司的签名平台 certificates
 
 ## 参考
 
