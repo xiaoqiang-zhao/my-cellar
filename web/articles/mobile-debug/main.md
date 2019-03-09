@@ -8,7 +8,9 @@
 
 ## 真机调试
 
-### Safari(Mac)+ iOS
+### Safari(Mac) + iOS
+
+手机打开“设置/Safari/高级/Web检查器”，Mac 打开 Safari/偏好设置(Preferences...)/高级选项(Advanced)。
 
 ### 
 
