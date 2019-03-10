@@ -12,7 +12,11 @@
 
 手机打开“设置/Safari/高级/Web检查器”，Mac 打开 Safari/偏好设置(Preferences...)/高级选项(Advanced)。
 
-### 
+### Chrome + Android
+
+### Charles
+
+套壳后尝试调试 App 中内嵌的 H5 页面。
 
 ## 参考
 
