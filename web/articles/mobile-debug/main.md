@@ -10,7 +10,13 @@
 
 ### Safari(Mac) + iOS
 
-手机打开“设置/Safari/高级/Web检查器”，Mac 打开 Safari/偏好设置(Preferences...)/高级选项(Advanced)。
+手机设置: 设置/Safari/高级/Web检查器。
+
+Mac设置: Safari/偏好设置(Preferences...)/高级选项(Advanced)/在工具栏显示开发者工具(Show Develop menu in menu bar)。
+
+调试过程: 不需要手机和电脑在同一局域网，通过数据线链接电脑和手机，在手机上用 Safari 打开需要调试的页面，在电脑上同样打开 Safari，打开后可以在 Safari 的工具条上看到 Develop 项，找到子项中的手机名，然后就可以看到手机上打开网页的地址，点击进入就可以打开调试器。
+
+如果 Mac 上的 Safari 上找不到手机和页面地址，可以尝试刷新一下手机上的页面。
 
 ### Chrome + Android
 
