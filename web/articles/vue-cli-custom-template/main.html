@@ -55,7 +55,7 @@
 <li>Runtime-only: 体积小 6KB，不支持 template，模板只能写在 .vue 文件中。</li>
 </ul>
 <p>所谓的“支持 template”，就是下面这种形式：</p>
-<pre><code>export default {
+<pre><code class="lang-js">export default {
     name: &#39;hello&#39;,
     template: &#39;&lt;h1&gt;{{msg}}&lt;/h1&gt;&#39;,
     data() {
@@ -64,8 +64,9 @@
         }
     }
 }
-</code></pre><p>两种模式对下面写法都是支持的：</p>
-<pre><code>&lt;template src=&quot;./index.tpl&quot;&gt;&lt;/template&gt;
+</code></pre>
+<p>两种模式对下面写法都是支持的：</p>
+<pre><code class="lang-js">&lt;template src=&quot;./index.tpl&quot;&gt;&lt;/template&gt;
 &lt;!-- 或者直接在 template 中写模板--&gt;
 &lt;script&gt;
     export default {
@@ -77,17 +78,19 @@
         }
     }
 &lt;/script&gt;
-</code></pre><p>然后我们再探一下因 -- 知其所以然，模板转化成 html 并绑定事件有一个必不可少的步骤，那就是将模板转换成函数，这一步称为编译，数据和 html 标签的融合并输出 Dom 结构就是在编译后产生的函数中进行的，如果在打包的过程中完成编译，并将编译产生的函数打入代码中，那么发布出来的代码就没有必要包含这部分功能了，这部分功能压缩后所占的体积就是上面提到的 6KB。</p>
+</code></pre>
+<p>然后我们再探一下因 -- 知其所以然，模板转化成 html 并绑定事件有一个必不可少的步骤，那就是将模板转换成函数，这一步称为编译，数据和 html 标签的融合并输出 Dom 结构就是在编译后产生的函数中进行的，如果在打包的过程中完成编译，并将编译产生的函数打入代码中，那么发布出来的代码就没有必要包含这部分功能了，这部分功能压缩后所占的体积就是上面提到的 6KB。</p>
 <p>还有另外一个问题，这个开关是在哪里控制的？
 在 build/webpack.base.conf.js 中：</p>
-<pre><code>resolve: {
+<pre><code class="lang-js">resolve: {
     extensions: [&#39;.js&#39;, &#39;.vue&#39;, &#39;.json&#39;],
     alias: {
         &#39;vue$&#39;: &#39;vue/dist/vue.esm.js&#39;,
         &#39;@&#39;: resolve(&#39;src&#39;)
     }
 }
-</code></pre><p>默认是不提供 Compiler 功能的，如果我们需要，把 vue 的引用指向 vue 代码包中的另一个文件 -- vue.esm.js，这个文件包含了 Compiler 功能。可以看到添加时很简单的，所以我们这里去掉 Compiler 功能的支持，万一有需要可以手动加回来。</p>
+</code></pre>
+<p>默认是不提供 Compiler 功能的，如果我们需要，把 vue 的引用指向 vue 代码包中的另一个文件 -- vue.esm.js，这个文件包含了 Compiler 功能。可以看到添加时很简单的，所以我们这里去掉 Compiler 功能的支持，万一有需要可以手动加回来。</p>
 <h3 id="header-1-2-3">ESLint</h3>
 <p>本来不打算讲这一块的，但是发现有几处需要注意的地方，花了点时间才搞明白。eslint 是用 node 写的，所以需要有 node 环境，并全局安装 eslint，IDE 才能玩的转：</p>
 <pre><code>sudo npm install -g eslint
@@ -116,36 +119,38 @@ sudo npm install -g eslint-plugin-html
 <li>&quot;error&quot; 或 2 - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)。</li>
 </ul>
 <p>另外可以看到，编码规范的选择让模板显得异常臃肿：</p>
-<pre><code>export default {
-  name: &#39;app&#39;{{#router}}{{#if_eq lintConfig &quot;airbnb&quot;}},{{/if_eq}}{{else}},
-  components: {
+<pre><code class="lang-js">export default {
+    name: &#39;app&#39;{{#router}}{{#if_eq lintConfig &quot;airbnb&quot;}},{{/if_eq}}{{else}},
+    components: {
     Hello{{#if_eq lint Config &quot;airbnb&quot;}},{{/if_eq}}
-  }{{#if_eq lintConfig &quot;airbnb&quot;}},{{/if_eq}}{{/router}}
+    }{{#if_eq lintConfig &quot;airbnb&quot;}},{{/if_eq}}{{/router}}
 }{{#if_eq lintConfig &quot;airbnb&quot;}};{{/if_eq}}
-</code></pre><p>为了一个逗号和行尾的封号写了很多的判断，对于一个团队来说定制一种编码规范改一下模板的成本会更小。如果想要初始化一些公用功能进去，这样判断需要大面积存在，特别不利于模板的二次定制，所以我们会选择一种在开源届使用广泛的规范来作为唯一的规范，这种规范我准备选择 standard，具体原因和编码规范的详细内容查看我的另一篇文章<a href="/#!/articles/fe-code-style" target="_blank">前端编码规范</a>。</p>
+</code></pre>
+<p>为了一个逗号和行尾的封号写了很多的判断，对于一个团队来说定制一种编码规范改一下模板的成本会更小。如果想要初始化一些公用功能进去，这样判断需要大面积存在，特别不利于模板的二次定制，所以我们会选择一种在开源届使用广泛的规范来作为唯一的规范，这种规范我准备选择 standard，具体原因和编码规范的详细内容查看我的另一篇文章<a href="/#!/articles/fe-code-style" target="_blank">前端编码规范</a>。</p>
 <h2 id="header-1-3">开始改造现有功能</h2>
 <p>写 vue 模板并没有什么特别好的方法，因为模板改完之后需要编译后才能运行，所以我们先用现有模板生成一份比较全的，然后把相关依赖装好，提交到 github 上，然后改这个模板生成后的项目，改一部分验证一部分，验证没问题之后把修改点同步回模板中，这是我能想到的最简单快捷的方式。</p>
 <h3 id="header-1-3-1">Vue build</h3>
 <p>关于这个选项的描述上面已经讲过了，策略是去掉询问，直接用 <code>Runtime-only</code> 方案。首先删除配置：</p>
-<pre><code>// meta.js
+<pre><code class="lang-js">// meta.js
 &quot;build&quot;: {
-  &quot;type&quot;: &quot;list&quot;,
-  &quot;message&quot;: &quot;Vue build&quot;,
-  &quot;choices&quot;: [
+    &quot;type&quot;: &quot;list&quot;,
+    &quot;message&quot;: &quot;Vue build&quot;,
+    &quot;choices&quot;: [
     {
-      &quot;name&quot;: &quot;Runtime + Compiler: recommended for most users&quot;,
-      &quot;value&quot;: &quot;standalone&quot;,
-      &quot;short&quot;: &quot;standalone&quot;
+        &quot;name&quot;: &quot;Runtime + Compiler: recommended for most users&quot;,
+        &quot;value&quot;: &quot;standalone&quot;,
+        &quot;short&quot;: &quot;standalone&quot;
     },
     {
-      &quot;name&quot;: &quot;Runtime-only: about 6KB lighter min+gzip, but templates (or any Vue-specific HTML) are ONLY allowed in .vue files - render functions are required elsewhere&quot;,
-      &quot;value&quot;: &quot;runtime&quot;,
-      &quot;short&quot;: &quot;runtime&quot;
+        &quot;name&quot;: &quot;Runtime-only: about 6KB lighter min+gzip, but templates (or any Vue-specific HTML) are ONLY allowed in .vue files - render functions are required elsewhere&quot;,
+        &quot;value&quot;: &quot;runtime&quot;,
+        &quot;short&quot;: &quot;runtime&quot;
     }
-  ]
+    ]
 },
-</code></pre><p>然后修改 template/src/main.js</p>
-<pre><code>// 去掉这部分的判断和里面的内容
+</code></pre>
+<p>然后修改 template/src/main.js</p>
+<pre><code class="lang-js">// 去掉这部分的判断和里面的内容
 {{#if_eq build &quot;standalone&quot;}}
 // 去掉 template 的定义和判断，直接用 render 函数，
 // 简单的说就是改成下面这样
@@ -154,19 +159,22 @@ new Vue({
     router,
     render: h =&gt; h(App)
 });
-</code></pre><p>最后去掉 template/build/webpack.base.conf.js 中的下面这部分判断：</p>
-<pre><code>{{#if_eq build &quot;standalone&quot;}}
+</code></pre>
+<p>最后去掉 template/build/webpack.base.conf.js 中的下面这部分判断：</p>
+<pre><code class="lang-js">{{#if_eq build &quot;standalone&quot;}}
 &#39;vue$&#39;: &#39;vue/dist/vue.esm.js&#39;,
 {{/if_eq}}
-</code></pre><h3 id="header-1-3-2">router</h3>
+</code></pre>
+<h3 id="header-1-3-2">router</h3>
 <p>这个是一个项目必须的功能，如果只想写个 Demo 那直接用官方的模板好了。我们首先需要改配置：</p>
 <p>首先删除下面的配置，使不再询问是否安装router：</p>
-<pre><code>// meta.js，
+<pre><code class="lang-js">// meta.js，
 &quot;router&quot;: {
-  &quot;type&quot;: &quot;confirm&quot;,
-  &quot;message&quot;: &quot;Install vue-router?&quot;
+    &quot;type&quot;: &quot;confirm&quot;,
+    &quot;message&quot;: &quot;Install vue-router?&quot;
 },
-</code></pre><p>然后去掉过滤的设置，使其恒定不过滤：</p>
+</code></pre>
+<p>然后去掉过滤的设置，使其恒定不过滤：</p>
 <pre><code>&quot;filters&quot;: {
   &quot;.eslintrc.js&quot;: &quot;lint&quot;,
   &quot;.eslintignore&quot;: &quot;lint&quot;,

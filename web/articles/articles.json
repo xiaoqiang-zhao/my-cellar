@@ -969,6 +969,18 @@
     "todoList": []
   },
   {
+    "enName": "manage",
+    "title": "管理",
+    "introduction": "我不管人需要了解管理吗？需要。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1552393434244,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "markdown-remark",
     "title": "markdown 引擎 remark",
     "introduction": "不只是一个工具，更是一个生态。",
@@ -977,6 +989,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1516806045981,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "mobile-debug",
+    "title": "移动端调试",
+    "introduction": "移动开发需要的基础技能。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1552393434248,
     "commentList": [],
     "todoList": []
   },

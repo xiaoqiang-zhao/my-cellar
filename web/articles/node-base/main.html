@@ -105,23 +105,252 @@ check(
 </code></pre>
 <h2 id="header-1-4">理解异步</h2>
 <p>从其他语言转过的开发者对异步不太了解，就算是前端开发者接触 NodeJs 会发现这里的异步要比前端更复杂。</p>
-<p>你需要掌握 callback、promise、async/await 的相关知识，还要掌握 MacroTask 和 MicroTask。</p>
+<p>你需要掌握 callback、promise、async/await 的相关知识，还要掌握 MacroTask(宏任务) 和 MicroTask(微任务)。</p>
 <p>之前写过一篇 node-async，这里就不展开了。</p>
-<h2 id="header-1-5">操作本地文件</h2>
+<h2 id="header-1-5">事件</h2>
+<p>上面的模块引入用了 <code>require</code>，其实我们可以超前一点，把 <code>import</code> 用起来，文件扩展名从 js 升级为 mjs，启动 node 进程时添加 experimental-modules 参数，如 <code>node --experimental-modules rename</code>。</p>
+<p>浏览器端的事件我们最熟悉的 click、hover、scroll 都是浏览器宿主提供的，也有一些框架提供的事件，比如 Vue 中的声明周期钩子 created、mounted、destroy 等。在 node 中事件都由原生模块 <code>events</code> 提供，下面是一个入门示例：</p>
+<pre><code class="lang-js">import EventEmitter from &#39;events&#39;;
+class MyEmitter extends EventEmitter {};
+
+const myEmitter = new MyEmitter();
+myEmitter.on(&#39;eventName&#39;, () =&gt; {
+  console.log(&#39;an event occurred!&#39;);
+});
+
+myEmitter.emit(&#39;eventName&#39;);
+</code></pre>
+<p>组件内部触发事件是更常用的写法，示例如下：</p>
+<pre><code class="lang-js">import EventEmitter from &#39;events&#39;;
+
+class MyEmitter extends EventEmitter {
+  constructor() {
+    super();
+    setTimeout(() =&gt; {
+      this.emit(&#39;eventName&#39;, &#39;params Value&#39;);
+    }, 1000)
+  }
+};
+
+const myEmitter = new MyEmitter();
+myEmitter.on(&#39;eventName&#39;, (params) =&gt; {
+  console.log(&#39;event params:&#39;, params);
+});
+</code></pre>
+<h2 id="header-1-6">操作本地文件</h2>
 <p>node 10 添加了 Promise 的试验性支持，启动 node 进程的时候需要加参数 <code>node --experimental-modules rename</code>：</p>
-<pre><code class="lang-js">const fsPromises = require(&#39;fs&#39;).promises;
+<pre><code class="lang-js">import fs from &#39;fs&#39;;
+const fsPromises = fs.promises;
+
 try {
-  // const result = await fsPromises.rename(&#39;/tmp/hello&#39;, &#39;/tmp/world&#39;);
-  console.log(result);
+  const result = fsPromises.rename(&#39;./a.js&#39;, &#39;./b.js&#39;);
+  result.then(error =&gt; {
+    console.log(&#39;-- success --&#39;);
+  });
 }
 catch(e) {
   console.log(&#39;error&#39;);
 }
 </code></pre>
-<p>下面我们介绍文件相关的操作，Promise 将来会成为主流，所以我们以 Promise 为主展开介绍。</p>
-<h2 id="header-1-6">获取远程数据</h2>
-<h2 id="header-1-7">提供 Web 服务</h2>
-<h2 id="header-1-8">参考</h2>
+<p>Promise 将来会成为主流，所以我们以 Promise 为主展开介绍。</p>
+<p>首先重塑一个认知，当我们本地直接操作文件夹的时候需要先判断是否存在然后再写入或删除，但是这种在高并发业务场景是有问题的。一个文件现在存在，但当你对它操作的时候可能其他异步任务刚好在写入或者已经删除了，所以 fs 模块移除了 <code>exists</code> 添加了 <code>access</code>。<code>access</code> 检查文件是否可用，包括文件是否存在和文件是否正在写入。我们在设计文件内容结构的时候可能需要转变思路，比如“在文件首次被创建的时候要在开头中加一些特殊的内容”，向“不管是首次还是非首次向文件中添加的内容时同构的”。再举个业务中的例子，比如我们写日志，每个月的一个日志文件，我们可以获取当前的年月数据，以此为文件名用 <code>appendFile</code> 向其中添加日志。</p>
+<p>读写较小文件时选择方法 <code>readFile</code> 和 <code>writeFile</code> 是很好的方案，能一次性完成读写，注意 writeFile 时文件不存在时会自动创建，文件存在时写入会覆盖原有内容：</p>
+<pre><code class="lang-js">import fs from &#39;fs&#39;;
+const fsPromises = fs.promises;
+
+fsPromises.readFile(&#39;./readFile-demo.txt&#39;, {
+  encoding: &#39;utf-8&#39;
+}).then(content =&gt; {
+  return fsPromisess.writeFile(&#39;./readFile-demo-2.txt&#39;, content, {
+    encoding: &#39;utf-8&#39;
+  });
+}).then(() =&gt; {
+  console.log(&#39;读写完成&#39;);
+}, error =&gt; {
+  console.log(&#39;-- error --&#39;, error);
+});
+</code></pre>
+<p>如果文件较大就要考虑流式读写，读的速度一般比写的快还要控制“写任务”堆积造成内存爆满。还可以直接向文件中添加内容，当文件不存在时先新建后添加：</p>
+<pre><code class="lang-js">import fs from &#39;fs&#39;;
+const fsPromises = fs.promises;
+
+fsPromises.appendFile(&#39;a.md&#39;, &#39;my string&#39;, {
+  encoding: &#39;utf8&#39;
+}).then(data =&gt; {
+  console.log(&#39;内容添加成功&#39;);
+});
+</code></pre>
+<p>很重要的提前检测和路径</p>
+<p>修改文件属性，读写权限和执行权限 <code>chmod</code>:</p>
+<pre><code class="lang-js">import fs from &#39;fs&#39;;
+const fsPromises = fs.promises;
+
+fsPromises.chmod(&#39;./a.js&#39;, 777).then(() =&gt; {
+  console.log(&#39;权限修改完成&#39;);
+});
+</code></pre>
+<p>同理还有修改文件所有者和用户分组的命令 <code>chown</code>。</p>
+<h2 id="header-1-7">路径相关操作</h2>
+<p>node 提供了全局变量 <strong>filename 和 </strong>dirname，分别表示当前执行文件的 “文件路径+文件名” 和 “文件所在路径”，如果开启了 <code>experimental-modules</code> 模式这两个全局变量暂不可用，可以用下面的方案代替：</p>
+<pre><code class="lang-js">import path from &#39;path&#39;;
+const __filename = new URL(import.meta.url).pathname;
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+</code></pre>
+<p>不同模块对相对路径的定义时不一样的，require(import) 的相对路径指的是当前执行文件的路径，fs 和 path 的相对路径是启动脚本的路径。当前执行文件的所在路径可以用 <code>__dirname</code> 获取，脚本启动路径可以用 <code>process.cwd()</code> 获取。两种路径的转换可以借助 path 的 resolve 方法：</p>
+<pre><code class="lang-js">import path from &#39;path&#39;;
+const cwdPath = process.cwd();
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+path.resolve(__dirname, cwdPath); // 等价于 path.resolve(__dirname, &#39;./&#39;)
+</code></pre>
+<h2 id="header-1-8">获取远程数据</h2>
+<p>使用第三方库 <code>request</code> 可以跨系统间调用，可以从 github 和豆瓣这些第三方网站提供的在线 api 提供数据：</p>
+<p>比如可以用豆瓣的开放 API 通过 ISBN 搜索图书信息:</p>
+<pre><code class="lang-js">const request = require(&#39;request&#39;);
+
+module.exports = function (req, response) {
+  request({
+    url: &#39;http://api.douban.com/book/subject/isbn/9787508658339&#39;,
+    method: &#39;GET&#39;
+  }, function (err, res, body) {
+    // xml 形式的数据
+  });
+};
+</code></pre>
+<p>cli 工具可能需要从远程 git 拉取仓库，第三方模块 <code>download-git-repo</code> 可以提供此功能:</p>
+<pre><code class="lang-js">const download from &#39;download-git-repo&#39;;
+
+download(&#39;bitbucket:flipxfx/download-git-repo-fixture#my-branch&#39;, &#39;test/tmp&#39;, { clone: true }, function (err) {
+  console.log(err ? &#39;Error&#39; : &#39;Success&#39;)
+});
+</code></pre>
+<h2 id="header-1-9">提供 Web 服务</h2>
+<p>用 NodeJS 提供 Web 服务在方案上有 3 个层次的选择：纯原生、Express/Koa、Egg。纯原生一般在学习和研究的层面使用，功能简单，很多基础需要自己开发。Express 和 Koa 封装了路由和插件扩展支持等基础功能，在中小项目中使用较为常见。Egg 企业级应用，封转了权限鉴定等企业级功能，大型项目推荐使用，Egg 2.x 基于 Koa 2.x，框架底层以及所有内置插件都使用 async function 编写。</p>
+<p>https 提供安全升级，有效的防止运营商劫持；http2 提供网站资源加速。这两项都可以在 Koa 和 Egg 上。</p>
+<p>百度、淘宝、京东都用了。</p>
+<h3 id="header-1-9-1">启动 https</h3>
+<p>启用 https 可以防止中间人攻击，想了解和 http 区别的可以去看一下这组漫画：<a href="https://zhuanlan.zhihu.com/p/57142784" target="_blank">漫画：什么是 HTTPS 协议？</a></p>
+<p>原生启动：</p>
+<pre><code class="lang-js">const https = require(&#39;https&#39;);
+const fs = require(&#39;fs&#39;);
+
+// SSL options
+var options = {
+  key: fs.readFileSync(&#39;./ssl/privkey.pem&#39;),
+  cert: fs.readFileSync(&#39;./ssl/server.pem&#39;)
+}
+
+const port = 8081;
+https.createServer(options, (request, response) =&gt; {
+  const encoding = &#39;utf-8&#39;;
+
+  response.writeHead(200, {
+    &#39;Content-Type&#39;: &#39;application/javascript; charset=utf-8;&#39;
+  });
+
+  response.write(&#39;{&quot;a&quot;: &quot;a&quot;}&#39;, encoding);
+  response.end();
+}).listen(port);
+
+console.log(&#39;启动成功，127.0.0.1:&#39;, port);
+</code></pre>
+<p>使用 Koa2 启动 https 服务：</p>
+<pre><code class="lang-js">const Koa = require(&#39;koa&#39;);
+const http = require(&#39;http&#39;);
+const https = require(&#39;https&#39;);
+const fs = require(&#39;fs&#39;);
+const { default: enforceHttps } = require(&#39;koa-sslify&#39;);
+
+const app = new Koa();
+
+// Force HTTPS using default resolver
+app.use(enforceHttps({
+  port: 8081
+}));
+
+// index page
+app.use(ctx =&gt; {
+  ctx.body = &quot;hello world, from xiaoqiang-zhao. &quot; + ctx.request.url;
+});
+
+// SSL options
+var options = {
+  key: fs.readFileSync(&#39;./ssl/privkey.pem&#39;),
+  cert: fs.readFileSync(&#39;./ssl/server.pem&#39;)
+}
+
+// start the server
+http.createServer(app.callback()).listen(8080);
+https.createServer(options, app.callback()).listen(8081);
+</code></pre>
+<h3 id="header-1-9-2">http2</h3>
+<p>http2 的主要作用是提高资源的加载速度，浏览器强制 http2 建立在 https 上，所以获取证书并且让服务器支持 https 是必须的先决条件。需要了解更多可以去读这篇博文: (HTTP2 详解)[<a href="https://www.jianshu.com/p/e57ca4fec26f]。" target="_blank">https://www.jianshu.com/p/e57ca4fec26f]。</a></p>
+<p>原生 NodeJs 启动 http2:</p>
+<pre><code class="lang-js">const http2 = require(&#39;http2&#39;);
+const fs = require(&#39;fs&#39;);
+
+// SSL options
+var httpsOptions = {
+  key: fs.readFileSync(&#39;./ssl/privkey.pem&#39;),
+  cert: fs.readFileSync(&#39;./ssl/server.pem&#39;)
+};
+
+const server = http2.createSecureServer(httpsOptions, (request, response) =&gt; {
+  const encoding = &#39;utf-8&#39;;
+
+  response.writeHead(200, {
+    &#39;Content-Type&#39;: &#39;application/javascript; charset=utf-8;&#39;
+  });
+
+  response.write(&#39;{&quot;a&quot;: &quot;a&quot;}&#39;, encoding);
+  response.end();
+});
+
+const port = 8443;
+server.listen(port);
+console.log(&#39;启动成功，127.0.0.1:&#39;, port);
+</code></pre>
+<p>顺便介绍一个新框架 fastify 的 http2 实现:</p>
+<pre><code class="lang-js">const fs = require(&#39;fs&#39;)
+const path = require(&#39;path&#39;)
+const fastify = require(&#39;fastify&#39;)({
+  http2: true,
+  https: {
+    key: fs.readFileSync(&#39;./ssl/privkey.pem&#39;),
+    cert: fs.readFileSync(&#39;./ssl/server.pem&#39;)
+  }
+})
+
+fastify.get(&#39;/&#39;, function (request, reply) {
+  reply
+    .code(200)
+    .type(&#39;text/html&#39;)
+    .send(`
+&lt;!DOCTYPE html&gt;
+&lt;html lang=en&gt;
+&lt;head&gt;
+  &lt;meta charset=utf-8&gt;
+  &lt;meta http-equiv=X-UA-Compatible content=&quot;IE=edge&quot;&gt;
+  &lt;meta name=viewport content=&quot;width=device-width,initial-scale=1&quot;&gt;
+  &lt;title&gt;Fastify Demo&lt;/title&gt;
+  &lt;meta name=description content=&quot;Fast and low overhead web framework, for Node.js&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    Fastify Demo for https and http/2
+&lt;/body&gt;
+&lt;/html&gt;
+`);
+})
+
+fastify.listen(3000)
+</code></pre>
+<h2 id="header-1-10">参考</h2>
+<p>(NodeJs中的stream（流）- 基础篇
+)[<a href="https://juejin.im/post/5a75d037f265da4e9e303773" target="_blank">https://juejin.im/post/5a75d037f265da4e9e303773</a>]</p>
+<p>(在Node.js中读写大文件)[<a href="https://blog.csdn.net/yhhwatl/article/details/53311214" target="_blank">https://blog.csdn.net/yhhwatl/article/details/53311214</a>]</p>
+<p>(简单比较 http https http2)[<a href="https://juejin.im/post/5a77fe396fb9a063317c2e71" target="_blank">https://juejin.im/post/5a77fe396fb9a063317c2e71</a>]</p>
+<p>(HTTP2 详解)[<a href="https://www.jianshu.com/p/e57ca4fec26f" target="_blank">https://www.jianshu.com/p/e57ca4fec26f</a>]</p>
+<p>(KOA2 提供HTTPS安全服务)[<a href="https://blog.csdn.net/ErErFei/article/details/73875795" target="_blank">https://blog.csdn.net/ErErFei/article/details/73875795</a>]</p>
+<p>(浅谈推进全站HTTPS项目-工程篇)[<a href="https://juejin.im/post/5aa7327051882510fd3f488a" target="_blank">https://juejin.im/post/5aa7327051882510fd3f488a</a>]</p>
 
 </div>
 </body>
