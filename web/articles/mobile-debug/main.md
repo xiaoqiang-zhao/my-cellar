@@ -20,9 +20,11 @@ Mac设置: Safari/偏好设置(Preferences...)/高级选项(Advanced)/在工具�
 
 ### Chrome + Android
 
+暂无 Android 手机，稍后补充内容...
+
 ### Charles
 
-套壳后尝试调试 App 中内嵌的 H5 页面。
+套壳后尝试调试 App 中内嵌的 H5 页面...
 
 ## 参考
 
