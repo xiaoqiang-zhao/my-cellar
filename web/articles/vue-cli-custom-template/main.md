@@ -199,38 +199,44 @@ new Vue({
 
 然后去掉过滤的设置，使其恒定不过滤：
 
-    "filters": {
-      ".eslintrc.js": "lint",
-      ".eslintignore": "lint",
-      "config/test.env.js": "unit || e2e",
-      "test/unit/**/*": "unit",
-      "build/webpack.test.conf.js": "unit",
-      "test/e2e/**/*": "e2e",
-      // 删掉下面一行
-      "src/router/**/*": "router"
-    },
+```json
+"filters": {
+    ".eslintrc.js": "lint",
+    ".eslintignore": "lint",
+    "config/test.env.js": "unit || e2e",
+    "test/unit/**/*": "unit",
+    "build/webpack.test.conf.js": "unit",
+    "test/e2e/**/*": "e2e",
+    // 删掉下面一行
+    "src/router/**/*": "router"
+},
+```
 
 还有 template/src/main.js 需要改，一大堆判断真是复杂，直接去掉，最后像下面这样：
 
-    import Vue from 'vue';
-    import App from './App';
-    import router from './router';
+```js
+import Vue from 'vue';
+import App from './App';
+import router from './router';
 
-    Vue.config.productionTip = false;
-    new Vue({
-      el: '#app',
-      router,
-      render: h => h(App),
-      components: { App }
-    });
+Vue.config.productionTip = false;
+new Vue({
+    el: '#app',
+    router,
+    render: h => h(App),
+    components: { App }
+});
+```
 
 最后把 template/package.json 里面对 `vue-router` 包的判断去掉，这个功能就改造完成了，我们试着跑一下:
 
-    //            本地模板路径        测试项目名
-    vue init ~/code-github/spa-simple spa-simple-router
-    cd spa-simple-router
-    yarn
-    npm run dev
+```shell
+//            本地模板路径        测试项目名
+vue init ~/code-github/spa-simple spa-simple-router
+cd spa-simple-router
+yarn
+npm run dev
+```
 
 耶，完美✌️.
 
@@ -244,50 +250,62 @@ new Vue({
 
 先看看原来的和 server 有关的功能，首先从 package.json 中了解到启动开发环境是从 dev-server.js 文件开始的。首先通过 express 启动 Web 服务：
 
-    var app = express()
-    // ...
-    var server = app.listen(port)
+```js
+var app = express()
+// ...
+var server = app.listen(port)
+```
 
 然后通过中间件 webpack-dev-middleware 路由静态文件：
 
-    var devMiddleware = require('webpack-dev-middleware')(compiler, {
-        publicPath: webpackConfig.output.publicPath,
-        quiet: true
-    })
+```js
+var devMiddleware = require('webpack-dev-middleware')(compiler, {
+    publicPath: webpackConfig.output.publicPath,
+    quiet: true
+})
+```
 
 再然后通过中间件 webpack-hot-middleware 提供热加载：
 
-    var hotMiddleware = require('webpack-hot-middleware')(compiler, {
-        log: false,
-        heartbeat: 2000
-    })
+```js
+var hotMiddleware = require('webpack-hot-middleware')(compiler, {
+    log: false,
+    heartbeat: 2000
+})
+```
 
 热加载需要 webpack 插件配合才能实现：
 
-    // 当 html 模板改变时，触发页面重新加载
-    compiler.plugin('compilation', function (compilation) {
-        compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
-            hotMiddleware.publish({ action: 'reload' })
-            cb()
-        })
+```js
+// 当 html 模板改变时，触发页面重新加载
+compiler.plugin('compilation', function (compilation) {
+    compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
+        hotMiddleware.publish({ action: 'reload' })
+        cb()
     })
+})
+```
 
 再然后是代理，用的中间件 http-proxy-middleware，可以设置多个代理：
 
-    Object.keys(proxyTable).forEach(function (context) {
-        var options = proxyTable[context]
-        if (typeof options === 'string') {
-            options = { target: options }
-        }
-        app.use(proxyMiddleware(options.filter || context, options))
-    })
+```js
+Object.keys(proxyTable).forEach(function (context) {
+    var options = proxyTable[context]
+    if (typeof options === 'string') {
+        options = { target: options }
+    }
+    app.use(proxyMiddleware(options.filter || context, options))
+})
+```
 
 最后用 connect-history-api-fallback 中间件支持 HTML5 History，原理就是将所有的 text/html 请求都打到 /index.html 上，当然这个是可以设置的，像下面这样：
 
-    var history = require('connect-history-api-fallback');
-    app.use(history({
-        index: '/default.html'
-    }));
+```js
+var history = require('connect-history-api-fallback');
+app.use(history({
+    index: '/default.html'
+}));
+```
 
 其实看到这里我们就明白了，官方想让我们通过代理直接调用 server，但是我们开发的流程一般是定完接口前后端个开发各的，然后联调。对于全栈来说启两个项目很显然来回切换很麻烦，但是官方并没有提供全栈的模板，我们后面会完善。
 
@@ -306,90 +324,101 @@ new Vue({
 
 这对于我们写 Mock 数据是很便捷的方式，我们先把 axios 加进来：
 
-    // mian.js
-    import axios from 'axios';
-    // 将axios挂载到prototype上，在组件中可以直接使用this.$http访问
-    Vue.prototype.$http = axios;
+```js
+// mian.js
+import axios from 'axios';
+// 将axios挂载到prototype上，在组件中可以直接使用this.$http访问
+Vue.prototype.$http = axios;
+```
 
 关于插件的添加这篇文章写的很不错：[Use Any Javascript Library With Vue.js](https://vuejsdevelopers.com/2017/04/22/vue-js-libraries-plugins/)。axios 对返回的数据做了包装，我们需要做一些处理，一些对 Ajax 数据请求全局的处理逻辑也可以写进里面：
 
-    // 添加响应拦截器
-    axios.interceptors.response.use(function (res) {
-    // 对响应数据做些事
-      return res.data
-    }, function (error) {
-      // 请求错误时做些事
-      return Promise.reject(error)
-    })
+```js
+// 添加响应拦截器
+axios.interceptors.response.use(function (res) {
+// 对响应数据做些事
+    return res.data
+}, function (error) {
+    // 请求错误时做些事
+    return Promise.reject(error)
+})
+```
 
 然后加 Mock 功能，之前只有代理模式，现在我们要加一种提供数据的模式 Mock，考虑到后面我们还要加全栈模式，这里把配置顺便升一下级：
 
-    // config/index.js
-    dataType: 'mock',  // proxy:代理; mock:模拟; full-stack:全栈(默认此项)
-    proxyTable: {
-      '/': {
-        target: 'http://172.0.0.1:8800/'
-      }
-    },
-    mockTable: {
-      // 相对于整个项目的路径
-      rootPath: './mock/'
+```js
+// config/index.js
+dataType: 'mock',  // proxy:代理; mock:模拟; full-stack:全栈(默认此项)
+proxyTable: {
+    '/': {
+    target: 'http://172.0.0.1:8800/'
     }
+},
+mockTable: {
+    // 相对于整个项目的路径
+    rootPath: './mock/'
+}
+```
 
 然后改造路由，添加 mock 路由和 proxy 路由以及全栈路由的区分逻辑，关键代码如下：
 
-    // build/dev-server.js
-    var expressAutoPathRouter = require('express-auto-path-router')
-    // Define HTTP proxies to your custom API backend
-    // https://github.com/chimurai/http-proxy-middleware
-    if (config.dev.dataType === 'proxy') {
-    Object.keys(config.dev.proxyTable).forEach(function (context) {
-        var options = proxyTable[context]
-        if (typeof options === 'string') {
-            options = { target: options }
-        }
-        app.use(proxyMiddleware(options.filter || context, options))
-      })
+```js
+// build/dev-server.js
+var expressAutoPathRouter = require('express-auto-path-router')
+// Define HTTP proxies to your custom API backend
+// https://github.com/chimurai/http-proxy-middleware
+if (config.dev.dataType === 'proxy') {
+Object.keys(config.dev.proxyTable).forEach(function (context) {
+    var options = proxyTable[context]
+    if (typeof options === 'string') {
+        options = { target: options }
     }
-    // https://github.com/xiaoqiang-zhao/express-auto-path-router
-    else if (config.dev.dataType === 'mock') {
-      app.use(expressAutoPathRouter(config.dev.mockTable.rootPath))
-    }
+    app.use(proxyMiddleware(options.filter || context, options))
+    })
+}
+// https://github.com/xiaoqiang-zhao/express-auto-path-router
+else if (config.dev.dataType === 'mock') {
+    app.use(expressAutoPathRouter(config.dev.mockTable.rootPath))
+}
+```
 
 最后添加 mock 数据的文件夹和客户端的调用逻辑：
 
-    // mock 数据的写法
-    // mock/GET/a/index.js
-    let mock = require('mockjs');
-    module.exports = function (param) {
-        return {
-            status: 0,
-            statusInfo: '',
-            data: mock.Random.cparagraph()
-        };
+```js
+// mock 数据的写法
+// mock/GET/a/index.js
+let mock = require('mockjs');
+module.exports = function (param) {
+    return {
+        status: 0,
+        statusInfo: '',
+        data: mock.Random.cparagraph()
     };
-    // 前端调用
-    // src/components/Hello.vue
-    data () {
-        this.$http.get('/a').then(res => {
-            console.log('mock 数据支持成功', res)
-        })
-        return {
-            msg: 'Welcome to Your Vue.js App'
-        }
+};
+// 前端调用
+// src/components/Hello.vue
+data () {
+    this.$http.get('/a').then(res => {
+        console.log('mock 数据支持成功', res)
+    })
+    return {
+        msg: 'Welcome to Your Vue.js App'
     }
-
+}
+```
 到此为止 mock 数据功能就基本添加完了，把添加的代码同步到模板中就不展开了。
 
 开发完成后就可以联调了，将 dataType 的配置改为 proxy，然后启动项目，所有的 Ajax 请求将会被代理到 target 配置的服务器上。
 
-    // config/index.js
-    dataType: 'proxy',
-    proxyTable: {
-      '/': {
-        target: 'http://172.0.0.1:8800/'
-      }
-    },
+```js
+// config/index.js
+dataType: 'proxy',
+proxyTable: {
+    '/': {
+    target: 'http://172.0.0.1:8800/'
+    }
+},
+```
 
 ## 改造代码格式验证
 
@@ -399,18 +428,20 @@ new Vue({
 
 去除下面三项配置，这样在安装的时候就不会询问了：
 
-    // meta.js
-    "lint": {
-      "type": "confirm",
-      "message": "Use ESLint to lint your code?"
-    },
-    "lintConfig": {
-       // 此处省略若干行... 
-    }
-    // 去除 eslint 相关的过滤
-    filters
-    ".eslintrc.js": "lint",
-    ".eslintignore": "lint",
+```json
+// meta.js
+"lint": {
+    "type": "confirm",
+    "message": "Use ESLint to lint your code?"
+},
+"lintConfig": {
+    // 此处省略若干行... 
+}
+// 去除 eslint 相关的过滤
+filters
+".eslintrc.js": "lint",
+".eslintignore": "lint",
+```
 
 然后修改依赖包的判断逻辑：
 
