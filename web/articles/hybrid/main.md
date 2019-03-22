@@ -7,4 +7,3 @@
 (Choose the best — Native App vs Hybrid App)[https://codeburst.io/native-app-or-hybrid-app-ca08e460df9]
 
 This article will talk about pros and cons of Native and Hybrid application development. 
-
