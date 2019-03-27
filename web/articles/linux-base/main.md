@@ -294,7 +294,38 @@ source 是在父线程里直接执行，sh 是在子线程里执行，子线程�
 
 ### 环境变量
 
-还有一个比较重要的概念那就是环境变量了，对应到 js 就是作用域变量，使用 env 或者 export 可以看到所有的环境变量：
+还有一个比较重要的概念那就是环境变量了，对应到 js 就是作用域变量。
+
+其实所有的程序安装都是将文件从远程下载下来然后放在一个地方。然后这个文件是否可执行，哪些用户可启动执行我们后面讲。但是我们每次执行并不把路径写全，比如：
+
+```shell
+node -v
+```
+
+其实写全了应该是酱紫：
+
+```shell
+/usr/local/bin/node -v
+```
+
+而这种简写归功于环境变量，Mac系统的环境变量，加载顺序为：
+
+- /etc/profile
+- /etc/paths
+- ~/.bash_profile
+- ~/.bash_login
+- ~/.profile
+- ~/.bashrc
+
+查看程序装在了哪里，比如看看 node 装到了哪里：
+
+```shell
+which node
+where node
+// 输出可能是这样:/usr/local/bin/node
+```
+
+使用 env 或者 export 可以看到所有的环境变量：
 
 ```shell
 env

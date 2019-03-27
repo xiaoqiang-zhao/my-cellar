@@ -2,43 +2,6 @@
 
 > 前端很多人都不是计算机相关专业的科班出生，但是前端的环境越来越复杂，好多人脚手架出了问题无从下手查，需要部署服务器还需要后端帮忙，把工作中用到的一些技巧做整理，方便自查。
 
-## 程序通用
-
-Linux 的核心思想就是一切皆文件。
-
-查看程序装在了哪里，比如看看 node 装到了哪里：
-
-    which node
-    where node
-    // 输出可能是这样:/usr/local/bin/node
-
-### 环境变量 Mac
-
-其实所有的程序安装都是将文件从远程下载下来然后放在一个地方。然后这个文件是否可执行，那些用户可启动执行我们后面讲。但是我们每次执行并不把路径写全，比如：
-
-    node -v
-
-其实写全了应该是酱紫：
-
-    /usr/local/bin/node -v
-
-而这种简写归功于环境变量，Mac系统的环境变量，加载顺序为：
-
-- /etc/profile
-- /etc/paths
-- ~/.bash_profile
-- ~/.bash_login
-- ~/.profile
-- ~/.bashrc
-
-系统级的环境变量添加直接修改 `/etc/paths` 文件，修改后直接生效。用户级的环境变量添加通过修改 `~/.bash_profile` 实现，修改完成后还要执行 `source ~/.bash_profile` 才能生效，但是如果你开了新的终端，那么在执行一次 `source ~/.bash_profile` 环境变量才能在当前终端生效。
-
-参考：[(Mac)在bash和zsh配置环境变量path的几种方法](http://www.jianshu.com/p/020f3d02f538)
-    
-### 环境变量 Linux
-
-全局的环境变量可以在 `/etc/profile` 文件的 `Path manipulation` 部分修改。
-
 ## 进程相关
 
 启动进程的命令后加 `&`，将进程指定为后台进程，这样可以在 shell 做一些其他事情而不需要再打开新的窗口，如：
@@ -105,7 +68,7 @@ Linux 的核心思想就是一切皆文件。
     :w newfile
    
 ## 用户相关
-    
+
 创建用户 testuser
 
     useradd testuser
