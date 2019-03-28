@@ -12,10 +12,10 @@ Nginx 的定位是高性能轻量级 Web 服务器。
 
 ## 参考
 
-
-
 [利用Nginx的上传模块和上传进度模块实现网页上传文件](https://blog.csdn.net/waden/article/details/7040123)
 
 [nodejs与nginx的完美搭配](https://blog.csdn.net/qq_17475155/article/details/66473855)
 
 [用Nginx做NodeJS应用的负载均衡](https://blog.csdn.net/chszs/article/details/43203127)
+
+[Nginx 菜鸟教程](http://www.runoob.com/linux/nginx-install-setup.html)
