@@ -813,7 +813,15 @@ ps axjf
 
 Linux 下我们使用软件包管理器来安装我们需要的软件，比如 Red Hat 公司的 Fedora、RHEL（Red Hat Enterprise Linux）和后来加入红帽的 CentOS，使用 rpm 和 yum 来安装软件，Ubuntu 使用 apt-get 来安装。
 
-安装软件一般分两种，一种是直接下载编译好的安装包安装，另一种是下载源文件在本地先编译后安装。对于后者需要有编译工具才能进行，
+安装软件一般有两种方法，一种是直接下载编译好的安装包安装，另一种是下载源文件在本地先编译后安装。对于后者需要有编译工具才能进行，编译工具可以直接傻瓜式安装 `yum install gcc-c++`。
+
+常用的库文件还有:
+- make
+- zlib
+- zlib-devel
+- libtool
+- openssl
+- openssl-devel
 
 ## 零散命令
 
