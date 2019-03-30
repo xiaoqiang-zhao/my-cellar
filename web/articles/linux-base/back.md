@@ -30,3 +30,24 @@ https://news.cnblogs.com/n/517869/
 
 http://mp.weixin.qq.com/s/-RPRQ78k5F-ZoVv8IJC_zg
 
+## zlib
+
+ZLIB is designed to be a free, general-purpose(多用途的), legally(合法的) unencumbered(没有阻碍的) - that is, not covered by any patents(专利) - lossless data-compression library for use on virtually any computer hardware and operating system. The zlib data format is itself portable across platforms. Unlike the LZW compression method used in Unix compress(1) and in the GIF image format, the compression(压缩) method currently used in zlib essentially never expands the data. (LZW can double or triple the file size in extreme cases). ZLIB's memory footprint is also independent of the input data and can be reduced, if necessary, at some cost in compression.
+
+## zlib-devel
+
+The zlib-devel package contains the header files and libraries needed to develop programs that use the zlib compression and decompression library.
+
+## libtool
+
+The libtool package contains the GNU libtool, a set of shell scripts which automatically configure UNIX and UNIX-like architectures to generically build shared libraries. Libtool provides(提供) a consistent, portable interface which simplifies(简化) the process of using shared libraries. If you are developing programs which will use shared libraries, you should install libtool.
+
+## openssl
+
+The OpenSSL Project is a collaborative(合作的) effort(成就) to develop a robust(健壮的), commercial-grade(商品级), full-featured(全功能的), and Open Source toolkit(工具包) implementing(实现) the Secure(安全的) Sockets Layer (SSL v2/v3) and Transport Layer Security (TLS v1) protocols with full-strength cryptography world-wide. The project is managed by a worldwide community of volunteers that use the Internet to communicate, plan, and develop the OpenSSL tookit and its related documentation.
+
+SSL是一种国际标准的加密及身份认证通信协议，您用的浏览器就支持此协议。SSL（Secure Sockets Layer）最初是由美国Netscape公司研究出来的，后来成为了Internet网上安全通讯与交易的标准。
+
+OpenSSL -- 一个C语言函数库，是对SSL协议的实现。
+
+[SSL和SSH和OpenSSH，OpenSSL有什么区别](https://www.cnblogs.com/foohack/p/4103212.html)

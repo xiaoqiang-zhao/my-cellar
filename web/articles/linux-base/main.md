@@ -816,12 +816,16 @@ Linux 下我们使用软件包管理器来安装我们需要的软件，比如 R
 安装软件一般有两种方法，一种是直接下载编译好的安装包安装，另一种是下载源文件在本地先编译后安装。对于后者需要有编译工具才能进行，编译工具可以直接傻瓜式安装 `yum install gcc-c++`。
 
 常用的库文件还有:
-- make
-- zlib
-- zlib-devel
-- libtool
-- openssl
-- openssl-devel
+- make 编译辅助工具
+- zlib 压缩和解压工具
+- zlib-devel 开发版压缩和解压工具
+- libtool 简化共享库的使用过程
+- openssl 安全通讯支持库
+- openssl-devel 开发版安全通讯支持库
+
+看到有两个加了 `-devel` 后缀的包，加了此后缀表示是开发使用版，包含了头文件和开发支持库，用于抛出更详细的信息(如压缩和解压的过程信息，报错信息)。
+
+这里有一个网站可以查询各种包: (https://rpmfind.net/linux/rpm2html/search.php)[https://rpmfind.net/linux/rpm2html/search.php]
 
 ## 零散命令
 
