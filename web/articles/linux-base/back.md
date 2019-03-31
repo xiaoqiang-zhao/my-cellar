@@ -38,9 +38,15 @@ ZLIB is designed to be a free, general-purpose(多用途的), legally(合法的)
 
 The zlib-devel package contains the header files and libraries needed to develop programs that use the zlib compression and decompression library.
 
+在 Ubuntu 软件源里对应关系如下:
+- zlib -> zlib1g
+- zlib-devel -> zlib1g.dev
+
 ## libtool
 
 The libtool package contains the GNU libtool, a set of shell scripts which automatically configure UNIX and UNIX-like architectures to generically build shared libraries. Libtool provides(提供) a consistent, portable interface which simplifies(简化) the process of using shared libraries. If you are developing programs which will use shared libraries, you should install libtool.
+
+libtool 在 Ubuntu 下的安装方式是 `sudo apt install libtool-bin`，安装完成后使用 `libtool --version` 查看版本。
 
 ## openssl
 
