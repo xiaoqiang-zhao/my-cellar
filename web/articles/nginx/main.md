@@ -6,9 +6,23 @@
 
 Nginx 的定位是高性能轻量级 Web 服务器。
 
-## 快速上手
+## 安装
 
+首先确认这些依赖是有的，没有的安装一下: `make zlib zlib-devel gcc-c++ libtool  openssl openssl-devel`。
 
+然后安装 PCRE，PCRE 作用是让 Nginx 支持 Rewrite 功能，如果你不需要 Rewrite 跳过此步也可以。
+
+```shell
+# 下载并解压
+wget http://downloads.sourceforge.net/project/pcre/pcre/8.35/pcre-8.35.tar.gz
+tar zxvf pcre-8.35.tar.gz
+# 安装
+cd pcre-8.35
+./configure
+make && make install
+# 查看 pcre 版本，确认安装成功
+pcre-config --version
+```
 
 ## 参考
 

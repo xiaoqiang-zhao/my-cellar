@@ -42,6 +42,23 @@ The zlib-devel package contains the header files and libraries needed to develop
 - zlib -> zlib1g
 - zlib-devel -> zlib1g.dev
 
+```shell
+$ sudo apt-get install zlib1g
+$ sudo apt-get install zlib1g.dev
+```
+
+直接输入上述命令后还是不能安装，这就要求我们先装 ruby。
+
+```shell
+$sudo apt-get install ruby
+```
+
+然后再装zlib1g-dev就可以了
+
+```shell
+$sudo apt-get install zlib1g-dev
+```
+
 ## libtool
 
 The libtool package contains the GNU libtool, a set of shell scripts which automatically configure UNIX and UNIX-like architectures to generically build shared libraries. Libtool provides(提供) a consistent, portable interface which simplifies(简化) the process of using shared libraries. If you are developing programs which will use shared libraries, you should install libtool.
@@ -57,3 +74,12 @@ SSL是一种国际标准的加密及身份认证通信协议，您用的浏览�
 OpenSSL -- 一个C语言函数库，是对SSL协议的实现。
 
 [SSL和SSH和OpenSSH，OpenSSL有什么区别](https://www.cnblogs.com/foohack/p/4103212.html)
+
+## 百Du开发机备忘
+
+- make 编译辅助工具 - 原生提供
+- zlib 压缩和解压工具 - 需要安装 `jumbo install Python` + `jumbo install zlib`
+- zlib-devel 开发版压缩和解压工具
+- libtool 简化共享库的使用过程
+- openssl 安全通讯支持库
+- openssl-devel 开发版安全通讯支持库
