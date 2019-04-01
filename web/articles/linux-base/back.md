@@ -39,6 +39,7 @@ ZLIB is designed to be a free, general-purpose(多用途的), legally(合法的)
 The zlib-devel package contains the header files and libraries needed to develop programs that use the zlib compression and decompression library.
 
 在 Ubuntu 软件源里对应关系如下:
+
 - zlib -> zlib1g
 - zlib-devel -> zlib1g.dev
 

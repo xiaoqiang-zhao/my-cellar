@@ -826,7 +826,10 @@ Linux 下我们使用软件包管理器来安装我们需要的软件，比如 R
 
 看到有两个加了 `-devel` 后缀的包，加了此后缀表示是开发使用版，包含了头文件和开发支持库，用于抛出更详细的信息(如压缩和解压的过程信息，报错信息)。
 
-zlib 比较特殊
+zlib 比较特殊，在 Ubuntu 软件源里对应关系如下:
+
+- zlib -> zlib1g
+- zlib-devel -> zlib1g.dev
 
 ```shell
 Package zlib is already installed
