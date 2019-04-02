@@ -39,7 +39,7 @@ make install # 需要 root 权限
 /usr/local/webserver/nginx/sbin/nginx -v
 ```
 
-## 配置 Nginx
+## 简单配置 Nginx
 
 创建 Nginx 运行使用的用户 www:
 
@@ -150,6 +150,14 @@ Nginx 其他常用命令
 /usr/local/webserver/nginx/sbin/nginx -s reopen            # 重启 Nginx
 /usr/local/webserver/nginx/sbin/nginx -s stop              # 停止 Nginx
 ```
+
+## Nginx 常用配置
+
+### 静态资源配置
+
+### 反向代理
+
+代理与反向代理
 
 ## 参考
 
