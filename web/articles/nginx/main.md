@@ -146,9 +146,9 @@ ps -ef | grep nginx
 Nginx 其他常用命令
 
 ```shell
-/usr/local/webserver/nginx/sbin/nginx -s reload            # 重新载入配置文件
-/usr/local/webserver/nginx/sbin/nginx -s reopen            # 重启 Nginx
-/usr/local/webserver/nginx/sbin/nginx -s stop              # 停止 Nginx
+/usr/local/webserver/nginx/sbin/nginx -s reload   # 重新载入配置文件
+/usr/local/webserver/nginx/sbin/nginx -s reopen   # 重启 Nginx
+/usr/local/webserver/nginx/sbin/nginx -s stop     # 停止 Nginx
 ```
 
 ## Nginx 常用配置
