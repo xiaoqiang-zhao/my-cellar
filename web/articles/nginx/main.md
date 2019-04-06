@@ -155,7 +155,16 @@ Nginx 其他常用命令
 
 ### 静态资源配置
 
-nginx.conf
+站点的端口的静态资源路径在 `server` 中配置:
+
+```shell
+server
+  {
+    listen 8032;#监听端口
+    server_name localhost;#域名
+    index index.html index.htm index.php;
+    root /usr/local/webserver/nginx/html; #站点目录
+```
 
 ### 反向代理
 
