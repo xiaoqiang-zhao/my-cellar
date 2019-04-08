@@ -1,0 +1,12 @@
+{
+  "enName": "app-develop",
+  "title": "App 开发",
+  "introduction": "经过数年的发展，混合开发、原生开发、网页转原生开发(如 React Native)技术方案基本结束了纷争，各自适用的场景逐渐明确。这篇文章整理一下各方案的实现要点和优缺点。",
+  "tags": [],
+  "isPublished": false,
+  "state": "立项",
+  "type": "md",
+  "createDate": 1554727048785,
+  "commentList": [],
+  "todoList": []
+}

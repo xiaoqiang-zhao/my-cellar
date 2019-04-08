@@ -139,6 +139,90 @@ if (process.server) {
     options.baseURL = `http://${host}:${process.env.PORT || 8099}`;
 }
 </code></pre>
+<h3 id="header-1-6-2">服务器端渲染时丢 cookie</h3>
+<p>【问题描述】</p>
+<p>我用 Nuxt 和 express 搭配实现服务端渲染, 在 .vue 文件中代码如下:</p>
+<pre><code class="lang-js">async asyncData(req) {
+    const res = await axios.get(&#39;/api/users&#39;, null, {
+         withCredentials: true
+    });
+}
+</code></pre>
+<p>在浏览器中直接访问是能拿到数据的，地址像这样：<a href="http://172.24.140.50:9090/api/users" target="_blank">http://172.24.140.50:9090/api/users</a>, 但是正和岛页面中用服务端渲染就不行了，我这个接口需要一个登录后的 token，也就是一个服务端只读 cookie，我这这样排查的：</p>
+<pre><code class="lang-js">async asyncData(req) {
+    console.log(&#39;index.vue signedCookies:&#39;, req.req.signedCookies[config.authCookieName]);
+   // 这里可以拿到正确的 signedCookies
+    const res = await axios.get(&#39;/api/users&#39;, null, {
+         withCredentials: true
+    });
+}
+</code></pre>
+<p>但是在 nodejs 服务端就不行了，“/api/users” 对应的 nodejs 代码是这样的:</p>
+<pre><code class="lang-js">getUserList(req, res) {
+     console.log(&#39;api-user token: &#39;, req.signedCookies);
+    // it lost signedCookies
+}
+</code></pre>
+<p>express 的 router 这样设置的:</p>
+<pre><code class="lang-js">router.get(&#39;/api/users&#39;, user.getUserList);
+</code></pre>
+<p>怎么解决呢，有思路吗？</p>
+<p>It trabbled me, hoe can i get the signedCookies in nodejs server side?</p>
+<p><a href="https://cmty.app/nuxt/nuxt.js/issues/c7585" target="_blank">https://cmty.app/nuxt/nuxt.js/issues/c7585</a></p>
+<p>【问题定位】</p>
+<p>浏览器会自动维护 cookie，但在 node 里，在前一个请求执行成功的回调函数里再发一个请求，这时请求头不会被自动带到下一个，这其中也包括 cookie，也就是说 node 不帮你自动维护 cookie，你需要自己来。</p>
+<p>【问题解决】</p>
+<p>在业务代码里直接使用 axios 提供的 API 可以做这个事情，先获取再赋值：</p>
+<pre><code class="lang-js">async asyncData({req}) {
+    if (process.server) {
+        axios.defaults.headers.common.cookie = req.headers.cookie;
+    }
+
+    let tableData;
+    try {
+        const res = await axios.get(&#39;/api/users&#39;);
+        tableData = res.data;
+    }
+    catch (e) {
+        tableData = [];
+    }
+
+    return {
+        tableData
+    };
+},
+</code></pre>
+<p>还有一种框架记得解决方案，添加 Express 中间件，页面请求为接口请求预置 cookie：</p>
+<pre><code class="lang-js">// server/middlewares/ssr-cookie.js
+import axios from &#39;../../plugins/axios.js&#39;;
+
+export default function (req, res, next) {
+    const filter = [
+        &#39;/_nuxt&#39;,
+        &#39;/api&#39;
+    ];
+
+    const isMatched = filter.some(item =&gt; {
+        if (req.url.indexOf(item) === 0) {
+            return true;
+        }
+    });
+
+    // 静态资源和 API不需要设置 coolie，其实只有 asyncData 方法中调用接口前需要预置 cookie
+    // (页面请求为接口请求预置 cookie)
+    // 未登录状态下设置 common cookie 会有问题
+    if (!isMatched &amp;&amp; req.headers.cookie) {
+        axios.defaults.headers.common.cookie = req.headers.cookie;
+    }
+
+    next();
+}
+</code></pre>
+<p>在 Express 入口处添加中间件就可以了，不用再每个业务代码里写重复代码。</p>
+<pre><code class="lang-js">import express from &#39;express&#39;;
+const app = express();
+app.use(ssrCookie);
+</code></pre>
 <h2 id="header-1-7">参考</h2>
 <p><a href="https://zh.nuxtjs.org/guide/async-data" target="_blank">Nuxt官网</a></p>
 <p><a href="https://github.com/nuxt-community/express-template" target="_blank">nuxt express template</a></p>
@@ -146,6 +230,7 @@ if (process.server) {
 <p><a href="https://juejin.im/post/598aabe96fb9a03c335a8dde" target="_blank">美团点评点餐 Nuxt.js 实战</a></p>
 <p><a href="https://blog.csdn.net/shuzipai/article/details/78258936" target="_blank">React服务器端渲染（SSR）实例</a></p>
 <p><a href="https://mp.weixin.qq.com/s/rx_t9m6OQzy-0dtNnNJwgQ" target="_blank">Vue SSR不可不知的问题 -- 转转</a></p>
+<p><a href="https://github.com/xiaoqiang-zhao/base-full-stack-project/blob/master/issue.md" target="_blank">服务器端渲染时丢 cookie</a></p>
 
 </div>
 </body>

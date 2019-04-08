@@ -175,35 +175,38 @@ new Vue({
 },
 </code></pre>
 <p>然后去掉过滤的设置，使其恒定不过滤：</p>
-<pre><code>&quot;filters&quot;: {
-  &quot;.eslintrc.js&quot;: &quot;lint&quot;,
-  &quot;.eslintignore&quot;: &quot;lint&quot;,
-  &quot;config/test.env.js&quot;: &quot;unit || e2e&quot;,
-  &quot;test/unit/**/*&quot;: &quot;unit&quot;,
-  &quot;build/webpack.test.conf.js&quot;: &quot;unit&quot;,
-  &quot;test/e2e/**/*&quot;: &quot;e2e&quot;,
-  // 删掉下面一行
-  &quot;src/router/**/*&quot;: &quot;router&quot;
+<pre><code class="lang-json">&quot;filters&quot;: {
+    &quot;.eslintrc.js&quot;: &quot;lint&quot;,
+    &quot;.eslintignore&quot;: &quot;lint&quot;,
+    &quot;config/test.env.js&quot;: &quot;unit || e2e&quot;,
+    &quot;test/unit/**/*&quot;: &quot;unit&quot;,
+    &quot;build/webpack.test.conf.js&quot;: &quot;unit&quot;,
+    &quot;test/e2e/**/*&quot;: &quot;e2e&quot;,
+    // 删掉下面一行
+    &quot;src/router/**/*&quot;: &quot;router&quot;
 },
-</code></pre><p>还有 template/src/main.js 需要改，一大堆判断真是复杂，直接去掉，最后像下面这样：</p>
-<pre><code>import Vue from &#39;vue&#39;;
+</code></pre>
+<p>还有 template/src/main.js 需要改，一大堆判断真是复杂，直接去掉，最后像下面这样：</p>
+<pre><code class="lang-js">import Vue from &#39;vue&#39;;
 import App from &#39;./App&#39;;
 import router from &#39;./router&#39;;
 
 Vue.config.productionTip = false;
 new Vue({
-  el: &#39;#app&#39;,
-  router,
-  render: h =&gt; h(App),
-  components: { App }
+    el: &#39;#app&#39;,
+    router,
+    render: h =&gt; h(App),
+    components: { App }
 });
-</code></pre><p>最后把 template/package.json 里面对 <code>vue-router</code> 包的判断去掉，这个功能就改造完成了，我们试着跑一下:</p>
-<pre><code>//            本地模板路径        测试项目名
+</code></pre>
+<p>最后把 template/package.json 里面对 <code>vue-router</code> 包的判断去掉，这个功能就改造完成了，我们试着跑一下:</p>
+<pre><code class="lang-shell">//            本地模板路径        测试项目名
 vue init ~/code-github/spa-simple spa-simple-router
 cd spa-simple-router
 yarn
 npm run dev
-</code></pre><p>耶，完美✌️.</p>
+</code></pre>
+<p>耶，完美✌️.</p>
 <p>注：</p>
 <ul>
 <li>1、不安装测试会快很多；</li>
@@ -212,41 +215,47 @@ npm run dev
 <h2 id="header-1-4">添加 Mock 功能</h2>
 <h3 id="header-1-4-1">原有功能分析</h3>
 <p>先看看原来的和 server 有关的功能，首先从 package.json 中了解到启动开发环境是从 dev-server.js 文件开始的。首先通过 express 启动 Web 服务：</p>
-<pre><code>var app = express()
+<pre><code class="lang-js">var app = express()
 // ...
 var server = app.listen(port)
-</code></pre><p>然后通过中间件 webpack-dev-middleware 路由静态文件：</p>
-<pre><code>var devMiddleware = require(&#39;webpack-dev-middleware&#39;)(compiler, {
+</code></pre>
+<p>然后通过中间件 webpack-dev-middleware 路由静态文件：</p>
+<pre><code class="lang-js">var devMiddleware = require(&#39;webpack-dev-middleware&#39;)(compiler, {
     publicPath: webpackConfig.output.publicPath,
     quiet: true
 })
-</code></pre><p>再然后通过中间件 webpack-hot-middleware 提供热加载：</p>
-<pre><code>var hotMiddleware = require(&#39;webpack-hot-middleware&#39;)(compiler, {
+</code></pre>
+<p>再然后通过中间件 webpack-hot-middleware 提供热加载：</p>
+<pre><code class="lang-js">var hotMiddleware = require(&#39;webpack-hot-middleware&#39;)(compiler, {
     log: false,
     heartbeat: 2000
 })
-</code></pre><p>热加载需要 webpack 插件配合才能实现：</p>
-<pre><code>// 当 html 模板改变时，触发页面重新加载
+</code></pre>
+<p>热加载需要 webpack 插件配合才能实现：</p>
+<pre><code class="lang-js">// 当 html 模板改变时，触发页面重新加载
 compiler.plugin(&#39;compilation&#39;, function (compilation) {
     compilation.plugin(&#39;html-webpack-plugin-after-emit&#39;, function (data, cb) {
         hotMiddleware.publish({ action: &#39;reload&#39; })
         cb()
     })
 })
-</code></pre><p>再然后是代理，用的中间件 http-proxy-middleware，可以设置多个代理：</p>
-<pre><code>Object.keys(proxyTable).forEach(function (context) {
+</code></pre>
+<p>再然后是代理，用的中间件 http-proxy-middleware，可以设置多个代理：</p>
+<pre><code class="lang-js">Object.keys(proxyTable).forEach(function (context) {
     var options = proxyTable[context]
     if (typeof options === &#39;string&#39;) {
         options = { target: options }
     }
     app.use(proxyMiddleware(options.filter || context, options))
 })
-</code></pre><p>最后用 connect-history-api-fallback 中间件支持 HTML5 History，原理就是将所有的 text/html 请求都打到 /index.html 上，当然这个是可以设置的，像下面这样：</p>
-<pre><code>var history = require(&#39;connect-history-api-fallback&#39;);
+</code></pre>
+<p>最后用 connect-history-api-fallback 中间件支持 HTML5 History，原理就是将所有的 text/html 请求都打到 /index.html 上，当然这个是可以设置的，像下面这样：</p>
+<pre><code class="lang-js">var history = require(&#39;connect-history-api-fallback&#39;);
 app.use(history({
     index: &#39;/default.html&#39;
 }));
-</code></pre><p>其实看到这里我们就明白了，官方想让我们通过代理直接调用 server，但是我们开发的流程一般是定完接口前后端个开发各的，然后联调。对于全栈来说启两个项目很显然来回切换很麻烦，但是官方并没有提供全栈的模板，我们后面会完善。</p>
+</code></pre>
+<p>其实看到这里我们就明白了，官方想让我们通过代理直接调用 server，但是我们开发的流程一般是定完接口前后端个开发各的，然后联调。对于全栈来说启两个项目很显然来回切换很麻烦，但是官方并没有提供全栈的模板，我们后面会完善。</p>
 <h3 id="header-1-4-2">功能改造和增强</h3>
 <p>找了很久没找到一个 start 数较高的自动路由中间件(根据访问路径直接读取相同路径模块并返回结果)，可能因为这种包对于后台开发来说太鸡肋，像下面这种路由需要将 id 写死：</p>
 <pre><code>articles/:id
@@ -256,33 +265,36 @@ app.use(history({
 <pre><code>GET /a -&gt; /GET/a/index.js
 POST /a -&gt; /POST/a/index.js
 </code></pre><p>这对于我们写 Mock 数据是很便捷的方式，我们先把 axios 加进来：</p>
-<pre><code>// mian.js
+<pre><code class="lang-js">// mian.js
 import axios from &#39;axios&#39;;
 // 将axios挂载到prototype上，在组件中可以直接使用this.$http访问
 Vue.prototype.$http = axios;
-</code></pre><p>关于插件的添加这篇文章写的很不错：<a href="https://vuejsdevelopers.com/2017/04/22/vue-js-libraries-plugins/" target="_blank">Use Any Javascript Library With Vue.js</a>。axios 对返回的数据做了包装，我们需要做一些处理，一些对 Ajax 数据请求全局的处理逻辑也可以写进里面：</p>
-<pre><code>// 添加响应拦截器
+</code></pre>
+<p>关于插件的添加这篇文章写的很不错：<a href="https://vuejsdevelopers.com/2017/04/22/vue-js-libraries-plugins/" target="_blank">Use Any Javascript Library With Vue.js</a>。axios 对返回的数据做了包装，我们需要做一些处理，一些对 Ajax 数据请求全局的处理逻辑也可以写进里面：</p>
+<pre><code class="lang-js">// 添加响应拦截器
 axios.interceptors.response.use(function (res) {
 // 对响应数据做些事
-  return res.data
+    return res.data
 }, function (error) {
-  // 请求错误时做些事
-  return Promise.reject(error)
+    // 请求错误时做些事
+    return Promise.reject(error)
 })
-</code></pre><p>然后加 Mock 功能，之前只有代理模式，现在我们要加一种提供数据的模式 Mock，考虑到后面我们还要加全栈模式，这里把配置顺便升一下级：</p>
-<pre><code>// config/index.js
+</code></pre>
+<p>然后加 Mock 功能，之前只有代理模式，现在我们要加一种提供数据的模式 Mock，考虑到后面我们还要加全栈模式，这里把配置顺便升一下级：</p>
+<pre><code class="lang-js">// config/index.js
 dataType: &#39;mock&#39;,  // proxy:代理; mock:模拟; full-stack:全栈(默认此项)
 proxyTable: {
-  &#39;/&#39;: {
+    &#39;/&#39;: {
     target: &#39;http://172.0.0.1:8800/&#39;
-  }
+    }
 },
 mockTable: {
-  // 相对于整个项目的路径
-  rootPath: &#39;./mock/&#39;
+    // 相对于整个项目的路径
+    rootPath: &#39;./mock/&#39;
 }
-</code></pre><p>然后改造路由，添加 mock 路由和 proxy 路由以及全栈路由的区分逻辑，关键代码如下：</p>
-<pre><code>// build/dev-server.js
+</code></pre>
+<p>然后改造路由，添加 mock 路由和 proxy 路由以及全栈路由的区分逻辑，关键代码如下：</p>
+<pre><code class="lang-js">// build/dev-server.js
 var expressAutoPathRouter = require(&#39;express-auto-path-router&#39;)
 // Define HTTP proxies to your custom API backend
 // https://github.com/chimurai/http-proxy-middleware
@@ -293,14 +305,15 @@ Object.keys(config.dev.proxyTable).forEach(function (context) {
         options = { target: options }
     }
     app.use(proxyMiddleware(options.filter || context, options))
-  })
+    })
 }
 // https://github.com/xiaoqiang-zhao/express-auto-path-router
 else if (config.dev.dataType === &#39;mock&#39;) {
-  app.use(expressAutoPathRouter(config.dev.mockTable.rootPath))
+    app.use(expressAutoPathRouter(config.dev.mockTable.rootPath))
 }
-</code></pre><p>最后添加 mock 数据的文件夹和客户端的调用逻辑：</p>
-<pre><code>// mock 数据的写法
+</code></pre>
+<p>最后添加 mock 数据的文件夹和客户端的调用逻辑：</p>
+<pre><code class="lang-js">// mock 数据的写法
 // mock/GET/a/index.js
 let mock = require(&#39;mockjs&#39;);
 module.exports = function (param) {
@@ -320,32 +333,35 @@ data () {
         msg: &#39;Welcome to Your Vue.js App&#39;
     }
 }
-</code></pre><p>到此为止 mock 数据功能就基本添加完了，把添加的代码同步到模板中就不展开了。</p>
+</code></pre>
+<p>到此为止 mock 数据功能就基本添加完了，把添加的代码同步到模板中就不展开了。</p>
 <p>开发完成后就可以联调了，将 dataType 的配置改为 proxy，然后启动项目，所有的 Ajax 请求将会被代理到 target 配置的服务器上。</p>
-<pre><code>// config/index.js
+<pre><code class="lang-js">// config/index.js
 dataType: &#39;proxy&#39;,
 proxyTable: {
-  &#39;/&#39;: {
+    &#39;/&#39;: {
     target: &#39;http://172.0.0.1:8800/&#39;
-  }
+    }
 },
-</code></pre><h2 id="header-1-5">改造代码格式验证</h2>
+</code></pre>
+<h2 id="header-1-5">改造代码格式验证</h2>
 <p>我们打算去掉 ESlint 的询问，并且将编码规范设为 standard，最后给出 IDE 的支持。</p>
 <h3 id="header-1-5-1">去除 ESlint 询问配置</h3>
 <p>去除下面三项配置，这样在安装的时候就不会询问了：</p>
-<pre><code>// meta.js
+<pre><code class="lang-json">// meta.js
 &quot;lint&quot;: {
-  &quot;type&quot;: &quot;confirm&quot;,
-  &quot;message&quot;: &quot;Use ESLint to lint your code?&quot;
+    &quot;type&quot;: &quot;confirm&quot;,
+    &quot;message&quot;: &quot;Use ESLint to lint your code?&quot;
 },
 &quot;lintConfig&quot;: {
-   // 此处省略若干行... 
+    // 此处省略若干行... 
 }
 // 去除 eslint 相关的过滤
 filters
 &quot;.eslintrc.js&quot;: &quot;lint&quot;,
 &quot;.eslintignore&quot;: &quot;lint&quot;,
-</code></pre><p>然后修改依赖包的判断逻辑：</p>
+</code></pre>
+<p>然后修改依赖包的判断逻辑：</p>
 <pre><code>// template/package.json
 // 去掉 {{#lint}} 成对的判断，我们恒定需要
 {{#lint}}

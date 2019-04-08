@@ -130,6 +130,18 @@
     "todoList": []
   },
   {
+    "enName": "app-develop",
+    "title": "App 开发",
+    "introduction": "经过数年的发展，混合开发、原生开发、网页转原生开发(如 React Native)技术方案基本结束了纷争，各自适用的场景逐渐明确。这篇文章整理一下各方案的实现要点和优缺点。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1554727048785,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "array",
     "title": "Array那些事",
     "introduction": "Array 是前端技术岗面试必问的点，本篇文章是对官方 API 的整理再加一些代码示例，最后收集了一些和 Array 密切相关的面试题，来看看能不能难倒你。",
@@ -890,21 +902,6 @@
     "todoList": []
   },
   {
-    "enName": "linux",
-    "title": "Linux 备忘笔记",
-    "introduction": "前端很多人都不是计算机相关专业的科班出生，但是前端的环境越来越复杂，好多人脚手架出了问题无从下手查，需要部署服务器还需要后端帮忙，把工作中用到的一些技巧做整理，方便自查。",
-    "tags": [
-      "技术点",
-      "个人笔记"
-    ],
-    "isPublished": true,
-    "state": "立项",
-    "type": "md",
-    "createDate": 1497406384122,
-    "commentList": [],
-    "todoList": []
-  },
-  {
     "enName": "linux-base",
     "title": "Linux 入门基础",
     "introduction": "本文是全栈系列第一篇，主要讲那些一定要知道的基础概念，有了这些基础概念才能更好的学习和使用 Linux，而不是零散的记住几个命令。除了基础概念还记录了一些我在使用 CentOS 是遇到的问题和解决办法，这些问题都是初学者大概率会遇到的问题。",
@@ -989,6 +986,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1516806045981,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "mobile-common",
+    "title": "移动端开发备忘",
+    "introduction": "记录移动端开发经常用到的技能点和常见问题的解法。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1554727048880,
     "commentList": [],
     "todoList": []
   },

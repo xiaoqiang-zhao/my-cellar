@@ -67,7 +67,7 @@ lrwxrwxrwx 1 zhaoxiaoqiang zhaoxiaoqiang    7 Jan  8 21:27 sh01.sh-link -&gt; sh
 <li><code>x</code> 代表可执行；</li>
 <li><code>-</code> 代表空许可。</li>
 </ul>
-<p>用 <code>chmod</code> 变更权限，如 <code>chmod o+w,g+w 文件名</code>：</p>
+<p>用 <code>chmod</code> 变更权限，如 <code>chmod o+w,g+w 文件名</code> 添加权限，<code>chmod o-w,g-w 文件名</code> 移除权限:</p>
 <ul>
 <li><code>u</code> 表示“用户（user）”，即文件或目录的所有者。</li>
 <li><code>g</code> 表示“同组（group）用户”，即与文件属主有相同组ID的所有用户。</li>
@@ -141,7 +141,18 @@ tar -jtv -f a.tar.bz2
 &amp;&gt; file 将解压的文件和错误日志重定向到 file
 </code></pre>
 <h2 id="header-1-3">Shell</h2>
-<h3 id="header-1-3-1">vim</h3>
+<h3 id="header-1-3-1">概述</h3>
+<p>鸟哥说“如果想要更深入的学习 Linux 的话，那么命令行模式才是不二的学习方式”，但是终端、命令行、shell、bash 是什么关系一直傻傻的理不清楚。</p>
+<p>先说终端，这是个比较早的概念，在微软推出个人电脑前计算机比较昂贵，模式是一台中央计算机，连出几套显示器和键盘，最初把这一套套的显示器和键盘叫终端，后台有了专门的链接设备。再后来两边都在升级，中央电脑这边升级成了服务器集群(谷歌亚马逊)，终端这边升级为个人电脑，所以广义上讲所有连接了显示器和键盘以及可以链接其他计算机的计算机就是终端，但是随着时代的发展词还是原来的那个词(终端 Terminal)，意思却升级成了计算机上某种特定的软件，这种软件的交互方式是命令行，所以我们平时“说打开终端，在终端中输入什么” 就是“打开命令行工具，在命令行工具中输入什么”。还有一点意思上的升级，原来的终端指操控其他计算机的一种机器，现在的终端不仅指操作远程计算机也指操作当前计算机(终端本身)。</p>
+<p>然后是 shell，shell 是一个抽象概念，操作系统是需要保护的，不是没有围栏的公园，而是只有几个入口的城堡，这座城堡就是操作系统的内核(kernel)，shell就是城门。bash，ash，zsh，tcsh等是shell这个抽象概念的一种具体的实现，都是一个程序，都能生成一个进程对象。是borne again shell的缩写,Linux上默认采用的是bash。那怎么知道当前 Linux 用的是哪个呢？</p>
+<pre><code class="lang-shell">    echo $SHELL
+</code></pre>
+<ul>
+<li>如果输出的是：csh或者是tcsh，那么你用的就是C Shell。</li>
+<li>如果输出的是：bash，sh，zsh，那么你的用的可能就是Bourne Shell的一个变种。</li>
+</ul>
+<p>对于 Mac，OS X 10.2之前默认的是C Shell，OS X 10.3之后默认的是Bourne Shell。</p>
+<h3 id="header-1-3-2">vim</h3>
 <p>首先要明确的就是三种模式：</p>
 <ul>
 <li>一般模式，默认进入就是这种模式；</li>
@@ -165,10 +176,16 @@ tar -jtv -f a.tar.bz2
 <li><code>ndd</code> n 为数字，删除光标所在的向下 n 行；</li>
 <li><code>yy</code> 复制光标所在的行；</li>
 <li><code>p</code>(小写) 将复制的一行粘贴在当先行的下一行；</li>
-<li><code>P</code>(大写) 将复制的一行粘贴在当先行的上一行；</li>
+<li><code>P</code>(大写) 将复制的一行粘贴在当先行的上一行。</li>
+</ul>
+<p>编辑模式下:</p>
+<ul>
+<li><code>Ctr + u</code> 删除光标之前的内容；</li>
+<li><code>Ctr + k</code> 删除光标之后的内容。</li>
 </ul>
 <p>若未修改可以 <code>:q</code> 直接离开，如果已经修改但是想放弃修改强制离开可以用 <code>:q!</code>。</p>
-<h3 id="header-1-3-2">bash-history</h3>
+<p>另存为 <code>:w newfile</code>，将当前操作文件备份的常用命令。</p>
+<h3 id="header-1-3-3">history</h3>
 <p>硬件 &lt;--&gt; 服务器内核 &lt;--&gt; Shell &lt;--&gt; 用户，shell 和 bash 的关系：bash 是 shell 的一种实现。我们来看看当前机器有多少个 shell 工具：</p>
 <pre><code class="lang-shell">cat /etc/shells
 # 结果：
@@ -187,7 +204,7 @@ work:x:502:502::/home/work:/bin/bash
 <pre><code class="lang-shell">cat ~/bash_history
 </code></pre>
 <p>所有的命令都在里面了，默认能存1000条，需要注意的一点是只有 bash 注销后才写文件。</p>
-<h3 id="header-1-3-3">bash-alias</h3>
+<h3 id="header-1-3-4">alias</h3>
 <p>还记得 <code>ll</code> 等同于 <code>ls -l</code> 吧，还可以用 <code>alias</code> 命令查看更多简写：</p>
 <pre><code class="lang-shell">alias
 # 部分结果
@@ -203,7 +220,7 @@ unalias gp
 <pre><code class="lang-shell"># 添加自定义别
 test -f ~/.bash_aliases &amp;&amp; source ~/.bash_aliases
 </code></pre>
-<h3 id="header-1-3-4">bash-父子进程</h3>
+<h3 id="header-1-3-5">父子进程</h3>
 <p>上面用到了 <code>source</code>，执行 shell 脚本有两种方式，一种是 <code>sh xx.sh</code>，另一种就是 <code>source xx.sh</code>，那么这两种方式有什么区别呢？我们用一段代码来说明一下，下面是一段简单的代码，只是声明一个变量，放在 <code>source.sh</code> 文件中：</p>
 <pre><code class="lang-shell">#!/bin/bash
 
@@ -225,8 +242,29 @@ echo $var1
 # 输出：var1-value
 </code></pre>
 <p>source 是在父线程里直接执行，sh 是在子线程里执行，子线程里面的变量不会在父线程里生效。所以我们要用 <code>source</code> 来设置别名，这样在父进程中才可以使用。</p>
-<h3 id="header-1-3-5">bash-环境变量</h3>
-<p>还有一个比较重要的概念那就是环境变量了，对应到 js 就是作用域变量，使用 env 或者 export 可以看到所有的环境变量：</p>
+<h3 id="header-1-3-6">环境变量</h3>
+<p>还有一个比较重要的概念那就是环境变量了，对应到 js 就是作用域变量。</p>
+<p>其实所有的程序安装都是将文件从远程下载下来然后放在一个地方。然后这个文件是否可执行，哪些用户可启动执行我们后面讲。但是我们每次执行并不把路径写全，比如：</p>
+<pre><code class="lang-shell">node -v
+</code></pre>
+<p>其实写全了应该是酱紫：</p>
+<pre><code class="lang-shell">/usr/local/bin/node -v
+</code></pre>
+<p>而这种简写归功于环境变量，Mac系统的环境变量，加载顺序为：</p>
+<ul>
+<li>/etc/profile</li>
+<li>/etc/paths</li>
+<li>~/.bash_profile</li>
+<li>~/.bash_login</li>
+<li>~/.profile</li>
+<li>~/.bashrc</li>
+</ul>
+<p>查看程序装在了哪里，比如看看 node 装到了哪里：</p>
+<pre><code class="lang-shell">which node
+where node
+// 输出可能是这样:/usr/local/bin/node
+</code></pre>
+<p>使用 env 或者 export 可以看到所有的环境变量：</p>
 <pre><code class="lang-shell">env
 # 部分结果
 PATH=/usr/local/bin:/usr/bin
@@ -271,7 +309,7 @@ drwxr-xr-x  11 zhaoxiaoqiang  wheel  374 Dec 22 14:34 fecs
 # 其实就是按行分析，包含了某些信息的就输出，从而达到一种过滤的作用
 # 最后过滤是支持正则的
 </code></pre>
-<h3 id="header-1-3-6">shell script</h3>
+<h3 id="header-1-3-7">shell script</h3>
 <p>先来一个 Hello world：</p>
 <pre><code class="lang-shell">#!/bin/bash
 
@@ -610,9 +648,33 @@ ps axjf
 # 3253 10663 10663 10663    4:03  \_ node /home/zhaoxiaoqiang/code/demo-12-4/server
 </code></pre>
 <p>最后说一下 kill，就是想砍哪个进程砍哪个进程，而且一刀毙命：<code>kill PID</code>。</p>
-<h2 id="header-1-5">零散命令</h2>
+<h2 id="header-1-5">软件安装和管理</h2>
+<p>Linux 下我们使用软件包管理器来安装我们需要的软件，比如 Red Hat 公司的 Fedora、RHEL（Red Hat Enterprise Linux）和后来加入红帽的 CentOS，使用 rpm 和 yum 来安装软件，Ubuntu 使用 apt-get 来安装。</p>
+<p>安装软件一般有两种方法，一种是直接下载编译好的安装包安装，另一种是下载源文件在本地先编译后安装。对于后者需要有编译工具才能进行，编译工具可以直接傻瓜式安装 <code>yum install gcc-c++</code>。</p>
+<p>常用的库文件还有:</p>
+<ul>
+<li>make 编译辅助工具</li>
+<li>zlib 压缩和解压工具</li>
+<li>zlib-devel 开发版压缩和解压工具</li>
+<li>libtool 简化共享库的使用过程</li>
+<li>openssl 安全通讯支持库</li>
+<li>openssl-devel 开发版安全通讯支持库</li>
+</ul>
+<p>看到有两个加了 <code>-devel</code> 后缀的包，加了此后缀表示是开发使用版，包含了头文件和开发支持库，用于抛出更详细的信息(如压缩和解压的过程信息，报错信息)。</p>
+<p>zlib 比较特殊，在 Ubuntu 软件源里对应关系如下:</p>
+<ul>
+<li>zlib -&gt; zlib1g</li>
+<li>zlib-devel -&gt; zlib1g.dev</li>
+</ul>
+<pre><code class="lang-shell">Package zlib is already installed
+zlib -v
+bash: zlib: command not found
+</code></pre>
+<p><a href="https://github.com/netdata/netdata/issues/24" target="_blank">https://github.com/netdata/netdata/issues/24</a></p>
+<p>这里有一个网站可以查询各种包: (<a href="https://rpmfind.net/linux/rpm2html/search.php)[https://rpmfind.net/linux/rpm2html/search.php" target="_blank">https://rpmfind.net/linux/rpm2html/search.php)[https://rpmfind.net/linux/rpm2html/search.php</a>]</p>
+<h2 id="header-1-6">零散命令</h2>
 <p>系统之间可以通过 http 来交互，一个非常有用的命令就是 <code>curl</code>，示例如下:</p>
-<pre><code class="lang-shell">    value=$(curl http://172.0.0.1:8080/get)
+<pre><code class="lang-shell">value=$(curl http://172.0.0.1:8080/get)
 </code></pre>
 <p>查看端口对应的进程 id:</p>
 <pre><code class="lang-shell">lsof -i tcp:9999
@@ -620,7 +682,7 @@ ps axjf
 <p>查看 Web 服务是否启动成功</p>
 <pre><code class="lang-shell">telnet 10.0.250.3 8090
 </code></pre>
-<h2 id="header-1-6">参考</h2>
+<h2 id="header-1-7">参考</h2>
 <p>《鸟哥的 Linux 私房菜》</p>
 <p><a href="https://www.centos.org/" target="_blank">CentOS 官网</a></p>
 <p><a href="https://www.soosmart.com/topic/687.html" target="_blank">Linux 版本选择</a></p>

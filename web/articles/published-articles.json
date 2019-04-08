@@ -410,21 +410,6 @@
     "todoList": []
   },
   {
-    "enName": "linux",
-    "title": "Linux 备忘笔记",
-    "introduction": "前端很多人都不是计算机相关专业的科班出生，但是前端的环境越来越复杂，好多人脚手架出了问题无从下手查，需要部署服务器还需要后端帮忙，把工作中用到的一些技巧做整理，方便自查。",
-    "tags": [
-      "技术点",
-      "个人笔记"
-    ],
-    "isPublished": true,
-    "state": "立项",
-    "type": "md",
-    "createDate": 1497406384122,
-    "commentList": [],
-    "todoList": []
-  },
-  {
     "enName": "linux-base",
     "title": "Linux 入门基础",
     "introduction": "本文是全栈系列第一篇，主要讲那些一定要知道的基础概念，有了这些基础概念才能更好的学习和使用 Linux，而不是零散的记住几个命令。除了基础概念还记录了一些我在使用 CentOS 是遇到的问题和解决办法，这些问题都是初学者大概率会遇到的问题。",
