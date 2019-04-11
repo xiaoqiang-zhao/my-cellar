@@ -10,7 +10,7 @@ Nginx 的定位是高性能轻量级 Web 服务器。
 
 首先确认这些依赖是有的，没有的安装一下: `make zlib zlib-devel gcc-c++ libtool  openssl openssl-devel`。
 
-然后安装 PCRE，PCRE 作用是让 Nginx 支持 Rewrite 功能，如果你不需要 Rewrite 跳过此步也可以。
+然后安装 PCRE，提供了正则表达式的解析，Nginx 在配置路径时支持正则表达式就依赖于这个库。
 
 ```shell
 # 下载并解压
@@ -143,19 +143,37 @@ http
 ps -ef | grep nginx
 ```
 
-Nginx 其他常用命令
+进程信息大体是这样的:
+
+```shell
+nobody    1587  1584  0  2018 ?        00:07:05 nginx: worker process                                                                                                                                                                              
+root     17083     1  0 16:59 ?        00:00:00 nginx: master process /usr/local/webserver/nginx/sbin/nginx
+500      17084 17083  0 16:59 ?        00:00:00 nginx: worker process                
+500      17085 17083  0 16:59 ?        00:00:00 nginx: worker process                
+root     18545 14071  0 17:00 pts/1    00:00:00 grep nginx
+```
+
+Nginx 用一个 master 进程管理多个 worker 进程。master 负责监控管理 worker 进程。worker 进程之间通过共享内存、原子操作等一些进程通信机制来实现负载均衡。Nginx 其他常用命令:
 
 ```shell
 /usr/local/webserver/nginx/sbin/nginx -s reload   # 重新载入配置文件
 /usr/local/webserver/nginx/sbin/nginx -s reopen   # 重启 Nginx
 /usr/local/webserver/nginx/sbin/nginx -s stop     # 停止 Nginx
+/usr/local/webserver/nginx/sbin/nginx -s quit     # 优雅的停止 Nginx
 ```
 
-## Nginx 常用配置
+其中的 `-s` 参数代表强者停止，忽略正在进行的任务。
 
-### 启动端口配置
+注: 所谓的优雅停止 Nginx 就是首先关闭端口的监听，停止接收新请求，然后把当前正在处理的请求全部处理完，最后再退出进程。
 
-配置文件路径: `/usr/local/webserver/nginx/conf/nginx.conf`
+## Nginx 的配置
+
+Nginx 拥有大量官方发布的模块和第三方模块，这些已有的模块可以帮助我们实现 Web 服务器上很多的功能。使用这些模块时，仅需要增加或修改一些配置。默认配置文件路径: `/usr/local/webserver/nginx/conf/nginx.conf`。改完配置执行重新载入配置命令生效: `/usr/local/webserver/nginx/sbin/nginx -s reload`。
+
+### 基础配置
+
+启动端口配置:
+
 ```config
 server
   {
@@ -164,11 +182,7 @@ server
   }
 ```
 
-改完配置执行重新载入配置命令生效: `/usr/local/webserver/nginx/sbin/nginx -s reload`
-
-### 静态资源配置
-
-配置文件路径: `/usr/local/webserver/nginx/conf/nginx.conf`。
+静态资源配置:
 
 一般前端的静态资源在不同用户名下，下面是原始配置:
 ```config
@@ -205,6 +219,7 @@ worker_processes 2; #设置值和CPU核心数一致
 用户 A 无法访问 facebook，但是能访问服务器 B，而服务器 B 可以访问 facebook。于是用户 A 访问服务器 B，通过服务器 B 去访问 facebook，，服务器 B 收到请求后，去访问 facebook，facebook 把响应信息返回给服务器 B，服务器 B 再把响应信息返回给 A。这样，通过代理服务器 B，就实现了翻墙。
 
 反向代理在线上工程可以做负载均衡，在开发阶段可以处理 Mock 数据和联调接口的自由切换。
+
 
 ### 负载均衡
 

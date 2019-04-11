@@ -4,7 +4,6 @@
 
 Apache 是一辆车，上面可以装一些东西如 html 等，但是不能装水，要装水必须要有容器（桶），而这个桶也可以不放在卡车上，那这个桶就是 Tomcat。
 
-
 ## 我的 Nginx 备忘
 
 配置路径:
@@ -47,4 +46,4 @@ html 下的 index.html、dll、static 分别到 dist 也运行不通
 
 ### 反向代理
 
-
+pass rewrite
