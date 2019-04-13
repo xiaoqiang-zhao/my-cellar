@@ -227,6 +227,8 @@ worker_processes 2; #设置值和CPU核心数一致
 
 [Nginx 菜鸟教程](http://www.runoob.com/linux/nginx-install-setup.html)
 
+[实用的 Nginx 极简教程](https://zhuanlan.zhihu.com/p/58962596)
+
 [nginx常用代理配置](https://www.cnblogs.com/fanzhidongyzby/p/5194895.html)
 
 [利用Nginx的上传模块和上传进度模块实现网页上传文件](https://blog.csdn.net/waden/article/details/7040123)
