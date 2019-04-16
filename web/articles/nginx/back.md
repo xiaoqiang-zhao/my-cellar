@@ -47,3 +47,73 @@ html 下的 index.html、dll、static 分别到 dist 也运行不通
 ### 反向代理
 
 pass rewrite
+
+```config
+ server
+  {
+    # 监听端口
+    listen 8033;
+    # 域名
+    server_name localhost;
+    # 首页设定
+    index index.html index.htm index.php;
+    # 方向代理路径
+    location / {
+      proxy_pass http://zp_server1;
+    }
+    #禁止访问 .jaxxx 文件
+    location ~ /\.ja {
+      deny all;
+    }
+  }
+```
+
+详解:
+
+= 开头表示精确匹配
+```config
+location = / {
+  #规则A
+}
+location = /login {
+  #规则B
+}
+```
+
+^~ 开头表示uri以某个常规字符串开头
+```config
+location ^~ /static/ {
+  #规则C
+}
+```
+
+~ 开头表示区分大小写的正则匹配
+```config
+location ~ \.(gif|jpg|png|js|css)$ {
+  #规则D
+}
+```
+
+~*  开头表示不区分大小写的正则匹配
+```config
+location ~* \.png$ {
+  #规则E
+}
+```
+
+!~和!~*分别为区分大小写不匹配及不区分大小写不匹配 的正则
+```config
+location !~ \.xhtml$ {
+  #规则F
+}
+location !~* \.xhtml$ {
+  #规则G
+}
+```
+
+/ 通用匹配，任何请求都会匹配到。
+```config
+location / {
+  #规则H
+}
+```
