@@ -44,7 +44,7 @@ dist 目录:
 整体 html 到 dist 发现不能有不同的命名
 html 下的 index.html、dll、static 分别到 dist 也运行不通
 
-### 反向代理
+### 反向代理配置
 
 pass rewrite
 

@@ -220,6 +220,23 @@ worker_processes 2; #设置值和CPU核心数一致
 
 反向代理在线上工程可以做负载均衡，在开发阶段可以处理 Mock 数据和联调接口的自由切换。
 
+比如我们将某接口反向代理到一个服务上:
+```config
+server {
+  location /api/captcha {
+    proxy_pass http://172.23.232.168:8001;
+  }
+}
+```
+
+也可以将全部静态资源反向代理到一个服务器上:
+```config
+location \.(html|gif|jpg|png|js|css)$ {
+  proxy_pass http://10.99.195.12:8001;
+}
+```
+
+对于不直接输入 `ip:port/index.html` 的请求，通过 `index index.html index.htm index.php;` 配置也可以直接导到 index.html 资源上。
 
 ### 负载均衡
 
