@@ -39,9 +39,9 @@ make install # 需要 root 权限
 /usr/local/webserver/nginx/sbin/nginx -v
 ```
 
-## 简单配置 Nginx
+## 启动 Nginx
 
-创建 Nginx 运行使用的用户 www:
+root 权限下创建 Nginx 运行使用的用户 www:
 
 ```shell
 /usr/sbin/groupadd www 
@@ -132,8 +132,6 @@ http
 ```shell
 /usr/local/webserver/nginx/sbin/nginx -t
 ```
-
-## 启动 Nginx
 
 启动 Nginx 并查看进程:
 
@@ -238,7 +236,51 @@ location \.(html|gif|jpg|png|js|css)$ {
 
 对于不直接输入 `ip:port/index.html` 的请求，通过 `index index.html index.htm index.php;` 配置也可以直接导到 index.html 资源上。
 
+使用 nginx 配置 https 需要知道几点:
+- HTTPS 的固定端口号是 443，不同于 HTTP 的 80 端口
+- SSL 标准需要引入安全证书，所以在 nginx.conf 中你需要指定证书和它对应的 key
+
+其他和 http 反向代理基本一样，只是在 Server 部分配置有些不同。
+
+```config
+#HTTP服务器
+server {
+    #监听443端口。443为知名端口号，主要用于HTTPS协议
+    listen       443 ssl;
+
+    #定义使用www.xx.com访问
+    server_name  www.helloworld.com;
+
+    #ssl证书文件位置(常见证书文件格式为：crt/pem)
+    ssl_certificate      cert.pem;
+    #ssl证书key位置
+    ssl_certificate_key  cert.key;
+
+    #ssl配置参数（选择性配置）
+    ssl_session_cache    shared:SSL:1m;
+    ssl_session_timeout  5m;
+    #数字签名，此处使用MD5
+    ssl_ciphers  HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers  on;
+
+    location / {
+        root   /root;
+        index  index.html index.htm;
+    }
+}
+```
 ### 负载均衡
+
+```config
+http {
+  # 设定负载均衡的服务器列表
+  upstream load_balance_server {
+      # weigth参数表示权值，权值越高被分配到的几率越大
+      server 192.168.1.11:3001   weight=1;
+      server 192.168.1.11:3002   weight=5;
+  }
+}
+```
 
 ## 参考
 
