@@ -271,6 +271,10 @@ server {
 ```
 ### 负载均衡
 
+Nginx 负载均衡是通过 upstream 模块来实现的，内置实现了三种负载策略:
+
+一、轮循（默认），Nginx根据请求次数，将每个请求均匀分配到每台服务器。
+
 ```config
 http {
   # 设定负载均衡的服务器列表
@@ -281,6 +285,12 @@ http {
   }
 }
 ```
+
+二、最少连接，将请求分配给连接数最少的服务器。Nginx会统计哪些服务器的连接数最少。
+
+三、IP Hash，绑定处理请求的服务器。第一次请求时，根据该客户端的IP算出一个HASH值，将请求分配到集群中的某一台服务器上。后面该客户端的所有请求，都将通过HASH算法，找到之前处理这台客户端请求的服务器，然后将请求交给它来处理。
+
+后两种策略，配置稍微复杂这里不展开，想了解详细移步参考文章。
 
 ## 参考
 
@@ -295,3 +305,5 @@ http {
 [nodejs与nginx的完美搭配](https://blog.csdn.net/qq_17475155/article/details/66473855)
 
 [用Nginx做NodeJS应用的负载均衡](https://blog.csdn.net/chszs/article/details/43203127)
+
+[Nginx负载均衡配置](https://blog.csdn.net/xyang81/article/details/51702900)
