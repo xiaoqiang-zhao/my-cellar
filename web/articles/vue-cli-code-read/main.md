@@ -211,7 +211,7 @@ render(fileStr, data, function (err, res) {
 
 ## 整理用到的库
 
-consolidate，集成模板引擎，。
+consolidate，集成模板引擎。
 
 chalk，命令行高亮。
 
