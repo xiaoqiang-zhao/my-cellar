@@ -40,7 +40,7 @@ npm 全局安装一个包的时候到底偷偷摸摸做了那些事？
 
     cubao
 
-靠，报了个错：`permission denied: cubao`，没爽成。但是有没有发现，已经不是没有定义的命令那种提示了(`command not found`)，从信息来看是没有权限。好给一下权限：
+靠，报了个错：`permission denied: cubao`，没爽成。但是有没有发现，已经不是没有定义的命令那种提示了(`command not found`)，从信息来看是没有权限。给一下权限：
 
     chmod a+x cubao
 

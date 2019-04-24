@@ -180,7 +180,7 @@ const fsPromises = fs.promises;
 fsPromises.readFile('./readFile-demo.txt', {
   encoding: 'utf-8'
 }).then(content => {
-  return fsPromisess.writeFile('./readFile-demo-2.txt', content, {
+  return fsPromises.writeFile('./readFile-demo-2.txt', content, {
     encoding: 'utf-8'
   });
 }).then(() => {
