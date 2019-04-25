@@ -11,7 +11,7 @@ $ npm install -g upload-many-files
 
 配置初始化
 ```shell
-upload-many-files init --server-url http://xx.xx.xx --folder-path /home/user/xxx --extname jpeg,png
+upload-many-files init --server-url http://xx.xx.xx --folder-path /home/user/xxx --extname .jpeg,.png
 ```
 - server-url，接收上传的服务。
 - folder-path，本地文件存储的文件夹，将对文件夹中的全部文件进行扫描。

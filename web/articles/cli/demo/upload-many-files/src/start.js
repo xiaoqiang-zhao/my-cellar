@@ -2,8 +2,10 @@
  * 启动上传
  */
 
-const fsPromises = require('fs').promises;
-var path = require('path');
+const fs = require('fs');
+const fsPromises = fs.promises;
+const path = require('path');
+const request = require('request');
 
 const configPath = __dirname + '/../data/config.json';
 const jobsPath = __dirname + '/../data/jobs.json';
@@ -22,7 +24,6 @@ module.exports = {
             const config = JSON.parse(configContent);
             if (config.isInited) {
                 await this.initUploadJobs(config);
-                await this.startUploadFiles(config);
             }
             else {
                 console.log('未完成初始化');
@@ -44,10 +45,10 @@ module.exports = {
         if (jobs.status === 0) {
             jobs.jobList = [];
             await this.initJobsData(config.folderPath, jobs, config);
+            // 写文件
             await this.writeJobsFile(jobs, 1);
         }
-        // 写文件
-        // console.log('==', jobs);
+        this.startUploadFiles(config, jobs);
     },
 
     /**
@@ -64,7 +65,7 @@ module.exports = {
                         await this.initJobsData(filedir, jobs, config);
                     }
                     // 文件
-                    else {debugger
+                    else {
                         this.pushJobItem(jobs, filedir, config);
                     }
                 });
@@ -90,14 +91,19 @@ module.exports = {
     },
 
     async writeJobsFile(jobs, status) {
+        const beforeStatus = jobs.status;
         jobs.status = status;
         const content = JSON.stringify(jobs, null, 2);
         return fsPromises.writeFile(jobsPath, content, {
             encoding: 'utf-8'
         }).then(() => {
-            console.log('上传任务准备成功');
+            if (beforeStatus === 0 && status === 1) {
+                console.log('上传任务准备成功');
+            }
         }, error => {
-            console.log('上传任务准备失败', error);
+            if (beforeStatus === 0 && status === 1) {
+                console.log('上传任务准备失败', error);
+            }
         });
     },
 
@@ -106,6 +112,48 @@ module.exports = {
      *
      * @param {Object} config 配置对象
      */
-    async startUploadFiles(config) {
+    async startUploadFiles(config, jobs, index = 0) {
+        // 每次上传多少
+        const part = 100;
+        let end = index + part < jobs.jobList.length ? index + part : jobs.jobList.length;
+        // 本批上传总量
+        let total = end - index;
+        
+        while (index < end) {
+            if (jobs.jobList[index].isUploaded === false) {
+                let formData = {
+                    file: fs.createReadStream(jobs.jobList[index].path),
+                    source: 'hz', // 来源 
+                    batch: 'test', // 批次 
+                    diseasesType: 'fundus' // 疾病类型、fundus眼底/其他数据类型/
+                };
+
+                (request.post({
+                    url: config.serverUrl,
+                    formData
+                }, (error, res, body) => {
+                    if (!error && res.statusCode === 200) {
+                        jobs.jobList[index].isUploaded = true;
+                        checkEnd();
+                    }
+                }))(index);
+            }
+            else {
+                checkEnd(index);
+            }
+            index++;
+        }
+
+        function checkEnd(index) {
+            total--;
+            if (!total) {
+                await this.writeJobsFile(jobs, 1);
+                this.startUploadFiles(config, jobs, index);
+            }
+            else if (index === jobs.jobList.length - 1) {
+                await this.writeJobsFile(jobs, 2);
+                console.log('全部上传完成');
+            }
+        }
     }
 };
