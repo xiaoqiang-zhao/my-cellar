@@ -6,7 +6,7 @@ const fsPromises = require('fs').promises;
 const configField = [
     'serverUrl',
     'folderPath',
-    'suffix'
+    'extname'
 ];
 
 const configPath = __dirname + '/../data/config.json';
@@ -40,7 +40,6 @@ module.exports = {
      * @param {Object} program 命令行参数对象
      */
     async initConfig(program) {
-        debugger
         let config = await fsPromises.readFile(configPath);
         let configObject = JSON.parse(config);
         // 验证必填项 生成配置文件
