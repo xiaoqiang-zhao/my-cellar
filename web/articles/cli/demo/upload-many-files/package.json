@@ -10,7 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "chalk": "^2.4.2",
+    "cli-spinner": "^0.2.10",
     "commander": "^2.20.0",
+    "log4js": "^4.1.0",
     "request": "^2.88.0"
   }
 }

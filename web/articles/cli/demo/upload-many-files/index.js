@@ -25,9 +25,9 @@ program
   .option('reset, --reset', '开始上传，示例: upload-many-files reset')
   .parse(process.argv);
 
-// 初始化
+// 配置初始化
 setConfig.pipe(program);
-
+// 开始上传
 startUpload.pipe(program);
-
+// 重置到处是状态
 reset.pipe(program);

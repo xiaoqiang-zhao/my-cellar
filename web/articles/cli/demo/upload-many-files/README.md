@@ -42,6 +42,14 @@ upload-many-files report
 upload-many-files reset
 ```
 
-## 二次开发相关
+## 源码阅读 与 二次开发相关
 
-采用了管道模型来做控制。
+采用了管道模型来做控制，将判断逻辑放在了子模块中，便于加工和处理，
+
+```js
+// index.js
+// 配置初始化
+setConfig.pipe(program);
+// 开始上传
+startUpload.pipe(program);
+```
