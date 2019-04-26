@@ -228,7 +228,7 @@ const __filename = new URL(import.meta.url).pathname;
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 ```
 
-不同模块对相对路径的定义时不一样的，require(import) 的相对路径指的是当前执行文件的路径，fs 和 path 的相对路径是启动脚本的路径。当前执行文件的所在路径可以用 `__dirname` 获取，脚本启动路径可以用 `process.cwd()` 获取。两种路径的转换可以借助 path 的 resolve 方法：
+不同模块对相对路径的定义时不一样的，require 和 import 的相对路径指的是当前执行文件的路径，fs 和 path 的相对路径是启动脚本的路径。当前执行文件的所在路径可以用 `__dirname` 获取，脚本启动路径可以用 `process.cwd()` 获取。两种路径的转换可以借助 path 的 resolve 方法：
 
 ```js
 import path from 'path';
