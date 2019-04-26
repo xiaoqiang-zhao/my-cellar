@@ -37,6 +37,11 @@ upload-many-files config
 upload-many-files report
 ```
 
+将设置回归到安装初始化状态
+```shell
+upload-many-files reset
+```
+
 ## 二次开发相关
 
 采用了管道模型来做控制。

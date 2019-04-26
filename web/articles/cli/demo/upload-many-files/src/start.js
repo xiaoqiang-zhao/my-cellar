@@ -144,7 +144,7 @@ module.exports = {
             index++;
         }
 
-        function checkEnd(index) {
+        async function checkEnd(index) {
             total--;
             if (!total) {
                 await this.writeJobsFile(jobs, 1);

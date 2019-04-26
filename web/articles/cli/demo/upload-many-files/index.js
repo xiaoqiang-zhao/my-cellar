@@ -8,6 +8,7 @@ const program = require('commander');
 
 const setConfig = require('./src/set-config');
 const startUpload = require('./src/start');
+const reset = require('./src/reset');
 
 program
   .version('1.0.0')
@@ -19,6 +20,9 @@ program
 
   // start 开始上传指令
   .option('start, --start', '开始上传，示例: upload-many-files start')
+
+  // 将设置回归到安装初始化状态
+  .option('reset, --reset', '开始上传，示例: upload-many-files reset')
   .parse(process.argv);
 
 // 初始化
@@ -26,3 +30,4 @@ setConfig.pipe(program);
 
 startUpload.pipe(program);
 
+reset.pipe(program);
