@@ -44,8 +44,7 @@ log4js.configure({
 ## 生产示例
 
 ```js
-
-var log4js = require('log4js');
+const log4js = require('log4js');
 log4js.configure({
     appenders: {
         'demo-app-trace': {
@@ -53,7 +52,7 @@ log4js.configure({
             type: 'file',
             maxLogSize: 200, // bytes
             backups: 3, // 最多留几个
-            filename: 'logs/demo-app-trace-log'
+            filename: __dirname + '/logs/demo-app-trace-log'
             // 当前存储在 demo-app-trace-log 文件中，
             // 当文件大小超出限制时将原来的文件数字依次递增，如果文件总数超过设置那么移除文件号最大的文件 
             // 然后 demo-app-trace-log 命名为 demo-app-trace-log.1
@@ -96,7 +95,6 @@ export default {
         loggerError.error(str);
     }
 };
-
 ```
 
 ## 参考

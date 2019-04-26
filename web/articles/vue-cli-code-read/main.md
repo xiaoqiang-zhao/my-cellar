@@ -223,6 +223,8 @@ download-git-repo，下载远程仓库。容易被忽略的一点就是带了 ss
 
 metalsmith，构建静态网站的工具，每一个加工的工序就是一个插件。
 
+cli-spinner，图标工具。
+
 ## 参考
 
 https://github.com/vuejs/vue-cli
