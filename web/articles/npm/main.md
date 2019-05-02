@@ -44,12 +44,27 @@ npm install module-name --save-dev
 
 ```shell
 npm --registry=https://registry.npm.taobao.org install cnpm -g
+或者
+npm config set registry https://registry.npm.taobao.org
 ```
 
 如果装错了你可以不用管，但是如果有一点小洁癖的话可以卸载掉，加`--save`同样会将`package.json` 中的配置移除掉：
 
 ```shell
 npm uninstall module-name --save
+```
+
+在发布 npm 包的时候需要在 npm 官方发布，不可使用镜像，移除镜像设置:
+
+```shell
+npm config delete registry
+npm config delete disturl
+
+或者设置回默认值
+https://registry.npmjs.org/
+
+或者整体编辑
+npm config edit
 ```
 
 ## 依赖包版本的控制
