@@ -10,7 +10,7 @@ log4js.configure({
             type: 'file',
             maxLogSize: 200, // bytes
             backups: 3, // 最多留几个
-            filename: 'logs/demo-app-trace-log'
+            filename: __dirname + '/logs/demo-app-trace-log'
             // 当前存储在 demo-app-trace-log 文件中，
             // 当文件大小超出限制时将原来的文件数字依次递增，如果文件总数超过设置那么移除文件号最大的文件 
             // 然后 demo-app-trace-log 命名为 demo-app-trace-log.1
@@ -45,7 +45,7 @@ loggerTrace.trace('一些字符串-trace');
 loggerError.error('一些字符串-error');
 
 // 作为工具输出
-export default {
+module.exports = {
     trace(str) {
         loggerTrace.trace(str);
     },
