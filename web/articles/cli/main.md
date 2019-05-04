@@ -1,6 +1,6 @@
 # cli - 匠者造器
 
-> 用前端的知识来写命令行工具，能敲几个字母搞定的事情我们就不要浪费生命了，这篇文章手把手从零叫你写命令行工具。
+> js 在端能力上，除了在浏览器中运行页面外还有一个很重要的分支，那就是在命令行中运行。前者有我们最熟悉的纯 Web 页面 和 App 中内嵌的页面，也有我们不太常用的基于 Electron 开发桌面应用。后者有前端工程的脚手架和文件批处理工具。
 
 ## 前置知识点
 
@@ -10,17 +10,19 @@ npm 全局安装一个包的时候到底偷偷摸摸做了那些事？
 
 然后根据参数下载依赖(依赖分 dependencies 和 devDependencies，具体出门左转[npm](/#!/articles/npm))，安装的目录 Mac 下是 `/usr/local/lib/node_modules`；
 
-如果依赖没问题会读取 `package.json` 中的 `bin` 配置，然后把文件写入到 `/usr/local/bin/` 目录下，这个目录下放的是全局命令的，这个路径可能因为系统的不同而不同，可以在环境变量配置文件查看。我们在命令行中敲的任何一个用户命令都要先从这个文件夹找。
+如果依赖没问题会读取 `package.json` 中的 `bin` 配置，然后把文件写入到 `/usr/local/bin/` 目录下，这个目录下放的是全局命令的，这个路径可能因为系统的不同而不同，可以在环境变量配置文件查看。我们在命令行中敲的任何一个用户命令都要首先从这个文件夹开始查找。
 
 我们看一下 `gulp` 命令中有点啥：
 
-    #!/usr/bin/env node
+```js
+#!/usr/bin/env node
 
-    'use strict';
-    var gutil = require('gulp-util');
-    ...
+'use strict';
+const gutil = require('gulp-util');
+...
+```
 
-为了简单只看 4 行代码。env 是一个命令，参数是 node，就是在程序中用 nodejs 的引擎，也就是 v8 引擎，去执行下面的代码，这样就不需要知道 node 装在哪里了。
+与浏览器端代码不同的是入口文件的第一行。env 是一个命令，参数是 node，就是在程序中用 nodejs 的引擎，也就是 v8 引擎，去执行下面的代码，这样就可以借助操作系统的能力，而不需要知道 node 装在哪里了。
 
 一般安装全局包都需要 `sudo`，这货是干啥的？
 
@@ -28,31 +30,39 @@ npm 全局安装一个包的时候到底偷偷摸摸做了那些事？
 
 这么多事不是谁想干就让干的，`sudo` 通俗一点可以理解为赐下尚方宝剑，想砍哪个砍哪个，专业一点讲就是赋予一系列执行的权限。
 
-## 简单粗暴
+## Hello World
 
-我们做点简单粗暴的事爽一下，建一个文件内如如下：
+建一个 hw.js 文件，内如如下：
 
-    #!/usr/bin/env node
+```js
+#!/usr/bin/env node
 
-    console.log('Hello world.');
+console.log('Hello world.');
+```
 
 然后拷贝到 `/usr/local/bin/`，然后就可以在命令行中敲个命令爽一下了：
 
-    cubao
+```shell
+hw
+```
 
 靠，报了个错：`permission denied: cubao`，没爽成。但是有没有发现，已经不是没有定义的命令那种提示了(`command not found`)，从信息来看是没有权限。给一下权限：
 
-    chmod a+x cubao
+```shell
+chmod a+x hw
+```
 
 再执行上面的命令，ok，妥妥的 Hello world。有人该不乐意了，个你整个 Hello world 嘚瑟个啥劲呀。你可别小看这个 Hellow world，简直是开启新世界的一把钥匙，你可以使用 nodejs 的一切功能。比如这样：
 
-    #!/usr/bin/env node
-    var fs = require('fs');
+```js
+#!/usr/bin/env node
+var fs = require('fs');
 
-    fs.copy
-    fs.past
-    fs.rename
-    fs.replace
+fs.copy
+fs.past
+fs.rename
+fs.replace
+```
 
 一切文件的复制粘贴和简单改内容的操作都可以自动化了，当然上面 `fs.` 的那段代码是伪代码，你可以去 NodeJs 官网查看具体的 API，传送门:[中文API](http://nodejs.cn/api/fs.html)。
 
