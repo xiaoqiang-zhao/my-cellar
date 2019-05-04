@@ -97,7 +97,8 @@ FireFox 的 HostAdmin 插件很好用，可以方便的切换 host 配置。
 - Dash 长按 Command 键出现当前软件的快捷键；
 - [BetterZip](https://macitbetter.com/)，Mac 下的免费压缩和解压工具；
 - [Kap](https://getkap.co/)，录屏生成 gif 软件； 
-- [CleanMyMac](https://macpaw.com/cleanmymac)，Mac 上的垃圾清理工具和软件管理工具(收费)。
+- [CleanMyMac](https://macpaw.com/cleanmymac)，Mac 上的垃圾清理工具和软件管理工具(收费)；
+- [teamviewer](https://www.teamviewer.com/en-us)，远程控制软件(此软件对公收费，所以很多大公司在自己公司的防火墙上做了隔离，内网无法访问时试试4G热点)。
 
 ## 开发工具推荐
 
