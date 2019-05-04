@@ -68,6 +68,58 @@ fs.replace
 
 配合 js 的原生功能，一些定时任务也可以写了。通过文件监听还能统计你写代码的时间。能干多少事就取决于你的 NodeJs 的掌握程度了。
 
+## 目录结构
+
+```
+${package root}
+    ├── package.json 包文件
+    ├── bin 命令执行的入口文件，对应 package.json 的 bin 配置
+    ├── lib 功能代码，提供 bin 所需的一切
+    └── test 自动化测试脚本
+```
+
+package.json 的 bin 配置如下:
+
+```json
+{
+  "bin": {
+    "package-name": "bin/index.js"
+  }
+}
+```
+
+## 调试
+
+[!图片](./img/cli.png)
+
+命令行工具不在浏览器中运行，所以和传统的网页调试有很大的不同。用 VS Code 调试比较方便，首先在调试面板中配置 `configurations`:
+
+```json
+{
+    "type": "node",
+    "request": "launch",
+    "name": "Launch Program",
+    "program": "${workspaceFolder}/bin/index.js",
+    "args": [
+        "config",
+        "--path",
+        "/home/usr/username",
+
+        // start 开始
+        // "start"
+
+        // 重置参数
+        // "reset"
+    ],
+}
+```
+
+program 是入口配置，args 是参数配置，关于命令行的参数使用在下一章中详细讲。
+
+## 开发
+
+
+
 ## 造福世界
 
 上面是自己小打小闹的自己玩，如果想把自己的玩具分享给全世界的小伙伴怎么搞？其实建一个 npm 包就可以了，唯一不同的就是在第一行加上下面这行代码：
