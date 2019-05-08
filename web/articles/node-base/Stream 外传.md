@@ -165,6 +165,7 @@ rss=113.90MB, heapTotal=23.70MB, heapUsed=9.52MB
 ```js
 function printMemoryUsage () {
   var info = process.memoryUsage();
+  // 单位转换: 将 B 转换成 MB
   function mb (v) {
     return (v / 1024 / 1024).toFixed(2) + 'MB';
   }
