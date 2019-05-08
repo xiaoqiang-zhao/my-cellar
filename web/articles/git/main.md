@@ -50,19 +50,27 @@ git commit --amend
 
 不要对一个公共的 commit 使用 amend，amend 后生成的 commit 是一个全新的 commit, 之前的老的 commit 会从项目历史中被删除. 如果你 amend 了一个被其他开发者使用的 commit, 可能会使其他开发者感到困惑。
 
-如果你想查看有几个 commit，可以用下面命令
+查看 commit 历史列表:
 
 ```shell
 git log
 ```
 
-如果你误 commit 了某一部分文件，还没有 push 到远程，那么你可以用上面的命令找到上一个 commit 的 commit_id，然后回滚到上一个 commit 之后的那一点，加 --hard 参数后未被 commit 的内容将被抛弃并不能被找回：
+## git reset
+
+如果你误 commit 了某一部分文件，还没有 push 到远程，那么你可以用 `git log` 找到 commit 的 commit_id，然后回滚到上一个 commit 之后的那一点，加 --hard 参数后未被 commit 的内容将被抛弃并不能被找回：
 
 ```shell
 git reset --hard commit_id
 ```
 
 如果已经提交到了远程建议不要尝试各种撤销，建议提交一个新版本修正所犯错误。
+
+如果你想放弃未 commit 的修改，可以用 checkout:
+
+```shell
+ git checkout HEAD 文件路径
+```
 
 ## git log	
 
