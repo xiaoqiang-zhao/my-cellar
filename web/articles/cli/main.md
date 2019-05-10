@@ -10,16 +10,14 @@ npm 全局安装一个包的时候到底偷偷摸摸做了那些事？
 
 然后根据参数下载依赖(依赖分 dependencies 和 devDependencies，具体出门左转[npm](/#!/articles/npm))，安装的目录 Mac 下是 `/usr/local/lib/node_modules`；
 
-如果依赖没问题会读取 `package.json` 中的 `bin` 配置，然后把文件写入到 `/usr/local/bin/` 目录下，这个目录下放的是全局命令的，这个路径可能因为系统的不同而不同，可以在环境变量配置文件查看。我们在命令行中敲的任何一个用户命令都要首先从这个文件夹开始查找。
+如果依赖没问题会读取 `package.json` 中 `bin` 配置的每一项，然后把对应文件写入到 `/usr/local/bin/` 目录下，这个目录下放的是全局命令的，这个路径可能因为系统的不同而不同，可以在环境变量配置文件查看。我们在命令行中敲的任何一个用户命令都要首先从这个文件夹开始查找。
 
-我们看一下 `gulp` 命令中有点啥：
+例如 `gulp` 的 `bin` 配置是这样的: `{"gulp": "./bin/gulp.js"}`。gulp.js 中的内容：
 
 ```js
 #!/usr/bin/env node
 
-'use strict';
-const gutil = require('gulp-util');
-...
+require('gulp-cli')();
 ```
 
 与浏览器端代码不同的是入口文件的第一行。env 是一个命令，参数是 node，就是在程序中用 nodejs 的引擎，也就是 v8 引擎，去执行下面的代码，这样就可以借助操作系统的能力，而不需要知道 node 装在哪里了。
@@ -28,7 +26,9 @@ const gutil = require('gulp-util');
 
 我们看到上面有很多文件拷贝，而且涉及到 `/usr/local/bin/` 这样的军机要地，而且在系统中不是每个文件都可以被执行的，这有涉及到文件的权限问题，这里不展开，想了解更多出门左转我的另一篇文章 [Linux 笔记](/#!/articles/linux)。
 
-这么多事不是谁想干就让干的，`sudo` 通俗一点可以理解为赐下尚方宝剑，想砍哪个砍哪个，专业一点讲就是赋予一系列执行的权限。
+这么多事不是谁想干就让干的，`sudo` 通俗一点可以理解为赐下尚方宝剑，想动哪个就能动哪个，专业一点讲就是赋予一系列执行的权限。
+
+这里有个细节，在拷贝 `bin` 配置中文件的时候是要去掉后缀名的，所以在一些 node cli 工具中，bin 目录下的 js 文件没有后缀名。
 
 ## Hello World
 
@@ -88,6 +88,15 @@ package.json 的 bin 配置如下:
 }
 ```
 
+需要注意上面的 “package-name” 是推荐设置，实际上可以此处设置可以是任意的，比如 vue-cli 的 bin 配置就是 vue，并且在使用时也是以 bin 中的配置为准。bin 中可以配置多个全局指令常量，比如 vue-cli 有 vue 和 vue-list 以及 vue-init 三个指令，这种配置方法的好处是每条命令是独立的，可以借助 commander 单独设置参数校验规则(如必填等)。还有另一种方式是用参数指定不同的指令，优点是更规范和更好理解，通常一个包的命令应该以参数的形式出现而不是和包同级的指令，比如我写了一个上传多文件的工具，两种命令风格对比如下:
+
+```shell
+# 命令形式表示初始化
+upload-file-init --url http://xx.xx.com
+# 参数形式表示初始化
+upload-file init --url http://xx.xx.com
+```
+
 ## 调试
 
 [!图片](./img/cli.png)
@@ -122,7 +131,7 @@ cli 全称 Command Line Interface，在开发上有一些通用的技能和注�
 
 ### 参数
 
-第一个必须掌握的 npm 包就是 commander，它能帮你提取命令行中输入的参数
+第一个必须掌握的 npm 包就是 [commander](https://www.npmjs.com/package/commander)，它能帮你提取命令行中输入的参数。
 
 ### 数据交互
 
