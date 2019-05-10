@@ -1,0 +1,15 @@
+{
+  "name": "commander-demo-xiaoqiang-zhao",
+  "version": "1.0.1",
+  "description": "",
+  "bin": {
+    "commander-demo-xiaoqiang-zhao demo1": "bin/demo1.js",
+    "commander-demo-xiaoqiang-zhao demo2": "bin/demo2.js"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "xiaoqinag-zhao",
+  "license": "ISC"
+}
