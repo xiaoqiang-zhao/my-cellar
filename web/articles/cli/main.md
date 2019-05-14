@@ -125,13 +125,148 @@ upload-file init --url http://xx.xx.com
 
 program 是入口配置，args 是参数配置，关于命令行的参数使用在下一章中详细讲。
 
+如果想在本地验证命令，可以在项目目录下执行 `npm link`，npm 会解析 package.json 中的 bin 配置，并将对应的文件软链到全局变量文件夹中。
+
 ## 开发
 
 cli 全称 Command Line Interface，在开发上有一些通用的技能和注意事项。下面带你快速收获这些技能包。
 
-### 参数
+### 参数库 commander
 
 第一个必须掌握的 npm 包就是 [commander](https://www.npmjs.com/package/commander)，它能帮你提取命令行中输入的参数。
+
+** 首先是固定参数 version **，通过配置就可以实现版本的输出:
+
+```js
+const program = require('commander');
+
+program
+  // 固定参数 version
+  .version(require('../package').version, '-v, --version')
+  .parse(process.argv);
+```
+
+运行如下:
+
+```shell
+commander-demo -v
+commander-demo --version
+# 输出: 1.0.2
+```
+
+此节的具体代码都可以在 demo 中找到。关于包的发布和管理请参考我的 npm 文章。
+
+** 其次是参数设置 **，将你需要的参数写进 option 配置中，然后从 parse 方法中传入 process.argv 对象，program 对象下有有了你需要的参数了:
+
+```js
+program
+  // 布尔值，注意缩写只能是一个字母
+  .option('-b, --boolean-input', '参数说明')
+  // 值必填输入，如果写了参数需要赋值
+  .option('-r, --required-input <>', '参数说明')
+  // 值可选输入，如果赋值了就提取字符串，如果只写参数就返回 true
+  .option('-o, --optional-input []', '参数说明')
+  .parse(process.argv);
+
+console.log('booleanInput: ', program.booleanInput);
+console.log('requiredInput: ', program.requiredInput);
+console.log('optionalInput: ', program.optionalInput);
+```
+
+正常状态下在命令行运行时这样的:
+
+```shell
+commander-demo -b -r AAA -o BBB
+# 输出如下
+booleanInput:  true
+requiredInput:  AAA
+optionalInput:  BBB
+```
+
+尖括号和方括号的区别是:
+- 尖括号，参数可以不出现在命令行中，出现了就必须赋值;
+
+```shell
+commander-demo
+# 输出:
+booleanInput:  undefined
+requiredInput:  undefined
+optionalInput:  undefined
+```
+
+参数全部不填是没问题的，所有参数的默认值是 undefined，如果写了参数缺没有赋值就会报错。
+
+```shell
+commander-demo -r
+# 输入如下报错信息
+error: option `-r, --required-input <>' argument missing
+```
+
+- 方括号，只出现参数的 key 值就是 true，参数 key 和 value 同时出现就直接赋值
+
+```shell
+commander-demo -o
+# 输出:
+optionalInput:  true
+
+commander-demo -o BBB
+# 输出:
+optionalInput:  BBB
+```
+
+对于复杂的参数还可以指定一个预处理函数:
+
+```js
+program
+  .option('-r, --range <>', '区间值，示例: 1..2', range)
+  .parse(process.argv);
+
+function range(val) {
+  return val.split('..').map(Number);
+}
+console.log(JSON.stringify(program.range));
+```
+
+运行结果如下:
+
+```shell
+commander-demo -r 1..2
+# 输出:
+[1,2]
+```
+
+** 最后是指令 **，如果你编写的是一个复杂的命令行工具，那么一条指令可能不够用，用 command 方法可以分出多个子指令，command 与 action 之间设置 option，两个 command 不会相互干扰，在 action 中分流各自的逻辑。
+
+```js
+program
+  .command('rm <dir>')
+  .option('-r, --required-input <>', '参数说明')
+  .action(function (dir, option) {
+    console.log(`remove ${dir}, requiredInput: ${option.requiredInput}`);
+  });
+
+program
+  .command('mk <dir>')
+  .option('-o, --optional-input <>', '参数说明')
+  .action(function (dir, option) {
+    console.log(`make ${dir}, optionalInput: ${option.optionalInput}`);
+  });
+
+// 此行一定要单独写
+program.parse(process.argv);
+```
+
+运行结果:
+
+```shell
+commander-demo rm aa/bb -r AAA
+# 输出:
+remove aa/bb, requiredInput: AAA
+
+commander-demo mk aa/bb -o AAA
+# 输出:
+make aa/bb, optionalInput: AAA
+```
 
 ### 数据交互
 
@@ -181,3 +316,5 @@ http://www.yowebapp.com/learning/index.html
 https://segmentfault.com/a/1190000002810318
 
 https://github.com/alonalon/get-ip
+
+https://aotu.io/notes/2016/08/09/command-line-development/index.html
