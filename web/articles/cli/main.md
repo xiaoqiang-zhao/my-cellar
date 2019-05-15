@@ -268,7 +268,46 @@ commander-demo mk aa/bb -o AAA
 make aa/bb, optionalInput: AAA
 ```
 
-### 数据交互
+### 数据交互库 inquirer
+
+命令行中的表单，语法大体是这样:
+
+```js
+const inquirer = require('inquirer')
+const getAccount = await inquirer.prompt({
+    type: 'input',
+    name: 'account',
+    message: '(文本输入)What is the account?'
+})
+```
+
+其中的 type 有这几种:
+
+- input, 任意文本输入
+- number, 数字输入，输入非数字值时会被转换为 NaN
+- confirm, 是/否 二选一输入
+- list, 不带序号的单选
+- rawlist, 带序号的单选
+- expand, 折叠式单选
+- checkbox, 多选
+- password, 密码输入
+- editor, 多行文本输入
+
+你可以在官方站点找到全部的 [examples](https://github.com/SBoudrias/Inquirer.js/tree/master/packages/inquirer/examples)。
+
+除了 type、name、message 之外还有以下其他属性可供使用:
+- type: (String) Type of the prompt. Defaults: input - Possible values: input, number, confirm, list, rawlist, expand, checkbox, password, editor
+- name: (String) The name to use when storing the answer in the answers hash. If the name contains periods, it will define a path in the answers hash.
+- message: (String|Function) The question to print. If defined as a function, the first parameter will be the current inquirer session answers. Defaults to the value of name (followed by a colon).
+- default: (String|Number|Boolean|Array|Function) Default value(s) to use if nothing is entered, or a function that returns the default value(s). If defined as a function, the first parameter will be the current inquirer session answers.
+- choices: (Array|Function) Choices array or a function returning a choices array. If defined as a function, the first parameter will be the current inquirer session answers. Array values can be simple numbers, strings, or objects containing a name (to display in list), a value (to save in the answers hash) and a short (to display after selection) properties. The choices array can also contain a Separator.
+- validate: (Function) Receive the user input and answers hash. Should return true if the value is valid, and an error message (String) otherwise. If false is returned, a default error message is provided.
+- filter: (Function) Receive the user input and return the filtered value to be used inside the program. The value returned will be added to the Answers hash.
+- transformer: (Function) Receive the user input, answers hash and option flags, and return a transformed value to display to the user. The transformation only impacts what is shown while editing. It does not modify the answers hash.
+- when: (Function, Boolean) Receive the current user answers hash and should return true or false depending on whether or not this question should be asked. The value can also be a simple boolean.
+- pageSize: (Number) Change the number of lines that will be rendered when using list, rawList, expand or checkbox.
+- prefix: (String) Change the default prefix message.
+- suffix: (String) Change the default suffix message.
 
 ### 动画
 

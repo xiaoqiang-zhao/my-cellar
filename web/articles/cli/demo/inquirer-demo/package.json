@@ -1,0 +1,17 @@
+{
+  "name": "inquirer-demo",
+  "version": "1.0.0",
+  "description": "inquirer 库 demo",
+  "main": "index.js",
+  "bin": {
+    "inquirer-demo": "bin/demo.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "xiaoqinag-zhao",
+  "license": "ISC",
+  "dependencies": {
+    "inquirer": "^6.3.1"
+  }
+}

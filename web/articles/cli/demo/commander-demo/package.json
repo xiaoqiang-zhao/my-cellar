@@ -1,7 +1,7 @@
 {
   "name": "commander-demo-xiaoqiang-zhao",
   "version": "1.0.2",
-  "description": "",
+  "description": "commander 库 demo",
   "bin": {
     "commander-demo": "bin/demo.js"
   },
