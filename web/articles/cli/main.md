@@ -99,7 +99,7 @@ upload-file init --url http://xx.xx.com
 
 ## 调试
 
-[!图片](./img/cli.png)
+![图片](./img/cli.png)
 
 命令行工具不在浏览器中运行，所以和传统的网页调试有很大的不同。用 VS Code 调试比较方便，首先在调试面板中配置 `configurations`:
 
@@ -310,6 +310,11 @@ const getAccount = await inquirer.prompt({
 - suffix: (String) Change the default suffix message.
 
 ### 高亮和动画 chalk
+
+/Users/zhaoxiaoqiang/Library/Python/3.7/lib/python/site-packages
+/Users/zhaoxiaoqiang/Library/Python/3.7/bin
+
+![图片](./img/chalk.svg)
 
 ## 造福世界
 
