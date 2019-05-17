@@ -309,7 +309,7 @@ const getAccount = await inquirer.prompt({
 - prefix: (String) Change the default prefix message.
 - suffix: (String) Change the default suffix message.
 
-### 动画
+### 高亮和动画 chalk
 
 ## 造福世界
 
@@ -350,10 +350,19 @@ https://github.com/nodegit/nodegit
 
 ## 参考
 
-http://www.yowebapp.com/learning/index.html
+[get-ip](https://github.com/alonalon/get-ip)
 
-https://segmentfault.com/a/1190000002810318
+[跟着老司机玩转Node命令行](https://aotu.io/notes/2016/08/09/command-line-development/index.html)
 
-https://github.com/alonalon/get-ip
+[图标 heavy-check-mark](https://emojipedia.org/heavy-check-mark/)
 
-https://aotu.io/notes/2016/08/09/command-line-development/index.html
+[cli-spinners](https://github.com/sindresorhus/cli-spinners/blob/HEAD/spinners.json)
+
+[termtosvg](https://nbedos.github.io/termtosvg/)
+
+[ora](https://www.npmjs.com/package/ora)
+
+[使用Termtosvg把Linux命令行中的会话录制成SVG动画](https://ywnz.com/linuxml/2826.html)
+
+[code to svg](https://carbon.now.sh/?bg=rgba(171%2C%20184%2C%20195%2C%201)&t=seti&wt=none&l=auto&ds=true&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=56px&ph=56px&ln=false&fm=Hack&fs=14px&lh=133%25&si=false&es=2x&wm=false)
+
