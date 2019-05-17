@@ -312,9 +312,12 @@ const getAccount = await inquirer.prompt({
 ### 高亮和动画 chalk
 
 /Users/zhaoxiaoqiang/Library/Python/3.7/lib/python/site-packages
-/Users/zhaoxiaoqiang/Library/Python/3.7/bin
+cd /Users/zhaoxiaoqiang/Library/Python/3.7/bin
+sudo ./termtosvg
+/Users/zhaoxiaoqiang/Library/Python/3.7/bin/termtosvg -t window_frame_js
+/Users/zhaoxiaoqiang/Library/Python/3.7/bin/termtosvg -t window_frame
 
-![图片](./img/chalk.svg)
+![图片](img/chalk.svg)
 
 ## 造福世界
 

@@ -170,7 +170,7 @@ tar -jtv -f a.tar.bz2
 然后是 shell，shell 是一个抽象概念，操作系统是需要保护的，不是没有围栏的公园，而是只有几个入口的城堡，这座城堡就是操作系统的内核(kernel)，shell就是城门。bash，ash，zsh，tcsh等是shell这个抽象概念的一种具体的实现，都是一个程序，都能生成一个进程对象。是borne again shell的缩写,Linux上默认采用的是bash。那怎么知道当前 Linux 用的是哪个呢？
 
 ```shell
-    echo $SHELL
+echo $SHELL
 ```
 
 - 如果输出的是：csh或者是tcsh，那么你用的就是C Shell。
