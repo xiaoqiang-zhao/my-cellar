@@ -311,13 +311,11 @@ const getAccount = await inquirer.prompt({
 
 ### 高亮和动画 chalk
 
-/Users/zhaoxiaoqiang/Library/Python/3.7/lib/python/site-packages
-cd /Users/zhaoxiaoqiang/Library/Python/3.7/bin
-sudo ./termtosvg
-/Users/zhaoxiaoqiang/Library/Python/3.7/bin/termtosvg -t window_frame_js
-/Users/zhaoxiaoqiang/Library/Python/3.7/bin/termtosvg -t window_frame
-
 ![图片](img/chalk.svg)
+
+### 文档辅助 termtosvg
+
+用 termtosvg 工具可以将操作过程录制成 svg 动画，可以更直观的展示 cli 工具的用途。
 
 ## 造福世界
 
