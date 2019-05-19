@@ -315,7 +315,7 @@ const getAccount = await inquirer.prompt({
 
 ### 文档辅助 termtosvg
 
-用 termtosvg 工具可以将操作过程录制成 svg 动画，可以更直观的展示 cli 工具的用途。
+用 [termtosvg](https://nbedos.github.io/termtosvg/) 工具可以将操作过程录制成 svg 动画，可以更直观的展示 cli 工具的用途。
 
 ## 造福世界
 

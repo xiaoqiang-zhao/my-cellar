@@ -13,6 +13,12 @@ https://github.com/tj/commander.js
 /Users/zhaoxiaoqiang/Library/Python/3.7/bin/termtosvg -t window_frame_js
 /Users/zhaoxiaoqiang/Library/Python/3.7/bin/termtosvg -t window_frame
 
+参数设置: https://nbedos.github.io/termtosvg/pages/templates.html
+
+```shell
+termtosvg -t window_frame
+```
+
 ## 设计思路
 
 管道模型
