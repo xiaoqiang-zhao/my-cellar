@@ -311,7 +311,7 @@ const getAccount = await inquirer.prompt({
 
 ### 高亮和动画 chalk
 
-![图片](img/chalk.svg)
+![图片](./img/chalk.svg)
 
 ### 文档辅助 termtosvg
 
@@ -353,7 +353,8 @@ ssh-relay
     sudo apt-get install libssl-dev
 
 https://github.com/nodegit/nodegit
-
+http://127.0.0.1:9999/articles/cli/img/cli.png
+http://127.0.0.1:9999/articles/cli/img/chalk.svg
 ## 参考
 
 [get-ip](https://github.com/alonalon/get-ip)

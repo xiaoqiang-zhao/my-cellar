@@ -76,6 +76,10 @@ var config = {
             contentType: 'image/x-ico',
             encoding: 'binary'
         },
+        svg: {
+            contentType: 'image/svg+xml',
+            encoding: 'binary'
+        },
         // 字体
         woff: {
             contentType: 'application/octet-stream',
