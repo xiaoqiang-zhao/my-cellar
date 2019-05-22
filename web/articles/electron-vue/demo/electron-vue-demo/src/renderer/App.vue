@@ -6,7 +6,7 @@
 
 <script>
   export default {
-    name: 'demo'
+    name: 'electron-vue-demo'
   }
 </script>
 

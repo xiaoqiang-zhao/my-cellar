@@ -1,5 +1,5 @@
 {
-  "name": "demo",
+  "name": "electron-vue-demo",
   "version": "0.0.1",
   "author": "xiaoqiang-zhao <longze_xq@163.com>",
   "description": "An electron-vue project",
@@ -17,7 +17,7 @@
     "postinstall": ""
   },
   "build": {
-    "productName": "demo",
+    "productName": "electron-vue-demo",
     "appId": "com.example.yourapp",
     "directories": {
       "output": "build"
