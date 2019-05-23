@@ -1,33 +1,44 @@
 # electron-vue 使用备忘
 
-> 挖到宝贝了
+> 一个结合 vue 全家桶的集成解决方案。
 
-## 初始化
+## 快速开始
+
+运行上面提到初始化命令:
 
 ```shell
 vue init simulatedgreg/electron-vue my-project
 ```
 
-## 构建方式的选择
+大部分配置之间选默认值，测试相关的选 no 之后会节省一部分安装依赖的时间会。其中开始的 vue 是 vue cli，如果失败可能和 vue cli 工具有关，运行中发现最新的 vue cli 3 不适合 simulatedgreg/electron-vue，你需要 vue cli 2:
 
-electron-packager
-如果你刚开始制作 electron 应用程序或只需要创建简单的可执行文件，那么 electron-packager 就可以满足你的需求。
-
-electron-builder
-如果你正在寻找完整的安装程序、自动更新的支持、使用 Travis CI 和 AppVeyor 的 CI 构建、或本机 node 模块的自动重建，那么你会需要 electron-builder。
-
-## 加入苹果开发者
-
-```js
-Your account does not have permission to create Developer ID Application certificates.
+```shell
+# vue cli 2 的安装
+npm install -g vue-cli
+# vue cli 3 的安装
+npm install -g @vue/cli
+# 查看 vue cli 的版本
+vue -V
 ```
 
-https://developer.apple.com/support/developer-id/
+electron-vue 集成了开发环境，可以快速上手:
 
-有两种打包方式，一种是走开发者账号，用这种方式的优点是开发出的包可以上 App Store，缺点是需要花钱，每年 688 RMB。另一种是用 Apple ID 生成证书，打出的包通过文件的形式发行。
+```shell
+# 安装依赖
+npm install
+# 启动开发
+npm run dev
+```
 
-Mac: 用苹果的 app store 账号自己生成签名和证书
-Windows: 的用的公司的签名平台 certificates
+就可以直接调起应用程序界面和调试窗口:
+
+![quick start images](./img/quick-start.png)
+
+然后打一个可运行的安装包出来，运行 `npm run build` 在 Mac 上可以打包出 Mac 版和 Linux 版， Windows 版的安装包只能在 Windows 上打包，可以打出 32 位和 64 位的两个版本。
+
+注: 尝试了多种方案依然在 Mac 上打不出 Windows 的包。
+
+## 自定义工具条
 
 ## 参考
 
@@ -36,3 +47,5 @@ Windows: 的用的公司的签名平台 certificates
 [npm run build 的坑](https://segmentfault.com/a/1190000012899824)
 
 [系列博客](https://molunerfinn.com/tags/Electron-vue/page/2/)
+
+[electron-builder打包见解](https://juejin.im/post/5bc53aade51d453df0447927)
