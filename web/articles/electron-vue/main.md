@@ -44,6 +44,8 @@ npm run dev
 
 [electron-vue](https://simulatedgreg.gitbooks.io/electron-vue/content/cn/)
 
+[electronjs doc](https://electronjs.org/docs)
+
 [npm run build 的坑](https://segmentfault.com/a/1190000012899824)
 
 [系列博客](https://molunerfinn.com/tags/Electron-vue/page/2/)
