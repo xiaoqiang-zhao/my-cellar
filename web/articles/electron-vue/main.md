@@ -51,3 +51,7 @@ npm run dev
 [系列博客](https://molunerfinn.com/tags/Electron-vue/page/2/)
 
 [electron-builder打包见解](https://juejin.im/post/5bc53aade51d453df0447927)
+
+[应用列表](https://electronjs.org/apps)
+
+[笔记应用](https://electronjs.org/apps/notable)
