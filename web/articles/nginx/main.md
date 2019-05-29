@@ -70,7 +70,7 @@ http
                '$status $body_bytes_sent "$http_referer" '
                '"$http_user_agent" $http_x_forwarded_for';
   
-#charset gb2312;
+  #charset gb2312;
      
   server_names_hash_bucket_size 128;
   client_header_buffer_size 32k;
@@ -97,16 +97,16 @@ http
   gzip_vary on;
  
   #limit_zone crawler $binary_remote_addr 10m;
- #下面是server虚拟主机的配置
- server
+  #下面是server虚拟主机的配置
+  server
   {
     listen 8032;#监听端口
     server_name localhost;#域名
     index index.html index.htm index.php;
     root /usr/local/webserver/nginx/html;#站点目录
-      location ~ .*\.(php|php5)?$
+    location ~ .*\.(php|php5)?$
     {
-      #fastcgi_pass unix:/tmp/php-cgi.sock;
+      # fastcgi_pass unix:/tmp/php-cgi.sock;
       fastcgi_pass 127.0.0.1:9000;
       fastcgi_index index.php;
       include fastcgi.conf;
@@ -114,16 +114,15 @@ http
     location ~ .*\.(gif|jpg|jpeg|png|bmp|swf|ico)$
     {
       expires 30d;
-  # access_log off;
+      # access_log off;
     }
     location ~ .*\.(js|css)?$
     {
       expires 15d;
-   # access_log off;
+      # access_log off;
     }
     access_log off;
   }
-
 }
 ```
 
@@ -144,10 +143,12 @@ ps -ef | grep nginx
 进程信息大体是这样的:
 
 ```shell
-nobody    1587  1584  0  2018 ?        00:07:05 nginx: worker process                                                                                                                                                                              
+nobody    1587  1584  0  2018 ?        00:07:05 nginx: worker process            
 root     17083     1  0 16:59 ?        00:00:00 nginx: master process /usr/local/webserver/nginx/sbin/nginx
-500      17084 17083  0 16:59 ?        00:00:00 nginx: worker process                
-500      17085 17083  0 16:59 ?        00:00:00 nginx: worker process                
+500      17084 17083  0 16:59 ?        00:00:00 nginx: worker process         
+
+500      17085 17083  0 16:59 ?        00:00:00 nginx: worker process         
+
 root     18545 14071  0 17:00 pts/1    00:00:00 grep nginx
 ```
 
@@ -205,6 +206,12 @@ worker_processes 2; #设置值和CPU核心数一致
 ```
 
 如果静态资源和 Nginx 不在一台机器上可以使用反向代理来指定资源。
+
+### 多个端口
+
+上面提到的 server 配置可以同时存在多个，这样就可以通过不同的端口提供多个服务:
+
+
 
 ### 反向代理
 
