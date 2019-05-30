@@ -207,11 +207,25 @@ worker_processes 2; #设置值和CPU核心数一致
 
 如果静态资源和 Nginx 不在一台机器上可以使用反向代理来指定资源。
 
-### 多个端口
+### 多站点
 
-上面提到的 server 配置可以同时存在多个，这样就可以通过不同的端口提供多个服务:
+如果你想启动多个站点，配置多个 server 就可以实现，通过不同的端口提供多个服务:
 
+```config
+	server {
+		listen 8001;
+    server_name localhost;
+    index index.html index.htm index.php;
+		root /home/dist1;
+	}
 
+ 	server {
+		listen 8002;
+    server_name localhost;
+    index index.html index.htm index.php;
+    root /home/dist2;
+	}
+```
 
 ### 反向代理
 
