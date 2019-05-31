@@ -24,7 +24,7 @@ NPM 是一个包管理平台(网址: [https://www.npmjs.com](https://www.npmjs.c
 
 `src` 源码会放在这里。
 
-对于 cli 工具包，入口在 package.json 文件的 bin 字段中定义，对比 main 字段只能定义一个入口，而 bin 可以定义多个命令入口，一般一个命令对应 bin 文件夹中的一个文件。
+对于 cli 工具包，入口在 package.json 文件的 bin 字段中定义，对比 main 字段只能定义一个入口，bin 可以定义多个命令入口，一般一个命令对应 bin 文件夹中的一个文件。
 
 `bin` 命令执行的入口文件，对应 package.json 的 bin 配置；
 
@@ -245,13 +245,13 @@ npm whoami
 退出登录
 
 ```shell
-    npm logout
+npm logout
 ```
 
 有一次发布包的时候遇到个小问题，报错信息如下：
 
 ```shell
-    npm ERR! you must verify your email before publishing a new package: https://www.npmjs.com/email-edit :
+npm ERR! you must verify your email before publishing a new package: https://www.npmjs.com/email-edit :
 ```
 
 首先包中配置的邮箱要和 npm 账户中的邮箱要匹配，如果邮箱改变了需要重新验证，npm 会发验证邮件到邮箱，你需要点一下。有段时间翻墙有点问题，发现配 gmail 死活 publish 不上去，后来换成 163 邮箱就上去了。
