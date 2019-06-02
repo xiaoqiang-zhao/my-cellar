@@ -4,28 +4,43 @@
 
 ## 概述
 
-Apache 提供的多平台下多语言下日志书写扩展包
-
-https://www.cnblogs.com/duhuo/p/5176154.html
-
-3.0.3
+Log4 是由 Apache 提供的多语言日志书写扩展包，目的是使日志书写更加方便简洁，同时对不同的业务日志能够进行灵活的分文件记录，同时也包含着详细的等级配置，为之后分级输出、检索、及程序自动解析提供更加便捷的支持。Log4 多语言有 Log4cpp，Log4j，Log4net 等，看名字就知道对应是那种语言。
 
 ## 级别
 
+Log4js 原生提供了 4 中级别的错误类型，可以自动将不同类型和级别的错误打进不同的文件中。
+
+- trace，踪迹
+- debug，调试
+- info，信息
+- warn，警告
+- error，错误
+- fatal，严重问题
+
+使用示例:
+```js
 logger.trace('Entering cheese testing'); 
-logger.debug('Got cheese.');
-logger.info('Cheese is Gouda.');
-logger.warn('Cheese is quite smelly.');
-logger.error('Cheese is too ripe!');
-logger.fatal('Cheese was breeding ground for listeria.');
+```
 
-## dateFile
+## 日志拆分规则
 
-This will result in one current log file (all-the-logs.log). Every hour this file will be compressed and renamed to all-the-logs.log.2017-04-30-08.gz (for example) and a new all-the-logs.log created.
+经年累月的日志文件可能很大，大文件处理起来会有一些困难，一般日志写入时会分文件写入。分文件的常用规则有两种，一种是规定日志文件大小，满了就新建一个文件再写入；另一种是按日期和时间，比如每天或每小时一个日志文件。配置如下:
+
+```js
+// 安日志大小拆分
+{
+    type: 'file',
+    maxLogSize: 1024*1024, // bytes
+    backups: 300, // 最多留几个
+}
+// 按日期拆分
+{
+    type: 'dateFile',
+    pattern: '.yyyy-MM-dd'
+}
+```
 
 ## 和 pm2 搭配
-
-I’m using PM2, but I’m not getting any logs!
 
 ```shell
 pm2 install pm2-intercom
@@ -41,6 +56,7 @@ log4js.configure({
   pm2InstanceVar: 'INSTANCE_ID'
 });
 ```
+
 ## 生产示例
 
 ```js
@@ -96,6 +112,8 @@ export default {
     }
 };
 ```
+
+## 日志分析
 
 ## 参考
 
