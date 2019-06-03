@@ -266,16 +266,12 @@ npm ERR! you must verify your email before publishing a new package: https://www
 ### 服务端、CLI
 
 - consolidate，集成模板引擎；
-
 - chalk，命令行高亮；
-
 - commander，命令行辅助，TJ 大神的库。还有更简单的库 -- yargs；
-
 - inquirer，收集用户输入，支持单选，多选，文本输入，密码输入，更具前面输入判断是否展示当前项，校验，加工输入；
-
 - download-git-repo，下载远程仓库。容易被忽略的一点就是带了 ssh 的功能，可以用来从私有库下载，回调函数执行的时候文件没有被保存到本地硬盘，可以在回调函数中加工下载文件；
-
 - metalsmith，构建静态网站的工具，每一个加工的工序就是一个插件；
+- extract-zip，zip 包解压工具。
 
 ## 参考资料
 
