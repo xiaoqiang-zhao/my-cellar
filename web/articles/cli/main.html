@@ -20,65 +20,269 @@
 <div>
     <h1 id="header-1">cli - 匠者造器</h1>
 <blockquote>
-<p>用前端的知识来写命令行工具，能敲几个字母搞定的事情我们就不要浪费生命了，这篇文章手把手从零叫你写命令行工具。</p>
+<p>js 在端能力上，除了在浏览器中运行页面外还有一个很重要的分支，那就是在命令行中运行。前者有我们最熟悉的纯 Web 页面 和 App 中内嵌的页面，也有我们不太常用的基于 Electron 开发桌面应用。后者有前端工程的脚手架和文件批处理工具。</p>
 </blockquote>
 <h2 id="header-1-1">前置知识点</h2>
 <p>npm 全局安装一个包的时候到底偷偷摸摸做了那些事？</p>
 <p>首先是从网上把这个包本身(敲黑板划重点：不包括依赖的包)下载下来；</p>
 <p>然后根据参数下载依赖(依赖分 dependencies 和 devDependencies，具体出门左转<a href="/#!/articles/npm" target="_blank">npm</a>)，安装的目录 Mac 下是 <code>/usr/local/lib/node_modules</code>；</p>
-<p>如果依赖没问题会读取 <code>package.json</code> 中的 <code>bin</code> 配置，然后把文件写入到 <code>/usr/local/bin/</code> 目录下，这个目录下放的是全局命令的，这个路径可能因为系统的不同而不同，可以在环境变量配置文件查看。我们在命令行中敲的任何一个用户命令都要先从这个文件夹找。</p>
-<p>我们看一下 <code>gulp</code> 命令中有点啥：</p>
-<pre><code>#!/usr/bin/env node
+<p>如果依赖没问题会读取 <code>package.json</code> 中 <code>bin</code> 配置的每一项，然后把对应文件写入到 <code>/usr/local/bin/</code> 目录下，这个目录下放的是全局命令的，这个路径可能因为系统的不同而不同，可以在环境变量配置文件查看。我们在命令行中敲的任何一个用户命令都要首先从这个文件夹开始查找。</p>
+<p>例如 <code>gulp</code> 的 <code>bin</code> 配置是这样的: <code>{&quot;gulp&quot;: &quot;./bin/gulp.js&quot;}</code>。gulp.js 中的内容：</p>
+<pre><code class="lang-js">#!/usr/bin/env node
 
-&#39;use strict&#39;;
-var gutil = require(&#39;gulp-util&#39;);
-...
-</code></pre><p>为了简单只看 4 行代码。env 是一个命令，参数是 node，就是在程序中用 nodejs 的引擎，也就是 v8 引擎，去执行下面的代码，这样就不需要知道 node 装在哪里了。</p>
+require(&#39;gulp-cli&#39;)();
+</code></pre>
+<p>与浏览器端代码不同的是入口文件的第一行。env 是一个命令，参数是 node，就是在程序中用 nodejs 的引擎，也就是 v8 引擎，去执行下面的代码，这样就可以借助操作系统的能力，而不需要知道 node 装在哪里了。</p>
 <p>一般安装全局包都需要 <code>sudo</code>，这货是干啥的？</p>
 <p>我们看到上面有很多文件拷贝，而且涉及到 <code>/usr/local/bin/</code> 这样的军机要地，而且在系统中不是每个文件都可以被执行的，这有涉及到文件的权限问题，这里不展开，想了解更多出门左转我的另一篇文章 <a href="/#!/articles/linux" target="_blank">Linux 笔记</a>。</p>
-<p>这么多事不是谁想干就让干的，<code>sudo</code> 通俗一点可以理解为赐下尚方宝剑，想砍哪个砍哪个，专业一点讲就是赋予一系列执行的权限。</p>
-<h2 id="header-1-2">简单粗暴</h2>
-<p>我们做点简单粗暴的事爽一下，建一个文件内如如下：</p>
-<pre><code>#!/usr/bin/env node
+<p>这么多事不是谁想干就让干的，<code>sudo</code> 通俗一点可以理解为赐下尚方宝剑，想动哪个就能动哪个，专业一点讲就是赋予一系列执行的权限。</p>
+<p>这里有个细节，在拷贝 <code>bin</code> 配置中文件的时候是要去掉后缀名的，所以在一些 node cli 工具中，bin 目录下的 js 文件没有后缀名。</p>
+<h2 id="header-1-2">Hello World</h2>
+<p>建一个 hw.js 文件，内如如下：</p>
+<pre><code class="lang-js">#!/usr/bin/env node
 
 console.log(&#39;Hello world.&#39;);
-</code></pre><p>然后拷贝到 <code>/usr/local/bin/</code>，然后就可以在命令行中敲个命令爽一下了：</p>
-<pre><code>cubao
-</code></pre><p>靠，报了个错：<code>permission denied: cubao</code>，没爽成。但是有没有发现，已经不是没有定义的命令那种提示了(<code>command not found</code>)，从信息来看是没有权限。好给一下权限：</p>
-<pre><code>chmod a+x cubao
-</code></pre><p>再执行上面的命令，ok，妥妥的 Hello world。有人该不乐意了，个你整个 Hello world 嘚瑟个啥劲呀。你可别小看这个 Hellow world，简直是开启新世界的一把钥匙，你可以使用 nodejs 的一切功能。比如这样：</p>
-<pre><code>#!/usr/bin/env node
+</code></pre>
+<p>然后拷贝到 <code>/usr/local/bin/</code>，然后就可以在命令行中敲个命令爽一下了：</p>
+<pre><code class="lang-shell">hw
+</code></pre>
+<p>靠，报了个错：<code>permission denied: cubao</code>，没爽成。但是有没有发现，已经不是没有定义的命令那种提示了(<code>command not found</code>)，从信息来看是没有权限。给一下权限：</p>
+<pre><code class="lang-shell">chmod a+x hw
+</code></pre>
+<p>再执行上面的命令，ok，妥妥的 Hello world。有人该不乐意了，个你整个 Hello world 嘚瑟个啥劲呀。你可别小看这个 Hellow world，简直是开启新世界的一把钥匙，你可以使用 nodejs 的一切功能。比如这样：</p>
+<pre><code class="lang-js">#!/usr/bin/env node
 var fs = require(&#39;fs&#39;);
 
 fs.copy
 fs.past
 fs.rename
 fs.replace
-</code></pre><p>一切文件的复制粘贴和简单改内容的操作都可以自动化了，当然上面 <code>fs.</code> 的那段代码是伪代码，你可以去 NodeJs 官网查看具体的 API，传送门:<a href="http://nodejs.cn/api/fs.html" target="_blank">中文API</a>。</p>
+</code></pre>
+<p>一切文件的复制粘贴和简单改内容的操作都可以自动化了，当然上面 <code>fs.</code> 的那段代码是伪代码，你可以去 NodeJs 官网查看具体的 API，传送门:<a href="http://nodejs.cn/api/fs.html" target="_blank">中文API</a>。</p>
 <p>配合 js 的原生功能，一些定时任务也可以写了。通过文件监听还能统计你写代码的时间。能干多少事就取决于你的 NodeJs 的掌握程度了。</p>
-<h2 id="header-1-3">造福世界</h2>
+<h2 id="header-1-3">目录结构</h2>
+<pre><code>${package root}
+    ├── package.json 包文件
+    ├── bin 命令执行的入口文件，对应 package.json 的 bin 配置
+    ├── lib 功能代码，提供 bin 所需的一切
+    └── test 自动化测试脚本
+</code></pre><p>package.json 的 bin 配置如下:</p>
+<pre><code class="lang-json">{
+  &quot;bin&quot;: {
+    &quot;package-name&quot;: &quot;bin/index.js&quot;
+  }
+}
+</code></pre>
+<p>需要注意上面的 “package-name” 是推荐设置，实际上可以此处设置可以是任意的，比如 vue-cli 的 bin 配置就是 vue，并且在使用时也是以 bin 中的配置为准。bin 中可以配置多个全局指令常量，比如 vue-cli 有 vue 和 vue-list 以及 vue-init 三个指令，这种配置方法的好处是每条命令是独立的，可以借助 commander 单独设置参数校验规则(如必填等)。还有另一种方式是用参数指定不同的指令，优点是更规范和更好理解，通常一个包的命令应该以参数的形式出现而不是和包同级的指令，比如我写了一个上传多文件的工具，两种命令风格对比如下:</p>
+<pre><code class="lang-shell"># 命令形式表示初始化
+upload-file-init --url http://xx.xx.com
+# 参数形式表示初始化
+upload-file init --url http://xx.xx.com
+</code></pre>
+<h2 id="header-1-4">调试</h2>
+<p><img src="./img/cli.png" alt="图片"></p>
+<p>命令行工具不在浏览器中运行，所以和传统的网页调试有很大的不同。用 VS Code 调试比较方便，首先在调试面板中配置 <code>configurations</code>:</p>
+<pre><code class="lang-json">{
+    &quot;type&quot;: &quot;node&quot;,
+    &quot;request&quot;: &quot;launch&quot;,
+    &quot;name&quot;: &quot;Launch Program&quot;,
+    &quot;program&quot;: &quot;${workspaceFolder}/bin/index.js&quot;,
+    &quot;args&quot;: [
+        &quot;config&quot;,
+        &quot;--path&quot;,
+        &quot;/home/usr/username&quot;,
+
+        // start 开始
+        // &quot;start&quot;
+
+        // 重置参数
+        // &quot;reset&quot;
+    ],
+}
+</code></pre>
+<p>program 是入口配置，args 是参数配置，关于命令行的参数使用在下一章中详细讲。</p>
+<p>如果想在本地验证命令，可以在项目目录下执行 <code>npm link</code>，npm 会解析 package.json 中的 bin 配置，并将对应的文件软链到全局变量文件夹中。</p>
+<h2 id="header-1-5">开发</h2>
+<p>cli 全称 Command Line Interface，在开发上有一些通用的技能和注意事项。下面带你快速收获这些技能包。</p>
+<h3 id="header-1-5-1">参数库 commander</h3>
+<p>第一个必须掌握的 npm 包就是 <a href="https://www.npmjs.com/package/commander" target="_blank">commander</a>，它能帮你提取命令行中输入的参数。</p>
+<p><strong> 首先是固定参数 version </strong>，通过配置就可以实现版本的输出:</p>
+<pre><code class="lang-js">const program = require(&#39;commander&#39;);
+
+program
+  // 固定参数 version
+  .version(require(&#39;../package&#39;).version, &#39;-v, --version&#39;)
+  .parse(process.argv);
+</code></pre>
+<p>运行如下:</p>
+<pre><code class="lang-shell">commander-demo -v
+commander-demo --version
+# 输出: 1.0.2
+</code></pre>
+<p>此节的具体代码都可以在 demo 中找到。关于包的发布和管理请参考我的 npm 文章。</p>
+<p><strong> 其次是参数设置 </strong>，将你需要的参数写进 option 配置中，然后从 parse 方法中传入 process.argv 对象，program 对象下有有了你需要的参数了:</p>
+<pre><code class="lang-js">program
+  // 布尔值，注意缩写只能是一个字母
+  .option(&#39;-b, --boolean-input&#39;, &#39;参数说明&#39;)
+  // 值必填输入，如果写了参数需要赋值
+  .option(&#39;-r, --required-input &lt;&gt;&#39;, &#39;参数说明&#39;)
+  // 值可选输入，如果赋值了就提取字符串，如果只写参数就返回 true
+  .option(&#39;-o, --optional-input []&#39;, &#39;参数说明&#39;)
+  .parse(process.argv);
+
+console.log(&#39;booleanInput: &#39;, program.booleanInput);
+console.log(&#39;requiredInput: &#39;, program.requiredInput);
+console.log(&#39;optionalInput: &#39;, program.optionalInput);
+</code></pre>
+<p>正常状态下在命令行运行时这样的:</p>
+<pre><code class="lang-shell">commander-demo -b -r AAA -o BBB
+# 输出如下
+booleanInput:  true
+requiredInput:  AAA
+optionalInput:  BBB
+</code></pre>
+<p>尖括号和方括号的区别是:</p>
+<ul>
+<li>尖括号，参数可以不出现在命令行中，出现了就必须赋值;</li>
+</ul>
+<pre><code class="lang-shell">commander-demo
+# 输出:
+booleanInput:  undefined
+requiredInput:  undefined
+optionalInput:  undefined
+</code></pre>
+<p>参数全部不填是没问题的，所有参数的默认值是 undefined，如果写了参数缺没有赋值就会报错。</p>
+<pre><code class="lang-shell">commander-demo -r
+# 输入如下报错信息
+error: option `-r, --required-input &lt;&gt;&#39; argument missing
+</code></pre>
+<ul>
+<li>方括号，只出现参数的 key 值就是 true，参数 key 和 value 同时出现就直接赋值</li>
+</ul>
+<pre><code class="lang-shell">commander-demo -o
+# 输出:
+optionalInput:  true
+
+commander-demo -o BBB
+# 输出:
+optionalInput:  BBB
+</code></pre>
+<p>对于复杂的参数还可以指定一个预处理函数:</p>
+<pre><code class="lang-js">program
+  .option(&#39;-r, --range &lt;&gt;&#39;, &#39;区间值，示例: 1..2&#39;, range)
+  .parse(process.argv);
+
+function range(val) {
+  return val.split(&#39;..&#39;).map(Number);
+}
+console.log(JSON.stringify(program.range));
+</code></pre>
+<p>运行结果如下:</p>
+<pre><code class="lang-shell">commander-demo -r 1..2
+# 输出:
+[1,2]
+</code></pre>
+<p><strong> 最后是指令 </strong>，如果你编写的是一个复杂的命令行工具，那么一条指令可能不够用，用 command 方法可以分出多个子指令，command 与 action 之间设置 option，两个 command 不会相互干扰，在 action 中分流各自的逻辑。</p>
+<pre><code class="lang-js">program
+  .command(&#39;rm &lt;dir&gt;&#39;)
+  .option(&#39;-r, --required-input &lt;&gt;&#39;, &#39;参数说明&#39;)
+  .action(function (dir, option) {
+    console.log(`remove ${dir}, requiredInput: ${option.requiredInput}`);
+  });
+
+program
+  .command(&#39;mk &lt;dir&gt;&#39;)
+  .option(&#39;-o, --optional-input &lt;&gt;&#39;, &#39;参数说明&#39;)
+  .action(function (dir, option) {
+    console.log(`make ${dir}, optionalInput: ${option.optionalInput}`);
+  });
+
+// 此行一定要单独写
+program.parse(process.argv);
+</code></pre>
+<p>运行结果:</p>
+<pre><code class="lang-shell">commander-demo rm aa/bb -r AAA
+# 输出:
+remove aa/bb, requiredInput: AAA
+
+commander-demo mk aa/bb -o AAA
+# 输出:
+make aa/bb, optionalInput: AAA
+</code></pre>
+<h3 id="header-1-5-2">数据交互库 inquirer</h3>
+<p>命令行中的表单，语法大体是这样:</p>
+<pre><code class="lang-js">const inquirer = require(&#39;inquirer&#39;)
+const getAccount = await inquirer.prompt({
+    type: &#39;input&#39;,
+    name: &#39;account&#39;,
+    message: &#39;(文本输入)What is the account?&#39;
+})
+</code></pre>
+<p>其中的 type 有这几种:</p>
+<ul>
+<li>input, 任意文本输入</li>
+<li>number, 数字输入，输入非数字值时会被转换为 NaN</li>
+<li>confirm, 是/否 二选一输入</li>
+<li>list, 不带序号的单选</li>
+<li>rawlist, 带序号的单选</li>
+<li>expand, 折叠式单选</li>
+<li>checkbox, 多选</li>
+<li>password, 密码输入</li>
+<li>editor, 多行文本输入</li>
+</ul>
+<p>你可以在官方站点找到全部的 <a href="https://github.com/SBoudrias/Inquirer.js/tree/master/packages/inquirer/examples" target="_blank">examples</a>。</p>
+<p>除了 type、name、message 之外还有以下其他属性可供使用:</p>
+<ul>
+<li>type: (String) Type of the prompt. Defaults: input - Possible values: input, number, confirm, list, rawlist, expand, checkbox, password, editor</li>
+<li>name: (String) The name to use when storing the answer in the answers hash. If the name contains periods, it will define a path in the answers hash.</li>
+<li>message: (String|Function) The question to print. If defined as a function, the first parameter will be the current inquirer session answers. Defaults to the value of name (followed by a colon).</li>
+<li>default: (String|Number|Boolean|Array|Function) Default value(s) to use if nothing is entered, or a function that returns the default value(s). If defined as a function, the first parameter will be the current inquirer session answers.</li>
+<li>choices: (Array|Function) Choices array or a function returning a choices array. If defined as a function, the first parameter will be the current inquirer session answers. Array values can be simple numbers, strings, or objects containing a name (to display in list), a value (to save in the answers hash) and a short (to display after selection) properties. The choices array can also contain a Separator.</li>
+<li>validate: (Function) Receive the user input and answers hash. Should return true if the value is valid, and an error message (String) otherwise. If false is returned, a default error message is provided.</li>
+<li>filter: (Function) Receive the user input and return the filtered value to be used inside the program. The value returned will be added to the Answers hash.</li>
+<li>transformer: (Function) Receive the user input, answers hash and option flags, and return a transformed value to display to the user. The transformation only impacts what is shown while editing. It does not modify the answers hash.</li>
+<li>when: (Function, Boolean) Receive the current user answers hash and should return true or false depending on whether or not this question should be asked. The value can also be a simple boolean.</li>
+<li>pageSize: (Number) Change the number of lines that will be rendered when using list, rawList, expand or checkbox.</li>
+<li>prefix: (String) Change the default prefix message.</li>
+<li>suffix: (String) Change the default suffix message.</li>
+</ul>
+<h3 id="header-1-5-3">高亮和动画 chalk</h3>
+<p><img src="./img/chalk.svg" alt="图片"></p>
+<h3 id="header-1-5-4">文档辅助 termtosvg</h3>
+<p>用 <a href="https://nbedos.github.io/termtosvg/" target="_blank">termtosvg</a> 工具可以将操作过程录制成 svg 动画，可以更直观的展示 cli 工具的用途。</p>
+<h2 id="header-1-6">造福世界</h2>
 <p>上面是自己小打小闹的自己玩，如果想把自己的玩具分享给全世界的小伙伴怎么搞？其实建一个 npm 包就可以了，唯一不同的就是在第一行加上下面这行代码：</p>
-<pre><code>#!/usr/bin/env node
-</code></pre><p>npm 包的内容可以参考我另一篇文章 <a href="/#!/articles/npm" target="_blank">npm</a>，你可以完全手动完成然后发布，也可以用一些工具，比如 Yeoman：</p>
-<pre><code>sudo npm install -g yo
+<pre><code class="lang-shell">#!/usr/bin/env node
+</code></pre>
+<p>npm 包的内容可以参考我另一篇文章 <a href="/#!/articles/npm" target="_blank">npm</a>，你可以完全手动完成然后发布，也可以用一些工具，比如 Yeoman：</p>
+<pre><code class="lang-shell">sudo npm install -g yo
 sudo npm install -g generator-cli-starter
 yo cli-starter
-</code></pre><p>注：Yeoman，直译“仆人”，一个通用的脚手架系统，更多信息参阅<a href="http://www.yowebapp.com/" target="_blank">官网</a>。</p>
-<h2 id="header-1-4">我写的几个工具</h2>
+</code></pre>
+<p>注：Yeoman，直译“仆人”，一个通用的脚手架系统，更多信息参阅<a href="http://www.yowebapp.com/" target="_blank">官网</a>。</p>
+<h2 id="header-1-7">我写的几个工具</h2>
 <p>每次登陆远程服务器都要敲一串很长的命令，其实把这个命令直接新进文件(文件名是 ssh-relay)就可以：</p>
-<pre><code>// 内容
+<pre><code class="lang-shell">// 内容
 ssh 远程服务器地址
 // 命令
 ssh-relay
-</code></pre><p>用来操作git的工具....持续编写中</p>
+</code></pre>
+<p>用来操作git的工具....持续编写中</p>
 <pre><code>/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
 
 sudo apt-get install libssl-dev
-</code></pre><p><a href="https://github.com/nodegit/nodegit" target="_blank">https://github.com/nodegit/nodegit</a></p>
-<h2 id="header-1-5">参考</h2>
-<p><a href="http://www.yowebapp.com/learning/index.html" target="_blank">http://www.yowebapp.com/learning/index.html</a></p>
-<p><a href="https://segmentfault.com/a/1190000002810318" target="_blank">https://segmentfault.com/a/1190000002810318</a></p>
-<p><a href="https://github.com/alonalon/get-ip" target="_blank">https://github.com/alonalon/get-ip</a></p>
+</code></pre><p><a href="https://github.com/nodegit/nodegit" target="_blank">https://github.com/nodegit/nodegit</a>
+<a href="http://127.0.0.1:9999/articles/cli/img/cli.png" target="_blank">http://127.0.0.1:9999/articles/cli/img/cli.png</a>
+<a href="http://127.0.0.1:9999/articles/cli/img/chalk.svg" target="_blank">http://127.0.0.1:9999/articles/cli/img/chalk.svg</a></p>
+<h2 id="header-1-8">参考</h2>
+<p><a href="https://github.com/alonalon/get-ip" target="_blank">get-ip</a></p>
+<p><a href="https://aotu.io/notes/2016/08/09/command-line-development/index.html" target="_blank">跟着老司机玩转Node命令行</a></p>
+<p><a href="https://emojipedia.org/heavy-check-mark/" target="_blank">图标 heavy-check-mark</a></p>
+<p><a href="https://github.com/sindresorhus/cli-spinners/blob/HEAD/spinners.json" target="_blank">cli-spinners</a></p>
+<p><a href="https://nbedos.github.io/termtosvg/" target="_blank">termtosvg</a></p>
+<p><a href="https://www.npmjs.com/package/ora" target="_blank">ora</a></p>
+<p><a href="https://ywnz.com/linuxml/2826.html" target="_blank">使用Termtosvg把Linux命令行中的会话录制成SVG动画</a></p>
+<p><a href="https://carbon.now.sh/?bg=rgba(171%2C%20184%2C%20195%2C%201" target="_blank">code to svg</a>&amp;t=seti&amp;wt=none&amp;l=auto&amp;ds=true&amp;dsyoff=20px&amp;dsblur=68px&amp;wc=true&amp;wa=true&amp;pv=56px&amp;ph=56px&amp;ln=false&amp;fm=Hack&amp;fs=14px&amp;lh=133%25&amp;si=false&amp;es=2x&amp;wm=false)</p>
 
 </div>
 </body>

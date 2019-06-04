@@ -20,11 +20,11 @@
 <div>
     <h1 id="header-1">Linux 入门基础</h1>
 <blockquote>
-<p>本文是全栈系列第一篇，主要讲那些一定要知道的基础概念，有了这些基础概念才能更好的学习和使用 Linux，而不是零散的记住几个命令。除了基础概念还记录了一些我在使用 CentOS 是遇到的问题和解决办法，这些问题都是初学者大概率会遇到的问题。</p>
+<p>本文是全栈系列第一篇，主要讲一定要知道的基础概念，有了这些基础概念才能更好的学习和使用 Linux，而不是零散的记住几个命令。除了基础概念还记录了一些我在使用 CentOS 是遇到的问题和解决方案，这些问题都是初学者大概率会遇到的问题。</p>
 </blockquote>
 <h2 id="header-1-1">Linux 概述</h2>
 <p>Linux 是一个多用户操作系统，诞生于 1996 年。Linux 能干啥？企业应用，网路服务，企业网络管理。</p>
-<p>如果家里有旧电脑，装一个 Liunx 来是必要的，装机传送: <a href="https://linux.cn/article-1471-1.html" target="_blank">https://linux.cn/article-1471-1.html</a>。如果想要图形化界面记得选择 GNOME。</p>
+<p>如果家里有旧电脑，装一个 Liunx 是必要的，装机传送: <a href="https://linux.cn/article-1471-1.html" target="_blank">https://linux.cn/article-1471-1.html</a>。如果想要图形化界面记得选择 GNOME。</p>
 <p>如何学习 Linux？如果只想会使用 Linux，那么 X Window 也足够了；如果想深入学习 Linux，那么命令行才是真确姿势。</p>
 <p>装某些软件有对系统版本有特定的要求，查看内核版本和发行版本号是一项必要的技能：</p>
 <pre><code class="lang-shell"># 查看 Linux 内核版本，有时也叫 binaries
@@ -36,10 +36,13 @@ cat /etc/issue
 # 输出：CentOS release 6.3
 </code></pre>
 <h2 id="header-1-2">文件与目录</h2>
-<h3 id="header-1-2-1">那些重要的文件 与 FHS</h3>
-<p><code>/etc/</code> 下存放系统的重要配置，比如上面提到的存放系统版本的文件<code>/etc/issue</code>，还有一个重要文件 <code>/etc/shadow</code> 存放所有用户的用户名和密码，当然只有 root 才能看，密码当然也是加过密的。</p>
-<p><code>/etc/group</code> 中存放的是用户组信息。</p>
-<p><code>/etc/profile</code> 中存放全局的环境变量。可以在文件的 <code>Path manipulation</code> 部分修改。</p>
+<h3 id="header-1-2-1">重要文件 与 FHS</h3>
+<ul>
+<li><code>/etc/</code> 下存放系统的重要配置，比如上面提到的存放系统版本的文件<code>/etc/issue</code>；</li>
+<li><code>/etc/shadow</code> 存放所有用户的用户名和密码，当然只有 root 才能看，密码当然也是加过密的；</li>
+<li><code>/etc/group</code> 中存放的是用户组信息；</li>
+<li><code>/etc/profile</code> 中存放全局的环境变量，可以在文件的 <code>Path manipulation</code> 部分修改。</li>
+</ul>
 <p>除了上面这些系统定义好的文件与文件夹之外，Linux 对软件放在哪里和用户数据放在哪里也提出了规范 -- FHS(Filesystem Hierarchy Standard)。</p>
 <p>FHS 建议用户目录放在 <code>/home/</code> 下放，在新建用户的时候 CentOS 6.3 会自动在 <code>/home/</code> 下创建同名目录，CentOS 4.3需要手动创建，或者在添加用户的时候加 <code>-m</code> 参数，像这样 <code>useradd 用户名 -m</code>。</p>
 <p>FHS 建议管理员将软件安装到 <code>/usr/local</code>，Redis 和 MondoDB 都是这么建议的。</p>
@@ -54,7 +57,7 @@ drwxrwxr-x 8 zhaoxiaoqiang zhaoxiaoqiang 4096 Jan 16 10:33 code
 lrwxrwxrwx 1 zhaoxiaoqiang zhaoxiaoqiang    7 Jan  8 21:27 sh01.sh-link -&gt; sh01.sh
 [权限]       [所有者]        [用户组]            [修改日期]    [文件(夹)名]
 </code></pre>
-<p>两条命令等价，第一个字母代表文件类型：</p>
+<p><code>ls -l</code> 与 <code>ll</code> 两条命令等价，第一个字母代表文件类型：</p>
 <ul>
 <li><code>d</code> 代表文件夹;</li>
 <li><code>-</code> 代表文件;</li>
@@ -114,7 +117,7 @@ bash aaa
 <p>有些时候需要不同服务器之间需要相互传文件:</p>
 <pre><code class="lang-shell">scp x.zip work@cp01-ipage.epc.baidu.com:~/
 </code></pre>
-<h3 id="header-1-2-4">打包压缩和解压：</h3>
+<h3 id="header-1-2-4">打包压缩和解压</h3>
 <pre><code class="lang-shell"># 压缩，使用不同的参数采用相应的压缩算法
 tar -jcv -f a.tar.bz2    a
 tar -zcv -f a.tar.gz     a
@@ -143,9 +146,9 @@ tar -jtv -f a.tar.bz2
 <h2 id="header-1-3">Shell</h2>
 <h3 id="header-1-3-1">概述</h3>
 <p>鸟哥说“如果想要更深入的学习 Linux 的话，那么命令行模式才是不二的学习方式”，但是终端、命令行、shell、bash 是什么关系一直傻傻的理不清楚。</p>
-<p>先说终端，这是个比较早的概念，在微软推出个人电脑前计算机比较昂贵，模式是一台中央计算机，连出几套显示器和键盘，最初把这一套套的显示器和键盘叫终端，后台有了专门的链接设备。再后来两边都在升级，中央电脑这边升级成了服务器集群(谷歌亚马逊)，终端这边升级为个人电脑，所以广义上讲所有连接了显示器和键盘以及可以链接其他计算机的计算机就是终端，但是随着时代的发展词还是原来的那个词(终端 Terminal)，意思却升级成了计算机上某种特定的软件，这种软件的交互方式是命令行，所以我们平时“说打开终端，在终端中输入什么” 就是“打开命令行工具，在命令行工具中输入什么”。还有一点意思上的升级，原来的终端指操控其他计算机的一种机器，现在的终端不仅指操作远程计算机也指操作当前计算机(终端本身)。</p>
+<p>先说终端，这是个比较早的概念，在微软推出个人电脑前计算机还是比较昂贵的，模式是一台中央计算机，连出几套显示器和键盘，最初把这一套套的显示器和键盘叫终端，后台有了专门的链接设备。再后来两边都在升级，中央电脑这边升级成了服务器集群(谷歌亚马逊)，终端这边升级为个人电脑，所以广义上讲所有连接了显示器和键盘以及可以链接其他计算机的计算机就是终端，但是随着时代的发展词还是原来的那个词(终端 Terminal)，意思却升级成了计算机上某种特定的软件，这种软件的交互方式是命令行，所以我们平时“说打开终端，在终端中输入什么” 就是“打开命令行工具，在命令行工具中输入什么”。还有一点意思上的升级，原来的终端指操控其他计算机的一种机器，现在的终端不仅指操作远程计算机也指操作当前计算机(终端本身)。</p>
 <p>然后是 shell，shell 是一个抽象概念，操作系统是需要保护的，不是没有围栏的公园，而是只有几个入口的城堡，这座城堡就是操作系统的内核(kernel)，shell就是城门。bash，ash，zsh，tcsh等是shell这个抽象概念的一种具体的实现，都是一个程序，都能生成一个进程对象。是borne again shell的缩写,Linux上默认采用的是bash。那怎么知道当前 Linux 用的是哪个呢？</p>
-<pre><code class="lang-shell">    echo $SHELL
+<pre><code class="lang-shell">echo $SHELL
 </code></pre>
 <ul>
 <li>如果输出的是：csh或者是tcsh，那么你用的就是C Shell。</li>
@@ -670,7 +673,6 @@ ps axjf
 zlib -v
 bash: zlib: command not found
 </code></pre>
-<p><a href="https://github.com/netdata/netdata/issues/24" target="_blank">https://github.com/netdata/netdata/issues/24</a></p>
 <p>这里有一个网站可以查询各种包: (<a href="https://rpmfind.net/linux/rpm2html/search.php)[https://rpmfind.net/linux/rpm2html/search.php" target="_blank">https://rpmfind.net/linux/rpm2html/search.php)[https://rpmfind.net/linux/rpm2html/search.php</a>]</p>
 <h2 id="header-1-6">零散命令</h2>
 <p>系统之间可以通过 http 来交互，一个非常有用的命令就是 <code>curl</code>，示例如下:</p>

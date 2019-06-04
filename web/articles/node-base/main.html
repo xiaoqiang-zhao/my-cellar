@@ -161,7 +161,7 @@ const fsPromises = fs.promises;
 fsPromises.readFile(&#39;./readFile-demo.txt&#39;, {
   encoding: &#39;utf-8&#39;
 }).then(content =&gt; {
-  return fsPromisess.writeFile(&#39;./readFile-demo-2.txt&#39;, content, {
+  return fsPromises.writeFile(&#39;./readFile-demo-2.txt&#39;, content, {
     encoding: &#39;utf-8&#39;
   });
 }).then(() =&gt; {
@@ -196,7 +196,7 @@ fsPromises.chmod(&#39;./a.js&#39;, 777).then(() =&gt; {
 const __filename = new URL(import.meta.url).pathname;
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 </code></pre>
-<p>不同模块对相对路径的定义时不一样的，require(import) 的相对路径指的是当前执行文件的路径，fs 和 path 的相对路径是启动脚本的路径。当前执行文件的所在路径可以用 <code>__dirname</code> 获取，脚本启动路径可以用 <code>process.cwd()</code> 获取。两种路径的转换可以借助 path 的 resolve 方法：</p>
+<p>不同模块对相对路径的定义时不一样的，require 和 import 的相对路径指的是当前执行文件的路径，fs 和 path 的相对路径是启动脚本的路径。当前执行文件的所在路径可以用 <code>__dirname</code> 获取，脚本启动路径可以用 <code>process.cwd()</code> 获取。两种路径的转换可以借助 path 的 resolve 方法：</p>
 <pre><code class="lang-js">import path from &#39;path&#39;;
 const cwdPath = process.cwd();
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
