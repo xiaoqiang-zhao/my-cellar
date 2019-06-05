@@ -5,7 +5,7 @@
  */
 
 var config = {
-    // 公开网站的路径（下面表示和 cellar 同级的 longze 文件夹）
+    // 公开网站的路径（下面表示和 my-cellar 同级的 xiaoqiang-zhao 文件夹）
     publicSitePath: '/../../xiaoqiang-zhao',
 
     /**** 下面为开发配置 ****/
