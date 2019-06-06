@@ -115,6 +115,12 @@ export default {
 
 ## 日志分析
 
+Nodejs进阶：readline实现日志分析+简易命令行工具
+https://imweb.io/topic/5963a26ee5017dd2121d2c1f
+
+大搜车 NodeJS 日志规范化与分析监控
+https://juejin.im/entry/5790dbd55bbb500063b90f28
+
 ## 参考
 
 [官网](https://log4js-node.github.io/log4js-node/)
