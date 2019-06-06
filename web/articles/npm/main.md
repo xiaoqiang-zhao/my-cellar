@@ -273,6 +273,10 @@ npm ERR! you must verify your email before publishing a new package: https://www
 - metalsmith，构建静态网站的工具，每一个加工的工序就是一个插件；
 - extract-zip，zip 包解压工具。
 
+### 浏览器服务端通用包
+
+- crypto-js，包含 MD5 摘要算法，AES 对称加密
+
 ## 参考资料
 
 [官方文档](https://docs.npmjs.com)
