@@ -858,6 +858,12 @@ lsof -i tcp:9999
 telnet 10.0.250.3 8090
 ```
 
+登出 ssh
+
+```shell
+logout
+# 或者 Ctrl+D
+```
 ## 参考
 
 《鸟哥的 Linux 私房菜》
