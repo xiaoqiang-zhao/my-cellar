@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>加密 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">加密</h1>
+<h2 id="header-1-1">理论部分</h2>
+<h3 id="header-1-1-1">散列算法</h3>
+<p>散列算法(签名算法)，一种不可逆加密，用于验证，防止信息被修。具体用途如：文件校验、数字签名、鉴权协议。较成熟的算法有：MD5、SHA1、HMAC。</p>
+<h3 id="header-1-1-2">对称性加密算法</h3>
+<p>加密和解密使用同一个密钥，可用来对敏感数据等信息进行加密。对称性加密算法有 AES、DES、3DES。</p>
+<h3 id="header-1-1-3">非对称算法</h3>
+<p>加密和解密所使用的不是同一个密钥，通常有两个密钥，称为&quot;公钥&quot;和&quot;私钥&quot;，它们两个必需配对使用，否则不能打开加密文件。发送双方 A,B 事先均生成一堆密匙，然后A将自己的公有密匙发送给B，B将自己的公有密匙发送给 A，如果 A 要给 B 发送消息，则先需要用 B 的公有密匙进行消息加密，然后发送给 B 端，此时 B 端再用自己的私有密匙进行消息解密，B 向 A 发送消息时为同样的道理。非对称性算法有 RSA、DSA、ECC。</p>
+<h2 id="header-1-2">代码部分</h2>
+<h3 id="header-1-2-1">散列算法</h3>
+<h2 id="header-1-3">参考文章</h2>
+<p><a href="https://blog.csdn.net/guyue35/article/details/81872115" target="_blank">加密算法(DES,AES,RSA,MD5,SHA1,Base64)比较和项目应用, 各种加密算法比较</a></p>
+<p><a href="https://www.npmjs.com/package/crypto-js" target="_blank">crypto-js</a></p>
+
+</div>
+</body>
+</html>
