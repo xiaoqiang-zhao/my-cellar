@@ -2,8 +2,10 @@
   "enName": "nginx",
   "title": "Nginx 使用备忘",
   "introduction": "用 Nginx 做代理或前端静态文件服务器是大前端的一个技能，其优点是比 NodeJs 服务更加稳定和简单，Nginx 可以单独使用也可以和 NodeJs 搭配使用解决负载均衡等问题。",
-  "tags": [],
-  "isPublished": false,
+  "tags": [
+    "服务器软件"
+  ],
+  "isPublished": true,
   "state": "立项",
   "type": "md",
   "createDate": 1527729823287,
