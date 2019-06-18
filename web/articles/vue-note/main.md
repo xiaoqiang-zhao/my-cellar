@@ -271,6 +271,7 @@ const store = new Vuex.Store({
 store.state.a // -> moduleA 的状态
 store.state.b // -> moduleB 的状态
 ```
+
 ## 场景描述
 
 官网提供的解决方案有一种多年前 `window.data` 的味道，只是做了一些限制，限定了数据更改的方式，通过在 `mutations` 函数中打断点方便追踪数据的改变。

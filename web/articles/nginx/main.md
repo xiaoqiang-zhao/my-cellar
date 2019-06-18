@@ -290,6 +290,17 @@ server {
     }
 }
 ```
+
+### HTML5 History 模式
+
+首先需要将页面路由以固定的单词开头，比如 "/pages"，然后将全部以 "/pages" 开头的请求打到 index.html 上，配置如下:
+
+```config
+location /pages{
+    try_files $uri /index.html;
+}
+```
+
 ### 负载均衡
 
 Nginx 负载均衡是通过 upstream 模块来实现的，内置实现了三种负载策略:
