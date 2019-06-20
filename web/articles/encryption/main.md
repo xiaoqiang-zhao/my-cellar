@@ -18,6 +18,21 @@
 
 ### 散列算法
 
+### AES
+
+官网给的示例中，加密相同的内容每次加密出的结果是不一样的，如果要解决这个问题需要把 mode、iv、padding 三个参数指定:
+
+```js
+const eKey = CryptoJS.enc.Latin1.parse('1234567812345678');;
+var ciphertext = CryptoJS.AES.encrypt('abc123', eKey, {
+    mode: CryptoJS.mode.CBC,
+    iv: CryptoJS.enc.Latin1.parse('1234567812345678'),
+    padding: CryptoJS.pad.ZeroPadding
+});
+var result = ciphertext.toString();
+console.log(result);
+```
+
 ## 参考文章
 
 [加密算法(DES,AES,RSA,MD5,SHA1,Base64)比较和项目应用, 各种加密算法比较](https://blog.csdn.net/guyue35/article/details/81872115)
