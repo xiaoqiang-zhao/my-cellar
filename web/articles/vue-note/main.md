@@ -332,4 +332,3 @@ store.state.b // -> moduleB 的状态
 
  - 1、写单独的样式文件，然后引入；
  - 2、单独添加一个不带 scoped 属性的 style 标签。
-
