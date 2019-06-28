@@ -864,6 +864,16 @@ telnet 10.0.250.3 8090
 logout
 # 或者 Ctrl+D
 ```
+
+grep 专区
+
+```shell
+# 读取 false 的前 2 后 1 行
+cat jobs-012.json | grep false -B 2 -A 1
+# 统计 false 一共出现了多少次(一行中出现多次就记录多次)
+cat jobs-012.json | grep -c false
+```
+
 ## 参考
 
 《鸟哥的 Linux 私房菜》
