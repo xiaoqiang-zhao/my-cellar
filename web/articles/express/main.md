@@ -6,23 +6,27 @@
 
 随便找个文件夹
 
-    npm init
-    npm install express --save
+```shell
+npm init
+npm install express --save
+```
 
 然后新建个 `index.js` 文件，把下面内容粘进去：
 
-    const express = require('express');
-    let app = express();
+```js
+const express = require('express');
+let app = express();
 
-    app.get('/', function(req, res) {
-        res.send('hello world');
-    });
+app.get('/', function(req, res) {
+    res.send('hello world');
+});
 
-    app.listen(3000, function () {
-        const port = server.address().port;
+app.listen(3000, function () {
+    const port = server.address().port;
 
-        console.log('Example app listening at http://localhost:%s', port);
-    });
+    console.log('Example app listening at http://localhost:%s', port);
+});
+```
 
 然后 `node index` 就可以在浏览器访问了。
 
@@ -67,13 +71,15 @@ app.get('/', (req, res, next) => {
 
 对路由进行管理会清晰一点，一般 Node 后台系统会这么做：
 
-    app.get('/aa', function (req, res) {
-        // 转到 Nodejs 业务处理模块
-    })
+```js
+app.get('/aa', function (req, res) {
+    // 转到 Nodejs 业务处理模块
+})
 
-    app.listen(3000, function () {
-        // 在这里按规则读取数据
-    });
+app.listen(3000, function () {
+    // 在这里按规则读取数据
+});
+```
 
 两者结合同时具有上面的优点和缺点，对特殊路由要维护，并且要告诉新加入的成员，不推荐。
 
@@ -81,35 +87,43 @@ app.get('/', (req, res, next) => {
 
 ### 斌哥的后端脚手架用的 Express
 
-    import * as express from 'express';
-    import router from './routes';
-    let app = express();
+```js
+import * as express from 'express';
+import router from './routes';
+let app = express();
 
-    router(app);
+router(app);
 
-    app.listen(3000);
+app.listen(3000);
+```
 
 `./routes` 中的内容：
 
-    import editor from './aa';
+```js
+import editor from './aa';
 
-    export default app => {
-        app.use(aa);
-    };
+export default app => {
+    app.use(aa);
+};
+```
 
 `./aa` 是多个接口的路由集合，把一个模块的接口放在里面：
 
-    import * as express from 'express';
-    import aa from '../action/aa';
+```js
+import * as express from 'express';
+import aa from '../action/aa';
 
-    const router = express.Router();
-    // 这里可以配置多个接口，访问会被打到 action 上，然后就可以读取数据库等操作
-    router.post('/ara/aa/create', aa.create);
+const router = express.Router();
+// 这里可以配置多个接口，访问会被打到 action 上，然后就可以读取数据库等操作
+router.post('/ara/aa/create', aa.create);
+```
 
 ### 涛哥用的 Koa
 
-    var app = require('koa')()
-    var router = require('koa-router')()
+```js
+var app = require('koa')()
+var router = require('koa-router')()
+```
 
 涛哥个脚手架用的是代理，没有 Mock 数据。
 
@@ -117,11 +131,13 @@ app.get('/', (req, res, next) => {
 
 在搭建脚手架时，支持前后端联调的最简单有效的方式就是配置代理，所以有必要讲一下代理中间件，以  http-proxy-middleware 为例。
 
-    const options = {
-        target: 'http://192.168.1.6:3210'
-    };
-    app.use('/api', proxy(options));
-    // http://localhost:3000/api/aa  ->  http://192.168.1.6:3210/api/aa
+```js
+const options = {
+    target: 'http://192.168.1.6:3210'
+};
+app.use('/api', proxy(options));
+// http://localhost:3000/api/aa  ->  http://192.168.1.6:3210/api/aa
+```
 
 更多配置参见[官网](https://github.com/chimurai/http-proxy-middleware)。
 
