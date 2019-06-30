@@ -1,6 +1,6 @@
 # Koa 学习笔记
 
-> 总需要学一个 Node 的服务器端框架吧，就从 Koa 开始吧。
+> > NodeJs 服务器端框架之 Koa，号称 Express 之后的新一代服务器端框架，更好的中间件模式。
 
 ## 开始
 
@@ -16,7 +16,9 @@
 
 然后 npm 安装 Koa
 
-    npm i koa
+```shell
+npm i koa
+```
 
 将官网上给的示例粘贴进去：
 
@@ -131,6 +133,7 @@ app.on('error', function(err){
     log.error('server error', err);
 });
 ```
+
 ## 上下文
 
 Koa Context 将 node 的 request 和 response 对象封装在一个单独的对象里面，其为编写 web 应用和 API 提供了很多有用的方法。
@@ -153,7 +156,9 @@ Koa 就是一个框架，大部分功能还需要靠中间件实现。
 
 安装
 
-    npm install koa-router
+```shell
+npm install koa-router
+```
 
 使用
 
@@ -174,7 +179,8 @@ app.use(router.routes());
 app.listen(4000);
 
 console.log('服务已启动: localhost:4000');
-```  
+```
+
 RESTFul 风格的路由像这样配置：
 
 ```js
@@ -191,8 +197,10 @@ router.get('/users/:id', function *(next) {
 
 安装
 
-    npm i koa-static --save
-    
+```shell
+npm i koa-static --save
+```
+
 使用
 
 ```js
@@ -225,8 +233,10 @@ const koaStatic = require('koa-static')('./', {
 
 安装
 
+```shell
     npm i koa-proxy --save
-    
+```
+
 代理接口，默认只代理接口不代理静态文件，当前的 `router` 优先，也就是说如果已经配置了某接口的路由，那么此接口不会被代理带其他服务器上。
 
 ```js
@@ -246,6 +256,43 @@ app.get('index.js', proxy({
 
 注1：[示例源码](/articles/koa/demo/koa-proxy/index.js)。
 注2：[中间件 koa-proxy](https://github.com/popomore/koa-proxy)
+
+## 对比 Express
+
+Express 采用 callback 来处理异步，Koa v1 采用 generator，Koa v2 采用 async/await。
+
+Express 使用 callback 捕获异常，对于深层次的异常捕获不了，Koa 使用 try catch，能更好地解决异常捕获。
+
+```js
+// Express callback
+app.use(function (err, req, res, next) {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+})
+
+// Koa async/await
+app.use(async (ctx, next) => {
+  try {
+    await next()
+  } catch (err) {
+    ctx.status = err.status || 500
+    ctx.body = { message: err.message }
+    ctx.app.emit('error', err, this)
+  }
+})
+```
+
+**Express**
+
+优点：线性逻辑，通过中间件形式把业务逻辑细分、简化，一个请求进来经过一系列中间件处理后再响应给用户，清晰明了。 
+
+缺点：基于 callback 组合业务逻辑，业务逻辑复杂时嵌套过多，异常捕获困难。
+
+**Koa**
+
+优点：首先，借助 co 和 generator，很好地解决了异步流程控制和异常捕获问题。其次，Koa 把 Express 中内置的 router、view 等功能都移除了，使得框架本身更轻量。 
+
+缺点：社区相对较小。
 
 ## 意外收获的包
 
