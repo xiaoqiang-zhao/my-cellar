@@ -869,9 +869,11 @@ grep 专区
 
 ```shell
 # 读取 false 的前 2 后 1 行
-cat jobs-012.json | grep false -B 2 -A 1
+cat log | grep false -B 2 -A 1
 # 统计 false 一共出现了多少次(一行中出现多次就记录多次)
-cat jobs-012.json | grep -c false
+cat log | grep -c false
+# 在多个文件中查找
+cat log log.1 | grep false
 ```
 
 ## 参考
