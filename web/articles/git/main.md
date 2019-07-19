@@ -184,6 +184,14 @@ git pull origin dev
 git pull
 ```
 
+## gitflow
+
+在了解了基本的使用命令后，你还需要了解一个多人协作的方式: gitflow。
+
+学习传送门:
+- [英文](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
+- [中文](https://www.cnblogs.com/wish123/p/9785101.html)
+
 ## 参考资料
 
 [官方文档](https://git-scm.com/docs/)
