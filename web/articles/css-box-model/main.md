@@ -256,9 +256,11 @@ flex 定义在弹性布局子项的元素上，属性值有两组：
 
 `order` 定义子项的排列顺序。数值越小，排列越靠前，默认为0，支持负数。[示例](/articles/css-box-model/demo/order.html)，关键代码：
 
-	.con2 > .item:nth-child(2){
-		order: -1;
-	}
+```css
+.con2 > .item:nth-child(2){
+	order: -1;
+}
+```
 
 子项还有一个属性 `align-self` 它是容器属性的 `align-items` 的补充，放在一起介绍。
 

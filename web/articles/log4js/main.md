@@ -115,6 +115,24 @@ export default {
 
 ## 日志分析
 
+简单的用 shell 脚本分析:
+
+```shell
+# 读取 false 的前 2 后 1 行
+cat log | grep false -B 2 -A 1
+# 统计 false 一共出现了多少次(一行中出现多次就记录多次)
+cat log | grep -c false
+# 在多个文件中查找
+cat log log.1 | grep false
+# 正则匹配
+# 如果我们有如下日志:
+# [2019-07-23T12:34:37.215] [TRACE] default - request, URL:/download/b1744.zip, method:GET
+# [2019-07-23T12:44:40.005] [TRACE] default - request, URL:/projects/, method:GET
+# [2019-07-23T12:44:40.005] [TRACE] default - request, URL:/projects/3cfd5498-26b/zip-name, method:GET
+# 我们想统计 restful 路由为 /projects/:id/zip-name 的请求出现的次数，可用下面命令
+cat trace-log | egrep "\/projects\/[^\/]+\/zip-name" -c
+```
+
 Nodejs进阶：readline实现日志分析+简易命令行工具
 https://imweb.io/topic/5963a26ee5017dd2121d2c1f
 
