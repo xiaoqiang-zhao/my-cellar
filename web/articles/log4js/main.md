@@ -133,14 +133,16 @@ cat log log.1 | grep false
 cat trace-log | egrep "\/projects\/[^\/]+\/zip-name" -c
 ```
 
-Nodejs进阶：readline实现日志分析+简易命令行工具
-https://imweb.io/topic/5963a26ee5017dd2121d2c1f
+除了 shell 脚本，你还有 nodejs 可供选择，用 readline 包写个 cli 工具可以做一些更复杂的事情。
 
-大搜车 NodeJS 日志规范化与分析监控
-https://juejin.im/entry/5790dbd55bbb500063b90f28
+最后，日志规范化与分析监控是一个漫长但是有意义的过程，规范化是分析监控的基础，一团乱麻是理不清的。这需要持续的耐心和推动，但是付出总归会有回报的，看着干净的日志输出、能比用户先发现问题，便是满满的愉悦感。
 
 ## 参考
 
 [官网](https://log4js-node.github.io/log4js-node/)
 
 [Node.js 之 log4js 完全讲解 -- 寸志](https://zhuanlan.zhihu.com/p/22110802)
+
+[Nodejs进阶：readline实现日志分析+简易命令行工具](https://imweb.io/topic/5963a26ee5017dd2121d2c1f)
+
+[大搜车 NodeJS 日志规范化与分析监控](https://juejin.im/entry/5790dbd55bbb500063b90f28)
