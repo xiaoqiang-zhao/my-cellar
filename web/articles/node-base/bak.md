@@ -169,6 +169,7 @@ pm2 delete api
 pm2 restart api
 ```
 
+[pm2实现负载均衡](https://html-js.site/2018/04/08/pm2%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/)
 ## 参考和扩展
 
 https://juejin.im/post/5ac0e1fc6fb9a028b411345f
