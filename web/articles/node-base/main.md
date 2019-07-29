@@ -406,6 +406,23 @@ fastify.get('/', function (request, reply) {
 fastify.listen(3000)
 ```
 
+## 子进程
+
+原生模块 `child_process` 提供子进程调用，用它可以很方便的调用系统能力，比如用 nodejs 写删除文件夹需要手动写递归删除里面的文件，如果调用 shell 就简单了:
+
+```js
+const { spawn } = require('child_process');
+
+const rmCommand = spawn('rm -rf folder-name', {
+  shell: true
+});
+
+rmCommand.on('exit', function (code) {
+  // code 为 0 则删除成功
+  console.log('exit code: ' + code);
+});
+```
+
 ## 参考
 
 (NodeJs中的stream（流）- 基础篇
