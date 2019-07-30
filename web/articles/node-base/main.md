@@ -423,6 +423,62 @@ rmCommand.on('exit', function (code) {
 });
 ```
 
+Node.js 是单线程运行的，如果密集计算可以扔到一个子进程中进行。使用子进程需要你对 **事件** 和 **流** 有足够了解。
+
+语法: `spawn(command[, args][, options])`。代码示例如下:
+
+```js
+const { spawn } = require('child_process');
+
+const lsCommand = spawn('ls', ['../', '-a'], {
+  shell: true
+});
+
+lsCommand.stdout.on('data', data => {
+  console.log('stdout data: ', data.toString());
+});
+```
+
+用 stdout 对指令的输出做监听和数据做处理，如果指令之前有前后依赖，可以监听前一个指令 exit 后开始下一个:
+
+```js
+const spawn = require('child_process').spawn;
+const options = {
+  // 指定执行路径
+  cwd: '/Users/user-name/project-path',
+  // 为了可以直接使用 git 命令
+  shell: true
+};
+function add() {
+  const command = spawn('git add file-1.js file-2.js', options);
+  command.on('exit', code => {
+    if (code === 0) {
+      console.log('add success');
+      commit();
+    }
+  });
+}
+function commit() {
+  const command = spawn('git commit -m "commit 内容描述"', options);
+  command.on('exit', code => {
+    if (code === 0) {
+      console.log('commit success');
+      push();
+    }
+  });
+}
+function push() {
+  const command = spawn('git push', options);
+  command.on('exit', code => {
+    if (code === 0) {
+      console.log('push success');
+    }
+  });
+}
+
+add();
+```
+
 ## 参考
 
 (NodeJs中的stream（流）- 基础篇

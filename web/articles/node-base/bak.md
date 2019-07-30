@@ -170,8 +170,25 @@ pm2 restart api
 ```
 
 [pm2实现负载均衡](https://html-js.site/2018/04/08/pm2%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/)
+
+## 子进程
+
+```js
+// 以 git 的提交为例
+
+const options = {
+    cwd: '/Users/username/code/project-name',
+    shell: true
+};
+
+// 指定要提交的文件
+gitCommand = spawn('git add src/a.js src/b.js', options);
+```
+
 ## 参考和扩展
 
-https://juejin.im/post/5ac0e1fc6fb9a028b411345f
+(Node.js核心入门（一）)[https://juejin.im/post/5ac0e1fc6fb9a028b411345f]
 
-https://juejin.im/post/5ac22344f265da238155ccde
+(Node.js核心入门（二）)[https://juejin.im/post/5ac22344f265da238155ccde]
+
+(Node.js 子进程：你应该知道的一切)[https://juejin.im/entry/595dc35b51882568d00a97ab]
