@@ -373,3 +373,4 @@ http://127.0.0.1:9999/articles/cli/img/chalk.svg
 
 [code to svg](https://carbon.now.sh/?bg=rgba(171%2C%20184%2C%20195%2C%201)&t=seti&wt=none&l=auto&ds=true&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=56px&ph=56px&ln=false&fm=Hack&fs=14px&lh=133%25&si=false&es=2x&wm=false)
 
+(cli-table)[https://www.npmjs.com/package/cli-table]
