@@ -423,7 +423,7 @@ rmCommand.on('exit', function (code) {
 });
 ```
 
-Node.js 是单线程运行的，如果密集计算可以扔到一个子进程中进行。使用子进程需要你对 **事件** 和 **流** 有足够了解。
+Node.js 是单线程运行的，如果密集计算可以扔到一个子进程中进行。使用子进程需要你对 **事件** 和 **流** 有足够了解，其中 stdout 事件中的 data 默认就是 Buffer。
 
 语法: `spawn(command[, args][, options])`。代码示例如下:
 
@@ -478,6 +478,8 @@ function push() {
 
 add();
 ```
+
+另外创建子进程还有另外三种方式：fork, exec 和 execFile。
 
 ## 参考
 
