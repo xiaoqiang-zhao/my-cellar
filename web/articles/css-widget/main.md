@@ -259,4 +259,16 @@ line-clamp 属性还不是标准，还有一个 js 库可以考虑：[https://gi
 .loading::after {
     animation-delay: -1.0s;
 }
+@keyframes sk-bounce {
+    0% {
+        width: 0;
+        height: 0;
+    }
+    100% {
+        width: 100%;
+        height: 100%;
+        top: -20px;
+        left: -20px;
+    }
+}
 ```
