@@ -19,10 +19,4 @@
 
 [termtosvg](https://nbedos.github.io/termtosvg/)
 
-## 功能类项目
-
-写文档的两种模式:
-    平台
-    开源可部署工程
-
-## 交互类项目
+##
