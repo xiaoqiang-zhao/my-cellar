@@ -31,8 +31,10 @@
 - [gitbook](https://app.gitbook.com/)，有企业和个人两种模式，完善的 markdown 支持，支持多人协作，支持自定义 url 发布;
 - [语雀](https://www.yuque.com/)，来自阿里的文档平台。可以写项目文档、学习笔记、团队专栏、帮助手册，可以团队协作。
 
-再推荐两个使用范围较广的开源可部署工程:
+再推荐几个使用范围较广的开源可部署工程:
 
-- [docsify](https://docsify.js.org)，支持多语言和风格定制，还可以搜索。
+- [docsify](https://docsify.js.org)，支持多语言和风格定制，还支持搜索。
+- [ydoc](https://github.com/YMFE/ydoc)，来自去哪儿。
+- [hexo](https://hexo.io)，一个广为使用的博客系统，阿里的 egg.js 的文档就是用该工具搭建的。
 
 ## 交互类项目
