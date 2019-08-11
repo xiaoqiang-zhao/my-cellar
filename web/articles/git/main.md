@@ -209,3 +209,7 @@ git pull
 [git checkout 命令详解](http://www.tuicool.com/articles/A3Mn6f)
 
 全部命令在[官方文档](https://git-scm.com/docs/)查到，这里翻译和记录一些常用命令。
+
+[如何优雅地使用 Git](https://www.zhihu.com/question/20866683/answer/720671116)
+
+[30分钟学会 Git 命令](https://zhuanlan.zhihu.com/p/69047436)
