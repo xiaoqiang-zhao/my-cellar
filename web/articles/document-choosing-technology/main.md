@@ -42,3 +42,7 @@
 UI 组件库是一种更高级的存在，除了用文档描述还需要可运行可交互。
 
 最直观原始的方案是每篇文档都写一个页面，每个 Demo 都写一个组件引入。还有一种思路是把 markdown 中的代码片段直接提取为组件并运行，参见 ElementUI 的官网，源码地址在这里，包含了文档和 markdown 插件，这里有一篇介绍的文章: https://zhuanlan.zhihu.com/p/65174076。
+
+## 参考和扩展阅读
+
+[基于Node.JS的六款开源内容管理和静态网站生成系统](https://blog.csdn.net/enweitech/article/details/58586436)
