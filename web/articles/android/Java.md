@@ -40,7 +40,7 @@ https://www.oracle.com/technetwork/java/javase/downloads/index.html
 
 只有 173M。
 
-直接下一步下一步就完成了，省去了手动安装配置环境变量等步骤。
+直接下一步下一步就完成了，省去了手动安装配置环境变量等步骤，大体原理就是将 java 相关的可执行文件拷贝到 /usr/bin 下，环境变量由 /etc/paths 统一指定。
 
 ```shel
 # 运行下面命令验证是否安装成功
@@ -51,13 +51,52 @@ Java(TM) SE Runtime Environment (build 12.0.2+10)
 Java HotSpot(TM) 64-Bit Server VM (build 12.0.2+10, mixed mode, sharing)
 ```
 
-### 安装IDE
+### 安装 IDE
 
 能写 Java 的 IDE 很多，有老牌的 NetBeans 和 Eclipse，也有比较新的 IntelliJ IDEA 和专门开发安卓 App 的 Android Studio。组里做 Java 开发的貌似用 IntelliJ IDEA 的比较多，这里从个众。
-
-The top 11 Free IDE for Java Coding:
-https://blog.idrsolutions.com/2015/03/the-top-11-free-ide-for-java-coding-development-programming/
 
 IntelliJ IDEA 有官方免费试用版 和 社区免费版，当然如果你不差钱直接花 499$ 买个官方正式版。这里选择了社区版，想着入门应该够用了。
 
 https://www.jetbrains.com/idea/features/
+
+## 命令行项目
+
+打开 IntelliJ IDEA 选择 Command Line App 新建项目，在提示的地方输入 `println`，点击运行就可以看到结果了。
+
+```java
+package com.company;
+
+public class Main {
+
+    public static void main(String[] args) {
+	    // write your code here
+        System.out.println("Hello, world!");
+    }
+}
+```
+
+多加点代码断点调试也不再话下
+
+```java
+String str = "Hello,";
+str = new StringBuilder(str).append(" world!").toString();
+System.out.println(str);
+```
+
+还可以在命令行中输入 `java ./src/com/company/Main.java` 运行查看输出。
+
+Java 不同于 JavaScript，前者是编译型语言后者是解释型语言(又称脚本语言)，前者需要先编译再运行后者边编译边运行。Java 项目的打包是先编译然后打包编译的结果，JavaScript 的打包只是进行写法转换和文件压缩。
+
+命令行工具一般打包成 jar 包，大体步骤如下:
+- File / Project Structure / Artifacts, Type 选为 JAR，设置打包输出路径，确定；
+- Build / Artifacts / build, 构建打包。
+
+执行打包后的文件:
+
+```shell
+java -jar command-line-app.jar
+```
+
+无论是 node 还是 java 的 cli 工具都需要装对应的环境才能运行，优点在于跨平台，还有生态比较完善，很多功能不用重头写。shell 的优势在于类 Liunx 系统原生支持，Windows 10 对 shell 的支持也日趋完善。
+
+注: 具体打包步骤参见官网 https://www.jetbrains.com/help/idea/creating-and-running-your-first-java-application.html
