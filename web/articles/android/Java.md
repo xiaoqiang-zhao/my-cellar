@@ -100,3 +100,31 @@ java -jar command-line-app.jar
 无论是 node 还是 java 的 cli 工具都需要装对应的环境才能运行，优点在于跨平台，还有生态比较完善，很多功能不用重头写。shell 的优势在于类 Liunx 系统原生支持，Windows 10 对 shell 的支持也日趋完善。
 
 注: 具体打包步骤参见官网 https://www.jetbrains.com/help/idea/creating-and-running-your-first-java-application.html
+
+## Java Web(Day2)
+
+> 此内容不在预期当中，和后端写 Java 的同事合作多年却不知道他们怎么写代码，这里偏移主题满足一下个人的好奇心，完全可以跳过这章不影响后面学习。
+
+安装 Java EE 8 Platform SDK(包括了 Java EE Web Profile SDK)。
+
+- 下载 Java EE 8 Platform SDK
+- 将解压后的文件拷贝到 /usr/local
+
+安装 tomcat
+
+- 下载 tomcat
+- 将解压后的文件拷贝到 /usr/local
+
+打开 IntelliJ IDEA 选择 Spring，勾选 Spring MVC 和 Spring Web Services 新建项目。在 Run / Edit Configration / + / Tomcat Server / Local / Application server / Tomcat Home 下配置 tomcat 安装路径。
+
+到此环境就准备好了，你可以直接运行然后在浏览器中查看，虽然是 404 页面但是服务已经启动，下面我们还需要学一下 Spring MVC 框架，如果和前端对比一下就是需要知道 Vue 或 React 这些框架下怎么写代码怎么配置路由等。
+
+## 参考和扩展阅读
+
+[The top 11 Free IDE for Java Coding]https://blog.idrsolutions.com/2015/03/the-top-11-free-ide-for-java-coding-development-programming/
+
+[Java EE Web Profile SDK](https://www.oracle.com/technetwork/java/javaee/downloads/index.html)
+
+[tomcat download](https://tomcat.apache.org/download-90.cgi)
+
+[Spring MVC 入门](https://www.jianshu.com/p/91a2d0a1e45a)
