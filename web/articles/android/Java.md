@@ -101,7 +101,7 @@ java -jar command-line-app.jar
 
 注: 具体打包步骤参见官网 https://www.jetbrains.com/help/idea/creating-and-running-your-first-java-application.html
 
-## Java Web(Day2)
+## Java Web(Day2 + Day3)
 
 > 此内容不在预期当中，和后端写 Java 的同事合作多年却不知道他们怎么写代码，这里偏移主题满足一下个人的好奇心，完全可以跳过这章不影响后面学习。
 
@@ -118,6 +118,26 @@ java -jar command-line-app.jar
 打开 IntelliJ IDEA 选择 Spring，勾选 Spring MVC 和 Spring Web Services 新建项目。在 Run / Edit Configration / + / Tomcat Server / Local / Application server / Tomcat Home 下配置 tomcat 安装路径。
 
 到此环境就准备好了，你可以直接运行然后在浏览器中查看，虽然是 404 页面但是服务已经启动，下面我们还需要学一下 Spring MVC 框架，如果和前端对比一下就是需要知道 Vue 或 React 这些框架下怎么写代码怎么配置路由等。
+
+随着项目的功能越来越复杂，为了更好的可读性和可维护性后端进化出了 MVC 这种模式，将模型、视图、控制器分离，前端进化出了 MVVM 实现数据的双向绑定避免手动操作视图的繁复。当前主流的是前后端分离，后端对于视图的控制弱化成了 api，接收数据处理数据最后输出视图数据(一般是 json 结构)，视图在浏览器端生成(服务端渲染通过 nodejs 在服务端生成)。
+
+现在项目中一般采用反射来处理 url 和 controller 的映射关系，与之对比的是通过 web.xml 中的 mapping 配置来定义映射，其中背后的原理是约定优于配置，配置需要手动去写，看的时候需要去查代码才知道映射逻辑，而约定可以直接推断出映射关系。这里的约定可以认为定义。
+
+怎么定义约定呢，源头也是 web.xml，将原始项目的 `*.from` 替换成 `/` 来监听所有请求，当然加一个前缀如 `/api/` 也是可以的。 
+
+```xml
+<servlet-mapping>
+    <servlet-name>dispatcher</servlet-name>
+    <!-- <url-pattern>*.form</url-pattern> -->
+    <url-pattern>/</url-pattern>
+</servlet-mapping>
+```
+
+第二步是配置 dispatcher-servlet.xml，定义 controller 路径，如果 url 是 `/users` 那么它对应的 controller 路径是 `/src/ctrl/UsersCtrl.java`
+
+```xml
+<context:component-scan base-package="ctrl"/>
+```
 
 ## 参考和扩展阅读
 
