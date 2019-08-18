@@ -55,7 +55,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 12.0.2+10, mixed mode, sharing)
 
 能写 Java 的 IDE 很多，有老牌的 NetBeans 和 Eclipse，也有比较新的 IntelliJ IDEA 和专门开发安卓 App 的 Android Studio。组里做 Java 开发的貌似用 IntelliJ IDEA 的比较多，这里从个众。
 
-IntelliJ IDEA 有官方免费试用版 和 社区免费版，当然如果你不差钱直接花 499$ 买个官方正式版。这里选择了社区版，想着入门应该够用了。
+IntelliJ IDEA 有官方免费试用版 和 社区免费版，当然如果你不差钱直接花 499$ 买个官方正式版。这里选择了免费版，想着入门应该够用了。
 
 https://www.jetbrains.com/idea/features/
 
