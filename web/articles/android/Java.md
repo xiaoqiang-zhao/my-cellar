@@ -109,11 +109,29 @@ java -jar command-line-app.jar
 
 - 下载 Java EE 8 Platform SDK
 - 将解压后的文件拷贝到 /usr/local
+- 配置环境变量，~/.bash_profile
+
+``` 
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-12.0.2.jdk/Contents/Home
+```
 
 安装 tomcat
 
 - 下载 tomcat
 - 将解压后的文件拷贝到 /usr/local
+
+安装 maven，maven 相当于 js 的 npm，负责依赖管理
+
+- 下载 (maven)[https://maven.apache.org/download.cgi]
+- 将解压后的文件拷贝到 /usr/local
+- 配置环境变量，~/.bash_profile
+
+```
+export M2_HOME=/usr/local/apache-maven-3.6.1
+export PATH=$M2_HOME/bin:$PATH
+```
+
+最后用 `source ~/.bash_profile` 命令让配置文件生效。在终端输入：java -version 和 mvn -version 检测 jdk 和 maven 是否安装成功，有版本号显示就是成功的。
 
 打开 IntelliJ IDEA 选择 Spring，勾选 Spring MVC 和 Spring Web Services 新建项目。在 Run / Edit Configration / + / Tomcat Server / Local / Application server / Tomcat Home 下配置 tomcat 安装路径。
 
@@ -133,11 +151,56 @@ java -jar command-line-app.jar
 </servlet-mapping>
 ```
 
-第二步是配置 dispatcher-servlet.xml，定义 controller 路径，如果 url 是 `/users` 那么它对应的 controller 路径是 `/src/ctrl/UsersCtrl.java`
+第二步是配置 dispatcher-servlet.xml，定义 controller 路径，如果 url 是 `/users` 那么它对应的 controller 路径是 `/src/controller/UsersController.java`
 
 ```xml
-<context:component-scan base-package="ctrl"/>
+<!-- 扫描 controller 下的组件 -->
+<context:component-scan base-package="controller"/>
+<!-- 配置 view 的路径前缀和后缀 -->
+<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/page/" />
+    <property name="suffix" value=".jsp" />
+</bean>
 ```
+
+然后在 src 右击 New / Package，包名为 "controller"，再在下面添加 Java Class，类名 HelloController，内容:
+
+```java
+package controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class HelloController{
+
+    @RequestMapping("/hello")
+    public ModelAndView handleRequest(javax.servlet.http.HttpServletRequest httpServletRequest, javax.servlet.http.HttpServletResponse httpServletResponse) throws Exception {
+        ModelAndView mav = new ModelAndView("hello");
+        mav.addObject("Title", "Spring MVC, Hello");
+        mav.addObject("message", "Hello Spring MVC");
+        return mav;
+    }
+}
+```
+
+最后在 web/WEB-INF 下添加 文件夹 pages，再添加 hello.jsp，内容:
+
+```jsp
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+  <head>
+    <title>${Title}</title>
+  </head>
+  <body>
+  <div>Hello Page: </div>
+  ${message}
+  </body>
+</html>
+```
+
+启动运行，url "http://localhost:8084/hello"，就可以看到页面。
 
 ## 参考和扩展阅读
 
@@ -148,3 +211,5 @@ java -jar command-line-app.jar
 [tomcat download](https://tomcat.apache.org/download-90.cgi)
 
 [Spring MVC 入门](https://www.jianshu.com/p/91a2d0a1e45a)
+
+[mac os安装java web开发环境配置](https://my.oschina.net/u/1760791/blog/738386)
