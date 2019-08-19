@@ -105,6 +105,8 @@ java -jar command-line-app.jar
 
 > 此内容不在预期当中，和后端写 Java 的同事合作多年却不知道他们怎么写代码，这里偏移主题满足一下个人的好奇心，完全可以跳过这章不影响后面学习。
 
+### hello world
+
 安装 Java EE 8 Platform SDK(包括了 Java EE Web Profile SDK)。
 
 - 下载 Java EE 8 Platform SDK
@@ -201,6 +203,11 @@ public class HelloController{
 ```
 
 启动运行，url "http://localhost:8084/hello"，就可以看到页面。
+
+注: 如果 javax.servlet 包找不到，将本地 Tomcat 服务器的目录下【lib】文件夹下的 servlet-api.jar 包拷贝到工程【lib】文件夹下，添加依赖，File / Project Structure... / Libraries / Spring / +
+
+### 依赖管理
+
 
 ## 参考和扩展阅读
 
