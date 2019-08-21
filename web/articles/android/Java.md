@@ -101,11 +101,11 @@ java -jar command-line-app.jar
 
 注: 具体打包步骤参见官网 https://www.jetbrains.com/help/idea/creating-and-running-your-first-java-application.html
 
-## Java Web(Day2 + Day3)
+## Java Web
 
 > 此内容不在预期当中，和后端写 Java 的同事合作多年却不知道他们怎么写代码，这里偏移主题满足一下个人的好奇心，完全可以跳过这章不影响后面学习。
 
-### hello world
+### hello world(Day2 + Day3)
 
 安装 Java EE 8 Platform SDK(包括了 Java EE Web Profile SDK)。
 
@@ -204,9 +204,13 @@ public class HelloController{
 
 启动运行，url "http://localhost:8084/hello"，就可以看到页面。
 
-注: 如果 javax.servlet 包找不到，将本地 Tomcat 服务器的目录下【lib】文件夹下的 servlet-api.jar 包拷贝到工程【lib】文件夹下，添加依赖，File / Project Structure... / Libraries / Spring / +
+注: 
+- 1 如果 javax.servlet 包找不到，将本地 Tomcat 服务器的目录下【lib】文件夹下的 servlet-api.jar 包拷贝到工程【lib】文件夹下，添加依赖，File / Project Structure... / Libraries / Spring / +
+- 2 在 `Run / Edit Configrations... / Tomcate / Deployment / Application content` 下设置整个项目的 url 前缀
+- 3 在 `Run / Edit Configrations... / Tomcate / Server / Open browser` 下可修改浏览器打开的默认路径
 
-### 依赖管理
+### 依赖管理(Day4)
+
 
 
 ## 参考和扩展阅读
@@ -220,3 +224,5 @@ public class HelloController{
 [Spring MVC 入门](https://www.jianshu.com/p/91a2d0a1e45a)
 
 [mac os安装java web开发环境配置](https://my.oschina.net/u/1760791/blog/738386)
+
+[IntelliJ IDEA上创建Maven Spring MVC项目](https://www.cnblogs.com/Sinte-Beuve/p/5730553.html)
