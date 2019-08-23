@@ -133,6 +133,19 @@ export M2_HOME=/usr/local/apache-maven-3.6.1
 export PATH=$M2_HOME/bin:$PATH
 ```
 
+修改配置文件 /usr/local/apache-maven-3.6.1/conf/settings.xml，添加镜像和本地仓库
+
+```xml
+<localRepository>/Users/username/code/mvnresp/repository</localRepository>
+<!-- 找到默认的 mirrors 标签，把这段替换进去 -->
+<mirror>
+    <id>nexusMirror</id>
+    <mirrorOf>*</mirrorOf>
+    <name>Human Readable Name for this Mirror.</name>
+    <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+</mirror>
+```
+
 最后用 `source ~/.bash_profile` 命令让配置文件生效。在终端输入：java -version 和 mvn -version 检测 jdk 和 maven 是否安装成功，有版本号显示就是成功的。
 
 打开 IntelliJ IDEA 选择 Spring，勾选 Spring MVC 和 Spring Web Services 新建项目。在 Run / Edit Configration / + / Tomcat Server / Local / Application server / Tomcat Home 下配置 tomcat 安装路径。
@@ -211,7 +224,27 @@ public class HelloController{
 
 ### 依赖管理(Day4)
 
+新建 maven 项目，选中 Create from archetype，选择 org.apache.maven.archetypes:maven-archetype-webapp，然后 Next。
 
+输入 GroupId com.maven.springmvc.helloworld 和 artifactId maven-springmvc-helloworld，然后 Next。
+
+配置 maven，使用之前安装好的 maven，配置 maven home 和 User settings file，User setting file 配置中有 Local repository 的配置会自动填充，然后 Next。
+
+最后设置项目名了路径，Next 之后就完成了项目初始化。进入项目开始下载依赖，这个过程可能会比较慢。生成的目录结构:
+
+```
+${project root}
+    ├── .idea IDE的配置文件 
+    ├── src   主要代码
+        ├── main
+            └── webapp
+                ├── WEB-INF
+                    └── web.xml  模板文件
+                └── index.jsp    首页
+    ├── target  build 生成的一堆文件
+    ├── maven-springmvc-helloworld.iml  项目配置文件
+    └── pom.xml   依赖描述文件
+```
 
 ## 参考和扩展阅读
 
