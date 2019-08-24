@@ -222,7 +222,7 @@ public class HelloController{
 - 2 在 `Run / Edit Configrations... / Tomcate / Deployment / Application content` 下设置整个项目的 url 前缀
 - 3 在 `Run / Edit Configrations... / Tomcate / Server / Open browser` 下可修改浏览器打开的默认路径
 
-### 依赖管理(Day4)
+### 依赖管理 maven (Day4)
 
 新建 maven 项目，选中 Create from archetype，选择 org.apache.maven.archetypes:maven-archetype-webapp，然后 Next。
 
@@ -244,6 +244,69 @@ ${project root}
     ├── target  build 生成的一堆文件
     ├── maven-springmvc-helloworld.iml  项目配置文件
     └── pom.xml   依赖描述文件
+```
+
+下面我们把 spring mvc 这套东西加上。首先是添加依赖，在 pom.xml 文件中配置:
+
+```xml
+<!-- j2ee 相关包 servlet、jsp、jstl-->
+<dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>javax.servlet-api</artifactId>
+    <version>3.1.0</version>
+</dependency>
+<dependency>
+    <groupId>javax.servlet.jsp</groupId>
+    <artifactId>jsp-api</artifactId>
+    <version>2.2</version>
+</dependency>
+<dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>jstl</artifactId>
+    <version>1.2</version>
+</dependency>
+<!-- spring mvc 相关-->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-core</artifactId>
+    <version>4.3.18.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>4.1.3.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-webmvc</artifactId>
+    <version>4.1.3.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-web</artifactId>
+    <version>4.1.3.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-orm</artifactId>
+    <version>3.2.4.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-beans</artifactId>
+    <version>4.3.18.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-aop</artifactId>
+    <version>4.3.18.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-aspects</artifactId>
+    <version>4.3.18.RELEASE</version>
+</dependency>
+
 ```
 
 ## 参考和扩展阅读
