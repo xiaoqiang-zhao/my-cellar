@@ -306,8 +306,138 @@ ${project root}
     <artifactId>spring-aspects</artifactId>
     <version>4.3.18.RELEASE</version>
 </dependency>
-
 ```
+
+在 src/main/webapp/WEB-INF/web.xml 中配置:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+    http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+    version="3.0">
+  <!--welcome pages-->
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+
+  <!--配置springmvc DispatcherServlet-->
+  <servlet>
+    <servlet-name>springMVC</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <!--Sources标注的文件夹下需要新建一个spring文件夹-->
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:spring/spring-mvc.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+    <async-supported>true</async-supported>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>springMVC</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+</web-app>
+```
+
+然后在 src/main 下创建 java 目录，无法在 java 目录下创建新的包和 java 类等文件的。在 idea 中需要对目录进行标注，File / Project Structure... / Modules，然后选中 java 文件夹，在 Source Folders 中添加路径 src/main/java。
+
+在 src / main 下添加 resources / spring / spring-mvc.xml，内容如下:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:context="http://www.springframework.org/schema/context"
+     xmlns:mvc="http://www.springframework.org/schema/mvc"
+     xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+             http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-3.2.xsd
+            http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+  <!--启用spring的一些annotation -->
+  <context:annotation-config/>
+
+  <!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
+  <context:component-scan base-package="com.mavenSpringmvcHelloworld.controller">
+    <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+  </context:component-scan>
+
+  <!--HandlerMapping 无需配置，springmvc可以默认启动-->
+
+  <!--静态资源映射-->
+  <!--本项目把静态资源放在了WEB-INF的statics目录下，资源映射如下-->
+  <!--  <mvc:resources mapping="/css/**" location="/WEB-INF/statics/css/"/>-->
+  <!--  <mvc:resources mapping="/js/**" location="/WEB-INF/statics/js/"/>-->
+  <!--  <mvc:resources mapping="/image/**" location="/WEB-INF/statics/images/"/>-->
+
+  <!--但是项目部署到linux下发现WEB-INF的静态资源会出现无法解析的情况，但是本地tomcat访问正常，因此建议还是直接把静态资源放在webapp的statics下，映射配置如下-->
+  <mvc:resources mapping="/css/**" location="/statics/css/"/>
+  <mvc:resources mapping="/js/**" location="/statics/js/"/>
+  <mvc:resources mapping="/image/**" location="/statics/images/"/>
+
+  <!-- 配置注解驱动 可以将request参数与绑定到controller参数上 -->
+  <mvc:annotation-driven/>
+
+  <!-- 对模型视图名称的解析，即在模型视图名称添加前后缀(如果最后一个还是表示文件夹,则最后的斜杠不要漏了) 使用JSP-->
+  <!-- 默认的视图解析器 在上边的解析错误时使用 (默认使用html)- -->
+  <bean id="defaultViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+    <property name="prefix" value="/WEB-INF/views/"/><!--设置JSP文件的目录位置-->
+    <property name="suffix" value=".jsp"/>
+  </bean>
+</beans>
+```
+
+其中包括了静态资源的路径定义和 controller 注解，然后在 src / main / java 下添加包 com.mavenSpringmvcHelloworld，再在下面添加下面四个包:
+
+- controller 控制器
+- dao 数据访问
+- pojo 实体类
+- service 业务逻辑
+
+为了简化先只添加一个 Controller Class，HomeController:
+
+```java
+package com.mavenSpringmvcHelloworld.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+// 注解标注此类为 springmvc 的 controller，url 映射为"/home"
+@Controller
+@RequestMapping("/home")
+public class HomeController {
+
+    //映射一个action
+    @RequestMapping("/index")
+    public ModelAndView handleRequest(javax.servlet.http.HttpServletRequest httpServletRequest, javax.servlet.http.HttpServletResponse httpServletResponse) throws Exception {
+        ModelAndView mav = new ModelAndView("home");
+        mav.addObject("Title", "Spring MVC, Hello");
+        mav.addObject("message", "Hello Spring MVC");
+        return mav;
+    }
+}
+```
+
+然后再 src / main / webapp / WEB-INF / views 下添加 home.jsp:
+
+```xml
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>${Title}</title>
+</head>
+<body>
+<div>Home Page: </div>
+${message}
+</body>
+</html>
+```
+
+然后启动运行，第一个 jsp 页面就完成了。
 
 ## 参考和扩展阅读
 
