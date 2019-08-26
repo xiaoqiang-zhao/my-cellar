@@ -439,6 +439,10 @@ ${message}
 
 然后启动运行，第一个 jsp 页面就完成了。
 
+### 返回 json (Day 5)
+
+前后端分离后已接口的形式交互数据是简单高效的，
+
 ## 参考和扩展阅读
 
 [The top 11 Free IDE for Java Coding]https://blog.idrsolutions.com/2015/03/the-top-11-free-ide-for-java-coding-development-programming/
