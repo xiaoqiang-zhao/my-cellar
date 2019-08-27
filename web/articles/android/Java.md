@@ -224,6 +224,8 @@ public class HelloController{
 
 ### 依赖管理 maven (Day4)
 
+maven 相当于 js 的 npm，这个应该是项目的标配，不明白为什么还要做区分。官网: https://mvnrepository.com，左边是热门分类，比如有一个 JSON Libraries，点进去会发现很多 json 相关的库，其中一个来自谷歌的 Gson，点击黑色标题进去会看到不同的版本，点击版本号后就出现 maven dependency 的配置，后面还有一些其他的 tab，Gradle 类似于 yarn。maven 是通过配置来管理以来的，然后通过 IDE 自动导入配置的依赖包，这一点和 npm 不同。
+
 新建 maven 项目，选中 Create from archetype，选择 org.apache.maven.archetypes:maven-archetype-webapp，然后 Next。
 
 输入 GroupId com.maven.springmvc.helloworld 和 artifactId maven-springmvc-helloworld，然后 Next。
