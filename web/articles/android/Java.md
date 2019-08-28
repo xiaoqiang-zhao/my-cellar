@@ -443,7 +443,75 @@ ${message}
 
 ### 返回 json (Day 5)
 
-前后端分离后已接口的形式交互数据是简单高效的，
+前后端分离后以 json 为格式的接口交互数据是简单高效的，在上面例子的基础上我们首先在 pom.xml 中引入支持 json 的包:
+
+```xml
+<dependency>
+  <groupId>com.google.code.gson</groupId>
+  <artifactId>gson</artifactId>
+  <version>2.8.5</version>
+</dependency>
+```
+
+然后定义实体类，例如 src / main / java / com.mavenSpringmvcHelloworld / pojo / User.java:
+
+```java
+package com.mavenSpringmvcHelloworld.pojo;
+
+public class User {
+    private String name;
+    private int id;
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+}
+```
+
+然后添加控制类，在其中定义路由(restful 形式)，src /main / java / com.mavenSpringmvcHelloworld / controller / UserController.java:
+
+```java
+package com.mavenSpringmvcHelloworld.controller;
+
+import com.google.gson.Gson;
+import com.mavenSpringmvcHelloworld.pojo.User;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+@RequestMapping("/user")
+public class UserController {
+
+    public UserController() {
+    }
+
+    @RequestMapping(value="{name}", method = RequestMethod.GET)
+
+    public @ResponseBody
+    String getUser(@PathVariable String name) {
+
+        User user = new User();
+
+        user.setName(name);
+        user.setId(1);
+
+        Gson gson = new Gson();
+        String jsonObject = gson.toJson(user);
+        return jsonObject;
+    }
+}
+```
 
 ## 参考和扩展阅读
 
@@ -458,3 +526,6 @@ ${message}
 [mac os安装java web开发环境配置](https://my.oschina.net/u/1760791/blog/738386)
 
 [IntelliJ IDEA上创建Maven Spring MVC项目](https://www.cnblogs.com/Sinte-Beuve/p/5730553.html)
+
+[各个 JSON 技术的比较（Jackson，Gson，Fastjson）的对比](https://blog.csdn.net/nich002/article/details/77933221)
+
