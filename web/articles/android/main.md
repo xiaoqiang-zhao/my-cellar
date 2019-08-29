@@ -2,7 +2,7 @@
 
 > 自学是一门手艺，怎么自己制定学习计划监控学习质量有效学习。以 Android 为例实践自学流程。
 
-## 有什么家当？
+## 有什么资源？
 
 原始角色: 前端开发者，对界面开发比较熟悉。
 
@@ -36,6 +36,12 @@
 验收: 
 - 可以运行 Hello World
 - 可以演示基础语法
+
+完成情况:
+
+- 历时 4 天完成
+- 学习笔记: articles/java
+- 关键词: jdk, IDEA, Command Line App, Java EE, maven, servlet, springMVC, gson
 
 ### Android 开发
 

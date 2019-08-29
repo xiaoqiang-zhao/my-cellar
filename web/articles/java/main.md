@@ -513,6 +513,8 @@ public class UserController {
 }
 ```
 
+数据库部分和 nodejs 重合度很高这里就不进入了。
+
 ## 参考和扩展阅读
 
 [The top 11 Free IDE for Java Coding]https://blog.idrsolutions.com/2015/03/the-top-11-free-ide-for-java-coding-development-programming/
@@ -529,3 +531,4 @@ public class UserController {
 
 [各个 JSON 技术的比较（Jackson，Gson，Fastjson）的对比](https://blog.csdn.net/nich002/article/details/77933221)
 
+[Gson在Java中的使用实例](https://blog.csdn.net/qq_34292479/article/details/86495412)
