@@ -18,10 +18,22 @@ Android 是操作系统，基于 Linux，原产于名为 Android.Inc 的一家�
 
 经过 10 年 10 个版本的更新，之前的很多问题现在已经不是问题了，我们需要跟着最新的教程来学。Android Native 的开发整体再走下坡路，新教程比较少，只能把网上零散的资料拼接起来。
 
+## IDE 的选择
+
+看了最近几年国外的一下文章，IntelliJ IDEA 和 Android Studio 是全世界 Android 开发者比较推荐的，前者收费后者免费，再结合教程的丰富程度选择了 Android Studio。
+
+官网: https://developer.android.com/studio
+
 ## Hello world
 
 ## 参考
 
 [最新最全面的Android学习指南](https://zhuanlan.zhihu.com/p/70005857)
 
-[]()
+[What are the best IDEs for Android development?](https://www.slant.co/topics/1321/~best-ides-for-android-development)
+
+[Top 10 Android Development Tools 2018](https://www.amarinfotech.com/best-android-development-tools-2018.html)
+
+[Android - Hello World Example](https://www.tutorialspoint.com/android/android_hello_world_example.htm)
+
+[配色学习](https://www.zhihu.com/question/22148127/answer/730635611)
