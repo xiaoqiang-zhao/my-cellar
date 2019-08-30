@@ -24,7 +24,11 @@ Android 是操作系统，基于 Linux，原产于名为 Android.Inc 的一家�
 
 官网: https://developer.android.com/studio
 
-## Hello world
+## hello world
+
+Android Native 的开发之前只有 Java 可选，现在官方推出了 Kotlin。这比较像当年的 Objective-C 和 Swift，Objective-C 是 1980 发明的语言，它进入大众视野是伴随 2007 年第一代 Iphone 的发布。Swift 是 2014 年发布的，面对领先 7 年的 Objective-C，经过 5 年的追赶依然被压一头(可以参考 2019.07 (PYPL)[http://pypl.github.io/PYPL.html] 发布的全球语言受欢迎排行榜)。所以我们当下不打算进入 Kotlin 的学习，而是依然以 Java 为主。
+
+
 
 ## 参考
 
@@ -37,3 +41,6 @@ Android 是操作系统，基于 Linux，原产于名为 Android.Inc 的一家�
 [Android - Hello World Example](https://www.tutorialspoint.com/android/android_hello_world_example.htm)
 
 [配色学习](https://www.zhihu.com/question/22148127/answer/730635611)
+
+[Swift vs Objective-C in 2019](https://medium.com/swiftify/swift-vs-objective-c-comparison-32aba9dad4e3)
+
