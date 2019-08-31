@@ -24,6 +24,12 @@ Android 是操作系统，基于 Linux，原产于名为 Android.Inc 的一家�
 
 官网: https://developer.android.com/studio
 
+遇到的问题:
+
+- Unable to access Android SDK add-on list
+
+由于国内网络环境 Android SDK 和其他一些组件安装失败，搞到很晚没解决，最可气的是官方说不应该有这问题，看来外国人不了解我天朝上国，第二天有点忙在夜深人静的时候开始研究，试着卸载重装居然通过了。我的梯子很给力。
+
 ## hello world
 
 Android Native 的开发之前只有 Java 可选，现在官方推出了 Kotlin。这比较像当年的 Objective-C 和 Swift，Objective-C 是 1980 发明的语言，它进入大众视野是伴随 2007 年第一代 Iphone 的发布。Swift 是 2014 年发布的，面对领先 7 年的 Objective-C，经过 5 年的追赶依然被压一头(可以参考 2019.07 (PYPL)[http://pypl.github.io/PYPL.html] 发布的全球语言受欢迎排行榜)。所以我们当下不打算进入 Kotlin 的学习，而是依然以 Java 为主。
