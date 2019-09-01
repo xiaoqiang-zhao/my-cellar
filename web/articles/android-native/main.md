@@ -30,7 +30,7 @@ Android 是操作系统，基于 Linux，原产于名为 Android.Inc 的一家�
 
 由于国内网络环境 Android SDK 和其他一些组件安装失败，搞到很晚没解决，最可气的是官方说不应该有这问题，看来外国人不了解我天朝上国，第二天有点忙在夜深人静的时候开始研究，试着卸载重装居然通过了。我的梯子很给力。
 
-## hello world
+## Phone, hello world
 
 Android Native 的开发之前只有 Java 可选，现在官方推出了 Kotlin。这比较像当年的 Objective-C 和 Swift，Objective-C 是 1980 发明的语言，它进入大众视野是伴随 2007 年第一代 Iphone 的发布。Swift 是 2014 年发布的，面对领先 7 年的 Objective-C，经过 5 年的追赶依然被压一头(可以参考 2019.07 (PYPL)[http://pypl.github.io/PYPL.html] 发布的全球语言受欢迎排行榜)。所以我们当下不打算进入 Kotlin 的学习，而是依然以 Java 为主。
 
@@ -39,8 +39,11 @@ Android Studio 第一映像很不错，第一次进入有多种应用可以选�
 - Wear OS, 智能手表
 - TV
 - Andriod Auto, 车载应用
-- Andriod Things, 嵌入式设备应用
+- Andriod Things, 嵌入式设备应用(自动售货机, 智能门禁, 物联网)
 
+选择 Phone and Tablet，任意选择一个模板，选择一下 Java 语言和 Android 9.0，一个项目就生成了，下载依赖需要一些时间耐心等待。在 src/layout 下就是页面了，点开可以大体预览页面。有安卓机的可以直接真机调试，配置如下:
+
+手头没有真机的可以先用模拟器玩着，配置方法如下:
 
 ## 参考
 
@@ -56,3 +59,4 @@ Android Studio 第一映像很不错，第一次进入有多种应用可以选�
 
 [Swift vs Objective-C in 2019](https://medium.com/swiftify/swift-vs-objective-c-comparison-32aba9dad4e3)
 
+[Android Studio 模拟器的选择和安装](https://blog.csdn.net/qq_33505204/article/details/78452286)
