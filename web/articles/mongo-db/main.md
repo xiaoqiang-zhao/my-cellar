@@ -548,6 +548,30 @@ fork=true
 
 启动数据库的时候执行 `npm run db`。
 
+### 数据迁移
+
+导出命令: mongoexport
+
+```
+mongoexport -d dbname -c collectionname -o filepath --type json/csv -f field
+```
+- -d: 数据库名
+- -c: 集合名称
+- -o: 导出数据文件的路径
+- -type: 导出数据类型，默认json
+
+导入命令: mongoimport
+
+```
+mongoimport -d dbname -c collectionname --file filename --headerline --type json/csv -f field
+```
+- -d: 数据库名
+- -c: 集合名称
+- --file: 选择导入的文件
+- -type: 文件类型，默认json
+- -f: 字段，type为csv是必须设置此项
+
+
 ## 一种实践方式
 
 数据处理写在一起可能会比较大，一般都采用分层的方式来处理，虽然写着有些繁琐，但是由于各层分工明确易于维护，这里介绍一种分层方式，这种分层方式参考了 Node.js 中文论坛的实现。
