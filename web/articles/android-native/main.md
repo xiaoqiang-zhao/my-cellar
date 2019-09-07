@@ -43,6 +43,9 @@ Android Studio 第一映像很不错，第一次进入有多种应用可以选�
 
 选择 Phone and Tablet，任意选择一个模板，选择一下 Java 语言和 Android 9.0，一个项目就生成了，下载依赖需要一些时间耐心等待。在 /app/src/main/res/layout 下就是页面了(注意左上角有 Android 和 Project Files 等多种显示模式)，点开可以大体预览页面。有安卓机的可以直接真机调试，配置如下:
 
+- Android Studio，顶部 app / Edit / USB Device
+- 手机上打开设置，点开”开发者选项“，将”USB调试打开“
+
 手头没有真机的可以先用模拟器玩着，配置方法如下:
 
 ## 参考
