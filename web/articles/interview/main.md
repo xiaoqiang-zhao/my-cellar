@@ -121,159 +121,168 @@ Array 有哪些方法？说说 some 和 every 的异同点。两个考察点，�
 
 注：f(n) = f(n - 1) + f(n - 2)，f(1) = f(2) = 1。
 
-    function f(n) {
-        if (n < 3) {
-            return 1;
-        }
-        else {
-            return f(n - 1) + f(n - 2);
-        }
+```js
+function f(n) {
+    if (n < 3) {
+        return 1;
     }
-
+    else {
+        return f(n - 1) + f(n - 2);
+    }
+}
+```
 主要考察有没有递归的思想，各种异常的判断可以加分，负数，小数(Number.isInteger)。
 
 框架主要问 vue，我们这边主要用的也是这个。
 
 父子组件传参需要注意的点，prop 里面的参数是否能直接用在子组件的 v-model 上？
 
-    // 父组件
-    <template>
-    <div>
-        <c :a="msg"></c>
-    </div>
-    </template>
-    <script>
-    import c from './c';
-    export default {
-        components: {c},
-        data() {
-            return {
-                msg: 'Welcome to Your Vue.js App'
-            };
-        }
-    };
-    </script>
-    // 子组件
-    <template>
-    <div>
-        <input type="text" v-model="a">
-    </div>
-    </template>
-    <script>
-    export default {
-        props: ['a'],
-        data() {
-            return {};
-        }
-    };
-    </script>
+```html
+// 父组件
+<template>
+<div>
+    <c :a="msg"></c>
+</div>
+</template>
+<script>
+import c from './c';
+export default {
+    components: {c},
+    data() {
+        return {
+            msg: 'Welcome to Your Vue.js App'
+        };
+    }
+};
+</script>
+// 子组件
+<template>
+<div>
+    <input type="text" v-model="a">
+</div>
+</template>
+<script>
+export default {
+    props: ['a'],
+    data() {
+        return {};
+    }
+};
+</script>
+```
 
 父组件可以直接向子组件传参，但是子组件不能直接改变传进来的值，这是使用 vue 必趟的坑，属于基础题。
 
 组件数据双向绑定有哪几种写法，各适合什么场景？
 
-    // 父组件
-    <template>
-    <div>
-        <c v-model="m"></c>
-    </div>
-    </template>
-    <script>
-    import c from './c';
-    export default {
-        components: {c},
-        data() {
-            return {
-                m: true
-            };
-        }
-    };
-    </script>
-    // 子组件
-    <template>
-    <div>
-        {{checked}}
-        <input type="button" value="改变值" @click="changeValue">
-    </div>
-    </template>
+```html
+// 父组件
+<template>
+<div>
+    <c v-model="m"></c>
+</div>
+</template>
+<script>
+import c from './c';
+export default {
+    components: {c},
+    data() {
+        return {
+            m: true
+        };
+    }
+};
+</script>
+// 子组件
+<template>
+<div>
+    {{checked}}
+    <input type="button" value="改变值" @click="changeValue">
+</div>
+</template>
 
-    <script>
-    export default {
-        model: {
-            prop: 'checked',
-            event: 'change'
-        },
-        props: {
-            checked: Boolean
-        },
-        data() {
-            return {};
-        },
-        methods: {
-            changeValue() {
-                this.$emit('change', !this.checked);
-            }
+<script>
+export default {
+    model: {
+        prop: 'checked',
+        event: 'change'
+    },
+    props: {
+        checked: Boolean
+    },
+    data() {
+        return {};
+    },
+    methods: {
+        changeValue() {
+            this.$emit('change', !this.checked);
         }
-    };
-    </script>
+    }
+};
+</script>
+```
 
 自定义 v-model 可以用来做双向绑定，对父组件来说比较简单，直接省略自定义事件的监听。需要注意的是 model 中定义的 prop 必须在 props 中定义，event 定义的事件名，被用做 $emit 函数的第一个参数。
 
-    // 父组件
-    <template>
-    <div>
-        {{m}}
-        <c :a.sync="m"></c>
-    </div>
-    </template>
-    <script>
-    import c from './c';
-    export default {
-        components: {c},
-        data() {
-            return {
-                m: true
-            };
-        }
-    };
-    </script>
-    // 子组件
-    <template>
-    <div>
-        {{checked}}
-        <input type="button" value="改变值" @click="changeValue">
-    </div>
-    </template>
+```html
+// 父组件
+<template>
+<div>
+    {{m}}
+    <c :a.sync="m"></c>
+</div>
+</template>
+<script>
+import c from './c';
+export default {
+    components: {c},
+    data() {
+        return {
+            m: true
+        };
+    }
+};
+</script>
+// 子组件
+<template>
+<div>
+    {{checked}}
+    <input type="button" value="改变值" @click="changeValue">
+</div>
+</template>
 
-    <script>
-    export default {
-        props: {
-            a: Boolean
-        },
-        data() {
-            return {
-                checked: true
-            };
-        },
-        methods: {
-            changeValue() {
-                this.checked = !this.checked;
-                this.$emit('update:a', this.checked);
-            }
+<script>
+export default {
+    props: {
+        a: Boolean
+    },
+    data() {
+        return {
+            checked: true
+        };
+    },
+    methods: {
+        changeValue() {
+            this.checked = !this.checked;
+            this.$emit('update:a', this.checked);
         }
-    };
-    </script>
+    }
+};
+</script>
+```
 
 sync 是 2.3 又加回来的属性，也是一种通过事件更新父组件属性的写法，与 v-model  在技术上不同的是它可以加多个。model 中的 event 硬编码不知道有什么特别的用处。
 
 slot 的作用域是什么？直接拿官方的代码上来：
 
-    <my-awesome-list :items="items">
-    <!-- 作用域插槽也可以是具名的 -->
-    <template slot="item" scope="props">
-        <li class="my-fancy-item">{{ props.text }}</li>
-    </template>
-    </my-awesome-list>
+```html
+<my-awesome-list :items="items">
+<!-- 作用域插槽也可以是具名的 -->
+<template slot="item" scope="props">
+    <li class="my-fancy-item">{{ props.text }}</li>
+</template>
+</my-awesome-list>
+```
 
 知不知道 runtime only 的概念，框架上说说 runtime + compute 和 runtime only 的区别。
 
@@ -309,7 +318,7 @@ slot 的作用域是什么？直接拿官方的代码上来：
 
 不要简历造假，否则你失去的可能不仅仅是这一次面试机会。在一个平台上，后面面试的公司是可以看到前面公司的评价的，如果有公司给你打上简历造假的标签，那后面的公司看到后根本没可能给你面试的机会了。
 
-开始几年尽量找一家能提升自己的公司，大厂优先，技术氛围优先，互联网小公司由于传统大公司的信息部。
+开始几年尽量找一家能提升自己的公司，大厂优先，技术氛围优先，互联网小公司优于传统大公司的信息部。
 
 ## 总结
 
