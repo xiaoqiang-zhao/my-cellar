@@ -1,4 +1,4 @@
-# vue2.0 通用代码片段
+# vue2.0 使用笔记
 
 > 有一些全局起作用的代码，你的项目中也可能用得到。
 
@@ -336,3 +336,25 @@ store.state.b // -> moduleB 的状态
 ## 组建间数据通信
 
 vuex不是万能药，组建之间的数据通信很多情况是不适用的，这里总结一下组件通信的常用方法的适用场景。
+
+## 生命周期
+
+基本是这样的:
+
+事件初始化和生命周期开始
+- beforeCreate
+注入和反射
+- created
+生成 html
+- beforeMount
+将生成的 html 插入到页面中
+- mounted
+数据改变
+- beforeUpdate
+更新虚拟 dom 和实体 dom
+- updated
+开始销毁
+- beforeDestroy
+销毁完成
+- destroyed
+
