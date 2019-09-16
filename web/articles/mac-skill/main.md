@@ -120,6 +120,19 @@ FireFox 的 HostAdmin 插件很好用，可以方便的切换 host 配置。
 
 单击左上角的苹果图标: About This Mac / Storage / Manage...
 
+## 包管理
+
+Mac常用的有两个：
+- brew, 如果你只希望很快的安装一些便利的工具，那么homebrew是个不错的选择。
+- macport, 如果你是重量级的Linux用户，希望使用所有的open source package，那么macports是你不二的选择。
+
+```shell
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" 
+# （mac 自带 ruby 环境)
+```
+
+
+
 ## 资料
 
 [16个OS X快捷键小技巧，至少应该了解一半](http://www.macx.cn/thread-2050934-1-1.html)
