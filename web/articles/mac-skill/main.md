@@ -131,7 +131,7 @@ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/
 # （mac 自带 ruby 环境)
 ```
 
-
+实践中，如果你装 nodejs 还是直接在官网下载安装包来的快，如果直接用 brew 安装默认是源码编译安装，需要下载很多依赖，比用安装包要慢很多。
 
 ## 资料
 
