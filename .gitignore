@@ -7,3 +7,5 @@ npm-debug.log
 
 # node 依赖包
 node_modules/
+
+.DS_Store

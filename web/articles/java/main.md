@@ -34,11 +34,9 @@ JDK 有了广义和狭义两种说法，广义上指所有版本的 Java 语言�
 Java 属于 oracle 公司，从其官网进入到 Java SDK 的下载列表，里面有个版本的下载地址
 https://www.oracle.com/technetwork/java/javase/downloads/index.html
 
-### 下载安装最新的 SE12
- 
-地址: https://download.oracle.com/otn-pub/java/jdk/12.0.2+10/e482c34c86bd4bf8b56c0b35558996b9/jdk-12.0.2_osx-x64_bin.dmg
+### 下载安装 JDK
 
-只有 173M。
+最新的 SE13 只有 173M。
 
 直接下一步下一步就完成了，省去了手动安装配置环境变量等步骤，大体原理就是将 java 相关的可执行文件拷贝到 /usr/bin 下，环境变量由 /etc/paths 统一指定。
 
@@ -46,9 +44,9 @@ https://www.oracle.com/technetwork/java/javase/downloads/index.html
 # 运行下面命令验证是否安装成功
 java --version
 # 安装成功后输出如下内容
-java 12.0.2 2019-07-16
-Java(TM) SE Runtime Environment (build 12.0.2+10)
-Java HotSpot(TM) 64-Bit Server VM (build 12.0.2+10, mixed mode, sharing)
+java 13-ea 2019-09-17
+Java(TM) SE Runtime Environment (build 13-ea+33)
+Java HotSpot(TM) 64-Bit Server VM (build 13-ea+33, mixed mode, sharing)
 ```
 
 ### 安装 IDE
@@ -124,19 +122,19 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-12.0.2.jdk/Contents/Home
 
 安装 maven，maven 相当于 js 的 npm，负责依赖管理
 
-- 下载 (maven)[https://maven.apache.org/download.cgi]
+- 下载 (maven)[https://maven.apache.org/download.cgi]，选择 Binary zip archive
 - 将解压后的文件拷贝到 /usr/local
 - 配置环境变量，~/.bash_profile
 
 ```
-export M2_HOME=/usr/local/apache-maven-3.6.1
+export M2_HOME=/usr/local/apache-maven-3.6.2/bin
 export PATH=$M2_HOME/bin:$PATH
 ```
 
-修改配置文件 /usr/local/apache-maven-3.6.1/conf/settings.xml，添加镜像和本地仓库
+修改配置文件 /usr/local/apache-maven-3.6.2/conf/settings.xml，添加镜像和本地仓库
 
 ```xml
-<localRepository>/Users/username/code/mvnresp/repository</localRepository>
+<localRepository>/Users/username/.m2/repository</localRepository>
 <!-- 找到默认的 mirrors 标签，把这段替换进去 -->
 <mirror>
     <id>nexusMirror</id>
