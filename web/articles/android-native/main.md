@@ -55,6 +55,8 @@ Android Studio 第一映像很不错，第一次进入有多种应用可以选�
 - 3. 启动 Genymotion 并登录，Next。
 - 4. accept agreement, Next.
 - 5. 选择手机安装，比如选择 Samsung Galaxy S10，409M 装的比较慢，手机类型并不全，集中在 Samsung、Google、HTC。
+- 6. 点击手机右侧图标，start 启动手机，启动成功后可以看到一个手机页面(你可以同时启动多个手机)。
+- 7. 在 Android Studio 上可以看到我们刚才启动的手机，选择一个就可以用模拟器看写的页面了。
 
 ## 参考
 
