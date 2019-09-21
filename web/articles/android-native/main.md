@@ -41,13 +41,7 @@ Android Studio 第一映像很不错，第一次进入有多种应用可以选�
 - Andriod Auto, 车载应用
 - Andriod Things, 嵌入式设备应用(自动售货机, 智能门禁, 物联网)
 
-选择 Phone and Tablet，任意选择一个模板，选择一下 Java 语言和 Android 9.0，一个项目就生成了，下载依赖需要一些时间耐心等待。在 /app/src/main/res/layout 下就是页面了(注意左上角有 Android 和 Project Files 等多种显示模式)，点开可以大体预览页面。有安卓机的可以直接真机调试，配置如下:
-
-- 1. Android Studio，顶部 app / Edit / USB Device。
-- 2. 手机上打开设置，点开”开发者选项“，将”USB调试打开“。
-- 3. Android 4.2 以后的系统可以隐藏”开发者选项“，点击“关于手机”，然后连续多次点击“版本号”，可以将”开发者选项“的隐藏取消掉，返回设置中就可以看到了。
-
-连上手机之后运行的时候报 “Session 'app': Installation did not succeed.”
+选择 Phone and Tablet，任意选择一个模板，选择一下 Java 语言和 Android 9.0，一个项目就生成了，下载依赖需要一些时间耐心等待。在 /app/src/main/res/layout 下就是页面了(注意左上角有 Android 和 Project Files 等多种显示模式)，点开可以大体预览页面。
 
 手头没有真机的可以先用模拟器玩着，这里介绍外挂 Genymotion 模拟器，配置方法如下:
 - 1. 安装 VirtualBox，从 https://www.virtualbox.org/wiki/Downloads 下载
@@ -57,6 +51,27 @@ Android Studio 第一映像很不错，第一次进入有多种应用可以选�
 - 5. 选择手机安装，比如选择 Samsung Galaxy S10，409M 装的比较慢，手机类型并不全，集中在 Samsung、Google、HTC。
 - 6. 点击手机右侧图标，start 启动手机，启动成功后可以看到一个手机页面(你可以同时启动多个手机)。
 - 7. 在 Android Studio 上可以看到我们刚才启动的手机，选择一个就可以用模拟器看写的页面了。
+
+模拟器的机型并不全，连我中华大华为都没有，差评。直接真机调试比较简单，配置如下:
+
+- 1. Android Studio，顶部 app / Edit / USB Device。
+- 2. 手机上打开设置，点开”开发者选项“，将”USB调试打开“。
+- 3. Android 4.2 以后的系统可以隐藏”开发者选项“，点击“关于手机”，然后连续多次点击“版本号”，可以将”开发者选项“的隐藏取消掉，返回设置中就可以看到了。
+
+连上手机之后运行的时候报 “Session 'app': Installation did not succeed.”
+
+## 系统性学习
+
+## 概述
+
+在搭建完前面的步骤后我们就可以进入系统性学习的步骤了，高效直接的方式是参照官方文档再结合第三方的视角，于是选择了下面两个参考资料:
+
+- 官方资料: [Android Training](http://hukai.me/android-training-course-in-chinese/index.html), [Android API Guides](https://developer.android.com/guide/index.html).
+- 中文书推荐: 《疯狂Android讲义(第4版)》.
+
+这里不会将资料全部搬运过来，在学习中提炼重点，摘录备忘。
+
+交互软件离不开三样东西: 组件，布局，事件。组件是实现特定功能的封转，布局是对交互元素的管理，事件连接着用户行为和数据的处理与展示。
 
 ## 参考
 
