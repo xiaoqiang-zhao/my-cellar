@@ -62,7 +62,7 @@ Android Studio 第一映像很不错，第一次进入有多种应用可以选�
 
 ## 系统性学习
 
-## 概述
+### 概述
 
 在搭建完前面的步骤后我们就可以进入系统性学习的步骤了，高效直接的方式是参照官方文档再结合第三方的视角，于是选择了下面两个参考资料:
 
@@ -72,6 +72,21 @@ Android Studio 第一映像很不错，第一次进入有多种应用可以选�
 这里不会将资料全部搬运过来，在学习中提炼重点，摘录备忘。
 
 交互软件离不开三样东西: 组件，布局，事件。组件是实现特定功能的封转，布局是对交互元素的管理，事件连接着用户行为和数据的处理与展示。
+
+### 建立简单的用户界面
+
+先整理一下前面 hello world 的代码:
+
+```
+${project root}
+    ├── app/src/main   主要代码
+        ├── res
+            ├── layout
+                ├── activity_main.xml 框架页，定义了页面框架，通过 include 将下面 content_main.xml  文件引入
+                └── content_main.xml 内容页文件，ConstraintLayout 内含 TextView 组件
+            └── menu/menu_main.xml  导航文件，并没有像 content_main.xml 一样被 activity_main.xml 直接 include 进界面，而是通过下面的 MainActivity.java 文件
+        └── java/com/xiaoqiangzhao/android_hello_word/MainActivity.java 主控制文件
+```
 
 ## 参考
 
