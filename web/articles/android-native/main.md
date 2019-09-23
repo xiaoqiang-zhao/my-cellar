@@ -84,9 +84,16 @@ ${project root}
             ├── layout
                 ├── activity_main.xml 框架页，定义了页面框架，通过 include 将下面 content_main.xml  文件引入
                 └── content_main.xml 内容页文件，ConstraintLayout 内含 TextView 组件
-            └── menu/menu_main.xml  导航文件，并没有像 content_main.xml 一样被 activity_main.xml 直接 include 进界面，而是通过下面的 MainActivity.java 文件
+            ├── menu/menu_main.xml  导航文件，并没有像 content_main.xml 一样被 activity_main.xml 直接 include 进界面，而是通过下面的 MainActivity.java 文件
+            └── values/ 定义一系列文案和色值等
         └── java/com/xiaoqiangzhao/android_hello_word/MainActivity.java 主控制文件
 ```
+
+Android 的图形用户界面由多个视图（View）和视图组（ViewGroup）构建而成。View 是通用的 UI 窗体小组件，如：按钮（Button）、文本框（Text field）；而 ViewGroup 则是用来定义子视图布局的不可见的容器，如：网格部件（grid）、垂直列表部件（vertical list）。
+
+Android 提供了一系列对应于 View 和 ViewGroup 子类的 XML 标签，以便我们用 XML 创建自己的 UI。Layouts 是 ViewGroup 的子类。
+
+![UI 结果图](./img/viewgroup.png)
 
 ## 参考
 
