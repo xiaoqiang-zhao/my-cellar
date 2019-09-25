@@ -185,7 +185,7 @@ promise 其实是一个状态机：
 ```js
 function timeout(ms) {
     return new Promise((resolve, reject) => {
-    setTimeout(resolve, ms, 'params-value');
+        setTimeout(resolve, ms, 'params-value');
     });
 }
 
