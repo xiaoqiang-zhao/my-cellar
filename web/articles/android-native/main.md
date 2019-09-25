@@ -95,6 +95,25 @@ Android 提供了一系列对应于 View 和 ViewGroup 子类的 XML 标签，�
 
 ![UI 结果图](./img/viewgroup.png)
 
+View 对象通常称为“微件”，可以是众多子类之一，例如 Button 或 TextView。ViewGroup 对象通常称为“布局”，可以是提供其他布局结构的众多类型之一，例如 LinearLayout 或 ConstraintLayout。
+
+结合前端的经验我把布局组件和功能组件做如下分类:
+
+```
+Android UI
+    ├── 影响位置的控件:
+        ├── Layouts: ConstraintLayout, LinearLayout, TableLayout 等
+        ├── Containers: Spinner, ScrollView, include 等
+        └── Legacy: GridLayout, GridView, ListView 等
+    └── 承载交互功能的控件
+        ├── Widget: WebView, ProcessBar, SearchView 等
+        ├── Text: TextView, E-mail, Phone 等
+        ├── Buttons: Button, ChecBox, Switch
+        └── Google: MapView, AdView
+```
+
+原生提供的控件就像 web 中浏览器提供的标签，是基础，复杂的控件都是基于基础控件的组合封装，原生的功能较弱，一般都会搭配 UI 库来使用。
+
 ## 参考
 
 [最新最全面的Android学习指南](https://zhuanlan.zhihu.com/p/70005857)
