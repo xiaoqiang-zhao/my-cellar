@@ -69,25 +69,7 @@ Android Studio 第一映像很不错，第一次进入有多种应用可以选�
 - 官方资料: [Android Training](http://hukai.me/android-training-course-in-chinese/index.html), [Android API Guides](https://developer.android.com/guide/index.html).
 - 中文书推荐: 《疯狂Android讲义(第4版)》.
 
-这里不会将资料全部搬运过来，在学习中提炼重点，摘录备忘。
-
-交互软件离不开三样东西: 组件，布局，事件。组件是实现特定功能的封转，布局是对交互元素的管理，事件连接着用户行为和数据的处理与展示。
-
-### 建立简单的用户界面
-
-先整理一下前面 hello world 的代码:
-
-```
-${project root}
-    ├── app/src/main   主要代码
-        ├── res
-            ├── layout
-                ├── activity_main.xml 框架页，定义了页面框架，通过 include 将下面 content_main.xml  文件引入
-                └── content_main.xml 内容页文件，ConstraintLayout 内含 TextView 组件
-            ├── menu/menu_main.xml  导航文件，并没有像 content_main.xml 一样被 activity_main.xml 直接 include 进界面，而是通过下面的 MainActivity.java 文件
-            └── values/ 定义一系列文案和色值等
-        └── java/com/xiaoqiangzhao/android_hello_word/MainActivity.java 主控制文件
-```
+交互软件离不开三样东西: 布局，功能组件，事件。组件是实现特定功能的封转，布局是对交互元素的管理，事件连接着用户行为和数据的处理与展示。
 
 Android 的图形用户界面由多个视图（View）和视图组（ViewGroup）构建而成。View 是通用的 UI 窗体小组件，如：按钮（Button）、文本框（Text field）；而 ViewGroup 则是用来定义子视图布局的不可见的容器，如：网格部件（grid）、垂直列表部件（vertical list）。
 
@@ -103,7 +85,7 @@ View 对象通常称为“微件”，可以是众多子类之一，例如 Butto
 Android UI
     ├── 影响位置的控件:
         ├── Layouts: ConstraintLayout, LinearLayout, TableLayout 等
-        ├── Containers: Spinner, ScrollView, include 等
+        ├── Containers: Spinner, ScrollView, include, merge 等
         └── Legacy: GridLayout, GridView, ListView 等
     └── 承载交互功能的控件
         ├── Widget: WebView, ProcessBar, SearchView 等
@@ -113,6 +95,74 @@ Android UI
 ```
 
 原生提供的控件就像 web 中浏览器提供的标签，是基础，复杂的控件都是基于基础控件的组合封装，原生的功能较弱，一般都会搭配 UI 库来使用。
+
+下面我们的学习思路是先单页再多页，单页中又先“容器和布局”再“功能组件”最“后组件交互和多页跳转”。
+
+### 容器和布局
+
+先整理一下前面 hello world 的代码:
+
+```
+${project root}
+    ├── app/src/main   主要代码
+        ├── res
+            ├── layout
+                ├── activity_main.xml 框架页，定义了页面框架，通过 include 将下面 content_main.xml  文件引入
+                └── content_main.xml 内容页文件，ConstraintLayout 内含 TextView 组件
+            ├── menu/menu_main.xml  导航文件，并没有像 content_main.xml 一样被 activity_main.xml 直接 include 进界面，而是通过下面的 MainActivity.java 文件
+            └── values/ 定义一系列文案和色值等
+        └── java/com/xiaoqiangzhao/android_hello_word/MainActivity.java 主控制文件
+```
+
+容器先讲 4 个: include, merge, ConstraintLayout, LinearLayout。
+
+Android系统中已经提供了非常多好用的控件，这让我们在编写布局的时候可以很轻松。但是有些时候我们可能需要反复利用某个已经写好的布局，如果你总是使用复制粘贴的方式来进行布局重用，这显然是一种很笨的做法。而Android当然也已经充分考虑到了布局重用的重要性，于是提供了 include 和 merge 这两个非常有用的标签，下面我们就来逐个学习一下。
+
+include 标签可以允许在一个布局当中引入另外一个布局，那么比如说我们程序的所有界面都有一个公共的部分，这个时候最好的做法就是将这个公共的部分提取到一个独立的布局文件当中，然后在每个界面的布局文件当中来引用这个公共的布局。在前面的 hello world 示例中 activity_main.xml 就将 content_main.xml 引入了进来。
+
+看一下 content_main.xml 的代码:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+每一个 layout xml 都需要有一个根节点，上面的容器用的是 ConstraintLayout，引用的页面中如果还引用了其他页面那就会出现多层容器嵌套，Android 去解析和展示一个布局是需要消耗时间的，布局嵌套的越多，那么解析起来就越耗时，性能也就越差，因此我们在编写布局文件时应该让嵌套的层数越少越好。所有容器中消耗资源最少的是 merge，不产生实际的嵌套，只引入 merge 标签中的内容。我们新建一个 merge_main.xml，内容如下:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Button
+        android:id="@+id/ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="OK" />
+
+</merge>
+```
+
+然后在 content_main.xml 中引入 merge_main.xml，将 `<include layout="@layout/merge_main"/>` 放在 TextView 下面。然后点击 Tool / Layout Inspector 就会看到组件的层级嵌套分析结果，可以看到 TextView 与 Button 是同级的，并没有产生容器和深一层的嵌套。
 
 ## 参考
 
@@ -129,3 +179,5 @@ Android UI
 [Swift vs Objective-C in 2019](https://medium.com/swiftify/swift-vs-objective-c-comparison-32aba9dad4e3)
 
 [Android Studio 模拟器的选择和安装](https://blog.csdn.net/qq_33505204/article/details/78452286)
+
+[Android 布局技巧](https://blog.csdn.net/guolin_blog/article/details/43376527)
