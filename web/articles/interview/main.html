@@ -88,7 +88,7 @@
 <p>取URL的参数。实际操作题，需要考虑等好后没有值，后面有哈希等情况。</p>
 <p>递归实现斐波那契数列：1 1 2 3 5 8。</p>
 <p>注：f(n) = f(n - 1) + f(n - 2)，f(1) = f(2) = 1。</p>
-<pre><code>function f(n) {
+<pre><code class="lang-js">function f(n) {
     if (n &lt; 3) {
         return 1;
     }
@@ -96,10 +96,11 @@
         return f(n - 1) + f(n - 2);
     }
 }
-</code></pre><p>主要考察有没有递归的思想，各种异常的判断可以加分，负数，小数(Number.isInteger)。</p>
+</code></pre>
+<p>主要考察有没有递归的思想，各种异常的判断可以加分，负数，小数(Number.isInteger)。</p>
 <p>框架主要问 vue，我们这边主要用的也是这个。</p>
 <p>父子组件传参需要注意的点，prop 里面的参数是否能直接用在子组件的 v-model 上？</p>
-<pre><code>// 父组件
+<pre><code class="lang-html">// 父组件
 &lt;template&gt;
 &lt;div&gt;
     &lt;c :a=&quot;msg&quot;&gt;&lt;/c&gt;
@@ -130,9 +131,10 @@ export default {
     }
 };
 &lt;/script&gt;
-</code></pre><p>父组件可以直接向子组件传参，但是子组件不能直接改变传进来的值，这是使用 vue 必趟的坑，属于基础题。</p>
+</code></pre>
+<p>父组件可以直接向子组件传参，但是子组件不能直接改变传进来的值，这是使用 vue 必趟的坑，属于基础题。</p>
 <p>组件数据双向绑定有哪几种写法，各适合什么场景？</p>
-<pre><code>// 父组件
+<pre><code class="lang-html">// 父组件
 &lt;template&gt;
 &lt;div&gt;
     &lt;c v-model=&quot;m&quot;&gt;&lt;/c&gt;
@@ -176,8 +178,9 @@ export default {
     }
 };
 &lt;/script&gt;
-</code></pre><p>自定义 v-model 可以用来做双向绑定，对父组件来说比较简单，直接省略自定义事件的监听。需要注意的是 model 中定义的 prop 必须在 props 中定义，event 定义的事件名，被用做 $emit 函数的第一个参数。</p>
-<pre><code>// 父组件
+</code></pre>
+<p>自定义 v-model 可以用来做双向绑定，对父组件来说比较简单，直接省略自定义事件的监听。需要注意的是 model 中定义的 prop 必须在 props 中定义，event 定义的事件名，被用做 $emit 函数的第一个参数。</p>
+<pre><code class="lang-html">// 父组件
 &lt;template&gt;
 &lt;div&gt;
     {{m}}
@@ -221,15 +224,17 @@ export default {
     }
 };
 &lt;/script&gt;
-</code></pre><p>sync 是 2.3 又加回来的属性，也是一种通过事件更新父组件属性的写法，与 v-model  在技术上不同的是它可以加多个。model 中的 event 硬编码不知道有什么特别的用处。</p>
+</code></pre>
+<p>sync 是 2.3 又加回来的属性，也是一种通过事件更新父组件属性的写法，与 v-model  在技术上不同的是它可以加多个。model 中的 event 硬编码不知道有什么特别的用处。</p>
 <p>slot 的作用域是什么？直接拿官方的代码上来：</p>
-<pre><code>&lt;my-awesome-list :items=&quot;items&quot;&gt;
+<pre><code class="lang-html">&lt;my-awesome-list :items=&quot;items&quot;&gt;
 &lt;!-- 作用域插槽也可以是具名的 --&gt;
 &lt;template slot=&quot;item&quot; scope=&quot;props&quot;&gt;
     &lt;li class=&quot;my-fancy-item&quot;&gt;{{ props.text }}&lt;/li&gt;
 &lt;/template&gt;
 &lt;/my-awesome-list&gt;
-</code></pre><p>知不知道 runtime only 的概念，框架上说说 runtime + compute 和 runtime only 的区别。</p>
+</code></pre>
+<p>知不知道 runtime only 的概念，框架上说说 runtime + compute 和 runtime only 的区别。</p>
 <h3 id="header-1-3-4">其他</h3>
 <p>如果简历里有写搭建脚手架，可以问问工程上的问题，webpack 和 gulp 的异同。</p>
 <p>如果有写是团队 leader 的，问问管理中出现过什么问题，怎么解决的。</p>
@@ -246,7 +251,7 @@ export default {
 <p>2、node 的学习，已经帮团队做了一个小个工具，用到文件存储，上传下载等。</p>
 <h2 id="header-1-4">对面试者说几句</h2>
 <p>不要简历造假，否则你失去的可能不仅仅是这一次面试机会。在一个平台上，后面面试的公司是可以看到前面公司的评价的，如果有公司给你打上简历造假的标签，那后面的公司看到后根本没可能给你面试的机会了。</p>
-<p>开始几年尽量找一家能提升自己的公司，大厂优先，技术氛围优先，互联网小公司由于传统大公司的信息部。</p>
+<p>开始几年尽量找一家能提升自己的公司，大厂优先，技术氛围优先，互联网小公司优于传统大公司的信息部。</p>
 <h2 id="header-1-5">总结</h2>
 <p>上面这些大概一个小时的量，面试真是个技术活儿，共勉。</p>
 

@@ -343,7 +343,70 @@ fastify.get(&#39;/&#39;, function (request, reply) {
 
 fastify.listen(3000)
 </code></pre>
-<h2 id="header-1-10">参考</h2>
+<h2 id="header-1-10">子进程</h2>
+<p>原生模块 <code>child_process</code> 提供子进程调用，用它可以很方便的调用系统能力，比如用 nodejs 写删除文件夹需要手动写递归删除里面的文件，如果调用 shell 就简单了:</p>
+<pre><code class="lang-js">const { spawn } = require(&#39;child_process&#39;);
+
+const rmCommand = spawn(&#39;rm -rf folder-name&#39;, {
+  shell: true
+});
+
+rmCommand.on(&#39;exit&#39;, function (code) {
+  // code 为 0 则删除成功
+  console.log(&#39;exit code: &#39; + code);
+});
+</code></pre>
+<p>Node.js 是单线程运行的，如果密集计算可以扔到一个子进程中进行。使用子进程需要你对 <strong>事件</strong> 和 <strong>流</strong> 有足够了解，其中 stdout 事件中的 data 默认就是 Buffer。</p>
+<p>语法: <code>spawn(command[, args][, options])</code>。代码示例如下:</p>
+<pre><code class="lang-js">const { spawn } = require(&#39;child_process&#39;);
+
+const lsCommand = spawn(&#39;ls&#39;, [&#39;../&#39;, &#39;-a&#39;], {
+  shell: true
+});
+
+lsCommand.stdout.on(&#39;data&#39;, data =&gt; {
+  console.log(&#39;stdout data: &#39;, data.toString());
+});
+</code></pre>
+<p>用 stdout 对指令的输出做监听和数据做处理，如果指令之前有前后依赖，可以监听前一个指令 exit 后开始下一个:</p>
+<pre><code class="lang-js">const spawn = require(&#39;child_process&#39;).spawn;
+const options = {
+  // 指定执行路径
+  cwd: &#39;/Users/user-name/project-path&#39;,
+  // 为了可以直接使用 git 命令
+  shell: true
+};
+function add() {
+  const command = spawn(&#39;git add file-1.js file-2.js&#39;, options);
+  command.on(&#39;exit&#39;, code =&gt; {
+    if (code === 0) {
+      console.log(&#39;add success&#39;);
+      commit();
+    }
+  });
+}
+function commit() {
+  const command = spawn(&#39;git commit -m &quot;commit 内容描述&quot;&#39;, options);
+  command.on(&#39;exit&#39;, code =&gt; {
+    if (code === 0) {
+      console.log(&#39;commit success&#39;);
+      push();
+    }
+  });
+}
+function push() {
+  const command = spawn(&#39;git push&#39;, options);
+  command.on(&#39;exit&#39;, code =&gt; {
+    if (code === 0) {
+      console.log(&#39;push success&#39;);
+    }
+  });
+}
+
+add();
+</code></pre>
+<p>另外创建子进程还有另外三种方式：fork, exec 和 execFile。</p>
+<h2 id="header-1-11">参考</h2>
 <p>(NodeJs中的stream（流）- 基础篇
 )[<a href="https://juejin.im/post/5a75d037f265da4e9e303773" target="_blank">https://juejin.im/post/5a75d037f265da4e9e303773</a>]</p>
 <p>(在Node.js中读写大文件)[<a href="https://blog.csdn.net/yhhwatl/article/details/53311214" target="_blank">https://blog.csdn.net/yhhwatl/article/details/53311214</a>]</p>

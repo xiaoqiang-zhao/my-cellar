@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Java 自学 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">Java 自学</h1>
+<h2 id="header-1-1">JDK 理论知识(Day1)</h2>
+<p>JDK是 Java 语言的软件开发工具包，主要用于移动设备、嵌入式设备上的java应用程序。JDK是整个java开发的核心，它包含了JAVA的运行环境（JVM+Java系统类库）和JAVA工具。</p>
+<p>-- 来自百度百科</p>
+<p>Java 语言的软件开发工具包有不同的版本，用于开发不同类型的应用:</p>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Name</th>
+<th>Publish Date</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JDK 1.1.4</td>
+<td>Sparkler</td>
+<td>1997-09-12</td>
+</tr>
+<tr>
+<td>J2SE 1.2</td>
+<td>Playground</td>
+<td>1998-12-04</td>
+</tr>
+<tr>
+<td>Java SE 5.0</td>
+<td>Tiger</td>
+<td>2004-09-30</td>
+</tr>
+<tr>
+<td>Java SE 10</td>
+<td></td>
+<td>2018-03-14</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>JDK(Java Development Kit) 是较为原始的一个版本，现在基本不用了</li>
+<li>J2SE(standard edition) 标准版，是我们通常用的一个版本，从JDK 5.0开始，改名为Java SE</li>
+<li>Java EE(enterprise edition) 企业版，使用这种JDK开发J2EE应用程序</li>
+</ul>
+<p>另外还有一个做手机应用的版本 Java ME。</p>
+<p>在一台电脑上可以同时安装Java SE、Java EE、Java ME，不影响，对应开发需求不一样，用对应的版本。</p>
+<h2 id="header-1-2">自己的理解与行动</h2>
+<p>JDK 有了广义和狭义两种说法，广义上指所有版本的 Java 语言的软件开发工具包，狭义上指 1.2 之前的版本。</p>
+<p>分别安装 SE、EE 、ME 对比学习。</p>
+<h2 id="header-1-3">Mac 上安装运行 Java</h2>
+<p>Java 属于 oracle 公司，从其官网进入到 Java SDK 的下载列表，里面有个版本的下载地址
+<a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank">https://www.oracle.com/technetwork/java/javase/downloads/index.html</a></p>
+<h3 id="header-1-3-1">下载安装 JDK</h3>
+<p>最新的 SE13 只有 173M。</p>
+<p>直接下一步下一步就完成了，省去了手动安装配置环境变量等步骤，大体原理就是将 java 相关的可执行文件拷贝到 /usr/bin 下，环境变量由 /etc/paths 统一指定。</p>
+<pre><code class="lang-shel"># 运行下面命令验证是否安装成功
+java --version
+# 安装成功后输出如下内容
+java 13-ea 2019-09-17
+Java(TM) SE Runtime Environment (build 13-ea+33)
+Java HotSpot(TM) 64-Bit Server VM (build 13-ea+33, mixed mode, sharing)
+</code></pre>
+<h3 id="header-1-3-2">安装 IDE</h3>
+<p>能写 Java 的 IDE 很多，有老牌的 NetBeans 和 Eclipse，也有比较新的 IntelliJ IDEA 和专门开发安卓 App 的 Android Studio。组里做 Java 开发的貌似用 IntelliJ IDEA 的比较多，这里从个众。</p>
+<p>IntelliJ IDEA 有官方免费试用版 和 社区免费版，当然如果你不差钱直接花 499$ 买个官方正式版。这里选择了免费版，想着入门应该够用了。</p>
+<p><a href="https://www.jetbrains.com/idea/features/" target="_blank">https://www.jetbrains.com/idea/features/</a></p>
+<h2 id="header-1-4">命令行项目</h2>
+<p>打开 IntelliJ IDEA 选择 Command Line App 新建项目，在提示的地方输入 <code>println</code>，点击运行就可以看到结果了。</p>
+<pre><code class="lang-java">package com.company;
+
+public class Main {
+
+    public static void main(String[] args) {
+        // write your code here
+        System.out.println(&quot;Hello, world!&quot;);
+    }
+}
+</code></pre>
+<p>多加点代码断点调试也不再话下</p>
+<pre><code class="lang-java">String str = &quot;Hello,&quot;;
+str = new StringBuilder(str).append(&quot; world!&quot;).toString();
+System.out.println(str);
+</code></pre>
+<p>还可以在命令行中输入 <code>java ./src/com/company/Main.java</code> 运行查看输出。</p>
+<p>Java 不同于 JavaScript，前者是编译型语言后者是解释型语言(又称脚本语言)，前者需要先编译再运行后者边编译边运行。Java 项目的打包是先编译然后打包编译的结果，JavaScript 的打包只是进行写法转换和文件压缩。</p>
+<p>命令行工具一般打包成 jar 包，大体步骤如下:</p>
+<ul>
+<li>File / Project Structure / Artifacts, Type 选为 JAR，设置打包输出路径，确定；</li>
+<li>Build / Artifacts / build, 构建打包。</li>
+</ul>
+<p>执行打包后的文件:</p>
+<pre><code class="lang-shell">java -jar command-line-app.jar
+</code></pre>
+<p>无论是 node 还是 java 的 cli 工具都需要装对应的环境才能运行，优点在于跨平台，还有生态比较完善，很多功能不用重头写。shell 的优势在于类 Liunx 系统原生支持，Windows 10 对 shell 的支持也日趋完善。</p>
+<p>注: 具体打包步骤参见官网 <a href="https://www.jetbrains.com/help/idea/creating-and-running-your-first-java-application.html" target="_blank">https://www.jetbrains.com/help/idea/creating-and-running-your-first-java-application.html</a></p>
+<h2 id="header-1-5">Java Web</h2>
+<blockquote>
+<p>此内容不在预期当中，和后端写 Java 的同事合作多年却不知道他们怎么写代码，这里偏移主题满足一下个人的好奇心，完全可以跳过这章不影响后面学习。</p>
+</blockquote>
+<h3 id="header-1-5-1">hello world(Day2 + Day3)</h3>
+<p>安装 Java EE 8 Platform SDK(包括了 Java EE Web Profile SDK)。</p>
+<ul>
+<li>下载 Java EE 8 Platform SDK</li>
+<li>将解压后的文件拷贝到 /usr/local</li>
+<li>配置环境变量，~/.bash_profile</li>
+</ul>
+<pre><code>export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-12.0.2.jdk/Contents/Home
+</code></pre><p>安装 tomcat</p>
+<ul>
+<li>下载 tomcat</li>
+<li>将解压后的文件拷贝到 /usr/local</li>
+</ul>
+<p>安装 maven，maven 相当于 js 的 npm，负责依赖管理</p>
+<ul>
+<li>下载 (maven)[<a href="https://maven.apache.org/download.cgi]，选择" target="_blank">https://maven.apache.org/download.cgi]，选择</a> Binary zip archive</li>
+<li>将解压后的文件拷贝到 /usr/local</li>
+<li>配置环境变量，~/.bash_profile</li>
+</ul>
+<pre><code>export M2_HOME=/usr/local/apache-maven-3.6.2/bin
+export PATH=$M2_HOME/bin:$PATH
+</code></pre><p>修改配置文件 /usr/local/apache-maven-3.6.2/conf/settings.xml，添加镜像和本地仓库</p>
+<pre><code class="lang-xml">&lt;localRepository&gt;/Users/username/.m2/repository&lt;/localRepository&gt;
+&lt;!-- 找到默认的 mirrors 标签，把这段替换进去 --&gt;
+&lt;mirror&gt;
+    &lt;id&gt;nexusMirror&lt;/id&gt;
+    &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;
+    &lt;name&gt;Human Readable Name for this Mirror.&lt;/name&gt;
+    &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public/&lt;/url&gt;
+&lt;/mirror&gt;
+</code></pre>
+<p>最后用 <code>source ~/.bash_profile</code> 命令让配置文件生效。在终端输入：java -version 和 mvn -version 检测 jdk 和 maven 是否安装成功，有版本号显示就是成功的。</p>
+<p>打开 IntelliJ IDEA 选择 Spring，勾选 Spring MVC 和 Spring Web Services 新建项目。在 Run / Edit Configration / + / Tomcat Server / Local / Application server / Tomcat Home 下配置 tomcat 安装路径。</p>
+<p>到此环境就准备好了，你可以直接运行然后在浏览器中查看，虽然是 404 页面但是服务已经启动，下面我们还需要学一下 Spring MVC 框架，如果和前端对比一下就是需要知道 Vue 或 React 这些框架下怎么写代码怎么配置路由等。</p>
+<p>随着项目的功能越来越复杂，为了更好的可读性和可维护性后端进化出了 MVC 这种模式，将模型、视图、控制器分离，前端进化出了 MVVM 实现数据的双向绑定避免手动操作视图的繁复。当前主流的是前后端分离，后端对于视图的控制弱化成了 api，接收数据处理数据最后输出视图数据(一般是 json 结构)，视图在浏览器端生成(服务端渲染通过 nodejs 在服务端生成)。</p>
+<p>现在项目中一般采用反射来处理 url 和 controller 的映射关系，与之对比的是通过 web.xml 中的 mapping 配置来定义映射，其中背后的原理是约定优于配置，配置需要手动去写，看的时候需要去查代码才知道映射逻辑，而约定可以直接推断出映射关系。这里的约定可以认为定义。</p>
+<p>怎么定义约定呢，源头也是 web.xml，将原始项目的 <code>*.from</code> 替换成 <code>/</code> 来监听所有请求，当然加一个前缀如 <code>/api/</code> 也是可以的。 </p>
+<pre><code class="lang-xml">&lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;dispatcher&lt;/servlet-name&gt;
+    &lt;!-- &lt;url-pattern&gt;*.form&lt;/url-pattern&gt; --&gt;
+    &lt;url-pattern&gt;/&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;
+</code></pre>
+<p>第二步是配置 dispatcher-servlet.xml，定义 controller 路径，如果 url 是 <code>/users</code> 那么它对应的 controller 路径是 <code>/src/controller/UsersController.java</code></p>
+<pre><code class="lang-xml">&lt;!-- 扫描 controller 下的组件 --&gt;
+&lt;context:component-scan base-package=&quot;controller&quot;/&gt;
+&lt;!-- 配置 view 的路径前缀和后缀 --&gt;
+&lt;bean id=&quot;viewResolver&quot; class=&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;&gt;
+    &lt;property name=&quot;prefix&quot; value=&quot;/WEB-INF/page/&quot; /&gt;
+    &lt;property name=&quot;suffix&quot; value=&quot;.jsp&quot; /&gt;
+&lt;/bean&gt;
+</code></pre>
+<p>然后在 src 右击 New / Package，包名为 &quot;controller&quot;，再在下面添加 Java Class，类名 HelloController，内容:</p>
+<pre><code class="lang-java">package controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class HelloController{
+
+    @RequestMapping(&quot;/hello&quot;)
+    public ModelAndView handleRequest(javax.servlet.http.HttpServletRequest httpServletRequest, javax.servlet.http.HttpServletResponse httpServletResponse) throws Exception {
+        ModelAndView mav = new ModelAndView(&quot;hello&quot;);
+        mav.addObject(&quot;Title&quot;, &quot;Spring MVC, Hello&quot;);
+        mav.addObject(&quot;message&quot;, &quot;Hello Spring MVC&quot;);
+        return mav;
+    }
+}
+</code></pre>
+<p>最后在 web/WEB-INF 下添加 文件夹 pages，再添加 hello.jsp，内容:</p>
+<pre><code class="lang-jsp">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;${Title}&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  &lt;div&gt;Hello Page: &lt;/div&gt;
+  ${message}
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>启动运行，url &quot;<a href="http://localhost:8084/hello&quot;，就可以看到页面。" target="_blank">http://localhost:8084/hello&quot;，就可以看到页面。</a></p>
+<p>注: </p>
+<ul>
+<li>1 如果 javax.servlet 包找不到，将本地 Tomcat 服务器的目录下【lib】文件夹下的 servlet-api.jar 包拷贝到工程【lib】文件夹下，添加依赖，File / Project Structure... / Libraries / Spring / +</li>
+<li>2 在 <code>Run / Edit Configrations... / Tomcate / Deployment / Application content</code> 下设置整个项目的 url 前缀</li>
+<li>3 在 <code>Run / Edit Configrations... / Tomcate / Server / Open browser</code> 下可修改浏览器打开的默认路径</li>
+</ul>
+<h3 id="header-1-5-2">依赖管理 maven (Day4)</h3>
+<p>maven 相当于 js 的 npm，这个应该是项目的标配，不明白为什么还要做区分。官网: <a href="https://mvnrepository.com，左边是热门分类，比如有一个" target="_blank">https://mvnrepository.com，左边是热门分类，比如有一个</a> JSON Libraries，点进去会发现很多 json 相关的库，其中一个来自谷歌的 Gson，点击黑色标题进去会看到不同的版本，点击版本号后就出现 maven dependency 的配置，后面还有一些其他的 tab，Gradle 类似于 yarn。maven 是通过配置来管理以来的，然后通过 IDE 自动导入配置的依赖包，这一点和 npm 不同。</p>
+<p>新建 maven 项目，选中 Create from archetype，选择 org.apache.maven.archetypes:maven-archetype-webapp，然后 Next。</p>
+<p>输入 GroupId com.maven.springmvc.helloworld 和 artifactId maven-springmvc-helloworld，然后 Next。</p>
+<p>配置 maven，使用之前安装好的 maven，配置 maven home 和 User settings file，User setting file 配置中有 Local repository 的配置会自动填充，然后 Next。</p>
+<p>最后设置项目名了路径，Next 之后就完成了项目初始化。进入项目开始下载依赖，这个过程可能会比较慢。生成的目录结构:</p>
+<pre><code>${project root}
+    ├── .idea IDE的配置文件 
+    ├── src   主要代码
+        ├── main
+            └── webapp
+                ├── WEB-INF
+                    └── web.xml  模板文件
+                └── index.jsp    首页
+    ├── target  build 生成的一堆文件
+    ├── maven-springmvc-helloworld.iml  项目配置文件
+    └── pom.xml   依赖描述文件
+</code></pre><p>下面我们把 spring mvc 这套东西加上。首先是添加依赖，在 pom.xml 文件中配置:</p>
+<pre><code class="lang-xml">&lt;!-- j2ee 相关包 servlet、jsp、jstl--&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+    &lt;artifactId&gt;javax.servlet-api&lt;/artifactId&gt;
+    &lt;version&gt;3.1.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;javax.servlet.jsp&lt;/groupId&gt;
+    &lt;artifactId&gt;jsp-api&lt;/artifactId&gt;
+    &lt;version&gt;2.2&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+    &lt;artifactId&gt;jstl&lt;/artifactId&gt;
+    &lt;version&gt;1.2&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!-- spring mvc 相关--&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-core&lt;/artifactId&gt;
+    &lt;version&gt;4.3.18.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-context&lt;/artifactId&gt;
+    &lt;version&gt;4.1.3.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-webmvc&lt;/artifactId&gt;
+    &lt;version&gt;4.1.3.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-web&lt;/artifactId&gt;
+    &lt;version&gt;4.1.3.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-orm&lt;/artifactId&gt;
+    &lt;version&gt;3.2.4.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-beans&lt;/artifactId&gt;
+    &lt;version&gt;4.3.18.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-aop&lt;/artifactId&gt;
+    &lt;version&gt;4.3.18.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-aspects&lt;/artifactId&gt;
+    &lt;version&gt;4.3.18.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>在 src/main/webapp/WEB-INF/web.xml 中配置:</p>
+<pre><code class="lang-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;web-app xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee
+    http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd&quot;
+    version=&quot;3.0&quot;&gt;
+  &lt;!--welcome pages--&gt;
+  &lt;welcome-file-list&gt;
+    &lt;welcome-file&gt;index.jsp&lt;/welcome-file&gt;
+  &lt;/welcome-file-list&gt;
+
+  &lt;!--配置springmvc DispatcherServlet--&gt;
+  &lt;servlet&gt;
+    &lt;servlet-name&gt;springMVC&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;
+    &lt;init-param&gt;
+      &lt;!--Sources标注的文件夹下需要新建一个spring文件夹--&gt;
+      &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+      &lt;param-value&gt;classpath:spring/spring-mvc.xml&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+    &lt;async-supported&gt;true&lt;/async-supported&gt;
+  &lt;/servlet&gt;
+  &lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;springMVC&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/&lt;/url-pattern&gt;
+  &lt;/servlet-mapping&gt;
+&lt;/web-app&gt;
+</code></pre>
+<p>然后在 src/main 下创建 java 目录，无法在 java 目录下创建新的包和 java 类等文件的。在 idea 中需要对目录进行标注，File / Project Structure... / Modules，然后选中 java 文件夹，在 Source Folders 中添加路径 src/main/java。</p>
+<p>在 src / main 下添加 resources / spring / spring-mvc.xml，内容如下:</p>
+<pre><code class="lang-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+     xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+     xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+     xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot;
+     xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+             http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-3.2.xsd
+            http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd&quot;&gt;
+  &lt;!--启用spring的一些annotation --&gt;
+  &lt;context:annotation-config/&gt;
+
+  &lt;!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 --&gt;
+  &lt;context:component-scan base-package=&quot;com.mavenSpringmvcHelloworld.controller&quot;&gt;
+    &lt;context:include-filter type=&quot;annotation&quot; expression=&quot;org.springframework.stereotype.Controller&quot;/&gt;
+  &lt;/context:component-scan&gt;
+
+  &lt;!--HandlerMapping 无需配置，springmvc可以默认启动--&gt;
+
+  &lt;!--静态资源映射--&gt;
+  &lt;!--本项目把静态资源放在了WEB-INF的statics目录下，资源映射如下--&gt;
+  &lt;!--  &lt;mvc:resources mapping=&quot;/css/**&quot; location=&quot;/WEB-INF/statics/css/&quot;/&gt;--&gt;
+  &lt;!--  &lt;mvc:resources mapping=&quot;/js/**&quot; location=&quot;/WEB-INF/statics/js/&quot;/&gt;--&gt;
+  &lt;!--  &lt;mvc:resources mapping=&quot;/image/**&quot; location=&quot;/WEB-INF/statics/images/&quot;/&gt;--&gt;
+
+  &lt;!--但是项目部署到linux下发现WEB-INF的静态资源会出现无法解析的情况，但是本地tomcat访问正常，因此建议还是直接把静态资源放在webapp的statics下，映射配置如下--&gt;
+  &lt;mvc:resources mapping=&quot;/css/**&quot; location=&quot;/statics/css/&quot;/&gt;
+  &lt;mvc:resources mapping=&quot;/js/**&quot; location=&quot;/statics/js/&quot;/&gt;
+  &lt;mvc:resources mapping=&quot;/image/**&quot; location=&quot;/statics/images/&quot;/&gt;
+
+  &lt;!-- 配置注解驱动 可以将request参数与绑定到controller参数上 --&gt;
+  &lt;mvc:annotation-driven/&gt;
+
+  &lt;!-- 对模型视图名称的解析，即在模型视图名称添加前后缀(如果最后一个还是表示文件夹,则最后的斜杠不要漏了) 使用JSP--&gt;
+  &lt;!-- 默认的视图解析器 在上边的解析错误时使用 (默认使用html)- --&gt;
+  &lt;bean id=&quot;defaultViewResolver&quot; class=&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;&gt;
+    &lt;property name=&quot;viewClass&quot; value=&quot;org.springframework.web.servlet.view.JstlView&quot;/&gt;
+    &lt;property name=&quot;prefix&quot; value=&quot;/WEB-INF/views/&quot;/&gt;&lt;!--设置JSP文件的目录位置--&gt;
+    &lt;property name=&quot;suffix&quot; value=&quot;.jsp&quot;/&gt;
+  &lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+<p>其中包括了静态资源的路径定义和 controller 注解，然后在 src / main / java 下添加包 com.mavenSpringmvcHelloworld，再在下面添加下面四个包:</p>
+<ul>
+<li>controller 控制器</li>
+<li>dao 数据访问</li>
+<li>pojo 实体类</li>
+<li>service 业务逻辑</li>
+</ul>
+<p>为了简化先只添加一个 Controller Class，HomeController:</p>
+<pre><code class="lang-java">package com.mavenSpringmvcHelloworld.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+// 注解标注此类为 springmvc 的 controller，url 映射为&quot;/home&quot;
+@Controller
+@RequestMapping(&quot;/home&quot;)
+public class HomeController {
+
+    //映射一个action
+    @RequestMapping(&quot;/index&quot;)
+    public ModelAndView handleRequest(javax.servlet.http.HttpServletRequest httpServletRequest, javax.servlet.http.HttpServletResponse httpServletResponse) throws Exception {
+        ModelAndView mav = new ModelAndView(&quot;home&quot;);
+        mav.addObject(&quot;Title&quot;, &quot;Spring MVC, Hello&quot;);
+        mav.addObject(&quot;message&quot;, &quot;Hello Spring MVC&quot;);
+        return mav;
+    }
+}
+</code></pre>
+<p>然后再 src / main / webapp / WEB-INF / views 下添加 home.jsp:</p>
+<pre><code class="lang-xml">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;${Title}&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div&gt;Home Page: &lt;/div&gt;
+${message}
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>然后启动运行，第一个 jsp 页面就完成了。</p>
+<h3 id="header-1-5-3">返回 json (Day 5)</h3>
+<p>前后端分离后以 json 为格式的接口交互数据是简单高效的，在上面例子的基础上我们首先在 pom.xml 中引入支持 json 的包:</p>
+<pre><code class="lang-xml">&lt;dependency&gt;
+  &lt;groupId&gt;com.google.code.gson&lt;/groupId&gt;
+  &lt;artifactId&gt;gson&lt;/artifactId&gt;
+  &lt;version&gt;2.8.5&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>然后定义实体类，例如 src / main / java / com.mavenSpringmvcHelloworld / pojo / User.java:</p>
+<pre><code class="lang-java">package com.mavenSpringmvcHelloworld.pojo;
+
+public class User {
+    private String name;
+    private int id;
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+}
+</code></pre>
+<p>然后添加控制类，在其中定义路由(restful 形式)，src /main / java / com.mavenSpringmvcHelloworld / controller / UserController.java:</p>
+<pre><code class="lang-java">package com.mavenSpringmvcHelloworld.controller;
+
+import com.google.gson.Gson;
+import com.mavenSpringmvcHelloworld.pojo.User;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+@RequestMapping(&quot;/user&quot;)
+public class UserController {
+
+    public UserController() {
+    }
+
+    @RequestMapping(value=&quot;{name}&quot;, method = RequestMethod.GET)
+
+    public @ResponseBody
+    String getUser(@PathVariable String name) {
+
+        User user = new User();
+
+        user.setName(name);
+        user.setId(1);
+
+        Gson gson = new Gson();
+        String jsonObject = gson.toJson(user);
+        return jsonObject;
+    }
+}
+</code></pre>
+<p>数据库部分和 nodejs 重合度很高这里就不进入了。</p>
+<h2 id="header-1-6">参考和扩展阅读</h2>
+<p>[The top 11 Free IDE for Java Coding]<a href="https://blog.idrsolutions.com/2015/03/the-top-11-free-ide-for-java-coding-development-programming/" target="_blank">https://blog.idrsolutions.com/2015/03/the-top-11-free-ide-for-java-coding-development-programming/</a></p>
+<p><a href="https://www.oracle.com/technetwork/java/javaee/downloads/index.html" target="_blank">Java EE Web Profile SDK</a></p>
+<p><a href="https://tomcat.apache.org/download-90.cgi" target="_blank">tomcat download</a></p>
+<p><a href="https://www.jianshu.com/p/91a2d0a1e45a" target="_blank">Spring MVC 入门</a></p>
+<p><a href="https://my.oschina.net/u/1760791/blog/738386" target="_blank">mac os安装java web开发环境配置</a></p>
+<p><a href="https://www.cnblogs.com/Sinte-Beuve/p/5730553.html" target="_blank">IntelliJ IDEA上创建Maven Spring MVC项目</a></p>
+<p><a href="https://blog.csdn.net/nich002/article/details/77933221" target="_blank">各个 JSON 技术的比较（Jackson，Gson，Fastjson）的对比</a></p>
+<p><a href="https://blog.csdn.net/qq_34292479/article/details/86495412" target="_blank">Gson在Java中的使用实例</a></p>
+
+</div>
+</body>
+</html>

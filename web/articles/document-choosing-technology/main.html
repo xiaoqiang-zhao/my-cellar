@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>项目文档的技术选型 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">项目文档的技术选型</h1>
+<blockquote>
+<p>一个项目无论大小文档是必不可少的，选用什么工具以什么形式来编写文档由项目的性质决定。合适的形式，清晰的逻辑能给项目加不少分，便于上手，便于推广。</p>
+</blockquote>
+<h2 id="header-1-1">简单项目</h2>
+<p>如果是比较简单的开源项目，你只需要写好 readme.md 就可以了。我们拿命令行高亮工具 <code>chalk</code> 为参考，你的目录结构可能是这样的:</p>
+<ul>
+<li>Logo, 如果有的话放上去显得高大上;</li>
+<li>工程化数据, build coverage dependents 都放上去显得我们很专业很靠谱;</li>
+<li>Summary, 说明白我们这个项目是解决什么问题的，也可能是一句话;</li>
+<li>Install, 安装命令;</li>
+<li>Usage, 使用简介，展示核心用法;</li>
+<li>API, 支持的 API，让功能不被埋没;</li>
+<li>Others, 如果你的项目有特殊性在这里说说，比如 chalk 就不支持 Windows 原生的命令行工具;</li>
+<li>Maintainers, 主要维护者，核心成员的名字可以出现在此处。</li>
+</ul>
+<p>在线 Demo 可以让使用者更直观的判断项目的功能和边界，有些项目(比如 cli 相关项目)不方便提供在线 Demo 你可以用 gif 动画来代替。你甚至可以提供一个可以在本地快速部署的示例项目给用户。</p>
+<p><a href="https://nbedos.github.io/termtosvg/" target="_blank">termtosvg</a></p>
+<h2 id="header-1-2">功能类项目</h2>
+<p>写文档的两种模式:</p>
+<ul>
+<li>平台，在一个平台上书写，优点是不需要运维，缺点是受制于平台的表现形式。</li>
+<li>开源可部署工程，优点是自主性强，可以扩展开发可以用自己的域名，缺点是有开发和运维成本。</li>
+</ul>
+<p>推荐两个使用范围较广的平台:</p>
+<ul>
+<li><a href="https://app.gitbook.com/" target="_blank">gitbook</a>，有企业和个人两种模式，完善的 markdown 支持，支持多人协作，支持自定义 url 发布;</li>
+<li><a href="https://www.yuque.com/" target="_blank">语雀</a>，来自阿里的文档平台。可以写项目文档、学习笔记、团队专栏、帮助手册，可以团队协作。</li>
+</ul>
+<p>再推荐几个使用范围较广的开源可部署工程:</p>
+<ul>
+<li><a href="https://docsify.js.org" target="_blank">docsify</a>，支持多语言和风格定制，还支持搜索。</li>
+<li><a href="https://github.com/YMFE/ydoc" target="_blank">ydoc</a>，来自去哪儿。</li>
+<li><a href="https://hexo.io" target="_blank">hexo</a>，一个广为使用的博客系统，阿里的 egg.js 的文档就是用该工具搭建的。</li>
+</ul>
+<h2 id="header-1-3">交互类项目</h2>
+<p>UI 组件库是一种更高级的存在，除了用文档描述还需要可运行可交互。</p>
+<p>最直观原始的方案是每篇文档都写一个页面，每个 Demo 都写一个组件引入。还有一种思路是把 markdown 中的代码片段直接提取为组件并运行，参见 ElementUI 的官网，源码地址在这里，包含了文档和 markdown 插件，这里有一篇介绍的文章: <a href="https://zhuanlan.zhihu.com/p/65174076。" target="_blank">https://zhuanlan.zhihu.com/p/65174076。</a></p>
+<h2 id="header-1-4">参考和扩展阅读</h2>
+<p><a href="https://blog.csdn.net/enweitech/article/details/58586436" target="_blank">基于Node.JS的六款开源内容管理和静态网站生成系统</a></p>
+
+</div>
+</body>
+</html>

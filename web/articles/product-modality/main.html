@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>产品形态 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">产品形态</h1>
+<blockquote>
+<p>从技术角度看产品形态。</p>
+</blockquote>
+<h2 id="header-1-1">输出为主</h2>
+<p>思想和价值观(反思和进步)，设计方案，某一类事的解决方案(技术方案、育儿方案)。</p>
+<p>一个号 - 实名微信账号(主打朋友圈)，微信公众号，百度百家号，抖音账号(电影解说、大长腿)，知乎，豆瓣，简书，还有各个行业专门的社区(例如IT技术的 CSDN、SegmentFault、Github、stackoverflow，摄影的蜂鸟，旅行的马蜂窝，户外的六只脚)。</p>
+<p>一个独立网站。技术支持，基于 Node.JS 的六款开源内容管理和静态网站生成系统: 
+<a href="https://blog.csdn.net/enweitech/article/details/58586436。" target="_blank">https://blog.csdn.net/enweitech/article/details/58586436。</a></p>
+<h2 id="header-1-2">轻交互</h2>
+<p>小程序(微信、百度、支付宝、携程...)。</p>
+<p>H5 套壳App。</p>
+<p>转 H5: react native 、flutter、weex 
+<a href="https://juejin.im/post/5b0607c76fb9a07a9b365556" target="_blank">https://juejin.im/post/5b0607c76fb9a07a9b365556</a></p>
+<h2 id="header-1-3">重交互</h2>
+<p>原生App，桌面App。</p>
+<p>降低开发成本的转译工具: mpvue vue项目直接转小程序</p>
+
+</div>
+</body>
+</html>

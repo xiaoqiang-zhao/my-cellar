@@ -118,6 +118,42 @@
     "todoList": []
   },
   {
+    "enName": "android",
+    "title": "自学 Android 开发计划",
+    "introduction": "自学是一门手艺，怎么自己制定学习计划监控学习质量有效学习。以 Android 为例实践自学流程。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1569468489598,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "android-native",
+    "title": "Android Native",
+    "introduction": "Android 原生 App 自学笔记。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1569468489599,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "android-studio",
+    "title": "Android Studio 使用备忘",
+    "introduction": "工欲善其事必先利其器。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1569468489599,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "angular2",
     "title": "Angular 2",
     "introduction": "虽然暂时不打算在项目中使用，但也应该了解一下这个名气很大的框架。",
@@ -428,6 +464,18 @@
     "todoList": []
   },
   {
+    "enName": "document-choosing-technology",
+    "title": "项目文档的技术选型",
+    "introduction": "一个项目无论大小文档是必不可少的，选用什么工具以什么形式来编写文档由项目的性质决定。合适的形式，清晰的逻辑能给项目加不少分，便于上手，便于推广。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1569468489614,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "dom",
     "title": "Dom 常用操作",
     "introduction": "补充基础知识。",
@@ -526,12 +574,24 @@
   {
     "enName": "express",
     "title": "Express",
-    "introduction": "了解完 Koa，需要了解一下适用范围更广泛的 Express，也为改造脚手架做准备。",
+    "introduction": "NodeJs 服务器端框架之 Express，相对于 Koa 有更广大的使用范围和更丰富的生态。",
     "tags": [],
     "isPublished": false,
     "state": "立项",
     "type": "md",
     "createDate": 1502020304463,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "fake-demand",
+    "title": "伪需求",
+    "introduction": "最常见的是把方案当需求。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1569468489622,
     "commentList": [],
     "todoList": []
   },
@@ -703,6 +763,18 @@
     "todoList": []
   },
   {
+    "enName": "java",
+    "title": "Java 自学",
+    "introduction": "此内容不在预期当中，和后端写 Java 的同事合作多年却不知道他们怎么写代码，这里偏移主题满足一下个人的好奇心，完全可以跳过这章不影响后面学习。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1569468489630,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "jd",
     "title": "职位介绍",
     "introduction": "未找到描述信息",
@@ -861,7 +933,7 @@
   {
     "enName": "koa",
     "title": "Koa 学习笔记",
-    "introduction": "总需要学一个 Node 的服务器端框架吧，就从 Koa 开始吧。",
+    "introduction": "> NodeJs 服务器端框架之 Koa，号称 Express 之后的新一代服务器端框架，更好的中间件模式。",
     "tags": [
       "框架",
       "个人笔记",
@@ -1063,8 +1135,10 @@
     "enName": "nginx",
     "title": "Nginx 使用备忘",
     "introduction": "用 Nginx 做代理或前端静态文件服务器是大前端的一个技能，其优点是比 NodeJs 服务更加稳定和简单，Nginx 可以单独使用也可以和 NodeJs 搭配使用解决负载均衡等问题。",
-    "tags": [],
-    "isPublished": false,
+    "tags": [
+      "服务器软件"
+    ],
+    "isPublished": true,
     "state": "立项",
     "type": "md",
     "createDate": 1527729823287,
@@ -1139,6 +1213,18 @@
     "todoList": []
   },
   {
+    "enName": "open-source-project",
+    "title": "怎样写好一个开源项目",
+    "introduction": "用过那么多开源的东西，难道就没有冲动为开源贡献点什么吗? 当你这么想了之后你就会留意与思考工作中的问题，不再一题一解，你会将问题提炼，抽象成一类问题，然后深思熟虑考虑，怎么定义问题边界，思考用哪种方案优雅的解决问题，有哪些依赖又有那些配置需要提取。也许这个问题很小，如果你的方案是当前最好的方案，那你就是类问题最专业的解决者，专家之路就此开始。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1569468489658,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "open-sources-object-file-directory",
     "title": "开源项目的文件目录",
     "introduction": "从 github 上找那些 star 最多最有名气的项目，分析他们的目录结构找共同点",
@@ -1159,6 +1245,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1510919038920,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "product-modality",
+    "title": "产品形态",
+    "introduction": "从技术角度看产品形态。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1569468489660,
     "commentList": [],
     "todoList": []
   },
@@ -1402,6 +1500,18 @@
     "todoList": []
   },
   {
+    "enName": "ue",
+    "title": "用户体验备忘录",
+    "introduction": "在与 PM 和 UE 讨论交互该如何实现的时候经常会迸发出一些思想的火花来，这里提炼出一些原则作为将来的指导。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1569468489679,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "uncle-lang",
     "title": "狼叔的分享梳理",
     "introduction": "花了9.9在知乎上买的狼叔的 live，总结的很不错，适合初学者，也适合中级查漏补缺。个人整理在这里，仅供自己学习，请勿转载。",
@@ -1458,7 +1568,7 @@
   },
   {
     "enName": "vue-note",
-    "title": "vue2.0 通用代码片段",
+    "title": "vue2.0 使用笔记",
     "introduction": "有一些全局起作用的代码，你的项目中也可能用得到。",
     "tags": [
       "代码片段",
@@ -1483,6 +1593,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1454761951091,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "water-mark",
+    "title": "网页水印",
+    "introduction": "涉及到隐私和敏感信息的系统都要加水印，这些水印可能人眼看不到，一旦遭到曝光借助技术手段可以追查曝光源头，从哪个系统，甚至能追查到个人。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1569468489685,
     "commentList": [],
     "todoList": []
   },

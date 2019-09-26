@@ -1,7 +1,7 @@
 {
   "enName": "express",
   "title": "Express",
-  "introduction": "了解完 Koa，需要了解一下适用范围更广泛的 Express，也为改造脚手架做准备。",
+  "introduction": "NodeJs 服务器端框架之 Express，相对于 Koa 有更广大的使用范围和更丰富的生态。",
   "tags": [],
   "isPublished": false,
   "state": "立项",

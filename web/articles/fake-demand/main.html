@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>伪需求 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">伪需求</h1>
+<blockquote>
+<p>最常见的是把方案当需求。</p>
+</blockquote>
+<h2 id="header-1-1">需求从哪里来？</h2>
+<p>产品经理，用户反馈。</p>
+<h2 id="header-1-2">不经过</h2>
+<p>数据流向、其他类型用户、项目可维护性、</p>
+<h2 id="header-1-3">参考文章</h2>
+<p><a href="https://www.jianshu.com/p/e22c38e7610b" target="_blank">嘀嘀的故事</a></p>
+<p><a href="https://www.zhihu.com/question/19863805/answer/16999282" target="_blank">伪需求 - 知乎</a></p>
+
+</div>
+</body>
+</html>

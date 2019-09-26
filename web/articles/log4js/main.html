@@ -116,13 +116,28 @@ export default {
 };
 </code></pre>
 <h2 id="header-1-6">日志分析</h2>
-<p>Nodejs进阶：readline实现日志分析+简易命令行工具
-<a href="https://imweb.io/topic/5963a26ee5017dd2121d2c1f" target="_blank">https://imweb.io/topic/5963a26ee5017dd2121d2c1f</a></p>
-<p>大搜车 NodeJS 日志规范化与分析监控
-<a href="https://juejin.im/entry/5790dbd55bbb500063b90f28" target="_blank">https://juejin.im/entry/5790dbd55bbb500063b90f28</a></p>
+<p>简单的用 shell 脚本分析:</p>
+<pre><code class="lang-shell"># 读取 false 的前 2 后 1 行
+cat log | grep false -B 2 -A 1
+# 统计 false 一共出现了多少次(一行中出现多次就记录多次)
+cat log | grep -c false
+# 在多个文件中查找
+cat log log.1 | grep false
+# 正则匹配
+# 如果我们有如下日志:
+# [2019-07-23T12:34:37.215] [TRACE] default - request, URL:/download/b1744.zip, method:GET
+# [2019-07-23T12:44:40.005] [TRACE] default - request, URL:/projects/, method:GET
+# [2019-07-23T12:44:40.005] [TRACE] default - request, URL:/projects/3cfd5498-26b/zip-name, method:GET
+# 我们想统计 restful 路由为 /projects/:id/zip-name 的请求出现的次数，可用下面命令
+cat trace-log | egrep &quot;\/projects\/[^\/]+\/zip-name&quot; -c
+</code></pre>
+<p>除了 shell 脚本，你还有 nodejs 可供选择，用 readline 包写个 cli 工具可以做一些更复杂的事情。</p>
+<p>最后，日志规范化与分析监控是一个漫长但是有意义的过程，规范化是分析监控的基础，一团乱麻是理不清的。这需要持续的耐心和推动，但是付出总归会有回报的，看着干净的日志输出、能比用户先发现问题，便是满满的愉悦感。</p>
 <h2 id="header-1-7">参考</h2>
 <p><a href="https://log4js-node.github.io/log4js-node/" target="_blank">官网</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/22110802" target="_blank">Node.js 之 log4js 完全讲解 -- 寸志</a></p>
+<p><a href="https://imweb.io/topic/5963a26ee5017dd2121d2c1f" target="_blank">Nodejs进阶：readline实现日志分析+简易命令行工具</a></p>
+<p><a href="https://juejin.im/entry/5790dbd55bbb500063b90f28" target="_blank">大搜车 NodeJS 日志规范化与分析监控</a></p>
 
 </div>
 </body>

@@ -1,0 +1,12 @@
+{
+  "enName": "water-mark",
+  "title": "网页水印",
+  "introduction": "涉及到隐私和敏感信息的系统都要加水印，这些水印可能人眼看不到，一旦遭到曝光借助技术手段可以追查曝光源头，从哪个系统，甚至能追查到个人。",
+  "tags": [],
+  "isPublished": false,
+  "state": "立项",
+  "type": "md",
+  "createDate": 1569468489685,
+  "commentList": [],
+  "todoList": []
+}

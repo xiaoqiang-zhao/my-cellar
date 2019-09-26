@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>用户体验备忘录 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">用户体验备忘录</h1>
+<blockquote>
+<p>在与 PM 和 UE 讨论交互该如何实现的时候经常会迸发出一些思想的火花来，这里提炼出一些原则作为将来的指导。</p>
+</blockquote>
+<h2 id="header-1-1">理性与感性</h2>
+
+</div>
+</body>
+</html>

@@ -208,10 +208,11 @@ header {
 <h3 id="header-1-4-4">order</h3>
 <p>弹性盒模型最核心的东西已经介绍完了，剩下的就是花式变换了，我们先将子项的最后一个属性 <code>order</code> 介绍完。</p>
 <p><code>order</code> 定义子项的排列顺序。数值越小，排列越靠前，默认为0，支持负数。<a href="/articles/css-box-model/demo/order.html" target="_blank">示例</a>，关键代码：</p>
-<pre><code>.con2 &gt; .item:nth-child(2){
+<pre><code class="lang-css">.con2 &gt; .item:nth-child(2){
     order: -1;
 }
-</code></pre><p>子项还有一个属性 <code>align-self</code> 它是容器属性的 <code>align-items</code> 的补充，放在一起介绍。</p>
+</code></pre>
+<p>子项还有一个属性 <code>align-self</code> 它是容器属性的 <code>align-items</code> 的补充，放在一起介绍。</p>
 <h3 id="header-1-4-5">flex-direction</h3>
 <p>适用于弹性容器，决定主轴的方向，即子项的排列方向。</p>
 <pre><code>flex-direction: row | row-reverse | column | column-reverse;

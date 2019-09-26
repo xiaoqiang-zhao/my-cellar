@@ -249,7 +249,13 @@ server {
     }
 }
 </code></pre>
-<h3 id="header-1-4-4">负载均衡</h3>
+<h3 id="header-1-4-4">HTML5 History 模式</h3>
+<p>首先需要将页面路由以固定的单词开头，比如 &quot;/pages&quot;，然后将全部以 &quot;/pages&quot; 开头的请求打到 index.html 上，配置如下:</p>
+<pre><code class="lang-config">location /pages{
+    try_files $uri /index.html;
+}
+</code></pre>
+<h3 id="header-1-4-5">负载均衡</h3>
 <p>Nginx 负载均衡是通过 upstream 模块来实现的，内置实现了三种负载策略:</p>
 <p>一、轮循（默认），Nginx 根据请求次数，将每个请求按比例分配到每台服务器。</p>
 <pre><code class="lang-config">http {
@@ -264,7 +270,12 @@ server {
 <p>二、最少连接，将请求分配给连接数最少的服务器。Nginx会统计哪些服务器的连接数最少。</p>
 <p>三、IP Hash，绑定处理请求的服务器。第一次请求时，根据该客户端的IP算出一个HASH值，将请求分配到集群中的某一台服务器上。后面该客户端的所有请求，都将通过HASH算法，找到之前处理这台客户端请求的服务器，然后将请求交给它来处理。</p>
 <p>后两种策略，配置稍微复杂这里不展开，想了解详细移步参考文章。</p>
-<h2 id="header-1-5">参考</h2>
+<h2 id="header-1-5">问题排查思路</h2>
+<p>凡事有意外，很多时候我们配置了 Nginx 却没达到想要的效果，这里提供一种排查的思路:</p>
+<p>首先，确保你最简配的版本能正常启动和运行。</p>
+<p>其次，看看配置是否生效，你可以通过修改端口等手段快速判断。如果确实没生效，最有可能的原因是改完配置没有 reload，或者配置的语法出了错误，注意查看控制台输出的日志。</p>
+<p>最后，你可能遇到没有报错但是不起作用的情况，常见的有代理不能正确返回和文件路径不能正确解析等问题，这时需要你打看日志看看问题出在哪里。一般日志在 /var/log/nginx/ 下，在 access.log 与 error.log 中可以看到请求失败的描述信息。</p>
+<h2 id="header-1-6">参考</h2>
 <p><a href="http://www.runoob.com/linux/nginx-install-setup.html" target="_blank">Nginx 菜鸟教程</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/58962596" target="_blank">实用的 Nginx 极简教程</a></p>
 <p><a href="https://www.cnblogs.com/fanzhidongyzby/p/5194895.html" target="_blank">nginx常用代理配置</a></p>

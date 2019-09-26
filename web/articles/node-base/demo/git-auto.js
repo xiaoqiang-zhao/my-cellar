@@ -16,10 +16,10 @@ const taskList = [
     {
         // 提交文件
         files: [
-            'web/articles/node-base/demo/git-auto.js'
+            '.'
         ],
-        hours: 1,
-        message: '添加 Demo: node-base / git 自动提交'
+        hours: 0.1,
+        message: '添加编译内容'
     }
 ];
 

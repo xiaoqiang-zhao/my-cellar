@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>怎样写好一个开源项目 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">怎样写好一个开源项目</h1>
+<blockquote>
+<p>用过那么多开源的东西，难道就没有冲动为开源贡献点什么吗? 当你这么想了之后你就会留意与思考工作中的问题，不再一题一解，你会将问题提炼，抽象成一类问题，然后深思熟虑考虑，怎么定义问题边界，思考用哪种方案优雅的解决问题，有哪些依赖又有那些配置需要提取。也许这个问题很小，如果你的方案是当前最好的方案，那你就是类问题最专业的解决者，专家之路就此开始。</p>
+</blockquote>
+<h2 id="header-1-1">选问题</h2>
+<p>作为一个码农你每天会接到各种各样的需求，有些需求略加抽象就可以作为一个开源项目，还有一些大需求中的独立小需求也可以作为开源项目，最后就是为了解决复杂问题构建的生态型开源项目，能做到最后一种开源项目的个人或团队无疑是这个行业金字塔顶端的存在。</p>
+<p>举几个需求直接成开源项目的例子。</p>
+<p>【例一: 批量上传文件工具】</p>
+<p>背景: 做了一个医疗相关的项目，医院方的机器产生了几十万图片存在一台能联网的电脑上，总大小大概有几十 G，之前为了协助他们解决问题装过远程桌面工具。</p>
+<p>原始需求: 回收这批图片供AI算法学习。</p>
+<p>分析: 难点在前半部分“回收图片”，后半部分“供AI算法分析”属于沟通工作，约定好存放位置和方案就可以。</p>
+<p>方案1: 直接人肉过去用硬盘拷贝回来，别觉得不可能，有事这是最快捷稳妥的方案。</p>
+<p>方案2: 开发一个工具从远程传过来。</p>
+<p>方案选择: 时间要求不紧，AI学习可以边回收边学习，对开发客户端感兴趣，决定用2-3天时间开发一个工具。</p>
+<p>方案细化: 由于是自己用，命令行客户端比桌面客户端更成本更低，分析上传日志等有优势，部署和升级简单。然后将批量上传图片抽象成上传某文件夹下指定扩展名的文件。</p>
+<p>项目地址: <a href="https://github.com/xiaoqiang-zhao/upload-many-files" target="_blank">https://github.com/xiaoqiang-zhao/upload-many-files</a></p>
+<h2 id="header-1-2">开发</h2>
+<p>首先我们会在 github 新建一个项目，然后将项目初始化好。如果项目比较大，你可能需要其他人协助，这是你可以邀请其他开发者加入你的项目。</p>
+<h2 id="header-1-3">测试</h2>
+<h2 id="header-1-4">推广</h2>
+
+</div>
+</body>
+</html>

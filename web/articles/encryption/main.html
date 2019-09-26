@@ -28,9 +28,53 @@
 <p>加密和解密所使用的不是同一个密钥，通常有两个密钥，称为&quot;公钥&quot;和&quot;私钥&quot;，它们两个必需配对使用，否则不能打开加密文件。发送双方 A,B 事先均生成一堆密匙，然后A将自己的公有密匙发送给B，B将自己的公有密匙发送给 A，如果 A 要给 B 发送消息，则先需要用 B 的公有密匙进行消息加密，然后发送给 B 端，此时 B 端再用自己的私有密匙进行消息解密，B 向 A 发送消息时为同样的道理。非对称性算法有 RSA、DSA、ECC。</p>
 <h2 id="header-1-2">代码部分</h2>
 <h3 id="header-1-2-1">散列算法</h3>
+<h3 id="header-1-2-2">AES</h3>
+<p>官网给的示例中，加密相同的内容每次加密出的结果是不一样的，如果要解决这个问题需要把 mode、iv、padding 三个参数指定:</p>
+<pre><code class="lang-js">import CryptoJS from &#39;crypto-js&#39;;
+
+const eKey = CryptoJS.enc.Latin1.parse(&#39;1234567812345678&#39;);
+var ciphertext = CryptoJS.AES.encrypt(&#39;abc123&#39;, eKey, {
+    mode: CryptoJS.mode.CBC,
+    iv: CryptoJS.enc.Latin1.parse(&#39;1234567812345678&#39;),
+    padding: CryptoJS.pad.ZeroPadding
+});
+var result = ciphertext.toString();
+console.log(result);
+</code></pre>
+<p>在一些行业中图片的加密十分常见的(尤其是医疗行业)，</p>
+<pre><code class="lang-js">import CryptoJS from &#39;crypto-js&#39;;
+
+// 加密解密配置参数
+const eKey = CryptoJS.enc.Latin1.parse(&#39;bCaAVxExr7TosLJx&#39;);
+const options = {
+    mode: CryptoJS.mode.CBC,
+    iv: CryptoJS.enc.Latin1.parse(&#39;8eRWWEfWAwFDdqUR&#39;),
+    padding: CryptoJS.pad.ZeroPadding
+};
+
+const filedir = &#39;./timg-f.jpg&#39;;
+const c = fs.readFileSync(filedir);            
+const data = new Buffer(c).toString(&#39;base64&#39;);
+
+// 加密
+let encrypted = CryptoJS.AES.encrypt(data, eKey, options).toString();
+// console.log(&#39;加密后的部分内容:&#39;, encrypted.slice(0, 100));
+
+// 解密
+const decryptResult = CryptoJS.AES.decrypt(encrypted, eKey, options);
+const decryptResultUtf8 = decryptResult.toString(CryptoJS.enc.Utf8);
+// console.log(&#39;解密后的部分内容:&#39;, decryptResultUtf8.slice(0, 100));
+
+// 图片在页面展示
+let img = new Image();
+img.src = &#39;data:image/jpeg;base64,&#39; + decryptResultUtf8;
+img.style.width = &#39;600px&#39;;
+document.body.append(img);
+</code></pre>
 <h2 id="header-1-3">参考文章</h2>
 <p><a href="https://blog.csdn.net/guyue35/article/details/81872115" target="_blank">加密算法(DES,AES,RSA,MD5,SHA1,Base64)比较和项目应用, 各种加密算法比较</a></p>
 <p><a href="https://www.npmjs.com/package/crypto-js" target="_blank">crypto-js</a></p>
+<p><a href="https://my.oschina.net/Jacker/blog/86383" target="_blank">AES加密CBC模式兼容互通四种编程语言平台【PHP、Javascript、Java、C#】</a></p>
 
 </div>
 </body>
