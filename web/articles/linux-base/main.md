@@ -265,6 +265,14 @@ unalias gp
 test -f ~/.bash_aliases && source ~/.bash_aliases
 ```
 
+添加系统级别别名，在 `~/.zshrc` 的末尾可以添加别名配置，比如我们常用的 ssh 地址就可以写进别命中:
+
+```
+alias sshr="ssh username@a.b.com"
+```
+
+然后 `source ~/.zshrc` 生效。
+
 ### 父子进程
 
 上面用到了 `source`，执行 shell 脚本有两种方式，一种是 `sh xx.sh`，另一种就是 `source xx.sh`，那么这两种方式有什么区别呢？我们用一段代码来说明一下，下面是一段简单的代码，只是声明一个变量，放在 `source.sh` 文件中：
