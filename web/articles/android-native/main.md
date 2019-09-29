@@ -66,8 +66,10 @@ Android Studio 第一映像很不错，第一次进入有多种应用可以选�
 
 在搭建完前面的步骤后我们就可以进入系统性学习的步骤了，高效直接的方式是参照官方文档再结合第三方的视角，于是选择了下面两个参考资料:
 
-- 官方资料: [Android Training](http://hukai.me/android-training-course-in-chinese/index.html), [Android API Guides](https://developer.android.com/guide/index.html).
+- 官方资料: [Android Training(培训课程)](http://hukai.me/android-training-course-in-chinese/index.html), [Android API Guides(API 指南)](https://developer.android.com/guide/index.html).
 - 中文书推荐: 《疯狂Android讲义(第4版)》.
+
+如果你的英文还不错，又有比较好的计算机基础，那么只看官方API文档和学习文档也能学的很好，这里多加一本书是作为另一个维度的辅助。
 
 交互软件离不开三样东西: 布局，功能组件，事件。组件是实现特定功能的封转，布局是对交互元素的管理，事件连接着用户行为和数据的处理与展示。
 
@@ -302,6 +304,12 @@ LinearLayout，线性布局，分为从左到右和从上到下两种形式，�
 - View 自身尺寸设定: android:layout_width/height="match_parent/wrap_content";
 - 相对位置设定: app:layout_constraintTop_toTopOf="parent/@+id/idString";
 - 两列布局: android:layout_weight="1"。
+
+补充一个继承相关的知识点: ViewGroup 继承自 View。
+
+更多参考资料: https://developer.android.com/guide/topics/ui/declaring-layout
+
+### 界面编程 - 功能组件
 
 ## 参考
 

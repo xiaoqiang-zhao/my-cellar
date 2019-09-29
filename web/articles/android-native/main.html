@@ -24,7 +24,7 @@
 </blockquote>
 <h2 id="header-1-1">概要</h2>
 <p>2007.11.05 谷歌推出。</p>
-<p>Android 是操作系统，基于 Linux，原产于名为 Android.Inc 的一家独立公司，2005 年被谷歌收购。Android Native 是运行在该系统上的一种应用形式。</p>
+<p>Android 是一种基于 Linux 的开放源代码软件栈，为各类设备和机型而创建。原产于名为 Android.Inc 的一家独立公司，2005 年被谷歌收购。Android Native 是运行在该系统上的一种应用形式。</p>
 <p>主要版本:</p>
 <ul>
 <li>Android 1.1, 发布于 2008.09</li>
@@ -101,16 +101,32 @@
 </li>
 </ul>
 <p>连上手机之后运行的时候报 “Session &#39;app&#39;: Installation did not succeed.”</p>
-<h2 id="header-1-4">系统性学习</h2>
+<h2 id="header-1-4">系统性学习 - 入门</h2>
 <h3 id="header-1-4-1">概述</h3>
 <p>在搭建完前面的步骤后我们就可以进入系统性学习的步骤了，高效直接的方式是参照官方文档再结合第三方的视角，于是选择了下面两个参考资料:</p>
 <ul>
 <li>官方资料: <a href="http://hukai.me/android-training-course-in-chinese/index.html" target="_blank">Android Training</a>, <a href="https://developer.android.com/guide/index.html" target="_blank">Android API Guides</a>.</li>
 <li>中文书推荐: 《疯狂Android讲义(第4版)》.</li>
 </ul>
-<p>这里不会将资料全部搬运过来，在学习中提炼重点，摘录备忘。</p>
-<p>交互软件离不开三样东西: 组件，布局，事件。组件是实现特定功能的封转，布局是对交互元素的管理，事件连接着用户行为和数据的处理与展示。</p>
-<h3 id="header-1-4-2">建立简单的用户界面</h3>
+<p>交互软件离不开三样东西: 布局，功能组件，事件。组件是实现特定功能的封转，布局是对交互元素的管理，事件连接着用户行为和数据的处理与展示。</p>
+<p>Android 的图形用户界面由多个视图（View）和视图组（ViewGroup）构建而成。View 是通用的 UI 窗体小组件，如：按钮（Button）、文本框（Text field）；而 ViewGroup 则是用来定义子视图布局的不可见的容器，如：网格部件（grid）、垂直列表部件（vertical list）。</p>
+<p>Android 提供了一系列对应于 View 和 ViewGroup 子类的 XML 标签，以便我们用 XML 创建自己的 UI。Layouts 是 ViewGroup 的子类。</p>
+<p><img src="./img/viewgroup.png" alt="UI 结果图"></p>
+<p>View 对象通常称为“微件”，可以是众多子类之一，例如 Button 或 TextView。ViewGroup 对象通常称为“布局”，可以是提供其他布局结构的众多类型之一，例如 LinearLayout 或 ConstraintLayout。</p>
+<p>结合前端的经验我把布局组件和功能组件做如下分类:</p>
+<pre><code>Android UI
+    ├── 影响位置的控件:
+        ├── Layouts: ConstraintLayout, LinearLayout, TableLayout 等
+        ├── Containers: Spinner, ScrollView, include, merge 等
+        └── Legacy: GridLayout, GridView, ListView 等
+    └── 承载交互功能的控件
+        ├── Widget: WebView, ProcessBar, SearchView 等
+        ├── Text: TextView, E-mail, Phone 等
+        ├── Buttons: Button, ChecBox, Switch
+        └── Google: MapView, AdView
+</code></pre><p>原生提供的控件就像 web 中浏览器提供的标签，是基础，复杂的控件都是基于基础控件的组合封装，原生的功能较弱，一般都会搭配 UI 库来使用。</p>
+<p>下面我们的学习思路是先单页再多页，单页中又先“容器和布局”再“功能组件”最“后组件交互和多页跳转”。</p>
+<h3 id="header-1-4-2">界面编程 - 容器和布局</h3>
 <p>先整理一下前面 hello world 的代码:</p>
 <pre><code>${project root}
     ├── app/src/main   主要代码
@@ -121,22 +137,177 @@
             ├── menu/menu_main.xml  导航文件，并没有像 content_main.xml 一样被 activity_main.xml 直接 include 进界面，而是通过下面的 MainActivity.java 文件
             └── values/ 定义一系列文案和色值等
         └── java/com/xiaoqiangzhao/android_hello_word/MainActivity.java 主控制文件
-</code></pre><p>Android 的图形用户界面由多个视图（View）和视图组（ViewGroup）构建而成。View 是通用的 UI 窗体小组件，如：按钮（Button）、文本框（Text field）；而 ViewGroup 则是用来定义子视图布局的不可见的容器，如：网格部件（grid）、垂直列表部件（vertical list）。</p>
-<p>Android 提供了一系列对应于 View 和 ViewGroup 子类的 XML 标签，以便我们用 XML 创建自己的 UI。Layouts 是 ViewGroup 的子类。</p>
-<p><img src="./img/viewgroup.png" alt="UI 结果图"></p>
-<p>View 对象通常称为“微件”，可以是众多子类之一，例如 Button 或 TextView。ViewGroup 对象通常称为“布局”，可以是提供其他布局结构的众多类型之一，例如 LinearLayout 或 ConstraintLayout。</p>
-<p>结合前端的经验我把布局组件和功能组件做如下分类:</p>
-<pre><code>Android UI
-    ├── 影响位置的控件:
-        ├── Layouts: ConstraintLayout, LinearLayout, TableLayout 等
-        ├── Containers: Spinner, ScrollView, include 等
-        └── Legacy: GridLayout, GridView, ListView 等
-    └── 承载交互功能的控件
-        ├── Widget: WebView, ProcessBar, SearchView 等
-        ├── Text: TextView, E-mail, Phone 等
-        ├── Buttons: Button, ChecBox, Switch
-        └── Google: MapView, AdView
-</code></pre><p>原生提供的控件就像 web 中浏览器提供的标签，是基础，复杂的控件都是基于基础控件的组合封装，原生的功能较弱，一般都会搭配 UI 库来使用。</p>
+</code></pre><p>容器先讲 4 个: include, merge, ConstraintLayout, LinearLayout。</p>
+<p>Android系统中已经提供了非常多好用的控件，这让我们在编写布局的时候可以很轻松。但是有些时候我们可能需要反复利用某个已经写好的布局，如果你总是使用复制粘贴的方式来进行布局重用，这显然是一种很笨的做法。而Android当然也已经充分考虑到了布局重用的重要性，于是提供了 include 和 merge 这两个非常有用的标签，下面我们就来逐个学习一下。</p>
+<p>include 标签可以允许在一个布局当中引入另外一个布局，那么比如说我们程序的所有界面都有一个公共的部分，这个时候最好的做法就是将这个公共的部分提取到一个独立的布局文件当中，然后在每个界面的布局文件当中来引用这个公共的布局。在前面的 hello world 示例中 activity_main.xml 就将 content_main.xml 引入了进来。</p>
+<p>看一下 content_main.xml 的代码:</p>
+<pre><code class="lang-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    app:layout_behavior=&quot;@string/appbar_scrolling_view_behavior&quot;
+    tools:context=&quot;.MainActivity&quot;
+    tools:showIn=&quot;@layout/activity_main&quot;&gt;
+
+    &lt;TextView
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:text=&quot;Hello World!&quot;
+        app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
+        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+        app:layout_constraintRight_toRightOf=&quot;parent&quot;
+        app:layout_constraintTop_toTopOf=&quot;parent&quot; /&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;
+</code></pre>
+<p>每一个 layout xml 都需要有一个根节点，上面的容器用的是 ConstraintLayout，引用的页面中如果还引用了其他页面那就会出现多层容器嵌套，Android 去解析和展示一个布局是需要消耗时间的，布局嵌套的越多，那么解析起来就越耗时，性能也就越差，因此我们在编写布局文件时应该让嵌套的层数越少越好。所有容器中消耗资源最少的是 merge，不产生实际的嵌套，只引入 merge 标签中的内容。我们新建一个 merge_main.xml，内容如下:</p>
+<pre><code class="lang-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;merge xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+
+    &lt;Button
+        android:id=&quot;@+id/ok&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_marginLeft=&quot;20dp&quot;
+        android:layout_marginRight=&quot;20dp&quot;
+        android:text=&quot;OK&quot; /&gt;
+
+&lt;/merge&gt;
+</code></pre>
+<p>然后在 content_main.xml 中引入 merge_main.xml，将 <code>&lt;include layout=&quot;@layout/merge_main&quot;/&gt;</code> 放在 TextView 下面。然后点击 Tool / Layout Inspector 就会看到组件的层级嵌套分析结果，可以看到 TextView 与 Button 是同级的，并没有产生容器和深一层的嵌套。你会发现 Button 怎么跑到上面去了，怎么把它放下下面呢？这就要讲讲 ConstraintLayout 和 LinearLayout 了。</p>
+<p>ConstraintLayout，约束布局，内部全部 View 位于左上角。
+LinearLayout，线性布局，分为从左到右和从上到下两种形式，组件会按照顺序排列。</p>
+<p>我们实现下图这种布局:</p>
+<p><img src="./img/layout.png" alt="布局图"></p>
+<p>标签较少，效率较高的写法是这样，content_main.xml:</p>
+<pre><code class="lang-xml">&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    app:layout_behavior=&quot;@string/appbar_scrolling_view_behavior&quot;
+    tools:context=&quot;.MainActivity&quot;
+    tools:showIn=&quot;@layout/activity_main&quot;&gt;
+
+    &lt;EditText
+        android:id=&quot;@+id/editText&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_marginEnd=&quot;90dp&quot;
+        android:layout_marginTop=&quot;5dp&quot;
+        android:inputType=&quot;textPersonName&quot;
+        android:text=&quot;Name&quot;
+        app:layout_constraintEnd_toEndOf=&quot;parent&quot;
+        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+        app:layout_constraintTop_toTopOf=&quot;parent&quot; /&gt;
+
+    &lt;Button
+        android:id=&quot;@+id/button&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:text=&quot;搜索&quot;
+        app:layout_constraintTop_toTopOf=&quot;parent&quot;
+        app:layout_constraintRight_toRightOf=&quot;parent&quot;/&gt;
+
+    &lt;LinearLayout
+        android:id=&quot;@+id/linearLayout&quot;
+        android:background=&quot;#e1e1e1&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:orientation=&quot;vertical&quot;
+        android:layout_marginTop=&quot;46dp&quot;
+        android:layout_marginLeft=&quot;4dp&quot;
+        android:layout_marginRight=&quot;4dp&quot;
+        android:layout_marginBottom=&quot;4dp&quot;
+        android:paddingLeft=&quot;4dp&quot;&gt;
+
+        &lt;TextView
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;TextView1&quot; /&gt;
+
+        &lt;TextView
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;TextView2&quot; /&gt;
+    &lt;/LinearLayout&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;
+</code></pre>
+<p>可以看到 LinearLayout 上有 <code>android:layout_marginTop=&quot;46dp&quot;</code> 这样的编码，这是 46pd 上面搜索框和按钮的高度。向下面这样修改代码会有更好的稳定性和扩展性:</p>
+<pre><code class="lang-xml">&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    app:layout_behavior=&quot;@string/appbar_scrolling_view_behavior&quot;
+    tools:context=&quot;.MainActivity&quot;
+    tools:showIn=&quot;@layout/activity_main&quot;&gt;
+
+    &lt;LinearLayout
+        android:id=&quot;@+id/linearLayout1&quot;
+        android:background=&quot;#66bfff&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:orientation=&quot;vertical&quot;&gt;
+
+        &lt;LinearLayout
+            android:id=&quot;@+id/linearLayout2&quot;
+            android:background=&quot;#fafafa&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_margin=&quot;4dp&quot;
+            android:orientation=&quot;horizontal&quot;&gt;
+            &lt;EditText
+                android:id=&quot;@+id/editText&quot;
+                android:layout_width=&quot;wrap_content&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:layout_marginTop=&quot;5dp&quot;
+                android:inputType=&quot;textPersonName&quot;
+                android:text=&quot;Name&quot;
+                android:layout_weight=&quot;1&quot; /&gt;
+
+            &lt;Button
+                android:id=&quot;@+id/button&quot;
+                android:layout_width=&quot;wrap_content&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:text=&quot;搜索&quot; /&gt;
+        &lt;/LinearLayout&gt;
+
+        &lt;LinearLayout
+            android:id=&quot;@+id/linearLayout3&quot;
+            android:background=&quot;#e1e1e1&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:orientation=&quot;vertical&quot;
+            android:layout_margin=&quot;4dp&quot;
+            android:paddingLeft=&quot;4dp&quot;&gt;
+
+            &lt;TextView
+                android:layout_width=&quot;match_parent&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:text=&quot;TextView1&quot; /&gt;
+
+            &lt;TextView
+                android:layout_width=&quot;match_parent&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:text=&quot;TextView2&quot; /&gt;
+        &lt;/LinearLayout&gt;
+    &lt;/LinearLayout&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;
+</code></pre>
+<p>最后整理一下看到的知识点:</p>
+<ul>
+<li>布局尽量少用容器，也要兼顾可读性和可扩展性;</li>
+<li>布局相关标签: include, merge, ConstraintLayout, LinearLayout;</li>
+<li>View 自身尺寸设定: android:layout_width/height=&quot;match_parent/wrap_content&quot;;</li>
+<li>相对位置设定: app:layout_constraintTop_toTopOf=&quot;parent/@+id/idString&quot;;</li>
+<li>两列布局: android:layout_weight=&quot;1&quot;。</li>
+</ul>
+<p>补充一个继承相关的知识点: ViewGroup 继承自 View。</p>
 <h2 id="header-1-5">参考</h2>
 <p><a href="https://zhuanlan.zhihu.com/p/70005857" target="_blank">最新最全面的Android学习指南</a></p>
 <p><a href="https://www.slant.co/topics/1321/~best-ides-for-android-development" target="_blank">What are the best IDEs for Android development?</a></p>
@@ -145,6 +316,7 @@
 <p><a href="https://www.zhihu.com/question/22148127/answer/730635611" target="_blank">配色学习</a></p>
 <p><a href="https://medium.com/swiftify/swift-vs-objective-c-comparison-32aba9dad4e3" target="_blank">Swift vs Objective-C in 2019</a></p>
 <p><a href="https://blog.csdn.net/qq_33505204/article/details/78452286" target="_blank">Android Studio 模拟器的选择和安装</a></p>
+<p><a href="https://blog.csdn.net/guolin_blog/article/details/43376527" target="_blank">Android 布局技巧</a></p>
 
 </div>
 </body>
