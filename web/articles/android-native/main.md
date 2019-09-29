@@ -6,7 +6,7 @@
 
 2007.11.05 谷歌推出。
 
-Android 是操作系统，基于 Linux，原产于名为 Android.Inc 的一家独立公司，2005 年被谷歌收购。Android Native 是运行在该系统上的一种应用形式。
+Android 是一种基于 Linux 的开放源代码软件栈，为各类设备和机型而创建。原产于名为 Android.Inc 的一家独立公司，2005 年被谷歌收购。Android Native 是运行在该系统上的一种应用形式。
 
 主要版本:
 - Android 1.1, 发布于 2008.09
@@ -60,7 +60,7 @@ Android Studio 第一映像很不错，第一次进入有多种应用可以选�
 
 连上手机之后运行的时候报 “Session 'app': Installation did not succeed.”
 
-## 系统性学习
+## 系统性学习 - 入门
 
 ### 概述
 
@@ -98,7 +98,7 @@ Android UI
 
 下面我们的学习思路是先单页再多页，单页中又先“容器和布局”再“功能组件”最“后组件交互和多页跳转”。
 
-### 容器和布局
+### 界面编程 - 容器和布局
 
 先整理一下前面 hello world 的代码:
 
@@ -162,7 +162,146 @@ include 标签可以允许在一个布局当中引入另外一个布局，那么
 </merge>
 ```
 
-然后在 content_main.xml 中引入 merge_main.xml，将 `<include layout="@layout/merge_main"/>` 放在 TextView 下面。然后点击 Tool / Layout Inspector 就会看到组件的层级嵌套分析结果，可以看到 TextView 与 Button 是同级的，并没有产生容器和深一层的嵌套。
+然后在 content_main.xml 中引入 merge_main.xml，将 `<include layout="@layout/merge_main"/>` 放在 TextView 下面。然后点击 Tool / Layout Inspector 就会看到组件的层级嵌套分析结果，可以看到 TextView 与 Button 是同级的，并没有产生容器和深一层的嵌套。你会发现 Button 怎么跑到上面去了，怎么把它放下下面呢？这就要讲讲 ConstraintLayout 和 LinearLayout 了。
+
+ConstraintLayout，约束布局，内部全部 View 位于左上角。
+LinearLayout，线性布局，分为从左到右和从上到下两种形式，组件会按照顺序排列。
+
+我们实现下图这种布局:
+
+![布局图](./img/layout.png)
+
+标签较少，效率较高的写法是这样，content_main.xml:
+
+```xml
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="90dp"
+        android:layout_marginTop="5dp"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="搜索"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:background="#e1e1e1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="46dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+        android:paddingLeft="4dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView1" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView2" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+可以看到 LinearLayout 上有 `android:layout_marginTop="46dp"` 这样的编码，这是 46pd 上面搜索框和按钮的高度。向下面这样修改代码会有更好的稳定性和扩展性:
+
+```xml
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:background="#66bfff"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:background="#fafafa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:inputType="textPersonName"
+                android:text="Name"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="搜索" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:background="#e1e1e1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="4dp"
+            android:paddingLeft="4dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView2" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+最后整理一下看到的知识点:
+
+- 布局尽量少用容器，也要兼顾可读性和可扩展性;
+- 布局相关标签: include, merge, ConstraintLayout, LinearLayout;
+- View 自身尺寸设定: android:layout_width/height="match_parent/wrap_content";
+- 相对位置设定: app:layout_constraintTop_toTopOf="parent/@+id/idString";
+- 两列布局: android:layout_weight="1"。
 
 ## 参考
 

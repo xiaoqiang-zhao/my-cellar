@@ -38,7 +38,7 @@ https://www.oracle.com/technetwork/java/javase/downloads/index.html
 
 最新的 SE13 只有 173M。
 
-直接下一步下一步就完成了，省去了手动安装配置环境变量等步骤，大体原理就是将 java 相关的可执行文件拷贝到 /usr/bin 下，环境变量由 /etc/paths 统一指定。
+直接下一步下一步就完成了，省去了手动安装配置环境变量等步骤，大体原理就是将 java 相关的可执行文件拷贝到 /usr/local 下，环境变量由 /etc/paths 统一指定。
 
 ```shel
 # 运行下面命令验证是否安装成功
