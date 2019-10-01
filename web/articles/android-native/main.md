@@ -311,6 +311,47 @@ LinearLayout，线性布局，分为从左到右和从上到下两种形式，�
 
 ### 界面编程 - 功能组件
 
+功能组件原生提供的比较少，一般项目都会用到第三方 UI 库。
+
+来自腾讯，被 QQ 邮箱 和 微信读书使用:
+https://qmuiteam.com/android
+
+github 36k+ 项目:
+https://github.com/wasabeef/awesome-android-ui
+
+以上两个项目都有 IOS 版。
+
+### 事件
+
+在 xml 中指定事件:
+
+```xml
+<Button
+    android:id="@+id/searchButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:onClick="search"
+    android:text="搜索" />
+```
+
+在对应的 java 文件中定义事件的响应逻辑:
+
+```java
+/** Called when the user clicks the Search button */
+public void search(View view) {
+    // 获取输入框组件
+    EditText editText = (EditText) findViewById(R.id.searchInputEditText);
+    // 获取输入的字符串
+    String message = editText.getText().toString();
+
+    // 写入到第一个文本组件中
+    TextView textView1 = (TextView) findViewById(R.id.textView1);
+    textView1.setText(message);
+}
+```
+
+### Activity
+
 ## 参考
 
 [最新最全面的Android学习指南](https://zhuanlan.zhihu.com/p/70005857)
