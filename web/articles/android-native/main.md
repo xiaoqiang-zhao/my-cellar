@@ -352,6 +352,28 @@ public void search(View view) {
 
 ### Activity
 
+在上面 java 文件中的 search 方法中添加跳转页面逻辑，最终 search 代码如下:
+
+```java
+/** Called when the user clicks the Search button */
+public void search(View view) {
+    // 获取输入框组件
+    EditText editText = (EditText) findViewById(R.id.searchInputEditText);
+    // 获取输入的字符串
+    String message = editText.getText().toString();
+
+    // 写入到第一个文本组件中
+    TextView textView1 = (TextView) findViewById(R.id.textView1);
+    textView1.setText(message);
+
+    // 实例化一个 Intent 对象，指定要跳转到的页面
+    Intent intent = new Intent(this, DisplayMessageActivity.class);
+    // intent.putExtra(EXTRA_MESSAGE, message);
+    // 跳转到指定页面
+    startActivity(intent);
+}
+```
+
 ## 参考
 
 [最新最全面的Android学习指南](https://zhuanlan.zhihu.com/p/70005857)
