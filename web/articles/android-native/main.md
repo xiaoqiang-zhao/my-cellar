@@ -352,7 +352,7 @@ public void search(View view) {
 
 ### Activity
 
-在上面 java 文件中的 search 方法中添加跳转页面逻辑，最终 search 代码如下:
+在上面 MainActivity 的 java 文件中的 search 方法中添加跳转页面逻辑，最终 search 代码如下:
 
 ```java
 /** Called when the user clicks the Search button */
@@ -373,6 +373,48 @@ public void search(View view) {
     startActivity(intent);
 }
 ```
+
+新建 activity，在资源管理器中右击 "java/com.xiaoqiangzhao.android_hello_world"，然后 new / Activity / Empty Activity，名称设为 DisplayMessageActivity，另一个 activity 就新建完成了。
+
+在 DisplayMessageActivity 的 xml 中加入下面组件:
+
+```xml
+<TextView
+    android:id="@+id/textView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="第二个页面"
+    app:layout_constraintTop_toTopOf="parent"/>
+```
+
+在 DisplayMessageActivity 的 java 文件中写入如下逻辑:
+
+```java
+package com.xiaoqiangzhao.android_hello_world;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class DisplayMessageActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_display_message);
+
+        Intent intent = getIntent();
+        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+
+        TextView textView = (TextView) findViewById(R.id.textView);
+        textView.setText(message);
+    }
+}
+```
+
+就可以展示从前一个页面传递过来的参数值了。
 
 ## 参考
 
