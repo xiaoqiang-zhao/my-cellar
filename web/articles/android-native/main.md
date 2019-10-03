@@ -416,6 +416,41 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
 就可以展示从前一个页面传递过来的参数值了。
 
+### 兼容性
+
+先从最简单的多语言说起，只要创建资源子目录和字符串资源文件就可以:
+
+```
+${project root}
+    ├── app/src/main/res
+        ├── values         默认语言，一般设置为英语
+            ├── strings.xml   文本定义
+        ├── values-zh-cn   中文简体
+        ├── values-tc      中文繁体
+        ├── values-es      西班牙语
+        └── values-fr      法语
+```
+更多语言参见: https://blog.csdn.net/hanchaohao2012/article/details/50370984
+
+定义的语法:
+```xml
+<resources>
+    <string name="action_settings">Settings</string>
+</resources>
+```
+
+引用的语法示例:
+```xml
+<item
+    android:id="@+id/action_settings"
+    android:orderInCategory="100"
+    android:title="@string/action_settings"
+    app:showAsAction="never" />
+```
+
+
+https://developer.android.com/about/dashboards/index.html
+
 ## 参考
 
 [最新最全面的Android学习指南](https://zhuanlan.zhihu.com/p/70005857)
