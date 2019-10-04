@@ -105,9 +105,10 @@
 <h3 id="header-1-4-1">概述</h3>
 <p>在搭建完前面的步骤后我们就可以进入系统性学习的步骤了，高效直接的方式是参照官方文档再结合第三方的视角，于是选择了下面两个参考资料:</p>
 <ul>
-<li>官方资料: <a href="http://hukai.me/android-training-course-in-chinese/index.html" target="_blank">Android Training</a>, <a href="https://developer.android.com/guide/index.html" target="_blank">Android API Guides</a>.</li>
+<li>官方资料: <a href="http://hukai.me/android-training-course-in-chinese/index.html" target="_blank">Android Training(培训课程)</a>, <a href="https://developer.android.com/guide/index.html" target="_blank">Android API Guides(API 指南)</a>.</li>
 <li>中文书推荐: 《疯狂Android讲义(第4版)》.</li>
 </ul>
+<p>如果你的英文还不错，又有比较好的计算机基础，那么只看官方API文档和学习文档也能学的很好，这里多加一本书是作为另一个维度的辅助。</p>
 <p>交互软件离不开三样东西: 布局，功能组件，事件。组件是实现特定功能的封转，布局是对交互元素的管理，事件连接着用户行为和数据的处理与展示。</p>
 <p>Android 的图形用户界面由多个视图（View）和视图组（ViewGroup）构建而成。View 是通用的 UI 窗体小组件，如：按钮（Button）、文本框（Text field）；而 ViewGroup 则是用来定义子视图布局的不可见的容器，如：网格部件（grid）、垂直列表部件（vertical list）。</p>
 <p>Android 提供了一系列对应于 View 和 ViewGroup 子类的 XML 标签，以便我们用 XML 创建自己的 UI。Layouts 是 ViewGroup 的子类。</p>
@@ -308,6 +309,114 @@ LinearLayout，线性布局，分为从左到右和从上到下两种形式，�
 <li>两列布局: android:layout_weight=&quot;1&quot;。</li>
 </ul>
 <p>补充一个继承相关的知识点: ViewGroup 继承自 View。</p>
+<p>更多参考资料: <a href="https://developer.android.com/guide/topics/ui/declaring-layout" target="_blank">https://developer.android.com/guide/topics/ui/declaring-layout</a></p>
+<h3 id="header-1-4-3">界面编程 - 功能组件</h3>
+<p>功能组件原生提供的比较少，一般项目都会用到第三方 UI 库。</p>
+<p>来自腾讯，被 QQ 邮箱 和 微信读书使用:
+<a href="https://qmuiteam.com/android" target="_blank">https://qmuiteam.com/android</a></p>
+<p>github 36k+ 项目:
+<a href="https://github.com/wasabeef/awesome-android-ui" target="_blank">https://github.com/wasabeef/awesome-android-ui</a></p>
+<p>以上两个项目都有 IOS 版。</p>
+<h3 id="header-1-4-4">事件</h3>
+<p>在 xml 中指定事件:</p>
+<pre><code class="lang-xml">&lt;Button
+    android:id=&quot;@+id/searchButton&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:onClick=&quot;search&quot;
+    android:text=&quot;搜索&quot; /&gt;
+</code></pre>
+<p>在对应的 java 文件中定义事件的响应逻辑:</p>
+<pre><code class="lang-java">/** Called when the user clicks the Search button */
+public void search(View view) {
+    // 获取输入框组件
+    EditText editText = (EditText) findViewById(R.id.searchInputEditText);
+    // 获取输入的字符串
+    String message = editText.getText().toString();
+
+    // 写入到第一个文本组件中
+    TextView textView1 = (TextView) findViewById(R.id.textView1);
+    textView1.setText(message);
+}
+</code></pre>
+<h3 id="header-1-4-5">Activity</h3>
+<p>在上面 MainActivity 的 java 文件中的 search 方法中添加跳转页面逻辑，最终 search 代码如下:</p>
+<pre><code class="lang-java">/** Called when the user clicks the Search button */
+public void search(View view) {
+    // 获取输入框组件
+    EditText editText = (EditText) findViewById(R.id.searchInputEditText);
+    // 获取输入的字符串
+    String message = editText.getText().toString();
+
+    // 写入到第一个文本组件中
+    TextView textView1 = (TextView) findViewById(R.id.textView1);
+    textView1.setText(message);
+
+    // 实例化一个 Intent 对象，指定要跳转到的页面
+    Intent intent = new Intent(this, DisplayMessageActivity.class);
+    // intent.putExtra(EXTRA_MESSAGE, message);
+    // 跳转到指定页面
+    startActivity(intent);
+}
+</code></pre>
+<p>新建 activity，在资源管理器中右击 &quot;java/com.xiaoqiangzhao.android_hello_world&quot;，然后 new / Activity / Empty Activity，名称设为 DisplayMessageActivity，另一个 activity 就新建完成了。</p>
+<p>在 DisplayMessageActivity 的 xml 中加入下面组件:</p>
+<pre><code class="lang-xml">&lt;TextView
+    android:id=&quot;@+id/textView&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;第二个页面&quot;
+    app:layout_constraintTop_toTopOf=&quot;parent&quot;/&gt;
+</code></pre>
+<p>在 DisplayMessageActivity 的 java 文件中写入如下逻辑:</p>
+<pre><code class="lang-java">package com.xiaoqiangzhao.android_hello_world;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class DisplayMessageActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_display_message);
+
+        Intent intent = getIntent();
+        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+
+        TextView textView = (TextView) findViewById(R.id.textView);
+        textView.setText(message);
+    }
+}
+</code></pre>
+<p>就可以展示从前一个页面传递过来的参数值了。</p>
+<h3 id="header-1-4-6">兼容性</h3>
+<p>先从最简单的多语言说起，只要创建资源子目录和字符串资源文件就可以:</p>
+<pre><code>${project root}
+    ├── app/src/main/res
+        ├── values         默认语言，一般设置为英语
+            ├── strings.xml   文本定义
+        ├── values-zh-cn   中文简体
+        ├── values-tc      中文繁体
+        ├── values-es      西班牙语
+        └── values-fr      法语
+</code></pre><p>更多语言参见: <a href="https://blog.csdn.net/hanchaohao2012/article/details/50370984" target="_blank">https://blog.csdn.net/hanchaohao2012/article/details/50370984</a></p>
+<p>定义的语法:</p>
+<pre><code class="lang-xml">&lt;resources&gt;
+    &lt;string name=&quot;action_settings&quot;&gt;Settings&lt;/string&gt;
+&lt;/resources&gt;
+</code></pre>
+<p>引用的语法示例:</p>
+<pre><code class="lang-xml">&lt;item
+    android:id=&quot;@+id/action_settings&quot;
+    android:orderInCategory=&quot;100&quot;
+    android:title=&quot;@string/action_settings&quot;
+    app:showAsAction=&quot;never&quot; /&gt;
+</code></pre>
+<p><a href="https://developer.android.com/about/dashboards/index.html" target="_blank">https://developer.android.com/about/dashboards/index.html</a></p>
 <h2 id="header-1-5">参考</h2>
 <p><a href="https://zhuanlan.zhihu.com/p/70005857" target="_blank">最新最全面的Android学习指南</a></p>
 <p><a href="https://www.slant.co/topics/1321/~best-ides-for-android-development" target="_blank">What are the best IDEs for Android development?</a></p>
