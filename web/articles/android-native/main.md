@@ -425,12 +425,12 @@ ${project root}
     ├── app/src/main/res
         ├── values         默认语言，一般设置为英语
             ├── strings.xml   文本定义
-        ├── values-zh-cn   中文简体
+        ├── values-zho   中文简体
         ├── values-tc      中文繁体
         ├── values-es      西班牙语
         └── values-fr      法语
 ```
-更多语言参见: https://blog.csdn.net/hanchaohao2012/article/details/50370984
+更多语言参见 ISO 国际规范: http://www.loc.gov/standards/iso639-2/php/code_list.php
 
 定义的语法:
 ```xml
@@ -448,6 +448,9 @@ ${project root}
     app:showAsAction="never" />
 ```
 
+```java
+R.string.action_settings
+```
 
 https://developer.android.com/about/dashboards/index.html
 
