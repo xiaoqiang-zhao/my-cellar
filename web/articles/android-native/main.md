@@ -519,6 +519,31 @@ ${project root}
 </manifest>
 ```
 
+上面配置文件中还可以配置 UI 风格:
+
+```xml
+<application android:theme="@style/APPTheme">
+```
+
+在 app/src/main/res/values/styles.xml 中定义样式:
+
+```xml
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+</resources>
+```
+
 ## 参考
 
 [最新最全面的Android学习指南](https://zhuanlan.zhihu.com/p/70005857)
