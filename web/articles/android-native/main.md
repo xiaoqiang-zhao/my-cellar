@@ -418,7 +418,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
 ### 兼容性
 
-先从最简单的多语言说起，只要创建资源子目录和字符串资源文件就可以:
+先从最简单的**多语言**说起，只要创建资源子目录和字符串资源文件就可以:
 
 ```
 ${project root}
@@ -450,6 +450,53 @@ ${project root}
 
 ```java
 R.string.action_settings
+```
+
+再说说**适配不同的屏幕**。Android用尺寸和分辨率这两种常规属性对不同的设备屏幕加以分类。
+
+- 有4种普遍尺寸: 小(small)，普通(normal)，大(large)，超大(xlarge)。
+- 4种普遍分辨率: 低精度(ldpi), 中精度(mdpi), 高精度(hdpi), 超高精度(xhdpi)。
+
+四种分辨率:
+- 320dp: 典型手机屏幕（240x320 ldpi、320x480 mdpi、480x800 hdpi 等）。
+- 480dp: 约为 5 英寸的大手机屏幕 (480x800 mdpi)。
+- 600dp: 7 英寸平板电脑 (600x1024 mdpi)。
+- 720dp: 10 英寸平板电脑（720x1280 mdpi、800x1280 mdpi 等）。
+
+4种分辨率:
+- xhdpi: 2.0。
+- hdpi: 1.5。
+- mdpi: 1.0 (基准)。
+- ldpi: 0.75。
+如果针对xhdpi的设备生成了一张200x200的图像，那么应该为hdpi生成150x150,为mdpi生成100x100, 和为ldpi生成75x75的图片资源。
+
+声明针对不同屏幕所用的layout和bitmap，必须把这些可选资源放置在独立的目录中，这与适配不同语言时的做法类似。
+
+同样要注意屏幕的方向(横向或纵向)也是一种需要考虑的屏幕尺寸变化，因此许多app会修改layout，来针对不同的屏幕方向优化用户体验。
+```
+${project root}
+    res/
+        layout/              # 竖屏(默认)
+            main.xml
+        layout-land/         # 横屏
+            main.xml
+        layout-large/        # 大屏+竖屏
+            main.xml
+        layout-large-land/   # 大屏+横屏
+            main.xml
+```
+对于不同分辨率的手机，主要是图片是否使用高精图的问题:
+```
+${project root}
+    res/
+        drawable-xhdpi/
+            awesomeimage.png
+        drawable-hdpi/
+            awesomeimage.png
+        drawable-mdpi/
+            awesomeimage.png
+        drawable-ldpi/
+            awesomeimage.png
 ```
 
 https://developer.android.com/about/dashboards/index.html
