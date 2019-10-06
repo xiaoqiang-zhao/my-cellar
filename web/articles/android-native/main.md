@@ -499,7 +499,25 @@ ${project root}
             awesomeimage.png
 ```
 
-https://developer.android.com/about/dashboards/index.html
+最后说一下**适配不同的系统版本**。新的Android版本会为我们的app提供更棒的APIs，但我们的app仍应支持旧版本的Android，直到更多的设备升级到新版本为止。
+
+[Platform Versions](https://developer.android.com/about/dashboards/index.html)的控制面板会定时更新，通过统计访问 Google Play Store 的设备数量，来显示运行每个版本的安卓设备的分布。一般情况下，在更新app至最新Android版本时，最好先保证新版的 app 可以支持90%的设备使用。
+
+- android 4.4 (api 19)，以上占比 96.2%；
+- android 5.0 (api 21)，以上占比 89.3%；
+- android 6.0 (api 23)，以上占比 74.8%；
+- android 7.0 (api 24)，以上占比 57.9%；
+- android 9.0 (api 28)，以上占比 10.4%；
+
+性价比比较高的是支持到 6.0。
+
+应用的 api 版本可以在 manifests/AndroidMainifest.xml 配置文件中指定:
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-sdk android:minSdkVersion="23" android:targetSdkVersion="28" />
+</manifest>
+```
 
 ## 参考
 
