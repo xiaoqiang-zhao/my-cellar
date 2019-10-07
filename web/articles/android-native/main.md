@@ -525,6 +525,8 @@ ${project root}
 <application android:theme="@style/APPTheme">
 ```
 
+### App 配置
+
 在 app/src/main/res/values/styles.xml 中定义样式:
 
 ```xml
@@ -542,6 +544,22 @@ ${project root}
         <item name="windowNoTitle">true</item>
     </style>
 </resources>
+```
+
+配置默认启动页面:
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
 ```
 
 ## 参考
