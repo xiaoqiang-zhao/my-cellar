@@ -556,11 +556,22 @@ ${project root}
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
 </manifest>
 ```
+
+### Activity 生命周期与回调
+
+![生命周期图](./img/basic-lifecycle.png)
+
+Activity只能在三种状态之一下存在很长时间:
+
+- Resumed: 在这种状态下，Activity处于前台，且用户可以与其交互。（有时也称为“运行”状态。）
+- Paused: 在这种状态下，Activity被在前台中处于半透明状态或者未覆盖整个屏幕的另一个Activity—部分阻挡。暂停的Activity不会接收用户输入并且无法执行任何代码`
+- Stopped: 在这种状态下，Activity被完全隐藏并且对用户不可见；它被视为处于后台。停止时，Activity实例及其诸如成员变量等所有状态信息将保留，但它无法执行任何代码。
 
 ## 参考
 
