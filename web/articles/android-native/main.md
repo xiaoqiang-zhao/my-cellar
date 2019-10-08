@@ -54,9 +54,9 @@ Android Studio 第一映像很不错，第一次进入有多种应用可以选�
 
 模拟器的机型并不全，连我中华大华为都没有，差评。直接真机调试比较简单，配置如下:
 
-- 1. Android Studio，顶部 app / Edit / USB Device。
-- 2. 手机上打开设置，点开”开发者选项“，将”USB调试打开“。
-- 3. Android 4.2 以后的系统可以隐藏”开发者选项“，点击“关于手机”，然后连续多次点击“版本号”，可以将”开发者选项“的隐藏取消掉，返回设置中就可以看到了。
+- 1. 手机上打开设置，点开”开发者选项“，将”USB调试打开“。
+- 2. Android 4.2 以后的系统可以隐藏”开发者选项“，点击“关于手机”，然后连续多次点击“版本号”，可以将”开发者选项“的隐藏取消掉，返回设置中就可以看到了。
+- 3. Android Studio，顶部 app / Edit Configrations... / Deployment Target Options / Target / USB Device。(注意手机配置好才能出现 target 选项)
 
 连上手机之后运行的时候报 “Session 'app': Installation did not succeed.”
 
