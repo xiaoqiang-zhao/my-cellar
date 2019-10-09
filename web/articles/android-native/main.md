@@ -60,7 +60,7 @@ Android Studio 第一映像很不错，第一次进入有多种应用可以选�
 
 连上手机之后运行的时候报 “Session 'app': Installation did not succeed.”
 
-## 系统性学习 - 入门
+## 系统性学习 - 基本概念入门
 
 ### 概述
 
@@ -572,6 +572,12 @@ Activity只能在三种状态之一下存在很长时间:
 - Resumed: 在这种状态下，Activity处于前台，且用户可以与其交互。（有时也称为“运行”状态。）
 - Paused: 在这种状态下，Activity被在前台中处于半透明状态或者未覆盖整个屏幕的另一个Activity—部分阻挡。暂停的Activity不会接收用户输入并且无法执行任何代码`
 - Stopped: 在这种状态下，Activity被完全隐藏并且对用户不可见；它被视为处于后台。停止时，Activity实例及其诸如成员变量等所有状态信息将保留，但它无法执行任何代码。
+
+## 系统性学习 - 开发必备技能
+
+### 列表
+
+https://blog.csdn.net/createchance/article/details/54616343
 
 ## 参考
 
