@@ -31,7 +31,7 @@ JDK 有了广义和狭义两种说法，广义上指所有版本的 Java 语言�
 
 ## Mac 上安装运行 Java
 
-Java 属于 oracle 公司，从其官网进入到 Java SDK 的下载列表，里面有个版本的下载地址
+Java 属于 oracle 公司，从其官网进入到 Java SDK 的下载列表，里面各个版本的下载地址
 https://www.oracle.com/technetwork/java/javase/downloads/index.html
 
 ### 下载安装 JDK
