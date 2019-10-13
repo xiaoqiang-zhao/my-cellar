@@ -63,3 +63,5 @@ java 13-ea 2019-09-17
 Java(TM) SE Runtime Environment (build 13-ea+33)
 Java HotSpot(TM) 64-Bit Server VM (build 13-ea+33, mixed mode, sharing)
 ```
+
+IDE 选择了 IntelliJ IDEA 社区免费版。
