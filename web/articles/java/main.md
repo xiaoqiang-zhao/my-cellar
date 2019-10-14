@@ -65,3 +65,5 @@ Java HotSpot(TM) 64-Bit Server VM (build 13-ea+33, mixed mode, sharing)
 ```
 
 IDE 选择了 IntelliJ IDEA 社区免费版。
+
+### 第一个 java 程序
