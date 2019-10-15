@@ -2,7 +2,7 @@
 
 > 夯实基础，一切代码以 Java 13 为运行环境。
 
-## Java快速入门
+## Java 快速入门
 
 ### 简介
 
@@ -67,3 +67,15 @@ Java HotSpot(TM) 64-Bit Server VM (build 13-ea+33, mixed mode, sharing)
 IDE 选择了 IntelliJ IDEA 社区免费版。
 
 ### 第一个 java 程序
+
+新建 Hello.java 文件，写入内容:
+
+```java
+public class Hello {
+    public static void main(String[] args) {
+        System.out.println("Hello, world!");
+    }
+}
+```
+
+然后编译 `javac Hello.java`，如果没有错误那就会在相同路径下产出一个 Hello.class 文件，执行 `java Hello` 就输出了 `Hello, world!`

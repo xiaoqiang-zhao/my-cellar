@@ -12,6 +12,18 @@ sudo rm -fr ~/Library/Application\ Support/Java
 
 上面是官网的卸载步骤，按照上面的卸载完后，要从finder中进入 /Library/Java/JavaVirtualMachines，然后删除jdk，这样才算彻底卸载完成。
 
+## IDE 
+
+Ultimate(企业加工板)
+For web and enterprise development (企业版开发工具)
+DOWNLOAD
+Free trial(免费试用)
+
+Community(社区版)
+For JVM and Android development ()
+DOWNLOAD
+Free, open-source (免费开源)
+
 ## 依赖管理
 
 maven 与 npm 对比
