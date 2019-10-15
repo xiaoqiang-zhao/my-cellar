@@ -47,3 +47,23 @@ Java最早是由SUN公司（已被Oracle收购）的詹姆斯·高斯林（高�
         ┌───────┐┌───────┐┌───────┐┌───────┐
         │Windows││ Linux ││ macOS ││others │
         └───────┘└───────┘└───────┘└───────┘
+
+### JDK 和 IDE 安装
+
+从其官网进入到 Java SDK 的下载列表，里面各个版本的下载地址
+https://www.oracle.com/technetwork/java/javase/downloads/index.html
+
+直接下一步下一步就完成了，省去了手动安装配置环境变量等步骤，大体原理就是将 java 相关的可执行文件拷贝到 /usr/local 下，环境变量由 /etc/paths 统一指定。
+
+```shel
+# 运行下面命令验证是否安装成功
+java --version
+# 安装成功后输出如下内容
+java 13-ea 2019-09-17
+Java(TM) SE Runtime Environment (build 13-ea+33)
+Java HotSpot(TM) 64-Bit Server VM (build 13-ea+33, mixed mode, sharing)
+```
+
+IDE 选择了 IntelliJ IDEA 社区免费版。
+
+### 第一个 java 程序
