@@ -36,6 +36,7 @@ Java最早是由SUN公司（已被Oracle收购）的詹姆斯·高斯林（高�
 
 二者关系如下：
 
+```
   ┌─    ┌──────────────────────────────────┐
   │     │     Compiler, debugger, etc.     │
   │     └──────────────────────────────────┘
@@ -47,8 +48,9 @@ Java最早是由SUN公司（已被Oracle收购）的詹姆斯·高斯林（高�
         ┌───────┐┌───────┐┌───────┐┌───────┐
         │Windows││ Linux ││ macOS ││others │
         └───────┘└───────┘└───────┘└───────┘
+```
 
-### JDK 和 IDE 安装
+### JDK 和 IDE 安装
 
 从其官网进入到 Java SDK 的下载列表，里面各个版本的下载地址
 https://www.oracle.com/technetwork/java/javase/downloads/index.html
@@ -66,11 +68,12 @@ Java HotSpot(TM) 64-Bit Server VM (build 13-ea+33, mixed mode, sharing)
 
 IDE 选择了 IntelliJ IDEA 社区免费版。
 
-### 第一个 java 程序
+### 第一个 java 程序
 
 新建 Hello.java 文件，写入内容:
 
 ```java
+// demo-1
 public class Hello {
     public static void main(String[] args) {
         System.out.println("Hello, world!");
@@ -78,4 +81,37 @@ public class Hello {
 }
 ```
 
-然后编译 `javac Hello.java`，如果没有错误那就会在相同路径下产出一个 Hello.class 文件，执行 `java Hello` 就输出了 `Hello, world!`
+然后编译 `javac Hello.java`，如果没有错误那就会在相同路径下产出一个 Hello.class 文件，执行 `java Hello` 就输出了 `Hello, world!`。
+
+补充: 一个 Java 源码只能定义一个 public 类型的 class，并且 class 名称和文件名要完全一致；
+
+### Java 程序基础
+
+Java 是面向对象的语言，一个程序的基本单位就是 class。类名要求：
+
+- 类名必须以英文字母开头，后接字母，数字和下划线的组合；
+- 习惯以大写字母开头。
+
+要注意遵守命名习惯，好的类命名：Hello、NoteBook、VRPlayer。不好的类命名：hello、Good123、Note_Book、_World。
+
+在 Java 中，变量分为两种：基本类型的变量和引用类型的变量。
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        int n = 100;
+        int x = n;
+
+        x = x + 100;
+        System.out.println("x = " + x); // 200
+        System.out.println("n = " + n); // 100
+   }
+}
+```
+
+像这样 n 不改变原始值的就是基本类型，基本数据类型是 CPU 可以直接进行运算的类型。Java 定义了以下几种基本数据类型：
+
+- 整数类型：byte，short，int，long
+- 浮点数类型：float，double
+- 字符类型：char
+- 布尔类型：boolean
