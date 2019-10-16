@@ -73,7 +73,7 @@ IDE 选择了 IntelliJ IDEA 社区免费版。
 新建 Hello.java 文件，写入内容:
 
 ```java
-// demo-1
+// demo-01
 public class Hello {
     public static void main(String[] args) {
         System.out.println("Hello, world!");
@@ -239,7 +239,7 @@ String s4 = "age is " + age;
 从Java 13开始，字符串可以用"""..."""表示多行字符串（Text Blocks）了。
 
 ```java
-// demo-4
+// demo-04
 String s = """
             SELECT * FROM
                 users
@@ -257,7 +257,187 @@ String s = """
 - 数组所有元素初始化为默认值，整型都是0，浮点型是0.0，布尔型是false。
 
 ```java
-// demo-5
+// demo-05
 int[] ns = new int[5];
 System.out.println(ns.length); // 5
 ```
+
+### 流程控制
+
+语句的基本语法是:
+
+```java
+if (条件) {
+    // 条件满足时执行
+}
+// 例如 demo-06:
+int n = 70;
+if (n >= 60) {
+    System.out.println("及格了");
+} else {
+    System.out.println("未及格");
+}
+```
+
+注意判断浮点数相等的方法是两个数的差值绝对值小于一个较小的数字: `Math.abs(a - b) < 0.00001`。对于引用类型相等的意思是指向同一个对象，而不是内容相同。要判断引用类型的变量内容是否相等，必须使用 equals() 方法:
+
+```java
+// demo-06
+String s1 = "hello";
+String s2 = "HELLO".toLowerCase();
+System.out.println(s1);
+System.out.println(s2);
+if (s1.equals(s2)) {
+    System.out.println("s1 equals s2");
+} else {
+    System.out.println("s1 not equals s2");
+}
+```
+
+注意: 执行语句 s1.equals(s2) 时，如果变量 s1 为 null，会报 NullPointerException。要避免 NullPointerException 错误，可以利用与算符 &&: `if (s1 != null && s1.equals(s2))`。
+
+switch，字符串匹配时，是比较“内容相等”，还可以使用枚举类型，枚举类型我们在后面讲解。
+```java
+int option = 99;
+switch (option) {
+case 1:
+    System.out.println("Selected 1");
+    break;
+case 2:
+    System.out.println("Selected 2");
+    break;
+case 3:
+    System.out.println("Selected 3");
+    break;
+default:
+    System.out.println("Not selected");
+    break;
+}
+
+String fruit = "apple";
+switch (fruit) {
+case "apple":
+    System.out.println("Selected apple");
+    break;
+case "pear":
+    System.out.println("Selected pear");
+    break;
+case "mango":
+    System.out.println("Selected mango");
+    break;
+default:
+    System.out.println("No fruit selected");
+    break;
+}
+```
+
+while 循环，基本用法是:
+```java
+while (条件表达式) {
+    循环语句
+}
+// 继续执行后续代码
+
+// demo-08
+int sum = 0; // 累加的和，初始化为0
+int n = 1;
+while (n <= 100) { // 循环条件是n <= 100
+    sum = sum + n; // 把n累加到sum中
+    n ++; // n自身加1
+}
+System.out.println(sum); // 5050
+```
+
+do while循环会至少循环一次。
+
+```java
+int sum = 0;
+int n = 1;
+do {
+    sum = sum + n;
+    n ++;
+} while (n <= 100);
+System.out.println(sum);
+```
+
+for 循环
+```java
+public static void main(String[] args) {
+    int sum = 0;
+    for (int i = 1; i <= 100; i++) {
+        sum = sum + i;
+    }
+    System.out.println(sum);
+
+    // 遍历数组
+    int[] ns = { 1, 4, 9, 16, 25 };
+    for (int i=0; i<ns.length; i++) {
+        System.out.println(ns[i]);
+    }
+}
+```
+
+无论是 while 循环还是 for 循环，有两个特别的语句可以使用，就是 break 语句和 continue 语句。break 在循环过程中跳出当前循环，continue 则是提前结束本次循环:
+
+```java
+// demo-09
+int sum = 0;
+for (int i = 1; i < 5; i++) {
+    sum = sum + i;
+    if (i == 2) {
+        break;
+    }
+    System.out.println(i);
+}
+System.out.println(sum); // 3 = 1 + 2
+
+sum = 0;
+for (int i = 1; i < 5; i++) {
+    sum = sum + i;
+    if (i == 2) {
+        continue;
+    }
+    System.out.println(i);
+}
+System.out.println(sum); // 10 = 1 + 2 + 3 + 4
+```
+
+
+
+```java
+
+```
+
+
+
+```java
+
+```
+
+
+
+```java
+
+```
+
+
+
+```java
+
+```
+
+
+
+```java
+
+```
+
+
+
+```java
+
+```
+
+
+
+
