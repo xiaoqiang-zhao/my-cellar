@@ -216,3 +216,48 @@ StringBuilder sb = new StringBuilder();
 ```
 
 因此，使用var定义变量，仅仅是少写了变量类型而已。
+
+引用类型是指声明后不确定占用多少内容的变量，引用类型存储的是内存地址，真正的值在所指内存储开始存储(如果不指向任何地址可以使用 null 做为默认值)，比如字符串和数组。字符串类型 String:
+
+```java
+String s1 = "中文 ABC";
+s1 = "123456789";
+String s2 = "abc\"xyz";
+```
+
+java 中的字符串值必须用双引号包裹，转移字符用斜杠，用加好连接可以拼接字符串，也可以转变部分类型数据:
+
+```java
+String s1 = "Hello";
+String s2 = "world";
+String s3 = s1 + " " + s2 + "!";
+
+int age = 25;
+String s4 = "age is " + age;
+```
+
+从Java 13开始，字符串可以用"""..."""表示多行字符串（Text Blocks）了。
+
+```java
+// demo-4
+String s = """
+            SELECT * FROM
+                users
+            WHERE id > 100
+            ORDER BY name DESC
+            """;
+```
+
+上述多行字符串实际上是 5 行，在最后一个 "DESC" 后面还有一个 `\n`。还需要注意到，多行字符串前面共同的空格会被去掉，这一点 js 要学学了。
+
+数组变量，是引用类型，java 不同于 js 的地方:
+
+- 要求全部元素是同一种数据类型；
+- 数组一旦创建后，大小就不可改变；
+- 数组所有元素初始化为默认值，整型都是0，浮点型是0.0，布尔型是false。
+
+```java
+// demo-5
+int[] ns = new int[5];
+System.out.println(ns.length); // 5
+```
