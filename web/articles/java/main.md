@@ -55,7 +55,7 @@ Java最早是由SUN公司（已被Oracle收购）的詹姆斯·高斯林（高�
 从其官网进入到 Java SDK 的下载列表，里面各个版本的下载地址
 https://www.oracle.com/technetwork/java/javase/downloads/index.html
 
-直接下一步下一步就完成了，省去了手动安装配置环境变量等步骤，大体原理就是将 java 相关的可执行文件拷贝到 /usr/local 下，环境变量由 /etc/paths 统一指定。
+直接下一步下一步就完成了，省去了手动安装配置环境变量等步骤，大体原理就是将 Java 相关的可执行文件拷贝到 /usr/local 下，环境变量由 /etc/paths 统一指定。
 
 ```shel
 # 运行下面命令验证是否安装成功
@@ -68,7 +68,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 13-ea+33, mixed mode, sharing)
 
 IDE 选择了 IntelliJ IDEA 社区免费版。
 
-### 第一个 java 程序
+### 第一个 Java 程序
 
 新建 Hello.java 文件，写入内容:
 
@@ -108,6 +108,8 @@ public class Main {
    }
 }
 ```
+
+#### 基本类型数据
 
 声明变量后就确定变量占内存长度的是基本类型，基本数据类型是 CPU 可以直接进行运算的类型。Java 定义了以下几种基本数据类型：
 
@@ -217,7 +219,9 @@ StringBuilder sb = new StringBuilder();
 
 因此，使用var定义变量，仅仅是少写了变量类型而已。
 
-引用类型是指声明后不确定占用多少内容的变量，引用类型存储的是内存地址，真正的值在所指内存储开始存储(如果不指向任何地址可以使用 null 做为默认值)，比如字符串和数组。字符串类型 String:
+#### 引用类型数据
+
+引用类型是指声明后不确定占用多少内容的变量，存储的是内存地址，真正的值在所指内存储开始存储(如果不指向任何地址可以使用 null 做为默认值)，比如字符串和数组。字符串类型 String:
 
 ```java
 String s1 = "中文 ABC";
@@ -428,3 +432,95 @@ int[][] ns = {
     { 9, 10, 11, 12 }
 };
 ```
+
+## 面向对象编程
+
+> 把现实世界映射到计算机模型的一种编程方法。
+
+### 面向对象基础
+
+#### publish, private, this
+
+带有 publish 的方法和属性才能被外界直接调用。用 shis 在类中调用类的属性和方法。
+
+```java
+// demo-11
+public class Main {
+    public static void main(String[] args) {
+        Persion xiaoqiang = new Persion();
+        xiaoqiang.setName("xiaoqiang");
+        xiaoqiang.age = 18;
+    }
+}
+
+class Persion() {
+    private String name;
+    public Int age;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    publish String getName() {
+        return this.name;
+    }
+}
+```
+
+注意传递参数时基本数据类型和引用数据类型的区别。
+
+#### 构造方案
+
+构造方法可以批量初始化重要字段。
+
+```java
+// demo-12
+public class Main {
+    public static void main(String[] args) {
+        Persion xiaoqiang = new Persion("xiaoqiang", 18);
+
+        System.out.println(xiaoqiang.getName()); // xiaoqiang
+        System.out.println(xiaoqiang.age);       // 18
+    }
+}
+
+class Persion {
+    private String name;
+    public int age;
+
+    public Persion(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+}
+```
+
+构造方法是可选的，并不是每个类都有构造方法，更具参数的不同构造方法还可以有多个。
+
+```java
+class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public Person(String name) {
+        this.name = name;
+        this.age = 12;
+    }
+
+    public Person() {
+    }
+}
+```
+
+### Java 核心模块
+
+
