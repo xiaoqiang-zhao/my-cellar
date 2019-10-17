@@ -521,6 +521,49 @@ class Person {
 }
 ```
 
+#### 继承
+
+单继承，Java 只允许一个 class 继承自另一个类，一个类有且仅有一个父类。只有 Object 特殊，它没有父类，是所有类继承的源头。
+
+子类无法访问父类的 private 字段或者 private 方法。把 private 改为 protected，字段和方法就可以被子类访问了
+
+super 关键字表示父类（超类）。子类引用父类的字段时，可以用 super.fieldName。
+
+如果父类构造方法有参数，那么需要显示的调用，否则默认调用无参构造方法。
+
+```java
+class Person {
+    protected String name;
+    protected int age;
+
+    public String getName() {...}
+    public void setName(String name) {...}
+    public int getAge() {...}
+    public void setAge(int age) {...}
+}
+
+class Student extends Person {
+    // 不要重复name和age字段/方法,
+    // 只需要定义新增score字段/方法:
+    private int score;
+
+    public int getScore() {
+        return this.score;
+    }
+    public void setScore(int score) {
+        this.score = score;
+    }
+}
+```
+
+
+
+```java
+
+```
+
+区分继承和组合，继承是is关系，组合是has关系。
+
 ### Java 核心模块
 
 
