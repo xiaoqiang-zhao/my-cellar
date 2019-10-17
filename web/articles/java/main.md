@@ -402,42 +402,29 @@ for (int i = 1; i < 5; i++) {
 System.out.println(sum); // 10 = 1 + 2 + 3 + 4
 ```
 
+### 数组操作
 
-
-```java
-
-```
-
-
+遍历数组除了用 for 遍历数组，还可以使用 for each
 
 ```java
+// demo-10
+import java.util.Arrays;
 
+int[] ns = { 1, 4, 9, 16, 25 };
+for (int n : ns) {
+    System.out.println(n);
+}
+
+// 快速打印数组
+System.out.println(Arrays.toString(ns));
 ```
 
-
+多维数组:
 
 ```java
-
+int[][] ns = {
+    { 1, 2, 3, 4 },
+    { 5, 6, 7, 8 },
+    { 9, 10, 11, 12 }
+};
 ```
-
-
-
-```java
-
-```
-
-
-
-```java
-
-```
-
-
-
-```java
-
-```
-
-
-
-
