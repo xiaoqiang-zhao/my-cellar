@@ -582,13 +582,51 @@ class Student extends Person {
 }
 ```
 
+区分继承和组合，继承是is关系，组合是has关系。
+
 #### 多态
 
-```java
+在继承关系中，子类如果定义了一个与父类方法签名完全相同的方法，被称为覆写(Override)。
 
+注: 方法名相同，方法参数相同，返回值也相同，才是签名完全相同。只有方法名相同被称为重载(Overload)。 
+
+```java
+// demo-14
+public class Main {
+    public static void main(String[] args) {
+        Sportsman liuxiang = new Sportsman();
+        liuxiang.run();
+    }
+}
+
+class Person {
+    public void run() {
+        System.out.println("Person.run");
+    }
+}
+
+class Sportsman extends Person {
+    @Override
+    public void run() {
+        System.out.println("Sportsman.run");
+    }
+}
 ```
 
-区分继承和组合，继承是is关系，组合是has关系。
+不加 `@Override` 也可以运行，加上 `@Override` 可以让编译器帮助检查是否进行了正确的覆写。
+
+```java
+Person p = new Sportsman();
+p.run(); // 调用哪个方法呢? 是 Person 还是 Sportsman？
+```
+
+运行一下就知道，调用的是 Sportsman 的 run 方法。总结一下: Java 的实例方法调用是基于运行时的实际类型的动态调用，而非变量的声明类型。进而引出多态的概念: 多态是指，某个类型的方法调用，其真正执行的方法取决于运行时期实际类型的方法。
+
+由于所有类都集成自 Object，所以我们可以覆写其常用方法 toString、equals、hashCode。子类可以通过 super 关键字调用父类的方法。
+
+继承可以允许子类覆写父类的方法。如果一个父类不允许子类对它的某个方法进行覆写，可以把该方法标记为 final。用 final 修饰的方法不能被 Override。
+
+如果一个类不希望任何其他类继承自它，那么可以把这个类本身标记为 final。
 
 ### Java 核心模块
 
