@@ -643,8 +643,90 @@ abstract class Person {
 }
 ```
 
+#### 接口
+
+在抽象类中，抽象方法本质上是定义接口规范：即规定高层类的接口，从而保证所有子类都有相同的接口实现，这样，多态就能发挥出威力。如果一个抽象类没有字段，所有方法全部都是抽象方法:
+
+```java
+abstract class Person {
+    public abstract void run();
+    public abstract String getName();
+}
+```
+
+就可以把该抽象类改写为接口：interface。
+
+```java
+interface Person {
+    void run();
+    String getName();
+}
+```
+
+interface 是比抽象类还要抽象的纯抽象接口，因为它连字段都不能有。因为接口定义的所有方法默认都是 public abstract的，所以这两个修饰符不需要写出来（写不写效果都一样）。
+
+在抽象类的基础上继续扩展对象依然叫继承，在接口的基础上继续扩展对象叫“实现”。用 implements 关键字实现，不同于继承，一个类可以实现多个接口:
+
+```java
+class Student implements Person, Sportsman { // 实现了两个interface
+    ...
+}
+```
+
+一个 interface 可以继承自另一个 interface。
+
+```java
+interface Person {
+    void sayHello();
+}
+
+interface PostsMan extends Person {
+    void run();
+    String getName();
+}
+```
+
+在接口中，可以为方法添加 default 关键字，加了 default 修饰的方法就可以写实现逻辑了，这样子类就可以避免编写相同的逻辑了。default 方法和抽象类的普通方法是有所不同的。因为 interface 没有字段，default 方法无法访问字段，而抽象类的普通方法可以访问实例字段:
+
+```java
+// demo-15
+public class Main {
+    public static void main(String[] args) {
+        Person p = new Sportsman("xiaoqiang");
+        p.run();
+    }
+}
+
+interface Person {
+    String getName();
+    default void run() {
+        System.out.println(getName() + " run");
+    }
+}
+
+class Sportsman implements Person {
+    private String name;
+
+    public Sportsman(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+}
+```
+
 ### Java 核心模块
 
+
+```java
+
+```
+
+```java
+
+```
 
 ## 参考
 
