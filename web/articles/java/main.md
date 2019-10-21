@@ -717,6 +717,54 @@ class Sportsman implements Person {
 }
 ```
 
+#### 静态字段和静态方法
+
+实例普通字段在每个实例中都有自己的一个独立“空间”，但是静态字段只有一个共享“空间”，所有实例都会共享该字段。一个实例修改静态字段其它同源实例都坐享修改结果:
+
+```java
+// demo-16
+public class Main {
+    public static void main(String[] args) {
+        Person ming = new Person("Xiao Ming", 12);
+        Person hong = new Person("Xiao Hong", 15);
+        ming.number = 88;
+        System.out.println(hong.number);
+        hong.number = 99;
+        System.out.println(ming.number);
+        // 推荐使用对象操作静态属性
+        System.out.println(Person.number);
+    }
+}
+
+class Person {
+    public String name;
+    public int age;
+
+    public static int number;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+```
+
+推荐用类名来访问静态字段。
+
+用 static 修饰的方法称为静态方法。调用实例方法必须通过一个实例变量，而调用静态方法则不需要实例变量，通过类名就可以调用。静态方法类似其它编程语言的函数。
+
+```java
+class Person {
+    public static int number;
+
+    public static void setNumber(int value) {
+        number = value;
+    }
+}
+```
+
+因为静态方法属于 class 而不属于实例，因此，静态方法内部无法访问 this 变量，也无法访问实例字段，它只能访问静态字段。
+
 ### Java 核心模块
 
 
@@ -730,4 +778,4 @@ class Sportsman implements Person {
 
 ## 参考
 
-[廖雪峰](https://www.liaoxuefeng.com/wiki/1252599548343744)
+[廖雪峰 Java 教程](https://www.liaoxuefeng.com/wiki/1252599548343744)
