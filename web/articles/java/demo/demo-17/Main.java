@@ -1,9 +1,11 @@
+// 指定同一作用域
 // package xiaoqiang;
 
-package zhao;
-
+// 或者手动引入其他两个类
 import xiaoqiang.Person;
 import xiaoqiang.Sportsman;
+
+package zhao;
 
 public class Main {
     public static void main(String[] args) {
