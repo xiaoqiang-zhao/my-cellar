@@ -765,6 +765,16 @@ class Person {
 
 因为静态方法属于 class 而不属于实例，因此，静态方法内部无法访问 this 变量，也无法访问实例字段，它只能访问静态字段。
 
+#### 包
+
+在 Java 中，我们使用 package 来解决名字冲突。一个类总是属于某个包，类名(比如 Person)只是一个简写，真正的完整类名是“包名.类名”。JDK 定义的 Array 类放在了 java.util 下，使用时需要引入: `import java.util.Arrays;`。
+
+特别注意: 包没有父子关系。java.util 和 java.util.zip 是不同的包，两者没有任何继承关系。
+
+编译的时候只要指定全部文件，不用管路径，编译器会将全部文件的 package 声明做逻辑处理。
+
+实例在 demo-17 中，运行 `javac -d ../bin Main.java Person.java Sportsman.java` 查看编译结果。
+
 ### Java 核心模块
 
 
