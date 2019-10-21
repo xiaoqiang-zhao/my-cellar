@@ -665,7 +665,7 @@ interface Person {
 
 interface 是比抽象类还要抽象的纯抽象接口，因为它连字段都不能有。因为接口定义的所有方法默认都是 public abstract的，所以这两个修饰符不需要写出来（写不写效果都一样）。
 
-在抽象类的基础上继续扩展对象依然叫继承，在接口的基础上继续扩展对象叫“实现”。用 implements 关键字实现，不同于继承，一个类可以实现多个接口:
+在抽象类的基础上继续扩展对象依然叫“extends”，在接口的基础上继续扩展对象叫“implement”。用 implements 关键字实现，不同于继承，一个类可以实现多个接口:
 
 ```java
 class Student implements Person, Sportsman { // 实现了两个interface
