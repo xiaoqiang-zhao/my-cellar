@@ -775,6 +775,16 @@ class Person {
 
 实例在 demo-17 中，运行 `javac -d ../bin Main.java Person.java Sportsman.java` 查看编译结果。
 
+#### classpath 和 jar
+
+`classpath` 是 JVM 用到的一个环境变量，它用来指示 JVM 如何搜索 class。JVM 默认的 `classpath` 为 `.`(当前路径)。
+
+如果有很多 .class 文件，散落在各层目录中，肯定不便于管理，如果能把目录打一个包，变成一个文件，就方便多了。jar 包就是用来干这个事的，它可以把 package 组织的目录层级，以及各个目录下的所有文件（包括 .class 文件和其他文件）都打成一个 jar 文件，这样一来，无论是备份，还是发给客户，就简单多了。jar 包实际上就是一个zip格式的压缩文件。
+
+jar 包还可以包含一个特殊的 `/META-INF/MANIFEST.MF` 文件，`MANIFEST.MF` 是纯文本，可以指定 Main-Class 和其它信息。JVM 会自动读取这个 `MANIFEST.MF` 文件，如果存在 Main-Class，我们就不必在命令行指定启动的类名，而是用更方便的命令: `java -jar hello.jar`。
+
+在大型项目中，不可能手动编写 `MANIFEST.MF` 文件，再手动创建 zip 包。Java 社区提供了大量的开源构建工具，例如Maven，可以非常方便地创建 jar 包。
+
 ### Java 核心模块
 
 
