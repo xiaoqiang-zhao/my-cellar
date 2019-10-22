@@ -10,7 +10,7 @@
 vue init simulatedgreg/electron-vue my-project
 ```
 
-大部分配置之间选默认值，测试相关的选 no 之后会节省一部分安装依赖的时间会。其中开始的 vue 是 vue cli，如果失败可能和 vue cli 工具有关，运行中发现最新的 vue cli 3 不适合 simulatedgreg/electron-vue，你需要 vue cli 2:
+大部分配置直接选默认值，测试相关的选 no 之后会节省一部分安装依赖的时间会。其中开始的 vue 是 vue cli，如果失败可能和 vue cli 工具有关，运行中发现最新的 vue cli 3 不适合 simulatedgreg/electron-vue，你需要 vue cli 2:
 
 ```shell
 # vue cli 2 的安装
@@ -40,11 +40,25 @@ npm run dev
 
 ## 自定义工具条
 
+## 无边框应用
+
+拖拽 ok
+
+最小化按钮与 log+title 布局，win ok，mac？
+
+### 参考
+
+[官方资料](https://electronjs.org/docs/api/frameless-window)
+
+[Electron 无边框窗口的拖动 - 三种方案总结](https://www.jianshu.com/p/96327b044e85)
+
+[无边框窗口最大化最小化关闭功能](https://blog.csdn.net/liyangyang08/article/details/78608822)
+
 ## 参考
 
 [electron-vue](https://simulatedgreg.gitbooks.io/electron-vue/content/cn/)
 
-[electronjs doc](https://electronjs.org/docs)
+[electronjs doc](https://eolectronjs.org/docs)
 
 [npm run build 的坑](https://segmentfault.com/a/1190000012899824)
 
