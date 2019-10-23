@@ -795,13 +795,80 @@ jar 包还可以包含一个特殊的 `/META-INF/MANIFEST.MF` 文件，`MANIFEST
 
 ### Java 核心模块
 
+#### String
+
+在 Java 中 String 是一个引用类型，它本身也是一个 class。Java 编译器对 String 有特殊处理，才可以直接用  `"..."` 来表示一个字符串:
 
 ```java
-
+String s1 = "Hello!";
 ```
 
-```java
+实际上字符串在 String 内部是通过一个 char[] 数组表示的，因此，按下面的写法也是可以的:
 
+```java
+String s2 = new String(new char[] {'H', 'e', 'l', 'l', 'o', '!'});
+```
+
+字符串比较
+
+```java
+String s1 = "hello";
+String s2 = "hello";
+System.out.println(s1 == s2);
+System.out.println(s1.equals(s2));
+```
+
+从表面上看，两个字符串用 == 和 equals() 比较都为 true，但实际上那只是 Java 编译器在编译期，会自动把所有相同的字符串当作一个对象放入常量池，自然 s1 和 s2 的引用就是相同的。所以这种 == 比较返回 true 纯属巧合。换一种写法 == 比较就会失败:
+
+```java
+String s1 = "hello";
+String s2 = "HELLO".toLowerCase();
+System.out.println(s1 == s2); // false
+System.out.println(s1.equals(s2));
+```
+
+String 类还提供了多种方法来比较、搜索子串、提取子串。常用的方法有：
+
+- equalsIgnoreCase, 忽略大小写的比较；
+- contains, 包含某段字符串；
+- indexOf, 某段字符串的位置；
+- lastIndexOf, 某段字符串的倒叙位置；
+- startsWith, 是否以某段字符串开头；
+- endsWith, 是否以某段字符串结尾；
+- substring,  提取字符串的某部分；
+- trim, 去除首尾空格；
+- replace, 替换；
+- split, 分割字符串；
+- join, 拼接字符串
+
+```java
+String s1 = "hello";
+String s2 = "HELLO".toLowerCase();
+
+s1.equalsIgnoreCase(s2);
+s1.contains("he"); // true
+s1.indexOf("l"); // 2
+s1.lastIndexOf("l"); // 3
+s1.startsWith("he"); // true
+s1.endsWith("lo"); // true
+s1.substring(2); // "llo"
+s1.substring(2, 4); // "ll", 注意区间的规则
+"  \tHello\r\n ".trim(); // "Hello"
+s1.replace('l', 'w'); // "hewwo"
+String s = "A,B,C,D";
+String[] ss = s.split("\\,"); // {"A", "B", "C", "D"}
+String[] arr = {"A", "B", "C"};
+String s = String.join("***", arr); // "A***B***C"
+```
+
+还有绑在 String 的 static 方法:
+
+- valueOf, 类型转换
+
+```java
+String.valueOf(123); // "123"
+String.valueOf(45.67); // "45.67"
+String.valueOf(true); // "true"
 ```
 
 ## 参考
