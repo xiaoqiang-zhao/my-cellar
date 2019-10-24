@@ -871,6 +871,36 @@ String.valueOf(45.67); // "45.67"
 String.valueOf(true); // "true"
 ```
 
+更高效的字符串拼接方式 StringBuilder:
+
+```java
+StringBuilder sb = new StringBuilder(1024);
+for (int i = 0; i < 1000; i++) {
+    sb.append(i);
+    sb.append(',');
+}
+String s = sb.toString();
+```
+
+解决最后一个分隔符的 StringJoiner:
+
+```java
+String[] names = {"Bob", "Alice", "Grace"};
+var sj = new StringJoiner(", ");
+for (String name : names) {
+    sj.add(name);
+}
+System.out.println(sj.toString());
+```
+
+#### 包装类型
+
+我们已经知道，Java的数据类型分两种：
+
+- 基本类型: byte，short，int，long，boolean，float，double，char；
+- 引用类型: 所有 class(包括常用的 String 和 Array) 和 interface 类型。
+
+
 ## 参考
 
 [廖雪峰 Java 教程](https://www.liaoxuefeng.com/wiki/1252599548343744)
