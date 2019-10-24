@@ -959,6 +959,79 @@ int n = Weekday.MON.ordinal(); // 1
 // 
 ```
 
+## 异常处理
+
+
+```
+                     ┌───────────┐
+                     │  Object   │
+                     └───────────┘
+                           ▲
+                           │
+                     ┌───────────┐
+                     │ Throwable │
+                     └───────────┘
+                           ▲
+                 ┌─────────┴─────────┐
+                 │                   │
+           ┌───────────┐       ┌───────────┐
+           │   Error   │       │ Exception │
+           └───────────┘       └───────────┘
+                 ▲                   ▲
+         ┌───────┘              ┌────┴──────────┐
+         │                      │               │
+┌─────────────────┐    ┌─────────────────┐┌───────────┐
+│OutOfMemoryError │... │RuntimeException ││IOException│...
+└─────────────────┘    └─────────────────┘└───────────┘
+                                ▲
+                    ┌───────────┴─────────────┐
+                    │                         │
+         ┌─────────────────────┐ ┌─────────────────────────┐
+         │NullPointerException │ │IllegalArgumentException │...
+         └─────────────────────┘ └─────────────────────────┘
+```
+
+从继承关系可知: Throwable 是异常体系的根，它继承自 Object。Throwable 有两个体系: Error 和 Exception，Error 表示严重的错误，程序对此一般无能为力，例如:
+
+- OutOfMemoryError: 内存耗尽
+- NoClassDefFoundError: 无法加载某个Class
+- StackOverflowError: 栈溢出
+
+而Exception则是运行时的错误，它可以被捕获并处理。
+
+某些异常是应用程序逻辑处理的一部分，应该捕获并处理。例如:
+
+- NumberFormatException: 数值类型的格式错误
+- FileNotFoundException: 未找到文件
+- SocketException: 读取网络失败
+
+Java 规定:
+
+- 必须捕获的异常，包括 Exception 及其子类，但不包括 RuntimeException 及其子类，这种类型的异常称为 Checked Exception。
+- 不需要捕获的异常，包括 Error 及其子类，RuntimeException 及其子类。
+
+```java
+try {
+    process1();
+    process2();
+    process3();
+// 注意子类放前面 
+} catch (UnsupportedEncodingException e) {
+    System.out.println("Bad encoding");
+} catch (IOException e) {
+    System.out.println("IO error");
+} finally {
+    System.out.println("END");
+}
+```
+
+主动抛出异常
+
+```java
+throw new NumberFormatException("null");
+throw new NullPointerException();
+```
+
 ## 参考
 
 [廖雪峰 Java 教程](https://www.liaoxuefeng.com/wiki/1252599548343744)
