@@ -266,6 +266,11 @@ int[] ns = new int[5];
 System.out.println(ns.length); // 5
 ```
 
+总结，Java的数据类型分两种：
+
+- 基本类型: byte，short，int，long，boolean，float，double，char；
+- 引用类型: 所有 class(包括常用的 String 和 Array) 和 interface 类型。
+
 ### 流程控制
 
 语句的基本语法是:
@@ -893,13 +898,66 @@ for (String name : names) {
 System.out.println(sj.toString());
 ```
 
-#### 包装类型
+#### 枚举类型
 
-我们已经知道，Java的数据类型分两种：
+在 Java 中我们可以通过 static final 来定义常量。例如，我们希望定义周一到周日这 7 个常量，可以用 7 个不同的 int 表示:
 
-- 基本类型: byte，short，int，long，boolean，float，double，char；
-- 引用类型: 所有 class(包括常用的 String 和 Array) 和 interface 类型。
+```java
+public class Weekday {
+    public static final int SUN = 0;
+    public static final int MON = 1;
+    public static final int TUE = 2;
+    public static final int WED = 3;
+    public static final int THU = 4;
+    public static final int FRI = 5;
+    public static final int SAT = 6;
+}
+if (weekday == 6 || weekday == 7) {
+    if (tasks == Weekday.MON) {
+        // TODO:
+    }
+}
+```
 
+上述代码编译和运行均不会报错，但存在两个问题:
+
+- Weekday 定义的常量范围是 0~6，并不包含 7，编译器无法检查不在枚举中的 int 值；
+- 定义的常量仍可与其他变量比较，但其用途并非是枚举星期值。
+
+为了让编译器能自动检查某个值在枚举的集合内，并且，不同用途的枚举需要不同的类型来标记，不能混用，我们可以使用 enum 来定义枚举类:
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Weekday day = Weekday.SUN;
+        if (day == Weekday.SAT || day == Weekday.SUN) {
+            System.out.println("Work at home!");
+        } else {
+            System.out.println("Work at office!");
+        }
+    }
+}
+
+enum Weekday {
+    SUN, MON, TUE, WED, THU, FRI, SAT;
+}
+```
+
+枚举类是一种引用类型。前面我们讲到，引用类型比较，要使用 equals() 方法，如果使用 == 比较，它比较的是两个引用类型的变量是否是同一个对象。因此，引用类型比较，要始终使用 equals() 方法，但 enum 类型可以例外。这是因为 enum 类型的每个常量在 JVM 中只有一个唯一实例，所以可以直接用 == 比较。
+
+枚举类型项上的方法:
+
+```java
+enum Weekday {
+    SUN, MON, TUE, WED, THU, FRI, SAT;
+};
+
+// 返回常量名
+String s = Weekday.SUN.name(); // "SUN"
+// 返回定义的常量的顺序，从0开始计数
+int n = Weekday.MON.ordinal(); // 1
+// 
+```
 
 ## 参考
 
