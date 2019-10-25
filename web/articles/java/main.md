@@ -1032,6 +1032,82 @@ throw new NumberFormatException("null");
 throw new NullPointerException();
 ```
 
+## 反射
+
+反射是指程序在运行期可以拿到一个对象的所有信息。
+
+正常情况下，如果我们要调用一个对象的方法，或者访问一个对象的字段，通常会传入对象实例:
+
+```java
+// Main.java
+import com.itranswarp.learnjava.Person;
+
+public class Main {
+    String getFullName(Person p) {
+        return p.getFirstName() + " " + p.getLastName();
+    }
+}
+```
+
+但是，如果不能获得Person类，只有一个 Object 实例，比如这样:
+
+```java
+String getFullName(Object obj) {
+    // 怎么知道下面两个方法能不能用
+    return obj.getFirstName() + " " + obj.getLastName();
+}
+```
+
+那怎么知道这个 obj 有什么方法和字段可以使用呢？
+
+### Class 类
+
+要解决上面提出的问题，Java 的思路是先拿到 obj 实体对应的类，然后从这个类上获取其属性、方法、构造函数、继承关系。这一小节讲怎么获取类。
+
+类本身也是一种数据形式，Java 中用关键字 `Class` 来存储。获取类并不一定从实体上获得，还可以从类本身获得，还可以通过包获得，下面介绍这 3 种方法:
+
+方法一: 从实例上通过 getClass() 方法获取
+```java
+String s = "Hello";
+Class cls = s.getClass();
+```
+
+方法二: 直接通过静态变量 class 从类本身获取：
+```java
+Class cls = String.class;
+```
+
+方法三: 如果知道一个类的完整类名(也就是其包名)，可以通过静态方法 Class.forName() 获取:
+```java
+Class cls = Class.forName("java.lang.String");
+```
+
+类这种数据是名为 Class 的类的实例，因为实例在 JVM 中是唯一的，所以上述方法获取的 Class 实例是同一个实例。可以用 == 比较两个 Class 实例:
+```java
+Class cls1 = String.class;
+
+String s = "Hello";
+Class cls2 = s.getClass();
+
+boolean sameClass = cls1 == cls2; // true
+```
+
+类的比较还可以用 instanceof，它和 == 的差别是:
+- 用 instanceof 不但匹配当前类型，还匹配当前类型的子类;
+- 用 == 可以精确地判断数据类型，但不能作子类型比较。
+```java
+Integer n = new Integer(123);
+
+boolean b3 = n instanceof Integer; // true
+boolean b4 = n instanceof Number; // true
+
+boolean b1 = n.getClass() == Integer.class; // true
+boolean b2 = n.getClass() == Number.class; // false
+```
+
+最后本节还有一个知识点: JVM 在执行 Java 程序的时候，并不是一次性把所有用到的 class 全部加载到内存，而是第一次需要用到 class 时才加载。
+
 ## 参考
 
 [廖雪峰 Java 教程](https://www.liaoxuefeng.com/wiki/1252599548343744)
+npm
