@@ -1198,6 +1198,86 @@ class Person {
 }
 ```
 
+### 调用方法
+
+我们已经能通过 Class 实例获取所有 Field 对象，同样的可以通过 Class 实例获取所有 Method 信息。Class 类提供了以下几个方法来获取 Method:
+- Method getMethod(name, Class...): 获取某个public的Method（包括父类）
+- Method getDeclaredMethod(name, Class...): 获取当前类的某个Method（不包括父类）
+- Method[] getMethods(): 获取所有public的Method（包括父类）
+- Method[] getDeclaredMethods(): 获取当前类的所有Method（不包括父类）
+
+```java
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Class stdClass = Student.class;
+        // 获取public方法getScore，参数为String:
+        System.out.println(stdClass.getMethod("getScore", String.class));
+        // 获取继承的public方法getName，无参数:
+        System.out.println(stdClass.getMethod("getName"));
+        // 获取private方法getGrade，参数为int:
+        System.out.println(stdClass.getDeclaredMethod("getGrade", int.class));
+    }
+}
+
+class Student extends Person {
+    public int getScore(String type) {
+        return 99;
+    }
+    private int getGrade(int year) {
+        return 1;
+    }
+}
+
+class Person {
+    public String getName() {
+        return "Person";
+    }
+}
+```
+
+正常情况下，string 调用 substring 方法是这样的:
+```java
+String s = "Hello world";
+String r = s.substring(6); // "world"
+```
+
+用反射调用就需要很多代码了:
+```java
+// String对象:
+String s = "Hello world";
+// 获取String substring(int)方法，参数为int:
+Method m = String.class.getMethod("substring", int.class);
+// 在s对象上调用该方法并获取结果:
+String r = (String) m.invoke(s, 6);
+// 打印调用结果:
+System.out.println(r);
+```
+
+如果获取到的Method表示一个静态方法，调用静态方法时，由于无需指定实例对象，所以 invoke 方法传入的第一个参数永远为 null。
+
+使用反射是依然准寻多态原则。
+
+想要调用私有方法，和字段一样要进行 setAccessible 声明。
+
+```java
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Person p = new Person();
+        Method m = p.getClass().getDeclaredMethod("setName", String.class);
+        m.setAccessible(true);
+        m.invoke(p, "Bob");
+        System.out.println(p.name);
+    }
+}
+
+class Person {
+    String name;
+    private void setName(String name) {
+        this.name = name;
+    }
+}
+```
+
 ## 参考
 
 [廖雪峰 Java 教程](https://www.liaoxuefeng.com/wiki/1252599548343744)
