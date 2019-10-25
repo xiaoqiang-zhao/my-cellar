@@ -1107,7 +1107,97 @@ boolean b2 = n.getClass() == Number.class; // false
 
 最后本节还有一个知识点: JVM 在执行 Java 程序的时候，并不是一次性把所有用到的 class 全部加载到内存，而是第一次需要用到 class 时才加载。
 
+### 访问字段
+
+只要我们获取了类的 Class，就可以获取它的一切信息。上一节讲了怎么获取类的 Class，这一节将怎么从类的 Class 中获取字段。
+
+Class 提供了以下几个方法来获取字段:
+- Field getField(name): 根据字段名获取某个 public 的 field（包括父类）
+- Field getDeclaredField(name): 根据字段名获取当前类的某个 field（不包括父类）
+- Field[] getFields(): 获取所有 public 的 field（包括父类）
+- Field[] getDeclaredFields(): 获取当前类的所有 field（不包括父类）
+
+Field 是字段类，一个 Field 实例包含了一个字段的所有信息:
+- getName(): 返回字段名称，例如，"name"；
+- getType(): 返回字段类型，也是一个 Class 实例，例如，String.class；
+- getModifiers(): 返回字段的修饰符，它是一个 int，不同的 bit 表示不同的含义。
+
+```java
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Class stdClass = Student.class;
+        // 获取public字段"score":
+        System.out.println(stdClass.getField("score"));
+        // 获取继承的public字段"name":
+        System.out.println(stdClass.getField("name"));
+        // 获取private字段"grade":
+        System.out.println(stdClass.getDeclaredField("grade"));
+    }
+}
+
+class Student extends Person {
+    public int score;
+    private int grade;
+}
+
+class Person {
+    public String name;
+}
+```
+
+利用反射拿到字段的一个 Field 实例只是第一步，我们还可以拿到一个实例对应的该字段的值。
+
+```java
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        Object p = new Person("Xiao Ming");
+        Class c = p.getClass();
+        Field f = c.getDeclaredField("name");
+        Object value = f.get(p);
+        System.out.println(value); // "Xiao Ming"
+    }
+}
+
+class Person {
+    private String name;
+
+    public Person(String name) {
+        this.name = name;
+    }
+}
+```
+
+会得到一个 IllegalAccessException 错误，这是因为 name 被定义为一个 private 字段，在调用 `Object value = f.get(p);` 前，先写一句 `f.setAccessible(true);`，其作用就是: 别管这个字段是不是public，一律允许访问。
+
+通过 Field 实例既然可以获取到指定实例的字段值，自然也可以设置字段的值。
+```java
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        Person p = new Person("Xiao Ming");
+        System.out.println(p.getName()); // "Xiao Ming"
+        Class c = p.getClass();
+        Field f = c.getDeclaredField("name");
+        f.setAccessible(true);
+        f.set(p, "Xiao Hong");
+        System.out.println(p.getName()); // "Xiao Hong"
+    }
+}
+
+class Person {
+    private String name;
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+}
+```
+
 ## 参考
 
 [廖雪峰 Java 教程](https://www.liaoxuefeng.com/wiki/1252599548343744)
-npm
