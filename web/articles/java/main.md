@@ -1309,6 +1309,33 @@ public class Main {
 
 注意 Constructor 总是当前类定义的构造方法，和父类无关，因此不存在多态的问题。
 
+## 注解
+
+注解是放在 Java 源码的类、方法、字段、参数前的一种特殊“注释”：
+
+```java
+// this is a component:
+@Resource("hello")
+public class Hello {
+    @Inject
+    int n;
+
+    @PostConstruct
+    public void hello(@Param String name) {
+        System.out.println(name);
+    }
+
+    @Override
+    public String toString() {
+        return "Hello";
+    }
+}
+```
+
+注释会被编译器直接忽略，注解则可以被编译器打包进入 class 文件。注解本身对代码逻辑没有任何影响，如何使用注解完全由工具决定。
+
+
+
 ## 参考
 
 [廖雪峰 Java 教程](https://www.liaoxuefeng.com/wiki/1252599548343744)
