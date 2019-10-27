@@ -1334,7 +1334,23 @@ public class Hello {
 
 注释会被编译器直接忽略，注解则可以被编译器打包进入 class 文件。注解本身对代码逻辑没有任何影响，如何使用注解完全由工具决定。
 
+## 泛型
 
+### 什么是泛型
+
+存储多个同一特定数据类型的方式: `ArrayList<T>`。其中 T 为特定的对象。用代码解释如下:
+
+```java
+public class ArrayList<T> {
+    private T[] array;
+    private int size;
+    public void add(T e) {...}
+    public void remove(int index) {...}
+    public T get(int index) {...}
+}
+```
+
+和数组的区别就是可以不定长，可以动态添加新实例。
 
 ## 参考
 
