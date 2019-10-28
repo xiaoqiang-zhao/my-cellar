@@ -1350,7 +1350,23 @@ public class ArrayList<T> {
 }
 ```
 
+泛型的使用:
+
+```java
+ArrayList<String> strList = new ArrayList<String>();
+strList.add("hello"); // OK
+String s = strList.get(0); // OK
+strList.add(new Integer(123)); // compile error!
+Integer n = strList.get(0); // compile error!
+```
+
 和数组的区别就是可以不定长，可以动态添加新实例。
+
+向上转型，在 Java 标准库中的 `ArrayList<T>` 实现了 `List<T>` 接口，它可以向上转型为 `List<T>`:
+
+```java
+List<String> list = new ArrayList<String>();
+```
 
 ## 参考
 
