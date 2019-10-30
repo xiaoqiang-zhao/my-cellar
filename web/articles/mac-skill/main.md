@@ -115,8 +115,13 @@ FireFox 的 HostAdmin 插件很好用，可以方便的切换 host 配置。
 - ZSH 终端神器，[传送门](http://blog.163.com/qy_gong/blog/static/1718738792013102992830558/)；
 - 前端神器 WebStorm，参见另一篇文章 [WebStorm 使用文档](/index.html#!/articles/webstorm)
 - 代理工具 [Charles](https://www.charlesproxy.com/)
-- 高效的设计稿标注、测量工具 [MarkMan](http://www.getmarkman.com/)
 - 发送网页HTTP请求的工具，请求[Postman](https://www.getpostman.com/apps)
+
+## 设计相关
+
+- [MarkMan](http://www.getmarkman.com/)，高效的设计稿标注、测量工具 
+- [photoshop](https://www.adobe.com/cn/products/photoshop/free-trial-download.html)，从中文官网下载最新的 Photoshop CC 2019，需要 Adobe 账号，新版真的太强大了。
+- [sketchcn](http://www.sketchcn.com/)，设和做软件 UI 设计的软件。
 
 ## 外接显示器
 
