@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>计算机编码 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">计算机编码</h1>
+<blockquote>
+<p>计算机编码常识。</p>
+</blockquote>
+<h2 id="header-1-1">ASCII</h2>
+<p>在早期的计算机系统中，为了给字符编码，美国国家标准学会（American National Standard Institute：ANSI）制定了一套英文字母、数字和常用符号的编码，它占用一个字节，编码范围从0到127，最高位始终为0，称为ASCII编码。例如，字符&#39;A&#39;的编码是0x41，字符&#39;1&#39;的编码是0x31。</p>
+<h2 id="header-1-2">GB2312</h2>
+<p>如果要把汉字也纳入计算机编码，很显然一个字节是不够的。</p>
+<p>《信息交换用汉字编码字符集》是由中国国家标准总局1980年发布，1981年5月1日开始实施的一套国家标准，标准号是GB 2312—1980。</p>
+<p>GB2312标准使用两个字节表示一个汉字，其中第一个字节的最高位始终为1，以便和ASCII编码区分开。例如，汉字&#39;中&#39;的GB2312编码是0xd6d0。</p>
+<p>类似的，日文有Shift_JIS编码，韩文有EUC-KR编码，这些编码因为标准不统一，同时使用，就会产生冲突。</p>
+<h2 id="header-1-3">Unicode</h2>
+<p>为了统一全球所有语言的编码，全球统一码联盟发布了Unicode编码，它把世界上主要语言都纳入同一个编码，这样，中文、日文、韩文和其他语言就不会冲突。</p>
+<h2 id="header-1-4">UTF-8</h2>
+<p>因为英文字符的Unicode编码高字节总是00，包含大量英文的文本会浪费空间，所以，出现了UTF-8编码，它是一种变长编码，用来把固定长度的Unicode编码变成1～4字节的变长编码。通过UTF-8编码，英文字符&#39;A&#39;的UTF-8编码变为0x41，正好和ASCII码一致，而中文&#39;中&#39;的UTF-8编码为3字节0xe4b8ad。</p>
+<p>UTF-8编码的另一个好处是容错能力强。如果传输过程中某些字符出错，不会影响后续字符，因为UTF-8编码依靠高字节位来确定一个字符究竟是几个字节，它经常用来作为传输编码。</p>
+
+</div>
+</body>
+</html>

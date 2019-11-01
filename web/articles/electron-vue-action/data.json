@@ -1,0 +1,12 @@
+{
+  "enName": "electron-vue-action",
+  "title": "electron-vue 项目实战",
+  "introduction": "从零开始一步步写一个工作任务管理工具。项目在 github 开源，每一小结对应一条提交记录，你可以通过 github 上的提交历史了解到一个项目是怎样一步步完成的。中间遇到坑是必不可少的，怎么思考，怎么找资料，怎么解决，授之以渔，叫你举一反三的能力。任何一篇教程都不可能穷尽所有问题和解决办法，给你一套解决问题的方法是最高效的。",
+  "tags": [],
+  "isPublished": false,
+  "state": "立项",
+  "type": "md",
+  "createDate": 1572592740223,
+  "commentList": [],
+  "todoList": []
+}

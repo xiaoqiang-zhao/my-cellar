@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Java EE 学习 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">Java EE 学习</h1>
+<blockquote>
+<p>夯实基础，一切代码以 Java 13 为运行环境。</p>
+</blockquote>
+<h2 id="header-1-1">Java 快速入门</h2>
+<h3 id="header-1-1-1">简介</h3>
+<p>Java最早是由SUN公司（已被Oracle收购）的詹姆斯·高斯林（高司令，人称Java之父）在上个世纪90年代初开发的一种编程语言。</p>
+<p>在1995年以Java的名称正式发布。</p>
+<p>随着Java的发展，SUN给Java又分出了三个不同版本：</p>
+<ul>
+<li>Java SE：Standard Edition</li>
+<li>Java EE：Enterprise Edition</li>
+<li>Java ME：Micro Edition</li>
+</ul>
+<p>简单来说，Java SE就是标准版，包含标准的JVM和标准库。而Java EE是企业版，它只是在Java SE的基础上加上了大量的API和库，以便方便开发Web应用、数据库、消息服务等，Java EE的应用使用的虚拟机和Java SE完全相同。Java ME就和Java SE不同，它是一个针对嵌入式设备的“瘦身版”。</p>
+<p>因此我们推荐的Java学习路线图如下：</p>
+<ul>
+<li><ol>
+<li>首先要学习Java SE，掌握Java语言本身、Java核心开发技术以及Java标准库的使用；</li>
+</ol>
+</li>
+<li><ol>
+<li>如果继续学习Java EE，那么Spring框架、数据库开发、分布式架构就是需要学习的；</li>
+</ol>
+</li>
+<li><ol>
+<li>如果要学习大数据开发，那么Hadoop、Spark、Flink这些大数据平台就是需要学习的，他们都基于Java或Scala开发；</li>
+</ol>
+</li>
+<li><ol>
+<li>如果想要学习移动开发，那么就深入Android平台，掌握Android App开发。</li>
+</ol>
+</li>
+</ul>
+<p>无论怎么选择，Java SE的核心技术是基础，这个教程的目的就是让你完全精通Java SE！</p>
+<p>初学者学Java，经常听到JDK、JRE这些名词，它们到底是啥？</p>
+<ul>
+<li>JDK：Java Development Kit</li>
+<li>JRE：Java Runtime Environment</li>
+</ul>
+<p>简单地说，JRE就是运行Java字节码的虚拟机。但是，如果只有Java源码，要编译成Java字节码，就需要JDK，因为JDK除了包含JRE，还提供了编译器、调试器等开发工具。</p>
+<p>二者关系如下：</p>
+<pre><code>  ┌─    ┌──────────────────────────────────┐
+  │     │     Compiler, debugger, etc.     │
+  │     └──────────────────────────────────┘
+ JDK ┌─ ┌──────────────────────────────────┐
+  │  │  │                                  │
+  │ JRE │      JVM + Runtime Library       │
+  │  │  │                                  │
+  └─ └─ └──────────────────────────────────┘
+        ┌───────┐┌───────┐┌───────┐┌───────┐
+        │Windows││ Linux ││ macOS ││others │
+        └───────┘└───────┘└───────┘└───────┘
+</code></pre><h3 id="header-1-1-2">JDK 和 IDE 安装</h3>
+<p>从其官网进入到 Java SDK 的下载列表，里面各个版本的下载地址
+<a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank">https://www.oracle.com/technetwork/java/javase/downloads/index.html</a></p>
+<p>直接下一步下一步就完成了，省去了手动安装配置环境变量等步骤，大体原理就是将 Java 相关的可执行文件拷贝到 /usr/local 下，环境变量由 /etc/paths 统一指定。</p>
+<pre><code class="lang-shel"># 运行下面命令验证是否安装成功
+java --version
+# 安装成功后输出如下内容
+java 13-ea 2019-09-17
+Java(TM) SE Runtime Environment (build 13-ea+33)
+Java HotSpot(TM) 64-Bit Server VM (build 13-ea+33, mixed mode, sharing)
+</code></pre>
+<p>IDE 选择了 IntelliJ IDEA 社区免费版。</p>
+<h3 id="header-1-1-3">第一个 Java 程序</h3>
+<p>新建 Hello.java 文件，写入内容:</p>
+<pre><code class="lang-java">// demo-01
+public class Hello {
+    public static void main(String[] args) {
+        System.out.println(&quot;Hello, world!&quot;);
+    }
+}
+</code></pre>
+<p>然后编译 <code>javac Hello.java</code>，如果没有错误那就会在相同路径下产出一个 Hello.class 文件，执行 <code>java Hello</code> 就输出了 <code>Hello, world!</code>。</p>
+<p>补充: 一个 Java 源码只能定义一个 public 类型的 class，并且 class 名称和文件名要完全一致；</p>
+<h3 id="header-1-1-4">Java 程序基础</h3>
+<p>Java 是面向对象的语言，一个程序的基本单位就是 class。类名要求：</p>
+<ul>
+<li>类名必须以英文字母开头，后接字母，数字和下划线的组合；</li>
+<li>习惯以大写字母开头。</li>
+</ul>
+<p>要注意遵守命名习惯，好的类命名：Hello、NoteBook、VRPlayer。不好的类命名：hello、Good123、Note_Book、_World。</p>
+<p>在 Java 中，变量分为两种：基本类型的变量和引用类型的变量。</p>
+<pre><code class="lang-java">public class Main {
+    public static void main(String[] args) {
+        int n = 100;
+        int x = n;
+
+        x = x + 100;
+        System.out.println(&quot;x = &quot; + x); // 200
+        System.out.println(&quot;n = &quot; + n); // 100
+   }
+}
+</code></pre>
+<h4 id="header-1-1-4-1">基本类型数据</h4>
+<p>声明变量后就确定变量占内存长度的是基本类型，基本数据类型是 CPU 可以直接进行运算的类型。Java 定义了以下几种基本数据类型：</p>
+<ul>
+<li>整数类型：byte，short，int，long</li>
+<li>浮点数类型：float，double</li>
+<li>字符类型：char</li>
+<li>布尔类型：boolean</li>
+</ul>
+<p>一个字节就是一个 8 位二进制数，换算成 10 进制就是 2 的 8 次方(=16*16=256)，中间有 0，byte 型整数的范围就是 -128 ~ 127。</p>
+<ul>
+<li>byte: -2^4 ~ (2^4 - 1)</li>
+<li>short: -2^15 ~ (2^15 - 1), 也就是 2byte</li>
+<li>int: -2^31 ~ (2^31 - 1), 也就是 4byte</li>
+<li>long: -2^63 ~ (2^63 - 1), 也就是 8byte</li>
+</ul>
+<pre><code class="lang-java">int i = 2147483647;
+int i2 = -2147483648;
+int i3 = 2_000_000_000; // 加下划线更容易识别
+int i4 = 0xff0000; // 十六进制表示的16711680
+int i5 = 0b1000000000; // 二进制表示的512
+long l = 9000000000000000000L; // long型的结尾需要加L
+</code></pre>
+<p>浮点类型的数就是小数，因为小数用科学计数法表示的时候，小数点是可以“浮动”的，如 1234.5 可以表示成 12.345x102，也可以表示成 1.2345x103，所以称为浮点数。浮点数可表示的范围非常大，float 类型可最大表示 3.4x10^38，而 double 类型可最大表示1.79x10^308。</p>
+<pre><code class="lang-java">float f1 = 3.14f;
+float f2 = 3.14e38f; // 科学计数法表示的3.14x10^38
+double d = 1.79e308;
+double d2 = -1.79e308;
+double d3 = 4.9e-324; // 科学计数法表示的4.9x10^-324
+</code></pre>
+<p>整型和浮点数的运算和 js 基本相同，在运算过程中如果参与运算的两个数类型不一致，那么计算结果为较大类型的整型。也可以将结果强制转型，即将大范围的整数转型为小范围的整数。强制转型使用(类型)。</p>
+<pre><code class="lang-java">short s = 1234;
+int i = 123456;
+int x = s + i; // s 自动转型为 int 产于运算，s 本身不改变
+
+s = (short) i; // 12345
+</code></pre>
+<p>由于浮点数存在运算误差，所以比较两个浮点数是否相等常常会出现错误的结果。正确的比较方法是判断两个浮点数之差的绝对值是否小于一个很小的数：</p>
+<pre><code class="lang-java">// 比较x和y是否相等，先计算其差的绝对值:
+double r = Math.abs(x - y);
+// 再判断绝对值是否足够小:
+if (r &lt; 0.00001) {
+    // 可以认为相等
+} else {
+    // 不相等
+}
+</code></pre>
+<p>布尔类型 boolean 只有 true 和 false 两个值，布尔类型总是关系运算的计算结果：</p>
+<pre><code class="lang-java">boolean b1 = true;
+boolean b2 = false;
+boolean isGreater = 5 &gt; 3; // 计算结果为true
+int age = 12;
+boolean isAdult = age &gt;= 18; // 计算结果为false
+</code></pre>
+<p>字符类型 char 表示一个字符。Java 的 char 类型除了可表示标准的 ASCII 外，还可以表示一个 Unicode 字符：</p>
+<pre><code class="lang-java">char a = &#39;A&#39;;
+char zh = &#39;中&#39;;
+</code></pre>
+<p>定义变量的时候，如果加上 final 修饰符，这个变量就变成了常量：</p>
+<pre><code class="lang-java">final double PI = 3.14; // PI是一个常量
+double r = 5.0;
+double area = PI * r * r;
+PI = 300; // 编译错误
+</code></pre>
+<p>var关键字，有些时候，类型的名字太长，写起来比较麻烦。例如：</p>
+<pre><code class="lang-java">StringBuilder sb = new StringBuilder();
+</code></pre>
+<p>这个时候，如果想省略变量类型，可以使用var关键字：</p>
+<pre><code class="lang-java">var sb = new StringBuilder();
+</code></pre>
+<p>编译器会根据赋值语句自动推断出变量 sb 的类型是 StringBuilder。对编译器来说，语句：</p>
+<pre><code class="lang-java">var sb = new StringBuilder();
+</code></pre>
+<p>实际上会自动变成：</p>
+<pre><code class="lang-java">StringBuilder sb = new StringBuilder();
+</code></pre>
+<p>因此，使用var定义变量，仅仅是少写了变量类型而已。</p>
+<h4 id="header-1-1-4-2">引用类型数据</h4>
+<p>引用类型是指声明后不确定占用多少内容的变量，存储的是内存地址，真正的值在所指内存储开始存储(如果不指向任何地址可以使用 null 做为默认值)，比如字符串和数组。字符串类型 String:</p>
+<pre><code class="lang-java">String s1 = &quot;中文 ABC&quot;;
+s1 = &quot;123456789&quot;;
+String s2 = &quot;abc\&quot;xyz&quot;;
+</code></pre>
+<p>java 中的字符串值必须用双引号包裹，转移字符用斜杠，用加好连接可以拼接字符串，也可以转变部分类型数据:</p>
+<pre><code class="lang-java">String s1 = &quot;Hello&quot;;
+String s2 = &quot;world&quot;;
+String s3 = s1 + &quot; &quot; + s2 + &quot;!&quot;;
+
+int age = 25;
+String s4 = &quot;age is &quot; + age;
+</code></pre>
+<p>从Java 13开始，字符串可以用&quot;&quot;&quot;...&quot;&quot;&quot;表示多行字符串（Text Blocks）了。</p>
+<pre><code class="lang-java">// demo-04
+String s = &quot;&quot;&quot;
+            SELECT * FROM
+                users
+            WHERE id &gt; 100
+            ORDER BY name DESC
+            &quot;&quot;&quot;;
+</code></pre>
+<p>上述多行字符串实际上是 5 行，在最后一个 &quot;DESC&quot; 后面还有一个 <code>\n</code>。还需要注意到，多行字符串前面共同的空格会被去掉，这一点 js 要学学了。</p>
+<p>数组变量，是引用类型，java 不同于 js 的地方:</p>
+<ul>
+<li>要求全部元素是同一种数据类型；</li>
+<li>数组一旦创建后，大小就不可改变；</li>
+<li>数组所有元素初始化为默认值，整型都是0，浮点型是0.0，布尔型是false。</li>
+</ul>
+<pre><code class="lang-java">// demo-05
+int[] ns = new int[5];
+System.out.println(ns.length); // 5
+</code></pre>
+<p>总结，Java的数据类型分两种：</p>
+<ul>
+<li>基本类型: byte，short，int，long，boolean，float，double，char；</li>
+<li>引用类型: 所有 class(包括常用的 String 和 Array) 和 interface 类型。</li>
+</ul>
+<h3 id="header-1-1-5">流程控制</h3>
+<p>语句的基本语法是:</p>
+<pre><code class="lang-java">if (条件) {
+    // 条件满足时执行
+}
+// 例如 demo-06:
+int n = 70;
+if (n &gt;= 60) {
+    System.out.println(&quot;及格了&quot;);
+} else {
+    System.out.println(&quot;未及格&quot;);
+}
+</code></pre>
+<p>注意判断浮点数相等的方法是两个数的差值绝对值小于一个较小的数字: <code>Math.abs(a - b) &lt; 0.00001</code>。对于引用类型相等的意思是指向同一个对象，而不是内容相同。要判断引用类型的变量内容是否相等，必须使用 equals() 方法:</p>
+<pre><code class="lang-java">// demo-06
+String s1 = &quot;hello&quot;;
+String s2 = &quot;HELLO&quot;.toLowerCase();
+System.out.println(s1);
+System.out.println(s2);
+if (s1.equals(s2)) {
+    System.out.println(&quot;s1 equals s2&quot;);
+} else {
+    System.out.println(&quot;s1 not equals s2&quot;);
+}
+</code></pre>
+<p>注意: 执行语句 s1.equals(s2) 时，如果变量 s1 为 null，会报 NullPointerException。要避免 NullPointerException 错误，可以利用与算符 &amp;&amp;: <code>if (s1 != null &amp;&amp; s1.equals(s2))</code>。</p>
+<p>switch，字符串匹配时，是比较“内容相等”，还可以使用枚举类型，枚举类型我们在后面讲解。</p>
+<pre><code class="lang-java">int option = 99;
+switch (option) {
+case 1:
+    System.out.println(&quot;Selected 1&quot;);
+    break;
+case 2:
+    System.out.println(&quot;Selected 2&quot;);
+    break;
+case 3:
+    System.out.println(&quot;Selected 3&quot;);
+    break;
+default:
+    System.out.println(&quot;Not selected&quot;);
+    break;
+}
+
+String fruit = &quot;apple&quot;;
+switch (fruit) {
+case &quot;apple&quot;:
+    System.out.println(&quot;Selected apple&quot;);
+    break;
+case &quot;pear&quot;:
+    System.out.println(&quot;Selected pear&quot;);
+    break;
+case &quot;mango&quot;:
+    System.out.println(&quot;Selected mango&quot;);
+    break;
+default:
+    System.out.println(&quot;No fruit selected&quot;);
+    break;
+}
+</code></pre>
+<p>while 循环，基本用法是:</p>
+<pre><code class="lang-java">while (条件表达式) {
+    循环语句
+}
+// 继续执行后续代码
+
+// demo-08
+int sum = 0; // 累加的和，初始化为0
+int n = 1;
+while (n &lt;= 100) { // 循环条件是n &lt;= 100
+    sum = sum + n; // 把n累加到sum中
+    n ++; // n自身加1
+}
+System.out.println(sum); // 5050
+</code></pre>
+<p>do while循环会至少循环一次。</p>
+<pre><code class="lang-java">int sum = 0;
+int n = 1;
+do {
+    sum = sum + n;
+    n ++;
+} while (n &lt;= 100);
+System.out.println(sum);
+</code></pre>
+<p>for 循环</p>
+<pre><code class="lang-java">public static void main(String[] args) {
+    int sum = 0;
+    for (int i = 1; i &lt;= 100; i++) {
+        sum = sum + i;
+    }
+    System.out.println(sum);
+
+    // 遍历数组
+    int[] ns = { 1, 4, 9, 16, 25 };
+    for (int i=0; i&lt;ns.length; i++) {
+        System.out.println(ns[i]);
+    }
+}
+</code></pre>
+<p>无论是 while 循环还是 for 循环，有两个特别的语句可以使用，就是 break 语句和 continue 语句。break 在循环过程中跳出当前循环，continue 则是提前结束本次循环:</p>
+<pre><code class="lang-java">// demo-09
+int sum = 0;
+for (int i = 1; i &lt; 5; i++) {
+    sum = sum + i;
+    if (i == 2) {
+        break;
+    }
+    System.out.println(i);
+}
+System.out.println(sum); // 3 = 1 + 2
+
+sum = 0;
+for (int i = 1; i &lt; 5; i++) {
+    sum = sum + i;
+    if (i == 2) {
+        continue;
+    }
+    System.out.println(i);
+}
+System.out.println(sum); // 10 = 1 + 2 + 3 + 4
+</code></pre>
+<h3 id="header-1-1-6">数组操作</h3>
+<p>遍历数组除了用 for 遍历数组，还可以使用 for each</p>
+<pre><code class="lang-java">// demo-10
+import java.util.Arrays;
+
+int[] ns = { 1, 4, 9, 16, 25 };
+for (int n : ns) {
+    System.out.println(n);
+}
+
+// 快速打印数组
+System.out.println(Arrays.toString(ns));
+</code></pre>
+<p>多维数组:</p>
+<pre><code class="lang-java">int[][] ns = {
+    { 1, 2, 3, 4 },
+    { 5, 6, 7, 8 },
+    { 9, 10, 11, 12 }
+};
+</code></pre>
+<h2 id="header-1-2">面向对象编程</h2>
+<blockquote>
+<p>把现实世界映射到计算机模型的一种编程方法。</p>
+</blockquote>
+<h3 id="header-1-2-1">面向对象基础</h3>
+<h4 id="header-1-2-1-1">publish, private, this</h4>
+<p>带有 publish 的方法和属性才能被外界直接调用。用 shis 在类中调用类的属性和方法。</p>
+<pre><code class="lang-java">// demo-11
+public class Main {
+    public static void main(String[] args) {
+        Persion xiaoqiang = new Persion();
+        xiaoqiang.setName(&quot;xiaoqiang&quot;);
+        xiaoqiang.age = 18;
+    }
+}
+
+class Persion() {
+    private String name;
+    public Int age;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    publish String getName() {
+        return this.name;
+    }
+}
+</code></pre>
+<p>注意传递参数时基本数据类型和引用数据类型的区别。</p>
+<h4 id="header-1-2-1-2">构造方案</h4>
+<p>构造方法可以批量初始化重要字段。</p>
+<pre><code class="lang-java">// demo-12
+public class Main {
+    public static void main(String[] args) {
+        Persion xiaoqiang = new Persion(&quot;xiaoqiang&quot;, 18);
+
+        System.out.println(xiaoqiang.getName()); // xiaoqiang
+        System.out.println(xiaoqiang.age);       // 18
+    }
+}
+
+class Persion {
+    private String name;
+    public int age;
+
+    public Persion(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+}
+</code></pre>
+<p>构造方法是可选的，并不是每个类都有构造方法，更具参数的不同构造方法还可以有多个。</p>
+<pre><code class="lang-java">class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public Person(String name) {
+        this.name = name;
+        this.age = 12;
+    }
+
+    public Person() {
+    }
+}
+</code></pre>
+<h4 id="header-1-2-1-3">继承</h4>
+<p>单继承，Java 只允许一个 class 继承自另一个类，一个类有且仅有一个父类。只有 Object 特殊，它没有父类，是所有类继承的源头。</p>
+<p>子类无法访问父类的 private 字段或者 private 方法。把 private 改为 protected，字段和方法就可以被子类访问了</p>
+<p>super 关键字表示父类（超类）。子类引用父类的字段时，可以用 super.fieldName。</p>
+<p>如果父类构造方法有参数，那么需要显示的调用，否则默认调用无参构造方法。</p>
+<pre><code class="lang-java">public class Main {
+    public static void main(String[] args) {
+        Student xiaoqiang = new Student(&quot;xiaoqiang&quot;, 18, 0);
+    }
+}
+
+class Person {
+    protected String name;
+    protected int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public int getAge() {
+        return this.age;
+    }
+    public void setAge(int age) {
+        this.age = age;
+    }
+}
+
+class Student extends Person {
+    // 不要重复name和age字段/方法,
+    // 只需要定义新增score字段/方法:
+    private int score;
+
+    public Student(String name, int age, int score) {
+        // 如果父类构造方法有参数，那么需要显示的调用，否则默认调用无参构造方法
+        super(name, age);
+        super.age = age + 1;
+        this.score = score;
+    }
+
+    public int getScore() {
+        return this.score;
+    }
+    public void setScore(int score) {
+        this.score = score;
+    }
+}
+</code></pre>
+<p>区分继承和组合，继承是is关系，组合是has关系。</p>
+<h4 id="header-1-2-1-4">多态</h4>
+<p>在继承关系中，子类如果定义了一个与父类方法签名完全相同的方法，被称为覆写(Override)。</p>
+<p>注: 方法名相同，方法参数相同，返回值也相同，才是签名完全相同。只有方法名相同被称为重载(Overload)。 </p>
+<pre><code class="lang-java">// demo-14
+public class Main {
+    public static void main(String[] args) {
+        Sportsman liuxiang = new Sportsman();
+        liuxiang.run();
+    }
+}
+
+class Person {
+    public void run() {
+        System.out.println(&quot;Person.run&quot;);
+    }
+}
+
+class Sportsman extends Person {
+    @Override
+    public void run() {
+        System.out.println(&quot;Sportsman.run&quot;);
+    }
+}
+</code></pre>
+<p>不加 <code>@Override</code> 也可以运行，加上 <code>@Override</code> 可以让编译器帮助检查是否进行了正确的覆写。</p>
+<pre><code class="lang-java">Person p = new Sportsman();
+p.run(); // 调用哪个方法呢? 是 Person 还是 Sportsman？
+</code></pre>
+<p>运行一下就知道，调用的是 Sportsman 的 run 方法。总结一下: Java 的实例方法调用是基于运行时的实际类型的动态调用，而非变量的声明类型。进而引出多态的概念: 多态是指，某个类型的方法调用，其真正执行的方法取决于运行时期实际类型的方法。</p>
+<p>由于所有类都集成自 Object，所以我们可以覆写其常用方法 toString、equals、hashCode。子类可以通过 super 关键字调用父类的方法。</p>
+<p>继承可以允许子类覆写父类的方法。如果一个父类不允许子类对它的某个方法进行覆写，可以把该方法标记为 final。用 final 修饰的方法不能被 Override。</p>
+<p>如果一个类不希望任何其他类继承自它，那么可以把这个类本身标记为 final。</p>
+<h4 id="header-1-2-1-5">抽象类</h4>
+<p>面向抽象编程的本质就是:</p>
+<ul>
+<li>上层代码只定义规范;</li>
+<li>不需要子类就可以实现业务逻辑(正常编译);</li>
+<li>具体的业务逻辑由不同的子类实现，调用者并不关心。</li>
+</ul>
+<p>抽象类不可以实例化，通过 abstract 关键字定义，抽象类才可以包含抽象方法:</p>
+<pre><code class="lang-java">abstract class Person {
+    public abstract void run();
+}
+</code></pre>
+<h4 id="header-1-2-1-6">接口</h4>
+<p>在抽象类中，抽象方法本质上是定义接口规范：即规定高层类的接口，从而保证所有子类都有相同的接口实现，这样，多态就能发挥出威力。如果一个抽象类没有字段，所有方法全部都是抽象方法:</p>
+<pre><code class="lang-java">abstract class Person {
+    public abstract void run();
+    public abstract String getName();
+}
+</code></pre>
+<p>就可以把该抽象类改写为接口：interface。</p>
+<pre><code class="lang-java">interface Person {
+    void run();
+    String getName();
+}
+</code></pre>
+<p>interface 是比抽象类还要抽象的纯抽象接口，因为它连字段都不能有。因为接口定义的所有方法默认都是 public abstract的，所以这两个修饰符不需要写出来（写不写效果都一样）。</p>
+<p>在抽象类的基础上继续扩展对象依然叫“extends”，在接口的基础上继续扩展对象叫“implement”。用 implements 关键字实现，不同于继承，一个类可以实现多个接口:</p>
+<pre><code class="lang-java">class Student implements Person, Sportsman { // 实现了两个interface
+    ...
+}
+</code></pre>
+<p>一个 interface 可以继承自另一个 interface。</p>
+<pre><code class="lang-java">interface Person {
+    void sayHello();
+}
+
+interface PostsMan extends Person {
+    void run();
+    String getName();
+}
+</code></pre>
+<p>在接口中，可以为方法添加 default 关键字，加了 default 修饰的方法就可以写实现逻辑了，这样子类就可以避免编写相同的逻辑了。default 方法和抽象类的普通方法是有所不同的。因为 interface 没有字段，default 方法无法访问字段，而抽象类的普通方法可以访问实例字段:</p>
+<pre><code class="lang-java">// demo-15
+public class Main {
+    public static void main(String[] args) {
+        Person p = new Sportsman(&quot;xiaoqiang&quot;);
+        p.run();
+    }
+}
+
+interface Person {
+    String getName();
+    default void run() {
+        System.out.println(getName() + &quot; run&quot;);
+    }
+}
+
+class Sportsman implements Person {
+    private String name;
+
+    public Sportsman(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+}
+</code></pre>
+<h4 id="header-1-2-1-7">静态字段和静态方法</h4>
+<p>实例普通字段在每个实例中都有自己的一个独立“空间”，但是静态字段只有一个共享“空间”，所有实例都会共享该字段。一个实例修改静态字段其它同源实例都坐享修改结果:</p>
+<pre><code class="lang-java">// demo-16
+public class Main {
+    public static void main(String[] args) {
+        Person ming = new Person(&quot;Xiao Ming&quot;, 12);
+        Person hong = new Person(&quot;Xiao Hong&quot;, 15);
+        ming.number = 88;
+        System.out.println(hong.number);
+        hong.number = 99;
+        System.out.println(ming.number);
+        // 推荐使用对象操作静态属性
+        System.out.println(Person.number);
+    }
+}
+
+class Person {
+    public String name;
+    public int age;
+
+    public static int number;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+</code></pre>
+<p>推荐用类名来访问静态字段。</p>
+<p>用 static 修饰的方法称为静态方法。调用实例方法必须通过一个实例变量，而调用静态方法则不需要实例变量，通过类名就可以调用。静态方法类似其它编程语言的函数。</p>
+<pre><code class="lang-java">class Person {
+    public static int number;
+
+    public static void setNumber(int value) {
+        number = value;
+    }
+}
+</code></pre>
+<p>因为静态方法属于 class 而不属于实例，因此，静态方法内部无法访问 this 变量，也无法访问实例字段，它只能访问静态字段。</p>
+<h4 id="header-1-2-1-8">包</h4>
+<p>在 Java 中，我们使用 package 来解决名字冲突。一个类总是属于某个包，类名(比如 Person)只是一个简写，真正的完整类名是“包名.类名”。JDK 定义的 Array 类放在了 java.util 下，使用时需要引入: <code>import java.util.Arrays;</code>。</p>
+<p>特别注意: 包没有父子关系。java.util 和 java.util.zip 是不同的包，两者没有任何继承关系。</p>
+<p>编译的时候只要指定全部文件，不用管路径，编译器会将全部文件的 package 声明做逻辑处理。</p>
+<p>实例在 demo-17 中，运行 <code>javac -d ../bin Main.java Person.java Sportsman.java</code> 查看编译结果。</p>
+<h4 id="header-1-2-1-9">classpath 和 jar</h4>
+<p><code>classpath</code> 是 JVM 用到的一个环境变量，它用来指示 JVM 如何搜索 class。JVM 默认的 <code>classpath</code> 为 <code>.</code>(当前路径)。</p>
+<p>如果有很多 .class 文件，散落在各层目录中，肯定不便于管理，如果能把目录打一个包，变成一个文件，就方便多了。jar 包就是用来干这个事的，它可以把 package 组织的目录层级，以及各个目录下的所有文件（包括 .class 文件和其他文件）都打成一个 jar 文件，这样一来，无论是备份，还是发给客户，就简单多了。jar 包实际上就是一个zip格式的压缩文件。</p>
+<p>jar 包还可以包含一个特殊的 <code>/META-INF/MANIFEST.MF</code> 文件，<code>MANIFEST.MF</code> 是纯文本，可以指定 Main-Class 和其它信息。JVM 会自动读取这个 <code>MANIFEST.MF</code> 文件，如果存在 Main-Class，我们就不必在命令行指定启动的类名，而是用更方便的命令: <code>java -jar hello.jar</code>。</p>
+<p>在大型项目中，不可能手动编写 <code>MANIFEST.MF</code> 文件，再手动创建 zip 包。Java 社区提供了大量的开源构建工具，例如Maven，可以非常方便地创建 jar 包。</p>
+<h4 id="header-1-2-1-10">模块</h4>
+<p>从 Java 9 开始，JDK 引入了模块(Module)功能。</p>
+<ul>
+<li>为了管理依赖；</li>
+<li>使用模块可以按需打包JRE；</li>
+<li>使用模块对类的访问权限有了进一步限制。</li>
+</ul>
+<h3 id="header-1-2-2">Java 核心模块</h3>
+<h4 id="header-1-2-2-1">String</h4>
+<p>在 Java 中 String 是一个引用类型，它本身也是一个 class。Java 编译器对 String 有特殊处理，才可以直接用  <code>&quot;...&quot;</code> 来表示一个字符串:</p>
+<pre><code class="lang-java">String s1 = &quot;Hello!&quot;;
+</code></pre>
+<p>实际上字符串在 String 内部是通过一个 char[] 数组表示的，因此，按下面的写法也是可以的:</p>
+<pre><code class="lang-java">String s2 = new String(new char[] {&#39;H&#39;, &#39;e&#39;, &#39;l&#39;, &#39;l&#39;, &#39;o&#39;, &#39;!&#39;});
+</code></pre>
+<p>字符串比较</p>
+<pre><code class="lang-java">String s1 = &quot;hello&quot;;
+String s2 = &quot;hello&quot;;
+System.out.println(s1 == s2);
+System.out.println(s1.equals(s2));
+</code></pre>
+<p>从表面上看，两个字符串用 == 和 equals() 比较都为 true，但实际上那只是 Java 编译器在编译期，会自动把所有相同的字符串当作一个对象放入常量池，自然 s1 和 s2 的引用就是相同的。所以这种 == 比较返回 true 纯属巧合。换一种写法 == 比较就会失败:</p>
+<pre><code class="lang-java">String s1 = &quot;hello&quot;;
+String s2 = &quot;HELLO&quot;.toLowerCase();
+System.out.println(s1 == s2); // false
+System.out.println(s1.equals(s2));
+</code></pre>
+<p>String 类还提供了多种方法来比较、搜索子串、提取子串。常用的方法有：</p>
+<ul>
+<li>equalsIgnoreCase, 忽略大小写的比较；</li>
+<li>contains, 包含某段字符串；</li>
+<li>indexOf, 某段字符串的位置；</li>
+<li>lastIndexOf, 某段字符串的倒叙位置；</li>
+<li>startsWith, 是否以某段字符串开头；</li>
+<li>endsWith, 是否以某段字符串结尾；</li>
+<li>substring,  提取字符串的某部分；</li>
+<li>trim, 去除首尾空格；</li>
+<li>replace, 替换；</li>
+<li>split, 分割字符串；</li>
+<li>join, 拼接字符串</li>
+</ul>
+<pre><code class="lang-java">String s1 = &quot;hello&quot;;
+String s2 = &quot;HELLO&quot;.toLowerCase();
+
+s1.equalsIgnoreCase(s2);
+s1.contains(&quot;he&quot;); // true
+s1.indexOf(&quot;l&quot;); // 2
+s1.lastIndexOf(&quot;l&quot;); // 3
+s1.startsWith(&quot;he&quot;); // true
+s1.endsWith(&quot;lo&quot;); // true
+s1.substring(2); // &quot;llo&quot;
+s1.substring(2, 4); // &quot;ll&quot;, 注意区间的规则
+&quot;  \tHello\r\n &quot;.trim(); // &quot;Hello&quot;
+s1.replace(&#39;l&#39;, &#39;w&#39;); // &quot;hewwo&quot;
+String s = &quot;A,B,C,D&quot;;
+String[] ss = s.split(&quot;\\,&quot;); // {&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;}
+String[] arr = {&quot;A&quot;, &quot;B&quot;, &quot;C&quot;};
+String s = String.join(&quot;***&quot;, arr); // &quot;A***B***C&quot;
+</code></pre>
+<p>还有绑在 String 的 static 方法:</p>
+<ul>
+<li>valueOf, 类型转换</li>
+</ul>
+<pre><code class="lang-java">String.valueOf(123); // &quot;123&quot;
+String.valueOf(45.67); // &quot;45.67&quot;
+String.valueOf(true); // &quot;true&quot;
+</code></pre>
+<p>更高效的字符串拼接方式 StringBuilder:</p>
+<pre><code class="lang-java">StringBuilder sb = new StringBuilder(1024);
+for (int i = 0; i &lt; 1000; i++) {
+    sb.append(i);
+    sb.append(&#39;,&#39;);
+}
+String s = sb.toString();
+</code></pre>
+<p>解决最后一个分隔符的 StringJoiner:</p>
+<pre><code class="lang-java">String[] names = {&quot;Bob&quot;, &quot;Alice&quot;, &quot;Grace&quot;};
+var sj = new StringJoiner(&quot;, &quot;);
+for (String name : names) {
+    sj.add(name);
+}
+System.out.println(sj.toString());
+</code></pre>
+<h4 id="header-1-2-2-2">枚举类型</h4>
+<p>在 Java 中我们可以通过 static final 来定义常量。例如，我们希望定义周一到周日这 7 个常量，可以用 7 个不同的 int 表示:</p>
+<pre><code class="lang-java">public class Weekday {
+    public static final int SUN = 0;
+    public static final int MON = 1;
+    public static final int TUE = 2;
+    public static final int WED = 3;
+    public static final int THU = 4;
+    public static final int FRI = 5;
+    public static final int SAT = 6;
+}
+if (weekday == 6 || weekday == 7) {
+    if (tasks == Weekday.MON) {
+        // TODO:
+    }
+}
+</code></pre>
+<p>上述代码编译和运行均不会报错，但存在两个问题:</p>
+<ul>
+<li>Weekday 定义的常量范围是 0~6，并不包含 7，编译器无法检查不在枚举中的 int 值；</li>
+<li>定义的常量仍可与其他变量比较，但其用途并非是枚举星期值。</li>
+</ul>
+<p>为了让编译器能自动检查某个值在枚举的集合内，并且，不同用途的枚举需要不同的类型来标记，不能混用，我们可以使用 enum 来定义枚举类:</p>
+<pre><code class="lang-java">public class Main {
+    public static void main(String[] args) {
+        Weekday day = Weekday.SUN;
+        if (day == Weekday.SAT || day == Weekday.SUN) {
+            System.out.println(&quot;Work at home!&quot;);
+        } else {
+            System.out.println(&quot;Work at office!&quot;);
+        }
+    }
+}
+
+enum Weekday {
+    SUN, MON, TUE, WED, THU, FRI, SAT;
+}
+</code></pre>
+<p>枚举类是一种引用类型。前面我们讲到，引用类型比较，要使用 equals() 方法，如果使用 == 比较，它比较的是两个引用类型的变量是否是同一个对象。因此，引用类型比较，要始终使用 equals() 方法，但 enum 类型可以例外。这是因为 enum 类型的每个常量在 JVM 中只有一个唯一实例，所以可以直接用 == 比较。</p>
+<p>枚举类型项上的方法:</p>
+<pre><code class="lang-java">enum Weekday {
+    SUN, MON, TUE, WED, THU, FRI, SAT;
+};
+
+// 返回常量名
+String s = Weekday.SUN.name(); // &quot;SUN&quot;
+// 返回定义的常量的顺序，从0开始计数
+int n = Weekday.MON.ordinal(); // 1
+//
+</code></pre>
+<h2 id="header-1-3">异常处理</h2>
+<pre><code>                     ┌───────────┐
+                     │  Object   │
+                     └───────────┘
+                           ▲
+                           │
+                     ┌───────────┐
+                     │ Throwable │
+                     └───────────┘
+                           ▲
+                 ┌─────────┴─────────┐
+                 │                   │
+           ┌───────────┐       ┌───────────┐
+           │   Error   │       │ Exception │
+           └───────────┘       └───────────┘
+                 ▲                   ▲
+         ┌───────┘              ┌────┴──────────┐
+         │                      │               │
+┌─────────────────┐    ┌─────────────────┐┌───────────┐
+│OutOfMemoryError │... │RuntimeException ││IOException│...
+└─────────────────┘    └─────────────────┘└───────────┘
+                                ▲
+                    ┌───────────┴─────────────┐
+                    │                         │
+         ┌─────────────────────┐ ┌─────────────────────────┐
+         │NullPointerException │ │IllegalArgumentException │...
+         └─────────────────────┘ └─────────────────────────┘
+</code></pre><p>从继承关系可知: Throwable 是异常体系的根，它继承自 Object。Throwable 有两个体系: Error 和 Exception，Error 表示严重的错误，程序对此一般无能为力，例如:</p>
+<ul>
+<li>OutOfMemoryError: 内存耗尽</li>
+<li>NoClassDefFoundError: 无法加载某个Class</li>
+<li>StackOverflowError: 栈溢出</li>
+</ul>
+<p>而Exception则是运行时的错误，它可以被捕获并处理。</p>
+<p>某些异常是应用程序逻辑处理的一部分，应该捕获并处理。例如:</p>
+<ul>
+<li>NumberFormatException: 数值类型的格式错误</li>
+<li>FileNotFoundException: 未找到文件</li>
+<li>SocketException: 读取网络失败</li>
+</ul>
+<p>Java 规定:</p>
+<ul>
+<li>必须捕获的异常，包括 Exception 及其子类，但不包括 RuntimeException 及其子类，这种类型的异常称为 Checked Exception。</li>
+<li>不需要捕获的异常，包括 Error 及其子类，RuntimeException 及其子类。</li>
+</ul>
+<pre><code class="lang-java">try {
+    process1();
+    process2();
+    process3();
+// 注意子类放前面 
+} catch (UnsupportedEncodingException e) {
+    System.out.println(&quot;Bad encoding&quot;);
+} catch (IOException e) {
+    System.out.println(&quot;IO error&quot;);
+} finally {
+    System.out.println(&quot;END&quot;);
+}
+</code></pre>
+<p>主动抛出异常</p>
+<pre><code class="lang-java">throw new NumberFormatException(&quot;null&quot;);
+throw new NullPointerException();
+</code></pre>
+<h2 id="header-1-4">反射</h2>
+<p>反射是指程序在运行期可以拿到一个对象的所有信息。</p>
+<p>正常情况下，如果我们要调用一个对象的方法，或者访问一个对象的字段，通常会传入对象实例:</p>
+<pre><code class="lang-java">// Main.java
+import com.itranswarp.learnjava.Person;
+
+public class Main {
+    String getFullName(Person p) {
+        return p.getFirstName() + &quot; &quot; + p.getLastName();
+    }
+}
+</code></pre>
+<p>但是，如果不能获得Person类，只有一个 Object 实例，比如这样:</p>
+<pre><code class="lang-java">String getFullName(Object obj) {
+    // 怎么知道下面两个方法能不能用
+    return obj.getFirstName() + &quot; &quot; + obj.getLastName();
+}
+</code></pre>
+<p>那怎么知道这个 obj 有什么方法和字段可以使用呢？</p>
+<h3 id="header-1-4-1">Class 类</h3>
+<p>要解决上面提出的问题，Java 的思路是先拿到 obj 实体对应的类，然后从这个类上获取其属性、方法、构造函数、继承关系。这一小节讲怎么获取类。</p>
+<p>类本身也是一种数据形式，Java 中用关键字 <code>Class</code> 来存储。获取类并不一定从实体上获得，还可以从类本身获得，还可以通过包获得，下面介绍这 3 种方法:</p>
+<p>方法一: 从实例上通过 getClass() 方法获取</p>
+<pre><code class="lang-java">String s = &quot;Hello&quot;;
+Class cls = s.getClass();
+</code></pre>
+<p>方法二: 直接通过静态变量 class 从类本身获取：</p>
+<pre><code class="lang-java">Class cls = String.class;
+</code></pre>
+<p>方法三: 如果知道一个类的完整类名(也就是其包名)，可以通过静态方法 Class.forName() 获取:</p>
+<pre><code class="lang-java">Class cls = Class.forName(&quot;java.lang.String&quot;);
+</code></pre>
+<p>类这种数据是名为 Class 的类的实例，因为实例在 JVM 中是唯一的，所以上述方法获取的 Class 实例是同一个实例。可以用 == 比较两个 Class 实例:</p>
+<pre><code class="lang-java">Class cls1 = String.class;
+
+String s = &quot;Hello&quot;;
+Class cls2 = s.getClass();
+
+boolean sameClass = cls1 == cls2; // true
+</code></pre>
+<p>类的比较还可以用 instanceof，它和 == 的差别是:</p>
+<ul>
+<li>用 instanceof 不但匹配当前类型，还匹配当前类型的子类;</li>
+<li>用 == 可以精确地判断数据类型，但不能作子类型比较。
+```java
+Integer n = new Integer(123);</li>
+</ul>
+<p>boolean b3 = n instanceof Integer; // true
+boolean b4 = n instanceof Number; // true</p>
+<p>boolean b1 = n.getClass() == Integer.class; // true
+boolean b2 = n.getClass() == Number.class; // false</p>
+<pre><code>
+最后本节还有一个知识点: JVM 在执行 Java 程序的时候，并不是一次性把所有用到的 class 全部加载到内存，而是第一次需要用到 class 时才加载。
+
+### 访问字段
+
+只要我们获取了类的 Class，就可以获取它的一切信息。上一节讲了怎么获取类的 Class，这一节将怎么从类的 Class 中获取字段。
+
+Class 提供了以下几个方法来获取字段:
+- Field getField(name): 根据字段名获取某个 public 的 field（包括父类）
+- Field getDeclaredField(name): 根据字段名获取当前类的某个 field（不包括父类）
+- Field[] getFields(): 获取所有 public 的 field（包括父类）
+- Field[] getDeclaredFields(): 获取当前类的所有 field（不包括父类）
+
+Field 是字段类，一个 Field 实例包含了一个字段的所有信息:
+- getName(): 返回字段名称，例如，&quot;name&quot;；
+- getType(): 返回字段类型，也是一个 Class 实例，例如，String.class；
+- getModifiers(): 返回字段的修饰符，它是一个 int，不同的 bit 表示不同的含义。
+
+```java
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Class stdClass = Student.class;
+        // 获取public字段&quot;score&quot;:
+        System.out.println(stdClass.getField(&quot;score&quot;));
+        // 获取继承的public字段&quot;name&quot;:
+        System.out.println(stdClass.getField(&quot;name&quot;));
+        // 获取private字段&quot;grade&quot;:
+        System.out.println(stdClass.getDeclaredField(&quot;grade&quot;));
+    }
+}
+
+class Student extends Person {
+    public int score;
+    private int grade;
+}
+
+class Person {
+    public String name;
+}
+</code></pre><p>利用反射拿到字段的一个 Field 实例只是第一步，我们还可以拿到一个实例对应的该字段的值。</p>
+<pre><code class="lang-java">public class Main {
+
+    public static void main(String[] args) throws Exception {
+        Object p = new Person(&quot;Xiao Ming&quot;);
+        Class c = p.getClass();
+        Field f = c.getDeclaredField(&quot;name&quot;);
+        Object value = f.get(p);
+        System.out.println(value); // &quot;Xiao Ming&quot;
+    }
+}
+
+class Person {
+    private String name;
+
+    public Person(String name) {
+        this.name = name;
+    }
+}
+</code></pre>
+<p>会得到一个 IllegalAccessException 错误，这是因为 name 被定义为一个 private 字段，在调用 <code>Object value = f.get(p);</code> 前，先写一句 <code>f.setAccessible(true);</code>，其作用就是: 别管这个字段是不是public，一律允许访问。</p>
+<p>通过 Field 实例既然可以获取到指定实例的字段值，自然也可以设置字段的值。</p>
+<pre><code class="lang-java">public class Main {
+
+    public static void main(String[] args) throws Exception {
+        Person p = new Person(&quot;Xiao Ming&quot;);
+        System.out.println(p.getName()); // &quot;Xiao Ming&quot;
+        Class c = p.getClass();
+        Field f = c.getDeclaredField(&quot;name&quot;);
+        f.setAccessible(true);
+        f.set(p, &quot;Xiao Hong&quot;);
+        System.out.println(p.getName()); // &quot;Xiao Hong&quot;
+    }
+}
+
+class Person {
+    private String name;
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+}
+</code></pre>
+<h3 id="header-1-4-2">调用方法</h3>
+<p>我们已经能通过 Class 实例获取所有 Field 对象，同样的可以通过 Class 实例获取所有 Method 信息。Class 类提供了以下几个方法来获取 Method:</p>
+<ul>
+<li>Method getMethod(name, Class...): 获取某个public的Method（包括父类）</li>
+<li>Method getDeclaredMethod(name, Class...): 获取当前类的某个Method（不包括父类）</li>
+<li>Method[] getMethods(): 获取所有public的Method（包括父类）</li>
+<li>Method[] getDeclaredMethods(): 获取当前类的所有Method（不包括父类）</li>
+</ul>
+<pre><code class="lang-java">public class Main {
+    public static void main(String[] args) throws Exception {
+        Class stdClass = Student.class;
+        // 获取public方法getScore，参数为String:
+        System.out.println(stdClass.getMethod(&quot;getScore&quot;, String.class));
+        // 获取继承的public方法getName，无参数:
+        System.out.println(stdClass.getMethod(&quot;getName&quot;));
+        // 获取private方法getGrade，参数为int:
+        System.out.println(stdClass.getDeclaredMethod(&quot;getGrade&quot;, int.class));
+    }
+}
+
+class Student extends Person {
+    public int getScore(String type) {
+        return 99;
+    }
+    private int getGrade(int year) {
+        return 1;
+    }
+}
+
+class Person {
+    public String getName() {
+        return &quot;Person&quot;;
+    }
+}
+</code></pre>
+<p>正常情况下，string 调用 substring 方法是这样的:</p>
+<pre><code class="lang-java">String s = &quot;Hello world&quot;;
+String r = s.substring(6); // &quot;world&quot;
+</code></pre>
+<p>用反射调用就需要很多代码了:</p>
+<pre><code class="lang-java">// String对象:
+String s = &quot;Hello world&quot;;
+// 获取String substring(int)方法，参数为int:
+Method m = String.class.getMethod(&quot;substring&quot;, int.class);
+// 在s对象上调用该方法并获取结果:
+String r = (String) m.invoke(s, 6);
+// 打印调用结果:
+System.out.println(r);
+</code></pre>
+<p>如果获取到的Method表示一个静态方法，调用静态方法时，由于无需指定实例对象，所以 invoke 方法传入的第一个参数永远为 null。</p>
+<p>使用反射是依然准寻多态原则。</p>
+<p>想要调用私有方法，和字段一样要进行 setAccessible 声明。</p>
+<pre><code class="lang-java">public class Main {
+    public static void main(String[] args) throws Exception {
+        Person p = new Person();
+        Method m = p.getClass().getDeclaredMethod(&quot;setName&quot;, String.class);
+        m.setAccessible(true);
+        m.invoke(p, &quot;Bob&quot;);
+        System.out.println(p.name);
+    }
+}
+
+class Person {
+    String name;
+    private void setName(String name) {
+        this.name = name;
+    }
+}
+</code></pre>
+<p>参见 demo-19 解决开始提出的问题。</p>
+<h3 id="header-1-4-3">调用构造方法</h3>
+<p>Java 的反射 API 提供了 Constructor 对象，它包含一个构造方法的所有信息，可以创建一个实例。Constructor 对象和Method 非常类似，不同之处仅在于它是一个构造方法，并且，调用结果总是返回实例:</p>
+<pre><code class="lang-java">public class Main {
+    public static void main(String[] args) throws Exception {
+        // 获取构造方法Integer(int):
+        Constructor cons1 = Integer.class.getConstructor(int.class);
+        // 调用构造方法:
+        Integer n1 = (Integer) cons1.newInstance(123);
+        System.out.println(n1);
+
+        // 获取构造方法Integer(String)
+        Constructor cons2 = Integer.class.getConstructor(String.class);
+        Integer n2 = (Integer) cons2.newInstance(&quot;456&quot;);
+        System.out.println(n2);
+    }
+}
+</code></pre>
+<p>通过Class实例获取Constructor的方法如下:</p>
+<ul>
+<li>getConstructor(Class...)：获取某个public的Constructor；</li>
+<li>getDeclaredConstructor(Class...)：获取某个Constructor；</li>
+<li>getConstructors()：获取所有public的Constructor；</li>
+<li>getDeclaredConstructors()：获取所有Constructor。</li>
+</ul>
+<p>注意 Constructor 总是当前类定义的构造方法，和父类无关，因此不存在多态的问题。</p>
+<h2 id="header-1-5">注解</h2>
+<p>注解是放在 Java 源码的类、方法、字段、参数前的一种特殊“注释”：</p>
+<pre><code class="lang-java">// this is a component:
+@Resource(&quot;hello&quot;)
+public class Hello {
+    @Inject
+    int n;
+
+    @PostConstruct
+    public void hello(@Param String name) {
+        System.out.println(name);
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Hello&quot;;
+    }
+}
+</code></pre>
+<p>注释会被编译器直接忽略，注解则可以被编译器打包进入 class 文件。注解本身对代码逻辑没有任何影响，如何使用注解完全由工具决定。</p>
+<h2 id="header-1-6">泛型</h2>
+<h3 id="header-1-6-1">什么是泛型</h3>
+<p>存储多个同一特定数据类型的方式: <code>ArrayList&lt;T&gt;</code>。其中 T 为特定的对象。用代码解释如下:</p>
+<pre><code class="lang-java">public class ArrayList&lt;T&gt; {
+    private T[] array;
+    private int size;
+    public void add(T e) {...}
+    public void remove(int index) {...}
+    public T get(int index) {...}
+}
+</code></pre>
+<p>泛型的使用:</p>
+<pre><code class="lang-java">ArrayList&lt;String&gt; strList = new ArrayList&lt;String&gt;();
+strList.add(&quot;hello&quot;); // OK
+String s = strList.get(0); // OK
+strList.add(new Integer(123)); // compile error!
+Integer n = strList.get(0); // compile error!
+</code></pre>
+<p>和数组的区别就是可以不定长，可以动态添加新实例。</p>
+<p>向上转型，在 Java 标准库中的 <code>ArrayList&lt;T&gt;</code> 实现了 <code>List&lt;T&gt;</code> 接口，它可以向上转型为 <code>List&lt;T&gt;</code>:</p>
+<pre><code class="lang-java">List&lt;String&gt; list = new ArrayList&lt;String&gt;();
+</code></pre>
+<h2 id="header-1-7">参考</h2>
+<p><a href="https://www.liaoxuefeng.com/wiki/1252599548343744" target="_blank">廖雪峰 Java 教程</a></p>
+
+</div>
+</body>
+</html>

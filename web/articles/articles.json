@@ -512,6 +512,30 @@
     "todoList": []
   },
   {
+    "enName": "electron-vue-action",
+    "title": "electron-vue 项目实战",
+    "introduction": "从零开始一步步写一个工作任务管理工具。项目在 github 开源，每一小结对应一条提交记录，你可以通过 github 上的提交历史了解到一个项目是怎样一步步完成的。中间遇到坑是必不可少的，怎么思考，怎么找资料，怎么解决，授之以渔，叫你举一反三的能力。任何一篇教程都不可能穷尽所有问题和解决办法，给你一套解决问题的方法是最高效的。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1572592740223,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "encode",
+    "title": "计算机编码",
+    "introduction": "计算机编码常识。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1572592740224,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "encryption",
     "title": "加密",
     "introduction": "未找到描述信息",
@@ -764,7 +788,19 @@
   },
   {
     "enName": "java",
-    "title": "Java 自学",
+    "title": "Java EE 学习",
+    "introduction": "夯实基础，一切代码以 Java 13 为运行环境。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1572592740243,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "java-web",
+    "title": "Java Web 自学",
     "introduction": "此内容不在预期当中，和后端写 Java 的同事合作多年却不知道他们怎么写代码，这里偏移主题满足一下个人的好奇心，完全可以跳过这章不影响后面学习。",
     "tags": [],
     "isPublished": false,
@@ -1394,6 +1430,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1460254890796,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "sketchcn",
+    "title": "sketch 自学笔记",
+    "introduction": "用到什么学什么，想要独立开发一款应用，设计就少不了了。正好要开发一款桌面软件，拿来练练手。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1572592740304,
     "commentList": [],
     "todoList": []
   },

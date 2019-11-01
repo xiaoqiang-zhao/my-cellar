@@ -51,25 +51,33 @@
 <p>在公司办公人离开电脑把电脑锁屏是必要的，大公司特别注意这一点，甚至 IBM 的制度中有离开电脑不锁屏可以开除的规定，锁屏绝对是个好习惯，尤其是对于启动速度超快的 Mac。</p>
 </blockquote>
 <ul>
-<li>休眠 Ctrl + Shift + 电源键，Mac 上没有锁屏的概念，锁屏通过休眠和设置休眠后启动需要输入密码来实现，后者可以在 “系统偏好设置/安全与隐私/通用/进入睡眠或开始屏保程序立即要求输入密码” 下设置</li>
+<li><p>休眠 Ctrl + Shift + 电源键，Mac 上没有锁屏的概念，锁屏通过休眠和设置休眠后启动需要输入密码来实现，后者可以在 “系统偏好设置/安全与隐私/通用/进入睡眠或开始屏保程序立即要求输入密码” 下设置。</p>
+</li>
+<li><p>新版的 Mac Pro 键盘上方有了 Touch Bar，在 <code>系统偏好设置... / 键盘 / 自定义触控栏 ...</code> 下可以将锁屏图标拖到 Touch Bar 上，之后就可以一键锁屏了。</p>
+</li>
 </ul>
-<h2 id="header-1-4">新建txt文件</h2>
+<h2 id="header-1-4">Touch Bar</h2>
+<p>Touch Bar 占用了原来 F1-F12 的位置，按着 <code>fn</code> 键 F1-F12 就回来了。如果改变过默认设置在 <code>系统偏好设置... / 键盘 / 按下 Fn 键以</code> 设为显示 &quot;显示F1、F2 等键&quot;</p>
+<h2 id="header-1-5">查看硬盘使用情况</h2>
+<p>左上角苹果标 / 关于本机 / 存储空间</p>
+<p>然后点击管理可以查看那些文件大，删除瘦身。</p>
+<h2 id="header-1-6">新建txt文件</h2>
 <p>【Launchpad 程序选择(一般三指抓合)/其他/文本编辑器/新建文稿/格式/制作纯文本】写内容然后保存就可以</p>
-<h2 id="header-1-5">One App One Key Map</h2>
+<h2 id="header-1-7">One App One Key Map</h2>
 <blockquote>
 <p>一个应用，一个常用的快捷键</p>
 </blockquote>
 <ul>
 <li>在Finder的任何位置，选中这里所有的图片，进入全屏幻灯片模式 Com + Option + Y </li>
 </ul>
-<h2 id="header-1-6">配置</h2>
+<h2 id="header-1-8">配置</h2>
 <ul>
 <li>F1 到 F12 是功能键，默认状态下只有按着左下角的fn键才是原始功能，如果想倒过来需勾选 “系统偏好设置/键盘/将F1、F2等键用作标准功能键”。</li>
 <li>快速找到并启动程序：Cmd + Space，这需要在 System Preferences/Keyboard/Shortcuts 下 将 Spotlight 选中，如果搜索出现卡顿可以在 System Preferences/Spotlight 中配置检索项，减少需要检索的内容会提升速度。</li>
 <li>修改锁屏时间：Energy Save(节能)/Battery(电池)/Turn display off after(几分钟后关闭显示)。锁屏后马上需要输入密码。</li>
 <li>有的时候我们在思考问题，事件有点久突然锁屏了，这是可以设置在锁屏后多久需要输入密码唤醒，比如 5 秒: System Preferences &gt; Security &amp; Privacy &gt; General。</li>
 </ul>
-<h2 id="header-1-7">命令行</h2>
+<h2 id="header-1-9">命令行</h2>
 <ul>
 <li>回到上一级目录 cd .. (注意 cd 后面要跟一个空格，和windows的不同；另外有一个插件Go2Shell可以让你从Finder中直接进入当前目录命令行，在appStore中就可以找到)</li>
 <li>查看当前目录下的文件 ls (加 “空格-a” 可现实隐藏文件)</li>
@@ -83,7 +91,7 @@
 <li>清屏 Com + K</li>
 <li>sudo chmod og+w /etc/hosts 配置 hosts 编辑权限</li>
 </ul>
-<h2 id="header-1-8">host 的配置</h2>
+<h2 id="header-1-10">host 的配置</h2>
 <p>这里用到了 vim 的操作技巧，着实为难了一下，但那已成为过去。</p>
 <p>打开命令行输入 <code>sudo vi /etc/hosts</code> 然后回车</p>
 <p>会提示让你输入密码（注意输入密码时你看不到＊号）</p>
@@ -94,17 +102,17 @@
 <p>为了避免错误，最好是再清除一次浏览器的cache。</p>
 <p>FireFox 的 HostAdmin 插件很好用，可以方便的切换 host 配置。</p>
 <p>工具：switchHosts、HostsAdmin、Chrome插件Host Switch Plus。</p>
-<h2 id="header-1-9">显示隐藏文件</h2>
+<h2 id="header-1-11">显示隐藏文件</h2>
 <ul>
 <li>按快捷键Command + F 调出搜索窗口</li>
 <li>点击&quot;种类&quot;选项卡,在下面找到&quot;其他&quot;</li>
 <li>在弹出的窗口里 找到&quot;文件不可见性&quot; 选项(可通过搜索快速查找),不勾选后面的方框,点击&quot;好&quot;保存设置</li>
 </ul>
-<h2 id="header-1-10">显示 . 开头的文件和文件夹</h2>
+<h2 id="header-1-12">显示 . 开头的文件和文件夹</h2>
 <ul>
 <li>Shift + Command + .</li>
 </ul>
-<h2 id="header-1-11">软件推荐</h2>
+<h2 id="header-1-13">软件推荐</h2>
 <ul>
 <li>Dash 长按 Command 键出现当前软件的快捷键；</li>
 <li><a href="https://macitbetter.com/" target="_blank">BetterZip</a>，Mac 下的免费压缩和解压工具；</li>
@@ -112,19 +120,24 @@
 <li><a href="https://macpaw.com/cleanmymac" target="_blank">CleanMyMac</a>，Mac 上的垃圾清理工具和软件管理工具(收费)；</li>
 <li><a href="https://www.teamviewer.com/en-us" target="_blank">teamviewer</a>，远程控制软件(此软件对公收费，所以很多大公司在自己公司的防火墙上做了隔离，内网无法访问时试试4G热点)。</li>
 </ul>
-<h2 id="header-1-12">开发工具推荐</h2>
+<h2 id="header-1-14">开发工具推荐</h2>
 <ul>
 <li>ZSH 终端神器，<a href="http://blog.163.com/qy_gong/blog/static/1718738792013102992830558/" target="_blank">传送门</a>；</li>
 <li>前端神器 WebStorm，参见另一篇文章 <a href="/index.html#!/articles/webstorm" target="_blank">WebStorm 使用文档</a></li>
 <li>代理工具 <a href="https://www.charlesproxy.com/" target="_blank">Charles</a></li>
-<li>高效的设计稿标注、测量工具 <a href="http://www.getmarkman.com/" target="_blank">MarkMan</a></li>
 <li>发送网页HTTP请求的工具，请求<a href="https://www.getpostman.com/apps" target="_blank">Postman</a></li>
 </ul>
-<h2 id="header-1-13">外接显示器</h2>
+<h2 id="header-1-15">设计相关</h2>
+<ul>
+<li><a href="http://www.getmarkman.com/" target="_blank">MarkMan</a>，高效的设计稿标注、测量工具 </li>
+<li><a href="https://www.adobe.com/cn/products/photoshop/free-trial-download.html" target="_blank">photoshop</a>，从中文官网下载最新的 Photoshop CC 2019，需要 Adobe 账号，新版真的太强大了。</li>
+<li><a href="http://www.sketchcn.com/" target="_blank">sketchcn</a>，设和做软件 UI 设计的软件。</li>
+</ul>
+<h2 id="header-1-16">外接显示器</h2>
 <p>外接显示器分辨率没有最佳分辨率选项，需要按住 option 键再点击缩放按钮，这样会列出所有的分辨率选项。</p>
-<h2 id="header-1-14">磁盘空间使用分析</h2>
+<h2 id="header-1-17">磁盘空间使用分析</h2>
 <p>单击左上角的苹果图标: About This Mac / Storage / Manage...</p>
-<h2 id="header-1-15">包管理</h2>
+<h2 id="header-1-18">包管理</h2>
 <p>Mac常用的有两个：</p>
 <ul>
 <li>brew, 如果你只希望很快的安装一些便利的工具，那么homebrew是个不错的选择。</li>
@@ -134,7 +147,7 @@
 # （mac 自带 ruby 环境)
 </code></pre>
 <p>实践中，如果你装 nodejs 还是直接在官网下载安装包来的快，如果直接用 brew 安装默认是源码编译安装，需要下载很多依赖，比用安装包要慢很多。</p>
-<h2 id="header-1-16">资料</h2>
+<h2 id="header-1-19">资料</h2>
 <p><a href="http://www.macx.cn/thread-2050934-1-1.html" target="_blank">16个OS X快捷键小技巧，至少应该了解一半</a></p>
 
 </div>

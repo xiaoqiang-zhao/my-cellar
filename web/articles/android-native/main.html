@@ -88,10 +88,6 @@
 <p>模拟器的机型并不全，连我中华大华为都没有，差评。直接真机调试比较简单，配置如下:</p>
 <ul>
 <li><ol>
-<li>Android Studio，顶部 app / Edit / USB Device。</li>
-</ol>
-</li>
-<li><ol>
 <li>手机上打开设置，点开”开发者选项“，将”USB调试打开“。</li>
 </ol>
 </li>
@@ -99,9 +95,13 @@
 <li>Android 4.2 以后的系统可以隐藏”开发者选项“，点击“关于手机”，然后连续多次点击“版本号”，可以将”开发者选项“的隐藏取消掉，返回设置中就可以看到了。</li>
 </ol>
 </li>
+<li><ol>
+<li>Android Studio，顶部 app / Edit Configrations... / Deployment Target Options / Target / USB Device。(注意手机配置好才能出现 target 选项)</li>
+</ol>
+</li>
 </ul>
 <p>连上手机之后运行的时候报 “Session &#39;app&#39;: Installation did not succeed.”</p>
-<h2 id="header-1-4">系统性学习 - 入门</h2>
+<h2 id="header-1-4">系统性学习 - 基本概念入门</h2>
 <h3 id="header-1-4-1">概述</h3>
 <p>在搭建完前面的步骤后我们就可以进入系统性学习的步骤了，高效直接的方式是参照官方文档再结合第三方的视角，于是选择了下面两个参考资料:</p>
 <ul>
@@ -394,16 +394,16 @@ public class DisplayMessageActivity extends AppCompatActivity {
 </code></pre>
 <p>就可以展示从前一个页面传递过来的参数值了。</p>
 <h3 id="header-1-4-6">兼容性</h3>
-<p>先从最简单的多语言说起，只要创建资源子目录和字符串资源文件就可以:</p>
+<p>先从最简单的<strong>多语言</strong>说起，只要创建资源子目录和字符串资源文件就可以:</p>
 <pre><code>${project root}
     ├── app/src/main/res
         ├── values         默认语言，一般设置为英语
             ├── strings.xml   文本定义
-        ├── values-zh-cn   中文简体
+        ├── values-zho   中文简体
         ├── values-tc      中文繁体
         ├── values-es      西班牙语
         └── values-fr      法语
-</code></pre><p>更多语言参见: <a href="https://blog.csdn.net/hanchaohao2012/article/details/50370984" target="_blank">https://blog.csdn.net/hanchaohao2012/article/details/50370984</a></p>
+</code></pre><p>更多语言参见 ISO 国际规范: <a href="http://www.loc.gov/standards/iso639-2/php/code_list.php" target="_blank">http://www.loc.gov/standards/iso639-2/php/code_list.php</a></p>
 <p>定义的语法:</p>
 <pre><code class="lang-xml">&lt;resources&gt;
     &lt;string name=&quot;action_settings&quot;&gt;Settings&lt;/string&gt;
@@ -416,8 +416,113 @@ public class DisplayMessageActivity extends AppCompatActivity {
     android:title=&quot;@string/action_settings&quot;
     app:showAsAction=&quot;never&quot; /&gt;
 </code></pre>
-<p><a href="https://developer.android.com/about/dashboards/index.html" target="_blank">https://developer.android.com/about/dashboards/index.html</a></p>
-<h2 id="header-1-5">参考</h2>
+<pre><code class="lang-java">R.string.action_settings
+</code></pre>
+<p>再说说<strong>适配不同的屏幕</strong>。Android用尺寸和分辨率这两种常规属性对不同的设备屏幕加以分类。</p>
+<ul>
+<li>有4种普遍尺寸: 小(small)，普通(normal)，大(large)，超大(xlarge)。</li>
+<li>4种普遍分辨率: 低精度(ldpi), 中精度(mdpi), 高精度(hdpi), 超高精度(xhdpi)。</li>
+</ul>
+<p>四种分辨率:</p>
+<ul>
+<li>320dp: 典型手机屏幕（240x320 ldpi、320x480 mdpi、480x800 hdpi 等）。</li>
+<li>480dp: 约为 5 英寸的大手机屏幕 (480x800 mdpi)。</li>
+<li>600dp: 7 英寸平板电脑 (600x1024 mdpi)。</li>
+<li>720dp: 10 英寸平板电脑（720x1280 mdpi、800x1280 mdpi 等）。</li>
+</ul>
+<p>4种分辨率:</p>
+<ul>
+<li>xhdpi: 2.0。</li>
+<li>hdpi: 1.5。</li>
+<li>mdpi: 1.0 (基准)。</li>
+<li>ldpi: 0.75。
+如果针对xhdpi的设备生成了一张200x200的图像，那么应该为hdpi生成150x150,为mdpi生成100x100, 和为ldpi生成75x75的图片资源。</li>
+</ul>
+<p>声明针对不同屏幕所用的layout和bitmap，必须把这些可选资源放置在独立的目录中，这与适配不同语言时的做法类似。</p>
+<p>同样要注意屏幕的方向(横向或纵向)也是一种需要考虑的屏幕尺寸变化，因此许多app会修改layout，来针对不同的屏幕方向优化用户体验。</p>
+<pre><code>${project root}
+    res/
+        layout/              # 竖屏(默认)
+            main.xml
+        layout-land/         # 横屏
+            main.xml
+        layout-large/        # 大屏+竖屏
+            main.xml
+        layout-large-land/   # 大屏+横屏
+            main.xml
+</code></pre><p>对于不同分辨率的手机，主要是图片是否使用高精图的问题:</p>
+<pre><code>${project root}
+    res/
+        drawable-xhdpi/
+            awesomeimage.png
+        drawable-hdpi/
+            awesomeimage.png
+        drawable-mdpi/
+            awesomeimage.png
+        drawable-ldpi/
+            awesomeimage.png
+</code></pre><p>最后说一下<strong>适配不同的系统版本</strong>。新的Android版本会为我们的app提供更棒的APIs，但我们的app仍应支持旧版本的Android，直到更多的设备升级到新版本为止。</p>
+<p><a href="https://developer.android.com/about/dashboards/index.html" target="_blank">Platform Versions</a>的控制面板会定时更新，通过统计访问 Google Play Store 的设备数量，来显示运行每个版本的安卓设备的分布。一般情况下，在更新app至最新Android版本时，最好先保证新版的 app 可以支持90%的设备使用。</p>
+<ul>
+<li>android 4.4 (api 19)，以上占比 96.2%；</li>
+<li>android 5.0 (api 21)，以上占比 89.3%；</li>
+<li>android 6.0 (api 23)，以上占比 74.8%；</li>
+<li>android 7.0 (api 24)，以上占比 57.9%；</li>
+<li>android 9.0 (api 28)，以上占比 10.4%；</li>
+</ul>
+<p>性价比比较高的是支持到 6.0。</p>
+<p>应用的 api 版本可以在 manifests/AndroidMainifest.xml 配置文件中指定:</p>
+<pre><code class="lang-xml">&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+    &lt;uses-sdk android:minSdkVersion=&quot;23&quot; android:targetSdkVersion=&quot;28&quot; /&gt;
+&lt;/manifest&gt;
+</code></pre>
+<p>上面配置文件中还可以配置 UI 风格:</p>
+<pre><code class="lang-xml">&lt;application android:theme=&quot;@style/APPTheme&quot;&gt;
+</code></pre>
+<h3 id="header-1-4-7">App 配置</h3>
+<p>在 app/src/main/res/values/styles.xml 中定义样式:</p>
+<pre><code class="lang-xml">&lt;resources&gt;
+    &lt;!-- Base application theme. --&gt;
+    &lt;style name=&quot;AppTheme&quot; parent=&quot;Theme.AppCompat.Light.DarkActionBar&quot;&gt;
+        &lt;!-- Customize your theme here. --&gt;
+        &lt;item name=&quot;colorPrimary&quot;&gt;@color/colorPrimary&lt;/item&gt;
+        &lt;item name=&quot;colorPrimaryDark&quot;&gt;@color/colorPrimaryDark&lt;/item&gt;
+        &lt;item name=&quot;colorAccent&quot;&gt;@color/colorAccent&lt;/item&gt;
+    &lt;/style&gt;
+
+    &lt;style name=&quot;AppTheme.NoActionBar&quot;&gt;
+        &lt;item name=&quot;windowActionBar&quot;&gt;false&lt;/item&gt;
+        &lt;item name=&quot;windowNoTitle&quot;&gt;true&lt;/item&gt;
+    &lt;/style&gt;
+&lt;/resources&gt;
+</code></pre>
+<p>配置默认启动页面:</p>
+<pre><code class="lang-xml">&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+    &lt;application&gt;
+        &lt;activity
+            android:name=&quot;.MainActivity&quot;
+            android:label=&quot;@string/app_name&quot;
+            android:theme=&quot;@style/AppTheme.NoActionBar&quot;&gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+            &lt;/intent-filter&gt;
+        &lt;/activity&gt;
+    &lt;/application&gt;
+&lt;/manifest&gt;
+</code></pre>
+<h3 id="header-1-4-8">Activity 生命周期与回调</h3>
+<p><img src="./img/basic-lifecycle.png" alt="生命周期图"></p>
+<p>Activity只能在三种状态之一下存在很长时间:</p>
+<ul>
+<li>Resumed: 在这种状态下，Activity处于前台，且用户可以与其交互。（有时也称为“运行”状态。）</li>
+<li>Paused: 在这种状态下，Activity被在前台中处于半透明状态或者未覆盖整个屏幕的另一个Activity—部分阻挡。暂停的Activity不会接收用户输入并且无法执行任何代码`</li>
+<li>Stopped: 在这种状态下，Activity被完全隐藏并且对用户不可见；它被视为处于后台。停止时，Activity实例及其诸如成员变量等所有状态信息将保留，但它无法执行任何代码。</li>
+</ul>
+<h2 id="header-1-5">系统性学习 - 开发必备技能</h2>
+<h3 id="header-1-5-1">列表</h3>
+<p><a href="https://blog.csdn.net/createchance/article/details/54616343" target="_blank">https://blog.csdn.net/createchance/article/details/54616343</a></p>
+<h2 id="header-1-6">参考</h2>
 <p><a href="https://zhuanlan.zhihu.com/p/70005857" target="_blank">最新最全面的Android学习指南</a></p>
 <p><a href="https://www.slant.co/topics/1321/~best-ides-for-android-development" target="_blank">What are the best IDEs for Android development?</a></p>
 <p><a href="https://www.amarinfotech.com/best-android-development-tools-2018.html" target="_blank">Top 10 Android Development Tools 2018</a></p>

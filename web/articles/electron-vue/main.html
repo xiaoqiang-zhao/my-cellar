@@ -26,7 +26,7 @@
 <p>运行上面提到初始化命令:</p>
 <pre><code class="lang-shell">vue init simulatedgreg/electron-vue my-project
 </code></pre>
-<p>大部分配置之间选默认值，测试相关的选 no 之后会节省一部分安装依赖的时间会。其中开始的 vue 是 vue cli，如果失败可能和 vue cli 工具有关，运行中发现最新的 vue cli 3 不适合 simulatedgreg/electron-vue，你需要 vue cli 2:</p>
+<p>大部分配置直接选默认值，测试相关的选 no 之后会节省一部分安装依赖的时间会。其中开始的 vue 是 vue cli，如果失败可能和 vue cli 工具有关，运行中发现最新的 vue cli 3 不适合 simulatedgreg/electron-vue，你需要 vue cli 2:</p>
 <pre><code class="lang-shell"># vue cli 2 的安装
 npm install -g vue-cli
 # vue cli 3 的安装
@@ -45,9 +45,16 @@ npm run dev
 <p>然后打一个可运行的安装包出来，运行 <code>npm run build</code> 在 Mac 上可以打包出 Mac 版和 Linux 版， Windows 版的安装包只能在 Windows 上打包，可以打出 32 位和 64 位的两个版本。</p>
 <p>注: 尝试了多种方案依然在 Mac 上打不出 Windows 的包。</p>
 <h2 id="header-1-2">自定义工具条</h2>
-<h2 id="header-1-3">参考</h2>
+<h2 id="header-1-3">无边框应用</h2>
+<p>拖拽 ok</p>
+<p>最小化按钮与 log+title 布局，win ok，mac？</p>
+<h3 id="header-1-3-1">参考</h3>
+<p><a href="https://electronjs.org/docs/api/frameless-window" target="_blank">官方资料</a></p>
+<p><a href="https://www.jianshu.com/p/96327b044e85" target="_blank">Electron 无边框窗口的拖动 - 三种方案总结</a></p>
+<p><a href="https://blog.csdn.net/liyangyang08/article/details/78608822" target="_blank">无边框窗口最大化最小化关闭功能</a></p>
+<h2 id="header-1-4">参考</h2>
 <p><a href="https://simulatedgreg.gitbooks.io/electron-vue/content/cn/" target="_blank">electron-vue</a></p>
-<p><a href="https://electronjs.org/docs" target="_blank">electronjs doc</a></p>
+<p><a href="https://eolectronjs.org/docs" target="_blank">electronjs doc</a></p>
 <p><a href="https://segmentfault.com/a/1190000012899824" target="_blank">npm run build 的坑</a></p>
 <p><a href="https://molunerfinn.com/tags/Electron-vue/page/2/" target="_blank">系列博客</a></p>
 <p><a href="https://juejin.im/post/5bc53aade51d453df0447927" target="_blank">electron-builder打包见解</a></p>
