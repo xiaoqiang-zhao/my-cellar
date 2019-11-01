@@ -56,8 +56,34 @@ group，组，可以把元素打包成组方便管理。
 
 选中画板中的某个元素，点击工具栏上的"链接"，就可以指定跳转到哪一个画板了。然后就可以点击“预览”来查看跳转逻辑了，页面之间的转场动画也是可以设置的，在“原型 / 动画”中设置。
 
-虽然有 Sketch Cloud 云，但是它是收费的。要队友没有 Sketch ，那只能导出 png 图片或 pdf 文件给他看，有一个好用的插件 - [Sketch Measure](http://utom.design/measure/)。Sketch 插件的安装也是比较随性，直接从官网下载压缩包解压，然后点击 .sketchplugin 文件秒装。
+![原型连接线](./img/prototyping.png)
+
+## 插件
+
+### 插件管理器 - Sketch Toolbox
+
+[Sketch Toolbox](http://sketchtoolbox.com/)，可以直接搜索安装插件。我用的时候经常奔溃，好在不常用忍了。
+
+### 导出插件 - Sketch Measure
+
+虽然有 Sketch Cloud 云，但是它是收费的。要队友没有 Sketch ，那只能导出 png 图片或 pdf 文件给他看，有一个好用的插件 - [Sketch Measure](http://utom.design/measure/)。Sketch 插件的安装也是比较随性，直接从官网下载压缩包解压，然后点击 .sketchplugin 文件秒装。使用方式: 插件 / Sketch Measure / 导出规范，选着要导出的页面就可以了。
+
+### 图标插件 - Icon Font
+
+[Icon Font](https://github.com/keremciu/sketch-iconfont)，图标插件。可以导入 svg 图标，自定义图标。
+
+### 内容填充 - Craft
+
+[Craft](https://www.invisionapp.com/craft)，可以直接从网站上扒图扒文字，填充到设计中。这个插件安装的时候略麻烦，需要先安装官方给的应用，安装后运行起来，再在系统的 menu bar 上找到它的图标，选择 Sketch 类型插件安装，最后你才能在插件中看到它。
+
+![原型连接线](./img/craft.png)
+
+很多好看的图片可以直接使用。
+
+### 更多
 
 更多工具推荐: https://cloud.tencent.com/developer/news/311543
 
 在官方备过案的插件集合: https://www.sketch.com/extensions/plugins/
+
+## 设计
