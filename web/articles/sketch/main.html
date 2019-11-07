@@ -54,7 +54,7 @@
 </ul>
 <p>原型图中可以定义页面之间的跳转，我们最好将&quot;链接&quot;和&quot;热区&quot;工具调处来，方法是点击&quot;视图 / 自定义工具栏&quot;，然后把想要的工具拖到工具栏。</p>
 <p>选中画板中的某个元素，点击工具栏上的&quot;链接&quot;，就可以指定跳转到哪一个画板了。然后就可以点击“预览”来查看跳转逻辑了，页面之间的转场动画也是可以设置的，在“原型 / 动画”中设置。</p>
-<p><a href="./img/prototyping.png" target="_blank">!原型连接线</a></p>
+<p><img src="./img/prototyping.png" alt="原型连接线"></p>
 <h2 id="header-1-6">插件</h2>
 <h3 id="header-1-6-1">插件管理器 - Sketch Toolbox</h3>
 <p><a href="http://sketchtoolbox.com/" target="_blank">Sketch Toolbox</a>，可以直接搜索安装插件。我用的时候经常奔溃，好在不常用忍了。</p>
@@ -64,11 +64,75 @@
 <p><a href="https://github.com/keremciu/sketch-iconfont" target="_blank">Icon Font</a>，图标插件。可以导入 svg 图标，自定义图标。</p>
 <h3 id="header-1-6-4">内容填充 - Craft</h3>
 <p><a href="https://www.invisionapp.com/craft" target="_blank">Craft</a>，可以直接从网站上扒图扒文字，填充到设计中。这个插件安装的时候略麻烦，需要先安装官方给的应用，安装后运行起来，再在系统的 menu bar 上找到它的图标，选择 Sketch 类型插件安装，最后你才能在插件中看到它。</p>
-<p>装好之后还需要登录，</p>
+<p><img src="./img/craft.png" alt="原型连接线"></p>
+<p>很多好看的图片可以直接使用。</p>
 <h3 id="header-1-6-5">更多</h3>
 <p>更多工具推荐: <a href="https://cloud.tencent.com/developer/news/311543" target="_blank">https://cloud.tencent.com/developer/news/311543</a></p>
 <p>在官方备过案的插件集合: <a href="https://www.sketch.com/extensions/plugins/" target="_blank">https://www.sketch.com/extensions/plugins/</a></p>
-<h2 id="header-1-7">设计</h2>
+<h2 id="header-1-7">软技能</h2>
+<p>工具装好了，还掌握了这么多理论知识，你可能依然不会设计。首先你可以看看别人的设计作品，中文官网提供了很多，从这里传送: <a href="https://www.oursketch.com/resource?category=ui" target="_blank">https://www.oursketch.com/resource?category=ui</a></p>
+<p>然后再看几个设计视屏: <a href="https://www.oursketch.com/video" target="_blank">https://www.oursketch.com/video</a> ,看看别人是怎么用工具的。</p>
+<p>最后找一个或多个和你目标最接近的项目来仿着做。正好我要设计一个给自己用的工具，一步步来讲怎么实现:</p>
+<h2 id="header-1-8">产品定义</h2>
+<h3 id="header-1-8-1">背景</h3>
+<p>公司要求写日报，周末还要写周报，月底还要总结，季末还要做目标回顾。自我管理也是很重要的个人能力，每天有多少时间是在编码或学习，又有多少时间是在闲逛各种网站和 App，我想有一个工具可以很方便的记录工作内容，记录每项任务上画的时间，不是敷衍的给老板看，而是通过工具来提高自己的专注力和工作效率，让我有更多的主动有意识的休闲和学习时间。所以我需要这样一个工具。</p>
+<p>考虑到数据的敏感性和应用场景，打算采用桌面应用的形式来实现。</p>
+<h3 id="header-1-8-2">目标</h3>
+<ul>
+<li>1、提高写日报的效率</li>
+<li>2、自动生成 周报、月报、季报</li>
+<li>3、内容备注，有一些不想体现在日报中的辅助信息</li>
+<li>4、自动调整和生成序号</li>
+<li>5、记录每项任务的时间</li>
+<li>6、支持项目维度汇总，支持工作专注时间汇总</li>
+<li>7、本地存储，支持 markdown 形式导出，避免接触敏感数据</li>
+</ul>
+<h2 id="header-1-9">通用设计</h2>
+<h3 id="header-1-9-1">选择素材</h3>
+<p>这里有很多设计图可供参考: <a href="https://www.oursketch.com/resource" target="_blank">https://www.oursketch.com/resource</a></p>
+<p>喜欢这个风格的导航: <a href="https://www.oursketch.com/resource/1915" target="_blank">https://www.oursketch.com/resource/1915</a></p>
+<p>这几个设计的一些元素可以借鉴: </p>
+<ul>
+<li><a href="https://www.oursketch.com/resource/563" target="_blank">https://www.oursketch.com/resource/563</a></li>
+<li><a href="https://www.oursketch.com/resource/1884" target="_blank">https://www.oursketch.com/resource/1884</a></li>
+<li><a href="https://www.oursketch.com/resource/951" target="_blank">https://www.oursketch.com/resource/951</a></li>
+</ul>
+<h3 id="header-1-9-2">新建</h3>
+<p>文件 / 从模板新建 / Prototyping Tutorial</p>
+<p>删除其他界面，只留下第一个界面的说明和面板。</p>
+<h3 id="header-1-9-3">背景和框架</h3>
+<p>设计步骤:</p>
+<ul>
+<li>设计桌面应用为了表现半透明磨砂效果，设置一个渐变背景</li>
+<li>再拖一个应用软件框进来，长宽 1300 * 960，取消背景填充</li>
+<li>左边画矩形，背景色 <code>#26304C</code>，80% 的半透明</li>
+<li>从素材中引入苹果的操作按钮，调整间距，调整导航背景宽度</li>
+<li>右侧画矩形，填充剩余部分，白色背景，透明度也 80%</li>
+</ul>
+<p>技巧:</p>
+<ul>
+<li>把上面的元素全部选中，右击，创建为组件，以后用的时候一拖就进来了，要改的时候选择 Symbols 找到组件，一概全改</li>
+<li>选中设计元素，按着 options 可以查看它和其他元素的间距</li>
+<li>感性审美比较差的可以理性一点，间距相等，横平竖直的对齐，一般也不会太难看</li>
+</ul>
+<p><img src="./img/0-1.png" alt="0-1图"></p>
+<h3 id="header-1-9-4">导航</h3>
+<p>导航想采用图标，首页，设置页，归档页。</p>
+<p>从 iconfont 上找了一套字体: <a href="https://www.iconfont.cn/collections/detail?spm=a313x.7781069.0.da5a778a4&amp;cid=2747" target="_blank">https://www.iconfont.cn/collections/detail?spm=a313x.7781069.0.da5a778a4&amp;cid=2747</a></p>
+<p>然后从其中选出需要的图标: home, calendar, setting。</p>
+<p>技巧:</p>
+<ul>
+<li>用于导航的图标要选择细线或中线，粗线图标显得笨拙(傻大黑粗)</li>
+<li>下载某个图标时可以查看它所属的系列，这样就可以找到一组设计风格类似的图标，避免了一个个寻找的麻烦</li>
+<li>导航统一，某个图标高亮却不容易设置，可以都设置为置灰，然后在某一页用一个高亮图标覆盖当前页图标</li>
+<li>四角设置不同的圆角值时是这种格式: 0;5;10;15，很多文章将的都是前面的版本 0/5/10/15 是不对的</li>
+</ul>
+<p><img src="./img/0-2.png" alt="0-2图"></p>
+<p>首页原比例:
+<img src="./img/0-3.png" alt="0-2图"></p>
+<h2 id="header-1-10">业务界面设计 - 首页</h2>
+<h2 id="header-1-11">业务界面设计 - 归档页</h2>
+<h2 id="header-1-12">业务界面设计 - 设置页</h2>
 
 </div>
 </body>
