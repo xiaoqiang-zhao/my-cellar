@@ -90,6 +90,12 @@
 <h2 id="header-1-9">通用设计</h2>
 <h3 id="header-1-9-1">选择素材</h3>
 <p>这里有很多设计图可供参考: <a href="https://www.oursketch.com/resource" target="_blank">https://www.oursketch.com/resource</a></p>
+<p>喜欢简洁科技风，曾经和一个谷歌的设计大神合作过，他传我两条准则: </p>
+<ul>
+<li>少数颜色和间距搭配;</li>
+<li>对齐和居中搭配。</li>
+</ul>
+<p>根据这个两原则去设计，最后我会贴出用到的颜色和间距。</p>
 <p>喜欢这个风格的导航: <a href="https://www.oursketch.com/resource/1915" target="_blank">https://www.oursketch.com/resource/1915</a></p>
 <p>这几个设计的一些元素可以借鉴: </p>
 <ul>
@@ -120,6 +126,10 @@
 <p>导航想采用图标，首页，设置页，归档页。</p>
 <p>从 iconfont 上找了一套字体: <a href="https://www.iconfont.cn/collections/detail?spm=a313x.7781069.0.da5a778a4&amp;cid=2747" target="_blank">https://www.iconfont.cn/collections/detail?spm=a313x.7781069.0.da5a778a4&amp;cid=2747</a></p>
 <p>然后从其中选出需要的图标: home, calendar, setting。</p>
+<p>设计步骤:</p>
+<ul>
+<li>图标拖入，调整图标大小和颜色</li>
+</ul>
 <p>技巧:</p>
 <ul>
 <li>用于导航的图标要选择细线或中线，粗线图标显得笨拙(傻大黑粗)</li>
@@ -129,10 +139,87 @@
 </ul>
 <p><img src="./img/0-2.png" alt="0-2图"></p>
 <p>首页原比例:
-<img src="./img/0-3.png" alt="0-2图"></p>
+<img src="./img/0-3.png" alt="0-3图"></p>
 <h2 id="header-1-10">业务界面设计 - 首页</h2>
+<p>首页分日报和任务池两个功能部分。</p>
+<p>设计步骤:</p>
+<ul>
+<li>软件冷启动时的暂无内容</li>
+</ul>
+<p><img src="./img/1-1.png" alt="1-1图"></p>
+<ul>
+<li>内容展现态</li>
+</ul>
+<p><img src="./img/1-2.png" alt="1-2图"></p>
+<ul>
+<li>各种激活态，为了方便截图采用了 hover 激活，在当前界面上编辑，无需跳转</li>
+</ul>
+<p><img src="./img/1-3.png" alt="1-3图"></p>
+<p>技巧: </p>
+<ul>
+<li>一个内容块要调整大小，如果里面的元素可以随着响应会省不少事，比如标题的间隔随着缩放或者图标在左上角不动。这可可以通过设置&quot;调整尺寸&quot;来实现，两边点亮就会随着容器缩放，一边点亮就位置不动，如果什么都不设置会随容器缩放，一般会变形。</li>
+</ul>
+<p><img src="./img/1-5.png" alt="1-5图"></p>
+<ul>
+<li>当可复用的组件很多时可以通过名称来编组，这样插入时就可以通过层级的形式来查找</li>
+</ul>
+<p><img src="./img/1-6.png" alt="1-6图"></p>
 <h2 id="header-1-11">业务界面设计 - 归档页</h2>
+<p><img src="./img/2-1.png" alt="2-1图"></p>
+<p>弹层提供汇总功能，供周报和月报使用</p>
+<p><img src="./img/2-2.png" alt="2-2图"></p>
+<p>技巧:</p>
+<ul>
+<li>当你要有多个内容单元需要展现时，复制再调间距肯定是一个低效的方式，用 Craft 的 Duplicate 功能可以快速复制组件，并且支持横向和纵向好友间距统一调整。复制后的内容单元是彼此独立的，修改其中一个不影响其他的，如果想一个改变全部改变，可以在复制之前通过组件来实现。</li>
+</ul>
+<p><img src="./img/2-5.png" alt="2-5图"></p>
+<ul>
+<li>如果你想文字不一样，还可以导入一个 json</li>
+</ul>
+<p><img src="./img/2-6.png" alt="2-6图"></p>
 <h2 id="header-1-12">业务界面设计 - 设置页</h2>
+<ul>
+<li>配置界面，做符合用户习惯的自定义配置</li>
+</ul>
+<p><img src="./img/3-1.png" alt="3-1图"></p>
+<ul>
+<li>关于，做好事要留名，方便意见反馈(被喷)
+<img src="./img/3-2.png" alt="3-2图"></li>
+</ul>
+<h2 id="header-1-13">附录</h2>
+<ul>
+<li>少数颜色和间距搭配;</li>
+<li>对齐和居中搭配。</li>
+</ul>
+<p>颜色: </p>
+<ul>
+<li>26304C(80%透明度) 导航背景色。</li>
+<li>fff 导航图标高亮色，深色按钮文字色；+80% 透明度成为内容区背景色。</li>
+<li>666 图标标准色(深底反白和白底展示内容都用这个色，高级)，一级标题色。</li>
+<li>70727C 内容标准色。</li>
+<li>D5D5D5 装饰文字色(暂无内容等)。</li>
+<li>409EFF 按钮底色，图标高亮色。(从 element-ui 上扒的颜色)</li>
+<li>EAEEF0 内容区块分隔底色，50% 透明底一级分隔，10% 透明度二级分隔。</li>
+<li>EFEFEF 分割线颜色。</li>
+</ul>
+<p>封装了一组 tag，tag 的颜色也很有趣，文字的颜色加 8% 的透明度设置就是背景色，下面是文字色:</p>
+<ul>
+<li>778CA2: 未开始</li>
+<li>6DD230: 已完成</li>
+<li>FE4D97: Delay</li>
+<li>FFAB2B: 有风险</li>
+<li>4D7CFE: 进行中</li>
+</ul>
+<p>间距:</p>
+<ul>
+<li>6  圆角，Mac IOS 的标准。</li>
+<li>25 导航图标宽高，导航图标的上下间距，导航图标距左右边距，这直接决定了导航条宽度，”最大、最小、关闭“三个按钮居中，上间距等于左右间距。</li>
+<li>13 文字和图标间距，文字和间隔线间距。</li>
+<li>7  小间距。</li>
+<li>16 三级字号第一级。</li>
+<li>14 三级字号第二级。</li>
+<li>12 三级字号第三级。</li>
+</ul>
 
 </div>
 </body>
