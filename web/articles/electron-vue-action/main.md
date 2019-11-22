@@ -30,7 +30,7 @@
 
 ### UI 设计
 
-使用 sketchcn 一步完成原型设计和 UI 设计。
+使用 sketchcn 一步完成原型设计和 UI 设计。具体过程参见另一篇文章: [https://github.com/xiaoqiang-zhao/my-cellar/blob/master/web/articles/sketch/main.md](https://github.com/xiaoqiang-zhao/my-cellar/blob/master/web/articles/sketch/main.md)
 
 ### 数据设计
 
