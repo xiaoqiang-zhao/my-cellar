@@ -272,11 +272,19 @@ npm ERR! you must verify your email before publishing a new package: https://www
 - download-git-repo，下载远程仓库。容易被忽略的一点就是带了 ssh 的功能，可以用来从私有库下载，回调函数执行的时候文件没有被保存到本地硬盘，可以在回调函数中加工下载文件；
 - metalsmith，构建静态网站的工具，每一个加工的工序就是一个插件；
 - extract-zip，zip 包解压工具；
-- xlsx，node、浏览器、electron 中操作 Excel 的库。(https://docs.sheetjs.com/#json)
 
 ### 浏览器服务端通用包
 
 - crypto-js，包含 MD5 摘要算法，AES 对称加密
+- xlsx，node、浏览器、electron 中操作 Excel 的库。
+
+npm: https://www.npmjs.com/package/xlsx
+
+github: https://github.com/SheetJS/sheetjs
+
+文档: https://docs.sheetjs.com/#json
+
+demo: https://sheetjs.com/demos
 
 ## 参考资料
 
