@@ -1417,6 +1417,18 @@
     "todoList": []
   },
   {
+    "enName": "schedule",
+    "title": "标题缺失",
+    "introduction": "未找到描述信息",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1574944763257,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "semantic-versioning",
     "title": "语义化版本",
     "introduction": "版本管理是软件开发和发布中一个非常重要部分，混乱的版本会大大的缩短一个软件的寿命。我终于有幸看到这篇文章来讲述“语义化版本控制的规范”，作者是Tom Preston-Werner(Gravatars 创办者, GitHub 共同创办者)，这些规则是根据（但不局限于）已经被各种封闭、开放源码软件所广泛使用的惯例所设计，为叙述方便，下面以作者作为第一人称来叙述这套规范。",
