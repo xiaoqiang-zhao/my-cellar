@@ -1368,6 +1368,21 @@ Integer n = strList.get(0); // compile error!
 List<String> list = new ArrayList<String>();
 ```
 
+多个泛型类型，泛型还可以定义多种类型。例如，我们希望 Pair 不总是存储两个类型一样的对象，就可以使用类型<T, K>，T 和 K 是组团成对出现作为一个数据单元：
+
+```java
+public class Pair<T, K> {
+    private T first;
+    private K last;
+    public Pair(T first, K last) {
+        this.first = first;
+        this.last = last;
+    }
+    public T getFirst() { ... }
+    public K getLast() { ... }
+}
+Pair<String, Integer> p = new Pair<>("test", 123);
+```
 
 ## 参考
 
