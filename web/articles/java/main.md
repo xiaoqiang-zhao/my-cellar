@@ -1350,7 +1350,7 @@ public class ArrayList<T> {
 }
 ```
 
-泛型的使用:
+### 泛型的使用
 
 ```java
 ArrayList<String> strList = new ArrayList<String>();
@@ -1383,6 +1383,8 @@ public class Pair<T, K> {
 }
 Pair<String, Integer> p = new Pair<>("test", 123);
 ```
+
+## 集合
 
 ## 参考
 
