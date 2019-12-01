@@ -1384,6 +1384,8 @@ public class Pair<T, K> {
 Pair<String, Integer> p = new Pair<>("test", 123);
 ```
 
+### 编写泛型
+
 ## 集合
 
 ## 参考
