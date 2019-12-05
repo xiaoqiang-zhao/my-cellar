@@ -1432,6 +1432,14 @@ List<String> list = new ArrayList<>(); // 只能放入String类型
 
 ### List
 
+```java
+List<String> list = new ArrayList<>();
+list.add("apple"); // size=1
+list.add("pear"); // size=2
+list.add("apple"); // 允许重复添加元素，size=3
+System.out.println(list.size());
+```
+
 ## 参考
 
 [廖雪峰 Java 教程](https://www.liaoxuefeng.com/wiki/1252599548343744)
