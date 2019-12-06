@@ -1432,12 +1432,50 @@ List<String> list = new ArrayList<>(); // 只能放入String类型
 
 ### List
 
+几个主要的接口方法：
+
+- 在末尾添加一个元素：void add(E e)
+- 在指定索引添加一个元素：void add(int index, E e)
+- 删除指定索引的元素：int remove(int index)
+- 删除某个元素：int remove(Object e)
+- 获取指定索引的元素：E get(int index)
+- 获取链表大小（包含元素的个数）：int size()
+
 ```java
+import java.util.ArrayList;
+import java.util.List;
+
 List<String> list = new ArrayList<>();
 list.add("apple"); // size=1
-list.add("pear"); // size=2
+list.add(null); // size=2
 list.add("apple"); // 允许重复添加元素，size=3
 System.out.println(list.size());
+```
+
+除了使用 ArrayList 和 LinkedList，我们还可以通过 List 接口提供的 of() 方法，根据给定元素快速创建 List：
+
+```java
+List<Integer> list = List.of(1, 2, 5);
+```
+
+遍历 List
+
+```java
+// 使用序号遍历
+List<String> list = List.of("apple", "pear", "banana");
+for (int i = 0; i < list.size(); i++) {
+    String s = list.get(i);
+    System.out.println(s);
+}
+// 使用迭代器
+for (Iterator<String> it = list.iterator(); it.hasNext();) {
+    String s = it.next();
+    System.out.println(s);
+}
+// for each(推荐)
+for (String s : list) {
+    System.out.println(s);
+}
 ```
 
 ## 参考
