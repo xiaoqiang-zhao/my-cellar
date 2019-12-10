@@ -12,7 +12,7 @@
 
 官网下载: http://www.sketchcn.com/
 
-sketch 可以说是绿色版的，Mac 下载直接可用，不过我好事把它拷贝进了 Applications。
+sketch 可以说是绿色版的，Mac 下载直接可用，不过我还是把它拷贝进了 Applications。
 
 软件并不免费，试用期 30 天也基本够用了。
 

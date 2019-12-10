@@ -286,6 +286,8 @@ github: https://github.com/SheetJS/sheetjs
 
 demo: https://sheetjs.com/demos
 
+- china-division，中国省市数据。https://www.npmjs.com/package/china-division
+
 ## 参考资料
 
 [官方文档](https://docs.npmjs.com)
