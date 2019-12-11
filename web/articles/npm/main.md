@@ -286,7 +286,9 @@ github: https://github.com/SheetJS/sheetjs
 
 demo: https://sheetjs.com/demos
 
-- china-division，中国省市数据。https://www.npmjs.com/package/china-division
+- china-division，中国省市数据，下载 json 到本地，数据借助 webpack 可以直接 import 来使用。
+
+npm: https://www.npmjs.com/package/china-division
 
 ## 参考资料
 
