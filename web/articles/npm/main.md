@@ -260,6 +260,7 @@ npm ERR! you must verify your email before publishing a new package: https://www
 
 ### 浏览器端、客户端
 
+- vue-cli vue脚手架
 - js-cookie 浏览器端操作 cookie
 - clipboard 复制，支持 IE9+
 
