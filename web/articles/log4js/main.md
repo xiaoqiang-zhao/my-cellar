@@ -8,7 +8,7 @@ Log4 是由 Apache 提供的多语言日志书写扩展包，目的是使日志�
 
 ## 级别
 
-Log4js 原生提供了 4 中级别的错误类型，可以自动将不同类型和级别的错误打进不同的文件中。
+Log4js 原生提供了 6 中类型的日志，可以自动将不同类型和级别的错误打进不同的文件中。
 
 - trace，踪迹
 - debug，调试
@@ -84,6 +84,7 @@ log4js.configure({
         }
     },
     categories: {
+        // 注意下面的配置项只能是 6 种类型中的一种
         default: {
             appenders: ['demo-app-trace'],
             level: 'trace'
