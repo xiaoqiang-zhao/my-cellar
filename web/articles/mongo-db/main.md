@@ -571,7 +571,6 @@ mongoimport -d dbname -c collectionname --file filename --headerline --type json
 - -type: 文件类型，默认json
 - -f: 字段，type为csv是必须设置此项
 
-
 ## 一种实践方式
 
 数据处理写在一起可能会比较大，一般都采用分层的方式来处理，虽然写着有些繁琐，但是由于各层分工明确易于维护，这里介绍一种分层方式，这种分层方式参考了 Node.js 中文论坛的实现。
@@ -581,7 +580,8 @@ mongoimport -d dbname -c collectionname --file filename --headerline --type json
 
 首先是 models 层，负责数据库的链接、数据定义、集中对外输出。
 
-待续... 
+待续...
+
 ## 附注
 
 Community Server， 社区版，比企业版少一些高级功能
