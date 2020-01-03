@@ -235,6 +235,14 @@ unified()
 
 ```
 
+## 问题记录
+
+用 webpack 打包的时候，打包时没有报错，运行时报 `Cannot find module "remark-highlight.js"` 错误。
+
+原因:
+
+解决方案:
+
 ## 参考
 
 https://github.com/remarkjs/remark
