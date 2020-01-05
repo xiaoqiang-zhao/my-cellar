@@ -239,7 +239,7 @@ unified()
 
 ### remark-highlight.js
 
-问题描述: 用 webpack 打包的时候，打包时没有报错，运行时报 `Cannot find module "remark-highlight.js"` 错误。
+问题描述: 用 webpack 打包的时候，打包时没有报错，运行时报 `Cannot find module "remark-highlight.js"` 错误。采用 nginx 提供 web 服务。
 
 原因:
 
