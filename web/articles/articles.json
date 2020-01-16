@@ -54,6 +54,30 @@
     "todoList": []
   },
   {
+    "enName": "3d-multidimensional-note",
+    "title": "立体多维笔记",
+    "introduction": "未找到描述信息",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1579166062120,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "WebGL",
+    "title": "WebGL",
+    "introduction": "WebGL 经常被当成 3D API，",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1579166062121,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "a-word-or-two",
     "title": "记录自己的和别人的只言片语",
     "introduction": "记录一些简短的东西，这些东西作为单独的一篇内容太单薄，但是放弃又太可惜，收录在这里。",
@@ -64,6 +88,18 @@
     "state": "自我持续集成中",
     "type": "md",
     "createDate": 1459731839766,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "ai",
+    "title": "AI 概念梳理",
+    "introduction": "大数据、机器学习、深度学习、神经网络，还有 AI 等概念听得云里雾里的，不知道他们的关系是什么样的，收集一些内容来理清他们之间的关系。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1579166062124,
     "commentList": [],
     "todoList": []
   },
@@ -200,6 +236,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1527729823207,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "book-and-ebook",
+    "title": "纸质书和电子书",
+    "introduction": "关于习惯的思考。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1579166062133,
     "commentList": [],
     "todoList": []
   },
@@ -1149,6 +1197,18 @@
     "state": "完结",
     "type": "md",
     "createDate": 1511316333072,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "my-ui-library",
+    "title": "我的 UI 库",
+    "introduction": "前端的工作和 UI 库分不开，自己从头造轮子无意识低效的，怎么在开源 UI 库的基础上积累自己的劳动成果，以达到多项目高效复用呢？记录一下在这方面的思考和实践。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1579166062212,
     "commentList": [],
     "todoList": []
   },

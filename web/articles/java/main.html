@@ -1106,7 +1106,7 @@ public class Hello {
     public T get(int index) {...}
 }
 </code></pre>
-<p>泛型的使用:</p>
+<h3 id="header-1-6-2">泛型的使用</h3>
 <pre><code class="lang-java">ArrayList&lt;String&gt; strList = new ArrayList&lt;String&gt;();
 strList.add(&quot;hello&quot;); // OK
 String s = strList.get(0); // OK
@@ -1117,7 +1117,119 @@ Integer n = strList.get(0); // compile error!
 <p>向上转型，在 Java 标准库中的 <code>ArrayList&lt;T&gt;</code> 实现了 <code>List&lt;T&gt;</code> 接口，它可以向上转型为 <code>List&lt;T&gt;</code>:</p>
 <pre><code class="lang-java">List&lt;String&gt; list = new ArrayList&lt;String&gt;();
 </code></pre>
-<h2 id="header-1-7">参考</h2>
+<h3 id="header-1-6-3">编写泛型</h3>
+<p>编写泛型类比普通类要复杂，通常来说，泛型类一般用在集合类中。</p>
+<pre><code class="lang-java">public class Pair&lt;T&gt; {
+    private T first;
+    private T last;
+    public Pair(T first, T last) {
+        this.first = first;
+        this.last = last;
+    }
+    public T getFirst() {
+        return first;
+    }
+    public T getLast() {
+        return last;
+    }
+}
+</code></pre>
+<p>多个泛型类型，泛型还可以定义多种类型。例如，我们希望 Pair 不总是存储两个类型一样的对象，就可以使用类型<T, K>，T 和 K 是组团成对出现作为一个数据单元：</p>
+<pre><code class="lang-java">public class Pair&lt;T, K&gt; {
+    private T first;
+    private K last;
+    public Pair(T first, K last) {
+        this.first = first;
+        this.last = last;
+    }
+    public T getFirst() { ... }
+    public K getLast() { ... }
+}
+Pair&lt;String, Integer&gt; p = new Pair&lt;&gt;(&quot;test&quot;, 123);
+</code></pre>
+<h2 id="header-1-7">集合</h2>
+<p>集合就是“由若干个确定的元素所构成的整体”。Java的数组可以看作是一种集合，既然Java提供了数组这种数据类型，可以充当集合，那么，我们为什么还需要其他集合类？这是因为数组有如下限制：</p>
+<ul>
+<li>数组初始化后大小不可变；</li>
+<li>数组只能按索引顺序存取。</li>
+</ul>
+<p>因此，我们需要各种不同类型的集合类来处理不同的数据，例如：</p>
+<ul>
+<li>可变大小的顺序链表；</li>
+<li>保证无重复元素的集合；</li>
+<li>...</li>
+</ul>
+<p>Java标准库自带的java.util包提供了集合类：Collection，它是除Map外所有其他集合类的根接口。Java的java.util包主要提供了以下三种类型的集合：</p>
+<ul>
+<li>List：一种有序列表的集合，例如，按索引排列的Student的List；</li>
+<li>Set：一种保证没有重复元素的集合，例如，所有无重复名称的Student的Set；</li>
+<li>Map：一种通过键值（key-value）查找的映射表集合，例如，根据Student的name查找对应Student的Map。</li>
+</ul>
+<p>Java集合的设计有几个特点：一是实现了接口和实现类相分离，例如，有序表的接口是List，具体的实现类有ArrayList，LinkedList等，二是支持泛型，我们可以限制在一个集合中只能放入同一种数据类型的元素，例如：</p>
+<pre><code class="lang-java">List&lt;String&gt; list = new ArrayList&lt;&gt;(); // 只能放入String类型
+</code></pre>
+<h3 id="header-1-7-1">List</h3>
+<p>几个主要的接口方法：</p>
+<ul>
+<li>在末尾添加一个元素：void add(E e)</li>
+<li>在指定索引添加一个元素：void add(int index, E e)</li>
+<li>删除指定索引的元素：int remove(int index)</li>
+<li>删除某个元素：int remove(Object e)</li>
+<li>获取指定索引的元素：E get(int index)</li>
+<li>获取链表大小（包含元素的个数）：int size()</li>
+</ul>
+<pre><code class="lang-java">import java.util.ArrayList;
+import java.util.List;
+
+List&lt;String&gt; list = new ArrayList&lt;&gt;();
+list.add(&quot;apple&quot;); // size=1
+list.add(null); // size=2
+list.add(&quot;apple&quot;); // 允许重复添加元素，size=3
+System.out.println(list.size());
+</code></pre>
+<p>除了使用 ArrayList 和 LinkedList，我们还可以通过 List 接口提供的 of() 方法，根据给定元素快速创建 List：</p>
+<pre><code class="lang-java">List&lt;Integer&gt; list = List.of(1, 2, 5);
+</code></pre>
+<p>遍历 List</p>
+<pre><code class="lang-java">// 使用序号遍历
+List&lt;String&gt; list = List.of(&quot;apple&quot;, &quot;pear&quot;, &quot;banana&quot;);
+for (int i = 0; i &lt; list.size(); i++) {
+    String s = list.get(i);
+    System.out.println(s);
+}
+// 使用迭代器
+for (Iterator&lt;String&gt; it = list.iterator(); it.hasNext();) {
+    String s = it.next();
+    System.out.println(s);
+}
+// for each(推荐)
+for (String s : list) {
+    System.out.println(s);
+}
+</code></pre>
+<h3 id="header-1-7-2">编写 equals 方法</h3>
+<pre><code class="lang-java">import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        List&lt;Person&gt; list = List.of(
+            new Person(&quot;Xiao Ming&quot;),
+            new Person(&quot;Xiao Hong&quot;),
+            new Person(&quot;Bob&quot;)
+        );
+        System.out.println(list.contains(new Person(&quot;Bob&quot;))); // false
+    }
+}
+
+class Person {
+    String name;
+    public Person(String name) {
+        this.name = name;
+    }
+}
+</code></pre>
+<h3 id="header-1-7-3">使用Map</h3>
+<h2 id="header-1-8">参考</h2>
 <p><a href="https://www.liaoxuefeng.com/wiki/1252599548343744" target="_blank">廖雪峰 Java 教程</a></p>
 
 </div>
