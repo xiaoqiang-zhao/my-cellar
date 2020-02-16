@@ -74,3 +74,5 @@ WebGL 只关心两件事：裁剪空间中的坐标值和填充颜色。使用 W
 ## 参考
 
 [WebGL 基础教程](https://webglfundamentals.org/)
+
+[WebGL 简洁教程](https://techbrood.com/h5b2a?p=webgl-intro)
