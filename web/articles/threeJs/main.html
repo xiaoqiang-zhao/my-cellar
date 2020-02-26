@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Three.js 学习笔记 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">Three.js 学习笔记</h1>
+<blockquote>
+<p>一款开源 3D 绘图 JS 引擎。</p>
+</blockquote>
+<h2 id="header-1-1">概述与准备</h2>
+<h3 id="header-1-1-1">概述</h3>
+<p>创建一个原生 WebGL 程序，你基本上需要 4 个步骤:</p>
+<ul>
+<li>初始化WebGL绘图上下文;</li>
+<li>初始化着色器程序;</li>
+<li>建立模型和数据缓存;</li>
+<li>完成绘制和动画.</li>
+</ul>
+<p>这基本是一种过程式编程，Three.js 使用面向对象的方式来构建程序。包含 3 个基本对象: 场景(scene)，相机(camera)，以及一个渲染器(renderer)。</p>
+<p>拿电影来类比的话，场景对应于整个布景空间，相机是拍摄镜头，渲染器用来把拍摄好的场景转换成胶卷(对于网页来讲，是电脑屏幕)。 场景和相机代表了 3D 观察空间和数据模型，渲染器则包含了 WebGL 绘图上下文和着色器。</p>
+<h3 id="header-1-1-2">工程准备</h3>
+<p>新建一个 demo 目录，然后执行 <code>npm init</code> 初始化一个叫&quot;threejs-demo&quot;的项目，安装 three.js 到项目中 <code>npm install three --save</code>。</p>
+<p>新建一个 demo-01.html 内容如下:</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=utf-8&gt;
+        &lt;title&gt;My first Three.js app&lt;/title&gt;
+        &lt;style&gt;
+            body { margin: 0; }
+            canvas { width: 100%; height: 100% }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        My first Three.js app
+        &lt;script src=&quot;/node_modules/three/three.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script&gt;
+            console.log(THREE);
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>在浏览器中直接运行该文件，如果能在控制台看到一个 THREE 对象输出，那么工程就准备好了。</p>
+<h3 id="header-1-1-3">简单示例</h3>
+<p><img src="/articles/threeJs/img/demo-01.gif" alt="动画图像"></p>
+<pre><code class="lang-js">// 场景
+var scene = new THREE.Scene();
+// 摄像机
+var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+camera.position.z = 5;
+
+// 渲染器
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+// 添加渲染器生成的 canvas 到页面的 body 中
+document.body.appendChild(renderer.domElement);
+
+// 几何图形
+var geometry = new THREE.BoxGeometry(1, 1, 1);
+// 材质
+var material = new THREE.MeshBasicMaterial({
+    color: 0x4169E1
+});
+// 立方体
+var cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
+
+// 动画渲染
+var render = function () {
+    requestAnimationFrame(render);
+
+    // 角度旋转
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+
+    renderer.render(scene, camera);
+};
+
+render();
+</code></pre>
+<p>以上是主要代码，全量代码在 demo-01.html 中。</p>
+<h3 id="header-1-1-4">主点</h3>
+<pre><code>            // 皇家蓝 https://www.sioe.cn/yingyong/yanse-rgb-16/
+</code></pre><h2 id="header-1-2">参考</h2>
+<p>github: <a href="https://github.com/mrdoob/three.js/" target="_blank">https://github.com/mrdoob/three.js/</a></p>
+<p>官网: <a href="https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene" target="_blank">https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene</a></p>
+
+</div>
+</body>
+</html>

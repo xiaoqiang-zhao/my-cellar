@@ -1,0 +1,12 @@
+{
+  "enName": "theme",
+  "title": "皮肤定制化",
+  "introduction": "皮肤定制功能在 ToC 的产品中性价比越来越低，但是在 ToB 的产品中由于要和业务方的系统配合，和业务方系统风格统一是很必要的。本文从 ToB 的角度谈谈皮肤定制的技术方案。",
+  "tags": [],
+  "isPublished": false,
+  "state": "立项",
+  "type": "md",
+  "createDate": 1582701760625,
+  "commentList": [],
+  "todoList": []
+}

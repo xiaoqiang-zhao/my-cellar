@@ -13,22 +13,30 @@
 		<script>
             // console.log(THREE);
             
+			// 场景
             var scene = new THREE.Scene();
-			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
-
-			var renderer = new THREE.WebGLRenderer();
-			renderer.setSize( window.innerWidth, window.innerHeight );
-			document.body.appendChild( renderer.domElement );
-
-			var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-			var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-			var cube = new THREE.Mesh( geometry, material );
-			scene.add(cube);
-
+			// 摄像机
+			var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 			camera.position.z = 5;
 
+			// 渲染器
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			// 添加渲染器生成的 canvas 到页面的 body 中
+			document.body.appendChild(renderer.domElement);
+
+			// 几何图形
+			var geometry = new THREE.BoxGeometry(1, 1, 1);
+			// 材质
+			var material = new THREE.MeshBasicMaterial({
+				color: 0x4169E1
+			});
+			// 立方体
+			var cube = new THREE.Mesh(geometry, material);
+			scene.add(cube);
+
 			var render = function () {
-				requestAnimationFrame( render );
+				requestAnimationFrame(render);
 
 				cube.rotation.x += 0.01;
 				cube.rotation.y += 0.01;
