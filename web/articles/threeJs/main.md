@@ -14,7 +14,7 @@ threejs 是一个让用户通过 javascript 入手进入搭建 webgl 项目的�
 
 - 场景(Scene)，你可以理解为一个超大的摄影棚；
 - 摄影机(Camera)，将摄影棚内发生的事情，用一个视角去记录，最后展示在二维屏幕上；
-- 物体(Objects)，有了摄影棚和摄像机总要拍点什么吧，与现实世界不同的是这里的物体都是通过数学模型来呈现的，最主要的两个点是形状(Geometry)和材质(Material)；
+- 物体(Mesh)，有了摄影棚和摄像机总要拍点什么吧，与现实世界不同的是这里的物体都是通过数学模型来呈现的，最主要的两个点是形状(Geometry)和材质(Material)；
 - 光(Light)，在黑暗的屋子里是什么也看不到的；
 - 渲染器(Renderer)，将三维世界以摄影机的视角渲染到二维屏幕上；
 - 动画(Animation)，让物体和相机动起来。
@@ -93,10 +93,26 @@ render();
 
 ## 场景
 
+与场景相关的代码片段:
+```js
+var scene = new THREE.Scene();
+// ...
+scene.add(cube);
+// ...
+renderer.render(scene, camera);
+```
+
 场景中的第一个概念就是三维坐标系。Three 中使用采用常见的右手坐标系定位。
 
 ![坐标系](/articles/threeJs/img/coordinate.png)
 
+通过 `new THREE.Scene()` 实例化一个场景实例，通过实例函数 `add` 将物体添加到场景中，最后用 `renderer.render` 函数将相机视角下的场景渲染到二维平面。
+
+为了更好的理解场景坐标系，我写了包含坐标系的 Demo:
+
+![带坐标系的动画](/articles/threeJs/img/demo-02.gif)
+
+正方体在坐标系原点，摄影机在 (5, 5, 5)，向原点方向拍摄，你可以在 demo-02.html 中找到全部代码。试着改变摄像机的位置和方向可以更好的理解坐标系概念，为下一章相机打好基础。
 
 ## 参考
 
