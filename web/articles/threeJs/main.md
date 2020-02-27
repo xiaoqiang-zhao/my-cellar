@@ -161,7 +161,7 @@ Mesh 有两个重要组成，形状和材质，下面分别介绍。
 
 Geometry，形状，相当直观。Geometry通过存储模型用到的点集和点间关系(哪些点构成一个三角形)来达到描述物体形状的目的。
 
-threejs 提供了长方体、球体、圆柱体等三维模型。对于比较复杂的形状，还可以从外部导入(以文件的形式)。
+threejs 提供了长方体、圆柱体、四面体等三维模型。对于比较复杂的形状，还可以从外部导入(以文件的形式)。
 
 示例中的正方体声明:
 
@@ -179,23 +179,24 @@ BoxGeometry 构造器: BoxGeometry(width : Float, height : Float, depth : Float,
 - heightSegments — （可选）宽度的分段数，默认值是1。
 - depthSegments — （可选）宽度的分段数，默认值是1。
 
-mesh 实例的默认位置是坐标系原点，可以使用实例的 `position.set` 方法设置位置，如下面的球体:
+mesh 实例的默认位置是坐标系原点，可以使用实例的 `position.set` 方法设置位置，如下面的圆柱:
 
 ```js
-var sphereGeometry = new THREE.SphereGeometry(1, 8, 8);
-var sphere = new THREE.Mesh(sphereGeometry, material);
-sphere.position.set(5, 2, 0);
+var cylinderGeometry = new THREE.CylinderGeometry(1, 1, 3, 100);
+var cylinder = new THREE.Mesh(cylinderGeometry, material);
+cylinder.position.set(0, 2, 0);
 ```
 
-SphereGeometry 构造器: SphereGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer, phiStart : Float, phiLength : Float, thetaStart : Float, thetaLength : Float)
+CylinderGeometry 构造器: CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, radialSegments : Integer, heightSegments : Integer, openEnded : Boolean, thetaStart : Float, thetaLength : Float)
 
-- radius — 球体半径，默认为1。
-- widthSegments — 水平分段数（沿着经线分段），最小值为3，默认值为8。
-- heightSegments — 垂直分段数（沿着纬线分段），最小值为2，默认值为6。
-- phiStart — 指定水平（经线）起始角度，默认值为0。。
-- phiLength — 指定水平（经线）扫描角度的大小，默认值为 Math.PI * 2。
-- thetaStart — 指定垂直（纬线）起始角度，默认值为0。
-- thetaLength — 指定垂直（纬线）扫描角度大小，默认值为 Math.PI。
+- radiusTop — 圆柱的顶部半径，默认值是1。
+- radiusBottom — 圆柱的底部半径，默认值是1。
+- height — 圆柱的高度，默认值是1。
+- radialSegments — 圆柱侧面周围的分段数，默认为8。
+- heightSegments — 圆柱侧面沿着其高度的分段数，默认值为1。
+- openEnded — 一个Boolean值，指明该圆锥的底面是开放的还是封顶的。默认值为false，即其底面默认是封顶的。
+- thetaStart — 第一个分段的起始角度，默认为0。（three o'clock position）
+- thetaLength — 圆柱底面圆扇区的中心角，通常被称为“θ”（西塔）。默认值是2*Pi，这使其成为一个完整的圆柱。
 
 widthSegments 与 heightSegments 指定了球的精致程度，当值较小时你可以看到清晰的棱角，这样的好处是在旋转时你可以感受到变化，纯粹的集合球体转动时很难被感受到。
 
@@ -205,7 +206,46 @@ widthSegments 与 heightSegments 指定了球的精致程度，当值较小时�
 
 ### 材质(Material)
 
+材质其实是物体表面除了形状以为所有可视属性的集合，例如色彩、纹理、光滑度、透明度、反射率、折射率、发光度。
 
+上面的示例中，几何体的材质都是用的 MeshBasicMaterial，有一种太纯净的不真实感，最大的优势在于不受光照影响，所以常用于入门 Demo 演示中。threejs 提供了多钟材质，比如其中的 MeshStandardMaterial 是一种更接近物理规律的材质，这就意味着如果使用这种材质，需要有光源辅助才能看到物体。
+
+![Material](/articles/threeJs/img/material.gif)
+
+材质:
+
+```js
+var material = new THREE.MeshStandardMaterial({
+	color: 0x4169E1
+});
+```
+
+两个几何体:
+
+```js
+// 几何图形 - 立方体
+var box = new THREE.BoxGeometry(1, 1, 1, 10);
+var cube = new THREE.Mesh(box, material);
+cube.position.set(-2, 0, 0);
+
+// 几何图形 - 圆柱
+var cylinderGeometry = new THREE.CylinderGeometry(0.3, 0.3, 3, 100);
+var cylinder = new THREE.Mesh(cylinderGeometry, material);
+cylinder.position.set(2, 0, 0);
+```
+
+两种灯光:
+
+```js
+// 光 - 环境光使物体整体可见
+var light = new THREE.AmbientLight(0x404040); // soft white light
+scene.add(light);
+// 光 - 平行光展示阴影
+var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+scene.add(directionalLight);
+```
+
+最后附上示例 demo-05。
 
 ## 参考
 
