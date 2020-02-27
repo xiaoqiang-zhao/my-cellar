@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8>
+		<title>Three.js 坐标</title>
+		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
+	</head>
+	<body>
+		<script src="./node_modules/three/build/three.min.js"></script>
+		<script>
+            var renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild(renderer.domElement);
+			// window.innerWidth / window.innerHeight
+			var camera = new THREE.PerspectiveCamera(60, 1, 1, 500, 1);
+			camera.position.set(0, 0, 20);
+			camera.lookAt(0, 0, 0);
+
+			var scene = new THREE.Scene();
+
+			// ---
+			// x 轴
+			var pointsX = [];
+			pointsX.push( new THREE.Vector3(0, 0, 0));
+			pointsX.push( new THREE.Vector3(10, 0, 0));
+			var geometryX = new THREE.BufferGeometry().setFromPoints(pointsX);
+
+			var materialX = new THREE.LineBasicMaterial({
+				color: 0xFF0000
+			});
+			var lineX = new THREE.Line(geometryX, materialX);
+			scene.add(lineX);
+
+			// y 轴
+			var pointsY = [];
+			pointsY.push( new THREE.Vector3(0, 0, 0));
+			pointsY.push( new THREE.Vector3(0, 10, 0));
+			var geometryY = new THREE.BufferGeometry().setFromPoints(pointsY);
+
+			var materialY = new THREE.LineBasicMaterial({
+				color: 0x00FF00
+			});
+			var lineY = new THREE.Line(geometryY, materialY);
+			scene.add(lineY);
+
+			// z 轴
+			var pointsZ = [];
+			pointsZ.push( new THREE.Vector3(0, 0, 0));
+			pointsZ.push( new THREE.Vector3(0, 0, 10));
+			var geometryZ = new THREE.BufferGeometry().setFromPoints(pointsZ);
+
+			var materialZ = new THREE.LineBasicMaterial({
+				color: 0x0000FF
+			});
+			var lineZ = new THREE.Line(geometryZ, materialZ);
+			scene.add(lineZ);
+			// ---
+
+			renderer.render(scene, camera);
+		</script>
+	</body>
+</html>
