@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset=utf-8>
-		<title>Three.js 坐标</title>
+		<title>Three.js 渲染器</title>
 		<style>
 			body { margin: 0; }
 			canvas { width: 100%; height: 100% }
@@ -19,17 +19,16 @@
 			camera.lookAt(0, 0, 0);
 
 			// 渲染器
-			var renderer = new THREE.WebGLRenderer();
+			var renderer = new THREE.WebGLRenderer({
+				// 抗锯齿
+				antialias: true
+			});
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			// 添加渲染器生成的 canvas 到页面的 body 中
 			document.body.appendChild(renderer.domElement);
 
-			// 材质 - 标准物理材质
-			// var material = new THREE.MeshStandardMaterial({
-			// 	color: 0x4169E1
-			// });
-			// 材质 - 近亮远暗材质(从屋子外面通过门看一个黑屋里面的东西)
-			var material = new THREE.LineDashedMaterial({
+			// 材质
+			var material = new THREE.MeshStandardMaterial({
 				color: 0x4169E1
 			});
 

@@ -261,14 +261,27 @@ scene.add(directionalLight);
 
 ## 渲染器(Renderer)
 
-将三维世界以摄影机的视角渲染到二维屏幕上
+将三维世界以摄影机的视角渲染到二维屏幕上。介绍两个重要参数:
+
+- antialias  - 是否执行抗锯齿，默认为false。
+- canvas - 一个供渲染器绘制其输出的 canvas 它，和它的 domElement 属性对应。如果没有传这个参数，会创建一个新canvas。
+
+```js
+// 渲染器
+var renderer = new THREE.WebGLRenderer({
+	// 抗锯齿
+	antialias: true
+});
+renderer.setSize(window.innerWidth, window.innerHeight);
+// 添加渲染器生成的 canvas 到页面的 body 中
+document.body.appendChild(renderer.domElement);
+```
 
 ## 动画(Animation)
 
 让物体和相机动起来。
 
 ## 参考
-
 
 github: https://github.com/mrdoob/three.js/
 
