@@ -277,9 +277,25 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 ```
 
+最后附上示例 demo-06。
+
 ## 动画(Animation)
 
-让物体和相机动起来。
+threeJs 的动画原理是修改参数然后渲染输出一帧图画，如此动作一直操作看起来就动起来了。这里推荐 HTML5 为我们提供的 requestAnimFrame 框架，搭配渲染器我们可以这样使用:
+
+```js
+var render = function () {
+	requestAnimationFrame(render);
+
+	// 调整旋转角度
+	cube.rotation.x += 0.01;
+	cube.rotation.y += 0.01;
+
+	renderer.render(scene, camera);
+};
+
+render();
+```
 
 ## 参考
 
