@@ -1,4 +1,4 @@
-# Three.js 学习笔记
+# Three.js 基础学习笔记
 
 > 一款开源 3D 绘图 JS 引擎。
 
@@ -234,18 +234,38 @@ var cylinder = new THREE.Mesh(cylinderGeometry, material);
 cylinder.position.set(2, 0, 0);
 ```
 
-两种灯光:
+最后附上示例 demo-05。
+
+## 光(Light)
+
+如果没有光在黑暗的屋子里是什么也看不到的，第一个要介绍的就是环境光(AmbientLight)，从每一个方向均匀照射过来的光，不能用来投射阴影(类似手术台上的无影灯)，如果不加环境光平行光找不到的地方会全黑。构造函数: AmbientLight( color : Integer, intensity : Float )。
+
+- color - (参数可选）颜色的rgb数值。缺省值为 0xffffff。
+- intensity - (参数可选)光照的强度。缺省值为 1。
 
 ```js
 // 光 - 环境光使物体整体可见
 var light = new THREE.AmbientLight(0x404040); // soft white light
 scene.add(light);
+```
+
+另一个必须介绍的就是平行光(DirectionalLight)，沿着特定方向发射的光，能产生阴影和明暗变化，不打平行光有棱角的几何体边角位置特别没有识别度，你可以试试把 demo 中的平行光关掉体验一下。构造函数同上。
+
+通过 `light.position.set(x, y, z)` 函数设置光源方向。
+
+```js
 // 光 - 平行光展示阴影
 var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
 scene.add(directionalLight);
 ```
 
-最后附上示例 demo-05。
+## 渲染器(Renderer)
+
+将三维世界以摄影机的视角渲染到二维屏幕上
+
+## 动画(Animation)
+
+让物体和相机动起来。
 
 ## 参考
 
