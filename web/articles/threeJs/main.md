@@ -141,7 +141,7 @@ near 和 far 都是用来优化渲染性能的，太近和太远的物体不参�
 
 最后附上摄像机示例 demo-03。
 
-## 物体
+## 物体(Object)
 
 ### 网格模型(Mesh)
 
@@ -303,3 +303,8 @@ github: https://github.com/mrdoob/three.js/
 
 官网: https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene
 
+[ThreeJS快速入门](https://zhuanlan.zhihu.com/p/23272116)
+
+[如何系统的学习three.js](https://www.zhihu.com/question/36367846)
+
+[视频课程](https://www.udacity.com/course/interactive-3d-graphics--cs291)
