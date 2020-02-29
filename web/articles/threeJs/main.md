@@ -102,7 +102,7 @@ scene.add(cube);
 renderer.render(scene, camera);
 ```
 
-场景中的第一个概念就是三维坐标系。Three 中使用采用常见的右手坐标系定位。
+场景中最重要的一个概念就是三维坐标系。Three 中使用采用常见的右手坐标系定位。
 
 ![坐标系](/articles/threeJs/img/coordinate.png)
 
