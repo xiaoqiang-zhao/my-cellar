@@ -6,20 +6,29 @@
 
 ## 摄影机(Camera)
 
+摄影机运动，航拍效果
+
 ## 物体(Object)
+
+平面和线
 
 ### 形状(Geometry)
 
+从外面导入模型 - 书
+
 ### 材质(Material)
 
+贴图
+
 ## 光与影(Light and Shadow)
+
+阴影
 
 ## 渲染器(Renderer)
 
 ## 动画(Animation)
 
 ## 参考
-
 
 github: https://github.com/mrdoob/three.js/
 
