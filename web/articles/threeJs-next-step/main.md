@@ -38,3 +38,4 @@ github: https://github.com/mrdoob/three.js/
 
 官网: https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene
 
+郭隆邦技术博客: http://www.yanhuangxueyuan.com/Three.js/
