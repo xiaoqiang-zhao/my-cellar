@@ -8,6 +8,10 @@
 
 以 webpack 为基础，支持 `npm run dev` 启动 web 服务和热加载等服务。
 
+新建了项目: https://github.com/xiaoqiang-zhao/threejs-webpack
+
+需要下载到本地安装依赖再运行。
+
 ## 摄影机(Camera)
 
 摄影机运动，航拍效果
