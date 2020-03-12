@@ -26,7 +26,7 @@
 
 ### 材质(Material)
 
-贴图
+贴图。
 
 ## 光与影(Light and Shadow)
 
