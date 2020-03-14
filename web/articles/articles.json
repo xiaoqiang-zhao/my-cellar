@@ -398,7 +398,7 @@
   {
     "enName": "css-box-model",
     "title": "CSS 盒模型",
-    "introduction": "盒模型是 CSS 中最基础和最重要的概念之一，用了很久没有系统的总结过，本文将总结一下和模型的基本原理，组要注意的点，还有 CSS3 中的 box-sizing 和 弹性盒模型。",
+    "introduction": "盒模型是 CSS 中最基础和最重要的概念之一，用了很久没有系统的总结过，本文将总结一下盒模型的基本原理，组要注意的点，还有 CSS3 中的 box-sizing 和 弹性盒模型。",
     "tags": [
       "个人笔记",
       "技术点"
@@ -1609,13 +1609,37 @@
   },
   {
     "enName": "threeJs",
-    "title": "Three.js 学习笔记",
+    "title": "Three.js 基础学习笔记",
     "introduction": "一款开源 3D 绘图 JS 引擎。",
     "tags": [],
     "isPublished": false,
     "state": "立项",
     "type": "md",
     "createDate": 1582701760627,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "threeJs-action",
+    "title": "Three.js 实战篇",
+    "introduction": "当我想把很多知识和信息的管理理清的时候没有一款称手的工具，希望把很多东西以卡片的形式展示，通过连线来梳理他们之间的关系，还要加入时间维度。当有你想把特别多的内容放进一块屏幕上整理他们的关系时，二维平面显得有些力不从心，我们采用能力更强的三维方式来做尝试。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1584170767021,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "threeJs-next-step",
+    "title": "Three.js 进阶学习笔记",
+    "introduction": "前面的 “Three.js 基础学习笔记” 是入门，搭建起了体系的主干框架，这一篇进阶讲解主干之外的一些支脉，这些支脉在特定场景下有其独特的实用价值。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1584151516375,
     "commentList": [],
     "todoList": []
   },

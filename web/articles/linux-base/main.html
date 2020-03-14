@@ -105,7 +105,7 @@ cat text
 # 在当前目录以及其子目录下有没有一个名为 text 文件
 find ./ -name text
 </code></pre>
-<p><code>inode</code> 记录索引和权限，<code>block</code> 存储具体的内容，还有一些分区和挂载相关的内容都已经工具化了，不详诉，唯一需要掌握的是软连接。软连接是相对于硬连接(hard link)使用inode做关联指向，软连接又叫符号连接(symbolic link)。硬连载资源使用上比较有优势，但是有不能跨目录等限制，反而软连使用比较广泛。</p>
+<p><code>inode</code> 记录索引和权限，<code>block</code> 存储具体的内容，还有一些分区和挂载相关的内容都已经工具化了，不详诉，唯一需要掌握的是软连接。软连接是相对于硬连接(hard link)使用inode做关联指向，软连接又叫符号连接(symbolic link)。硬连在资源使用上比较有优势，但是有不能跨目录等限制，反而软连使用比较广泛。</p>
 <pre><code class="lang-shell"># 建软连，aaa 连到 sh01.sh
 ln -s sh01.sh aaa
 # 查看文件可以看到多出来一个文件

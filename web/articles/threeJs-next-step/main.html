@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Three.js 进阶学习笔记 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">Three.js 进阶学习笔记</h1>
+<blockquote>
+<p>前面的 “Three.js 基础学习笔记” 是入门，搭建起了体系的主干框架，这一篇进阶讲解主干之外的一些支脉，这些支脉在特定场景下有其独特的实用价值。</p>
+</blockquote>
+<h2 id="header-1-1">工程</h2>
+<p>以简单单页面形式运行只适合入门，在项目中需要对包进行管理，另外有些插件不支持直接引入，需要 import 引入。</p>
+<p>以 webpack 为基础，支持 <code>npm run dev</code> 启动 web 服务和热加载等服务。</p>
+<p>新建了项目: <a href="https://github.com/xiaoqiang-zhao/threejs-webpack" target="_blank">https://github.com/xiaoqiang-zhao/threejs-webpack</a></p>
+<p>需要下载到本地安装依赖再运行。</p>
+<h2 id="header-1-2">摄影机(Camera)</h2>
+<p>摄影机运动，航拍效果: 请移步到独立项目中，那里文档和 demo 都已经准备好了。</p>
+<h2 id="header-1-3">物体(Object)</h2>
+<p>平面和线。</p>
+<h3 id="header-1-3-1">形状(Geometry)</h3>
+<p>从外面导入模型 - 书。</p>
+<h3 id="header-1-3-2">材质(Material)</h3>
+<p>贴图。</p>
+<h2 id="header-1-4">光与影(Light and Shadow)</h2>
+<p>阴影</p>
+<h2 id="header-1-5">渲染器(Renderer)</h2>
+<h2 id="header-1-6">动画(Animation)</h2>
+<h2 id="header-1-7">参考</h2>
+<p>github: <a href="https://github.com/mrdoob/three.js/" target="_blank">https://github.com/mrdoob/three.js/</a></p>
+<p>官网: <a href="https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene" target="_blank">https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene</a></p>
+<p>郭隆邦技术博客: <a href="http://www.yanhuangxueyuan.com/Three.js/" target="_blank">http://www.yanhuangxueyuan.com/Three.js/</a></p>
+
+</div>
+</body>
+</html>
