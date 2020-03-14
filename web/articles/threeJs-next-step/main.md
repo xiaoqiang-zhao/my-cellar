@@ -14,7 +14,34 @@
 
 ## 摄影机(Camera)
 
-摄影机运动，航拍效果: 请移步到独立项目中，那里文档和 demo 都已经准备好了。
+使用轨道控制器航拍: 在 x 轴上创建两个几何体，分别在原点两侧。摄像机在垂直 x 轴高度为 3 的圆周上绕原点拍摄。使用轨道控制器航拍，绕 y 轴进行拍摄，可以用鼠标滚轮调整摄像机位置，键盘的上下左右操纵相机在 xy 平面上的上下左右移动，鼠标的滚轮对应 z 轴上的前进和后退。相机的移动比变焦的好处就是他可以穿过物体看到前面的东西，而不是正前方的物体挡住视线。
+
+![Camera](/articles/threeJs-next-step/img/Camera.gif)
+
+核心代码如下:
+
+```js
+import OrbitControls from 'three-orbit-controls';
+const Controls = OrbitControls(THREE);
+const controls = new Controls(camera, renderer.domElement);
+
+// 自动围绕目标旋转
+controls.autoRotate = true;
+
+function animate() {
+
+    requestAnimationFrame(animate);
+
+    // required if controls.enableDamping or controls.autoRotate are set to true
+    controls.update();
+
+    renderer.render(scene, camera);
+
+}
+animate();
+```
+
+另外你会看到接收投影的平面在其背面移动到相机前方时是不可见的，这是因为无厚度平面默认是单向的背面不可见，双向可见需要配置开启: `plane.material.side = THREE.DoubleSide;`。
 
 ## 物体(Object)
 
