@@ -43,9 +43,49 @@ animate();
 
 另外你会看到接收投影的平面在其背面移动到相机前方时是不可见的，这是因为无厚度平面默认是单向的背面不可见，双向可见需要配置开启: `plane.material.side = THREE.DoubleSide;`。
 
+最后附上全量代码: https://github.com/xiaoqiang-zhao/threejs-webpack/blob/master/src/pages/demo-01.vue
+
 ## 物体(Object)
 
-平面和线。
+物体除了我们前面重点介绍过的正方体和圆柱，还有一些纯几何的物体，这些物体不像现实中的任何东西，比如没有厚度的面，没有粗细的线。
+
+长方体是 BoxGeometry，圆柱体是 CylinderGeometry，下面介绍平面和线以及它们对应的材质。 
+
+### 点
+
+### 线
+
+### 面(PlaneGeometry)
+
+创建 4 个平面如下(小圆球为模拟光源):
+
+![plane](/articles/threeJs-next-step/img/plane.gif)
+
+核心代码:
+
+```js
+var planeGeometry = new THREE.PlaneGeometry(2.5, 1.5, 50);
+var planeMaterial = new THREE.MeshStandardMaterial({
+    color: 0x4169E1,
+    // 无厚度平面默认是单向的，背面不可见，双向可见需要配置开启
+    side: THREE.DoubleSide,
+    // 透明度设置
+    transparent: true,
+    opacity: 0.8
+});
+var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+plane.position.set(1.25, 0, 0);
+plane.castShadow = true;
+
+plane.lookAt(0, 0, 0);
+scene.add(plane);
+```
+
+注意设置双面可见平面。还可以设置平面的半透明度。
+
+有一个问题没有解决，在设置完平面的半透明度后，投影没有变淡，和完全不透明的投影相同。
+
+最后附上全量代码: https://github.com/xiaoqiang-zhao/threejs-webpack/blob/master/src/pages/demo-02.vue
 
 ### 形状(Geometry)
 
@@ -70,3 +110,7 @@ github: https://github.com/mrdoob/three.js/
 官网: https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene
 
 郭隆邦技术博客: http://www.yanhuangxueyuan.com/Three.js/
+
+Three.js相关简易文档: https://www.showdoc.cc/143548108162542?page_id=817458605783439
+
+模拟微信跳一跳游戏: https://juejin.im/post/5d9d66e5f265da5b681fe4f5
