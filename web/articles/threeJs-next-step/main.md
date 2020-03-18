@@ -53,6 +53,28 @@ animate();
 
 ### 点
 
+点，一种没有大小和具体形状的几何体，也就没有了面光和背光以及阴影等特性。
+
+![point](/articles/threeJs-next-step/img/point.gif)
+
+点没有固定的几何体，直接用 `THREE.Geometry` 做容器，然后放入坐标值，点的基础材质是 `THREE.PointsMaterial`，生成点的代码如下:
+
+```js
+// 点的几何体
+const pointGeometry = new THREE.Geometry();
+// 点的位置
+const position = new THREE.Vector3(1, 1, 1);
+const position2 = new THREE.Vector3(-1, -1, -1);
+pointGeometry.vertices.push(position, position2);
+// 点的材质
+const pointMaterial = new THREE.PointsMaterial({
+    color: 0x888888,
+    size: 0.1
+});
+const point = new THREE.Points(pointGeometry, pointMaterial);
+scene.add(point);
+```
+
 ### 线
 
 ### 面(PlaneGeometry)
@@ -85,7 +107,7 @@ scene.add(plane);
 
 有一个问题没有解决，在设置完平面的半透明度后，投影没有变淡，和完全不透明的投影相同。
 
-最后附上全量代码: https://github.com/xiaoqiang-zhao/threejs-webpack/blob/master/src/pages/demo-02.vue
+最后附上全量代码: https://github.com/xiaoqiang-zhao/threejs-webpack/blob/master/src/pages/demo-04.vue
 
 ### 形状(Geometry)
 
@@ -107,7 +129,7 @@ scene.add(plane);
 
 github: https://github.com/mrdoob/three.js/
 
-官网: https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene
+官方文档: https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene
 
 郭隆邦技术博客: http://www.yanhuangxueyuan.com/Three.js/
 
