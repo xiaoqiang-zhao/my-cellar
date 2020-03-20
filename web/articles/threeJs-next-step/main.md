@@ -130,6 +130,12 @@ scene.add(plane);
 
 最后附上全量代码: https://github.com/xiaoqiang-zhao/threejs-webpack/blob/master/src/pages/demo-04.vue
 
+### 文字
+
+从官方文档中看到需要一个字体的 json 文件，官方示例中的字体 json 文件只支持英文，我们去找一个中文的。首先需要去下载一个 ttf 的字体文件，比如微软雅黑，微软雅黑不是免费字体，但是作为个人研究是没问题的，我们去站长下载它: [微软雅黑字体下载](http://font.chinaz.com/940144340.htm)
+
+然后到 http://gero3.github.io/facetype.js/ 这个网站，把刚才下载的文件传上去，就可以得到一个字体的 json 文件了，一共有 27.6 M，千万别因为好奇这个 json 是什么样的而用 IDE 打开，用 cat 简单看看就好了。
+
 ### 形状(Geometry)
 
 从外面导入模型 - 书。
