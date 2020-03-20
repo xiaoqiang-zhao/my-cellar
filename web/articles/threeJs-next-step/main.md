@@ -136,6 +136,15 @@ scene.add(plane);
 
 然后到 http://gero3.github.io/facetype.js/ 这个网站，把刚才下载的文件传上去，就可以得到一个字体的 json 文件了，一共有 27.6 M，千万别因为好奇这个 json 是什么样的而用 IDE 打开，用 cat 简单看看就好了。
 
+加载字体文件像下面这样，需要注意这里的加载走的是 http 请求，不是文件相对路径:
+
+```js
+const loader = new THREE.FontLoader();
+loader.load('/static/NewYork.json', font => {
+    // ...
+});
+```
+
 ### 形状(Geometry)
 
 从外面导入模型 - 书。
