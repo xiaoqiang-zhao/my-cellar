@@ -846,6 +846,45 @@ bash: zlib: command not found
 
 这里有一个网站可以查询各种包: (https://rpmfind.net/linux/rpm2html/search.php)[https://rpmfind.net/linux/rpm2html/search.php]
 
+### Centos 下安装 node 环境
+
+下载 node 最新版压缩包:
+
+```shell
+https://nodejs.org/dist/v12.16.1/node-v12.16.1-linux-x64.tar.xz
+```
+
+解压文件:
+```shell
+xz -d node-v12.16.1-linux-x64.tar.xz
+tar -xvf
+```
+
+检验解压后是否完整，如果能输出版本号就证明没问题:
+```shell
+./node-v12.16.1-linux-x64/bin/node -v
+```
+
+你可以配置环境变量，也可以用软链来使调用更简单:
+```shell
+# 配置环境变量
+vi .bash_profile
+# 添加路劲: $HOME/node-v12.16.1-linux-x64/bin
+# 使生效
+source .bash_profile
+
+# 或者 配置软链
+ln -s /home/userName/node-v12.16.1-linux-x64/bin/node /home/userName/bin/node  
+ln -s /home/userName/node-v12.16.1-linux-x64/bin/npm /home/userName/bin/npm
+```
+
+### Centos 下安装 git 环境
+
+需要在 root 下进行:
+```shell
+yum install -y git
+```
+
 ## 零散命令
 
 系统之间可以通过 http 来交互，一个非常有用的命令就是 `curl`，示例如下:
