@@ -254,6 +254,25 @@ loader.load('/static/NewYork.json', font => {
 });
 ```
 
+### 用户交互(UserInteraction)
+
+可以随意拖动切换角度的坐标系。实际上不是坐标系在动，而是摄像机在动。
+
+![UserInteraction](/articles/threeJs-next-step/img/UserInteraction.gif)
+
+核心代码:
+```js
+const Controls = OrbitControls(THREE);
+const controls = new Controls(camera, renderer.domElement);
+
+controls.update();
+renderer.render(scene, camera);
+
+controls.addEventListener('change', (eve) => {
+    renderer.render(scene, camera);
+});
+```
+
 ### 材质(Material)
 
 贴图。
@@ -277,3 +296,5 @@ github: https://github.com/mrdoob/three.js/
 Three.js相关简易文档: https://www.showdoc.cc/143548108162542?page_id=817458605783439
 
 模拟微信跳一跳游戏: https://juejin.im/post/5d9d66e5f265da5b681fe4f5
+
+十分钟打造 3D 物理世界: https://aotu.io/notes/2018/10/18/cannonjs/index.html
