@@ -254,7 +254,42 @@ loader.load('/static/NewYork.json', font => {
 });
 ```
 
-### 用户交互(UserInteraction)
+## 光与影(Light and Shadow)
+
+上面的例子中很多其实地方已经用到了光与影，这里单独拿出来重点介绍一下。
+
+首先要有光才能有影，添加平行光光源，并且指定该光源会产生投影，这一点很重要，和现实世界的默认设置不同，不指定投影的光源不会产生投影:
+
+```js
+const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+// 指定此光源会产生投影
+directionalLight.castShadow = true;
+```
+
+有了光源的投影设置，还需要物体的设置配合，物体设置分两个方面:
+
+1. 一个物体产生投影；
+2. 另一个物体接受投影。
+
+这两个条件缺一不可:
+
+```js
+// 圆柱体
+var cylinderGeometry = new THREE.CylinderGeometry(0.3, 0.3, 3, 100);
+var cylinder = new THREE.Mesh(cylinderGeometry, material);
+// 设置产生投影
+cylinder.castShadow = true;
+
+// 创建平面接受阴影投射
+var planeGeometry = new THREE.PlaneGeometry(20, 10);
+var planeMaterial = new THREE.MeshStandardMaterial({
+    color: 0xc4c4c4
+});
+var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+plane.receiveShadow = true;
+```
+
+## 用户交互(UserInteraction)
 
 可以随意拖动切换角度的坐标系。实际上不是坐标系在动，而是摄像机在动。
 
@@ -273,13 +308,59 @@ controls.addEventListener('change', (eve) => {
 });
 ```
 
+鼠标移动到图形上高亮显示，响应点击事件。
+
+![hoverAndClick](/articles/threeJs-next-step/img/hoverAndClick.gif)
+核心代码:
+
+```js
+this.group = new THREE.Group();
+scene.add(this.group);
+
+// mesh 为参与识别的网格实体
+this.group.add(mesh);
+
+window.addEventListener('mousemove', this.onDocumentMouseMove, false);
+onDocumentMouseMove(event) {
+    event.preventDefault();
+    // 重置为未选中
+    if (this.selectedObject) {
+        this.selectedObject.material.color.set('#69f');
+        this.selectedObject = null;
+    }
+    
+    // 计算当前鼠标点是否落在某个几何体上
+    var intersects = this.getIntersects(event.layerX, event.layerY);
+    if (intersects.length > 0) {
+        var res = intersects.filter(res => {
+            return res && res.object;
+        })[0];
+
+        // 设置选中的几何体
+        if (res && res.object) {
+            this.selectedObject = res.object;
+            this.selectedObject.material.color.set(0x00FF00);
+        }
+    }
+    this.demoBrenderer.render(this.demoBscene, this.demoBcamera);
+},
+
+getIntersects(x, y, camera) {
+    x = (x / this.width) * 2 - 1;
+    y = -(y / this.height) * 2 + 1;
+
+    const raycaster = new THREE.Raycaster();
+    const mouseVector = new THREE.Vector3();
+    mouseVector.set(x, y, 0.5);
+    raycaster.setFromCamera(mouseVector, this.demoBcamera);
+
+    return raycaster.intersectObject(this.group, true);
+}
+```
+
 ### 材质(Material)
 
 贴图。
-
-## 光与影(Light and Shadow)
-
-阴影
 
 ## 渲染器(Renderer)
 
