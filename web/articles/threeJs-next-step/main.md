@@ -386,6 +386,10 @@ const box = new THREE.Mesh(geometry, materials);
 scene.add(box);
 ```
 
+贴图加文字渲染特别慢，需要找优化性能的方法。
+
+## 新能优化
+
 ## 参考
 
 github: https://github.com/mrdoob/three.js/
