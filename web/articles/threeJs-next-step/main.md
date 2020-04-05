@@ -289,6 +289,14 @@ var plane = new THREE.Mesh(planeGeometry, planeMaterial);
 plane.receiveShadow = true;
 ```
 
+添加平行光辅助线。
+
+```js
+// 添加灯光辅助线
+const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
+scene.add(directionalLightHelper);
+```
+
 ## 用户交互(UserInteraction)
 
 可以随意拖动切换角度的坐标系。实际上不是坐标系在动，而是摄像机在动。
