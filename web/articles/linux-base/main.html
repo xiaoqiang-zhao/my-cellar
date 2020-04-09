@@ -677,6 +677,32 @@ zlib -v
 bash: zlib: command not found
 </code></pre>
 <p>这里有一个网站可以查询各种包: (<a href="https://rpmfind.net/linux/rpm2html/search.php)[https://rpmfind.net/linux/rpm2html/search.php" target="_blank">https://rpmfind.net/linux/rpm2html/search.php)[https://rpmfind.net/linux/rpm2html/search.php</a>]</p>
+<h3 id="header-1-5-1">Centos 下安装 node 环境</h3>
+<p>下载 node 最新版压缩包:</p>
+<pre><code class="lang-shell">https://nodejs.org/dist/v12.16.1/node-v12.16.1-linux-x64.tar.xz
+</code></pre>
+<p>解压文件:</p>
+<pre><code class="lang-shell">xz -d node-v12.16.1-linux-x64.tar.xz
+tar -xvf
+</code></pre>
+<p>检验解压后是否完整，如果能输出版本号就证明没问题:</p>
+<pre><code class="lang-shell">./node-v12.16.1-linux-x64/bin/node -v
+</code></pre>
+<p>你可以配置环境变量，也可以用软链来使调用更简单:</p>
+<pre><code class="lang-shell"># 配置环境变量
+vi .bash_profile
+# 添加路劲: $HOME/node-v12.16.1-linux-x64/bin
+# 使生效
+source .bash_profile
+
+# 或者 配置软链
+ln -s /home/userName/node-v12.16.1-linux-x64/bin/node /home/userName/bin/node  
+ln -s /home/userName/node-v12.16.1-linux-x64/bin/npm /home/userName/bin/npm
+</code></pre>
+<h3 id="header-1-5-2">Centos 下安装 git 环境</h3>
+<p>需要在 root 下进行:</p>
+<pre><code class="lang-shell">yum install -y git
+</code></pre>
 <h2 id="header-1-6">零散命令</h2>
 <p>系统之间可以通过 http 来交互，一个非常有用的命令就是 <code>curl</code>，示例如下:</p>
 <pre><code class="lang-shell">value=$(curl http://172.0.0.1:8080/get)

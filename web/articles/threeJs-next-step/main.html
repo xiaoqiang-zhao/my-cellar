@@ -28,21 +28,318 @@
 <p>新建了项目: <a href="https://github.com/xiaoqiang-zhao/threejs-webpack" target="_blank">https://github.com/xiaoqiang-zhao/threejs-webpack</a></p>
 <p>需要下载到本地安装依赖再运行。</p>
 <h2 id="header-1-2">摄影机(Camera)</h2>
-<p>摄影机运动，航拍效果: 请移步到独立项目中，那里文档和 demo 都已经准备好了。</p>
+<p>使用轨道控制器航拍: 在 x 轴上创建两个几何体，分别在原点两侧。摄像机在垂直 x 轴高度为 3 的圆周上绕原点拍摄。使用轨道控制器航拍，绕 y 轴进行拍摄，可以用鼠标滚轮调整摄像机位置，键盘的上下左右操纵相机在 xy 平面上的上下左右移动，鼠标的滚轮对应 z 轴上的前进和后退。相机的移动比变焦的好处就是他可以穿过物体看到前面的东西，而不是正前方的物体挡住视线。</p>
+<p><img src="/articles/threeJs-next-step/img/Camera.gif" alt="Camera"></p>
+<p>核心代码如下:</p>
+<pre><code class="lang-js">import OrbitControls from &#39;three-orbit-controls&#39;;
+const Controls = OrbitControls(THREE);
+const controls = new Controls(camera, renderer.domElement);
+
+// 自动围绕目标旋转
+controls.autoRotate = true;
+
+function animate() {
+
+    requestAnimationFrame(animate);
+
+    // required if controls.enableDamping or controls.autoRotate are set to true
+    controls.update();
+
+    renderer.render(scene, camera);
+
+}
+animate();
+</code></pre>
+<p>另外你会看到接收投影的平面在其背面移动到相机前方时是不可见的，这是因为无厚度平面默认是单向的背面不可见，双向可见需要配置开启: <code>plane.material.side = THREE.DoubleSide;</code>。</p>
+<p>最后附上全量代码: <a href="https://github.com/xiaoqiang-zhao/threejs-webpack/blob/master/src/pages/demo-01.vue" target="_blank">https://github.com/xiaoqiang-zhao/threejs-webpack/blob/master/src/pages/demo-01.vue</a></p>
 <h2 id="header-1-3">物体(Object)</h2>
-<p>平面和线。</p>
-<h3 id="header-1-3-1">形状(Geometry)</h3>
-<p>从外面导入模型 - 书。</p>
-<h3 id="header-1-3-2">材质(Material)</h3>
-<p>贴图。</p>
+<p>物体除了我们前面重点介绍过的正方体和圆柱，还有一些纯几何的物体，这些物体不像现实中的任何东西，比如没有厚度的面，没有粗细的线。</p>
+<p>长方体是 BoxGeometry，圆柱体是 CylinderGeometry，下面介绍平面和线以及它们对应的材质。 </p>
+<h3 id="header-1-3-1">点</h3>
+<p>点，一种没有大小和具体形状的几何体，也就没有了面光和背光以及阴影等特性。</p>
+<p><img src="/articles/threeJs-next-step/img/point.gif" alt="point"></p>
+<p>点没有固定的几何体，直接用 <code>THREE.Geometry</code> 做容器，然后放入坐标值，点的基础材质是 <code>THREE.PointsMaterial</code>，生成点的代码如下:</p>
+<pre><code class="lang-js">// 点的几何体
+const pointGeometry = new THREE.Geometry();
+// 点的位置
+const position = new THREE.Vector3(1, 1, 1);
+const position2 = new THREE.Vector3(-1, -1, -1);
+pointGeometry.vertices.push(position, position2);
+// 点的材质
+const pointMaterial = new THREE.PointsMaterial({
+    color: 0x888888,
+    size: 0.1
+});
+const point = new THREE.Points(pointGeometry, pointMaterial);
+scene.add(point);
+</code></pre>
+<h3 id="header-1-3-2">线</h3>
+<p>用线可以画出简单的集合图形，比如这个直角三角形:</p>
+<p><img src="/articles/threeJs-next-step/img/line.gif" alt="line"></p>
+<pre><code class="lang-js">const points = [
+    new THREE.Vector3(1, 2, 1),
+    new THREE.Vector3(1, 0, 1),
+    new THREE.Vector3(2, 0, 1),
+    new THREE.Vector3(1, 2, 1)
+];
+const geometry = new THREE.Geometry().setFromPoints(points);
+
+const material = new THREE.LineBasicMaterial({
+    // 白色
+    color: 0xfffffff
+});
+const line = new THREE.Line(geometry, material);
+scene.add(line);
+</code></pre>
+<h3 id="header-1-3-3">面(PlaneGeometry)</h3>
+<p>创建 4 个平面如下(小圆球为模拟光源):</p>
+<p><img src="/articles/threeJs-next-step/img/plane.gif" alt="plane"></p>
+<p>核心代码:</p>
+<pre><code class="lang-js">var planeGeometry = new THREE.PlaneGeometry(2.5, 1.5, 50);
+var planeMaterial = new THREE.MeshStandardMaterial({
+    color: 0x4169E1,
+    // 无厚度平面默认是单向的，背面不可见，双向可见需要配置开启
+    side: THREE.DoubleSide,
+    // 透明度设置
+    transparent: true,
+    opacity: 0.8
+});
+var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+plane.position.set(1.25, 0, 0);
+plane.castShadow = true;
+
+plane.lookAt(0, 0, 0);
+scene.add(plane);
+</code></pre>
+<p>注意设置双面可见平面。还可以设置平面的半透明度。</p>
+<p>有一个问题没有解决，在设置完平面的半透明度后，投影没有变淡，和完全不透明的投影相同。</p>
+<p>最后附上全量代码: <a href="https://github.com/xiaoqiang-zhao/threejs-webpack/blob/master/src/pages/demo-04.vue" target="_blank">https://github.com/xiaoqiang-zhao/threejs-webpack/blob/master/src/pages/demo-04.vue</a></p>
+<h3 id="header-1-3-4">体(ConeGeometry)</h3>
+<p>批量加入圆锥体:</p>
+<p><img src="/articles/threeJs-next-step/img/coneGeometry.gif" alt="coneGeometry"></p>
+<p>核心代码:</p>
+<pre><code class="lang-js">// 半径，高度，分段数
+const geometry = new THREE.ConeGeometry(1, 2, 100);
+const material = new THREE.MeshStandardMaterial({
+    color: 0x4169E1
+});
+const arr = [
+    [1, 0, 0],
+    [0, 1, 0],
+    [0, 0, 1],
+    [-1, 0, 0],
+    [0, -1, 0],
+    [0, 0, -1]
+];
+arr.forEach(item =&gt; {
+    const mesh = new THREE.Mesh(geometry, material);
+    let [x, y, z] = item;
+    const space = 3;
+    x *= space;
+    y *= space;
+    z *= space;
+    mesh.position.set(x, y, z);
+    scene.add(mesh);
+});
+</code></pre>
+<p>上面所有圆锥体都是尖向上的，也就是和 Y 轴正方向同向，下面我们把他们旋转一下，让他们全部底面相对。旋转需要用到 Mesh 实体的 rotateX、rotateY、rotateZ 方法，他们的含义是绕对应的轴方向顺时针旋转，旋转角度采用的是弧度值，360°角=2π弧度，比如我们想让 X 轴上的圆锥底面正对坐标原点，就需要在 Z 轴方向上旋转 -90 度，对应 -0.5π 弧度，调用方法是这样 mesh.rotateZ(Math.PI)。我们向上面的 arr 二维数组中添加旋转信息:</p>
+<pre><code class="lang-js">const arr = [
+    // X 轴正方向上的圆锥体，绕 Z 轴方向旋转 -90度，也就是 -0.5 弧度
+    [1, 0, 0, &#39;Z&#39;, -0.5],
+    // Y 轴正方向上的圆锥体，不需要旋转
+    [0, 1, 0, &#39;Y&#39;, 0],
+    // Z 轴正方向上的圆锥体，绕 X 轴方向旋转 90度，也就是 0.5 弧度
+    [0, 0, 1, &#39;X&#39;, 0.5],
+    // X 轴负方向上的圆锥体，绕 Z 轴方向旋转 90度， 0.5 弧度
+    [-1, 0, 0, &#39;Z&#39;, 0.5],
+    // Y 轴负方向上的圆锥体，绕 X 轴方向旋转 180度，也就是 1 弧度
+    [0, -1, 0, &#39;X&#39;, 1],
+    // Z 轴负方向上的圆锥体，绕 X 轴方向旋转 -90度，也就是 -0.5 弧度
+    [0, 0, -1, &#39;X&#39;, -0.5]
+];
+</code></pre>
+<p><img src="/articles/threeJs-next-step/img/coneGeometryRotate.gif" alt="coneGeometryRotate"></p>
+<p>旋转相关代码:</p>
+<pre><code class="lang-js">arr.forEach(item =&gt; {
+    const mesh = new THREE.Mesh(geometry, material);
+    let [x, y, z, axis, roateValue] = item;
+    const space = 3;
+    x *= space;
+    y *= space;
+    z *= space;
+    mesh.position.set(x, y, z);
+
+    // 光照阴影
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+
+    // 旋转
+    mesh[`rotate${axis}`](Math.PI * roateValue);
+
+    scene.add(mesh);
+});
+</code></pre>
+<p>最后附上全量代码: <a href="https://github.com/xiaoqiang-zhao/threejs-webpack/blob/master/src/pages/demo-05.vue" target="_blank">https://github.com/xiaoqiang-zhao/threejs-webpack/blob/master/src/pages/demo-05.vue</a></p>
+<h3 id="header-1-3-5">文字(Text)</h3>
+<p>three js 中可以用文字做一些标识和引导，不适合用来做大段文字的内容展示。</p>
+<p><img src="/articles/threeJs-next-step/img/text.gif" alt="text"></p>
+<p>从官方文档中看到需要一个字体的 json 文件，官方示例中的字体 json 文件只支持英文，我们去找一个中文的。首先需要去下载一个 ttf 的字体文件，比如微软雅黑，微软雅黑不是免费字体，但是作为个人研究是没问题的，我们去站长下载它: <a href="http://font.chinaz.com/940144340.htm" target="_blank">微软雅黑字体下载</a>。</p>
+<p>然后到 <a href="http://gero3.github.io/facetype.js/" target="_blank">http://gero3.github.io/facetype.js/</a> 这个网站，把刚才下载的文件传上去，就可以得到一个字体的 json 文件了，一共有 27.6 M，千万别因为好奇这个 json 是什么样的而用 IDE 打开，用 cat 简单看看就好了。将字体文件放入项目根目录 <code>/static/font</code> 下供下面加载调用。如果你只是想简单试试，那么你可以用本地的英文字体文件，比如 Mac 下用 /System/Library/Font/NewYork.ttf，大小只有 0.3M。</p>
+<p>加载字体文件像下面这样，需要注意这里的加载走的是 http 请求，不是文件相对路径:</p>
+<pre><code class="lang-js">const loader = new THREE.FontLoader();
+loader.load(&#39;/static/NewYork.json&#39;, font =&gt; {
+    const geometry = new THREE.TextGeometry(&#39;Hello three.js!&#39;, {
+        font: font,
+        size: 1,
+        height: 0.1, // 文字厚度
+        curveSegments: 12, // 弧线分段数，使得文字的曲线更加光滑
+        bevelEnabled: true,
+        bevelThickness: 0.1, // 倒角厚度
+        bevelSize: 0.1, // 倒角宽度
+        bevelSegments: 5 // 弧线分段数，使得文字的曲线更加光滑
+    });
+    geometry.computeBoundingBox();
+    geometry.computeVertexNormals();
+
+    const material = [
+        // 内部字体
+        new THREE.MeshStandardMaterial({
+            color: 0x4169E1
+        }),
+        // 外部描边
+        new THREE.MeshStandardMaterial({
+            color: 0xffffff
+        })
+    ];
+
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+});
+</code></pre>
 <h2 id="header-1-4">光与影(Light and Shadow)</h2>
-<p>阴影</p>
-<h2 id="header-1-5">渲染器(Renderer)</h2>
-<h2 id="header-1-6">动画(Animation)</h2>
-<h2 id="header-1-7">参考</h2>
+<p>上面的例子中很多其实地方已经用到了光与影，这里单独拿出来重点介绍一下。</p>
+<p>首先要有光才能有影，添加平行光光源，并且指定该光源会产生投影，这一点很重要，和现实世界的默认设置不同，不指定投影的光源不会产生投影:</p>
+<pre><code class="lang-js">const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+// 指定此光源会产生投影
+directionalLight.castShadow = true;
+</code></pre>
+<p>有了光源的投影设置，还需要物体的设置配合，物体设置分两个方面:</p>
+<ol>
+<li>一个物体产生投影；</li>
+<li>另一个物体接受投影。</li>
+</ol>
+<p>这两个条件缺一不可:</p>
+<pre><code class="lang-js">// 圆柱体
+var cylinderGeometry = new THREE.CylinderGeometry(0.3, 0.3, 3, 100);
+var cylinder = new THREE.Mesh(cylinderGeometry, material);
+// 设置产生投影
+cylinder.castShadow = true;
+
+// 创建平面接受阴影投射
+var planeGeometry = new THREE.PlaneGeometry(20, 10);
+var planeMaterial = new THREE.MeshStandardMaterial({
+    color: 0xc4c4c4
+});
+var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+plane.receiveShadow = true;
+</code></pre>
+<p>添加平行光辅助线。</p>
+<pre><code class="lang-js">// 添加灯光辅助线
+const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
+scene.add(directionalLightHelper);
+</code></pre>
+<h2 id="header-1-5">用户交互(UserInteraction)</h2>
+<p>可以随意拖动切换角度的坐标系。实际上不是坐标系在动，而是摄像机在动。</p>
+<p><img src="/articles/threeJs-next-step/img/UserInteraction.gif" alt="UserInteraction"></p>
+<p>核心代码:</p>
+<pre><code class="lang-js">const Controls = OrbitControls(THREE);
+const controls = new Controls(camera, renderer.domElement);
+
+controls.update();
+renderer.render(scene, camera);
+
+controls.addEventListener(&#39;change&#39;, (eve) =&gt; {
+    renderer.render(scene, camera);
+});
+</code></pre>
+<p>鼠标移动到图形上高亮显示，响应点击事件。</p>
+<p><img src="/articles/threeJs-next-step/img/hoverAndClick.gif" alt="hoverAndClick">
+核心代码:</p>
+<pre><code class="lang-js">this.group = new THREE.Group();
+scene.add(this.group);
+
+// mesh 为参与识别的网格实体
+this.group.add(mesh);
+
+window.addEventListener(&#39;mousemove&#39;, this.onDocumentMouseMove, false);
+onDocumentMouseMove(event) {
+    event.preventDefault();
+    // 重置为未选中
+    if (this.selectedObject) {
+        this.selectedObject.material.color.set(&#39;#69f&#39;);
+        this.selectedObject = null;
+    }
+
+    // 计算当前鼠标点是否落在某个几何体上
+    var intersects = this.getIntersects(event.layerX, event.layerY);
+    if (intersects.length &gt; 0) {
+        var res = intersects.filter(res =&gt; {
+            return res &amp;&amp; res.object;
+        })[0];
+
+        // 设置选中的几何体
+        if (res &amp;&amp; res.object) {
+            this.selectedObject = res.object;
+            this.selectedObject.material.color.set(0x00FF00);
+        }
+    }
+    this.demoBrenderer.render(this.demoBscene, this.demoBcamera);
+},
+
+getIntersects(x, y, camera) {
+    x = (x / this.width) * 2 - 1;
+    y = -(y / this.height) * 2 + 1;
+
+    const raycaster = new THREE.Raycaster();
+    const mouseVector = new THREE.Vector3();
+    mouseVector.set(x, y, 0.5);
+    raycaster.setFromCamera(mouseVector, this.demoBcamera);
+
+    return raycaster.intersectObject(this.group, true);
+}
+</code></pre>
+<h2 id="header-1-6">纹理贴图(Texture)</h2>
+<p><img src="/articles/threeJs-next-step/img/Texture.gif" alt="Texture"></p>
+<p>核心代码:</p>
+<pre><code class="lang-js">const geometry = new THREE.CubeGeometry(10, 14, 1);
+//添加贴图
+const img = new THREE.TextureLoader().load(&#39;/static/img/Maria-Montessori.jpg&#39;);
+const phongMaterial = new THREE.MeshPhongMaterial({
+    color: 0x4169E1,
+    map: img
+});
+const materials = [];
+const material = new THREE.MeshStandardMaterial({
+    color: 0x4169E1
+});
+
+for (var i = 1; i &lt; 7; ++i) {
+    materials.push(material);
+}
+// 朝向光源的一面设置照片
+materials[4] = phongMaterial;
+const box = new THREE.Mesh(geometry, materials);
+scene.add(box);
+</code></pre>
+<p>贴图加文字渲染特别慢，需要找优化性能的方法。</p>
+<h2 id="header-1-7">新能优化</h2>
+<h2 id="header-1-8">参考</h2>
 <p>github: <a href="https://github.com/mrdoob/three.js/" target="_blank">https://github.com/mrdoob/three.js/</a></p>
-<p>官网: <a href="https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene" target="_blank">https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene</a></p>
+<p>官方文档: <a href="https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene" target="_blank">https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene</a></p>
 <p>郭隆邦技术博客: <a href="http://www.yanhuangxueyuan.com/Three.js/" target="_blank">http://www.yanhuangxueyuan.com/Three.js/</a></p>
+<p>Three.js相关简易文档: <a href="https://www.showdoc.cc/143548108162542?page_id=817458605783439" target="_blank">https://www.showdoc.cc/143548108162542?page_id=817458605783439</a></p>
+<p>模拟微信跳一跳游戏: <a href="https://juejin.im/post/5d9d66e5f265da5b681fe4f5" target="_blank">https://juejin.im/post/5d9d66e5f265da5b681fe4f5</a></p>
+<p>十分钟打造 3D 物理世界: <a href="https://aotu.io/notes/2018/10/18/cannonjs/index.html" target="_blank">https://aotu.io/notes/2018/10/18/cannonjs/index.html</a></p>
 
 </div>
 </body>
