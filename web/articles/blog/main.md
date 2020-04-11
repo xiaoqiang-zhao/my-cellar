@@ -45,3 +45,7 @@
 ## 实施
 
 还要考虑阅读号，这是最快捷的入口。
+
+## 参考
+
+Hexo 主题介绍: https://www.zhihu.com/question/24422335
