@@ -20,26 +20,29 @@
 <div>
     <h1 id="header-1">VS Code 使用笔记</h1>
 <blockquote>
-<p>Visual Studio Code 大有后来居上超过 WebStrom 的趋势，他的插件卡法方式实在太吸引人了。总的来说 vs 还 没有 ws 功能强大，但是很快这些确实的功能会补上。</p>
+<p>介绍 VS Code 的配置和好用插件。</p>
 </blockquote>
 <h2 id="header-1-1">设置</h2>
-<p>vs 的配置分3个级别，分别是默认配置、用户设置和工作区设置，优先级也依次递增。</p>
-<pre><code>// 编辑区字体
-&quot;editor.fontSize&quot;: 16,
+<p>vs 的配置分3个级别，分别是默认配置、用户设置(User)和工作区设置(Workspace)，优先级也依次递增。用户设置作用于所有打开的窗口，适合设置统一的快捷方式等。工作区设置只作用于当前项目，如果不同的项目需要用不同的代码格式，那么代码格式设置和检查在当前项设置。</p>
+<pre><code class="lang-config">// 编辑区字体
+Text Editor/Font/FontSize: 16,
+
+// 整体大小调整
+Window/Zoom Level: 0.5
 
 // 在新窗口打开文件夹
-&quot;window.openFoldersInNewWindow&quot;: &quot;on&quot;
-</code></pre><p>左侧资源管理器的字体没找到调节的办法，window.zoomLevel 是整体放缩不是我想要的效果。</p>
-<p>皮肤切换：Code/首选项/颜色主题 (Cmd + T + K)</p>
+Window/openFoldersInNewWindow: on
+</code></pre>
+<p>皮肤切换：Code/Preferences/Color Theme (Cmd + K + T)</p>
 <h2 id="header-1-2">快捷键</h2>
-<p>快捷键的查看和设置：Code/首选项/键盘快捷方式 (Cmd + K + S)。</p>
+<p>快捷键的查看和设置：Code/Preferences/Keyboard Sortcuts (Cmd + K + S)。</p>
 <p>对于快捷键的设置，特殊案件的顺序是：Shift -&gt; Ctr -&gt; Alt -&gt; Cmd -&gt; page(按键L型)，这样便于搜索。</p>
 <h3 id="header-1-2-1">基本</h3>
 <p>上/下移动一行：Alt + 上/下箭头</p>
 <p>向上/下复制一行：Shift + Alt + 上/下箭头</p>
 <p>删除一行：Shift + Cmd + K</p>
 <p>剪切一行：Cmd + X</p>
-<p>切换编辑窗口：Alt + Cmd + Pageleft/Pageright</p>
+<p>切换编辑窗口：Alt + Cmd + Left/Right</p>
 <p>查找：Cmd + F</p>
 <p>查找替换：Cmd + Alt + F，在当前文件查找</p>
 <h3 id="header-1-2-2">效率</h3>
@@ -78,7 +81,45 @@
 <p><a href="https://hao5743.github.io/2016/12/26/vscode%E4%B8%ADbeautifyrc%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%BF%BB%E8%AF%91%E5%92%8C%E8%AE%BE%E7%BD%AE/" target="_blank">https://hao5743.github.io/2016/12/26/vscode%E4%B8%ADbeautifyrc%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%BF%BB%E8%AF%91%E5%92%8C%E8%AE%BE%E7%BD%AE/</a></p>
 <h3 id="header-1-5-2">Auto Rename Tag</h3>
 <p><a href="https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-rename-tag" target="_blank">Auto Rename Tag</a> 修改HTML标签时，自动修改匹配的标签</p>
-<h3 id="header-1-5-3">FECS</h3>
+<h3 id="header-1-5-3">Markdown Table Formatter</h3>
+<table>
+<thead>
+<tr>
+<th>Prop</th>
+<th>Data Type</th>
+<th>Options</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>isShowLogo</td>
+<td>boolean</td>
+<td>true/false</td>
+<td>true</td>
+<td>是否展示logo</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>-</td>
+<td>null</td>
+<td>用户名/手机号</td>
+</tr>
+<tr>
+<td>menuItems</td>
+<td>Array</td>
+<td>-</td>
+<td>null</td>
+<td>导航数据</td>
+</tr>
+</tbody>
+</table>
+<p>非常好用的插件，强迫症的福音，把表格对的整整齐齐的。但是中文比较尴尬，解决办法就是把中文放在最后一列，看着会好点。</p>
+<p>这个插件移动列的快捷方式默认是 Option + Command + Left/Right，这和切换 Tab 的快捷方式冲突了，建议调整成 Control + Option + Left/Right。</p>
+<p>一般的用法是选中表格区域，右键/Format Document With.../Markdown Table Formatter。高频用法是把 md 文件的默认格式化工具设置成 Markdown Table Formatter，然后就不需要选择了，直接快捷键: Option + Shift + F。</p>
+<h3 id="header-1-5-4">FECS</h3>
 <p>先安装插件 vscode-fecs-plugin，然后全局安装 fecs</p>
 <pre><code>npm install -g fecs
 </code></pre><p>配置 $NODE_PATH 环境变量</p>

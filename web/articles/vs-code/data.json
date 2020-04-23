@@ -1,12 +1,12 @@
 {
   "enName": "vs-code",
   "title": "VS Code 使用笔记",
-  "introduction": "Visual Studio Code 大有后来居上超过 WebStrom 的趋势，他的插件卡法方式实在太吸引人了。总的来说 vs 还 没有 ws 功能强大，但是很快这些确实的功能会补上。",
+  "introduction": "介绍 VS Code 的配置和好用插件。",
   "tags": [],
   "isPublished": false,
   "state": "立项",
   "type": "md",
-  "createDate": 1499779897549,
+  "createDate": 1587632627517,
   "commentList": [],
   "todoList": []
 }
