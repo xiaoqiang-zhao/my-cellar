@@ -1405,8 +1405,8 @@
     "todoList": []
   },
   {
-    "enName": "read-book-note",
-    "title": "读书笔记",
+    "enName": "read-book",
+    "title": "我是怎么读书的",
     "introduction": "读书是为了有所收获，脑子里留下的东西取决于你能从书本中提取出多少自己对自己有用的东西 和 你需要他们的时候能记起多少。读书多了之后有了一些自己的方法和技巧。在这里整理一下。",
     "tags": [],
     "isPublished": false,
