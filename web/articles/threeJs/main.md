@@ -308,3 +308,5 @@ github: https://github.com/mrdoob/three.js/
 [如何系统的学习three.js](https://www.zhihu.com/question/36367846)
 
 [视频课程](https://www.udacity.com/course/interactive-3d-graphics--cs291)
+
+[在three.js中渲染透明材质](https://zhuanlan.zhihu.com/p/142014730)
