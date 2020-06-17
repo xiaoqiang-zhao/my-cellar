@@ -17,8 +17,37 @@ Python 本身被设计为可扩充的。并非所有的特性和功能都集成�
 - 桌面界面开发
 - 网络爬虫
 
+缺点: 
+1. 因为是解释型语言，相比C，运行速度慢;
+2. 代码不能加密。
+
 ## 快读入门
 
 当前稳定版: 3.8，Mac 预装了 Python，执行 `python -V`，查看版本。如果版本太低去官网下载最新稳定版: https://www.python.org/downloads/，直接就是 [pkg](https://www.python.org/ftp/python/3.8.3/python-3.8.3-macosx10.9.pkg) 文件，傻瓜式安装。
 
-安装完成后会弹出安装目录，点击 IDLE 可以直接进入 Python 命令行窗口，输入 `print("Hello world!")` 回车，第一行 Python 命令就执行了。
+安装完成后会弹出安装目录，点击 IDLE 可以直接进入 Python 命令行窗口，输入 `print("Hello world!")` 回车，第一行 Python 命令就执行了。用 `exit()` 退出命令行。
+
+你还可以把代码写进文件:
+
+```python
+# 01-hello-world.py
+print("Hello world!")
+```
+
+在命令行执行 `python ./01-hello-world.py` 同样可以输出结果。
+
+脚本语言没有复杂的数据类型定义，Python 更是采用了 4 个空格的缩进作为逻辑块分割，我们多写几行代码:
+
+```python
+a = 1
+if a > 0:
+    print("a 为整数")
+else:
+    print("a 不为整数")
+```
+
+IDE 可以用我熟悉的 VS Code，可以断点调试。
+
+## Django
+
+Django 已经成为 web 开发者的首选框架
