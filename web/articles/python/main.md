@@ -51,3 +51,9 @@ IDE 可以用我熟悉的 VS Code，可以断点调试。
 ## Django
 
 Django 已经成为 web 开发者的首选框架
+
+## 参考
+
+官网: https://www.python.org/
+Python 新手入门引导: https://zhuanlan.zhihu.com/p/25824007
+廖雪峰 Python 教程: https://www.liaoxuefeng.com/wiki/1016959663602400
