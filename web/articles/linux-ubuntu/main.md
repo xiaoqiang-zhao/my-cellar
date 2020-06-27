@@ -79,7 +79,17 @@ sudo n latest
 
 快速启动应用：Win + A，没有像 Windows 下那样的“我的程序”，更像 Mac 的 Spotlight。
 
-## 一些奇怪的问题
+## 设置
+
+自动登录设置: User Accounts / 某用户 / Login Options / Automatic Login
+
+默认程序设置: About This Computer / Default Applications 
+
+## 应用程序
+
+dpkg --list
+
+## 一些问题及解决
 
 ### 分辨率
 
@@ -98,6 +108,14 @@ sudo n latest
 方案二：
 
 用 `lspci -k | grep -A 2 -i "VGA"` 命令查看显卡的硬件配置，在 System Setting/Detail 下可以查看当前系统用的是哪一块显卡，然后用 `sudo ubuntu-drivers devices` 命令查看驱动推荐，找到 recommended 的那一项进行安装，比如我的是 nvidia-384，用 `sudo apt-get install nvidia-384` 命令安装独立显卡驱动，重启后查看当前系统用的是哪一块显卡，如果还是集成显卡，用 `nvidia-settings` 命令切换。
+
+### 修改密码
+
+重启
+
+切换到 root 权限
+
+修改密码
 
 ## 参考文章
 

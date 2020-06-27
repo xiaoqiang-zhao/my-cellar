@@ -15,6 +15,9 @@ Window/Zoom Level: 0.5
 
 // 在新窗口打开文件夹
 Window/openFoldersInNewWindow: on
+
+// 缩进
+Tab Size: 4
 ```
 
 皮肤切换：Code/Preferences/Color Theme (Cmd + K + T)
@@ -47,17 +50,21 @@ Window/openFoldersInNewWindow: on
 
 新建文件：Cmd + N，吐槽一下默认居然在项目的根目录新建文件，多数情况下还是希望在当前选中目录下新建文件，所以我们自定义一下：
 
-    {
-        "key": "cmd+n",
-        "command": "explorer.newFile"
-    }
+```config
+{
+    "key": "cmd+n",
+    "command": "explorer.newFile"
+}
+```
 
 新建文件夹：Cmd + Shift + N，这个快捷键并没有原始提供，需要加配置：
 
-    {
-        "key": "shift+cmd+n",
-        "command": "explorer.newFolder"
-    }
+```config
+{
+    "key": "shift+cmd+n",
+    "command": "explorer.newFolder"
+}
+```
 
 折叠代码：Alt + Cmd + [
 
@@ -91,10 +98,12 @@ commit 比较方便，写完 message 按 Cmd + Enter 就直接提交了；
 
 emmet 语法插件 Mithril Emmet support for VS Code，添加配置：
 
-    "emmet.syntaxProfiles": {
-        "vue-html": "html",
-        "vue": "html"
-    }
+```config
+"emmet.syntaxProfiles": {
+    "vue-html": "html",
+    "vue": "html"
+}
+```
 
 beautify 格式化代码插件
 
@@ -122,15 +131,19 @@ https://hao5743.github.io/2016/12/26/vscode%E4%B8%ADbeautifyrc%E6%8F%92%E4%BB%B6
 
 先安装插件 vscode-fecs-plugin，然后全局安装 fecs
 
-    npm install -g fecs
+```shell
+npm install -g fecs
+```
 
 配置 $NODE_PATH 环境变量
 
-    // 获取全局 npm 包安装路径
-    npm root -g
-    vi ~/.bash_profile
-    // 配置如下，路径可能不同
-    // export NODE_PATH=/usr/local/lib/node_modules
+```shell
+// 获取全局 npm 包安装路径
+npm root -g
+vi ~/.bash_profile
+// 配置如下，路径可能不同
+// export NODE_PATH=/usr/local/lib/node_modules
+```
 
 然后重启 VS Code，是彻底退出，是彻底退出，是彻底退出，不是只重启当前项目。
 
@@ -142,13 +155,12 @@ https://hao5743.github.io/2016/12/26/vscode%E4%B8%ADbeautifyrc%E6%8F%92%E4%BB%B6
 
 如果用了 `vetur` 插件可能会出一个这样的警告：
 
-    'v-for' directives require 'v-bind:key' directives.
+`'v-for' directives require 'v-bind:key' directives.`
     
 这是ESLint的功能。对vue进行了eslint检查。那么我们就把eslint对该插件的检查关闭，在配置文件中添加如下配置：
 
-    "vetur.validation.template": false
+`"vetur.validation.template": false`
 
 某些项目左侧的 git 图标在修改了文件后依然没啥动静，这是需要点击图标，然后点击三个点，在下拉中点“切换源代码管理系统”，最后选 Git，问题就解决了。
 
-ESLint
-http://www.cnblogs.com/rubylouvre/p/7280219.html
+ESLint: http://www.cnblogs.com/rubylouvre/p/7280219.html
