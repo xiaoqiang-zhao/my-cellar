@@ -501,7 +501,7 @@ var array = [
     { order: 0 },
     { order: 1 },
     { order: 2 }
-    ];
+];
 array.indexOf(1); // -1
 array.indexOf({order: 2}); // -1
 array.indexOf(array[2]); // 2
