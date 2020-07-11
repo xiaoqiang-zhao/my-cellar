@@ -247,9 +247,9 @@ export default {
 
 state，对外只读。
 
-getters，是 store 的计算属性。
+getters，是 store 的计算属性，组装器类，似 vue 中的计算属性 computed。
 
-mutations，用于修改 state，供对外 `commit`，示例：
+mutations，用于同步修改 state，供对外 `commit`，示例：
 ```js
 // store 中定义
 mutations: {
@@ -266,7 +266,7 @@ this.$store.commit('increment', {
 
 actions，异步事件和提交 mutations。
 
-modules，当应用变得非常复杂时，store 对象就有可能变得相当臃肿，用 modules 分割 store。
+modules，当应用变得非常复杂时，store 对象就有可能变得相当臃肿，用 modules 分割 store。每个 module 里又可以有 state、getters、mutations、actions、modules 一套完整的 store。
 
 ```js
 const store = new Vuex.Store({
