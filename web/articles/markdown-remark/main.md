@@ -235,6 +235,17 @@ unified()
 
 ```
 
+## md 文件引入
+
+当你需要引入大段的文档时，需要用到 html-loader，在 webpack.base.conf.js 中添加加载器配置:
+
+```js
+{
+    test: /\.md$/,
+    loader: 'html-loader'
+}
+```
+
 ## 参考
 
 https://github.com/remarkjs/remark
