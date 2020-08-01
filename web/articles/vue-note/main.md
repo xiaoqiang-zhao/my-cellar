@@ -235,7 +235,7 @@ export default {
     },
     computed: {
         count () {
-        return this.$store.state.count
+            return this.$store.state.count
         }
     },
     methods: {}
@@ -252,19 +252,34 @@ getters，是 store 的计算属性，组装器类，似 vue 中的计算属性 
 mutations，用于同步修改 state，供对外 `commit`，示例：
 ```js
 // store 中定义
-mutations: {
-    increment (state, payload) {
+actions: {
+    functionA (state, payload) {
         state.count += payload.amount
     }
 }
 
 // 组件中触发
-this.$store.commit('increment', {
+this.$store.commit('functionA', {
     amount: 10
 })
 ```
 
 actions，异步事件和提交 mutations。
+```js
+// store 中定义
+actions: {
+    functionB (context, payload) {
+        context.state.count += payload.amount
+        // 在异步函数中可以触发同步函数
+        context.commit('functionA', state.count);
+    }
+}
+
+// 组件中触发
+this.$store.dispatch('functionB', {
+    amount: 10
+})
+```
 
 modules，当应用变得非常复杂时，store 对象就有可能变得相当臃肿，用 modules 分割 store。每个 module 里又可以有 state、getters、mutations、actions、modules 一套完整的 store。
 
@@ -278,6 +293,49 @@ const store = new Vuex.Store({
 
 store.state.a // -> moduleA 的状态
 store.state.b // -> moduleB 的状态
+```
+
+### 技巧
+
+与计算属性 computed 搭配使用，直接放在 data 中不会主动同步。
+
+如果 store 中的数据是对象或数组，那么修改对象的属性和修改数组的元素是不会被 computed 监听到的。解决办法:
+1. 先深拷贝，修改后直接一个对象或数组覆盖上去，适合数据逻辑比较简单的场景;
+2. 使用生成器，适合逻辑比较复杂的场景；
+3. 监听关键变量，手动去更新变化部分，适合数据量比较大的场景。
+
+```js
+// 这是我 super-note 开源项目中的一段代码
+export default {
+  computed: {
+    // 缩放比例, 一年:像素高度, 默认是 1，可在 1 和 10 之间切换
+    scale() {
+      return this.$store.state.scale
+    }
+  },
+  mounted() {
+    this.update()
+  },
+  watch: {
+    scale() {
+      this.update()
+    }
+  },
+  methods: {
+
+    /**
+     * 初始化，占位函数，会被实例化组件的方法替代
+     */
+    init() {},
+
+    update() {
+      this.init && this.init()
+      if (this.data) {
+        this.positionStyle = this.data.positionData.positionStyle
+      }
+    }
+  }
+}
 ```
 
 ## 场景描述
