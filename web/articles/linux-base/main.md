@@ -887,11 +887,15 @@ yum install -y git
 
 ## 零散命令
 
+### curl
+
 系统之间可以通过 http 来交互，一个非常有用的命令就是 `curl`，示例如下:
 
 ```shell
 value=$(curl http://172.0.0.1:8080/get)
 ```
+
+### lsof
 
 查看端口对应的进程 id:
 
@@ -899,11 +903,15 @@ value=$(curl http://172.0.0.1:8080/get)
 lsof -i tcp:9999
 ```
 
+### telnet
+
 查看 Web 服务是否启动成功
 
 ```shell
 telnet 10.0.250.3 8090
 ```
+
+### logout
 
 登出 ssh
 
@@ -911,6 +919,8 @@ telnet 10.0.250.3 8090
 logout
 # 或者 Ctrl+D
 ```
+
+### grep
 
 grep 专区
 
@@ -922,6 +932,18 @@ cat log | grep -c false
 # 在多个文件中查找
 cat log log.1 | grep false
 ```
+
+### scp
+
+1.是否安装ssh：`ps -ef | grep "ssh"`, 如果为空就是没有
+
+2.安装ssh服务：`sudo yum install ssh`, 自动安装ssh服务
+
+3.启动：`sudo /etc/init.d/sshstart`
+
+4.停止：`sudo /etc/init.d/sshstop`
+
+5.配置：ssh默认的端口是22，可以修改配置文件更改端口，然后重启ssh服务即可。（注：配置文件/etc/ssh/sshd_config）
 
 ## 参考
 

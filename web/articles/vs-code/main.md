@@ -66,7 +66,7 @@ Tab Size: 4
 }
 ```
 
-折叠代码：Alt + Cmd + [
+折叠代码：option + Cmd + [
 
 在当前编辑器打开文件：Cmd + P
 
