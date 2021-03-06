@@ -392,12 +392,97 @@ export default {
 </div>
 ```
 
+v-model 的通用开发技巧:
+
+```js
+Vue.component('base-checkbox', {
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
+  props: {
+    checked: Boolean
+  },
+  template: `
+    <input
+      type="checkbox"
+      v-bind:checked="checked"
+      v-on:change="$emit('change', $event.target.checked)"
+    >
+  `
+});
+<base-checkbox v-model="lovingVue"></base-checkbox>
+```
+
 ### 定制组件样式
 
 覆盖引入组件内部Dom节点样式由两种方式：
 
  - 1、写单独的样式文件，然后引入；
  - 2、单独添加一个不带 scoped 属性的 style 标签。
+
+## element-ui 部分
+
+### upload 组件开发备忘
+
+upload 是单文件传送的
+
+before-upload 事件中修改 data 无效，要想修改 data 用下面的自定义上传方法 http-request
+
+file-list 参数需要在事件中手动维护，组件并不会自动更新数据
+
+http-request 函数可以自定义上传逻辑
+
+官网没有示例代码，这里补充一个:
+
+```html
+<el-upload
+    class="upload-demo"
+    ref="invoiceUploadComponent"
+    action="/api/upload/invoice"
+    :file-list="invoiceFileList"
+    :on-change="beforeUploadInvoiceFiles"
+    :before-remove="beforeRemoveInvoiceFiles"
+    :auto-upload="false"
+    :data="{uid: invoiceFileListId}"
+    multiple>
+    <i class="el-icon-upload"></i>
+    <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+    <div class="el-upload__tip" slot="tip">
+        <div>提示:</div>
+        <div>1. 票据包含增值税发票、机打发票和餐票</div>
+        <div>2. 务必保证票据文字清晰可见，若有明显折痕请手动输入，否则影响出账结果</div>
+    </div>
+</el-upload>
+```
+```js
+uploadFile: function (fileData) {
+    const formData = new FormData();
+    // 键值
+    formData.append('file', fileData.file);
+    formData.append('uid', fileData.file.uid);
+
+    this.$http.post(
+        fileData.action,
+        formData,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+    ).then(res => {
+        debugger
+    }).catch(err => {
+        console.error(err);
+    });
+},
+```
+
+参考网站: https://www.jianshu.com/p/0a0d2ba76c3c
+
+### el-input 原生事件
+
+element-ui 的 input 组件可以用 @keyup.enter.native="login" 来监听回车事件
 
 ## 组建间数据通信
 
