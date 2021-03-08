@@ -12,6 +12,8 @@ Nginx 的定位是高性能轻量级 Web 服务器。
 
 然后安装 PCRE，提供了正则表达式的解析，Nginx 在配置路径时支持正则表达式就依赖于这个库。
 
+注意: 当前目录的不同，会影响到下载和安装，注意替换。不知道装到那里时可以使用 ` whereis 路径或文件` 来查找。
+
 ```shell
 # 下载并解压
 wget http://downloads.sourceforge.net/project/pcre/pcre/8.35/pcre-8.35.tar.gz

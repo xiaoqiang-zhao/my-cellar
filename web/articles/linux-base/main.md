@@ -851,7 +851,7 @@ bash: zlib: command not found
 下载 node 最新版压缩包:
 
 ```shell
-https://nodejs.org/dist/v12.16.1/node-v12.16.1-linux-x64.tar.xz
+wget https://nodejs.org/dist/v12.16.1/node-v12.16.1-linux-x64.tar.xz
 ```
 
 解压文件:
