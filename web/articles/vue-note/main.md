@@ -484,6 +484,18 @@ uploadFile: function (fileData) {
 
 element-ui 的 input 组件可以用 @keyup.enter.native="login" 来监听回车事件
 
+### 浏览器的自动填入功能禁用
+
+在普通的 input 上直接 off 就行了
+```html
+<input type="password" autoComplete="off"/>
+```
+
+elementui 上使用 autoComplete="off" 是无效的，用 autoComplete="new-password" 才可以
+```html
+<el-input v-model="password" auto-complete="new-password"></el-input>
+```
+
 ## 组建间数据通信
 
 vuex不是万能药，组建之间的数据通信很多情况是不适用的，这里总结一下组件通信的常用方法的适用场景。
