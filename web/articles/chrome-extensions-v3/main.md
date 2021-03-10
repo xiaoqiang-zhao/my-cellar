@@ -246,4 +246,10 @@ service workers 是一个服务器与浏览器之间的中间人角色，如果�
 
 Service worker 运行在 worker 上下文，不能访问DOM。
 
-## 
+## Overview 概览
+
+### 什么是 Extensions
+
+每个 Extension 必须要有一个 single purpose。
+
+
