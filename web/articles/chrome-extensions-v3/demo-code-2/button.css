@@ -1,10 +1,17 @@
 body {
-    width: 123px;
+    width: 120px;
 }
+
 button {
-    cursor: pointer;
+    height: 30px;
+    width: 30px;
+    outline: none;
+    margin: 10px;
+    border: none;
+    border-radius: 2px;
 }
-#text-container {
-    padding: 10px;
-    margin: 10px 0;
+
+button.current {
+    box-shadow: 0 0 0 2px white,
+        0 0 0 4px black;
 }

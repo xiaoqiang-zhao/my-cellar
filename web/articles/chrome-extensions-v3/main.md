@@ -187,6 +187,10 @@ changeColor.addEventListener("click", async () => {
 
 当前这个 Demo 的 background.js 中只包含了一个插件安装时触发的事件，并不容易调试到。下面我们再写一个功能更多一点的 Demo。
 
+### 进阶 Demo
+
+
+
 ## 介绍 V3
 
 Chrome Extensions Manifest V3 适用于 Chrome 88 及以上的 chrome。
