@@ -456,7 +456,7 @@ http-request 函数可以自定义上传逻辑
 </el-upload>
 ```
 ```js
-uploadFile: function (fileData) {
+uploadFile(fileData) {
     const formData = new FormData();
     // 键值
     formData.append('file', fileData.file);

@@ -189,7 +189,42 @@ changeColor.addEventListener("click", async () => {
 
 ### 进阶 Demo
 
+我们来写一个真正的浏览器插件，其功能是改变当前网页的背景色(用项目网站试了一下操作表单也是可以的)，核心代码在 demo-code-2/popup.js 中:
 
+```js
+const redBtn = document.getElementById("redBtn");
+
+redBtn.addEventListener("click", async () => {
+    let [tab] = await chrome.tabs.query({
+        active: true,
+        currentWindow: true
+    });
+
+    chrome.scripting.executeScript({
+        target: {
+            tabId: tab.id
+        },
+        function() {
+            document.body.style.backgroundColor = 'red';
+            // 如果页面中有单选按钮，可以用下面的代码控制其选中
+            const doms = document.getElementsByClassName('el-radio__original');
+            for (let i = 0; i < doms.length; i++) {
+                const item = doms[i];
+                if (item.value === 'female') {
+                    item.checked = true;
+                }
+                else if (item.value === 'male') {
+                    item.checked = false;
+                }
+            }
+        },
+    });
+});
+```
+
+使用效果是这样的:
+
+![图片](./img/6.png)
 
 ## 介绍 V3
 
