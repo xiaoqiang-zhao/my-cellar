@@ -1,0 +1,10 @@
+body {
+    width: 123px;
+}
+button {
+    cursor: pointer;
+}
+#text-container {
+    padding: 10px;
+    margin: 10px 0;
+}
