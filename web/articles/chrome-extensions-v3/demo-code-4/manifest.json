@@ -1,0 +1,19 @@
+{
+    "name": "Getting Started Example 4",
+    "description": "Build an Extension!",
+    "version": "1.0",
+    "manifest_version": 3,
+    "action": {
+        "default_icon": "niu.png",
+        "default_popup": "hello.html"
+    },
+    "commands": {
+      "_execute_action": {
+        "suggested_key": {
+          "default": "Ctrl+Shift+N",
+          "mac": "MacCtrl+Shift+N"
+        },
+        "description": "Opens hello.html"
+      }
+    }
+}

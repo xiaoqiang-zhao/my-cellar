@@ -248,8 +248,20 @@ Service worker 运行在 worker 上下文，不能访问DOM。
 
 ## Overview 概览
 
-### 什么是 Extensions
+什么是 Extensions？
+
+它是一个跑在 Chrome 浏览器中的一个应用，可以整合第三方网站或服务，并自定义浏览器行为。
+
+开发的主要语言为 JavaScript，部分采用 html、css、图片等。
 
 每个 Extension 必须要有一个 single purpose。
 
+## API
 
+browserAction
+
+commands
+
+declarativeContent
+
+topSites
