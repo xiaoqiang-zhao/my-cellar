@@ -1,6 +1,6 @@
 {
     "name": "Getting Started Example 1",
-    "description": "Build an Extension!",
+    "description": "一个简单的插件，插件的小页面中有一个按钮，可以通过点击改变小页面一个区域的背景颜色。在 storage 中保存数据",
     "version": "1.0",
     "manifest_version": 3,
     "action": {

@@ -1,6 +1,6 @@
 {
     "name": "Getting Started Example 5",
-    "description": "Build an Extension!",
+    "description": "点击按钮打开新的网页",
     "version": "1.0",
     "manifest_version": 3,
     "action": {

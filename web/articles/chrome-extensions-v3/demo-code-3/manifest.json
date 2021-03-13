@@ -1,6 +1,6 @@
 {
-    "name": "Getting Started Example",
-    "description": "Build an Extension!",
+    "name": "Getting Started Example 3",
+    "description": "一个失败的 options demo，啥都干不了，占个位留做有机会再研究",
     "version": "1.0",
     "manifest_version": 3,
     "options_page": "options.html",

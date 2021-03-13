@@ -1,6 +1,6 @@
 {
     "name": "Getting Started Example 2",
-    "description": "Build an Extension!",
+    "description": "通过插件中的按钮，改变当前页面的背景颜色",
     "version": "1.0",
     "manifest_version": 3,
     "action": {

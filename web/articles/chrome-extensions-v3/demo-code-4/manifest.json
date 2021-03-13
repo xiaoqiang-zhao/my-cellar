@@ -1,6 +1,6 @@
 {
     "name": "Getting Started Example 4",
-    "description": "Build an Extension!",
+    "description": "失败的快捷键demo，占个位留做有机会再研究",
     "version": "1.0",
     "manifest_version": 3,
     "action": {

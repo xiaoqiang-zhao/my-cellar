@@ -76,6 +76,13 @@ git reset --hard commit_id
  git checkout HEAD 文件路径
 ```
 
+有时候我们要在服务器上临时改一写东西做验证，最后不想提交，这时可以用 `git checkout` 命令来撤销未 commit 的文件。
+
+```shell
+git checkout .            # 撤销对所有已修改但未提交的文件的修改，但不包括新增的文件
+git checkout [filename]   # 撤销对指定文件的修改，[filename]为文件名
+```
+
 ## git log	
 
 ```shell
@@ -195,6 +202,17 @@ git pull
 学习传送门:
 - [英文](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
 - [中文](https://www.cnblogs.com/wish123/p/9785101.html)
+
+## 加速
+
+向 github 提交代码与拉去代码越来越慢了，配一下 hosts 加速 DNS 解析速度会有些许提速。
+
+首先用 [DNS查询工具](https://tool.chinaz.com/dns/?type=1&host=assets-cdn.github.com&ip=) 查找下面两个链接的 DNS，然后选TTL 最小的。hosts 配置如下:
+
+```
+151.101.109.194 github.global.ssl.fastly.net
+185.199.111.153 assets-cdn.github.com
+```
 
 ## 参考资料
 

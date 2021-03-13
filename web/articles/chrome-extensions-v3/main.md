@@ -363,3 +363,14 @@ Service worker 运行在 worker 上下文，不能访问DOM。
 ```
 
 ### Architecture overview 结构概览
+
+chrome extension 是由 HTML、CSS、JavaScript、图片、和其他文件压缩而成的包，可以安装在 PC 和 手机 的 Chrome 浏览器上。
+
+![图片](./img/7.png)
+
+background script 是 extension 的事件控制器，可以监听浏览器事件，是静默躺在浏览器后台中的进程，直到被定义的事件唤醒，然后执行定义好的逻辑。事件监听的定义需要使用 [declarative content](https://developer.chrome.com/docs/extensions/reference/declarativeContent/)
+
+popup.html 定义用户界面，可以直接写页面，也可以调用 tabs.create 或 window.open()
+
+![图片](./img/7.png)
+
