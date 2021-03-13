@@ -246,7 +246,7 @@ service workers 是一个服务器与浏览器之间的中间人角色，如果�
 
 Service worker 运行在 worker 上下文，不能访问DOM。
 
-## Overview 概览
+## 概览(Overview)
 
 什么是 Extensions？
 
@@ -258,10 +258,108 @@ Service worker 运行在 worker 上下文，不能访问DOM。
 
 ## API
 
-browserAction
+当成工具查阅的 API 手册: https://developer.chrome.com/docs/extensions/reference/
 
-commands
+## 样例(Samples)
 
-declarativeContent
+这里是一个 github 仓库，汇集了一些样例。如果在这里能找到类似的样例，直接拿下来改改就能有一个自己的 chrome extension 了。
 
-topSites
+吐槽一下，这里的文档写的奇烂。与代码不符的，链接无效的，看这部分文档就像从一堆烂苹果中找一个完整的。
+
+## 开发扩展组件和主题(Develop extensions and themes)
+
+### 概览(overwiew)
+
+提供不同应用场景的入口汇总。
+
+- user interface，浏览器的用户界面修改，可以为浏览器添加自定义按钮，管理书签，快捷键等；
+- Build extension utilities，扩展通用功能，如 OAuth2 access tokens 等；
+- Modify and observe the Chrome Browser，修改于监听浏览器行为，如下载、代理、主题等；
+- Modify and observe the web，修改与监听网页，可以监听激活状态的网页，并对网页做修改和自定义触发，广告屏蔽插件和对第三方网站做一些重复工作的自动化可用此块内容来实现；
+- Package, deploy and update，打包、发布、更新 extension；
+- Expand Chrome DevTools，扩展开发工具。
+
+### manifest.json配置全集(Manifest file format)
+
+这里有一份全量的 manifest.json 字段配置文件。
+
+```json
+{
+  // Required
+  "manifest_version": 3,
+  "name": "My Extension",
+  "version": "versionString",
+
+  // Recommended
+  "action": {...},
+  "default_locale": "en",
+  "description": "A plain text description",
+  "icons": {...},
+
+  // Optional
+  "action": ...,
+  "author": ...,
+  "automation": ...,
+  "background": {
+    // Required
+    "service_worker":
+  },
+  "chrome_settings_overrides": {...},
+  "chrome_url_overrides": {...},
+  "commands": {...},
+  "content_capabilities": ...,
+  "content_scripts": [{...}],
+  "content_security_policy": "policyString",
+  "converted_from_user_script": ...,
+  "current_locale": ...,
+  "declarative_net_request": ...,
+  "devtools_page": "devtools.html",
+  "differential_fingerprint": ...,
+  "event_rules": [{...}],
+  "externally_connectable": {
+    "matches": ["*://*.example.com/*"]
+  },
+  "file_browser_handlers": [...],
+  "file_system_provider_capabilities": {
+    "configurable": true,
+    "multiple_mounts": true,
+    "source": "network"
+  },
+  "homepage_url": "http://path/to/homepage",
+  "host_permissions": [...],
+  "import": [{"id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}],
+  "incognito": "spanning, split, or not_allowed",
+  "input_components": ...,
+  "key": "publicKey",
+  "minimum_chrome_version": "versionString",
+  "nacl_modules": [...],
+  "natively_connectable": ...,
+  "oauth2": ...,
+  "offline_enabled": true,
+  "omnibox": {
+    "keyword": "aString"
+  },
+  "optional_permissions": ["tabs"],
+  "options_page": "options.html",
+  "options_ui": {
+    "chrome_style": true,
+    "page": "options.html"
+  },
+  "permissions": ["tabs"],
+  "platforms": ...,
+  "replacement_web_app": ...,
+  "requirements": {...},
+  "sandbox": [...],
+  "short_name": "Short Name",
+  "storage": {
+    "managed_schema": "schema.json"
+  },
+  "system_indicator": ...,
+  "tts_engine": {...},
+  "update_url": "http://path/to/updateInfo.xml",
+  "version_name": "aString",
+  "web_accessible_resources": [...]
+}
+```
+
+### Architecture overview 结构概览
