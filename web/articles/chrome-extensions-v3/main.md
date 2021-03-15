@@ -374,3 +374,6 @@ popup.html 定义用户界面，可以直接写页面，也可以调用 tabs.cre
 
 ![图片](./img/7.png)
 
+popup 在页面外是孤立无援的，我们可以派一个间谍打入页面作为内应，这个间谍就叫 Content script，它可以注入到页面中，通过 messages 模块与 popup 和 background 通信。
+
+

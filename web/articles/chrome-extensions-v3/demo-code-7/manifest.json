@@ -1,0 +1,28 @@
+{
+    "name": "Getting Started Example 7",
+    "description": "页面注入脚本并与外界通信",
+    "version": "1.0",
+    "manifest_version": 3,
+    "action": {
+        "default_icon": "niu.png",
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": ["http://127.0.0.1:8898/*"],
+            "run_at": "document_end",
+            "js": ["contentScript.js"]
+        }
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "permissions": [
+        "storage",
+        "activeTab",
+        "scripting",
+        "tabs",
+        "message",
+        "http://127.0.0.1:8898/*"
+    ]
+}

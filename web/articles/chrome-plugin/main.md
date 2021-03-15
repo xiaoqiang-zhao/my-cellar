@@ -149,3 +149,7 @@ string chrome.runtime.getURL();
 [360 翻译的官方文档](http://open.chrome.360.cn/extension_dev/overview.html)
 
 [Chrome插件(扩展)开发全攻略](https://www.cnblogs.com/liuxianan/p/chrome-plugin-develop.html)
+
+[Chrome 扩展开发文档](https://wizardforcel.gitbooks.io/chrome-doc/content/22.html)
+
+[Chrome Extension 开发总结（一）：基础知识](https://ruphi.cn/archives/404/)
