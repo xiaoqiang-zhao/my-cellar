@@ -1,6 +1,6 @@
 {
     "name": "Getting Started Example 5",
-    "description": "点击按钮打开新的网页",
+    "description": "为插件图标加上数字，并调用storage中存储的标量保持它，点击按钮打开新的网页",
     "version": "1.0",
     "manifest_version": 3,
     "action": {
