@@ -51,6 +51,9 @@ npm install module-name --save-dev
 还可以从指定路径安装需要的包：
 
 ```shell
+# 查看 registry
+npm config get registry
+# 设置 registry
 npm --registry=https://registry.npm.taobao.org install cnpm -g
 或者
 npm config set registry https://registry.npm.taobao.org
