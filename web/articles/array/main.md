@@ -167,6 +167,8 @@ array.splice(-1, 2, 'k'); // ['c']
 ['a', 'b', 'c'].slice(-2,-1)  // ["b"]
 ```
 
+如果在 forEach 中调用 splice，那么会出现跳过元素的情况。
+
 ### concat
 
 .concat(array1,array2,...,arrayX)
