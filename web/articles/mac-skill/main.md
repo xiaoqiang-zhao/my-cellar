@@ -151,6 +151,14 @@ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/
 
 实践中，如果你装 nodejs 还是直接在官网下载安装包来的快，如果直接用 brew 安装默认是源码编译安装，需要下载很多依赖，比用安装包要慢很多。
 
+## 关闭自启动软件
+
+用户与群组(Users & Groups) / 登录项(Login Items)，在这里你可以看到自动启动的软件，把不想要的移除掉就可以。
+
+看到这种设置还是挺惊喜的，自己的电脑自己要有掌控感，一些软件的流氓行为是该管管了。
+
+桌面右上角，和电池、输入法、wifi 一起的图标称为状态菜单。有一些软件的插件会一直显示在这里，但是这里没有集中管理的地方，需要借助第三方软件: 收费版 [Bartender](https://www.seagullscientific.com/support/downloads/)，免费软件 (Dozer)[https://github.com/Mortennn/Dozer]。
+
 ## 资料
 
 [16个OS X快捷键小技巧，至少应该了解一半](http://www.macx.cn/thread-2050934-1-1.html)
