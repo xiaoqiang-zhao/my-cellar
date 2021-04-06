@@ -297,8 +297,55 @@ chrome.runtime.onMessage.addListener(request => {
 });
 ```
 
-## 配合使用
+## 模拟事件
 
+background.js 中接收消息
 
+```js
+chrome.runtime.onMessage.addListener((request, sender) => {});
+```
+
+attach，在进入模拟前要 attach，否则模拟会报错。
+
+```js
+chrome.debugger.attach({
+    extensionId: chrome.runtime.id,
+    tabId: sender.tab.id
+}, '1.3', () => {
+    if (chrome.runtime.lastError) {
+        // oh no!
+    }
+    else {
+        // ...
+    }
+});
+```
+
+模拟输入，参数文档: https://chromedevtools.github.io/devtools-protocol/tot/Input/#method-insertText
+
+```js
+chrome.debugger.sendCommand({
+    extensionId: chrome.runtime.id,
+    tabId: sender.tab.id,
+    x: 2,
+    y: 2
+}, "Input.insertText", {
+    text: '456'
+}, () => {
+    
+});
+```
+
+## 跨域请求数据
+
+跨域请求数据的时候会遇到跨域问题，在配置中添加 `host_permissions` 配置:
+
+```json
+{
+    "host_permissions": [
+        "http://127.0.0.1:4000"
+    ]
+}
+```
 
 ## 备忘
