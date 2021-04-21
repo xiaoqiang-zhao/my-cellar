@@ -50,7 +50,7 @@ git commit -a -m "提交的描述信息"
 git commit --amend
 ```
 
-开发过程中很容易忘记 stage 某个文件或填写了不够准确的 commit 描述. --amend就是用来 fix 这些错误的.
+开发过程中很容易忘记 stage 某个文件或填写了不够准确的 commit 描述. --amend 就是用来 fix 这些错误的.
 
 不要对一个公共的 commit 使用 amend，amend 后生成的 commit 是一个全新的 commit, 之前的老的 commit 会从项目历史中被删除. 如果你 amend 了一个被其他开发者使用的 commit, 可能会使其他开发者感到困惑。
 
@@ -73,7 +73,7 @@ git reset --hard commit_id
 如果你想放弃未 commit 的修改，可以用 checkout:
 
 ```shell
- git checkout HEAD 文件路径
+ git reset --soft HEAD^
 ```
 
 有时候我们要在服务器上临时改一写东西做验证，最后不想提交，这时可以用 `git checkout` 命令来撤销未 commit 的文件。
@@ -83,7 +83,7 @@ git checkout .            # 撤销对所有已修改但未提交的文件的修�
 git checkout [filename]   # 撤销对指定文件的修改，[filename]为文件名
 ```
 
-## git log	
+## git log
 
 ```shell
 // 查看 commit日志

@@ -887,6 +887,10 @@ yum install -y git
 
 ## 零散命令
 
+### ifconfig
+
+查看 ip。
+
 ### curl
 
 系统之间可以通过 http 来交互，一个非常有用的命令就是 `curl`，示例如下:
