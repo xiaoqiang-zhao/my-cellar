@@ -185,6 +185,16 @@ chrome.storage.sync.get('taskList', ({
 });
 ```
 
+set 示例代码:
+
+```js
+chrome.storage.sync.set({
+    taskData: data
+}, () => {
+    // ...
+});
+```
+
 这个方法可以做数据持久化，更多 API 传送门: https://developer.chrome.com/docs/extensions/reference/storage/。
 
 ### chrome.action
