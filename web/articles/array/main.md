@@ -209,9 +209,9 @@ array.sort(function (item1, item2) {
     return true;
 }); // [{"order":5},{"order":2},{"order":3},{"order":1}]
 array.sort(function (item1, item2) {
-    // 刚好反向，最后的结果是item1.order < item2.order
-    return item1.order > item2.order;
-    // 更兼容的写法：return item1.order - item2.order;
+    // 从小到大排序
+    return item1.order - item2.order;
+    // 注意，使用 item1.order > item2.order 可能达不到排序的目的
 }); // [{"order":1},{"order":2},{"order":3},{"order":5}]
 ```
 
