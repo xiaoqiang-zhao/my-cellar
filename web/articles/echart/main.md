@@ -163,3 +163,26 @@ series: [
 这里还有一个发现，同样的效果有不同的配置方式，比如上面这个既可以将数据存放在 dataset 中，也可以将数据存放在 series 中。
 
 然后在对比中你会对 echarts 有更深入的理解。
+
+### dataset 与 series
+
+官方说: ECharts 4 开始支持了数据集(dataset)组件用于单独的数据集声明，从而数据可以单独管理，被多个组件复用，并且可以自由指定数据到视觉的映射。
+
+具体怎么复用呢？看这里:
+
+```js
+series: [{
+    type: 'pie', radius: 50, center: ['25%', '50%'],
+    // 这个饼图系列，引用了 index 为 `1` 的 dataset 。也就是，引用了上述
+    // 2011 年那个 "filter" transform 的结果。
+    datasetIndex: 1
+}, {
+    type: 'pie', radius: 50, center: ['50%', '50%'],
+    datasetIndex: 2
+}, {
+    type: 'pie', radius: 50, center: ['75%', '50%'],
+    datasetIndex: 1
+}]
+```
+
+
