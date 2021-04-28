@@ -110,3 +110,47 @@ window.childrenWindow.onload = function () {
 [简单demo](/articles/browser-tab/demo/p.html)
 
 [稍微复杂一点的demo - 结合了Tab](/articles/browser-tab/demo/tab-p.html)
+
+## postMessage 方案
+
+### 父页面向子页面发送 message
+
+父页面打开子页面。
+```js
+var popup = window.open(/* popup details */);
+```
+
+父页面向子页面发送消息
+```js
+const data = {};
+popup.postMessage(data);
+```
+
+子页面接收消息，触发自己的逻辑
+```js
+window.addEventListener('message', event => {
+    // 数据获取方式
+    event.data
+});
+```
+
+### 子页面向父页面发送 message
+
+父页面先定义监听，于子页面的监听类似:
+```js
+window.addEventListener('message', event => {
+    // 数据获取方式
+    event.data
+});
+```
+
+子页面向父页面发送消息:
+```js
+window.opener.postMessage({
+    examinationId
+});
+```
+
+### 注意的点
+
+需要注意的是，子页面刷新后依然可以获取到父页面，并且可以接收到父页面的消息，父页面刷新后无法找到存放在内存中的 popup 变量。
