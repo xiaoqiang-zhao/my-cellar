@@ -45,6 +45,22 @@ grid: {
 
 对应文档: https://echarts.apache.org/zh/option.html#legend
 
+图例的选中，图例展示
+```js
+{
+    // 图例在图标中的位置
+    x: 'center',
+    y: 'top',
+    data: ['name1', 'name2', 'name3'],
+    selected: {
+        name1: true,
+        name3: true
+    }
+}
+```
+
+注意 data 与 selected 中的值需要和 series 中数据的 name 相对应，否则图例不能展示。
+
 ### 柱状图 bar
 
 让柱状图有图例的技巧。基础的柱状图是 x 轴写数字，柱使用同一种颜色。
