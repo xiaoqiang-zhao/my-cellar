@@ -484,6 +484,20 @@ uploadFile(fileData) {
 
 element-ui 的 input 组件可以用 @keyup.enter.native="login" 来监听回车事件
 
+### el-table
+
+表格列宽技巧: 用 min-width 代替 width，在宽屏时间距会比较均匀。
+
+不足之处，如果表格能先按最小宽度分配，剩下的部分宽度再均分就更好了，这样列之间的间距会更均匀。
+
+操纵表格的排序:
+```js
+this.$refs.table.clearSort();
+const prop = 'theKey';
+const order = 'descending'; // or ascending
+this.$refs.table.sort(prop, order);
+```
+
 ### 浏览器的自动填入功能禁用
 
 在普通的 input 上直接 off 就行了
@@ -496,6 +510,66 @@ elementui 上使用 autoComplete="off" 是无效的，用 autoComplete="new-pass
 <el-input v-model="password" auto-complete="new-password"></el-input>
 ```
 
+### 服务启动中
+
+在边缘计算环境下(客户那边放一个树莓派的小盒子)，环境启动可能比较慢，加一个 loading 状态。
+
+```js
+export default {
+    created() {
+        const serviceCode = localStorage.getItem('serviceCode');
+        if (serviceCode !== '1') {
+            this.loading = this.$loading({
+                lock: true,
+                text: '服务启动中，启动成功后将自动刷新页面……',
+                spinner: 'el-icon-loading',
+                customClass: 'login-icon-loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+            });
+        }
+
+        this.rotation();
+    },
+    destroyed() {
+        if (this.setTimeoutId) {
+            window.clearTimeout(this.setTimeoutId);
+        }
+    },
+    methods: {
+
+        /**
+         * 轮训服务器启动状态
+         */
+        rotation() {
+            this.$http.get('/service').then(res => {
+                // service status codes:
+                // status undefined: 0
+                // all services running: 1
+                // scheduler failed: 2
+                const code = res.data.code;
+                if (code === 1 && this.loading) {
+                    this.loading.close();
+                    this.loading = null;
+                }
+                if (localStorage.getItem('serviceCode') !== (code + '')) {
+                    window.location.reload();
+                }
+
+                localStorage.setItem('serviceCode', code);
+            }).finally(() => {
+                this.setTimeoutId = setTimeout(() => {
+                    this.rotation();
+                }, 2000);
+            });
+        }
+    }
+};
+```
+
+通过 `localStorage` 来存储前一个状态。
+
+轮训会一直跑，如果当前轮训到的状态与上一次在 `localStorage` 中存储的状态不同时就刷新页面，这样可以从启动中切换到启动成功，如果遭遇到突然关机，可以已从成功状态切换到 loading 状态。
+
 ## 组建间数据通信
 
 vuex不是万能药，组建之间的数据通信很多情况是不适用的，这里总结一下组件通信的常用方法的适用场景。
@@ -504,20 +578,60 @@ vuex不是万能药，组建之间的数据通信很多情况是不适用的，�
 
 基本是这样的:
 
-事件初始化和生命周期开始
-- beforeCreate
-注入和反射
-- created
-生成 html
-- beforeMount
-将生成的 html 插入到页面中
-- mounted
-数据改变
-- beforeUpdate
-更新虚拟 dom 和实体 dom
-- updated
-开始销毁
-- beforeDestroy
-销毁完成
-- destroyed
+- beforeCreate，事件初始化和生命周期开始
+- created，注入和反射
+- beforeMount，生成 html 后
+- mounted，将生成的 html 插入到页面中
+- beforeUpdate，数据改变
+- updated，更新虚拟 dom 和实体 dom
+- beforeDestroy，销毁前
+- destroyed，销毁完成
 
+## 面试题
+
+### 计算属性 vs 监听属性
+
+computed 与 watch，异同点，举例业务场景。
+
+广播模式 和 观察者模式
+
+### 计算属性 vs 方法
+
+计算属性的缓存特性，方法的每次都调用特性。
+
+### 计算属性的 setter
+
+```js
+computed: {
+  fullName: {
+    // getter
+    get: function () {
+      return this.firstName + ' ' + this.lastName
+    },
+    // setter
+    set: function (newValue) {
+      var names = newValue.split(' ')
+      this.firstName = names[0]
+      this.lastName = names[names.length - 1]
+    }
+  }
+}
+```
+
+### 条件渲染
+
+为什么不推荐 v-for 与 v-if 在同一个节点上使用？
+
+使用了会怎样？v-for 的优先级高于 v-if。
+
+怎么避免 v-for 与 v-if 同时使用？外放 v-if，对 v-for 使用计算属性。
+
+### keep-alive
+
+keep-alive 有什么用？
+
+缓存组件数据和状态，多用在 router 中。
+
+- include - 字符串或正则表达式。只有名称匹配的组件会被缓存。
+- exclude - 字符串或正则表达式。任何名称匹配的组件都不会被缓存。
+- max - 数字。最多可以缓存多少组件实例。
