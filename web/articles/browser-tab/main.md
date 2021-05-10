@@ -140,14 +140,16 @@ window.addEventListener('message', event => {
 ```js
 window.addEventListener('message', event => {
     // 数据获取方式
-    event.data
+    event.data.customId
+    event.data.name
 });
 ```
 
 子页面向父页面发送消息:
 ```js
 window.opener.postMessage({
-    examinationId
+    customId: 'aaaaa',
+    name: 'bbbbbbb'
 });
 ```
 

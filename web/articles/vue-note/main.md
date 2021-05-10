@@ -87,7 +87,7 @@ VueResource 提供了 interceptors 接口，我们可以注入自己的逻辑，
 axios 也有 interceptors，只是将请求前和完成后分成了 request 和 response，用法大同小异：
 
 ```js
-axios.interceptors.request.use(function (config) {
+axios.interceptors.request.use(config => {
     // Do something before request is sent
     return config;
 }, function (error) {
@@ -101,6 +101,25 @@ axios.interceptors.response.use(function (response) {
 }, function (error) {
     // Do something with response error
     return Promise.reject(error);
+});
+```
+
+在 request 中可以全局添加一些参数。注意 data 是两种不同类型的数据，需要用不同的方法添加。
+```js
+axios.interceptors.request.use(config => {
+    config.url = '/api' + config.url;
+    const currentUser = utiles.getCurrentUser();
+    if (currentUser) {
+        config.data = config.data || {};
+        if (config.data instanceof FormData) {
+            config.data.append('bName', currentUser.bCompanyName);
+        }
+        else {
+            config.data.bName = currentUser.bCompanyName;
+        }
+    }
+
+    return config;
 });
 ```
 
