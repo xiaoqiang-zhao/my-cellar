@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>06 变形</title>
+</head>
+
+<body>
+    <canvas id="canvasId"></canvas>
+</body>
+<style>
+  #canvasId {
+    padding: 15px;
+    box-sizing: border-box;
+    background: #999;
+  }
+</style>
+<script type="text/javascript">
+const canvasDom = document.getElementById('canvasId');
+const ctx = canvasDom.getContext('2d');
+
+// draw a simple rectangle, but scale it.
+ctx.save();
+ctx.scale(10, 3);
+ctx.fillRect(1, 10, 10, 10);
+ctx.restore();
+
+// mirror horizontally
+ctx.scale(-1, 1);
+ctx.font = '48px serif';
+ctx.fillText('MDN', -135, 120);
+</script>
+</html>

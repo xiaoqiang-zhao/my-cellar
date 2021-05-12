@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>04-绘制文本</title>
+</head>
+
+<body>
+    <canvas id="canvasId"></canvas>
+</body>
+<style>
+  #canvasId {
+    padding: 10px;
+    box-sizing: content-box;
+    background: #999;
+  }
+</style>
+<script type="text/javascript">
+const canvasDom = document.getElementById('canvasId');
+const ctx = canvasDom.getContext('2d');
+
+const textContent = 'Hello world';
+
+ctx.font = '48px serif';
+var text = ctx.measureText(textContent);
+const textWidth = text.width;
+
+// 并没有 text.height，高度同 font
+
+// 放到中间
+const start = (300 - textWidth) / 2;
+ctx.fillText("Hello world", start, 60);
+ctx.strokeText("Hello world", start, 120);
+</script>
+</html>

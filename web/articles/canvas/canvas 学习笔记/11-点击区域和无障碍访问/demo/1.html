@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>11-点击区域和无障碍访问</title>
+</head>
+
+<body>
+    <canvas id="canvasId" width="500" height="500"></canvas>
+</body>
+<style>
+  #canvasId {
+    box-sizing: border-box;
+    background: #999;
+  }
+</style>
+<script type="text/javascript">
+const canvasDom = document.getElementById('canvasId');
+const ctx = canvasDom.getContext('2d');
+
+ctx.beginPath();
+ctx.arc(70, 80, 10, 0, 2 * Math.PI, false);
+ctx.fill();
+// 已废弃，chrome 不支持
+ctx.addHitRegion({id: "circle"});
+
+canvasDom.addEventListener("mousemove", function(event){
+  if(event.region) {
+    alert("hit region: " + event.region);
+  }
+});
+</script>
+</html>

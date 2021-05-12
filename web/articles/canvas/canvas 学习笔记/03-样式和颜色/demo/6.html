@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>03-样式和颜色</title>
+</head>
+
+<body>
+    <header>
+        线性渐变
+    </header>  
+    <canvas id="canvasId"></canvas>
+</body>
+<style>
+  #canvasId {
+    padding: 15px;
+    box-sizing: border-box;
+    background: #999;
+  }
+</style>
+<script type="text/javascript">
+const canvasDom = document.getElementById('canvasId');
+const ctx = canvasDom.getContext('2d');
+
+// 定义渐变
+var lingrad = ctx.createLinearGradient(0, 0, 0, 150);
+// 定义渐变颜色
+lingrad.addColorStop(0, '#00ABEB');
+lingrad.addColorStop(0.5, '#fff');
+lingrad.addColorStop(1, '#26C000');
+
+// fill 渐变
+// 将渐变作为填充色
+ctx.fillStyle = lingrad;
+// 填充长方形
+ctx.fillRect(10, 10, 130, 130);
+
+// stroke渐变
+ctx.beginPath();
+ctx.moveTo(150, 10);
+ctx.lineTo(150, 140);
+ctx.lineWidth = 2;
+ctx.strokeStyle = lingrad;
+ctx.stroke();
+</script>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>03-样式和颜色</title>
+</head>
+
+<body>
+    <canvas id="canvasId"></canvas>
+</body>
+<style>
+  #canvasId {
+    padding: 15px;
+    box-sizing: border-box;
+    background: #999;
+  }
+</style>
+<script type="text/javascript">
+const canvasDom = document.getElementById('canvasId');
+const ctx = canvasDom.getContext('2d');
+
+var offset = 0;
+
+function draw() {
+  ctx.clearRect(0,0, canvasDom.width, canvasDom.height);
+  // 实线和空白的长度定义
+  ctx.setLineDash([10, 2]);
+  // 偏移量
+  ctx.lineDashOffset = -offset;
+  ctx.strokeRect(10,10, 100, 100);
+}
+
+function march() {
+  offset++;
+  if (offset > 16) {
+    offset = 0;
+  }
+  draw();
+  setTimeout(march, 1000);
+}
+
+march();
+</script>
+</html>

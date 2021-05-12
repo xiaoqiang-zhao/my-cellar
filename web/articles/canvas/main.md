@@ -32,5 +32,7 @@ html2canvas(dom).then(canvas => {
     
 });
 ```
+
 https://html2canvas.hertzen.com/
 
+https://juejin.cn/post/6844903682761310216

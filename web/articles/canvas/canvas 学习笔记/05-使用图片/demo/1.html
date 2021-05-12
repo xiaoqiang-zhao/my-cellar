@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>05-使用图片</title>
+</head>
+
+<body>
+  <header>背景图片:</header>
+  <img src="../images/backdrop.png" alt="">
+  <canvas id="canvasId"></canvas>
+</body>
+<style>
+  #canvasId {
+    padding: 15px;
+    box-sizing: border-box;
+    /* background: #999; */
+    border: 1px solid #999;
+  }
+</style>
+<script type="text/javascript">
+  const canvasDom = document.getElementById('canvasId');
+  const ctx = canvasDom.getContext('2d');
+
+  var img = new Image();
+  img.onload = function () {
+    ctx.drawImage(img, 0, 0);
+    ctx.beginPath();
+    ctx.moveTo(30, 96);
+    ctx.lineTo(70, 66);
+    ctx.lineTo(103, 76);
+    ctx.lineTo(170, 15);
+    ctx.stroke();
+  }
+  // 原始图: https://mdn.mozillademos.org/files/5395/backdrop.png
+  img.src = '../images/backdrop.png';
+</script>
+
+</html>

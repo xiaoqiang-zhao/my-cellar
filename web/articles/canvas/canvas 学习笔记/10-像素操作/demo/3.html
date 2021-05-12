@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>10-像素操作</title>
+</head>
+
+<body>
+    <canvas id="canvasId" width="300" height="150"></canvas>
+    <div>
+      <div id="hovered-color"></div>
+      <div id="selected-color"></div>
+    </div>
+    <div>
+      <button id="toImage">转为图片展示</button>
+      <button id="download">以图片形式下载</button>
+    </div>
+    <div id="image-container">
+
+    </div>
+</body>
+<style>
+  #canvasId {
+    /* padding: 15px; */
+    box-sizing: border-box;
+    background: #999;
+  }
+</style>
+<script type="text/javascript">
+const canvasDom = document.getElementById('canvasId');
+const ctx = canvasDom.getContext('2d');
+
+ctx.translate(75, 75);
+ctx.save();
+
+// 一共画 5 层
+for (var i = 1; i < 6; i++){ // Loop through rings (from inside to out)
+  ctx.save();
+  ctx.fillStyle = 'rgb('+(51*i)+','+(255-51*i)+',255)';
+
+  // 从第一层开始画
+  for (var j = 0; j < i * 6; j++){ // draw individual dots
+    ctx.rotate(Math.PI * 2/(i * 6));
+    ctx.beginPath();
+    ctx.arc(0, i*12.5, 5, 0, Math.PI*2, true);
+    ctx.fill();
+  }
+
+  // 画完一层重置旋转和颜色设置
+  ctx.restore();
+}
+ctx.restore();
+
+var hoveredColor = document.getElementById('hovered-color');
+var selectedColor = document.getElementById('selected-color');
+
+function pick(event, destination) {
+  var x = event.layerX;
+  var y = event.layerY;
+  var pixel = ctx.getImageData(x, y, 1, 1);
+  var data = pixel.data;
+
+    const rgba = `rgba(${data[0]}, ${data[1]}, ${data[2]}, ${data[3] / 255})`;
+    destination.style.background = rgba;
+    destination.textContent = rgba;
+
+    return rgba;
+}
+
+canvasDom.addEventListener('mousemove', function(event) {
+    pick(event, hoveredColor);
+});
+canvasDom.addEventListener('click', function(event) {
+    pick(event, selectedColor);
+});
+
+function toImage() {
+  const imageContainer = document.getElementById('image-container');
+  const img = new Image();
+  img.src = canvasDom.toDataURL('image/png');
+  imageContainer.appendChild(img);
+}
+document.getElementById('toImage').addEventListener('click', toImage);
+
+function download() {
+  const link = document.createElement('a');
+  link.href = canvasDom.toDataURL('image/png');
+  link.download = '下载图片的名称可自定义';
+  link.click();
+  window.URL.revokeObjectURL(link.href);
+}
+document.getElementById('download').addEventListener('click', download);
+</script>
+</html>

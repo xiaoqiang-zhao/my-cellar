@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>10-像素操作</title>
+</head>
+
+<body>
+    <canvas id="canvasId"></canvas>
+    <div id="result"></div>
+    <div id="result2"></div>
+</body>
+<style>
+  #canvasId {
+    box-sizing: border-box;
+    background: #999;
+  }
+</style>
+<script type="text/javascript">
+const canvasDom = document.getElementById('canvasId');
+const ctx = canvasDom.getContext('2d');
+
+// 绘制一个正方形
+ctx.fillStyle = 'red';
+ctx.fillRect(10, 20, 30, 40);
+
+var imageData = ctx.getImageData(10, 20, 1, 1);
+console.log(imageData);
+// 这样的一个数据: 
+// {
+//   "data":{
+//     "0":255,
+//     "1":0,
+//     "2":0,
+//     "3":255
+//   }
+// }
+document.getElementById('result').innerHTML = '单点的 imageData:' + JSON.stringify(imageData);
+
+var imageData2 = ctx.getImageData(9, 20, 2, 1);
+console.log(imageData2);
+// {
+//   "data": {
+//     "0":0,
+//     "1":0,
+//     "2":0,
+//     "3":0,
+//     "4":255,
+//     "5":0,
+//     "6":0,
+//     "7":255
+//   }
+// }
+document.getElementById('result2').innerHTML = '双的 imageData:' + JSON.stringify(imageData2);
+
+</script>
+</html>

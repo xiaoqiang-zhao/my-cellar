@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>03-样式和颜色</title>
+</head>
+
+<body>
+    <header>
+      辐射状渐变
+    </header>  
+    <canvas id="canvasId"></canvas>
+</body>
+<style>
+  #canvasId {
+    padding: 15px;
+    box-sizing: border-box;
+    background: #999;
+  }
+</style>
+<script type="text/javascript">
+const canvasDom = document.getElementById('canvasId');
+const ctx = canvasDom.getContext('2d');
+
+// 创建渐变
+var radgrad = ctx.createRadialGradient(45, 45, 10, 52, 50, 30);
+radgrad.addColorStop(0, '#A7D30C');
+radgrad.addColorStop(0.9, '#019F62');
+radgrad.addColorStop(1, 'rgba(1,159,98,0)');
+
+// 画图形
+ctx.fillStyle = radgrad;
+ctx.fillRect(0, 0, 150, 150);
+</script>
+</html>

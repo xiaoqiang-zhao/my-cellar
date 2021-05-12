@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>05-使用图片</title>
+</head>
+
+<body>
+  <header>原始图片:</header>
+  <img src="../images/flower.jpeg" alt="">
+  <header> 裁剪 </header>
+  <canvas id="canvasId"></canvas>
+</body>
+<style>
+  #canvasId {
+    padding: 15px;
+    box-sizing: border-box;
+    /* background: #999; */
+    border: 1px solid #999;
+  }
+</style>
+<script type="text/javascript">
+  const canvasDom = document.getElementById('canvasId');
+  canvasDom.width = 800;
+  canvasDom.height = 800;
+  const ctx = canvasDom.getContext('2d');
+
+  var img = new Image();
+  img.onload = function () {
+    ctx.drawImage(img, 0, 0);
+
+    // 切图             切片起始点   宽度切掉 75      高度不切     渲染位置             渲染大小
+    ctx.drawImage(img, 0, 0,      img.width - 75, img.height, 0, img.height + 10, img.width - 75, img.height);
+  }
+  img.src = '../images/flower.jpeg';
+  // 原始图: https://mdn.mozillademos.org/files/5395/backdrop.png
+</script>
+
+</html>

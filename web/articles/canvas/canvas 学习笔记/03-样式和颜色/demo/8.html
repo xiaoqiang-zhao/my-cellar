@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>03-样式和颜色</title>
+</head>
+
+<body>
+    <header>
+      图案样式 Patterns
+    </header>  
+    <canvas id="canvasId"></canvas>
+    <p>
+      单独图片
+    </p>
+    <img src="https://mdn.mozillademos.org/files/222/Canvas_createpattern.png" alt="">
+</body>
+<style>
+  #canvasId {
+    padding: 15px;
+    box-sizing: border-box;
+    background: #999;
+  }
+</style>
+<script type="text/javascript">
+const canvasDom = document.getElementById('canvasId');
+const ctx = canvasDom.getContext('2d');
+
+// 创建新 image 对象，用作图案
+var img = new Image();
+img.src = 'https://mdn.mozillademos.org/files/222/Canvas_createpattern.png';
+img.onload = function() {
+  // 创建图案
+  var ptrn = ctx.createPattern(img, 'repeat');
+  ctx.fillStyle = ptrn;
+  ctx.fillRect(0, 0, 300, 150);
+}
+</script>
+</html>

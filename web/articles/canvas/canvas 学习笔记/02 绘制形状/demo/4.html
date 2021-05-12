@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>02-绘制形状-线</title>
+</head>
+
+<body>
+    <canvas id="canvasId"></canvas>
+</body>
+<style>
+  canvas {
+    width: 300px;
+    height: 200px;
+    padding: 15px;
+    box-sizing: border-box;
+    background: #999;
+  }
+</style>
+<script type="text/javascript">
+const canvasDom = document.getElementById('canvasId');
+const ctx = canvasDom.getContext('2d');
+ctx.beginPath();
+// 填充三角形
+ctx.beginPath();
+ctx.moveTo(25, 25);
+ctx.lineTo(105, 25);
+ctx.lineTo(25, 105);
+ctx.fill();
+
+// 描边三角形
+ctx.beginPath();
+ctx.moveTo(125, 125);
+ctx.lineTo(125, 45);
+ctx.lineTo(45, 125);
+ctx.closePath();
+ctx.stroke();
+</script>
+</html>
