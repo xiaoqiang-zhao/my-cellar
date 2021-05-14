@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>02-绘制形状-path</title>
+    <title>02-绘制形状-椭圆</title>
 </head>
 
 <body>
@@ -23,27 +23,27 @@
   canvasDom.height = '200';
 
   const ctx = canvasDom.getContext('2d');
-  const rectangle = new Path2D();
-  rectangle.rect(10, 10, 50, 50);
 
-  const circle = new Path2D();
-  circle.moveTo(125, 35);
-  circle.arc(100, 35, 25, 0, 2 * Math.PI);
+  // 画圆
+  const path1 = new Path2D();
+  path1.arc(41, 41, 40, 0, 2 * Math.PI);
+  ctx.stroke(path1);
+  ctx.save();
 
-  ctx.stroke(rectangle);
-  ctx.fill(circle);
-
-  // 试试绘入后擦除
-  const aPath = new Path2D();
-  aPath.rect(10, 80, 50, 50);
-  ctx.fillStyle = 'rgb(200,0,0)';
-  ctx.fill(aPath);
-
-  const bPath = new Path2D();
-  bPath.rect(40, 110, 50, 50);
-  ctx.fillStyle = 'rgba(0, 0, 200, 0.5)';
-  ctx.fill(bPath);
-  // 擦除怎么写？
-  
+  // 画椭圆
+  ctx.save();
+  const xHalfAxis = 80;
+  const yHalfAxis = 40;
+  const r = xHalfAxis > yHalfAxis ? xHalfAxis : yHalfAxis;
+  const ratioX = xHalfAxis / r;
+  const ratioY = yHalfAxis / r;
+  ctx.scale(ratioX, ratioY);  // 变形
+  ctx.beginPath();
+  ctx.arc( xHalfAxis / ratioX, yHalfAxis / ratioY, r, 0, 2 * Math.PI);
+  ctx.closePath();
+  // 线的颜色
+  ctx.strokeStyle = "rgba(255, 0, 0, 0.8)";
+  ctx.stroke();
+  ctx.restore();
 </script>
 </html>

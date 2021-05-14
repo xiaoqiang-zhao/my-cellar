@@ -8,7 +8,7 @@
 <body>
     <canvas id="canvasId"></canvas>
     <div>
-      通过线来填充图形
+      填充与描边图形
     </div>
 </body>
 <style>
@@ -27,6 +27,8 @@ ctx.beginPath();
 ctx.moveTo(75, 50);
 ctx.lineTo(100, 75);
 ctx.lineTo(100, 25);
+ctx.closePath();
+// 填充图形
 ctx.fill();
 </script>
 </html>

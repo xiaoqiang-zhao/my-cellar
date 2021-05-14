@@ -15,9 +15,7 @@ ctx.clearRect(45, 45, 60, 60);
 ctx.strokeRect(50, 50, 50, 50);
 ```
 
-## 绘制椭圆
-
-
+1.html
 
 ## 绘制路径
 
@@ -50,6 +48,8 @@ ctx.fill();
 
 核心: 路径(path) 与 填充(fill)。
 
+2.html
+
 ### 以线画笑脸图
 
 当 canvas 初始化或者 beginPath() 调用后，你通常会使用 moveTo() 函数设置起点。
@@ -74,6 +74,8 @@ ctx3.stroke();
 
 启示: 图形和路径都不会直接出现在画布上，需要调用 fill 函数去填充 或者 stroke 函数去描边。
 
+3.html
+
 ### 线
 
 绘制两个三角形，一个是填充的，另一个是描边的
@@ -96,6 +98,8 @@ ctx.closePath();
 ctx.stroke();
 ```
 
+4.html
+
 ### 圆弧
 
 arc(x, y, radius, startAngle, endAngle, anticlockwise)
@@ -103,6 +107,28 @@ arc(x, y, radius, startAngle, endAngle, anticlockwise)
 
 arcTo(x1, y1, x2, y2, radius)
 根据给定的控制点和半径画一段圆弧，再以直线连接两个控制点。
+
+### 椭圆
+
+```js
+ctx.save();
+const xHalfAxis = 80;
+const yHalfAxis = 40;
+const r = xHalfAxis > yHalfAxis ? xHalfAxis : yHalfAxis;
+const ratioX = xHalfAxis / r;
+const ratioY = yHalfAxis / r;
+ctx.scale(ratioX, ratioY);  // 变形
+ctx.beginPath();
+ctx.arc( xHalfAxis / ratioX, yHalfAxis / ratioY, r, 0, 2 * Math.PI);
+ctx.closePath();
+// 线的颜色
+ctx.strokeStyle = "rgba(255, 0, 0, 0.8)";
+ctx.stroke();
+ctx.restore();
+```
+5.html
+
+http://www.alloyteam.com/2015/07/canvas-hua-tuo-yuan-di-fang-fa/
 
 ### 贝塞尔曲线
 
@@ -135,5 +161,4 @@ ctx.stroke(rectangle);
 ctx.fill(circle);
 ```
 
-
-
+6.html

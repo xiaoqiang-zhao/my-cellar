@@ -36,3 +36,5 @@ html2canvas(dom).then(canvas => {
 https://html2canvas.hertzen.com/
 
 https://juejin.cn/post/6844903682761310216
+
+http://www.alloyteam.com/2015/07/canvas-hua-tuo-yuan-di-fang-fa/
