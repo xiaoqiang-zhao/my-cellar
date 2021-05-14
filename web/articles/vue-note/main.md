@@ -448,7 +448,7 @@ upload 是单文件传送的
 
 before-upload 事件中修改 data 无效，要想修改 data 用下面的自定义上传方法 http-request
 
-file-list 参数需要在事件中手动维护，组件并不会自动更新数据
+file-list 参数组件并不会自动更新数据，需要在事件中手动维护，推荐在 on-change 中直接赋值更新，也可以通过 ref 拿到组件的 uploadFiles 就是 file-list。
 
 http-request 函数可以自定义上传逻辑
 
@@ -459,18 +459,14 @@ http-request 函数可以自定义上传逻辑
     class="upload-demo"
     ref="invoiceUploadComponent"
     action="/api/upload/invoice"
+    :http-request="uploadFile"
     :file-list="invoiceFileList"
-    :on-change="beforeUploadInvoiceFiles"
-    :before-remove="beforeRemoveInvoiceFiles"
-    :auto-upload="false"
-    :data="{uid: invoiceFileListId}"
+    :data="{key: 'invoice'}"
     multiple>
     <i class="el-icon-upload"></i>
     <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
     <div class="el-upload__tip" slot="tip">
-        <div>提示:</div>
-        <div>1. 票据包含增值税发票、机打发票和餐票</div>
-        <div>2. 务必保证票据文字清晰可见，若有明显折痕请手动输入，否则影响出账结果</div>
+        <div>提示: XXX</div>
     </div>
 </el-upload>
 ```
@@ -498,6 +494,49 @@ uploadFile(fileData) {
 ```
 
 参考网站: https://www.jianshu.com/p/0a0d2ba76c3c
+
+如果你想自定义上传失败，可以通过上面的自定义提交事件来控制。
+
+```js
+uploadFile(fileData) {
+    const formData = new FormData();
+    // 键值
+    formData.append('file', fileData.file);
+    formData.append('uid', fileData.file.uid);
+
+    this.$http.post(
+        fileData.action,
+        formData,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+    ).then(res => {
+        // 从列表中删除上传失败的文件
+        const uploadFiles = this.$refs.theComponentName.uploadFiles;
+        const index = uploadFiles.findIndex(item => item.uid === fileData.uid);
+        uploadFiles.splice(index, 1);
+    }).catch(err => {
+        console.error(err);
+    });
+},
+```
+
+此方法会造成页面抖动，暂时还没有很好的办法解决。
+
+思考: 这应该是 API 设计的问题，有这样几个问题:
+1. file-list 只能用来做数据初始化，上传成功个删除不自动更新；
+2. on-change、on-error、on-success、http-request 这些明显是方法，为什么要定义为 prop；
+3. 在执行顺序上，设置了自定义上传方法 http-request，依然会先调用 on-change 等方法，并且更新数据和 dom。
+
+如果由我来设计，我的初步方案是:
+1. file-list 采用 v-model，要双向绑定自动更新；
+2. 将 on-change 等定义为方法；
+3. 如果定义了 http-request，还需要一个参数定义是否手动触发 on-change、on-error、on-success 这些方法；
+4. 如果不手动触发，通过返回 promise 对象来决定触发哪一个。
+
+参考网站: https://blog.csdn.net/Missying55/article/details/115008761
 
 ### el-input 原生事件
 
