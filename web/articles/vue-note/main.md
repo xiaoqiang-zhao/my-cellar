@@ -393,6 +393,15 @@ export default {
       // ... 略
     }
 ```
+## 隐秘特性
+
+### watch
+
+watch 的属性触发先后顺序是什么？哪个属性先赋值就先触发吗，并不是！
+
+哪个属性在 watch 中先定义，先触发。
+
+这个设定好诡异，watch 是对象，其属性应该是无顺序的，感觉是设计上的瑕疵。
 
 ## 技巧
 
@@ -432,6 +441,12 @@ Vue.component('base-checkbox', {
 });
 <base-checkbox v-model="lovingVue"></base-checkbox>
 ```
+
+### 在 js 中怎么使用 this.$http
+
+有的时候我们会用一个独立的 js 处理复杂数据，以减少 vue 文件中的代码数量。在请求服务端数据时，在 vue 文件中我们可以直接使用 `this.$http` 来获取数据，但是到了独立 js 中没有了 vue 对象怎么办？
+
+可以直接引入 axios，命令: `import axios from 'axios'`，如果你明白 require 与 ES6 Modules 的区别，很容易想到这里的 axios 与 this.$http 是一样的，在 main.js 中的全部配置都生效。
 
 ### 定制组件样式
 
@@ -644,6 +659,8 @@ vuex不是万能药，组建之间的数据通信很多情况是不适用的，�
 - updated，更新虚拟 dom 和实体 dom
 - beforeDestroy，销毁前
 - destroyed，销毁完成
+
+记忆方式: create -> mounte -> destroye
 
 ## 面试题
 
