@@ -33,6 +33,18 @@ html2canvas(dom).then(canvas => {
 });
 ```
 
+## 技巧
+
+### 
+
+如果设置了 scale，用 arc 画圆的时候可能会断断续续并且带毛刺，我们可以动态的根据 scale 的值来改变 lineWidth 值:
+
+```js
+ctx.lineWidth = Number.parseInt(1 / scaleValue) + 0.5;
+```
+
+## 参考
+
 https://html2canvas.hertzen.com/
 
 https://juejin.cn/post/6844903682761310216
