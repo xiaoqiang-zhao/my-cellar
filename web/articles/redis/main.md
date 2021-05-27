@@ -118,30 +118,38 @@ Redis 的适用场景是快速写入和读取结构简单的数据。
 
 npm 包 [redis](https://www.npmjs.com/package/redis) 能满足我们的全部需求。先看连接数据库：
 
-    const redis = require('redis');
-    const client = redis.createClient();
-    client.on('ready', function () {
-        console.log('Redis 连接成功：');
-    });
+```js
+const redis = require('redis');
+const client = redis.createClient();
+client.on('ready', function () {
+    console.log('Redis 连接成功：');
+});
+```
 
 然后是获取数据库中的一条数据：
 
-    client.get('foo', (err, val) => {
-        console.log('get value:', val);
-    });
+```js
+client.get('foo', (err, val) => {
+    console.log('get value:', val);
+});
+```
 
 上面用的是回调方式，如果想要使用 Promise 方式，需要引入库 bluebird：
 
-    const redis = require('redis');
-    const bluebird = require('bluebird');
-    bluebird.promisifyAll(redis.RedisClient.prototype);
-    bluebird.promisifyAll(redis.Multi.prototype);
+```js
+const redis = require('redis');
+const bluebird = require('bluebird');
+bluebird.promisifyAll(redis.RedisClient.prototype);
+bluebird.promisifyAll(redis.Multi.prototype);
+```
 
 这样然后将回调方式改成 Promise 方式如下：
 
-    client.getAsync('foo').then(val => {
-        console.log('get value:', val);
-    });
+```js
+client.getAsync('foo').then(val => {
+    console.log('get value:', val);
+});
+```
 
 示例到此为止，其余的操作和命令行一致。
 
