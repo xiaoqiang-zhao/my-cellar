@@ -293,6 +293,14 @@ server {
 }
 ```
 
+### 上传限制
+
+默认上传限制在一兆，可能不够用，需要在 http 下添加配置:
+
+```config
+client_max_body_size 10m;
+```
+
 ### HTML5 History 模式
 
 首先需要将页面路由以固定的单词开头，比如 "/pages"，然后将全部以 "/pages" 开头的请求打到 index.html 上，配置如下:
@@ -340,6 +348,23 @@ http {
 三、IP Hash，绑定处理请求的服务器。第一次请求时，根据该客户端的IP算出一个HASH值，将请求分配到集群中的某一台服务器上。后面该客户端的所有请求，都将通过HASH算法，找到之前处理这台客户端请求的服务器，然后将请求交给它来处理。
 
 后两种策略，配置稍微复杂这里不展开，想了解详细移步参考文章。
+
+## 怎么知道装没装 nginx
+
+### mac
+
+```shell
+ps -ef | grep nginx
+```
+
+安装目录就在: /usr/local/opt/nginx/bin/nginx。
+
+```shell
+nginx -t
+```
+配置文件目录就在: /usr/local/etc/nginx/。
+
+https://blog.csdn.net/aa390481978/article/details/100882728
 
 ## 问题排查思路
 
