@@ -448,6 +448,15 @@ Vue.component('base-checkbox', {
 
 可以直接引入 axios，命令: `import axios from 'axios'`，如果你明白 require 与 ES6 Modules 的区别，很容易想到这里的 axios 与 this.$http 是一样的，在 main.js 中的全部配置都生效。
 
+代码:
+```js
+import axios from 'axios'
+
+axios.get('/api/xxx').then(res => {
+    
+});
+```
+
 ### 定制组件样式
 
 覆盖引入组件内部Dom节点样式由两种方式：
