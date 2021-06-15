@@ -459,10 +459,73 @@ axios.get('/api/xxx').then(res => {
 
 ### 定制组件样式
 
-覆盖引入组件内部Dom节点样式由两种方式：
+覆盖引入组件内部 Dom 节点样式由两种方式：
 
  - 1、写单独的样式文件，然后引入；
  - 2、单独添加一个不带 scoped 属性的 style 标签。
+
+### dll 优化
+
+webpack.dll.conf.js
+
+```js
+const path = require('path');
+const webpack = require('webpack');
+
+module.exports = {
+    entry: {
+        vue: ['vue', 'vue-router'],
+        ui: ['element-ui']
+    },
+    output: {
+        path: path.join(__dirname, '../src/dll/'),
+        filename: '[name].dll.js',
+        library: '[name]'
+    },
+    plugins: [
+        new webpack.DllPlugin({
+            // 打包dll存放的位置，之所以不放在dist下，是因为第三方库不需要每次都打包
+            path: path.join(__dirname, '../src/dll/', '[name]-manifest.json'),
+            name: '[name]'
+        }),
+        new webpack.optimize.UglifyJsPlugin()
+    ]
+};
+```
+
+webpack.prod.conf.js
+
+```js
+const webpackConfig = merge(baseWebpackConfig, {
+    plugins: [
+        new webpack.DllReferencePlugin({
+            manifest: require('../src/dll/ui-manifest.json')
+        }),
+        new webpack.DllReferencePlugin({
+            manifest: require('../src/dll/vue-manifest.json')
+        }),
+        // http://vuejs.github.io/vue-loader/en/workflow/production.html
+        new webpack.DefinePlugin({
+            'process.env': env
+        }),
+        new AutoDllPlugin({
+            inject: true,
+            debug: true,
+            filename: '[name]_[hash].js',
+            path: './dll',
+            entry: {
+                vendor: [
+                    'vue',
+                    'vue-router',
+                    'ui'
+                ]
+            }
+        })
+    ]
+});
+```
+
+注意 webpack.dll.conf.js 中 entry 与 webpack.prod.conf.js 中 vendor 的统一性。
 
 ## element-ui 部分
 
