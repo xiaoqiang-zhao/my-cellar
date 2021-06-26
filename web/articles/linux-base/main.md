@@ -887,6 +887,20 @@ yum install -y git
 
 ## 零散命令
 
+### ls
+
+vim ~/.bash_profile
+
+输入一下内容
+
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF
+
+保存完成之后
+
+source ~/.bash_profile
+
 ### ifconfig
 
 查看 ip。
