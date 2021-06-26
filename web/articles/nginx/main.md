@@ -359,10 +359,12 @@ ps -ef | grep nginx
 
 安装目录就在: /usr/local/opt/nginx/bin/nginx。
 
+启动: /usr/local/opt/nginx/bin/nginx
+
 ```shell
 nginx -t
 ```
-配置文件目录就在: /usr/local/etc/nginx/。
+配置文件目录就在: /usr/local/etc/nginx/nginx.conf。
 
 https://blog.csdn.net/aa390481978/article/details/100882728
 
