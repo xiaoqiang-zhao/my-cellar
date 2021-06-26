@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>07-2合成与裁剪</title>
+</head>
+
+<body>
+    <canvas id="canvasId"></canvas>
+</body>
+<style>
+  #canvasId {
+    padding: 15px;
+    box-sizing: border-box;
+    background: #999;
+  }
+</style>
+<script type="text/javascript">
+const canvasDom = document.getElementById('canvasId');
+const ctx = canvasDom.getContext('2d');
+
+// 画一个正方形
+ctx.fillRect(150, 50, 150, 50);
+
+const path = new Path2D();
+// 圆 路径
+path.arc(150, 75, 75, 0, 2 * Math.PI);
+// x坐标，y坐标，半径，弧度起始，弧度终点
+
+ctx.clip(path);
+
+// 画一个正方形
+ctx.fillRect(0, 0, 150, 150);
+</script>
+</html>
