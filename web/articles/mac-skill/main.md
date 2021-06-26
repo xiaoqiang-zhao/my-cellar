@@ -119,10 +119,59 @@ FireFox 的 HostAdmin 插件很好用，可以方便的切换 host 配置。
 
 ## 开发工具推荐
 
-- ZSH 终端神器，[传送门](http://blog.163.com/qy_gong/blog/static/1718738792013102992830558/)；
+- ZSH 终端神器，oh-my-zsh；
 - 前端神器 WebStorm，参见另一篇文章 [WebStorm 使用文档](/index.html#!/articles/webstorm)
 - 代理工具 [Charles](https://www.charlesproxy.com/)
 - 发送网页HTTP请求的工具，请求[Postman](https://www.getpostman.com/apps)
+
+## 开发环境配置
+
+### Xcode
+
+先安装 Xcode。在 macOS 从 10 升级到 11 的时候系统升不上去，Xcode 无法安装，搞了很久没搞定，后来找公司的 IT 通过重装系统才搞定，据说就算升级成功也可能会出现开机黑屏等问题。
+
+### brew + git + wget
+
+brew 是很好用的包管理工具，安装教程: https://zhuanlan.zhihu.com/p/90508170
+
+安装 git: `brew install git`。
+
+安装 wget: `brew install wget`。
+
+### oh-my-zsh
+
+来一个 oh-my-zsh: `sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"`。你可能会遇到国内下特有的的 SSL_ERROR 问题，可以尝试源码安装: `git clone https://gitee.com/mirrors/oh-my-zsh.git` 到 tooles 下执行 `sh install.sh`。
+
+参考: https://blog.csdn.net/sinat_42483341/article/details/117040143?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-0&spm=1001.2101.3001.4242
+
+由于某些不可说的原因，git 上的资源经常下载不到，配置 DNS 可以提速:
+1. 修改 /etc/hosts
+2. 内容:
+140.82.112.4 github.com
+199.232.69.194 github.global.ssl.fastly.net
+185.199.108.153 assets-cdn.github.com
+185.199.109.153 assets-cdn.github.com
+185.199.110.153 assets-cdn.github.com
+185.199.111.153 assets-cdn.github.com
+3. DNS ip 可能会变，查询地址:
+https://github.com.ipaddress.com/
+https://fastly.net.ipaddress.com/github.global.ssl.fastly.net
+https://github.com.ipaddress.com/assets-cdn.github.com
+4. cmd 刷新 DNS 缓存(一般不用)
+ipconfig /flushdns
+
+安装完后配置主题:
+
+```shell
+vi ~/.zshrc
+# 修改主题为 ZSH_THEME="af-magic"
+# 退出保存
+
+# 是配置生效
+source ~/.zshrc
+```
+
+打开终端，在偏好设置中选择黑色半透明主题，调整文字大小。
 
 ## 设计相关
 
