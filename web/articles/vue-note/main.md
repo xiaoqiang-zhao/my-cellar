@@ -527,6 +527,8 @@ const webpackConfig = merge(baseWebpackConfig, {
 
 注意 webpack.dll.conf.js 中 entry 与 webpack.prod.conf.js 中 vendor 的统一性。
 
+参考: https://github.com/ElemeFE/element/issues/8242
+
 ## element-ui 部分
 
 ### upload 组件开发备忘
