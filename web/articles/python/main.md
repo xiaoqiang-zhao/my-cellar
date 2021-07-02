@@ -47,7 +47,7 @@ else:
     print("a 不为整数")
 ```
 
-IDE 可以用我熟悉的 VS Code，可以断点调试。
+IDE 可以用我熟悉的 VS Code，可以断点调试。(pycharm 也是不错的选择)
 
 ## VS Code
 
@@ -325,26 +325,145 @@ print(L[-2:])
 # ['Bob', 'Jack']
 ```
 
+迭代。
 
+```python
+for i, value in enumerate(['A', 'B', 'C']):
+```
+
+列表生成式。
+
+```python
+a = list(range(1, 11))
+print(a)
+# [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+b = [x * x for x in range(1, 11)]
+print(b)
+# [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+
+c = [x * x for x in range(1, 11) if x % 2 == 0]
+print(c)
+# [4, 16, 36, 64, 100]
+```
+
+generator 生成器。每次调用 next(g)，就计算出g的下一个元素的值，直到计算到最后一个元素，没有更多的元素时，抛出 StopIteration 的错误。
+
+```python
+g = (x * x for x in range(10))
+next(g)
+# 0
+for n in g:
+    print(n)
+```
+
+## 函数式编程
+
+`map()` 函数接收两个参数，一个是函数，一个是 `Iterable`，map 将传入的函数依次作用到序列的每个元素，并把结果作为新的 Iterator 返回。
+
+```python
+def f(x):
+    return x * x
+
+r = map(f, [1, 2, 3, 4, 5, 6, 7, 8, 9])
+# [1, 4, 9, 16, 25, 36, 49, 64, 81]
+```
+
+reduce。
+
+```python
+from functools import reduce
+def fn(x, y):
+    return x * 10 + y
+
+a = reduce(fn, [1, 3, 5, 7, 9])
+print(a)
+# 13579
+```
+
+filter。
+
+```python
+def is_odd(n):
+    return n % 2 == 1
+
+list(filter(is_odd, [1, 2, 4, 5, 6, 9, 10, 15]))
+# 结果: [1, 5, 9, 15]
+```
+
+sorted。
+
+```python
+# 按成绩从高到低排序：
+
+L = [('Bob', 75), ('Adam', 92), ('Bart', 66), ('Lisa', 88)]
+
+def by_score(t):
+    return t[1]
+
+L2 = sorted(L, key=by_score)
+print(L2)
+# [('Bart', 66), ('Bob', 75), ('Lisa', 88), ('Adam', 92)]
+```
+
+高阶函数除了可以接受函数作为参数外，还可以把函数作为结果值返回。闭包。
+
+```python
+def lazy_sum(*args):
+    ax = None
+    def sum():
+        nonlocal ax
+        if ax != None:
+            print('cache')
+            return ax
+        else:
+            ax = 0
+            for n in args:
+                ax = ax + n
+            print('count')
+            return ax
+    return sum
+
+sum = lazy_sum(1, 2)
+
+print(sum())
+# count 3
+print(sum())
+# cache 3
+```
+
+匿名函数 lambda。
+
+```python
+list(map(lambda x: x * x, [1, 2, 3, 4, 5, 6, 7, 8, 9]))
+[1, 4, 9, 16, 25, 36, 49, 64, 81]
+```
+
+```python
+
+```
+
+```python
+
+```
+
+```python
+
+```
+
+```python
+
+```
+
+```python
+
+```
 
 ```python
 
 ```
 
 
-```python
-
-```
-
-
-```python
-
-```
-
-
-```python
-
-```
 ## Django
 
 Django 已经成为 web 开发者的首选框架
