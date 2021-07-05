@@ -439,16 +439,63 @@ list(map(lambda x: x * x, [1, 2, 3, 4, 5, 6, 7, 8, 9]))
 [1, 4, 9, 16, 25, 36, 49, 64, 81]
 ```
 
-```python
+在代码运行期间动态增加功能的方式，称之为“装饰器”（Decorator）。
 
+```python
+def log(func):
+    def wrapper(*args, **kw):
+        print('call %s():' % func.__name__)
+        return func(*args, **kw)
+    return wrapper
+
+@log
+def now():
+    print('2015-3-25')
+
+now()
 ```
 
-```python
+其实就是给函数加一层执行代码。
 
+偏函数: 通过设定参数的默认值，可以降低函数调用的难度。而偏函数也可以做到这一点。
+
+```python
+import functools
+def int2(x, base=2):
+    return int(x, base)
+
+a = int2('10')
+int3 = functools.partial(int, base=8)
+b = int3('10')
+print(a, b)
+# 2 8
 ```
 
-```python
+## 模块
 
+编写一个hello的模块：
+
+```python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+' a test module '
+
+__author__ = 'Xiaoqiang Zhao'
+
+import sys
+
+def test():
+    args = sys.argv
+    if len(args)==1:
+        print('Hello, world!')
+    elif len(args)==2:
+        print('Hello, %s!' % args[1])
+    else:
+        print('Too many arguments!')
+
+if __name__=='__main__':
+    test()
 ```
 
 ```python
