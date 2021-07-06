@@ -498,6 +498,179 @@ if __name__=='__main__':
     test()
 ```
 
+遗留问题: 在大项目中，多层目录怎么引入自定义模块？
+
+当我们试图加载一个模块时，Python会在指定的路径下搜索对应的.py文件，如果找不到，就会报错。默认情况下，Python解释器会搜索当前目录、所有已安装的内置模块和第三方模块，搜索路径存放在sys模块的path变量中
+
+```python
+import sys
+sys.path
+# ['/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.8/lib/python3.8/site-packages']
+```
+
+如果我们要添加自己的搜索目录：
+
+```python
+import sys
+sys.path.append('/Users/michael/my_py_scripts')
+```
+
+遗留问题: 不同路径下有同名文件怎么办？
+
+## 面向对象编程
+
+面向对象最重要的概念就是类（Class）和实例（Instance），必须牢记类是抽象的模板，比如Student类，而实例是根据类创建出来的一个个具体的“对象”，每个对象都拥有相同的方法，但各自的数据可能不同。
+
+```python
+class Student(object):
+    pass
+
+bart = Student()
+```
+
+特殊的 `__init__` 方法，负责初始化。
+
+```python
+class Student(object):
+
+    def __init__(self, name, score):
+        self.name = name
+        self.score = score
+
+bart = Student('Bart Simpson', 59)
+```
+
+面向对象编程的一个重要特点就是数据封装。
+
+```python
+class Student(object):
+
+    def __init__(self, name, score):
+        self.name = name
+        self.score = score
+
+    def print_score(self):
+        print('%s: %s' % (self.name, self.score))
+```
+
+在Class内部，可以有属性和方法，而外部代码可以通过直接调用实例变量的方法来操作数据，这样，就隐藏了内部的复杂逻辑。
+
+变量名类似__xxx__的，也就是以双下划线开头，并且以双下划线结尾的，是特殊变量，特殊变量是可以直接访问的，不是private变量。
+
+双下划线开头的实例变量是不是一定不能从外部访问呢？其实也不是。不能直接访问__name是因为Python解释器对外把__name变量改成了_Student__name，所以，仍然可以通过_Student__name来访问__name变量：
+
+但是Python本身没有任何机制阻止你干坏事，一切全靠自觉。
+
+```python
+class Student(object):
+
+    def __init__(self, name, score):
+        self.__name = name
+        self.__score = score
+
+    def print_score(self):
+        print('%s: %s' % (self.__name, self.__score))
+
+a = Student('xiaoqiang', 60)
+
+a.print_score()
+
+# error
+# print(a.__score)
+
+# 不规范的使用
+print(a._Student__score)
+```
+
+继承。
+
+```python
+class Animal(object):
+    def run(self):
+        print('Animal is running...')
+
+class Dog(Animal):
+    pass
+```
+
+多态。
+
+```python
+class Animal(object):
+    def run(self):
+        print('Animal is running...')
+
+class Dog(Animal):
+    def run(self):
+        print('Dog is running...')
+```
+
+isinstance。
+
+```python
+c = Dog()
+
+isinstance(c, Animal)
+# True
+
+b = Animal()
+isinstance(b, Dog)
+# False
+```
+
+当我们拿到一个对象的引用时，如何知道这个对象是什么类型、有哪些方法呢？使用type()
+
+```python
+type(123)
+# <class 'int'>
+
+type(123) == int
+# True
+```
+
+能用type()判断的基本类型也可以用isinstance()判断。并且还可以判断一个变量是否是某些类型中的一种，比如下面的代码就可以判断是否是list或者tuple。
+
+```python
+isinstance([1, 2, 3], (list, tuple))
+# True
+```
+
+如果要获得一个对象的所有属性和方法，可以使用dir()函数，它返回一个包含字符串的list，比如，获得一个str对象的所有属性和方法。
+
+```python
+dir('ABC')
+# ['__add__', '__class__',..., '__subclasshook__', 'capitalize', 'casefold',..., 'zfill']
+```
+
+类似__xxx__的属性和方法在Python中都是有特殊用途的，比如__len__方法返回长度。在Python中，如果你调用len()函数试图获取一个对象的长度，实际上，在len()函数内部，它自动去调用该对象的__len__()方法，所以，下面的代码是等价的：
+
+```python
+len('ABC')
+# 3
+'ABC'.__len__()
+# 3
+```
+
+hasattr()
+
+```python
+hasattr(obj, 'x') # 有属性'x'吗？
+```
+
+实例属性和类属。
+
+实例属性属于各个实例所有，互不干扰；
+
+类属性属于类所有，所有实例共享一个属性；
+
+不要对实例属性和类属性使用相同的名字，否则将产生难以发现的错误。
+
+```python
+class Student(object):
+    count = 0
+```
+
+
 ```python
 
 ```
@@ -510,6 +683,77 @@ if __name__=='__main__':
 
 ```
 
+```python
+
+```
+
+```python
+
+```
+
+```python
+
+```
+
+```python
+
+```
+
+```python
+
+```
+
+```python
+
+```
+
+```python
+
+```
+
+```python
+
+```
+
+```python
+
+```
+
+```python
+
+```
+
+```python
+
+```
+
+```python
+
+```
+
+```python
+
+```
+
+```python
+
+```
+
+```python
+
+```
+
+```python
+
+```
+
+```python
+
+```
+
+```python
+
+```
 
 ## Django
 
