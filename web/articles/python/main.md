@@ -55,9 +55,9 @@ IDE 可以用我熟悉的 VS Code，可以断点调试。(pycharm 也是不错�
 
 ## 解析器
 
-整个Python语言从规范到解释器都是开源的，所以理论上，只要水平够高，任何人都可以编写Python解释器来执行Python代码（当然难度很大）。事实上，确实存在多种Python解释器。
+整个 Python 语言从规范到解释器都是开源的，所以理论上，只要水平够高，任何人都可以编写 Python 解释器来执行 Python 代码（当然难度很大）。事实上，确实存在多种 Python 解释器。
 
-我们用官方版本的解释器 CPython。这个解释器是用C语言开发的，所以叫CPython。
+我们用官方版本的解释器 CPython。这个解释器是用 C 语言开发的，所以叫 CPython。
 
 ## Python 基础
 
@@ -672,37 +672,177 @@ class Student(object):
 
 ## 面向对象高级编程
 
-```python
+数据封装、继承和多态只是面向对象程序设计中最基础的3个概念。多重继承、定制类、元类等概念属于面向对象高级编程。
 
-```
-
-```python
-
-```
+属性限制 __slots__。
 
 ```python
+class Student(object):
+    __slots__ = ('name', 'age') # 用tuple定义允许绑定的属性名称
 
+s = Student() # 创建新的实例
+s.name = 'Michael' # 绑定属性'name'
+s.age = 25 # 绑定属性'age'
+s.score = 99 # 绑定属性'score'
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'Student' object has no attribute 'score'
 ```
+
+@property 装饰器负责把一个方法变成属性调用。
 
 ```python
+class Student(object):
+    @property
+    def score(self):
+        return self._score
 
+    @score.setter
+    def score(self, value):
+        if not isinstance(value, int):
+            raise ValueError('score must be an integer!')
+        if value < 0 or value > 100:
+            raise ValueError('score must between 0 ~ 100!')
+        self._score = value
+
+s.score = 9999
+# ValueError: score must between 0 ~ 100!
 ```
+
+多重继承。
 
 ```python
+class Animal(object):
+    pass
 
+# 大类:
+# 哺乳动物
+class Mammal(Animal):
+    pass
+
+# 鸟类
+class Bird(Animal):
+    pass
+
+# 行为
+class Runnable(object):
+    def run(self):
+        print('Running...')
+
+class Flyable(object):
+    def fly(self):
+        print('Flying...')
+
+# 多重继承
+class Bat(Mammal, Flyable):
+    pass
 ```
+
+定制类。前面的 __init__ 、 __slots__ 、 __len__ 方法能帮我们定制类，还有其他的方法:
+
+__str__，定义打印。
 
 ```python
+class Student(object):
+    def __init__(self, name):
+    self.name = name
+    def __str__(self):
+        return 'Student object (name: %s)' % self.name
 
+print(Student('Michael'))
 ```
+
+__iter__，如果一个类想被用于for ... in循环，类似list或tuple那样，就必须实现一个__iter__()方法，该方法返回一个迭代对象，然后，Python的for循环就会不断调用该迭代对象的__next__()方法拿到循环的下一个值，直到遇到StopIteration错误时退出循环。
 
 ```python
+class Fib(object):
+    def __init__(self):
+        self.a, self.b = 0, 1 # 初始化两个计数器a，b
 
+    def __iter__(self):
+        return self # 实例本身就是迭代对象，故返回自己
+
+    def __next__(self):
+        self.a, self.b = self.b, self.a + self.b # 计算下一个值
+        if self.a > 100000: # 退出循环的条件
+            raise StopIteration()
+        return self.a # 返回下一个值
+
+for n in Fib():
+    print(n)
 ```
+
+还有 __getitem__ 、 __getattr__ 和 __call__，先跳过，用到的时候再看。高级技巧其实约等于低频技巧。
+
+枚举类。
 
 ```python
+from enum import Enum
+Month = Enum('Month', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'))
 
+for name, member in Month.__members__.items():
+    print(name, '=>', member, ',', member.value)
+
+# Jan => Month.Jan , 1
+# ...
 ```
+
+value属性则是自动赋给成员的int常量，默认从1开始计数。如果需要更精确地控制枚举类型，可以从Enum派生出自定义类：
+
+```python
+from enum import Enum, unique
+
+# @unique 装饰器可以帮助我们检查保证没有重复值
+@unique
+class Weekday(Enum):
+    Sun = 0 # Sun的value被设定为0
+    Mon = 1
+    Tue = 2
+    Wed = 3
+    Thu = 4
+    Fri = 5
+    Sat = 6
+```
+
+访问这些枚举类型可以有若干种方法：
+
+```python
+day1 = Weekday.Mon
+print(day1)
+# Weekday.Mon
+
+print(Weekday['Tue'])
+# Weekday.Tue
+
+print(Weekday.Tue.value)
+# 2
+
+print(day1 == Weekday.Mon)
+# True
+
+print(day1 == Weekday.Tue)
+# False
+
+print(Weekday(1))
+# Weekday.Mon
+
+print(day1 == Weekday(1))
+# True
+
+Weekday(7)
+# Traceback (most recent call last):
+#  ...
+# ValueError: 7 is not a valid Weekday
+
+for name, member in Weekday.__members__.items():
+    print(name, '=>', member, member.value)
+
+# Sun => Weekday.Sun 0
+# ...
+```
+
+元类。据说用不到...
+
 
 ```python
 
