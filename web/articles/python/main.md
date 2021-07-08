@@ -843,49 +843,156 @@ for name, member in Weekday.__members__.items():
 
 元类。据说用不到...
 
+## 错误、调试和测试
+
+catch 换成了 except。
 
 ```python
-
+try:
+    print('try...')
+    r = 10 / 0
+    print('result:', r)
+except ZeroDivisionError as e:
+    print('except:', e)
+finally:
+    print('finally...')
+print('END')
 ```
 
-```python
+如果不捕获错误，自然可以让Python解释器来打印出错误堆栈，但程序也被结束了。最佳实践是把错误堆栈打印出来，然后分析错误原因，同时，让程序继续执行下去。
 
+```python
+import logging
+
+def foo(s):
+    return 10 / int(s)
+
+def bar(s):
+    return foo(s) * 2
+
+def main():
+    try:
+        bar('0')
+    except Exception as e:
+        logging.exception(e)
+
+main()
+print('END')
 ```
 
-```python
+错误是class，捕获一个错误就是捕获到该class的一个实例。错误并不是凭空产生的，而是有意创建并抛出的。如果要抛出错误，首先根据需要，可以定义一个错误的class，选择好继承关系，然后，用raise语句抛出一个错误的实例。
 
+```python
+class FooError(ValueError):
+    pass
+
+def foo(s):
+    n = int(s)
+    if n==0:
+        raise FooError('invalid value: %s' % s)
+    return 10 / n
+
+foo('0')
 ```
 
-```python
+VS Code IDE 中断点调试很方便，不展开了。
 
+为了编写单元测试，我们需要引入Python自带的unittest模块，编写mydict_test.py如下。
+
+```python
+import unittest
+
+from mydict import Dict
+
+class TestDict(unittest.TestCase):
+
+    def test_init(self):
+        d = Dict(a=1, b='test')
+        self.assertEqual(d.a, 1)
+        self.assertEqual(d.b, 'test')
+        self.assertTrue(isinstance(d, dict))
+
+    def test_key(self):
+        d = Dict()
+        d['key'] = 'value'
+        self.assertEqual(d.key, 'value')
+
+    def test_attr(self):
+        d = Dict()
+        d.key = 'value'
+        self.assertTrue('key' in d)
+        self.assertEqual(d['key'], 'value')
+
+    def test_keyerror(self):
+        d = Dict()
+        with self.assertRaises(KeyError):
+            value = d['empty']
+
+    def test_attrerror(self):
+        d = Dict()
+        with self.assertRaises(AttributeError):
+            value = d.empty
 ```
 
-```python
+## IO编程
 
+读文件。
+
+```python
+try:
+    f = open('/path/to/file', 'r')
+    print(f.read())
+finally:
+    if f:
+        f.close()
 ```
 
-```python
+简化写法。
 
+```python
+with open('/path/to/file', 'r') as f:
+    print(f.read())
 ```
 
-```python
+按行读取。
 
+```python
+for line in f.readlines():
+    print(line.strip()) # 把末尾的'\n'删掉
 ```
 
-```python
+读取二进制文件。
 
+```python
+f = open('./test.jpg', 'rb')
 ```
 
-```python
+要读取非UTF-8编码的文本文件，需要给open()函数传入 encoding 参数。
 
+```python
+f = open('/Users/michael/gbk.txt', 'r', encoding='gbk')
 ```
 
-```python
+操作文件和目录。
 
+```python
+import os
+print(os.name)
 ```
 
-```python
+变量从内存中变成可存储或传输的过程称之为序列化，反过来，把变量内容从序列化的对象重新读到内存里称之为反序列化。
 
+```python
+import pickle
+# 序列化
+d = dict(name='Bob', age=20, score=88)
+pickle.dumps(d)
+# b'\x80\x03}q\x00(X\x03\x00\x00\x00ageq\x01K\x14X\x05\x00\x00\x00scoreq\x02KXX\x04\x00\x00\x00nameq\x03X\x03\x00\x00\x00Bobq\x04u.'
+
+# 反序列化
+f = open('dump.txt', 'wb')
+pickle.dump(d, f)
+f.close()
 ```
 
 ```python
