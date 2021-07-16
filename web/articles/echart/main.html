@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>echart 使用笔记 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">echart 使用笔记</h1>
+<blockquote>
+<p>echart 是图表界的扛把子，基本是必备技能，学习并记录。</p>
+</blockquote>
+<h2 id="header-1-1">概述</h2>
+<p>官网: <a href="https://echarts.apache.org/zh/index.html" target="_blank">https://echarts.apache.org/zh/index.html</a></p>
+<ul>
+<li>第一步，你可以在示例中得到你想要的图形；</li>
+<li>第二步，当你需要对图形做定制化的调整时，你会发现太多的配置无从找起，这时要回头看看<a href="https://echarts.apache.org/zh/tutorial.html#ECharts基础概念概览" target="_blank">ECharts 基础概念概览</a>；</li>
+<li>第三步，你可以一头扎进<a href="https://echarts.apache.org/zh/option.html#title" target="_blank">配置项</a>文档，去寻找你想要的配置项；</li>
+<li>第四步，</li>
+</ul>
+<h2 id="header-1-2">知识点</h2>
+<h3 id="header-1-2-1">基础概念</h3>
+<p>系列(series): 一组数值以及他们映射成的图。</p>
+<p>系列的类型(series.type): line(折线图)、bar(柱状图)、pie(饼图)、scatter(散点图)、graph(关系图)、tree(树图)等，更多配置在: <a href="https://echarts.apache.org/zh/option.html#series" target="_blank">https://echarts.apache.org/zh/option.html#series</a></p>
+<p>组件(component)，在系列之上，echarts 中各种内容，被抽象为“组件”。比如legend(图例)、xAxis(直角坐标系 X 轴)、tooltip(提示框组件)、toolbox(工具栏组件)等。</p>
+<p>组件的定位，不同的组件有不同的定位方式。多数组件和系列，都能够基于 top / right / down / left / width / height 绝对定位。 </p>
+<pre><code class="lang-js">grid: {
+    top: 80,
+    left: &#39;30%&#39;,
+    bottom: 13
+}
+</code></pre>
+<h3 id="header-1-2-2">图例 legend</h3>
+<p>图例</p>
+<pre><code class="lang-js">{
+    // 图例在图标中的位置
+    x: &#39;center&#39;,
+    y: &#39;top&#39;
+}
+</code></pre>
+<p>对应文档: <a href="https://echarts.apache.org/zh/option.html#legend" target="_blank">https://echarts.apache.org/zh/option.html#legend</a></p>
+<p>图例的选中，图例展示</p>
+<pre><code class="lang-js">{
+    // 图例在图标中的位置
+    x: &#39;center&#39;,
+    y: &#39;top&#39;,
+    data: [&#39;name1&#39;, &#39;name2&#39;, &#39;name3&#39;],
+    selected: {
+        name1: true,
+        name3: true
+    }
+}
+</code></pre>
+<p>注意 data 与 selected 中的值需要和 series 中数据的 name 相对应，否则图例不能展示。</p>
+<h3 id="header-1-2-3">柱状图 bar</h3>
+<p>让柱状图有图例的技巧。基础的柱状图是 x 轴写数字，柱使用同一种颜色。</p>
+<pre><code class="lang-js">option = {
+    xAxis: {
+        type: &#39;category&#39;,
+        data: [&#39;Mon&#39;, &#39;Tue&#39;, &#39;Wed&#39;, &#39;Thu&#39;, &#39;Fri&#39;, &#39;Sat&#39;, &#39;Sun&#39;]
+    },
+    yAxis: {
+        type: &#39;value&#39;
+    },
+    series: [{
+        data: [120, 200, 150, 80, 70, 110, 130],
+        type: &#39;bar&#39;
+    }]
+};
+</code></pre>
+<p><img src="./img/bar-base.png" alt="bar-base"></p>
+<p>双柱状图中可以展示多个颜色:</p>
+<p><img src="./img/bar-2.png" alt="bar-2"></p>
+<p>代码参见官方示例: <a href="https://echarts.apache.org/examples/zh/editor.html?c=bar1" target="_blank">https://echarts.apache.org/examples/zh/editor.html?c=bar1</a></p>
+<p>如果我们想要下面这种怎么办呢？</p>
+<p><img src="./img/bar-3.png" alt="bar-3"></p>
+<p>把多列数据转到一列中就可以:</p>
+<pre><code class="lang-js">options = {
+    // 图例
+    legend: {
+        x: &#39;center&#39;,
+        y: &#39;top&#39;
+    },
+    // x 轴
+    xAxis: {
+        type: &#39;category&#39;,
+        show: true
+    },
+    // y 轴
+    yAxis: {},
+    dataset: {
+        dimensions: [&#39;title&#39;, &#39;糖网&#39;, &#39;青光眼&#39;, &#39;黄斑区域病变&#39;],
+        source: [
+            {title: &#39;&#39;, &#39;糖网&#39;: 43.3, &#39;青光眼&#39;: 85.8, &#39;黄斑区域病变&#39;: 93.7}
+        ]
+    },
+    series: [{
+        type: &#39;bar&#39;,
+        barMaxWidth: 30
+    }, {
+        type: &#39;bar&#39;,
+        barMaxWidth: 30
+    }, {
+        type: &#39;bar&#39;,
+        barMaxWidth: 30
+    }],
+    // 柱状图位置设置
+    grid: {
+        top: 90,
+        bottom: 13
+    }
+}
+</code></pre>
+<h3 id="header-1-2-4">系列 series</h3>
+<p>上面的 series 中重复出现了这样的配置:</p>
+<pre><code class="lang-js">series: [{
+    type: &#39;bar&#39;,
+    barMaxWidth: 30
+}, {
+    type: &#39;bar&#39;,
+    barMaxWidth: 30
+}, {
+    type: &#39;bar&#39;,
+    barMaxWidth: 30
+}]
+</code></pre>
+<p>这里的数据不仅可以全部是柱状图，还可以是别的形式，比如折线图，官网有这样一个示例: </p>
+<p><img src="./img/bar-and-line.png" alt="bar-and-line"></p>
+<p>它的 series 是这样设置的:</p>
+<pre><code class="lang-js">series: [
+    {
+        name: &#39;蒸发量&#39;,
+        type: &#39;bar&#39;,
+        data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+    },
+    {
+        name: &#39;降水量&#39;,
+        type: &#39;bar&#39;,
+        data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+    },
+    {
+        name: &#39;平均温度&#39;,
+        type: &#39;line&#39;,
+        yAxisIndex: 1,
+        data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+    }
+]
+</code></pre>
+<p>这里还有一个发现，同样的效果有不同的配置方式，比如上面这个既可以将数据存放在 dataset 中，也可以将数据存放在 series 中。</p>
+<p>然后在对比中你会对 echarts 有更深入的理解。</p>
+<h3 id="header-1-2-5">dataset 与 series</h3>
+<p>官方说: ECharts 4 开始支持了数据集(dataset)组件用于单独的数据集声明，从而数据可以单独管理，被多个组件复用，并且可以自由指定数据到视觉的映射。</p>
+<p>具体怎么复用呢？看这里:</p>
+<pre><code class="lang-js">series: [{
+    type: &#39;pie&#39;, radius: 50, center: [&#39;25%&#39;, &#39;50%&#39;],
+    // 这个饼图系列，引用了 index 为 `1` 的 dataset 。也就是，引用了上述
+    // 2011 年那个 &quot;filter&quot; transform 的结果。
+    datasetIndex: 1
+}, {
+    type: &#39;pie&#39;, radius: 50, center: [&#39;50%&#39;, &#39;50%&#39;],
+    datasetIndex: 2
+}, {
+    type: &#39;pie&#39;, radius: 50, center: [&#39;75%&#39;, &#39;50%&#39;],
+    datasetIndex: 1
+}]
+</code></pre>
+<h3 id="header-1-2-6">宽高</h3>
+<p>一般情况下图表会填充满容器，但是当容器隐藏时图标组件获取不到容器的宽高，这时需要指定图表的宽高。</p>
+<h2 id="header-1-3">代码片段</h2>
+<h3 id="header-1-3-1">柱状图</h3>
+<pre><code class="lang-js">
+
+</code></pre>
+
+</div>
+</body>
+</html>

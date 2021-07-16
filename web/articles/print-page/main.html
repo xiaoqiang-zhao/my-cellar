@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>打印排版 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">打印排版</h1>
+<h2 id="header-1-1">没有自动排版的方案</h2>
+<p>打印按钮的处理</p>
+<pre><code class="lang-js">this.printReportBtnDisabled = true;
+this.printReportBtnText = &#39;报告生成中...&#39;;
+</code></pre>
+<p>暂缓页面</p>
+<pre><code class="lang-js">const iframe = document.createElement(&#39;iframe&#39;);
+const patientId = this.$route.params.id;
+iframe.src = `/pages/report/${id}`;
+
+document.getElementById(&#39;report-iframe-container&#39;).append(iframe);
+</code></pre>
+<p>需要将 iframe 插入到当前页面 dom 才可以进行渲染，dom 样式如下:</p>
+<pre><code class="lang-css">#report-iframe-container {
+    overflow: hidden;
+    height: 0;
+}
+</code></pre>
+<p>粗糙一点的处理可以用 setTimeout。</p>
+<pre><code class="lang-js">setTimeout(() =&gt; {
+    iframe.contentWindow.print();
+    this.printReportBtnDisabled = false;
+    this.printReportBtnText = &#39;打印报告&#39;;
+}, 5000);
+</code></pre>
+<p>精细一点的方案需要考虑异步请求和图片加载的完成。</p>
+<h2 id="header-1-2">自动排版方案</h2>
+<p>将 dom 按页眉、内容、页脚的顺序从上到下排列。</p>
+<p>等待页面渲染完之后</p>
+<h2 id="header-1-3">长表格分布在多页的多表头</h2>
+<h2 id="header-1-4">花絮</h2>
+<h3 id="header-1-4-1">冷僻的样式</h3>
+<p>隐藏系统默认的页眉页脚。</p>
+<pre><code class="lang-css">@page {
+    size: auto;
+    margin: 0mm;
+}
+</code></pre>
+<p>可以强制换页的 CSS 样式。</p>
+<pre><code class="lang-css">page-break-after: always;
+page-break-before: always;
+</code></pre>
+<p>当用 <code>dom.style.pageBreakAfter = &#39;always&#39;</code> 赋值时，在 chrome 中渲染出来是 <code>break-after: page;</code></p>
+<p>这个样式有一个副作用，打印的时候最后会出现一张空白页。这里卡了很久，最后找到不是很完美的方案:</p>
+<p>在最后一页加这样一行，尺寸就是页面高度。</p>
+<pre><code class="lang-css">margin-bottom: -1450px;
+</code></pre>
+<p>这其间还试过另一个方案:</p>
+<pre><code class="lang-css">.print-page:last-child {
+    page-break-after: avoid;
+}
+</code></pre>
+<p>奇异的不生效。</p>
+<p>只有打印的时候才出现的媒体选择器。</p>
+<pre><code class="lang-css">/** 设置默认的页眉页脚默认为隐藏 **/
+.beforeHeader, 
+.afterFooter {
+    display: none;
+}
+@media print {
+    /* 打印时显示 */
+    .beforeHeader, 
+    .afterFooter {
+        display: block;
+    }
+}
+</code></pre>
+<p>如果不需要在每一页添加也没和页脚，用这种方式也可以简单实现自定义分页打印。</p>
+<h3 id="header-1-4-2">canvas</h3>
+<p>长段落怎么办？</p>
+<p>用 canvas 来切割，判断一行是白色的</p>
+<pre><code class="lang-js">ctx.getImageData(sx, sy, sw, sh);
+</code></pre>
+<p>参数</p>
+<ul>
+<li>sx：将要被提取的图像数据矩形区域的左上角 x 坐标。</li>
+<li>sy：将要被提取的图像数据矩形区域的左上角 y 坐标。</li>
+<li>sw：将要被提取的图像数据矩形区域的宽度。</li>
+<li>sh：将要被提取的图像数据矩形区域的高度。</li>
+</ul>
+<h3 id="header-1-4-3">难点</h3>
+<p>很难定义分页截断的规则。不同的业务场景有不同的页面布局，想要兼容全部场景并给出完美解法几乎不可能。</p>
+<p>在不对页面布局结构做要求的情况下，重排分页布局也是一个</p>
+<h2 id="header-1-5">参考</h2>
+<p><a href="https://blog.csdn.net/sinat_35626559/article/details/103474817" target="_blank">https://blog.csdn.net/sinat_35626559/article/details/103474817</a></p>
+<p><a href="https://juejin.cn/post/6844903680945192974" target="_blank">https://juejin.cn/post/6844903680945192974</a></p>
+
+</div>
+</body>
+</html>

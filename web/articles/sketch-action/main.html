@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>sketch 实战 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">sketch 实战</h1>
+<blockquote>
+<p>从头到尾介绍一个项目的设计和思考。</p>
+</blockquote>
+<h2 id="header-1-1">项目概述</h2>
+<h3 id="header-1-1-1">项目背景</h3>
+<p>家里房子装修完了，需要放置东西了，我遇到几个问题:</p>
+<ol>
+<li>从新归置的东西很容易找不到，有没有 App 可以做这个事情；</li>
+<li>东西怎么分类，按物品的属性，还是使用的习惯；</li>
+<li>哪些留哪些扔，怎么通过软件辅助决策。</li>
+</ol>
+<p>去找了相关软件:</p>
+<ul>
+<li>微信小程序: 云收纳</li>
+<li>独立APP: 收哪儿(免费使用，12￥会员服务)、在哪儿、收纳盒子、Where( 12￥)</li>
+</ul>
+<p>上面软件都不能满足我的全部需求，感觉收纳这件事还是有一些自己的理解的，于是想设计一款 App，满足自用和锻炼手艺。</p>
+<h3 id="header-1-1-2">典型场景</h3>
+<p>我有三个收纳盒。一个放厨房，内有汤勺、粥勺、火锅勺。两个放卧室，一个放长袜一个放短袜。抽象:</p>
+<ul>
+<li>收纳盒的数量体现；</li>
+<li>一个一类；</li>
+<li>两盒一类；</li>
+<li>一盒两类；</li>
+</ul>
+<p>一件衣服不知道什么时候穿，衣柜里挂了一年没穿过一次。抽象:</p>
+<ul>
+<li>场景化，什么季节(春/夏/秋/冬)下什么场景(上班/白天居家/晚上洗澡后/健身房/都市娱乐/户外徒步/跑步)；</li>
+<li>一套衣服需要从上到下(帽子到鞋)，从里到外(内裤到外套)；</li>
+<li>一物量场景，如美工刀，与锤子、老虎钳子同属工具类，拆快递用的比较频繁和指甲刀、挖耳勺属常用物品类，<code>用 Tag 替代互斥分类</code>；</li>
+<li>清单式，出差清单、健身物品清单。</li>
+</ul>
+<h3 id="header-1-1-3">核心功能点</h3>
+<ul>
+<li>数据层级: 房子 / 房间 / 家具 / 收纳盒 / 物品；</li>
+<li>家具空间编辑和命名；</li>
+<li>收纳盒是一类特殊物品，编号处理: 1 号在XXX，内置XXX分类与XXX分类，2 号...；</li>
+<li>物品属性自定义；</li>
+<li>物品 Tag 自定义、可编辑，作为分类的 Tag；</li>
+</ul>
+<h2 id="header-1-2">设计</h2>
+
+</div>
+</body>
+</html>

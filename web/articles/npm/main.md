@@ -57,7 +57,7 @@ npm config get registry
 npm --registry=https://registry.npm.taobao.org install cnpm -g
 或者
 npm config set registry https://registry.npm.taobao.org
-npm config set registry registry.npm.baidu-int.com:80
+npm config set registry http://registry.npm.baidu-int.com
 ```
 
 如果装错了你可以不用管，但是如果有一点小洁癖的话可以卸载掉，加`--save`同样会将`package.json` 中的配置移除掉：

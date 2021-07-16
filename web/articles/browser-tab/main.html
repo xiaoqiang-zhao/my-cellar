@@ -23,7 +23,7 @@
 <p>为满足一个奇葩的需求。</p>
 </blockquote>
 <h2 id="header-1-1">场景介绍</h2>
-<p>一个页面需要打开另一个页面，并且两个页面之间还需要通信。我们将前一个为了方便叙述我们将前一个页面称为父页面后一个页面称为子页面，父页面需要知道子页面是否关闭(换句话就是子页面关闭的时候需要通知父页面)，以方便父页面根据子页面的状态来做一下操作(比如是打开子页面还是和已经打开的子页面进行交互)。</p>
+<p>一个页面需要打开另一个页面，并且两个页面之间还需要通信。为了方便叙述我们将前一个页面称为父页面后一个页面称为子页面，父页面需要知道子页面是否关闭(换句话就是子页面关闭的时候需要通知父页面)，以方便父页面根据子页面的状态来做一下操作(比如是打开子页面还是和已经打开的子页面进行交互)。</p>
 <h2 id="header-1-2">关键代码</h2>
 <p>父页面 <code>p.html</code></p>
 <pre><code class="lang-html">&lt;!DOCTYPE html&gt;
@@ -111,6 +111,37 @@
 <h2 id="header-1-5">Demo</h2>
 <p><a href="/articles/browser-tab/demo/p.html" target="_blank">简单demo</a></p>
 <p><a href="/articles/browser-tab/demo/tab-p.html" target="_blank">稍微复杂一点的demo - 结合了Tab</a></p>
+<h2 id="header-1-6">postMessage 方案</h2>
+<h3 id="header-1-6-1">父页面向子页面发送 message</h3>
+<p>父页面打开子页面。</p>
+<pre><code class="lang-js">var popup = window.open(/* popup details */);
+</code></pre>
+<p>父页面向子页面发送消息</p>
+<pre><code class="lang-js">const data = {};
+popup.postMessage(data);
+</code></pre>
+<p>子页面接收消息，触发自己的逻辑</p>
+<pre><code class="lang-js">window.addEventListener(&#39;message&#39;, event =&gt; {
+    // 数据获取方式
+    event.data
+});
+</code></pre>
+<h3 id="header-1-6-2">子页面向父页面发送 message</h3>
+<p>父页面先定义监听，于子页面的监听类似:</p>
+<pre><code class="lang-js">window.addEventListener(&#39;message&#39;, event =&gt; {
+    // 数据获取方式
+    event.data.customId
+    event.data.name
+});
+</code></pre>
+<p>子页面向父页面发送消息:</p>
+<pre><code class="lang-js">window.opener.postMessage({
+    customId: &#39;aaaaa&#39;,
+    name: &#39;bbbbbbb&#39;
+});
+</code></pre>
+<h3 id="header-1-6-3">注意的点</h3>
+<p>需要注意的是，子页面刷新后依然可以获取到父页面，并且可以接收到父页面的消息，父页面刷新后无法找到存放在内存中的 popup 变量。</p>
 
 </div>
 </body>

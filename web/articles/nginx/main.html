@@ -27,6 +27,7 @@
 <h2 id="header-1-2">安装 Nginx</h2>
 <p>首先确认这些依赖是有的，没有的安装一下: <code>make zlib zlib-devel gcc-c++ libtool  openssl openssl-devel</code>。</p>
 <p>然后安装 PCRE，提供了正则表达式的解析，Nginx 在配置路径时支持正则表达式就依赖于这个库。</p>
+<p>注意: 当前目录的不同，会影响到下载和安装，注意替换。不知道装到那里时可以使用 <code>whereis 路径或文件</code> 来查找。</p>
 <pre><code class="lang-shell"># 下载并解压
 wget http://downloads.sourceforge.net/project/pcre/pcre/8.35/pcre-8.35.tar.gz
 tar zxvf pcre-8.35.tar.gz
@@ -249,13 +250,26 @@ server {
     }
 }
 </code></pre>
-<h3 id="header-1-4-4">HTML5 History 模式</h3>
+<h3 id="header-1-4-4">上传限制</h3>
+<p>默认上传限制在一兆，可能不够用，需要在 http 下添加配置:</p>
+<pre><code class="lang-config">client_max_body_size 10m;
+</code></pre>
+<h3 id="header-1-4-5">HTML5 History 模式</h3>
 <p>首先需要将页面路由以固定的单词开头，比如 &quot;/pages&quot;，然后将全部以 &quot;/pages&quot; 开头的请求打到 index.html 上，配置如下:</p>
 <pre><code class="lang-config">location /pages{
     try_files $uri /index.html;
 }
 </code></pre>
-<h3 id="header-1-4-5">负载均衡</h3>
+<h3 id="header-1-4-6">后端 api 反向代理</h3>
+<p>如果前端配了一台 nginx，请求先打到这台 nginx 上，通过上面的配置前端可以 work 了，但是发现后端接口不能调用，全部返回 404。</p>
+<p>这主要是没有配置 api 接口反向代理的原因，这里有个前提，所有的接口必须以 <code>/api</code> 为前缀才能统一配置代理。</p>
+<pre><code class="lang-config"># 后端接口通过https监听的端口做个反向代理就好啦
+location /api {
+    proxy_pass http://xxxx:8080/; # 你的接口地址
+}
+</code></pre>
+<p>注意，如果是在云主机上，ip 最好用内网 ip，用命令 <code>ifconfig</code> 查找 inet 值。</p>
+<h3 id="header-1-4-7">负载均衡</h3>
 <p>Nginx 负载均衡是通过 upstream 模块来实现的，内置实现了三种负载策略:</p>
 <p>一、轮循（默认），Nginx 根据请求次数，将每个请求按比例分配到每台服务器。</p>
 <pre><code class="lang-config">http {
@@ -270,12 +284,22 @@ server {
 <p>二、最少连接，将请求分配给连接数最少的服务器。Nginx会统计哪些服务器的连接数最少。</p>
 <p>三、IP Hash，绑定处理请求的服务器。第一次请求时，根据该客户端的IP算出一个HASH值，将请求分配到集群中的某一台服务器上。后面该客户端的所有请求，都将通过HASH算法，找到之前处理这台客户端请求的服务器，然后将请求交给它来处理。</p>
 <p>后两种策略，配置稍微复杂这里不展开，想了解详细移步参考文章。</p>
-<h2 id="header-1-5">问题排查思路</h2>
+<h2 id="header-1-5">怎么知道装没装 nginx</h2>
+<h3 id="header-1-5-1">mac</h3>
+<pre><code class="lang-shell">ps -ef | grep nginx
+</code></pre>
+<p>安装目录就在: /usr/local/opt/nginx/bin/nginx。</p>
+<p>启动: /usr/local/opt/nginx/bin/nginx</p>
+<pre><code class="lang-shell">nginx -t
+</code></pre>
+<p>配置文件目录就在: /usr/local/etc/nginx/nginx.conf。</p>
+<p><a href="https://blog.csdn.net/aa390481978/article/details/100882728" target="_blank">https://blog.csdn.net/aa390481978/article/details/100882728</a></p>
+<h2 id="header-1-6">问题排查思路</h2>
 <p>凡事有意外，很多时候我们配置了 Nginx 却没达到想要的效果，这里提供一种排查的思路:</p>
 <p>首先，确保你最简配的版本能正常启动和运行。</p>
 <p>其次，看看配置是否生效，你可以通过修改端口等手段快速判断。如果确实没生效，最有可能的原因是改完配置没有 reload，或者配置的语法出了错误，注意查看控制台输出的日志。</p>
 <p>最后，你可能遇到没有报错但是不起作用的情况，常见的有代理不能正确返回和文件路径不能正确解析等问题，这时需要你打看日志看看问题出在哪里。一般日志在 /var/log/nginx/ 下，在 access.log 与 error.log 中可以看到请求失败的描述信息。</p>
-<h2 id="header-1-6">参考</h2>
+<h2 id="header-1-7">参考</h2>
 <p><a href="http://www.runoob.com/linux/nginx-install-setup.html" target="_blank">Nginx 菜鸟教程</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/58962596" target="_blank">实用的 Nginx 极简教程</a></p>
 <p><a href="https://www.cnblogs.com/fanzhidongyzby/p/5194895.html" target="_blank">nginx常用代理配置</a></p>

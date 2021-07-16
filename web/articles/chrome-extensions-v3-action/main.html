@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>chrome exetentions v3 实战 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">chrome exetentions v3 实战</h1>
+<h2 id="header-1-1">popup.js</h2>
+<h3 id="header-1-1-1">基本流程</h3>
+<p>popup.js 没点开一次小窗都会被执行一次。</p>
+<pre><code class="lang-js">// 验证每次打开 popup 页面都是重新加载的
+chrome.storage.sync.get(&#39;total&#39;, ({
+    total
+}) =&gt; {
+    total++;
+    document.getElementById(&#39;total&#39;).innerHTML = total.toString();
+    chrome.storage.sync.set({
+        total
+    });
+});
+</code></pre>
+<p>popup.html 中如果有 input，填写完之后关闭小窗，再打开你会发现填写的内容已经没有了，就和刷新了页面一样。</p>
+<h3 id="header-1-1-2">作用域</h3>
+<p>在 popup 中直接获取 dom 节点时，作用域是 popup.html。</p>
+<pre><code class="lang-js">const btn = document.getElementById(&#39;btn&#39;);
+</code></pre>
+<p>可以给按钮添加事件:</p>
+<pre><code class="lang-js">btn.addEventListener(&quot;click&quot;, async () =&gt; {
+    // ...
+});
+</code></pre>
+<p>但是不能直接访问浏览器中的网站 Dom，下面是一种突破这个限制的方法。</p>
+<h3 id="header-1-1-3">操纵网页中的 Dom</h3>
+<p>chrome extension 提供了方法来获取 tab。</p>
+<pre><code class="lang-js">let [tab] = await chrome.tabs.query({
+    active: true,
+    currentWindow: true
+});
+</code></pre>
+<p>有了 tab 对象就可以通过 <code>executeScript</code> 方法的回调来操作网页中的 dom 节点。</p>
+<pre><code class="lang-js">chrome.scripting.executeScript({
+    target: {
+        tabId: tab.id
+    },
+    function() {
+        // 这里可以获得激活网页的 Dom
+
+        // 自动填写用户名和密码
+        const userName = document.getElementById(&#39;userName&#39;);
+        userName.value = &#39;admin&#39;;
+        const passWord = document.getElementById(&#39;passWord&#39;);
+        passWord.value = &#39;123456&#39;;
+    }
+});
+</code></pre>
+<p>这个方法的本质是将回调函数中的代码注入到页面中，和下面提到的 content scripts 具有很高的相似性。值得注意的是这里的回调并不能访问外面定义的函数，因为在原理上 chrome extension 对各模块是分进程执行的，他们并不共享作用域。</p>
+<h2 id="header-1-2">content script</h2>
+<p>content script 是注入到页面中的，在网页加载时执行。可为不同的网页配置不同的执行脚本，也可为一类网站配置通用脚本:</p>
+<pre><code class="lang-js">&quot;content_scripts&quot;: [
+    {
+        &quot;matches&quot;: [
+            &quot;http://127.0.0.1:8898/*&quot;
+        ],
+        &quot;run_at&quot;: &quot;document_end&quot;,
+        &quot;js&quot;: [&quot;contentScriptLocalDebug.js&quot;]
+    },
+    {
+        &quot;matches&quot;: [
+            &quot;https://zhihu.com/*&quot;
+        ],
+        &quot;run_at&quot;: &quot;document_start&quot;,
+        &quot;js&quot;: [
+            &quot;jquery-3.6.0.min.js&quot;,
+            &quot;contentScriptZhihu.js&quot;
+        ]
+    }
+]
+</code></pre>
+<p>为了确保 dom 已经加载完成，我们可以将代码放入对 DOMContentLoaded 事件的监听回调中。</p>
+<pre><code class="lang-js">document.addEventListener(&#39;DOMContentLoaded&#39;, () =&gt; {
+    // ...
+});
+</code></pre>
+<p>在这里我们可以直接操纵 dom 属性。</p>
+<pre><code class="lang-js">// contentScriptLocalDebug.js
+// 改变背景颜色
+document.body.style.backgroundColor = &#39;green&#39;;
+// 直接调出登陆框，无需手动点击
+document.getElementById(&#39;login-box&#39;).style.display = &#39;block&#39;;
+// 为表单填值
+document.getElementById(&#39;userName&#39;).value = &#39;admin&#39;;
+document.getElementById(&#39;passWord&#39;).value = &#39;123456&#39;;
+
+// contentScriptZhihu.js
+// 实战: 去除知乎的侧边栏，让页面更轻爽
+const globalSideBar = document.getElementsByClassName(&#39;GlobalSideBar&#39;)[0];
+globalSideBar.parentElement.removeChild(globalSideBar);
+document.getElementsByClassName(&#39;Topstory-container&#39;)[0].style.width = &#39;694px&#39;;
+</code></pre>
+<p>content script 与 chrome.scripting.executeScript 的回调也有局限性，无法直接调用网页中的 js。</p>
+<pre><code class="lang-js">const loginBtn = document.getElementsByClassName(&#39;login-btn&#39;);
+loginBtn[0].click(); // 或者 window.goLogin();
+// 报错信息: script.js:8 Refused to run the JavaScript URL because it violates the following Content Security Policy directive: &quot;script-src &#39;self&#39;&quot;
+// 拒绝执行 JavaScript URL，因为违反了内容安全政策指令: &quot;script-src &#39;self&#39;&quot;
+// 注: 为了方便验证，我们直接将方法 goLogin 挂在 window 下做全局方法
+</code></pre>
+<p>这里还有一个坑，我们用脚本直接给 dom 赋值有一些依赖事件的函数是不会被触发的，要解决这个问题我们后面会介绍 <code>chrome.debugger.sendCommand</code> 相关内容。</p>
+<p>无法使用 <code>chrome.storage</code>、<code>chrome.action</code>、<code>chrome.tabs</code>、<code>chrome.debugger</code> 等，这些是什么后面会讲到。</p>
+<p>但是，只要不在 <code>executeScript</code> 的回调函数中，popup.js 中是可以直接使用这些对象的。</p>
+<h2 id="header-1-3">工具库</h2>
+<p>上面提到了很多工具库，下面简单介绍一些常用的工具。</p>
+<h3 id="header-1-3-1">chrome.storage</h3>
+<p>在最开始的 popup “基本流程” 中已经展示过用法:</p>
+<pre><code class="lang-js">// 验证每次打开 popup 页面都是重新加载的
+chrome.storage.sync.get(&#39;total&#39;, ({
+    total
+}) =&gt; {
+    total++;
+    document.getElementById(&#39;total&#39;).innerHTML = total.toString();
+    chrome.storage.sync.set({
+        total
+    });
+});
+</code></pre>
+<p>利用存储的数据我们也可以在小窗中添加列表和其他 Dom 元素，下面就是一个初始化任务列表的示例代码:</p>
+<pre><code class="lang-js">// 从 storage 中拉取任务
+chrome.storage.sync.get(&#39;taskList&#39;, ({
+    taskList
+}) =&gt; {
+    let result = &#39;&#39;;
+    if (taskList) {
+        taskList.forEach(item =&gt; {
+            result += `
+            &lt;div class=&quot;item&quot;&gt;
+                ${item.companyName}
+                &lt;span class=&quot;${item.styleClass}&quot;&gt;
+                    ${item.status}
+                &lt;/span&gt;
+            &lt;/div&gt;`;
+        });
+        const container = document.getElementById(&#39;task-container&#39;);
+        container.innerHTML = result;
+    }
+});
+</code></pre>
+<p>set 示例代码:</p>
+<pre><code class="lang-js">chrome.storage.sync.set({
+    taskData: data
+}, () =&gt; {
+    // ...
+});
+</code></pre>
+<p>这个方法可以做数据持久化，更多 API 传送门: <a href="https://developer.chrome.com/docs/extensions/reference/storage/。" target="_blank">https://developer.chrome.com/docs/extensions/reference/storage/。</a></p>
+<h3 id="header-1-3-2">chrome.action</h3>
+<p>chrome.action 有一个非常有用的方法是 <code>setBadgeText</code>。</p>
+<pre><code class="lang-js">chrome.action.setBadgeText({
+    text: request.data.length.toString()
+});
+</code></pre>
+<p><code>setBadgeText</code> 方法可以在 chrome extension 图标的右下角给一个文本，这在做自动化的插件中是非常有用的，可以用作进度标志和计数器。</p>
+<p>action 可以操纵图标，借助 canvas 甚至可以做动画，可以修改 hover 时的 title，更多 API 传送门: <a href="https://developer.chrome.com/docs/extensions/reference/action/" target="_blank">https://developer.chrome.com/docs/extensions/reference/action/</a></p>
+<h3 id="header-1-3-3">chrome.tabs</h3>
+<p>上面提到过用来获取当前激活的 tab:</p>
+<pre><code class="lang-js">let [tab] = await chrome.tabs.query({
+    active: true,
+    currentWindow: true
+});
+</code></pre>
+<p>还有一个重要功能就是打开新 tab:</p>
+<pre><code class="lang-js">chrome.tabs.create({
+    url: &#39;https://etax.sichuan.chinatax.gov.cn&#39;,
+    active: true
+});
+</code></pre>
+<h3 id="header-1-3-4">chrome.windows</h3>
+<p>如果你开 tab 不满意，还可以开新浏览器窗口:</p>
+<pre><code class="lang-js">chrome.windows.create(
+    {
+        url: &#39;http://zhihu.com&#39;,
+        height: 300,
+        width: 400
+    }
+);
+</code></pre>
+<h3 id="header-1-3-5">chrome.debugger</h3>
+<pre><code class="lang-js">chrome.debugger.sendCommand(target, &quot;Input.insertText&quot;, {
+    text: value
+}, function (){
+    debugger
+});
+// 报错信息: Unchecked runtime.lastError: Either tab id or extension id must be specified.
+// 报错信息: Debugger is not attached
+// 报错信息: Error handling response: TypeError: Error in invocation of debugger.attach(debugger.Debuggee target, string requiredVersion, optional function callback): No matching signature.
+// 参考:
+// https://chromedevtools.github.io/devtools-protocol/tot/Input/#method-insertText
+// https://www.jianshu.com/p/6422a1c4b6f2
+</code></pre>
+<p>如果上面工具不能满足需求，或者你想探索更多的功能特性，请进入更多工具传送门: <a href="https://developer.chrome.com/docs/extensions/reference/" target="_blank">https://developer.chrome.com/docs/extensions/reference/</a></p>
+<h2 id="header-1-4">background</h2>
+<p>popup 与 content script 是随着 tab 的切换而切换的，只有 background 才是长久驻留浏览器的进程，不同 tab 之间的交互需要依赖 background。</p>
+<pre><code class="lang-json">{
+    &quot;background&quot;: {
+        &quot;service_worker&quot;: &quot;background.js&quot;
+    }
+}
+</code></pre>
+<p>这在通信中非常有用，如果 popup 不是在打开状态下，那么 content script 是通知不到 popup 的。并且，如果 content script 已经发出了通知，但是 popup 没打开，那么 popup 中的消息监听将会被错过。background 可以很好的弥补这一缺陷，来做一些常驻的功能。</p>
+<h2 id="header-1-5">通信</h2>
+<p>首先上一张图，对于消息这是非常重要的一个图:</p>
+<p><img src="./img/8.png" alt="消息传递图"></p>
+<p>发送消息:</p>
+<pre><code class="lang-js">chrome.runtime.sendMessage({
+    name: &#39;aaa&#39;,
+    data: {
+        num: 123,
+        str: &#39;字符串&#39;,
+        obj: {},
+        arr: []
+    }
+});
+</code></pre>
+<p>结束消息:</p>
+<pre><code class="lang-js">chrome.runtime.onMessage.addListener(request =&gt; {
+    if (request.name === &#39;aaa&#39;) {
+        chrome.action.setBadgeText({
+            text: &#39;👂&#39;
+        });
+    }
+});
+</code></pre>
+<h2 id="header-1-6">模拟事件</h2>
+<p>background.js 中接收消息</p>
+<pre><code class="lang-js">chrome.runtime.onMessage.addListener((request, sender) =&gt; {});
+</code></pre>
+<p>attach，在进入模拟前要 attach，否则模拟会报错。</p>
+<pre><code class="lang-js">chrome.debugger.attach({
+    extensionId: chrome.runtime.id,
+    tabId: sender.tab.id
+}, &#39;1.3&#39;, () =&gt; {
+    if (chrome.runtime.lastError) {
+        // oh no!
+    }
+    else {
+        // ...
+    }
+});
+</code></pre>
+<p>模拟输入，参数文档: <a href="https://chromedevtools.github.io/devtools-protocol/tot/Input/#method-insertText" target="_blank">https://chromedevtools.github.io/devtools-protocol/tot/Input/#method-insertText</a></p>
+<pre><code class="lang-js">chrome.debugger.sendCommand({
+    extensionId: chrome.runtime.id,
+    tabId: sender.tab.id,
+    x: 2,
+    y: 2
+}, &quot;Input.insertText&quot;, {
+    text: &#39;456&#39;
+}, () =&gt; {
+
+});
+</code></pre>
+<h2 id="header-1-7">跨域请求数据</h2>
+<p>跨域请求数据的时候会遇到跨域问题，在配置中添加 <code>host_permissions</code> 配置:</p>
+<pre><code class="lang-json">{
+    &quot;host_permissions&quot;: [
+        &quot;http://127.0.0.1:4000&quot;
+    ]
+}
+</code></pre>
+<h2 id="header-1-8">备忘</h2>
+
+</div>
+</body>
+</html>

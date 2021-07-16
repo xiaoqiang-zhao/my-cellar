@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>导出 echart 图 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">导出 echart 图</h1>
+<h2 id="header-1-1">源码</h2>
+<pre><code class="lang-js">/**
+ * @file 导出 echart 图
+ */
+
+export default (data) =&gt; {
+    if (!Array.isArray(data)) {
+        data = [data];
+    }
+
+    data.forEach(item =&gt; {
+        // 下载
+        const aLink = document.createElement(&#39;a&#39;);
+        const url = item.chart.getDataURL();
+        aLink.href = url;
+        aLink.download = item.fileName || &#39;图&#39;;
+        let event;
+        if (window.MouseEvent) {
+            event = new MouseEvent(&#39;click&#39;);
+        }
+        else {
+            event = document.createEvent(&#39;MouseEvents&#39;);
+            event.initMouseEvent(&#39;click&#39;, true, false, window);
+            // , 0, 0, 0, 0, 0, false, false, false, false, 0, null
+        }
+        aLink.dispatchEvent(event);
+    });  
+};
+</code></pre>
+<h2 id="header-1-2">调用</h2>
+<pre><code class="lang-js">import exportChart from &#39;./export-chart&#39;;
+// 单个导出
+exportChart({
+    chart: this.taskSourceChart,
+    fileName: &#39;任务来源机构.png&#39;
+});
+// 多个导出
+exportChart({
+    chart: this.taskSourceChart2,
+    fileName: &#39;任务来源机构2.png&#39;
+});
+</code></pre>
+<p>this.taskSourceChart 的初始化如下</p>
+<pre><code class="lang-js">import * as echarts from &#39;echarts&#39;;
+echarts.init(this.$refs.task);
+</code></pre>
+
+</div>
+</body>
+</html>

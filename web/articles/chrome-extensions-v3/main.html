@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>chrome extensions v3 教程 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">chrome extensions v3 教程</h1>
+<blockquote>
+<p>最近接了一个私活儿，需要开发一个浏览器插件，功能还挺复杂。但是查了一圈资料后发现可用度很低，要么过时并且示例不可运行，要么逻辑不清抓不住重点。我有一个观点，能交给别人的知识和技能才是自己的，那我就写一个教程吧。(动笔时间 2020.03.10)</p>
+</blockquote>
+<h2 id="header-1-1">概述</h2>
+<p>由于中文资料有滞后性，我们直接参考官方的英文原版文档。</p>
+<p><a href="https://developer.chrome.com/docs/extensions/mv3/" target="_blank">https://developer.chrome.com/docs/extensions/mv3/</a></p>
+<p>对重要部分做翻译，对不足的地方做补充和说明。这是一个重在掌握基础的教程，后面我会把私活儿的代码做开源，另附一篇实战教程。</p>
+<p>这趴教程的下面部分大体框架直接和官网对应。</p>
+<h2 id="header-1-2">Welcome</h2>
+<p>这里为想要开发浏览器扩展的开发者提供一些指导和信息参考。</p>
+<p>如果你还不确定要不要用浏览器扩展，可以看看这些页面:</p>
+<ul>
+<li><a href="https://developer.chrome.com/extensions/mv3/overview/" target="_blank">什么是浏览器扩展?</a> 帮助你明白浏览器扩展是什么</li>
+<li><a href="https://developer.chrome.com/docs/extensions/mv3/getstarted/" target="_blank">入门指导</a> 教你写一个 hello word</li>
+</ul>
+<p>当然，如果你想要了解一些实用的切入点，，可以看看这些页面:</p>
+<ul>
+<li>学习作用域相关内容 <a href="https://developer.chrome.com/docs/extensions/mv3/devguide/" target="_blank">chrome extensions 开发概览</a></li>
+<li><a href="https://developer.chrome.com/docs/extensions/???/" target="_blank">示例</a>，安装它，盘它</li>
+<li><a href="https://developer.chrome.com/docs/extensions/mv3/faq/" target="_blank">官方问答专区</a>，查找一些问题的好地方</li>
+<li><a href="https://stackoverflow.com/tags/google-chrome-extension/info" target="_blank">Stack Overflow 中的 chrome extensions tag</a></li>
+</ul>
+<h2 id="header-1-3">Getting started</h2>
+<p>一个 Chrome Extensions Manifest V3 包含 background scripts、content scripts,、an options page、UI elements 四部分内容(如果插件够简单有些部分可省略)。</p>
+<p>编写一个 Chrome Extensions Manifest V3 从定义 manifest.json 文件开始，它是入口文件，类似于 npm 包的 package.json。</p>
+<p>最简单的 manifest.json 是这样的:</p>
+<pre><code class="lang-json">{
+  &quot;name&quot;: &quot;Getting Started Example&quot;,
+  &quot;description&quot;: &quot;Build an Extension!&quot;,
+  &quot;version&quot;: &quot;1.0&quot;,
+  &quot;manifest_version&quot;: 3
+}
+</code></pre>
+<p>我们新建个文件夹来存放上面 json，再找一个 png 图标(今年是牛年，我找了一个牛的图标)，配置图标引入:</p>
+<pre><code class="lang-json">{
+  &quot;name&quot;: &quot;Getting Started Example&quot;,
+  &quot;description&quot;: &quot;Build an Extension!&quot;,
+  &quot;version&quot;: &quot;1.0&quot;,
+  &quot;manifest_version&quot;: 3,
+  &quot;action&quot;: {
+    &quot;default_icon&quot;: &quot;niu.png&quot;
+  }
+}
+</code></pre>
+<p>首先打开 Chrome，More Tools / Extensions / 打开 Developer mode / Load unpacked</p>
+<p>把我们刚才新建文件夹选一下。然后一个插件像模像样的出现在了浏览器右上角。</p>
+<p><img src="./img/1.png" alt="图片"></p>
+<h3 id="header-1-3-1">基础 Demo</h3>
+<p>到目前，我们的插件除了摆摆样子还什么都做不了。那是因为我们还没有告诉它要在什么时候做什么事情。</p>
+<p>先加一个 service_worker:</p>
+<pre><code class="lang-json">{
+  &quot;background&quot;: {
+    &quot;service_worker&quot;: &quot;background.js&quot;
+  },
+  &quot;permissions&quot;: [&quot;storage&quot;]
+}
+</code></pre>
+<p>background.js:</p>
+<pre><code class="lang-js">let color = &#39;#3aa757&#39;;
+
+chrome.runtime.onInstalled.addListener(() =&gt; {
+  chrome.storage.sync.set({ color });
+  console.log(&#39;Default background color set to %cgreen&#39;, `color: ${color}`);
+});
+</code></pre>
+<p>这个 js 是运行在后台的，不会对页面发生改变。在插件第一次安装或者插件更新版本时触发，保存一个键值为 color 的数据到 chrome.storage。先把数据存下来，后面介绍怎么用。</p>
+<p>然后加一个页面的配置:</p>
+<pre><code class="lang-json">{
+  &quot;action&quot;: {
+    &quot;default_popup&quot;: &quot;popup.html&quot;
+  }
+}
+</code></pre>
+<p>popup.html:</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;button.css&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;button id=&quot;changeColor&quot;&gt;
+    改变文本区背景色
+  &lt;/button&gt;
+  &lt;div id=&quot;text-container&quot;&gt;
+    内容区域
+  &lt;/div&gt;
+  &lt;script src=&quot;popup.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<p>button.css:</p>
+<pre><code class="lang-css">body {
+    width: 123px;
+}
+button {
+    cursor: pointer;
+}
+#text-container {
+    padding: 10px;
+    margin: 10px 0;
+}
+</code></pre>
+<p>popup.js</p>
+<pre><code class="lang-js">let changeColor = document.getElementById(&quot;changeColor&quot;);
+let backgroundColor;
+
+chrome.storage.sync.get(&quot;color&quot;, ({
+    color
+}) =&gt; {
+    backgroundColor = color;
+});
+
+changeColor.addEventListener(&quot;click&quot;, async () =&gt; {
+    document.getElementById(&#39;text-container&#39;).style.backgroundColor = backgroundColor;
+});
+</code></pre>
+<p>完整代码在 demo-code-1 中，这些代码就可与有这么一个界面:</p>
+<p><img src="./img/2.png" alt="图片"></p>
+<p>点击按钮后文字区的背景颜色会改变。</p>
+<p>这个 Demo 主要展示了这样几项功能:</p>
+<ul>
+<li>初始化一个 Chrome Extensions；</li>
+<li>图标的设定；</li>
+<li>点击 Chrome Extensions 时展示一个小页面；</li>
+<li>后台程序的初始化与相关事件；</li>
+<li>chrome.storage 的操作；</li>
+<li>页面与后台的数据交互。</li>
+</ul>
+<p>写程序少不了调试，下面介绍怎么调试我们的代码。</p>
+<h3 id="header-1-3-2">关于调试</h3>
+<p>在 Chrome 的地址栏输入 chrome://extensions/ 并打开后，就是 Extensions 列表了。将 Developer mode 开关打开后可用 Load unpacked 按钮上传 Extension 源码，然后点击我们上传插件的 Details 到插件详情页。后面我们每次修改代码刷新这个页面就可以了，当然也可以手动点击 Update 来更新。如果只是 popup 的修改，是可以直接更新的。</p>
+<p><img src="./img/3.png" alt="图片"></p>
+<p>右击 Extension 图标 Inspect Popup 可以调试 popup，非常方便，与开发 pc 网站没有太大差别:</p>
+<p><img src="./img/4.png" alt="图片"></p>
+<p>在 Extension 详情页点击 service worker 可以调试 background.js。</p>
+<p><img src="./img/5.png" alt="图片"></p>
+<p>当前这个 Demo 的 background.js 中只包含了一个插件安装时触发的事件，并不容易调试到。下面我们再写一个功能更多一点的 Demo。</p>
+<h3 id="header-1-3-3">进阶 Demo</h3>
+<p>我们来写一个真正的浏览器插件，其功能是改变当前网页的背景色(用项目网站试了一下操作表单也是可以的)，核心代码在 demo-code-2/popup.js 中:</p>
+<pre><code class="lang-js">const redBtn = document.getElementById(&quot;redBtn&quot;);
+
+redBtn.addEventListener(&quot;click&quot;, async () =&gt; {
+    let [tab] = await chrome.tabs.query({
+        active: true,
+        currentWindow: true
+    });
+
+    chrome.scripting.executeScript({
+        target: {
+            tabId: tab.id
+        },
+        function() {
+            document.body.style.backgroundColor = &#39;red&#39;;
+            // 如果页面中有单选按钮，可以用下面的代码控制其选中
+            const doms = document.getElementsByClassName(&#39;el-radio__original&#39;);
+            for (let i = 0; i &lt; doms.length; i++) {
+                const item = doms[i];
+                if (item.value === &#39;female&#39;) {
+                    item.checked = true;
+                }
+                else if (item.value === &#39;male&#39;) {
+                    item.checked = false;
+                }
+            }
+        },
+    });
+});
+</code></pre>
+<p>使用效果是这样的:</p>
+<p><img src="./img/6.png" alt="图片"></p>
+<h2 id="header-1-4">介绍 V3</h2>
+<p>Chrome Extensions Manifest V3 适用于 Chrome 88 及以上的 chrome。</p>
+<p>注: 以下 Chrome Extensions Manifest V3 简称为 MV3。</p>
+<p>MV3 当前最新版发布于 2021.01.19。</p>
+<p>Chrome Extensions 是 Chrome 强大的组成部分，每天都有数以百万级的插件被下载。嗯，总之“很牛”就完了。</p>
+<p>浏览器插件可以获得用户的更多授权，从而提供更强大的功能为用户服务。</p>
+<h3 id="header-1-4-1">Service workers</h3>
+<p>MV3 将原来的 background pages 替换为了 service workers。</p>
+<p>service workers 是一个服务器与浏览器之间的中间人角色，如果网站中注册了 service worker 那么它可以拦截当前网站所有的请求，进行判断（需要编写相应的判断程序），如果需要向服务器发起请求的就转给服务器，如果可以直接使用缓存的就直接返回缓存不再转给服务器。从而大大提高浏览体验。</p>
+<p>Service worker 运行在 worker 上下文，不能访问DOM。</p>
+<h2 id="header-1-5">概览(Overview)</h2>
+<p>什么是 Extensions？</p>
+<p>它是一个跑在 Chrome 浏览器中的一个应用，可以整合第三方网站或服务，并自定义浏览器行为。</p>
+<p>开发的主要语言为 JavaScript，部分采用 html、css、图片等。</p>
+<p>每个 Extension 必须要有一个 single purpose。</p>
+<h2 id="header-1-6">API</h2>
+<p>当成工具查阅的 API 手册: <a href="https://developer.chrome.com/docs/extensions/reference/" target="_blank">https://developer.chrome.com/docs/extensions/reference/</a></p>
+<h2 id="header-1-7">样例(Samples)</h2>
+<p>这里是一个 github 仓库，汇集了一些样例。如果在这里能找到类似的样例，直接拿下来改改就能有一个自己的 chrome extension 了。</p>
+<p>吐槽一下，这里的文档写的奇烂。与代码不符的，链接无效的，看这部分文档就像从一堆烂苹果中找一个完整的。</p>
+<h2 id="header-1-8">开发扩展组件和主题(Develop extensions and themes)</h2>
+<h3 id="header-1-8-1">概览(overwiew)</h3>
+<p>提供不同应用场景的入口汇总。</p>
+<ul>
+<li>user interface，浏览器的用户界面修改，可以为浏览器添加自定义按钮，管理书签，快捷键等；</li>
+<li>Build extension utilities，扩展通用功能，如 OAuth2 access tokens 等；</li>
+<li>Modify and observe the Chrome Browser，修改于监听浏览器行为，如下载、代理、主题等；</li>
+<li>Modify and observe the web，修改与监听网页，可以监听激活状态的网页，并对网页做修改和自定义触发，广告屏蔽插件和对第三方网站做一些重复工作的自动化可用此块内容来实现；</li>
+<li>Package, deploy and update，打包、发布、更新 extension；</li>
+<li>Expand Chrome DevTools，扩展开发工具。</li>
+</ul>
+<h3 id="header-1-8-2">manifest.json配置全集(Manifest file format)</h3>
+<p>这里有一份全量的 manifest.json 字段配置文件。</p>
+<pre><code class="lang-json">{
+  // Required
+  &quot;manifest_version&quot;: 3,
+  &quot;name&quot;: &quot;My Extension&quot;,
+  &quot;version&quot;: &quot;versionString&quot;,
+
+  // Recommended
+  &quot;action&quot;: {...},
+  &quot;default_locale&quot;: &quot;en&quot;,
+  &quot;description&quot;: &quot;A plain text description&quot;,
+  &quot;icons&quot;: {...},
+
+  // Optional
+  &quot;action&quot;: ...,
+  &quot;author&quot;: ...,
+  &quot;automation&quot;: ...,
+  &quot;background&quot;: {
+    // Required
+    &quot;service_worker&quot;:
+  },
+  &quot;chrome_settings_overrides&quot;: {...},
+  &quot;chrome_url_overrides&quot;: {...},
+  &quot;commands&quot;: {...},
+  &quot;content_capabilities&quot;: ...,
+  &quot;content_scripts&quot;: [{...}],
+  &quot;content_security_policy&quot;: &quot;policyString&quot;,
+  &quot;converted_from_user_script&quot;: ...,
+  &quot;current_locale&quot;: ...,
+  &quot;declarative_net_request&quot;: ...,
+  &quot;devtools_page&quot;: &quot;devtools.html&quot;,
+  &quot;differential_fingerprint&quot;: ...,
+  &quot;event_rules&quot;: [{...}],
+  &quot;externally_connectable&quot;: {
+    &quot;matches&quot;: [&quot;*://*.example.com/*&quot;]
+  },
+  &quot;file_browser_handlers&quot;: [...],
+  &quot;file_system_provider_capabilities&quot;: {
+    &quot;configurable&quot;: true,
+    &quot;multiple_mounts&quot;: true,
+    &quot;source&quot;: &quot;network&quot;
+  },
+  &quot;homepage_url&quot;: &quot;http://path/to/homepage&quot;,
+  &quot;host_permissions&quot;: [...],
+  &quot;import&quot;: [{&quot;id&quot;: &quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&quot;}],
+  &quot;incognito&quot;: &quot;spanning, split, or not_allowed&quot;,
+  &quot;input_components&quot;: ...,
+  &quot;key&quot;: &quot;publicKey&quot;,
+  &quot;minimum_chrome_version&quot;: &quot;versionString&quot;,
+  &quot;nacl_modules&quot;: [...],
+  &quot;natively_connectable&quot;: ...,
+  &quot;oauth2&quot;: ...,
+  &quot;offline_enabled&quot;: true,
+  &quot;omnibox&quot;: {
+    &quot;keyword&quot;: &quot;aString&quot;
+  },
+  &quot;optional_permissions&quot;: [&quot;tabs&quot;],
+  &quot;options_page&quot;: &quot;options.html&quot;,
+  &quot;options_ui&quot;: {
+    &quot;chrome_style&quot;: true,
+    &quot;page&quot;: &quot;options.html&quot;
+  },
+  &quot;permissions&quot;: [&quot;tabs&quot;],
+  &quot;platforms&quot;: ...,
+  &quot;replacement_web_app&quot;: ...,
+  &quot;requirements&quot;: {...},
+  &quot;sandbox&quot;: [...],
+  &quot;short_name&quot;: &quot;Short Name&quot;,
+  &quot;storage&quot;: {
+    &quot;managed_schema&quot;: &quot;schema.json&quot;
+  },
+  &quot;system_indicator&quot;: ...,
+  &quot;tts_engine&quot;: {...},
+  &quot;update_url&quot;: &quot;http://path/to/updateInfo.xml&quot;,
+  &quot;version_name&quot;: &quot;aString&quot;,
+  &quot;web_accessible_resources&quot;: [...]
+}
+</code></pre>
+<h3 id="header-1-8-3">Architecture overview 结构概览</h3>
+<p>chrome extension 是由 HTML、CSS、JavaScript、图片、和其他文件压缩而成的包，可以安装在 PC 和 手机 的 Chrome 浏览器上。</p>
+<p><img src="./img/7.png" alt="图片"></p>
+<p>background script 是 extension 的事件控制器，可以监听浏览器事件，是静默躺在浏览器后台中的进程，直到被定义的事件唤醒，然后执行定义好的逻辑。事件监听的定义需要使用 <a href="https://developer.chrome.com/docs/extensions/reference/declarativeContent/" target="_blank">declarative content</a></p>
+<p>popup.html 定义用户界面，可以直接写页面，也可以调用 tabs.create 或 window.open()</p>
+<p><img src="./img/7.png" alt="图片"></p>
+<p>popup 在页面外是孤立无援的，我们可以派一个间谍打入页面作为内应，这个间谍就叫 Content script，它可以注入到页面中，通过 messages 模块与 popup 和 background 通信。</p>
+
+</div>
+</body>
+</html>

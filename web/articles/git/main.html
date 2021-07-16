@@ -22,9 +22,11 @@
 <blockquote>
 <p>可视化工具只是命令行的一个子集，可视化能做的命令行都能做，但是到目前为止还没有一个可视化工具实现了全部命令行，这里收集常用的命令，同时添加一些我的使用经验。</p>
 </blockquote>
-<h2 id="header-1-1">git clone</h2>
+<h2 id="header-1-1">安装</h2>
+<p><code>yum install -y git</code></p>
+<h2 id="header-1-2">git clone</h2>
 <p><code>git clone 项目地址</code>，克隆一个项目到本地。</p>
-<h2 id="header-1-2">git status</h2>
+<h2 id="header-1-3">git status</h2>
 <p><code>git status</code>，查看哪些文件被改变了，需要在被 git 托管的文件夹下使用。下面是几个一级标题对应的含义：</p>
 <ul>
 <li>Untracked files: 没有被托管的文件；</li>
@@ -35,16 +37,16 @@
 <li>new file: 新添加的文件;</li>
 <li>deleted: 删除文件</li>
 </ul>
-<h2 id="header-1-3">git add</h2>
+<h2 id="header-1-4">git add</h2>
 <p><code>git add dir/files</code>，添加托管文件，因为新建文件不会自动被 git 托管，所以需要手动添加</p>
 <pre><code class="lang-shell">// 添加全部文件
 git add .
 </code></pre>
-<h2 id="header-1-4">git rm</h2>
+<h2 id="header-1-5">git rm</h2>
 <pre><code class="lang-shell">// 移除托管文件
 git rm --cached 文件名
 </code></pre>
-<h2 id="header-1-5">git commit</h2>
+<h2 id="header-1-6">git commit</h2>
 <pre><code class="lang-shell">// 提交到本地的一个版本 ---- https://git-scm.com/docs/git-commit
 git commit -m &quot;提交的描述信息&quot;
 // 提交对文件的全部更改和删除
@@ -53,24 +55,28 @@ git commit -a -m &quot;提交的描述信息&quot;
 // 如果缓存区没有内容, 那么利用 amend 可以修改上一次 commit 的描述.
 git commit --amend
 </code></pre>
-<p>开发过程中很容易忘记 stage 某个文件或填写了不够准确的 commit 描述. --amend就是用来 fix 这些错误的.</p>
+<p>开发过程中很容易忘记 stage 某个文件或填写了不够准确的 commit 描述. --amend 就是用来 fix 这些错误的.</p>
 <p>不要对一个公共的 commit 使用 amend，amend 后生成的 commit 是一个全新的 commit, 之前的老的 commit 会从项目历史中被删除. 如果你 amend 了一个被其他开发者使用的 commit, 可能会使其他开发者感到困惑。</p>
 <p>查看 commit 历史列表:</p>
 <pre><code class="lang-shell">git log
 </code></pre>
-<h2 id="header-1-6">git reset</h2>
+<h2 id="header-1-7">git reset</h2>
 <p>如果你误 commit 了某一部分文件，还没有 push 到远程，那么你可以用 <code>git log</code> 找到 commit 的 commit_id，然后回滚到上一个 commit 之后的那一点，加 --hard 参数后未被 commit 的内容将被抛弃并不能被找回：</p>
 <pre><code class="lang-shell">git reset --hard commit_id
 </code></pre>
 <p>如果已经提交到了远程建议不要尝试各种撤销，建议提交一个新版本修正所犯错误。</p>
 <p>如果你想放弃未 commit 的修改，可以用 checkout:</p>
-<pre><code class="lang-shell"> git checkout HEAD 文件路径
+<pre><code class="lang-shell"> git reset --soft HEAD^
 </code></pre>
-<h2 id="header-1-7">git log</h2>
+<p>有时候我们要在服务器上临时改一写东西做验证，最后不想提交，这时可以用 <code>git checkout</code> 命令来撤销未 commit 的文件。</p>
+<pre><code class="lang-shell">git checkout .            # 撤销对所有已修改但未提交的文件的修改，但不包括新增的文件
+git checkout [filename]   # 撤销对指定文件的修改，[filename]为文件名
+</code></pre>
+<h2 id="header-1-8">git log</h2>
 <pre><code class="lang-shell">// 查看 commit日志
 git log
 </code></pre>
-<h2 id="header-1-8">git push</h2>
+<h2 id="header-1-9">git push</h2>
 <pre><code class="lang-shell">// 将当前分支的修改推送到远程分支 dev
 git push -u origin dev
 // -u 是建立分支追踪，以后就可以直接用下面命令了，而不需要指定要 push 哪个分支
@@ -78,7 +84,7 @@ git push
 // 删除远程分支
 git push origin :branch_name_to_delete
 </code></pre>
-<h2 id="header-1-9">git branch</h2>
+<h2 id="header-1-10">git branch</h2>
 <p><code>git branch</code> 列出本地分支；</p>
 <p><code>git branch -a</code> 列出全部分支，包括远程和本地分支；</p>
 <p><code>git branch --track 本地分支名 origin/远程分支名</code>，手动建立追踪，<a href="http://blog.csdn.net/hudashi/article/details/7664474" target="_blank">资料传送门</a>。在 <code>push</code> 的时候可以指定 <code>-u</code> 参数来快速建立追踪，一般在分支第一次提交的时候加此参数，以后就可以直接 <code>git push</code> 了，不需要添加远程分支名。</p>
@@ -89,7 +95,7 @@ git push origin :branch_name_to_delete
 <p>造成错误的原因可能是已经向这个分支 commit 了，但是没有 push 或者 push 出错都会造成分支描述文件的改变，可以试试 &quot;rm .git/refs/heads/分支名&quot; -- 删除描述文件。</p>
 <p>有时远程分支明明已经没有了可是在本地 <code>git branch -a</code> 的时候还能看到，这是怎么回事？
 因为 .git/refs/remotes/origin 文件夹下有缓存文件，手动删除一下就可以。还有一个地方可能有缓存 .git/packed-ref 文件中。</p>
-<h2 id="header-1-10">git config</h2>
+<h2 id="header-1-11">git config</h2>
 <pre><code class="lang-shell">// 获取配置信息
 git config --list
 // 设置用户名
@@ -103,12 +109,12 @@ git config --global alias.ci commit
 // 那么以后 commit 就可以向下面这样简写了
 git ci -m &quot;提交描述&quot;
 </code></pre>
-<h2 id="header-1-11">git checkout</h2>
+<h2 id="header-1-12">git checkout</h2>
 <p><code>git checkout -b 本地分支名 origin/远程分知名</code>，将远程分支检出到本地作为新的本地分支，并且切换到新分支，参数 <code>-b</code> 指定是新建分支 <code>new branch</code> 而不是分只切换；</p>
 <p><code>git checkout 分知名</code> 切换本地分支；</p>
 <p>可以用此命令删除远程分支：<code>git push origin :分支名</code>，git 没有提供删除本地分支的命令，这里可以通过删除文件的方式删除本地分支：<code>rm .git/refs/heads/本地分支名</code>。</p>
 <p>HEAD 是 checkout 的灵魂。</p>
-<h2 id="header-1-12">git fetch</h2>
+<h2 id="header-1-13">git fetch</h2>
 <p><code>git fetch</code>，将远程分支列表映射到本地，主要的应用场景是别人新建了远程分支但是我们本地无法看到，执行该命令可以将远程的分支映射到本地方便检出。如果只想映射某一个分支(这个分支的名称当然需要其他人告诉你)，可以使用下面命令：</p>
 <pre><code class="lang-shell">git fetch origin 远程分知名:本地分支名
 // 如果只想获取远程分支映射而不想检出到本地，可用下面简写
@@ -118,7 +124,7 @@ git fetch origin 远程分知名
 <p>远程分支删除后用 <code>git branch -a</code> 还能看到被删除的分支，这是因为 git 的缓存机制，可以用下面命令删除远程已经不存在但本地却还有缓存的分支。</p>
 <pre><code class="lang-shell">git fetch -p
 </code></pre>
-<h2 id="header-1-13">git merge</h2>
+<h2 id="header-1-14">git merge</h2>
 <p>将其他分支的代码合并到当前所在分支，</p>
 <pre><code class="lang-shell">// 合并远程分支代码
 git merge origin/feature/z
@@ -126,21 +132,26 @@ git merge origin/feature/z
 git merge feature/z
 </code></pre>
 <p>这里需要注意一点，被合并的远程分支需要先将改动映射到本地 <code>git fetch origin 远程分知名</code>，否则不能拿到最新修改。这个<code>fetch</code>命令的优势是可以不检出本地分支，更不需要切换到被合并分支的本地分支。另外 <code>fetch</code> 不改变本地代码，但是已经将修改同步到了本地仓库，这个便捷来自于 git 的差异更新机制。</p>
-<h2 id="header-1-14">git pull</h2>
+<h2 id="header-1-15">git pull</h2>
 <p>拉取远程分支并合并到当前分支</p>
 <pre><code class="lang-shell">git pull origin dev
 </code></pre>
 <p>如果已经建立了跟踪可以如下简写：</p>
 <pre><code class="lang-shell">git pull
 </code></pre>
-<h2 id="header-1-15">gitflow</h2>
+<h2 id="header-1-16">gitflow</h2>
 <p>在了解了基本的使用命令后，你还需要了解一个多人协作的方式: gitflow。</p>
 <p>学习传送门:</p>
 <ul>
 <li><a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow" target="_blank">英文</a></li>
 <li><a href="https://www.cnblogs.com/wish123/p/9785101.html" target="_blank">中文</a></li>
 </ul>
-<h2 id="header-1-16">参考资料</h2>
+<h2 id="header-1-17">加速</h2>
+<p>向 github 提交代码与拉去代码越来越慢了，配一下 hosts 加速 DNS 解析速度会有些许提速。</p>
+<p>首先用 <a href="https://tool.chinaz.com/dns/?type=1&amp;host=assets-cdn.github.com&amp;ip=" target="_blank">DNS查询工具</a> 查找下面两个链接的 DNS，然后选TTL 最小的。hosts 配置如下:</p>
+<pre><code>151.101.109.194 github.global.ssl.fastly.net
+185.199.111.153 assets-cdn.github.com
+</code></pre><h2 id="header-1-18">参考资料</h2>
 <p><a href="https://git-scm.com/docs/" target="_blank">官方文档</a></p>
 <p><a href="http://blog.csdn.net/showhilllee/article/details/27706679" target="_blank">GitHub详细教程</a></p>
 <p><a href="http://www.cnblogs.com/terrylin/archive/2013/04/04/2999465.html" target="_blank">Sublime 下配置 GitHub</a></p>

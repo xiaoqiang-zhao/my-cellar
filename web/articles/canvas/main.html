@@ -47,7 +47,15 @@ html2canvas(dom).then(canvas =&gt; {
 
 });
 </code></pre>
+<h2 id="header-1-4">技巧</h2>
+<h3 id="header-1-4-1"> </h3>
+<p>如果设置了 scale，用 arc 画圆的时候可能会断断续续并且带毛刺，我们可以动态的根据 scale 的值来改变 lineWidth 值:</p>
+<pre><code class="lang-js">ctx.lineWidth = Number.parseInt(1 / scaleValue) + 0.5;
+</code></pre>
+<h2 id="header-1-5">参考</h2>
 <p><a href="https://html2canvas.hertzen.com/" target="_blank">https://html2canvas.hertzen.com/</a></p>
+<p><a href="https://juejin.cn/post/6844903682761310216" target="_blank">https://juejin.cn/post/6844903682761310216</a></p>
+<p><a href="http://www.alloyteam.com/2015/07/canvas-hua-tuo-yuan-di-fang-fa/" target="_blank">http://www.alloyteam.com/2015/07/canvas-hua-tuo-yuan-di-fang-fa/</a></p>
 
 </div>
 </body>

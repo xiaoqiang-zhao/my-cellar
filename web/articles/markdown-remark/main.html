@@ -230,7 +230,14 @@ unified()
         console.log(String(file))
     });
 </code></pre>
-<h2 id="header-1-4">参考</h2>
+<h2 id="header-1-4">md 文件引入</h2>
+<p>当你需要引入大段的文档时，需要用到 html-loader，在 webpack.base.conf.js 中添加加载器配置:</p>
+<pre><code class="lang-js">{
+    test: /\.md$/,
+    loader: &#39;html-loader&#39;
+}
+</code></pre>
+<h2 id="header-1-5">参考</h2>
 <p><a href="https://github.com/remarkjs/remark" target="_blank">https://github.com/remarkjs/remark</a></p>
 <p>公司的高T原话：“js 玩 markdown 建议 remark，其他的都是早晚后悔 ”。</p>
 <p><a href="https://highlightjs.org/usage/" target="_blank">highlight</a></p>

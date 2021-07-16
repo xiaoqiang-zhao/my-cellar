@@ -32,6 +32,9 @@ Window/Zoom Level: 0.5
 
 // 在新窗口打开文件夹
 Window/openFoldersInNewWindow: on
+
+// 缩进
+Tab Size: 4
 </code></pre>
 <p>皮肤切换：Code/Preferences/Color Theme (Cmd + K + T)</p>
 <h2 id="header-1-2">快捷键</h2>
@@ -48,16 +51,18 @@ Window/openFoldersInNewWindow: on
 <h3 id="header-1-2-2">效率</h3>
 <p>关闭其他Tab：Alt + Cmd + T</p>
 <p>新建文件：Cmd + N，吐槽一下默认居然在项目的根目录新建文件，多数情况下还是希望在当前选中目录下新建文件，所以我们自定义一下：</p>
-<pre><code>{
+<pre><code class="lang-config">{
     &quot;key&quot;: &quot;cmd+n&quot;,
     &quot;command&quot;: &quot;explorer.newFile&quot;
 }
-</code></pre><p>新建文件夹：Cmd + Shift + N，这个快捷键并没有原始提供，需要加配置：</p>
-<pre><code>{
+</code></pre>
+<p>新建文件夹：Cmd + Shift + N，这个快捷键并没有原始提供，需要加配置：</p>
+<pre><code class="lang-config">{
     &quot;key&quot;: &quot;shift+cmd+n&quot;,
     &quot;command&quot;: &quot;explorer.newFolder&quot;
 }
-</code></pre><p>折叠代码：Alt + Cmd + [</p>
+</code></pre>
+<p>折叠代码：option + Cmd + [</p>
 <p>在当前编辑器打开文件：Cmd + P</p>
 <h3 id="header-1-2-3">功能</h3>
 <p>格式化代码：Shift + Alt + F</p>
@@ -73,11 +78,12 @@ Window/openFoldersInNewWindow: on
 <h2 id="header-1-5">插件</h2>
 <h3 id="header-1-5-1">emmet</h3>
 <p>emmet 语法插件 Mithril Emmet support for VS Code，添加配置：</p>
-<pre><code>&quot;emmet.syntaxProfiles&quot;: {
+<pre><code class="lang-config">&quot;emmet.syntaxProfiles&quot;: {
     &quot;vue-html&quot;: &quot;html&quot;,
     &quot;vue&quot;: &quot;html&quot;
 }
-</code></pre><p>beautify 格式化代码插件</p>
+</code></pre>
+<p>beautify 格式化代码插件</p>
 <p><a href="https://hao5743.github.io/2016/12/26/vscode%E4%B8%ADbeautifyrc%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%BF%BB%E8%AF%91%E5%92%8C%E8%AE%BE%E7%BD%AE/" target="_blank">https://hao5743.github.io/2016/12/26/vscode%E4%B8%ADbeautifyrc%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%BF%BB%E8%AF%91%E5%92%8C%E8%AE%BE%E7%BD%AE/</a></p>
 <h3 id="header-1-5-2">Auto Rename Tag</h3>
 <p><a href="https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-rename-tag" target="_blank">Auto Rename Tag</a> 修改HTML标签时，自动修改匹配的标签</p>
@@ -121,24 +127,25 @@ Window/openFoldersInNewWindow: on
 <p>一般的用法是选中表格区域，右键/Format Document With.../Markdown Table Formatter。高频用法是把 md 文件的默认格式化工具设置成 Markdown Table Formatter，然后就不需要选择了，直接快捷键: Option + Shift + F。</p>
 <h3 id="header-1-5-4">FECS</h3>
 <p>先安装插件 vscode-fecs-plugin，然后全局安装 fecs</p>
-<pre><code>npm install -g fecs
-</code></pre><p>配置 $NODE_PATH 环境变量</p>
-<pre><code>// 获取全局 npm 包安装路径
+<pre><code class="lang-shell">npm install -g fecs
+</code></pre>
+<p>配置 $NODE_PATH 环境变量</p>
+<pre><code class="lang-shell">// 获取全局 npm 包安装路径
 npm root -g
 vi ~/.bash_profile
 // 配置如下，路径可能不同
 // export NODE_PATH=/usr/local/lib/node_modules
-</code></pre><p>然后重启 VS Code，是彻底退出，是彻底退出，是彻底退出，不是只重启当前项目。</p>
+</code></pre>
+<p>然后重启 VS Code，是彻底退出，是彻底退出，是彻底退出，不是只重启当前项目。</p>
 <p>如果有的项目采用了不同的编码规范，可以找到插件然后 disable workspace，就可以在此项目中禁用 FECS 的代码格式检测。</p>
 <p>参考：<a href="https://github.com/l5oo00/vscode-fecs-plugin/issues/4#issuecomment-312411535" target="_blank">https://github.com/l5oo00/vscode-fecs-plugin/issues/4#issuecomment-312411535</a></p>
 <h2 id="header-1-6">杂项</h2>
 <p>如果用了 <code>vetur</code> 插件可能会出一个这样的警告：</p>
-<pre><code>&#39;v-for&#39; directives require &#39;v-bind:key&#39; directives.
-</code></pre><p>这是ESLint的功能。对vue进行了eslint检查。那么我们就把eslint对该插件的检查关闭，在配置文件中添加如下配置：</p>
-<pre><code>&quot;vetur.validation.template&quot;: false
-</code></pre><p>某些项目左侧的 git 图标在修改了文件后依然没啥动静，这是需要点击图标，然后点击三个点，在下拉中点“切换源代码管理系统”，最后选 Git，问题就解决了。</p>
-<p>ESLint
-<a href="http://www.cnblogs.com/rubylouvre/p/7280219.html" target="_blank">http://www.cnblogs.com/rubylouvre/p/7280219.html</a></p>
+<p><code>&#39;v-for&#39; directives require &#39;v-bind:key&#39; directives.</code></p>
+<p>这是ESLint的功能。对vue进行了eslint检查。那么我们就把eslint对该插件的检查关闭，在配置文件中添加如下配置：</p>
+<p><code>&quot;vetur.validation.template&quot;: false</code></p>
+<p>某些项目左侧的 git 图标在修改了文件后依然没啥动静，这是需要点击图标，然后点击三个点，在下拉中点“切换源代码管理系统”，最后选 Git，问题就解决了。</p>
+<p>ESLint: <a href="http://www.cnblogs.com/rubylouvre/p/7280219.html" target="_blank">http://www.cnblogs.com/rubylouvre/p/7280219.html</a></p>
 
 </div>
 </body>

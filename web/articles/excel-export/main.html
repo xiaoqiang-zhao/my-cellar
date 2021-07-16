@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>excel 导出 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">excel 导出</h1>
+<blockquote>
+<p>常用功能。</p>
+</blockquote>
+<h2 id="header-1-1">依赖安装</h2>
+<pre><code class="lang-shell">npm install xlsx --save
+</code></pre>
+<h2 id="header-1-2">export-excel 详细代码</h2>
+<pre><code class="lang-js">import * as XLSX from &quot;xlsx&quot;;
+
+const fileType = &#39;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8&#39;;
+
+export default (data, fileName) =&gt; {
+    if (!Array.isArray(data)) {
+        data = [data];
+    }
+
+    const workBook = {
+        Sheets: {},
+        SheetNames: []
+    };
+
+    data.forEach(item =&gt; {
+        const workSheet = XLSX.utils.aoa_to_sheet(item.data);
+        workBook.Sheets[item.sheetName] = workSheet;
+        workBook.SheetNames.push(item.sheetName);
+    });
+
+    const excelBuffer = XLSX.write(
+        workBook,
+        {
+            bookType: &#39;xlsx&#39;,
+            type: &#39;array&#39;
+        }
+    );
+    const fileData = new Blob(
+        [excelBuffer],
+        {
+            type: fileType
+        }
+    );
+
+    // 下载
+    const aLink = document.createElement(&#39;a&#39;);
+    const url = URL.createObjectURL(fileData);
+    aLink.href = url;
+    aLink.download = fileName || &#39;统计数据&#39;;
+    let event;
+    if (window.MouseEvent) {
+        event = new MouseEvent(&#39;click&#39;);
+    }
+    else {
+        event = document.createEvent(&#39;MouseEvents&#39;);
+        event.initMouseEvent(&#39;click&#39;, true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+    }
+    aLink.dispatchEvent(event);
+};
+</code></pre>
+<h2 id="header-1-3">调用方式</h2>
+<pre><code class="lang-js">import exportExcel from &#39;./export-excel&#39;;
+// 单个 sheet
+exportExcel({
+    sheetName: &#39;sheet1&#39;,
+    data: [
+        [&#39;表&#39;, &#39;头&#39;, &#39;内&#39;, &#39;容&#39;],
+        [1, 2, 3, 4],
+        [&#39;中&#39;, &#39;文&#39;, &#39;字&#39;, &#39;符&#39;],
+    ]
+}, &#39;文件名&#39;);
+// 多个 sheet
+exportExcel([
+    {
+        sheetName: &#39;sheet1&#39;,
+        data: [
+            [&#39;表&#39;, &#39;头&#39;, &#39;内&#39;, &#39;容&#39;],
+            [1, 2, 3, 4],
+            [&#39;中&#39;, &#39;文&#39;, &#39;字&#39;, &#39;符&#39;],
+        ]
+    },
+    {
+        sheetName: &#39;sheet2&#39;,
+        data: [
+            [&#39;表&#39;, &#39;头&#39;, &#39;内&#39;, &#39;容&#39;],
+            [1, 2, 3, 4],
+            [&#39;中&#39;, &#39;文&#39;, &#39;字&#39;, &#39;符&#39;],
+        ]
+    }
+], &#39;文件名&#39;);
+</code></pre>
+
+</div>
+</body>
+</html>

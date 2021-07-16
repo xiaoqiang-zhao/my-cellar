@@ -78,6 +78,15 @@ Vue.http.interceptors.push((request, next) =&gt; {
 });
 </code></pre>
 <p>VueResource 提供了 interceptors 接口，我们可以注入自己的逻辑，回调函数会在请求前被执行，请求完成后会执行 next 函数。值得注意的是这个系统级别的拦截，业务代码无法控制其中的逻辑，除非你在里面加一下特殊的业务逻辑判断，但我认为那是比较糟糕的实现。</p>
+<p>每个接口的通用状态，就是每个接口都有可能出现的状态。为了和 http 区分，可以用四位数字来表达，结合自己的项目经验给几个最常用的，基本也够用了:</p>
+<ul>
+<li>2000 正常请求</li>
+<li>4000 参数错误</li>
+<li>4001 未登录</li>
+<li>4002 已登录无权限</li>
+<li>4004 请求地址未定义</li>
+<li>5004 服务器错误</li>
+</ul>
 <h2 id="header-1-2">axios</h2>
 <p>刚做完上面的分享，发现 vue-resource 被官网弃坑了，真是感慨前端的技术迭代速度真是快。</p>
 <p>具体为什么弃坑请查阅这篇文章：<a href="https://medium.com/the-vue-point/retiring-vue-resource-871a82880af4" target="_blank">Retiring vue-resource</a>。我简单翻译了给出的 3 条理由：</p>
@@ -87,7 +96,7 @@ Vue.http.interceptors.push((request, next) =&gt; {
 <li>我们可以把用在 vue-resource 上的时间花在更有意义的事情上。</li>
 </ul>
 <p>axios 也有 interceptors，只是将请求前和完成后分成了 request 和 response，用法大同小异：</p>
-<pre><code class="lang-js">axios.interceptors.request.use(function (config) {
+<pre><code class="lang-js">axios.interceptors.request.use(config =&gt; {
     // Do something before request is sent
     return config;
 }, function (error) {
@@ -101,6 +110,23 @@ axios.interceptors.response.use(function (response) {
 }, function (error) {
     // Do something with response error
     return Promise.reject(error);
+});
+</code></pre>
+<p>在 request 中可以全局添加一些参数。注意 data 是两种不同类型的数据，需要用不同的方法添加。</p>
+<pre><code class="lang-js">axios.interceptors.request.use(config =&gt; {
+    config.url = &#39;/api&#39; + config.url;
+    const currentUser = utiles.getCurrentUser();
+    if (currentUser) {
+        config.data = config.data || {};
+        if (config.data instanceof FormData) {
+            config.data.append(&#39;bName&#39;, currentUser.bCompanyName);
+        }
+        else {
+            config.data.bName = currentUser.bCompanyName;
+        }
+    }
+
+    return config;
 });
 </code></pre>
 <h2 id="header-1-3">vue-router 登录控制</h2>
@@ -215,7 +241,7 @@ export default {
     },
     computed: {
         count () {
-        return this.$store.state.count
+            return this.$store.state.count
         }
     },
     methods: {}
@@ -224,22 +250,36 @@ export default {
 </code></pre>
 <h3 id="header-1-5-3">核心概念</h3>
 <p>state，对外只读。</p>
-<p>getters，是 store 的计算属性。</p>
-<p>mutations，用于修改 state，供对外 <code>commit</code>，示例：</p>
+<p>getters，是 store 的计算属性，组装器类，似 vue 中的计算属性 computed。</p>
+<p>mutations，用于同步修改 state，供对外 <code>commit</code>，示例：</p>
 <pre><code class="lang-js">// store 中定义
-mutations: {
-    increment (state, payload) {
+actions: {
+    functionA (state, payload) {
         state.count += payload.amount
     }
 }
 
 // 组件中触发
-this.$store.commit(&#39;increment&#39;, {
+this.$store.commit(&#39;functionA&#39;, {
     amount: 10
 })
 </code></pre>
 <p>actions，异步事件和提交 mutations。</p>
-<p>modules，当应用变得非常复杂时，store 对象就有可能变得相当臃肿，用 modules 分割 store。</p>
+<pre><code class="lang-js">// store 中定义
+actions: {
+    functionB (context, payload) {
+        context.state.count += payload.amount
+        // 在异步函数中可以触发同步函数
+        context.commit(&#39;functionA&#39;, state.count);
+    }
+}
+
+// 组件中触发
+this.$store.dispatch(&#39;functionB&#39;, {
+    amount: 10
+})
+</code></pre>
+<p>modules，当应用变得非常复杂时，store 对象就有可能变得相当臃肿，用 modules 分割 store。每个 module 里又可以有 state、getters、mutations、actions、modules 一套完整的 store。</p>
 <pre><code class="lang-js">const store = new Vuex.Store({
     modules: {
         a: moduleA,
@@ -249,6 +289,46 @@ this.$store.commit(&#39;increment&#39;, {
 
 store.state.a // -&gt; moduleA 的状态
 store.state.b // -&gt; moduleB 的状态
+</code></pre>
+<h3 id="header-1-5-4">技巧</h3>
+<p>与计算属性 computed 搭配使用，直接放在 data 中不会主动同步。</p>
+<p>如果 store 中的数据是对象或数组，那么修改对象的属性和修改数组的元素是不会被 computed 监听到的。解决办法:</p>
+<ol>
+<li>先深拷贝，修改后直接一个对象或数组覆盖上去，适合数据逻辑比较简单的场景;</li>
+<li>使用生成器，适合逻辑比较复杂的场景；</li>
+<li>监听关键变量，手动去更新变化部分，适合数据量比较大的场景。</li>
+</ol>
+<pre><code class="lang-js">// 这是我 super-note 开源项目中的一段代码
+export default {
+  computed: {
+    // 缩放比例, 一年:像素高度, 默认是 1，可在 1 和 10 之间切换
+    scale() {
+      return this.$store.state.scale
+    }
+  },
+  mounted() {
+    this.update()
+  },
+  watch: {
+    scale() {
+      this.update()
+    }
+  },
+  methods: {
+
+    /**
+     * 初始化，占位函数，会被实例化组件的方法替代
+     */
+    init() {},
+
+    update() {
+      this.init &amp;&amp; this.init()
+      if (this.data) {
+        this.positionStyle = this.data.positionData.positionStyle
+      }
+    }
+  }
+}
 </code></pre>
 <h2 id="header-1-6">场景描述</h2>
 <p>官网提供的解决方案有一种多年前 <code>window.data</code> 的味道，只是做了一些限制，限定了数据更改的方式，通过在 <code>mutations</code> 函数中打断点方便追踪数据的改变。</p>
@@ -279,8 +359,13 @@ store.state.b // -&gt; moduleB 的状态
       // ... 略
     }
 </code></pre>
-<h2 id="header-1-7">技巧</h2>
-<h3 id="header-1-7-1">组件的原生技能</h3>
+<h2 id="header-1-7">隐秘特性</h2>
+<h3 id="header-1-7-1">watch</h3>
+<p>watch 的属性触发先后顺序是什么？哪个属性先赋值就先触发吗，并不是！</p>
+<p>哪个属性在 watch 中先定义，先触发。</p>
+<p>这个设定好诡异，watch 是对象，其属性应该是无顺序的，感觉是设计上的瑕疵。</p>
+<h2 id="header-1-8">技巧</h2>
+<h3 id="header-1-8-1">组件的原生技能</h3>
 <p>样式类(class)不需要编码实现，只要引用时添加就会出现在组件最外层的标签上，同时还会引入运行时环境的 scope 到组件最外层的标签上。</p>
 <p>简单两个属性实现 v-model：</p>
 <pre><code class="lang-html">&lt;div class=&quot;input-x&quot;&gt;
@@ -290,33 +375,301 @@ store.state.b // -&gt; moduleB 的状态
         @input=&quot;$emit(&#39;input&#39;, $event.target.value)&quot;&gt;
 &lt;/div&gt;
 </code></pre>
-<h3 id="header-1-7-2">定制组件样式</h3>
-<p>覆盖引入组件内部Dom节点样式由两种方式：</p>
+<p>v-model 的通用开发技巧:</p>
+<pre><code class="lang-js">Vue.component(&#39;base-checkbox&#39;, {
+  model: {
+    prop: &#39;checked&#39;,
+    event: &#39;change&#39;
+  },
+  props: {
+    checked: Boolean
+  },
+  template: `
+    &lt;input
+      type=&quot;checkbox&quot;
+      v-bind:checked=&quot;checked&quot;
+      v-on:change=&quot;$emit(&#39;change&#39;, $event.target.checked)&quot;
+    &gt;
+  `
+});
+&lt;base-checkbox v-model=&quot;lovingVue&quot;&gt;&lt;/base-checkbox&gt;
+</code></pre>
+<h3 id="header-1-8-2">在 js 中怎么使用 this.$http</h3>
+<p>有的时候我们会用一个独立的 js 处理复杂数据，以减少 vue 文件中的代码数量。在请求服务端数据时，在 vue 文件中我们可以直接使用 <code>this.$http</code> 来获取数据，但是到了独立 js 中没有了 vue 对象怎么办？</p>
+<p>可以直接引入 axios，命令: <code>import axios from &#39;axios&#39;</code>，如果你明白 require 与 ES6 Modules 的区别，很容易想到这里的 axios 与 this.$http 是一样的，在 main.js 中的全部配置都生效。</p>
+<p>代码:</p>
+<pre><code class="lang-js">import axios from &#39;axios&#39;
+
+axios.get(&#39;/api/xxx&#39;).then(res =&gt; {
+
+});
+</code></pre>
+<h3 id="header-1-8-3">定制组件样式</h3>
+<p>覆盖引入组件内部 Dom 节点样式由两种方式：</p>
 <ul>
 <li>1、写单独的样式文件，然后引入；</li>
 <li>2、单独添加一个不带 scoped 属性的 style 标签。</li>
 </ul>
-<h2 id="header-1-8">组建间数据通信</h2>
+<h3 id="header-1-8-4">dll 优化</h3>
+<p>webpack.dll.conf.js</p>
+<pre><code class="lang-js">const path = require(&#39;path&#39;);
+const webpack = require(&#39;webpack&#39;);
+
+module.exports = {
+    entry: {
+        vue: [&#39;vue&#39;, &#39;vue-router&#39;],
+        ui: [&#39;element-ui&#39;]
+    },
+    output: {
+        path: path.join(__dirname, &#39;../src/dll/&#39;),
+        filename: &#39;[name].dll.js&#39;,
+        library: &#39;[name]&#39;
+    },
+    plugins: [
+        new webpack.DllPlugin({
+            // 打包dll存放的位置，之所以不放在dist下，是因为第三方库不需要每次都打包
+            path: path.join(__dirname, &#39;../src/dll/&#39;, &#39;[name]-manifest.json&#39;),
+            name: &#39;[name]&#39;
+        }),
+        new webpack.optimize.UglifyJsPlugin()
+    ]
+};
+</code></pre>
+<p>webpack.prod.conf.js</p>
+<pre><code class="lang-js">const webpackConfig = merge(baseWebpackConfig, {
+    plugins: [
+        new webpack.DllReferencePlugin({
+            manifest: require(&#39;../src/dll/ui-manifest.json&#39;)
+        }),
+        new webpack.DllReferencePlugin({
+            manifest: require(&#39;../src/dll/vue-manifest.json&#39;)
+        }),
+        // http://vuejs.github.io/vue-loader/en/workflow/production.html
+        new webpack.DefinePlugin({
+            &#39;process.env&#39;: env
+        }),
+        new AutoDllPlugin({
+            inject: true,
+            debug: true,
+            filename: &#39;[name]_[hash].js&#39;,
+            path: &#39;./dll&#39;,
+            entry: {
+                vendor: [
+                    &#39;vue&#39;,
+                    &#39;vue-router&#39;,
+                    &#39;ui&#39;
+                ]
+            }
+        })
+    ]
+});
+</code></pre>
+<p>注意 webpack.dll.conf.js 中 entry 与 webpack.prod.conf.js 中 vendor 的统一性。</p>
+<p>参考: <a href="https://github.com/ElemeFE/element/issues/8242" target="_blank">https://github.com/ElemeFE/element/issues/8242</a></p>
+<h2 id="header-1-9">element-ui 部分</h2>
+<h3 id="header-1-9-1">upload 组件开发备忘</h3>
+<p>upload 是单文件传送的</p>
+<p>before-upload 事件中修改 data 无效，要想修改 data 用下面的自定义上传方法 http-request</p>
+<p>file-list 参数组件并不会自动更新数据，需要在事件中手动维护，推荐在 on-change 中直接赋值更新，也可以通过 ref 拿到组件的 uploadFiles 就是 file-list。</p>
+<p>http-request 函数可以自定义上传逻辑</p>
+<p>官网没有示例代码，这里补充一个:</p>
+<pre><code class="lang-html">&lt;el-upload
+    class=&quot;upload-demo&quot;
+    ref=&quot;invoiceUploadComponent&quot;
+    action=&quot;/api/upload/invoice&quot;
+    :http-request=&quot;uploadFile&quot;
+    :file-list=&quot;invoiceFileList&quot;
+    :data=&quot;{key: &#39;invoice&#39;}&quot;
+    multiple&gt;
+    &lt;i class=&quot;el-icon-upload&quot;&gt;&lt;/i&gt;
+    &lt;div class=&quot;el-upload__text&quot;&gt;将文件拖到此处，或&lt;em&gt;点击上传&lt;/em&gt;&lt;/div&gt;
+    &lt;div class=&quot;el-upload__tip&quot; slot=&quot;tip&quot;&gt;
+        &lt;div&gt;提示: XXX&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/el-upload&gt;
+</code></pre>
+<pre><code class="lang-js">uploadFile(fileData) {
+    const formData = new FormData();
+    // 键值
+    formData.append(&#39;file&#39;, fileData.file);
+    formData.append(&#39;uid&#39;, fileData.file.uid);
+
+    this.$http.post(
+        fileData.action,
+        formData,
+        {
+            headers: {
+                &#39;Content-Type&#39;: &#39;multipart/form-data&#39;
+            }
+        }
+    ).then(res =&gt; {
+        debugger
+    }).catch(err =&gt; {
+        console.error(err);
+    });
+},
+</code></pre>
+<p>参考网站: <a href="https://www.jianshu.com/p/0a0d2ba76c3c" target="_blank">https://www.jianshu.com/p/0a0d2ba76c3c</a></p>
+<p>如果你想自定义上传失败，可以通过上面的自定义提交事件来控制。</p>
+<pre><code class="lang-js">uploadFile(fileData) {
+    const formData = new FormData();
+    // 键值
+    formData.append(&#39;file&#39;, fileData.file);
+    formData.append(&#39;uid&#39;, fileData.file.uid);
+
+    this.$http.post(
+        fileData.action,
+        formData,
+        {
+            headers: {
+                &#39;Content-Type&#39;: &#39;multipart/form-data&#39;
+            }
+        }
+    ).then(res =&gt; {
+        // 从列表中删除上传失败的文件
+        const uploadFiles = this.$refs.theComponentName.uploadFiles;
+        const index = uploadFiles.findIndex(item =&gt; item.uid === fileData.uid);
+        uploadFiles.splice(index, 1);
+    }).catch(err =&gt; {
+        console.error(err);
+    });
+},
+</code></pre>
+<p>此方法会造成页面抖动，暂时还没有很好的办法解决。</p>
+<p>思考: 这应该是 API 设计的问题，有这样几个问题:</p>
+<ol>
+<li>file-list 只能用来做数据初始化，上传成功个删除不自动更新；</li>
+<li>on-change、on-error、on-success、http-request 这些明显是方法，为什么要定义为 prop；</li>
+<li>在执行顺序上，设置了自定义上传方法 http-request，依然会先调用 on-change 等方法，并且更新数据和 dom。</li>
+</ol>
+<p>如果由我来设计，我的初步方案是:</p>
+<ol>
+<li>file-list 采用 v-model，要双向绑定自动更新；</li>
+<li>将 on-change 等定义为方法；</li>
+<li>如果定义了 http-request，还需要一个参数定义是否手动触发 on-change、on-error、on-success 这些方法；</li>
+<li>如果不手动触发，通过返回 promise 对象来决定触发哪一个。</li>
+</ol>
+<p>参考网站: <a href="https://blog.csdn.net/Missying55/article/details/115008761" target="_blank">https://blog.csdn.net/Missying55/article/details/115008761</a></p>
+<h3 id="header-1-9-2">el-input 原生事件</h3>
+<p>element-ui 的 input 组件可以用 @keyup.enter.native=&quot;login&quot; 来监听回车事件</p>
+<h3 id="header-1-9-3">el-table</h3>
+<p>表格列宽技巧: 用 min-width 代替 width，在宽屏时间距会比较均匀。</p>
+<p>不足之处，如果表格能先按最小宽度分配，剩下的部分宽度再均分就更好了，这样列之间的间距会更均匀。</p>
+<p>操纵表格的排序:</p>
+<pre><code class="lang-js">this.$refs.table.clearSort();
+const prop = &#39;theKey&#39;;
+const order = &#39;descending&#39;; // or ascending
+this.$refs.table.sort(prop, order);
+</code></pre>
+<h3 id="header-1-9-4">浏览器的自动填入功能禁用</h3>
+<p>在普通的 input 上直接 off 就行了</p>
+<pre><code class="lang-html">&lt;input type=&quot;password&quot; autoComplete=&quot;off&quot;/&gt;
+</code></pre>
+<p>elementui 上使用 autoComplete=&quot;off&quot; 是无效的，用 autoComplete=&quot;new-password&quot; 才可以</p>
+<pre><code class="lang-html">&lt;el-input v-model=&quot;password&quot; auto-complete=&quot;new-password&quot;&gt;&lt;/el-input&gt;
+</code></pre>
+<h3 id="header-1-9-5">服务启动中</h3>
+<p>在边缘计算环境下(客户那边放一个树莓派的小盒子)，环境启动可能比较慢，加一个 loading 状态。</p>
+<pre><code class="lang-js">export default {
+    created() {
+        const serviceCode = localStorage.getItem(&#39;serviceCode&#39;);
+        if (serviceCode !== &#39;1&#39;) {
+            this.loading = this.$loading({
+                lock: true,
+                text: &#39;服务启动中，启动成功后将自动刷新页面……&#39;,
+                spinner: &#39;el-icon-loading&#39;,
+                customClass: &#39;login-icon-loading&#39;,
+                background: &#39;rgba(0, 0, 0, 0.7)&#39;
+            });
+        }
+
+        this.rotation();
+    },
+    destroyed() {
+        if (this.setTimeoutId) {
+            window.clearTimeout(this.setTimeoutId);
+        }
+    },
+    methods: {
+
+        /**
+         * 轮训服务器启动状态
+         */
+        rotation() {
+            this.$http.get(&#39;/service&#39;).then(res =&gt; {
+                // service status codes:
+                // status undefined: 0
+                // all services running: 1
+                // scheduler failed: 2
+                const code = res.data.code;
+                if (code === 1 &amp;&amp; this.loading) {
+                    this.loading.close();
+                    this.loading = null;
+                }
+                if (localStorage.getItem(&#39;serviceCode&#39;) !== (code + &#39;&#39;)) {
+                    window.location.reload();
+                }
+
+                localStorage.setItem(&#39;serviceCode&#39;, code);
+            }).finally(() =&gt; {
+                this.setTimeoutId = setTimeout(() =&gt; {
+                    this.rotation();
+                }, 2000);
+            });
+        }
+    }
+};
+</code></pre>
+<p>通过 <code>localStorage</code> 来存储前一个状态。</p>
+<p>轮训会一直跑，如果当前轮训到的状态与上一次在 <code>localStorage</code> 中存储的状态不同时就刷新页面，这样可以从启动中切换到启动成功，如果遭遇到突然关机，可以已从成功状态切换到 loading 状态。</p>
+<h2 id="header-1-10">组建间数据通信</h2>
 <p>vuex不是万能药，组建之间的数据通信很多情况是不适用的，这里总结一下组件通信的常用方法的适用场景。</p>
-<h2 id="header-1-9">生命周期</h2>
+<h2 id="header-1-11">生命周期</h2>
 <p>基本是这样的:</p>
-<p>事件初始化和生命周期开始</p>
 <ul>
-<li>beforeCreate
-注入和反射</li>
-<li>created
-生成 html</li>
-<li>beforeMount
-将生成的 html 插入到页面中</li>
-<li>mounted
-数据改变</li>
-<li>beforeUpdate
-更新虚拟 dom 和实体 dom</li>
-<li>updated
-开始销毁</li>
-<li>beforeDestroy
-销毁完成</li>
-<li>destroyed</li>
+<li>beforeCreate，事件初始化和生命周期开始</li>
+<li>created，注入和反射</li>
+<li>beforeMount，生成 html 后</li>
+<li>mounted，将生成的 html 插入到页面中</li>
+<li>beforeUpdate，数据改变</li>
+<li>updated，更新虚拟 dom 和实体 dom</li>
+<li>beforeDestroy，销毁前</li>
+<li>destroyed，销毁完成</li>
+</ul>
+<p>记忆方式: create -&gt; mounte -&gt; destroye</p>
+<h2 id="header-1-12">面试题</h2>
+<h3 id="header-1-12-1">计算属性 vs 监听属性</h3>
+<p>computed 与 watch，异同点，举例业务场景。</p>
+<p>广播模式 和 观察者模式</p>
+<h3 id="header-1-12-2">计算属性 vs 方法</h3>
+<p>计算属性的缓存特性，方法的每次都调用特性。</p>
+<h3 id="header-1-12-3">计算属性的 setter</h3>
+<pre><code class="lang-js">computed: {
+  fullName: {
+    // getter
+    get: function () {
+      return this.firstName + &#39; &#39; + this.lastName
+    },
+    // setter
+    set: function (newValue) {
+      var names = newValue.split(&#39; &#39;)
+      this.firstName = names[0]
+      this.lastName = names[names.length - 1]
+    }
+  }
+}
+</code></pre>
+<h3 id="header-1-12-4">条件渲染</h3>
+<p>为什么不推荐 v-for 与 v-if 在同一个节点上使用？</p>
+<p>使用了会怎样？v-for 的优先级高于 v-if。</p>
+<p>怎么避免 v-for 与 v-if 同时使用？外放 v-if，对 v-for 使用计算属性。</p>
+<h3 id="header-1-12-5">keep-alive</h3>
+<p>keep-alive 有什么用？</p>
+<p>缓存组件数据和状态，多用在 router 中。</p>
+<ul>
+<li>include - 字符串或正则表达式。只有名称匹配的组件会被缓存。</li>
+<li>exclude - 字符串或正则表达式。任何名称匹配的组件都不会被缓存。</li>
+<li>max - 数字。最多可以缓存多少组件实例。</li>
 </ul>
 
 </div>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head lang="zh-cn">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>chrome 扩展 - 小强赵的个人站点</title>
+    <script>
+        // 用户通过搜索引擎到文章详情页时，跳到首页并进行哈希路由
+        var href = window.location.href.replace(/[^:|\/]\//,function (matchStr){
+            return matchStr + 'index.html#!';
+        });
+        window.location.href = href.replace('/main.html', '');
+    </script>
+</head>
+<body>
+<header>
+    <h1> 小强赵的个人站点 </h1>
+    <h2> 精进自己，服务他人 </h2>
+</header>
+<div>
+    <h1 id="header-1">chrome 扩展</h1>
+<blockquote>
+<p>实录一个 chrome 扩展的开发。</p>
+</blockquote>
+<h2 id="header-1-1">概述</h2>
+<p>需求是这样:</p>
+<ul>
+<li>1、一个业务网站，内包含一批账号和密码；</li>
+<li>2、在某个页面，选中一些账号和密码；</li>
+<li>3、去一个政府网站上用这些账号和密码登录；</li>
+<li>4、然后按指定路径点击并获取页面上的数据返回给业务网站。</li>
+</ul>
+<p>做了一圈技术方案调研，初步锁定用 chrome 扩展来实现。我会把自己实际开发的过程记录下来，之前也没做过，基本算是从零开始。</p>
+<p>开搞！！</p>
+<h2 id="header-1-2">写一个 hello word</h2>
+<p>新建个文件夹，按照教程写个 json。</p>
+<pre><code class="lang-json">{
+    &quot;manifest_version&quot;: 3,
+
+    &quot;name&quot;: &quot;E-xiaoqiangzhao&quot;,
+    &quot;description&quot;: &quot;小强赵开发的chrome扩展&quot;,
+    &quot;version&quot;: &quot;1.0&quot;,
+    &quot;permissions&quot;: [
+      &quot;https://www.baidu.com/&quot;
+    ],
+    &quot;action&quot;: {
+      &quot;default_icon&quot;: &quot;icon.png&quot;,
+      &quot;default_popup&quot;: &quot;popup.html&quot;
+    }
+}
+</code></pre>
+<p>再配个 popup.html</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head lang=&quot;zh-cn&quot;&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;hello word page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    hello word page
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>再找个图片做图标，完事。</p>
+<h2 id="header-1-3">放到浏览器中跑起来</h2>
+<p>首先打开浏览器，More Tools / Extensions / 打开 Developer mode / Load unpacked</p>
+<p>选择文件夹，把我们刚才新建文件夹选一下。然后一个插件像模像样的出现在了浏览器右上角。</p>
+<p><img src="./img/1.png" alt="图片"></p>
+<p>点击之后我们写的页面就出现了，是不是有点小兴奋。</p>
+<p><img src="./img/2.png" alt="图片"></p>
+<p>随便写点东西看看插件能不能更新，这样开发调试的环境也就好了。其实 manifest_version 为 3 的扩展已经做到了热更新，不需要刷新了。</p>
+<h2 id="header-1-4">十字路口</h2>
+<p>写到这里真正的技术挑战来了，有一点无从下手的感觉，怎么办？</p>
+<p>看文档。</p>
+<p>为了快速了解，我们看参考资料中的第二份文档 “<a href="https://crxdoc-zh.appspot.com/extensions/getstarted" target="_blank">一份不错的翻译文档</a>”。</p>
+<p>你会发现这份文档有些过时了，示例文件已经找不到了。无奈只能和第一份英文文档“<a href="https://developer.chrome.com/docs/extensions/mv3/" target="_blank">官方文档-英文</a>”相互参照着看了。</p>
+<h2 id="header-1-5">核心概念梳理</h2>
+<h3 id="header-1-5-1">清单文件 manifest.json</h3>
+<p>相当于一个 npm 包的 package.json，插件的定义文件。</p>
+<p>插件的图标，入口，界面等都在这个文件中定义。</p>
+<h3 id="header-1-5-2">架构</h3>
+<p>许多扩展程序有一个后台网页，它是一个包含扩展程序主要逻辑的不可见页面。扩展程序也可以包含其他页面，展现扩展程序的用户界面。如果扩展程序需要与用户加载的网页交互（相对于包含在扩展程序中的页面），扩展程序必须使用内容脚本。</p>
+<h3 id="header-1-5-3">后台网页 background.html</h3>
+<p>后台网页分两种：持续运行的后台网页与事件页面。</p>
+<p>持续运行的后台网页保持打开状态，事件页面根据需要打开与关闭。</p>
+<h3 id="header-1-5-4">用户界面网页 popup.html</h3>
+<p>扩展程序可以包含普通的 HTML 网页，用来显示扩展程序的用户界面。</p>
+<p>可以使用 tabs.create 或 window.open() 来显示扩展程序中的任何其他 HTML 文件。</p>
+<h3 id="header-1-5-5">内容脚本 contentscript.js</h3>
+<p>如果您的扩展程序需要与网页交互，您就需要使用内容脚本。内容脚本是一些 JavaScript 代码，它们在浏览器中已加载页面的上下文中执行。</p>
+<p>内容脚本可以读取浏览器访问的网页的细节，并且可以修改页面。</p>
+<h3 id="header-1-5-6">chrome.* API</h3>
+<p>扩展程序除了能够使用网页和应用的所有 API 外，还能使用仅用于 Chrome 浏览器的 API。</p>
+<p>例如，任何扩展程序或网上应用可以使用标准的 window.open() 方法来打开一个网页，但是如果您想指定网页应该显示在哪个窗口中，您的扩展程序就可以使用仅用于 Chrome 浏览器的 tabs.create 方法。</p>
+<p>大部分 chrome API 的方法都是异步的，它们不等待操作完成就立即返回。如果您需要知道操作结果，您可以向方法传递一个回调函数，回调函数将稍后在方法返回后的某个时刻执行（可能很久之后）。</p>
+<p>也有一些 chrome.* 方法是同步的。同步的方法没有回调参数，因为它们只有当所有操作完成后才返回。通常，同步方法有返回值类型。</p>
+<pre><code class="lang-js">string chrome.runtime.getURL();
+</code></pre>
+<h3 id="header-1-5-7">页面间的通信</h3>
+<p>扩展程序中的 HTML 网页通常需要通信。因为一个扩展程序的所有网页在同一个进程中的同一个线程上执行，网页之间可以直接调用函数。</p>
+<p>要获得扩展程序中的网页，请使用 chrome.extension 方法，例如 extension.getViews 和 extension.getBackgroundPage。一旦一个网页引用了扩展程序中的其他网页，第一个网页可以执行其他网页上的函数，并且可以操纵它们的 DOM。</p>
+<h3 id="header-1-5-8">保存数据</h3>
+<p>扩展程序可以使用 storage API、HTML5 网页存储 API（例如 localStorage）或者向服务器发出请求保存数据。</p>
+<p>注: 隐身模式保存数据到浏览器无效。</p>
+<h2 id="header-1-6">调试</h2>
+<p>了解了核心概念之后是不是摩拳擦掌想试试了。但还缺一样称手的兵器，还不能打断点调试。下面来看看断点调试的相关技能。</p>
+<h2 id="header-1-7">参考资料</h2>
+<p><a href="https://developer.chrome.com/docs/extensions/mv3/" target="_blank">官方文档-英文</a></p>
+<p><a href="https://crxdoc-zh.appspot.com/extensions/getstarted" target="_blank">一份不错的翻译文档</a></p>
+<p><a href="http://open.chrome.360.cn/extension_dev/overview.html" target="_blank">360 翻译的官方文档</a></p>
+<p><a href="https://www.cnblogs.com/liuxianan/p/chrome-plugin-develop.html" target="_blank">Chrome插件(扩展)开发全攻略</a></p>
+<p><a href="https://wizardforcel.gitbooks.io/chrome-doc/content/22.html" target="_blank">Chrome 扩展开发文档</a></p>
+<p><a href="https://ruphi.cn/archives/404/" target="_blank">Chrome Extension 开发总结（一）：基础知识</a></p>
+
+</div>
+</body>
+</html>

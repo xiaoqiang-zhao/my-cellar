@@ -77,8 +77,13 @@ sudo n latest
 </code></pre>
 <h2 id="header-1-4">基本快捷键</h2>
 <p>快速启动应用：Win + A，没有像 Windows 下那样的“我的程序”，更像 Mac 的 Spotlight。</p>
-<h2 id="header-1-5">一些奇怪的问题</h2>
-<h3 id="header-1-5-1">分辨率</h3>
+<h2 id="header-1-5">设置</h2>
+<p>自动登录设置: User Accounts / 某用户 / Login Options / Automatic Login</p>
+<p>默认程序设置: About This Computer / Default Applications </p>
+<h2 id="header-1-6">应用程序</h2>
+<p>dpkg --list</p>
+<h2 id="header-1-7">一些问题及解决</h2>
+<h3 id="header-1-7-1">分辨率</h3>
 <p>问题描述：可视区变窄两边有黑边，又无法通过图形化工具选到合适的分辨率。</p>
 <p>方案一：</p>
 <p>1、查看可用分辨率：<code>xrandr</code>；</p>
@@ -87,7 +92,11 @@ sudo n latest
 <p>上面方法虽然可以解决问题，但是在原理上是每次启动的时候强制设置分辨率，有没有更彻底一点的方案呢？一番搜索后还真有，出现这种问题多数是集成显卡和独立显卡同时存在，集成显卡一般比较弱但是系统自动配置了集成显卡作为默认启动项，这时需要将启动项改为独立显卡，方法如下：</p>
 <p>方案二：</p>
 <p>用 <code>lspci -k | grep -A 2 -i &quot;VGA&quot;</code> 命令查看显卡的硬件配置，在 System Setting/Detail 下可以查看当前系统用的是哪一块显卡，然后用 <code>sudo ubuntu-drivers devices</code> 命令查看驱动推荐，找到 recommended 的那一项进行安装，比如我的是 nvidia-384，用 <code>sudo apt-get install nvidia-384</code> 命令安装独立显卡驱动，重启后查看当前系统用的是哪一块显卡，如果还是集成显卡，用 <code>nvidia-settings</code> 命令切换。</p>
-<h2 id="header-1-6">参考文章</h2>
+<h3 id="header-1-7-2">修改密码</h3>
+<p>重启</p>
+<p>切换到 root 权限</p>
+<p>修改密码</p>
+<h2 id="header-1-8">参考文章</h2>
 <p><a href="http://blog.csdn.net/Yan_Chou/article/details/72847943" target="_blank">显卡设置</a></p>
 
 </div>

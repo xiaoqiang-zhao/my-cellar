@@ -126,6 +126,7 @@ array.splice(-1, 2, &#39;k&#39;); // [&#39;c&#39;]
 [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;].slice(-1,-2)  // []
 [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;].slice(-2,-1)  // [&quot;b&quot;]
 </code></pre>
+<p>如果在 forEach 中调用 splice，那么会出现跳过元素的情况。</p>
 <h3 id="header-1-2-8">concat</h3>
 <p>.concat(array1,array2,...,arrayX)</p>
 <p>方法用于连接两个或多个数组。
@@ -157,9 +158,9 @@ array.sort(function (item1, item2) {
     return true;
 }); // [{&quot;order&quot;:5},{&quot;order&quot;:2},{&quot;order&quot;:3},{&quot;order&quot;:1}]
 array.sort(function (item1, item2) {
-    // 刚好反向，最后的结果是item1.order &lt; item2.order
-    return item1.order &gt; item2.order;
-    // 更兼容的写法：return item1.order - item2.order;
+    // 从小到大排序
+    return item1.order - item2.order;
+    // 注意，使用 item1.order &gt; item2.order 可能达不到排序的目的
 }); // [{&quot;order&quot;:1},{&quot;order&quot;:2},{&quot;order&quot;:3},{&quot;order&quot;:5}]
 </code></pre>
 <p>在插播一条字符串的方法 <code>localeCompare</code>，在国内环境可能用得到，比如团队中按照国际惯例顺序来做分享，可以现场展示这个比较冷僻的方法。</p>
@@ -376,7 +377,7 @@ var array = [
     { order: 0 },
     { order: 1 },
     { order: 2 }
-    ];
+];
 array.indexOf(1); // -1
 array.indexOf({order: 2}); // -1
 array.indexOf(array[2]); // 2

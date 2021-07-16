@@ -1,0 +1,12 @@
+{
+  "enName": "chrome-extensions-v3",
+  "title": "chrome extensions v3 教程",
+  "introduction": "最近接了一个私活儿，需要开发一个浏览器插件，功能还挺复杂。但是查了一圈资料后发现可用度很低，要么过时并且示例不可运行，要么逻辑不清抓不住重点。我有一个观点，能交给别人的知识和技能才是自己的，那我就写一个教程吧。(动笔时间 2020.03.10)",
+  "tags": [],
+  "isPublished": false,
+  "state": "立项",
+  "type": "md",
+  "createDate": 1626426814113,
+  "commentList": [],
+  "todoList": []
+}

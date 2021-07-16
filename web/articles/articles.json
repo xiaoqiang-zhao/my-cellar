@@ -291,6 +291,30 @@
     "todoList": []
   },
   {
+    "enName": "canvas-course",
+    "title": "canvas 课程",
+    "introduction": "未找到描述信息",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1626426814110,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "canvas-ellipse",
+    "title": "canvas 画椭圆",
+    "introduction": "从基础讲起用 canvas 与原生 js 画椭圆。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1626426814111,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "cellar",
     "title": "cellar 技术文档",
     "introduction": "我觉的一个博客系统最起码要具备三个功能：写文章，展示文章，管理文章；还有三个加分点：良好的SEO，结构清晰可二次开发，免费。cellar 恰好具备这六点，让我从技术角度为你娓娓道来。",
@@ -303,6 +327,30 @@
     "todoList": []
   },
   {
+    "enName": "chrome-extensions-v3",
+    "title": "chrome extensions v3 教程",
+    "introduction": "最近接了一个私活儿，需要开发一个浏览器插件，功能还挺复杂。但是查了一圈资料后发现可用度很低，要么过时并且示例不可运行，要么逻辑不清抓不住重点。我有一个观点，能交给别人的知识和技能才是自己的，那我就写一个教程吧。(动笔时间 2020.03.10)",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1626426814113,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "chrome-extensions-v3-action",
+    "title": "chrome exetentions v3 实战",
+    "introduction": "未找到描述信息",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1626426814115,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "chrome-inspect",
     "title": "chrome inspect 调试",
     "introduction": "未找到描述信息",
@@ -311,6 +359,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1474196030345,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "chrome-plugin",
+    "title": "chrome 扩展",
+    "introduction": "实录一个 chrome 扩展的开发。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1626426814116,
     "commentList": [],
     "todoList": []
   },
@@ -357,6 +417,18 @@
     "todoList": []
   },
   {
+    "enName": "color",
+    "title": "配色",
+    "introduction": "设计网站和APP都需要有一个漂亮的配色，好的色彩搭配会看起来有高级感，没有好的配色再强大的功能都看起来有一种山寨感。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1626426814121,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "components",
     "title": "组件收集",
     "introduction": "为项目写过多少组件，又有多少是今年写完明年可能又要写一个大同小异的。这里收集一些组件，自己写的和那些小而美的第三方组件。",
@@ -381,6 +453,18 @@
     "todoList": []
   },
   {
+    "enName": "console.log",
+    "title": "console.log",
+    "introduction": "未找到描述信息",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1626426814125,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "css-animation",
     "title": "CSS 动画",
     "introduction": "目前我对于 CSS 动画还是一个菜鸟，从不会到熟练总需要一个过程，本篇从语法开始，记录我的学习，算是一份技术点备忘录吧。",
@@ -392,6 +476,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1455876338883,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "css-background",
+    "title": "CSS 背景色/图",
+    "introduction": "CSS3 添加了丰富的背景色和背景图的控制，背景色渐变，背景图裁剪，不耗费点精力学习一下还真掌握不了。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1626426814127,
     "commentList": [],
     "todoList": []
   },
@@ -536,6 +632,18 @@
     "todoList": []
   },
   {
+    "enName": "echart",
+    "title": "echart 使用笔记",
+    "introduction": "echart 是图表界的扛把子，基本是必备技能，学习并记录。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1626426814140,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "electron",
     "title": "electron",
     "introduction": "学习大全",
@@ -640,6 +748,30 @@
     "state": "立项",
     "type": "md",
     "createDate": 1549208176723,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "excel-export",
+    "title": "excel 导出",
+    "introduction": "常用功能。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1626426814154,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "export-chart",
+    "title": "导出 echart 图",
+    "introduction": "未找到描述信息",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1626426814155,
     "commentList": [],
     "todoList": []
   },
@@ -912,7 +1044,7 @@
   {
     "enName": "jointjs-implement",
     "title": "JointJs 实施方案",
-    "introduction": "JointJs 是一个核心框架,世纪用到项目中还需要做很多辅助工作(如果你不打算直接买Rappid的话).可视化是软件开发中的一种思路，我们渴望不写代码拖拖拽拽，点击配置就可以生成可运行的项目，这是一个非常好的愿景，但是到目前为止方案很多但效果却并没有得到预期。我觉得这样的现状和这类系统的定位有关，这种交互行形式只适合做组合型的系统，可被操作的元素较少，关系种类较少，配置项较少，元素的关系的组合较多，并且希望用图形的方式来展示这些关系或节点状态。jointJs提供了基本支持，是二次开发的一个很不错的选择，",
+    "introduction": "JointJs 是一个核心框架，实际用到项目中还需要做很多辅助工作(如果你不打算直接买Rappid的话).可视化是软件开发中的一种思路，我们渴望不写代码拖拖拽拽，点击配置就可以生成可运行的项目，这是一个非常好的愿景，但是到目前为止方案很多但效果却并没有得到预期。我觉得这样的现状和这类系统的定位有关，这种交互行形式只适合做组合型的系统，可被操作的元素较少，关系种类较少，配置项较少，元素的关系的组合较多，并且希望用图形的方式来展示这些关系或节点状态。jointJs提供了基本支持，是二次开发的一个很不错的选择，",
     "tags": [],
     "isPublished": false,
     "state": "立项",
@@ -1299,7 +1431,7 @@
   {
     "enName": "object",
     "title": "Object",
-    "introduction": "ES2015 的新特性还没跟上 ES6 又来了，让我们一起补课，紧跟时代别拉下。",
+    "introduction": "ES2015 的新特性还没跟上 ES6 又来了，让我们一起补课，紧跟时代别落下。",
     "tags": [],
     "isPublished": false,
     "state": "立项",
@@ -1345,6 +1477,18 @@
     "todoList": []
   },
   {
+    "enName": "print-page",
+    "title": "打印排版",
+    "introduction": "未找到描述信息",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1626426814205,
+    "commentList": [],
+    "todoList": []
+  },
+  {
     "enName": "product-modality",
     "title": "产品形态",
     "introduction": "从技术角度看产品形态。",
@@ -1365,6 +1509,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1488791920704,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "python",
+    "title": "Python 学习笔记",
+    "introduction": "多学个东西。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1626426814207,
     "commentList": [],
     "todoList": []
   },
@@ -1425,6 +1581,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1458264048135,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "reading-methodology",
+    "title": "阅读方法论",
+    "introduction": "阅读是有效获取系统性知识和认知的方法。阅读不受时间的限制，你可以和百年前的人同步思想，看到比较困难的你可以反复阅读而不用担心漏掉后面的内容，看到能引起内心波动之处你可以非常自然的停下来享受这份波动。相比于其他方式，视频适合挑起兴趣引你入门，面对面交流在你有了自己的体系后才能更有价值，而阅读在体系建设中是占最大部分的，阅读的深度和广度决定了你在一个方向上的高度。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1626426814213,
     "commentList": [],
     "todoList": []
   },
@@ -1526,6 +1694,18 @@
     "state": "立项",
     "type": "md",
     "createDate": 1572592740304,
+    "commentList": [],
+    "todoList": []
+  },
+  {
+    "enName": "sketch-action",
+    "title": "sketch 实战",
+    "introduction": "从头到尾介绍一个项目的设计和思考。",
+    "tags": [],
+    "isPublished": false,
+    "state": "立项",
+    "type": "md",
+    "createDate": 1626426814220,
     "commentList": [],
     "todoList": []
   },

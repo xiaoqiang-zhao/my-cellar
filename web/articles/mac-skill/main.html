@@ -123,22 +123,58 @@
 </ul>
 <h2 id="header-1-14">开发工具推荐</h2>
 <ul>
-<li>ZSH 终端神器，<a href="http://blog.163.com/qy_gong/blog/static/1718738792013102992830558/" target="_blank">传送门</a>；</li>
+<li>ZSH 终端神器，oh-my-zsh；</li>
 <li>前端神器 WebStorm，参见另一篇文章 <a href="/index.html#!/articles/webstorm" target="_blank">WebStorm 使用文档</a></li>
 <li>代理工具 <a href="https://www.charlesproxy.com/" target="_blank">Charles</a></li>
 <li>发送网页HTTP请求的工具，请求<a href="https://www.getpostman.com/apps" target="_blank">Postman</a></li>
 </ul>
-<h2 id="header-1-15">设计相关</h2>
+<h2 id="header-1-15">开发环境配置</h2>
+<h3 id="header-1-15-1">Xcode</h3>
+<p>先安装 Xcode。在 macOS 从 10 升级到 11 的时候系统升不上去，Xcode 无法安装，搞了很久没搞定，后来找公司的 IT 通过重装系统才搞定，据说就算升级成功也可能会出现开机黑屏等问题。</p>
+<h3 id="header-1-15-2">brew + git + wget</h3>
+<p>brew 是很好用的包管理工具，安装教程: <a href="https://zhuanlan.zhihu.com/p/90508170" target="_blank">https://zhuanlan.zhihu.com/p/90508170</a></p>
+<p>安装 git: <code>brew install git</code>。</p>
+<p>安装 wget: <code>brew install wget</code>。</p>
+<h3 id="header-1-15-3">oh-my-zsh</h3>
+<p>来一个 oh-my-zsh: <code>sh -c &quot;$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)&quot;</code>。你可能会遇到国内下特有的的 SSL_ERROR 问题，可以尝试源码安装: <code>git clone https://gitee.com/mirrors/oh-my-zsh.git</code> 到 tooles 下执行 <code>sh install.sh</code>。</p>
+<p>参考: <a href="https://blog.csdn.net/sinat_42483341/article/details/117040143?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-0&amp;spm=1001.2101.3001.4242" target="_blank">https://blog.csdn.net/sinat_42483341/article/details/117040143?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-0&amp;spm=1001.2101.3001.4242</a></p>
+<p>由于某些不可说的原因，git 上的资源经常下载不到，配置 DNS 可以提速:</p>
+<ol>
+<li>修改 /etc/hosts</li>
+<li>内容:
+140.82.112.4 github.com
+199.232.69.194 github.global.ssl.fastly.net
+185.199.108.153 assets-cdn.github.com
+185.199.109.153 assets-cdn.github.com
+185.199.110.153 assets-cdn.github.com
+185.199.111.153 assets-cdn.github.com</li>
+<li>DNS ip 可能会变，查询地址:
+<a href="https://github.com.ipaddress.com/" target="_blank">https://github.com.ipaddress.com/</a>
+<a href="https://fastly.net.ipaddress.com/github.global.ssl.fastly.net" target="_blank">https://fastly.net.ipaddress.com/github.global.ssl.fastly.net</a>
+<a href="https://github.com.ipaddress.com/assets-cdn.github.com" target="_blank">https://github.com.ipaddress.com/assets-cdn.github.com</a></li>
+<li>cmd 刷新 DNS 缓存(一般不用)
+ipconfig /flushdns</li>
+</ol>
+<p>安装完后配置主题:</p>
+<pre><code class="lang-shell">vi ~/.zshrc
+# 修改主题为 ZSH_THEME=&quot;af-magic&quot;
+# 退出保存
+
+# 是配置生效
+source ~/.zshrc
+</code></pre>
+<p>打开终端，在偏好设置中选择黑色半透明主题，调整文字大小。</p>
+<h2 id="header-1-16">设计相关</h2>
 <ul>
 <li><a href="http://www.getmarkman.com/" target="_blank">MarkMan</a>，高效的设计稿标注、测量工具 </li>
 <li><a href="https://www.adobe.com/cn/products/photoshop/free-trial-download.html" target="_blank">photoshop</a>，从中文官网下载最新的 Photoshop CC 2019，需要 Adobe 账号，新版真的太强大了。</li>
 <li><a href="http://www.sketchcn.com/" target="_blank">sketchcn</a>，设和做软件 UI 设计的软件。</li>
 </ul>
-<h2 id="header-1-16">外接显示器</h2>
+<h2 id="header-1-17">外接显示器</h2>
 <p>外接显示器分辨率没有最佳分辨率选项，需要按住 option 键再点击缩放按钮，这样会列出所有的分辨率选项。</p>
-<h2 id="header-1-17">磁盘空间使用分析</h2>
+<h2 id="header-1-18">磁盘空间使用分析</h2>
 <p>单击左上角的苹果图标: About This Mac / Storage / Manage...</p>
-<h2 id="header-1-18">包管理</h2>
+<h2 id="header-1-19">包管理</h2>
 <p>Mac常用的有两个：</p>
 <ul>
 <li>brew, 如果你只希望很快的安装一些便利的工具，那么homebrew是个不错的选择。</li>
@@ -148,7 +184,11 @@
 # （mac 自带 ruby 环境)
 </code></pre>
 <p>实践中，如果你装 nodejs 还是直接在官网下载安装包来的快，如果直接用 brew 安装默认是源码编译安装，需要下载很多依赖，比用安装包要慢很多。</p>
-<h2 id="header-1-19">资料</h2>
+<h2 id="header-1-20">关闭自启动软件</h2>
+<p>用户与群组(Users &amp; Groups) / 登录项(Login Items)，在这里你可以看到自动启动的软件，把不想要的移除掉就可以。</p>
+<p>看到这种设置还是挺惊喜的，自己的电脑自己要有掌控感，一些软件的流氓行为是该管管了。</p>
+<p>桌面右上角，和电池、输入法、wifi 一起的图标称为状态菜单。有一些软件的插件会一直显示在这里，但是这里没有集中管理的地方，需要借助第三方软件: 收费版 <a href="https://www.seagullscientific.com/support/downloads/" target="_blank">Bartender</a>，免费软件 (Dozer)[<a href="https://github.com/Mortennn/Dozer]。" target="_blank">https://github.com/Mortennn/Dozer]。</a></p>
+<h2 id="header-1-21">资料</h2>
 <p><a href="http://www.macx.cn/thread-2050934-1-1.html" target="_blank">16个OS X快捷键小技巧，至少应该了解一半</a></p>
 
 </div>
