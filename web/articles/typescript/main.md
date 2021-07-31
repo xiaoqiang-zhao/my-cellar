@@ -572,7 +572,7 @@ function identity<T>(arg: T): T {
 }
 ```
 
-使用时可以指定参数类型(当让这就同时指定了返回值类型)：
+使用时可以指定参数类型(当然这就同时指定了返回值类型)：
 
 ```js
 let output = identity<string>("myString");
@@ -802,3 +802,5 @@ ts 对于 js 来说是一种强约束，在项目中使用会增加设计和编�
 [Vue 2.0 为什么选用 Flow 进行静态代码检查而不是直接使用 TypeScript？](https://www.zhihu.com/question/46397274)
 
 [webpack - typescript/](https://webpack.js.org/guides/typescript/)
+
+[TypeScript 入门教程](https://ts.xcatliu.com/advanced/generics.html)

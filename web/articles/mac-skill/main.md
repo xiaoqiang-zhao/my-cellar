@@ -97,7 +97,7 @@ Touch Bar 占用了原来 F1-F12 的位置，按着 `fn` 键 F1-F12 就回来了
 
 FireFox 的 HostAdmin 插件很好用，可以方便的切换 host 配置。
 
-工具：switchHosts、HostsAdmin、Chrome插件Host Switch Plus。
+工具：switchHosts、HostsAdmin、Chrome 插件Host Switch Plus。
 
 ## 显示隐藏文件
 
