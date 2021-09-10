@@ -55,9 +55,17 @@ npm install module-name --save-dev
 npm config get registry
 # 设置 registry
 npm --registry=https://registry.npm.taobao.org install cnpm -g
-或者
+# 或者
 npm config set registry https://registry.npm.taobao.org
 npm config set registry http://registry.npm.baidu-int.com
+
+# 清除设置的 registry, 找到后注释掉
+npm config edit
+# 或者这样删除
+npm config delete registry
+npm config delete disturl
+
+# 还有个神器 nrm: https://www.npmjs.com/package/nrm
 ```
 
 如果装错了你可以不用管，但是如果有一点小洁癖的话可以卸载掉，加`--save`同样会将`package.json` 中的配置移除掉：
