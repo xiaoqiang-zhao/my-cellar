@@ -47,7 +47,7 @@ git commit -m "提交的描述信息"
 git commit -a -m "提交的描述信息" 
 // 合并缓存区的修改和最近的一次 commit, 然后用生成的新的 commit 替换掉老的. 
 // 如果缓存区没有内容, 那么利用 amend 可以修改上一次 commit 的描述.
-git commit --amend
+git commit --amend -m "新 commit 描述"
 ```
 
 开发过程中很容易忘记 stage 某个文件或填写了不够准确的 commit 描述. --amend 就是用来 fix 这些错误的.
@@ -73,7 +73,7 @@ git reset --hard commit_id
 如果你想放弃未 commit 的修改，可以用 checkout:
 
 ```shell
- git reset --soft HEAD^
+git reset --soft HEAD^
 ```
 
 有时候我们要在服务器上临时改一写东西做验证，最后不想提交，这时可以用 `git checkout` 命令来撤销未 commit 的文件。
@@ -144,7 +144,7 @@ git ci -m "提交描述"
 ## git checkout
 
 `git checkout -b 本地分支名 origin/远程分知名`，将远程分支检出到本地作为新的本地分支，并且切换到新分支，参数 `-b` 指定是新建分支 `new branch` 而不是分只切换；
-	
+
 `git checkout 分知名` 切换本地分支；
 
 可以用此命令删除远程分支：`git push origin :分支名`，git 没有提供删除本地分支的命令，这里可以通过删除文件的方式删除本地分支：`rm .git/refs/heads/本地分支名`。
@@ -212,6 +212,14 @@ git pull
 ```
 151.101.109.194 github.global.ssl.fastly.net
 185.199.111.153 assets-cdn.github.com
+```
+
+## 坑 记
+
+Git 默认不区分文件名大小写真是一个大坑。
+
+```shell
+git config core.ignorecase false
 ```
 
 ## 参考资料
