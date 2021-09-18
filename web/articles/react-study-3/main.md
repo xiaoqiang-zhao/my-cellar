@@ -245,38 +245,202 @@ useEffect(() => {
 
 在一定程度上回答了上面的问题。那些不变的逻辑应该写进 useEffect。
 
+### useState 的合并特性
 
-## 全局样式
+```ts
+import "./styles.css";
+import React, { useEffect, useState } from 'react';
+
+interface ChildComponentProps {
+  a: string;
+  b: string;
+}
+const ChildComponent: React.FC<ChildComponentProps> = ({a, b}) => {
+  useEffect(() => {
+    console.log('change:', a, b);
+  }, [a, b]);
+  return <div>{a} {b}</div>
+}
+
+export default function App() {
+  const [a, setA] = useState('a');
+  const [b, setB] = useState('b');
+
+  function change() {
+    setA('aa');
+    setB('bb');
+  }
+
+  return (
+    <div className="App">
+      <ChildComponent a={a} b={b}></ChildComponent>
+      <button onClick={change}>点它</button>
+    </div>
+  );
+}
+```
+
+使用 hooks 基本可以把组件生命周期简化了，就是：渲染+副作用。
+
+state 改变触发 rerender 调用 render 函数，然后执行到 useEffect，检查依赖，依赖变了调用回调。
+
+线上demo:
+https://codesandbox.io/s/elated-sunset-ru2e5?file=/src/App.js
+
+## 样式
+
+### 全局样式
 
 ```less
 .custom {
- :global(.ant-layout-header) {
-    background: url(~@/assets/post.png);
+ :global(.cus) {
+    color: red;
   }
 }
 ```
 
 这个在 Vue 中没有，是个亮点。Vue 中用 scope 对 css 做作用域隔离，想覆盖组件样式需要多加一个没有 scope 的 style。
 
-```ts
+渲染到页面中的效果是这样的:
 
+```css
+.custom___生成的id .cus {
+  color: red;
+}
 ```
 
-```ts
+当 .cus 中海油样式时，依然是带“生成id”的样式:
 
+```less
+.custom {
+ :global(.cus) {
+    color: red;
+    .aaa {}
+  }
+}
+// 最后结果:
+.custom___生成的id .cus {
+  color: red;
+}
+.custom___生成的id .cus .aaa___生成的id2{}
 ```
 
-```ts
+如果想定义多个全局样式，可以向下面这样。
 
+```less
+:global {
+  .aaa {
+    padding: 0;
+  }
+  .bbb {
+    margin: 0;
+  }
+}
 ```
 
-```ts
+## Form
 
+### Drawer 中 Form 报错
+
+错误信息: Instance created by useForm is not connect to any Form element. Forget to pass form prop?
+
+解决方案: 给抽屉组件配置 getContainer={false} 属性。
+
+参考:
+https://github.com/ant-design/ant-design/issues/21543
+
+### 嵌套数据的编辑
+
+如果数据是这种嵌套的: `{ a: { b: 1}, d:'d'}`，需要这么 `name={['policyInfo', 'display']}` 写 `name` 属性。
+
+```jsx
+<Form>
+  <Form.Item name={['a', 'b']} label="b:">
+    <Input/>
+  </Form.Item>
+</Form>
 ```
 
-```ts
+如果数据是这样的 `{ a: { b: 1, c: 2}, d:'d'}`，并且要在一行编辑 b 和 c，可以这么写:
 
+```jsx
+<Form>
+  <Form.Item label="a">
+    <Form.Item name={['a', 'b']} noStyle>
+      <Input/>
+    </Form.Item>
+    <Form.Item name={['a', 'c']} noStyle>
+      <Input/>
+    </Form.Item>
+  <Form.Item>
+</Form>
+
+如果有更复杂的嵌套逻辑，可以封装成一个组件。
+
+参考: https://ant.design/components/form-cn/#components-form-demo-customized-form-controls
+
+### style
+
+antd 中的 Drawer 组件可以设置 bodyStyle 属性，数据类型为 CSSProperties。
+
+```jsx
+<Drawer
+  title=""
+  placement="right"
+  closable={true}
+  onClose={closeDrawer}
+  visible={drawerVisible}
+  bodyStyle={{ padding: 0}}
+>
+  Text
+</Drawer>
 ```
+
+## router
+
+React 中路由传参及接收参数的方式(最新 react-router-dom^4.2.2 的写法)
+
+方式一：通过 params
+1. 路由表中      
+  <Route path=' /user/:id ' component={User}></Route>
+　　　　　　　　　　　
+2. Link 处 HTMLn方式
+  <Link to={ ' /user/ ' + ' 2 ' }  activeClassName='active'>XXXX</Link>          　　　　
+　　　　　　　　　　　
+JS 方式
+  this.props.history.push(  '/user/'+'2'  )
+　　　　　　　　　　　
+3. user页面       
+  通过  this.props.params.id 就可以接受到传递过来的参数（id）
+　　　　　　　　　　　
+方式 二：通过 query
+
+前提：必须由其他页面跳过来，参数才会被传递过来
+注：不需要配置路由表。路由表中的内容照常：<Route path='/user' component={User}></Route>
+
+1.Link 处 HTML 方式
+  <Link to={{ pathname: ' / user' , query : { day: 'Friday' }}}>
+　　　　　　　　　　
+JS方式
+  this.props. history.push({ pathname : '/ user' ,query : { day: 'Friday'} })
+
+2. user页面     
+  this.props.location.query.day
+                          
+方式 三：通过state
+
+同query差不多，只是属性不一样，而且state传的参数是加密的，query传的参数是公开的，在地址栏
+
+1.Link 处 HTML 方式：
+  <Link to={{ pathname : ' /user' , state : { day: 'Friday' }}}> 
+                          　　
+  JS方式：
+  this.props.history.push({ pathname:'/user',state:{ day : 'Friday' } })
+                      　　   
+2. user页面       
+    this.props.location.state.day
+
+参考: https://blog.csdn.net/qq_24504591/article/details/78973633
 
 ```ts
 
