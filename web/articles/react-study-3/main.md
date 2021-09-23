@@ -396,6 +396,30 @@ antd 中的 Drawer 组件可以设置 bodyStyle 属性，数据类型为 CSSProp
 </Drawer>
 ```
 
+### Switch 在 Form.Item 中回写无效
+
+在 Form.Item 中直接像用 Input 组件一样使用 Switch，发现数据回写不了。
+
+解决方案其实也挺简单，设置 `valuePropName="checked"` 就可以了。
+
+```jsx
+<Form.Item label="数据回流" name="dataCollect" valuePropName="checked">
+  <Switch />
+</Form.Item>
+```
+
+进一步的思考: 为什么不直接像 Input 一样直接可用？
+
+首先在技术上是完全可行的，只需要把属性 checked 改为 value 就行了。但是从 Switch 设计的角度上看，是否选中的属性名定为 checked 明显优于 value。
+
+valuePropName 其实解决两种问题，上面属性名是一种问题，还有一种是 checkbox 这种既有 checked 又有 value，为了区分我们要指定。
+
+关于 valuePropName 的三点注意:
+
+1. 你不再需要也不应该用 onChange 来做数据收集同步（你可以使用 Form 的 onValuesChange），但还是可以继续监听 onChange 事件。
+2. 你不能用控件的 value 或 defaultValue 等属性来设置表单域的值，默认值可以用 Form 里的 initialValues 或 setFieldsValue 来设置。注意 initialValues 不能被 setState 动态更新，你需要用 setFieldsValue 来更新。
+3. 你不应该用 setState，可以使用 form.setFieldsValue 来动态改变表单值。
+
 ## router
 
 React 中路由传参及接收参数的方式(最新 react-router-dom^4.2.2 的写法)
