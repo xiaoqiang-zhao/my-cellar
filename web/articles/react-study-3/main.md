@@ -410,9 +410,7 @@ antd 中的 Drawer 组件可以设置 bodyStyle 属性，数据类型为 CSSProp
 
 进一步的思考: 为什么不直接像 Input 一样直接可用？
 
-首先在技术上是完全可行的，只需要把属性 checked 改为 value 就行了。但是从 Switch 设计的角度上看，是否选中的属性名定为 checked 明显优于 value。
-
-valuePropName 其实解决两种问题，上面属性名是一种问题，还有一种是 checkbox 这种既有 checked 又有 value，为了区分我们要指定。
+首先在技术上是完全可行的，只需要把属性 checked 改为 value 就行了。但是从 Switch 设计的角度上看，是否选中的属性名定为 checked 明显优于 value。同理于 Checkbox 组件。
 
 关于 valuePropName 的三点注意:
 
