@@ -34,7 +34,12 @@ var a = moment();
 a.valueOf(); // 1360002924000
 ```
 
-## 
+## 获取秒数
+
+```js
+var a = moment();
+a.unix()(); // 1360002924
+```
 
 ## startOf(String)
 
