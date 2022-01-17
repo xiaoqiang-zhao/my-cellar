@@ -9,6 +9,6 @@
   "author": "longze",
   "license": "MIT",
   "dependencies": {
-    "mongoose": "^4.13.6"
+    "mongoose": "^5.7.7"
   }
 }
