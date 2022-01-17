@@ -16,8 +16,6 @@ PPT 配色: https://www.digitaling.com/articles/36629.html
 
 设计案例网站: https://dribbble.com/
 
-调色盘: http://www.peise.net/tools/web/
-
 酷炫配色器: https://www.coocolors.com/
 
 中国色: http://zhongguose.com/#diaozi
