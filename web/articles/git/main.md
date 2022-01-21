@@ -21,7 +21,7 @@
 - modified: 修改的文件；
 - new file: 新添加的文件;
 - deleted: 删除文件
-	
+
 ## git add
 	
 `git add dir/files`，添加托管文件，因为新建文件不会自动被 git 托管，所以需要手动添加
