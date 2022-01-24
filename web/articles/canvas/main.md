@@ -50,3 +50,5 @@ https://html2canvas.hertzen.com/
 https://juejin.cn/post/6844903682761310216
 
 http://www.alloyteam.com/2015/07/canvas-hua-tuo-yuan-di-fang-fa/
+
+Canvas API中文文档: https://www.canvasapi.cn/
