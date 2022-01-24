@@ -110,7 +110,7 @@ body .hide {
 
 ```css
 .wrap {
-    height: 40px;
+    max-height: 40px;
     line-height: 20px;
     overflow: hidden;
 }

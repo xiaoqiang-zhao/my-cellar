@@ -481,3 +481,33 @@ JS方式
 ```
 
 参考: https://www.ruanyifeng.com/blog/2020/09/react-hooks-useeffect-tutorial.html
+
+一个来自知乎的问题:
+
+react中onClick={fun}和onClick=>{()=>fun}有何区别呢？
+
+链接: https://www.zhihu.com/question/504049336/answer/2259867700
+
+```ts
+function onClick(callbackFunction) {
+  callbackFunction();
+}
+
+function fun() {
+  console.log('oye');
+}
+
+// onClick={fun} 相当于
+onClick(fun);
+
+// onClick=>{()=>fun} 相当于
+onClick(() => {
+  fun();
+});
+
+// 其实就是包了一层，本质上没区别
+// 如果硬要说要区别，可能在扩展性上，后者可以做数据装换，例如像这样
+onClick((event, id) => {
+  fun({event, id});
+});
+```

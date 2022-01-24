@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>内容交错块布局-留白对齐</title>
+    <style rel="stylesheet">
+        .container {
+            max-width: 300px;
+            margin: 0 auto;
+            display: block;
+            /* flex-wrap: wrap; */
+            /* justify-content: space-between; */
+            /* padding: 5px; */
+            background: #eee;
+        }
+        .item {
+            display: inline-block;
+            width: 45%;
+            float: left;
+            /* flex: 0 0 50%; */
+            /* max-width: 50%; */
+            background: #ddd;
+            /* border-bottom: 1px solid #eee; */
+            word-wrap: break-word;
+            word-break: break-all;
+            
+            /* padding: 5px; */
+        }
+    </style>
+</head>
+<body>
+<section class="container">
+    <div class="item">asdfg</div>
+    <div class="item">asdfgasdgfahsdgfjagsdjsdgjhsdgfhjsdgfhsdgfshdf</div>
+    <div class="item">asdfg</div>
+    <div class="item">asdfg</div>
+</section>
+</body>
+</html>

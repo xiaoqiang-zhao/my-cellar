@@ -86,3 +86,10 @@ var b = moment([2007, 0]);
 a.diff(b, 'years');       // 1
 a.diff(b, 'years', true); // 1.75
 ```
+
+## 日期格式化
+
+```js
+const date = moment(new Date());
+date.format('YYYY-MM-DD')
+```
