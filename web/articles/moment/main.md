@@ -38,7 +38,7 @@ a.valueOf(); // 1360002924000
 
 ```js
 var a = moment();
-a.unix()(); // 1360002924
+a.unix(); // 1360002924
 ```
 
 ## startOf(String)
@@ -64,8 +64,10 @@ moment().startOf('second');  // same as moment().milliseconds(0);
 
 ## isValid()
 
+日期格式检验
+
 ```js
-moment("2010 13",           "YYYY MM").isValid();     // false (not a real month)
+moment("2010 13", "YYYY MM").isValid();     // false (not a real month)
 ```
 
 ## 计算剩余天数
