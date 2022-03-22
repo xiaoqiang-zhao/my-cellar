@@ -68,6 +68,12 @@ npm config delete disturl
 # 还有个神器 nrm: https://www.npmjs.com/package/nrm
 ```
 
+如果用的是 yarn 看一下 yarn 的 registry 设置:
+
+```shell
+yarn config get registry
+```
+
 如果装错了你可以不用管，但是如果有一点小洁癖的话可以卸载掉，加`--save`同样会将`package.json` 中的配置移除掉：
 
 ```shell

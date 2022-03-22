@@ -312,7 +312,7 @@ flex 定义在弹性布局子项的元素上，属性值有两组：
 `align-items` 适用于弹性容器，定义子项在侧轴上的对齐方式。
 
 	align-items: flex-start | flex-end | center | baseline | stretch;
-	
+
 - flex-start：交叉轴的起点对齐；
 - flex-end：交叉轴的终点对齐；
 - center：交叉轴的中点对齐；
