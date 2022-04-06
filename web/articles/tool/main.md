@@ -14,6 +14,12 @@ http://www.jianshu.com/p/68684780c1b0
 
 注意如果要配置 https 抓包，需要安装证书，在安装证书的时候请先确保已经可以对 http 抓包了，也就是配置和 charles 已经启动好了。还有一点，保证证书的信任模式已经打开，打开方式：设置/通用/关于本机/证书信任设置。
 
+注意点:
+1. 将你的代理 VPN 关掉；
+2. 检查 macOS Proxy 是否勾上，要勾上；
+3. 证书信任，需要双击；
+4. 不要先添加监听的 Host 和 Port。先监听但是电脑没对它信任，会导致证书不安全，报“您的连接不是私密连接”。
+
 ## Beyond Compare
 
 对比文件差异的好工具，下载地址：https://www.scootersoftware.com/download.php
