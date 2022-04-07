@@ -4,10 +4,25 @@
 
 ### 问题
 
+掉不起扫码页面，开启 debugger 模式。
+
+绑定的时候报 {"errMsg":"config:ok","verifyJsApiList":["scanQRCode"]} 
+
+操作的时候报 {"errMsg":"scanQRCode:the permission value is offline verfying"}
+
 ### 解决方案
+
+https://github.com/yoowinsu/blog/issues/72
 
 ### 参考内容
 
+官方资料: 
+https://developers.weixin.qq.com/community/develop/doc/000a24a11e8c786fdf29b6dc659c09?_at=1597650184356
+https://developers.weixin.qq.com/community/develop/doc/0002aaa1c20e90ad09da1565856800
+
+博客资料: 
+https://blog.csdn.net/qq_43485006/article/details/108521522
+https://www.xianyuew.com/kxjs/7038096.html
 
 ## 图片选择
 
