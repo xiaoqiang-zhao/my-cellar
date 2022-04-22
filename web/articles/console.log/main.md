@@ -33,3 +33,5 @@ function clear() {
 }
 clear();
 ```
+
+原来是文件安全水印的 jssdk 搞的鬼。

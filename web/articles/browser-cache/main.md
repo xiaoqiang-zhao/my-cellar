@@ -38,7 +38,7 @@ Cache-Control 设置一个相对时间，在配置缓存的时候，以秒为单
 
 ### 协商缓存管理
 
-协商缓存是利用的是【Last-Modified，If-Modified-Since】和【ETag、If-None-Match】这两对Header来管理的。
+协商缓存是利用的是【Last-Modified，If-Modified-Since】和【ETag、If-None-Match】这两对 Header 来管理的。
 
 1）浏览器第一次跟服务器请求一个资源，服务器在返回这个资源的同时，在 respone 的 header 加上 Last-Modified，表示这个资源在服务器上的最后修改时间；
 
@@ -89,4 +89,3 @@ https://www.cnblogs.com/lyzg/p/5125934.html
 https://blog.csdn.net/zyw23zyw23/article/details/70991549
 
 https://blog.csdn.net/u014034854/article/details/50374709
-

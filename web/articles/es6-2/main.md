@@ -113,7 +113,7 @@ Set 实例的四个方法：
 - has(value)：返回一个布尔值，表示该值是否为Set的成员。
 - clear()：清除所有成员，没有返回值。
 
-Array.from方法可以将Set结构转为数组。
+Array.from 方法可以将 Set 结构转为数组。
 
 ```js
 const items = new Set([1, 2, 3, 4, 5]);

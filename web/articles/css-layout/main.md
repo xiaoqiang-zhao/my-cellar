@@ -20,7 +20,9 @@
   background: #eee;
 }
 .aside {
-  flex: 0 0 auto;
+  flex: none;
+  /* 等价于 */
+  /* flex: 0 0 auto; */
   background: #ddd;
   padding: 5px;
 }
@@ -42,7 +44,7 @@ flex 的值是这样的:
 2. 然后将侧栏的 `flex-grow` 设为 0，主区域的 `flex-grow` 设为 1，保证了侧栏不在分配剩余空间，并且剩余空间全部分配给主区域。
 3. 侧栏 `flex-shrink` 设置为 0，保证不受压缩。
 
-## 定宽流式
+## 1-3-1 常规布局
 
 ## 不定宽流式
 

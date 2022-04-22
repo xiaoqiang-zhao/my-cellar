@@ -112,6 +112,7 @@ for (let codePoint of 'foo') {
 // "o"
 // "o"
 ```
+
 新加了方法 includes, startsWith, endsWith 用来补充 indexOf 的不足，使操作更方便。这三个方法都支持第二个参数，表示开始搜索的位置。
 
 ```js
@@ -121,7 +122,7 @@ s.startsWith('world', 6); // true
 s.includes('Hello', 1);   // false
 ```
 
-endsWith 的行为与其他两个方法有所不同，它针对前n个字符
+endsWith 的行为与其他两个方法有所不同，它针对前n个字符。
 
 ```js
 s.endsWith('Hello', 5);   // true

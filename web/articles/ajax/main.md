@@ -12,7 +12,7 @@
 var XHR = window.XMLHttpRequest ? (new XMLHttpRequest()) : (new ActiveXObject("Microsoft.XMLHTTP")) ;
 
     if(XHR){  
-        XHR.open("get",url);   
+        XHR.open("get", url);   
         XHR.onreadystatechange = function () {  
             // readyState值说明  
             // 0,初始化,XHR对象已经创建,还未执行open  

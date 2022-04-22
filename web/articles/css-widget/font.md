@@ -14,7 +14,7 @@
 
 Arial 和 Times New Roman的对比：https://www.zhihu.com/question/19808594
 
-Tahoma是种非常圆滑的字体。 Tahoma是英文Windows操作系统的默认字体，这个字体比较均衡，中英文混排显示时，不会出现中英文不对齐的状态。Tahoma没有一些Arial为人诟病的缺点，例如大写“I”与小写“l”难以分辨等。
+Tahoma 是种非常圆滑的字体。 Tahoma 是英文Windows操作系统的默认字体，这个字体比较均衡，中英文混排显示时，不会出现中英文不对齐的状态。Tahoma 没有一些 Arial 为人诟病的缺点，例如大写“I”与小写“l”难以分辨等。
 
 ## 移动
 

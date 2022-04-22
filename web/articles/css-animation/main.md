@@ -85,15 +85,15 @@ div {
 	border-radius: 20px;
 	background: #B2EFB2;
 }
-div:hover {
-	animation: animation-name 1s 4 alternate;
-}
 @keyframes animation-name {
 	100% {
 		margin: 0;
 		padding: 100px;
 		border-radius: 100px;
 	}
+}
+div:hover {
+	animation: animation-name 1s 4 alternate;
 }
 ```
 

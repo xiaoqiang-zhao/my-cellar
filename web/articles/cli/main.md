@@ -346,15 +346,15 @@ ssh 远程服务器地址
 ssh-relay
 ```
 
-用来操作git的工具....持续编写中
+用来操作 git 的工具....持续编写中
 
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-
-    sudo apt-get install libssl-dev
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  sudo apt-get install libssl-dev
 
 https://github.com/nodegit/nodegit
 http://127.0.0.1:9999/articles/cli/img/cli.png
 http://127.0.0.1:9999/articles/cli/img/chalk.svg
+
 ## 参考
 
 [get-ip](https://github.com/alonalon/get-ip)
