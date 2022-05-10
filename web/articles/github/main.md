@@ -20,6 +20,10 @@ fatal: Authentication failed for 'https://github.com/xiaoqiang-zhao/my-cellar.gi
 
 https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
+按步骤一步步操作就可以。或者直接传送 https://github.com/settings/tokens
+
+注意最后一步需要复制 token，以后就看不到了，这个是一次性的。
+
 2. 登录
 
 本地执行 `git push` 的时候，会弹出用户名和密码输入框，将原来的密码换成上面生成的 token 就可以。
