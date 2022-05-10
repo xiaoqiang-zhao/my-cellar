@@ -256,6 +256,12 @@ webpackConfig.watch = true; // 是否监听改变
 
 利用 watch 可以结合web容器和 websocket 做一些 livereload 的事情。
 
+## 启动服务
+
+使用 webpack-dev-server 插件可以启动 web 服务，方便本地开发时运行与调试页面。
+
+demo: server
+
 ## 编外
 
 - learn by doing: 边做边学
@@ -280,3 +286,5 @@ webpackConfig.watch = true; // 是否监听改变
 [less-loader](https://github.com/webpack/less-loader)
 
 [code-splitting](http://webpack.github.io/docs/code-splitting.html)
+
+[手把手带你搭建一个简单的webpack脚手架（二）](https://blog.csdn.net/dabai1997/article/details/117437506?spm=1001.2014.3001.5501)
