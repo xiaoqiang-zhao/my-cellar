@@ -280,12 +280,12 @@ npm ERR! you must verify your email before publishing a new package: https://www
 
 ### 浏览器端、客户端
 
-- vue-cli vue脚手架
 - js-cookie 浏览器端操作 cookie
 - clipboard 复制，支持 IE9+
 
 ### 服务端、CLI
 
+- vue-cli vue脚手架
 - consolidate，集成模板引擎；
 - chalk，命令行高亮；
 - commander，命令行辅助，TJ 大神的库。还有更简单的库 -- yargs；
@@ -311,6 +311,18 @@ demo: https://sheetjs.com/demos
 
 npm: https://www.npmjs.com/package/china-division
 
+## npm scripts
+
+```json
+"scripts": {
+  "test": "mocha test"
+}
+```
+
+这样的配置命令其实是执行的 `./node_modules/.bin/mocha test`。
+
+如果写一个命令行工具，怎么在安装的时候生成一个可执行文件到 `.bin` 文件夹下呢？
+
 ## 参考资料
 
 [官方文档](https://docs.npmjs.com)
@@ -322,3 +334,5 @@ npm: https://www.npmjs.com/package/china-division
 [开发组件库时 Vue 应该放哪儿：devDependencies or peerDependencies？](https://cnodejs.org/topic/5819624a1a9a7d9909531395)
 	
 [记npm包开发全过程](http://www.w2bc.com/Article/86039)	
+
+[npm scripts 使用指南 阮一峰](https://www.ruanyifeng.com/blog/2016/10/npm_scripts.html)
