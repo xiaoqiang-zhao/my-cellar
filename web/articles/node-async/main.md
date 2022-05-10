@@ -514,6 +514,9 @@ let bar = await barPromise;
 
 ## 宏任务 VS 微任务
 
+微任务: Promise、Process.nextTick
+宏任务: setTimeout、setImmediate
+
 先看下面一段代码：
 
 ```js
