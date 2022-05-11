@@ -175,3 +175,56 @@ export default App
 这一特性可以用来做页面框架布局。
 
 可运行示例见 demo/demo-2。
+
+### 动态路由
+
+```jsx
+// routes/invoices.tsx
+import { Link } from 'react-router-dom'
+
+function Invoices() {
+  let invoices = [
+    {
+      name: "Santa Monica",
+      number: 1995,
+      amount: "$10,800",
+      due: "12/05/1995",
+    },
+    {
+      name: "Stankonia",
+      number: 2000,
+      amount: "$8,000",
+      due: "10/31/2000",
+    }
+  ]
+
+  return (
+    <div>
+      <header>Invoices</header>
+      <ul>
+        {invoices.map((item) => (
+          <li key={ item.number }>
+            <Link to={`/invoices/${ item.number }`}>
+              { item.name }
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+export default Invoices
+```
+
+相对于当前路径的路由可以这样写: `<Link to={`${ item.number }`}>`，运行结果一样。
+
+此时我们还没有定义子路由和相应的页面，点击之后是一个空白页，连 App 组件也没有显示出来。
+
+由此我们可以定义不同路径用不同的布局模板。
+
+### 无匹配路由
+
+当没有路由匹配时，指定一个页面做友好提示
+
+
