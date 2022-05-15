@@ -164,3 +164,5 @@ vi ~/.bash_profile
 某些项目左侧的 git 图标在修改了文件后依然没啥动静，这是需要点击图标，然后点击三个点，在下拉中点“切换源代码管理系统”，最后选 Git，问题就解决了。
 
 ESLint: http://www.cnblogs.com/rubylouvre/p/7280219.html
+
+在新窗口打开项目而不关闭当前窗口的设置: 文件 / 首选项 / 设置 / 窗口 / 新建窗口 / Open Folders In New Window / on
