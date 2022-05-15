@@ -498,6 +498,16 @@ add();
 
 另外创建子进程还有另外三种方式：fork, exec 和 execFile。
 
+## Ubuntu 安装 nodejs
+
+```shell
+sudo apt-get install nodejs
+node -v
+npm -v
+```
+
+参考: https://www.runoob.com/nodejs/nodejs-install-setup.html
+
 ## 参考
 
 (NodeJs中的stream（流）- 基础篇
