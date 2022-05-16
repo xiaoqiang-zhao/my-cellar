@@ -223,8 +223,108 @@ export default Invoices
 
 由此我们可以定义不同路径用不同的布局模板。
 
+可运行示例见 demo/demo-3。
+
 ### 无匹配路由
 
-当没有路由匹配时，指定一个页面做友好提示
+当没有路由匹配时，指定一个页面做友好提示页:
 
+```jsx
+<BrowserRouter>
+  <Routes>
+    <Route path="/" element={<App />}>
+      <Route path="/invoices" element={<Invoices/>} />
+      <Route
+        path="*"
+        element={
+          <section style={{ padding: "1rem" }}>
+            <p>There's nothing here!</p>
+          </section>
+        }
+      />
+    </Route>
+  </Routes>
+</BrowserRouter>
+```
 
+可运行示例见 demo/demo-4。
+
+### 参数读取
+
+动态路由的参数可以通过 useParams 方法获取。
+
+对于 query 参数 react router 并没与支持，可以借助其他 npm 包来获取，推荐 url-parse。
+
+```jsx
+// main.tsx
+<Route path="/invoices/:number" element={<InvoicesDetail/>} />
+```
+
+```jsx
+// InvoicesDetail.tsx
+import { useParams } from "react-router-dom";
+
+function InvoiceDetail() {
+
+  let params = useParams();
+
+  return (
+    <div>
+      <header>Invoice Detail</header>
+      <article>
+        参数: {`number: ${params.number}`}
+      </article>
+    </div>
+  )
+}
+```
+
+可运行示例见 demo/demo-5。
+
+### Index Routes
+
+相较于之前的 react route 版本，6.0 的 Index Routes 是一个比较大的改变。
+
+从上面的示例中可以看到，当访问根路径 `/` 时，匹配到了 App 组件，其他组件渲染为空。
+
+子路由设置 `index` 属性，就可以将此子路由设为 Index Route。
+
+```jsx
+// main.tsx
+<BrowserRouter>
+  <Routes>
+    <Route path="/" element={<App />}>
+      <Route path="/invoices" element={<Invoices/>}>
+      {/* 设置 Index Route */}
+      <Route
+        index
+        element={
+          <main style={{ padding: "1rem" }}>
+            <p>Select an invoice</p>
+          </main>
+        }
+      />
+        {/* 当不以 "/" 开头时，可以继承上面的路径，推荐这种写法，方便修改 */}
+        <Route path=":number" element={<InvoicesDetail/>} />
+      </Route>
+      
+      <Route
+        path="*"
+        element={
+          <section style={{ padding: "1rem" }}>
+            <p>There's nothing here!</p>
+          </section>
+        }
+      />
+    </Route>
+  </Routes>
+</BrowserRouter>
+```
+
+什么是 Index Route？官方给了 4 点:
+1. 作为子路由组件，在匹配到父路由时，渲染在父路由的 outlet 占位处；
+2. 如果没有匹配到子路由，Index Route 连同其对应的父路由都不会被渲染(这里的官网写错了)；
+3. Index Route 为默认路由；
+4. Index Route 一般被用在列表还未点击任何一项的时候。
+
+总结: 每一个嵌套路由中，都可以有一个 Index，这种设计比前一版更方便。
