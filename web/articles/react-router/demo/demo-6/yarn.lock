@@ -390,6 +390,11 @@
   "resolved" "https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.131.tgz"
   "version" "1.4.131"
 
+"esbuild-windows-64@0.14.38":
+  "integrity" "sha512-Khy4wVmebnzue8aeSXLC+6clo/hRYeNIm0DyikoEqX+3w3rcvrhzpoix0S+MF9vzh6JFskkIGD7Zx47ODJNyCw=="
+  "resolved" "https://registry.npmmirror.com/esbuild-windows-64/-/esbuild-windows-64-0.14.38.tgz"
+  "version" "0.14.38"
+
 "esbuild@^0.14.27":
   "integrity" "sha512-12fzJ0fsm7gVZX1YQ1InkOE5f9Tl7cgf6JPYXRJtPIoE0zkWAbHdPHVPPaLi9tYAcEBqheGzqLn/3RdTOyBfcA=="
   "resolved" "https://registry.npmmirror.com/esbuild/-/esbuild-0.14.38.tgz"

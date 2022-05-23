@@ -253,7 +253,7 @@ export default Invoices
 
 动态路由的参数可以通过 useParams 方法获取。
 
-对于 query 参数 react router 并没与支持，可以借助其他 npm 包来获取，推荐 url-parse。
+对于问号后的 query 参数，在下面的 Search Params 中详细讲解。
 
 ```jsx
 // main.tsx
@@ -328,3 +328,64 @@ function InvoiceDetail() {
 4. Index Route 一般被用在列表还未点击任何一项的时候。
 
 总结: 每一个嵌套路由中，都可以有一个 Index，这种设计比前一版更方便。
+
+可运行示例见 demo/demo-5。
+
+### Active Links
+
+本节介绍一个新组件: NavLink。
+
+NavLink 继承自 Link，添加了 5 个属性:
+- activeClassName(string)：设置选中样式，默认值为 active
+- activeStyle(object)：当元素被选中时，为此元素添加样式
+- exact(bool)：为 true 时，只有当导致和完全匹配 class 和 style 才会应用
+- strict(bool)：为 true 时，在确定为位置是否与当前 URL 匹配时，将考虑位置 pathname 后的斜线
+- isActive(func): 判断链接是否激活的额外逻辑的功能
+
+我们将 demo-1 中的 Link 组件换成 NavLink:
+
+```jsx
+import { NavLink, Outlet } from 'react-router-dom'
+
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <p>
+          <NavLink className="App-link" to="/about">About</NavLink>
+          {' | '}
+          <NavLink className="App-link" to="/inbox">Inbox</NavLink>
+        </p>
+      </header>
+      <div>
+        <Outlet/>
+      </div>
+    </div>
+  )
+}
+
+export default App
+```
+
+切换之后标签上会多出一个名为 “App-link” 的 class，匹配到的路由还能多出一个名为 “active” 的 class。
+
+示例在 demo-6 中。
+
+### Search Params
+
+你可能遇到过 `/shoes?brand=nike&sort=asc&sortby=price` 这样的 url，想要读取问号后的参数我们需要另一个组件: useSearchParams。
+
+```jsx
+import {
+  NavLink,
+  Outlet,
+  useSearchParams,
+} from "react-router-dom"
+
+let [searchParams, setSearchParams] = useSearchParams()
+// 获取参数
+searchParams.get('sortby')
+// 设置参数
+setSearchParams({ sort: 'desc' })
+```
+
