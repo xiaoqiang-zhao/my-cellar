@@ -345,6 +345,7 @@ NavLink 继承自 Link，添加了 5 个属性:
 我们将 demo-1 中的 Link 组件换成 NavLink:
 
 ```jsx
+// 
 import { NavLink, Outlet } from 'react-router-dom'
 
 function App() {
@@ -367,7 +368,7 @@ function App() {
 export default App
 ```
 
-切换之后标签上会多出一个名为 “App-link” 的 class，匹配到的路由还能多出一个名为 “active” 的 class。
+匹配到的路由会有一个名为 “active” 的 class，如果你不想叫 active 可以用 activeClassName 属性设置其他名称。
 
 示例在 demo-6 中。
 
@@ -389,3 +390,79 @@ searchParams.get('sortby')
 setSearchParams({ sort: 'desc' })
 ```
 
+### Custom Behavior
+
+在一个有过滤条件的列表中，如果你点了另外的链接，那么列表的过滤条件就会被清除掉。这是现在路由大多数的默认行为，包括 React Router。在大多数情况下这是你想要的效果，但也有一些情况是你希望保留过滤参数。
+
+我们写一个组件实现从 `/invoices?a=123` 到 `/invoices/2000?a=123`，也就是从列表页到详情页并且将列表页的参数带到详情页中。
+
+定义组件:
+```jsx
+// QueryNavLink.tsx
+import { useLocation, NavLink } from "react-router-dom";
+
+function QueryNavLink({ to, ...props }) {
+  let location = useLocation();
+  return <NavLink to={to + location.search} {...props} />;
+}
+
+export default QueryNavLink;
+```
+
+在列表页中使用组件(代码相对于 Demo 有精简):
+```jsx
+// invoice
+import QueryNavLink from '../hooks/QueryNavLink'
+function Invoices() {
+  let invoices = [
+    {
+      name: "Santa Monica",
+      number: 1995,
+      amount: "$10,800",
+      due: "12/05/1995",
+    }
+  ]
+
+  return (
+    <div>
+      <header>Invoices</header>
+      <ul>
+        {invoices.map((item) => (
+          <li key={ item.number }>
+            <QueryNavLink to={`/invoices/${ item.number }`}>
+              { item.name }
+            </QueryNavLink>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+export default Invoices
+```
+
+location looks 还有更多的选项:
+```js
+{
+  pathname: "/invoices",
+  search: "?filter=sa",
+  hash: "",
+  state: null,
+  key: "ae4cz2j"
+}
+```
+
+示例在 demo-7 中。
+
+### 小结
+
+到此为止，React Router 教程基本已经结束，介绍了:
+
+- Router 怎么 render 进 Roact 的 root 节点;
+- 嵌套路由；
+- 路由首页与无匹配路由；
+- 动态路由与参数的获取；
+- NavLink与自定义路由行为。但是可以看出教程并没有。
+
+这一趴的教程是比较基础的，入门看它基本够了。如果想更好的理解和深度使用，请继续下一趴。
