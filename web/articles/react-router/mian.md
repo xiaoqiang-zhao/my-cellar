@@ -465,4 +465,182 @@ location looks 还有更多的选项:
 - 动态路由与参数的获取；
 - NavLink与自定义路由行为。但是可以看出教程并没有。
 
-这一趴的教程是比较基础的，入门看它基本够了。如果想更好的理解和深度使用，请继续下一趴。
+这一趴的教程是比较基础的，选取了一些常用概念串讲了一个使用案例，入门看它基本够了。但是一个案例肯定不能覆盖全部知识点，如果想更好的理解 React 的实现原理或深度使用，我们继续下一趴。
+
+## 主要概念(Main Concepts)
+
+官方原版英文文档:
+https://reactrouter.com/docs/en/v6/getting-started/concepts
+
+下面介绍 React Router 的实现原理。
+
+### 定义(definitions)
+
+在前端与后端架构中，同一个词可能有不同的含义。下面介绍的这些词我们会频繁用到，为了消除歧义，做如下约定:
+
+- URL: 在地址栏里面的全部内容；
+- Location: 一个 React Router 定制的对象，基于浏览器的 window.location 对象；
+- Location State: 一个未经 encoded 编码的值，这对使用 hash 和 search params 很有帮助，存储在浏览器缓存中；
+- History Stack: 作为用户导航，浏览器保存每一个 location 在队列中，再点击浏览器的后退按钮，你可以在地址栏看到这个队列中的某个值；
+- Client Side Routing (CSR): 一个纯 HTML 文本可以跳转到其他文本，并且变化会添加到浏览器的历史队列表中，SCR 可以使得浏览器不借助服务器刷新页面来实现跳转；
+- History: 一个允许 React Router 监听路由改变的对象；
+- History Action: pop、push、replace 动作；
+- Segment: URL 段，例如 /users/123 有两段；
+- Path Pattern: 路径模式，例如: `/users/:userId` 为 dynamic segments，`/docs/*` 为 star segments
+- Dynamic Segment: 动态参数路由段；
+- URL Params: 动态参数的具体值；
+- Router: 使全部组件与hook可运行的顶层组件；
+- Router Config: 一个树型结构的 routes 对象，去匹配嵌套路由；
+- Route: 一个像 `{ path, element }` 这样的对象，或像 `<Route path element>` 这样的元素，当他被匹配到时才会渲染响应的组件；
+- Route Element: `<Route>`;
+- Nested Routes: 嵌套路由；
+- Relative links: 绝对路由，以 `/` 开头的路由；
+- Match: 一个用于存储匹配数据的对象，比如  url params 和 pathname；
+- Matches: 一个 route 数组；
+- Parent Route: 子路由的父级 -- 父路由；
+- Outlet: 下一级路由对应的组件渲染的占位符；
+- Index Route: 当没有子路由匹配时的默认路由；
+- Layout Route: 布局路由，最外层的特殊布局；
+
+### History
+
+在不使用任何路由的时候，浏览器已经有了自己的路由管理功能，这也是我们点击浏览器的前进和后退能够跳转的原因。
+
+如果我们这样点击:
+
+1. 点击链接到 /dashboard
+2. 点击链接到 /accounts
+3. 点击链接到 /customers/123
+4. 点击回退按钮
+5. 点击链接到 /dashboard
+
+浏览器中的历史队列对应是这样的:
+
+1. /dashboard
+2. /dashboard, /accounts
+3. /dashboard, /accounts, /customers/123
+4. /dashboard, /accounts, /customers/123
+5. /dashboard, /accounts, /dashboard
+
+### History Object
+
+在客户端路由中，开发者可以操纵路由的跳转:
+
+```jsx
+<a
+  href="/contact"
+  onClick={(event) => {
+    // stop the browser from changing the URL and requesting the new document
+    event.preventDefault();
+    // push an entry into the browser history stack and change the URL
+    window.history.pushState({}, undefined, "/contact");
+  }}
+/>
+```
+
+虽然地址变了，但是页面没有任何改变。(注: 这里是在介绍原理，不是 React Router 的使用方法)
+
+我们需要监听路由的改变来实现逻辑:
+
+```jsx
+window.addEventListener("popstate", () => {
+  // URL changed!
+});
+```
+
+但是这只监听还不够，我们需要添加浏览器中前进、后退、直接输入的动作:
+```jsx
+let history = createBrowserHistory();
+history.listen(({ location, action }) => {
+  // this is called whenever new locations come in
+  // the action is POP, PUSH, or REPLACE
+});
+```
+
+### Location
+
+浏览器有一个 location 对象，他告诉我们我们 url 中有什么数据，还提供了一些方法:
+
+```js
+window.location.pathname; // /getting-started/concepts/
+window.location.hash; // #location
+window.location.reload(); // force a refresh
+```
+
+React Router 丰富了原生的 location:
+
+```js
+{
+  pathname: "/bbq/pig-pickins",
+  search: "?campaign=instagram",
+  hash: "#menu",
+  state: null,
+  key: "aefz24ie"
+}
+```
+
+前三个是浏览器 location 自带的，后面两个是 React React 独有的。
+
+对于 pathname，如果是动态路由(dynamic route)，可以借助 useParams 来读取:
+
+```js
+// /bbq/:value
+import { useParams } from "react-router-dom";
+let params = useParams();
+`动态路由参数 value: ${params.value}`
+```
+
+search 参数:
+
+```js
+import { URLSearchParams } from "react-router-dom";
+let params = new URLSearchParams(location.search);
+params.get("campaign"); // "instagram"
+params.get("popular"); // "true"
+params.toString();
+```
+
+hash 一般用来控制滚动条，获取方法 (todo)。
+
+你可能好奇，为什么是 window.history.pushState() 而不是 window.history.push，state 是什么？不就是改 url 么。好吧，我也不知道，当时设计这个 API 的时候我没参会。但是它是一个很酷的特性。
+
+```js
+window.history.pushState("look ma!", undefined, "/contact"); // 第二个参数为 title
+window.history.state; // "look ma!"
+// user clicks back
+window.history.state; // undefined
+// user clicks forward
+window.history.state; // "look ma!"
+```
+
+注: title 当前大多数浏览器都忽略此参数，尽管将来可能会使用它。 在此处传递空字符串应该可以防止将来对方法的更改。 或者，您可以为要移动的状态传递简短的标题。
+
+注: 在 React Router 的应用中你不能直接读 history.state。
+
+跳转路由有两种写法:
+
+```jsx
+<Link to="/pins/123" state={{ fromDashboard: true }} />;
+
+let navigate = useNavigate();
+navigate("/users/123", { state: partialUser });
+```
+
+在下一个页面你可以这样接收到 state:
+
+```js
+let location = useLocation();
+location.state;
+```
+
+注意，state 本质上是字符串，new Date() 这样的字段会被转成字符串。
+
+
+
+dynamic segments
+
+todo:
+命令式调用路由跳转 done
+json 式定义路由
+代码分割
+全局拦截
