@@ -635,6 +635,98 @@ location.state;
 
 注意，state 本质上是字符串，new Date() 这样的字段会被转成字符串。
 
+### 定义路由(Defining Routes)
+
+定义路由有两种形式:
+```jsx
+<Routes>
+  <Route path="/" element={<App />}>
+    <Route index element={<Home />} />
+    <Route path="teams" element={<Teams />}>
+      <Route path=":teamId" element={<Team />} />
+      <Route path=":teamId/edit" element={<EditTeam />} />
+      <Route path="new" element={<NewTeamForm />} />
+      <Route index element={<LeagueStandings />} />
+    </Route>
+  </Route>
+  <Route element={<PageLayout />}>
+    <Route path="/privacy" element={<Privacy />} />
+    <Route path="/tos" element={<Tos />} />
+  </Route>
+  <Route path="contact-us" element={<Contact />} />
+</Routes>
+```
+
+数组形式:
+```js
+let routes = [
+  {
+    element: <App />,
+    path: "/",
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "teams",
+        element: <Teams />,
+        children: [
+          {
+            index: true,
+            element: <LeagueStandings />,
+          },
+          {
+            path: ":teamId",
+            element: <Team />,
+          },
+          {
+            path: ":teamId/edit",
+            element: <EditTeam />,
+          },
+          {
+            path: "new",
+            element: <NewTeamForm />,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    element: <PageLayout />,
+    children: [
+      {
+        element: <Privacy />,
+        path: "/privacy",
+      },
+      {
+        element: <Tos />,
+        path: "/tos",
+      },
+    ],
+  },
+  {
+    element: <Contact />,
+    path: "/contact-us",
+  },
+];
+```
+
+你可能发现了 js 比 jsx 的形式的代码行数要多很多，jsx 的只有 16 行，js 的需要 51 行，jsx 的优势在于可以一行写多个属性。
+
+### 路由排序(Ranking Routes)
+
+当我们配置了这样的路由:
+
+```jsx
+<Route path="/invoices/:number" element={<InvoicesDetail/>} />
+<Route path="/invoices/new" element={<NewInvoice/>} />
+```
+
+访问 `/invoices/new` 时会匹配哪个路由呢？React Router 做了优先静态的策略，会匹配到 NewInvoice 这条路由。但是定义路由时为了不引起不必要的困扰最好不要这样写。你可以调换顺序，也可以用新的路径。
+
+具体代码见 demo-7
+
 
 
 dynamic segments
