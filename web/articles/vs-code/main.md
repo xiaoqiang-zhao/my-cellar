@@ -44,6 +44,11 @@ Tab Size: 4
 
 查找替换：Cmd + Alt + F，在当前文件查找
 
+Cmd = ⌘
+Alt = ⌥
+Shift = ⇧
+Ctr = ⌃
+
 ### 效率
 
 关闭其他Tab：Alt + Cmd + T
